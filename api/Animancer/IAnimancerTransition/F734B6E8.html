@@ -7,7 +7,6 @@
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <title>Animancer - API - IAnimancerTransition.Apply(AnimancerState) Method</title>
-        <link href="/animancer/assets/css/mermaid.css" rel="stylesheet">
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -22,6 +21,7 @@
         <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
         <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
         <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
         <!--[if lt IE 9]>
         <script src="/animancer/assets/js/html5shiv.min.js"></script>
         <script src="/animancer/assets/js/respond.min.js"></script>
@@ -56,14 +56,14 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="18" width="18"> User Manual</a></li>
-        <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="18" width="18"> FAQ</a></li>
-        <li><a href="/animancer/blog"><img src="/animancer/images/blog.png" height="18" width="18"> Blog</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerController"><img src="/animancer/images/api.png" height="18" width="18"> API v2.0</a></li>
-        <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="18" width="18"> Try</a></li>
-        <li><a href="http://u3d.as/19Xb"><img src="/animancer/images/unity-logo.png" height="18" width="18"> Buy</a></li>
-        <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="18" width="18"> Contact</a></li>
-        <li><a href="https://assetstore.unity.com/publishers/16747"><img src="/animancer/images/kybernetik.png" height="18" width="18"> Other Assets</a></li>
+                                    <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+        <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
+        <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
+        <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
+        <li><a href="http://u3d.as/19Xb"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
+        <li><a href="https://kybernetikgames.github.io/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
                     </div>
@@ -146,12 +146,12 @@
 		<li class="header">Type</li>
 		<li><a href="/animancer/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></li>
 		<li role="separator" class="divider"></li>
-			<li class="header">Property Members</li>
-				<li><a href="/animancer/api/Animancer/IAnimancerTransition/328EBB09">Clip</a></li>
-				<li><a href="/animancer/api/Animancer/IAnimancerTransition/67106B5D">FadeDuration</a></li>
-				<li><a href="/animancer/api/Animancer/IAnimancerTransition/A8D667BB">LayerIndex</a></li>
 			<li class="header">Method Members</li>
 				<li class="selected"><a href="/animancer/api/Animancer/IAnimancerTransition/F734B6E8">Apply<wbr>(AnimancerState)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IAnimancerTransition/6C82970B">CreateState<wbr>(AnimancerLayer)<wbr></a></li>
+			<li class="header">Property Members</li>
+				<li><a href="/animancer/api/Animancer/IAnimancerTransition/1FE28656">CrossFadeFromStart</a></li>
+				<li><a href="/animancer/api/Animancer/IAnimancerTransition/67106B5D">FadeDuration</a></li>
 
 
                     </ul>
@@ -173,7 +173,9 @@
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">Applies any additional modifications to the 'state'.</div>
+	<div class="lead">
+    Called by <code class="cs">Animancer.AnimancerPlayable.Transition(Animancer.IAnimancerTransition,System.Int32)</code> to apply any modifications to the 'state'.
+    </div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">	
@@ -260,22 +262,53 @@
                 $(document.body).removeClass('sidebar-open');
             });
             
-            $(document).load(function() {
+            $(document).ready(function() {
                 mermaid.initialize(
                 {
                     flowchart:
                     {
-                        htmlLabels: false,
-                        useMaxWidth:false
-                    }
-                });  
-                mermaid.init(undefined, ".mermaid")
-                $('svg').addClass('img-responsive');
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
                 
                 $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);
                 });  
             });
+
             hljs.initHighlightingOnLoad();
 
             // Back to top
