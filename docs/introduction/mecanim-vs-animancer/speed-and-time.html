@@ -77,7 +77,10 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"></div>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#speed">Speed</a></p>
+<p><a href="#time">Time</a></p>
+<hr class="infobar-hidden">
+</div>
 
                 </section>
                 <section class="sidebar">    
@@ -118,7 +121,7 @@
                         
                 <li><a href="/animancer/docs/examples/basics/basic-scene-setup">Basic Scene Setup</a></li>
                 <li><a href="/animancer/docs/examples/basics/simple-playing">01 Simple Playing</a></li>
-                <li><a href="/animancer/docs/examples/basics/playing-and-fading">02 Playing And Fading</a></li>
+                <li><a href="/animancer/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/docs/examples/basics/named-animations">04 Named Animations</a></li>
 
@@ -138,7 +141,7 @@
                     <a href="/animancer/docs/examples/locomotion">03 Locomotion</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/examples/locomotion/walk-and-run">01 Walk And Run</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/walk-and-run">01 Walk and Run</a></li>
                 <li><a href="/animancer/docs/examples/locomotion/linear-blending">02 Linear Blending</a></li>
                 <li><a href="/animancer/docs/examples/locomotion/directional-blending">03 Directional Blending</a></li>
 
@@ -157,7 +160,7 @@
                     <a href="/animancer/docs/examples/animation-events">05 Animation Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/examples/animation-events/simple-and-end-events">01 Simple And End Events</a></li>
+                <li><a href="/animancer/docs/examples/animation-events/simple-and-end-events">01 Simple and End Events</a></li>
                 <li><a href="/animancer/docs/examples/animation-events/other-events">02 Other Events</a></li>
 
                     </ul>
@@ -269,32 +272,141 @@
 			<h1>Speed and Time</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p>This page is currently being rewritten</p>
-</blockquote>
-<p><em>Note that Animancer Lite only allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="u3d.as/19Xb">Animancer Pro</a>. See the <a href="../feature-comparison">Feature Comparison</a> for more information.</em></p>
+		<p><em>Note that Animancer Lite only allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="u3d.as/19Xb">Animancer Pro</a>. See the <a href="../feature-comparison">Feature Comparison</a> for more information.</em></p>
+<h1 id="speed">Speed</h1>
 <p>Setting the speed you want an animation to play at is fairly simple in both systems.</p>
-<table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
+<table class="table"><thead><tr><th>Mecanim</th><th>Animancer</th></tr></thead><tbody>
   <tr>
     <td>
 <ol>
 <li>Select the animation's state in the Animator Controller.</li>
-<li>Set its <code>Speed</code> field as desired. </li></ol></td>
- <td>
-
-
+<li>Set its <code>Speed</code> field.</li>
+</ol>
+<p>Note that this won't allow the speed to be modified at runtime (see below to set it up for that).
+</p></td>
+<td><p></p>
 <p>You could either set it in code when you play the animation:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
-AnimationClip clip;
+<pre><code class="language-cs">[SerializeField] <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] AnimationClip _Clip;
 
-var state = animancer.Play(clip);
-state.Speed = 2;
+void PlayAnimation()
+{
+    var state = _Animancer.Play(_Clip);
+    state.Speed = 2;
+}
 </code></pre>
-<p>Or use a <a href="../../manual/state-serializables">serializable</a> to set it in the Inspector alongside the <code>AnimationClip</code>:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
-<a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> animation;
+<p>Or use a <a href="../../manual/state-serializables">serializable</a> so it can be set in the Inspector alongside the <code>AnimationClip</code>:</p>
+<pre><code class="language-cs">[SerializeField] <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> _Animation;
 
-animancer.Transition(animation);
+void PlayAnimation()
+{
+    _Animancer.Transition(_Animation);
+}
+</code></pre>
+<img src="../../manual/state-serializables/clipstate-serializable.png" class="img-responsive">
+</td>
+  </tr>
+</tbody></table>
+<p>Sometimes you also need to modify the speed dynamically at runtime, such as to modify a character's attack speed in a fighting game. As usual, Animancer simply allows you to get straight to the point while Mecanim requires a bunch of additional setup steps:</p>
+<table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
+  <tr>
+    <td>
+<ol>
+<li>Create a new <code>Float Parameter</code> in the Animator Controller. You probably want to set its default value to 1.</li>
+<li>Select the animation's state.</li>
+<li>Tick the <code>Parameter</code> toggle next to the <code>Multiplier</code> field underneath the base <code>Speed</code>.</li>
+<li>Select the parameter you just created from the dropdown menu.</li>
+<li>Now you can set the parameter by calling <code>Animator.SetFloat("Parameter Name", value)</code> which will control the speed of the animation.</li>
+</ol>
+<pre><code class="language-cs">[SerializeField] Animator _Animator;
+
+void LudicrousSpeed()
+{
+    _Animator.SetFloat("Parameter Name", 9000);
+}
+</code></pre>
+<p>It is also possible to set the <code>speed</code> property on the <code>Animator</code> component itself, however this is generally not recommended because it affects all animations at once. Transitioning from a fast animation into a slow one would either play them both fast or both slow or gradually blend the speed, but it could not simply allow one to play fast while the other plays slowly.</p>
+</td>
+    <td>
+<ol>
+<li>Literally the same as the first example above. Just get the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> method and modify its <code>Speed</code>.</li>
+</ol>
+<p>You can also keep a reference to the state if you need to be able to change the speed while it is playing.</p>
+<pre><code class="language-cs">[SerializeField] <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] AnimationClip _Clip;
+
+<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> _State;
+
+void PlayAnimation()
+{
+    _State = _Animancer.Play(_Clip);
+}
+
+void LudicrousSpeed()
+{
+    _State.Speed = 9000;
+
+    // Several alternatives:
+
+    // Get the state when needed.
+    // _Animancer.GetState(_Clip).Speed = ...
+
+    // Or even just keep telling it to Play.
+    // _Animancer.Play(_Clip).Speed = ...
+}
+</code></pre>
+</td>
+  </tr>
+</tbody></table>
+<h1 id="time">Time</h1>
+<p>Both systems also allow you to control the animation time directly:</p>
+<table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
+  <tr>
+    <td>
+<p>The <code>Animator.Play</code> and <code>CrossFade</code> methods have an optional <code>normalizedTime</code> parameter to specify where you want the animation to start.</p>
+<pre><code class="language-cs">[SerializeField] Animator _Animator;
+
+void SkipToHalfTime()
+{
+    // State Name, Layer, Normalized Time.
+    _Animator.Play("Action", 0, 0.5f);
+}
+</code></pre>
+<p>You can call <code>Play</code> again while the animation is already playing to jump to a different time.</p>
+<p>You can also use a parameter to control the normalized time much like the speed:</p>
+<ol>
+<li>Create a new <code>Float Parameter</code> in the Animator Controller.</li>
+<li>Select the animation's state.</li>
+<li>Tick the <code>Parameter</code> toggle next to the <code>Normalized Time</code> field.</li>
+<li>Select the parameter you just created from the dropdown menu.</li>
+<li>Now you can set the parameter by calling <code>Animator.SetFloat("Parameter Name", value)</code> which will control the normalized time of the animation.</li>
+</ol>
+<pre><code class="language-cs">[SerializeField] Animator _Animator;
+
+void SkipToHalfTime()
+{
+    _Animator.SetFloat("Parameter Name", 0.5f);
+}
+</code></pre>
+<p><strong>Warning</strong>: doing this will cause the parameter to control the state constantly. It will no longer play normally unless you manually update the parameter every frame.</p>
+<p>Also note that both of these options set the normalized time (0 to 1 range). Mecanim does not allow you to set the raw time of an animation (in seconds).</p>
+</td>
+    <td>
+<p>Again, basically the same as the first example above. Just get the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> method and modify its <code>Time</code> or <code>NormalizedTime</code>.</p>
+<pre><code class="language-cs">[SerializeField] <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] AnimationClip _Clip;
+
+void PlayAnimation()
+{
+    var state = _Animancer.Play(_Clip);
+
+    // Skip 1 second in.
+    state.Time = 1;
+
+    // Skip halfway through.
+    state.NormalizedTime = 0.5f;
+}
 </code></pre>
 </td>
   </tr>
