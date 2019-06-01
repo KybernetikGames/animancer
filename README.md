@@ -1,4 +1,3 @@
-# kybernetikgames.github.io/animancer
-Animancer Unity Plugin Documentation
+# https://kybernetikgames.github.io/animancer
 
-https://kybernetikgames.github.io/animancer
+Documentation for the Animancer Unity Plugin.
