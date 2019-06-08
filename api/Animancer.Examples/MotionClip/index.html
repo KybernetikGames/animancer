@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - PlatformerLocalPlayerBrain Class</title>
+        <title>Animancer - API - RootMotion.RootMotion.MotionClip Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -79,9 +79,9 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
-<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Attributes">Attributes</a></p>
 <p><a href="#Properties">Properties</a></p>
+<p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -183,7 +183,7 @@
 				<li><a href="/animancer/api/Animancer.Examples/PlatformerDieState">PlatformerDieState</a></li>
 				<li><a href="/animancer/api/Animancer.Examples/PlatformerIdleState">PlatformerIdleState</a></li>
 				<li><a href="/animancer/api/Animancer.Examples/PlatformerJumpState">PlatformerJumpState</a></li>
-				<li class="selected"><a href="/animancer/api/Animancer.Examples/PlatformerLocalPlayerBrain">Platformer<wbr>Local<wbr>Player<wbr>Brain</a></li>
+				<li><a href="/animancer/api/Animancer.Examples/PlatformerLocalPlayerBrain">Platformer<wbr>Local<wbr>Player<wbr>Brain</a></li>
 				<li><a href="/animancer/api/Animancer.Examples/PlayAnimationOnClick">PlayAnimationOnClick</a></li>
 				<li><a href="/animancer/api/Animancer.Examples/PlayingAndFading">PlayingAndFading</a></li>
 				<li><a href="/animancer/api/Animancer.Examples/RaycastFootIK">RaycastFootIK</a></li>
@@ -212,14 +212,16 @@
 
 
 <section class="content-header">
-	<h1>Platformer<wbr>Local<wbr>Player<wbr>Brain <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer.Examples/RootMotion">RootMotion</a>.</h3>
+	<h1>RootMotion<wbr>.MotionClip <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    A brain for creatures controlled by local input (keyboard and mouse).
+    A <code class="cs">Animancer.ClipState.Serializable</code> with an <code class="cs">Animancer.Examples.RootMotion.MotionClip.ApplyRootMotion</code> to determine whether root
+    motion should be enabled when it plays.
     </div>
 
 		<div class="panel panel-default">
@@ -236,15 +238,17 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/IAnimancerClipSource">IAnimancerClipSource</a></li>								
+											<li><a href="/animancer/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></li>								
+											<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>								
 									</ul>
 								</dd>
 							
 								<dt>Base Types</dt>
 								<dd>
 									<ul class="list-unstyled">										
-											<li>MonoBehaviour</li>								
-											<li><a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain">Platformer<wbr>Creature<wbr>Brain</a></li>								
+											<li>Object</li>								
+											<li><a href="/animancer/api/Animancer/Serializable_1">AnimancerState<wbr>.Serializable</a><wbr>&lt;<a href="/animancer/api/Animancer/ClipState">ClipState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></li>								
 									</ul>
 								</dd>				
 							
@@ -254,12 +258,15 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["PlatformerCreatureBrain"]
-	click Base0 "/animancer/api/Animancer.Examples/PlatformerCreatureBrain"
-	Base0--&gt;Base1["MonoBehaviour"]
-	Type-.-&gt;Interface0["IAnimancerClipSource"]
-	click Interface0 "/animancer/api/Animancer/IAnimancerClipSource"
-	Type["PlatformerLocalPlayerBrain"]
+	Type--&gt;Base0["ClipState.Serializable"]
+	click Base0 "/animancer/api/Animancer/Serializable"
+	Base0--&gt;Base1["AnimancerState.Serializable&lt;ClipState&gt;"]
+	Base1--&gt;Base2["Object"]
+	Type-.-&gt;Interface0["IAnimancerTransition"]
+	click Interface0 "/animancer/api/Animancer/IAnimancerTransition"
+	Type-.-&gt;Interface1["IHasKey"]
+	click Interface1 "/animancer/api/Animancer/IHasKey"
+	Type["RootMotion.MotionClip"]
 class Type type-node
 
 						</div>
@@ -269,16 +276,10 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>[AddComponentMenu("Animancer/Examples/Local Player Brain 2D")]
-[HelpURL(AnimancerPlayable.APIDocumentationURL + ".Examples/LocalPlayerBrain 2D")]
-public sealed class PlatformerLocalPlayerBrain : PlatformerCreatureBrain, IAnimancerClipSource</code></pre>
+	<pre><code>[Serializable]
+public class RootMotion.MotionClip : ClipState.Serializable, IAnimancerTransition, IHasKey</code></pre>
 
 
-	<h1 id="Remarks">Remarks</h1>
-	<div>
-    This class would normally just be called "LocalPlayerBrain", but this name was chosen to avoid conflict with the
-    other examples.
-    </div>
 
 	<h1 id="Attributes">Attributes</h1>
 	<div class="box">
@@ -291,11 +292,7 @@ public sealed class PlatformerLocalPlayerBrain : PlatformerCreatureBrain, IAnima
 					</tr>
 				</thead>
 					<tbody><tr>
-						<td>AddComponentMenu</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>HelpURLAttribute</td>
+						<td>Serializable<wbr>Attribute</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -320,37 +317,92 @@ public sealed class PlatformerLocalPlayerBrain : PlatformerCreatureBrain, IAnima
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain/A8FAB8B0">Animancer</a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></td>
-								<td>
-									<div>
-    The <code class="cs">Animancer.AnimancerComponent</code> which this object provides animations for.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain">Platformer<wbr>Creature<wbr>Brain</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain/BFEE0C13">Creature</a></td>
-								<td><a href="/animancer/api/Animancer.Examples/PlatformerCreature">PlatformerCreature</a></td>
-								<td>
-									<div></div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain">Platformer<wbr>Creature<wbr>Brain</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain/3322D1A8">IsRunning</a></td>
+								<td><a href="/animancer/api/Animancer.Examples/MotionClip/0BCA4985">ApplyRootMotion</a></td>
 								<td>bool</td>
 								<td>
-									<div></div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain">Platformer<wbr>Creature<wbr>Brain</a></em></small></div>
+									<div>
+    Determines if root motion should be enabled when this animation plays.
+    </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain/26722E4E">MovementDirection</a></td>
+								<td><a href="/animancer/api/Animancer/Serializable/5266A4EA">Clip</a></td>
+								<td>AnimationClip</td>
+								<td>
+									<div>The animation to play.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/39F69AEE">CrossFadeFromStart</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    If this transition will set the <code class="cs">Animancer.ClipState.Serializable.StartTime</code>, then it needs to use
+    <code class="cs">Animancer.AnimancerPlayable.CrossFadeFromStart(Animancer.AnimancerState,System.Single)</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/47E12DBC">Key</a></td>
+								<td>Object</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.ClipState.Serializable.Clip</code> will be used as the <code class="cs">Animancer.AnimancerState.Key</code> for the created state to be
+    registered with.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/A37BBD97">OnEnd</a></td>
+								<td>Action</td>
+								<td>
+									<div>
+    A callback which is triggered when the animation reaches its end (not when the state is exited for
+    whatever reason).
+    <p></p>
+    If the animation is looping, this callback will be triggered every time it passes the end. Otherwise it
+    will be triggered every frame while it is past the end so if you want to ensure that your callback only
+    occurs once, you will need to clear it as part of that callback.
+    <p></p>
+    See <code class="cs">Animancer.AnimancerState.OnEnd</code> for more details.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/A7BED259">Speed</a></td>
 								<td>float</td>
 								<td>
-									<div></div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Examples/PlatformerCreatureBrain">Platformer<wbr>Creature<wbr>Brain</a></em></small></div>
+									<div>Determines how fast the animation plays (default = 1).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/5804557F">StartTime</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    Determines what time to start the animation at (either the raw <code class="cs">Animancer.AnimancerState.Time</code> or
+    the <code class="cs">Animancer.AnimancerState.NormalizedTime</code> based on <code class="cs">Animancer.ClipState.Serializable.StartTimeIsNormalized</code>).
+    <p></p>
+    The default value is <code class="cs">System.Single.NaN</code> which indicates that this value isn't used so the
+    animation will continue from its current time.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/358A9C9E">Start<wbr>Time<wbr>Is<wbr>Normalized</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Determines whether the <code class="cs">Animancer.ClipState.Serializable.StartTime</code> sets the <code class="cs">Animancer.AnimancerState.Time</code> or
+    <code class="cs">Animancer.AnimancerState.NormalizedTime</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
 								</td>
 							</tr>
 					</tbody></table>
@@ -358,6 +410,44 @@ public sealed class PlatformerLocalPlayerBrain : PlatformerCreatureBrain, IAnima
 			</div>
 		
 
+			<h1 id="Methods">Methods</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/Serializable/C34E30FD">Apply<wbr>(AnimancerState)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Called by <code class="cs">Animancer.AnimancerPlayable.Transition(Animancer.IAnimancerTransition,System.Int32)</code> to apply the <code class="cs">Animancer.ClipState.Serializable.Speed</code> and
+    <code class="cs">Animancer.ClipState.Serializable.StartTime</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable/C5B7C1F5">CreateState<wbr>(AnimancerLayer)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/ClipState">ClipState</a></td>
+								<td>
+									<div>
+    Creates and returns a new <code class="cs">Animancer.ClipState</code> connected to the 'layer'.
+    <p></p>
+    This method also assigns it as the <code class="cs">Animancer.AnimancerState.Serializable`1.State</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></em></small></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
 
 
 

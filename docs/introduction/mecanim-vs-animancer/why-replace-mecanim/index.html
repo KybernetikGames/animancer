@@ -77,7 +77,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#duplication">Duplication</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#magic-strings">Magic Strings</a></p>
+<p><a href="#duplication-of-effort">Duplication of Effort</a></p>
 <p><a href="#dependencies">Dependencies</a></p>
 <p><a href="#responsibilities">Responsibilities</a></p>
 <hr class="infobar-hidden">
@@ -275,16 +276,58 @@
 	<section class="content">
 		<p>Unity’s <a href="https://docs.unity3d.com/Manual/class-AnimatorController.html">Mecanim Animator Controller</a> system was designed to be easily accessible to people without much programming experience. It achieves that goal quite well, but doing so creates the illusion that animations should define the way your game works, when in fact the opposite is true. Games are highly complex and dynamic so a naive brute force approach where you just throw every animation into one huge static state machine it not ideal.</p>
 <ul>
-<li>It forces you to rely on magic-strings and other bad programming practices.</li>
-<li>It makes you define the behaviour of your characters both in the Animator Controller and in your scripts, which wastes time and makes debugging much harder because any bug could be in your script or the Animator Controller or a combination of the two.</li>
-<li>It makes refactoring difficult because any changes to an Animator Controller might break a script and vice-versa.</li>
+<li>It forces you to rely on <a href="#magic-strings">Magic Strings</a>.</li>
+<li>It forces <a href="#duplication-of-effort">Duplication of Effort</a> where you define some parts of the behaviour of your characters in the Animator Controller and other parts in your scripts, which wastes time and makes debugging much harder because any bug could be in your script or the Animator Controller or a combination of the two.</li>
+<li>It prevents you from managing <a href="#dependencies">Dependencies</a>. Any script could play any state or set any parameter and you wouldn't know about it without reading the entire script. Any changes to an Animator Controller might break a script and vice-versa, but you don't get a clear indication of which scripts use which states.</li>
+<li>It inhibits any attempts to compartmentalise or encapsulate individual areas into easily manageable or reusable groups. Instead, all <a href="#responsibilities">Responsibilities</a> are just thrown into a single Animator Controller.</li>
 <li>It greatly limits your ability to control things at runtime since everything needs to be defined beforehand in the Unity Editor.</li>
 <li>The states don't even align with the background grid.</li>
 </ul>
-<p>These factors make it difficult to achieve an effective development workflow.</p>
+<p>These factors make it difficult to achieve an effective development workflow. It's not impossible, just more difficult than should really be necessary.</p>
 <p><img src="nightmare-controller.png" class="img-responsive"></p>
 <p>This monstrosity was taken from an official Unity Blog post ironically titled "<a href="https://blogs.unity3d.com/2016/10/11/building-for-reuse-mecanim-on-recore/">Building for Reuse</a>". The sheer number of states and parameters turns it from a meaningful visualisation of a complex system into a convoluted mess that would be extremely difficult to work with. Programming patterns and other techniques that could normally be used to effectively develop such a system simply cannot be used when everything is constrained by this user interface.</p>
-<h1 id="duplication">Duplication</h1>
+<h1 id="magic-strings">Magic Strings</h1>
+<p>A "magic" variable is an arbitrary value that is used to activate certain functionality in a program without being derived or retrieved in some way, it simply appears from nothing as if by magic. Likewise, a "magic string" is a <code>string</code> that is used to control something that it has no real connection with. Take the following code for example:</p>
+<pre><code class="language-cs">[SerializeField]
+private Animator _Animator;
+
+public void PlayAttack()
+{
+    _Animator.Play("Attack");
+}
+</code></pre>
+<p>In this case, <code>"Attack"</code> is a magic string. It's hard coded into the script without any explanation of what it is supposed to do or any validation to make sure it will actually work as intended. That line of code probably worked when it was written, but what about now? Maybe you're reading some code you wrote a while ago or someone else's code. Consider the following questions:</p>
+<ol>
+<li>Has a state with that name actually been set up in the Animator Controller? Are you sure it's not <code>"attack"</code> or <code>"Attack01"</code> or <code>"Light Attack"</code>? Better go check.</li>
+<li>What other animations are there to choose from? Better go check.</li>
+<li>What will happen when that animation finishes? Maybe a transition? Better go check.</li>
+<li>How can you make sure everything is spelled correctly? Better go check.</li>
+<li>What else do you need to modify if you want to rename it to <code>"Light Attack"</code> because you are about to add a <code>"Heavy Attack"</code>? Better go check. The state in the Animator Controller of course, but what else? What if there's another script relying on a string that was entered in the Inspector so a <code>Ctrl + F</code> to find the text <code>"Attack"</code> in your scripts won't even find it?</li>
+<li>Is this script being used for multiple different Animator Controllers? Better go check. If it is then lucky you, now you get to re-check all those questions for each controller.</li>
+</ol>
+<p>So how could this be improved? Well, you've probably already guessed that the answer is going to be "by using Animancer". With it, the code could look like this:</p>
+<pre><code class="language-cs">[SerializeField]
+private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+private AnimationClip _Attack;
+
+public void PlayAttack()
+{
+    var state = _Animancer.Play(_Attack);
+    state.OnEnd = OnAttackEnd;
+}
+</code></pre>
+<p>This time we have slightly more complexity in the code, but in exchange that code does not require an Animator Controller to have been set up correctly. So what does that do to those questions from before?</p>
+<ol>
+<li>Irrelevant. The code defines the animation it will play.</li>
+<li>In this case there are no other animations to choose from because we only have one <code>AnimationClip</code> field. But if for example you set up a <code>Weapon</code> class with various fields for all of the animations it can have, then your IDE would be able to give you a list of those fields to choose from and you could probably jump to that class with a single keypress if necessary (<code>F12</code> in Visual Studio).</li>
+<li>It will call the <code>OnAttackEnd</code> method.</li>
+<li>If you make a spelling mistake it will cause a compile error which points to the problem so you can fix it immediately.</li>
+<li>You don't need to modify anything else, your IDE can rename all references to that field automatically. Though you could use a <a href="https://docs.unity3d.com/ScriptReference/Serialization.FormerlySerializedAsAttribute.html"><code>[FormerlySerializedAs]</code></a> attribute to ensure that any references previously assigned to the old field name will be kept by the new one.</li>
+<li>Irrelevant. This script defines its own behaviour instead of needing to fit in with the way Animator Controllers have been set up.</li>
+</ol>
+<h1 id="duplication-of-effort">Duplication of Effort</h1>
 <p><img src="state-machine-diagram.png" width="50%" class="img-right" style="padding-top:4px">This state diagram taken straight from the <a href="https://docs.unity3d.com/Manual/StateMachineBasics.html">Unity Manual</a> actually illustrates one of the problems with the system quite effectively. To transition from the <em>Walk</em> state to the <em>Fall</em> state, a script must detect that the character is no longer on the ground and a transition must be set up between those states. Then when the script detects that the character is back on the ground it can try to go back to <em>Idle</em>, except there is no transition from <em>Fall</em> to <em>Idle</em> so nothing will happen. Development time was originally spent creating the state machine and the code logic separately, and now even more time needs to be spent figuring out whether the problem is a bug in the ground detection code or in the state machine (or both) and then fixing it without breaking anything else.</p>
 <p>That problem would never occur with Animancer. You still need to detect when the creature leaves and returns to the ground, but when you tell it to play an animation it will simply play that animation.</p>
 <h1 id="dependencies">Dependencies</h1>
