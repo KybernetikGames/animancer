@@ -81,6 +81,7 @@
 <p><a href="#duplication-of-effort">Duplication of Effort</a></p>
 <p><a href="#dependencies">Dependencies</a></p>
 <p><a href="#responsibilities">Responsibilities</a></p>
+<p><a href="#runtime-control">Runtime Control</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -106,6 +107,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/wait-for-animation">Wait for Animation</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -235,7 +237,6 @@
                     <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/source/performance-benchmarks">Performance Benchmarks</a></li>
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
@@ -277,10 +278,10 @@
 		<p>Unity’s <a href="https://docs.unity3d.com/Manual/class-AnimatorController.html">Mecanim Animator Controller</a> system was designed to be easily accessible to people without much programming experience. It achieves that goal quite well, but doing so creates the illusion that animations should define the way your game works, when in fact the opposite is true. Games are highly complex and dynamic so a naive brute force approach where you just throw every animation into one huge static state machine it not ideal.</p>
 <ul>
 <li>It forces you to rely on <a href="#magic-strings">Magic Strings</a>.</li>
-<li>It forces <a href="#duplication-of-effort">Duplication of Effort</a> where you define some parts of the behaviour of your characters in the Animator Controller and other parts in your scripts, which wastes time and makes debugging much harder because any bug could be in your script or the Animator Controller or a combination of the two.</li>
+<li>It results in <a href="#duplication-of-effort">Duplication of Effort</a> where you define some parts of the behaviour of your characters in the Animator Controller and other parts in your scripts, which wastes time and makes debugging much harder because any bug could be in your script or the Animator Controller or a combination of the two.</li>
 <li>It prevents you from managing <a href="#dependencies">Dependencies</a>. Any script could play any state or set any parameter and you wouldn't know about it without reading the entire script. Any changes to an Animator Controller might break a script and vice-versa, but you don't get a clear indication of which scripts use which states.</li>
 <li>It inhibits any attempts to compartmentalise or encapsulate individual areas into easily manageable or reusable groups. Instead, all <a href="#responsibilities">Responsibilities</a> are just thrown into a single Animator Controller.</li>
-<li>It greatly limits your ability to control things at runtime since everything needs to be defined beforehand in the Unity Editor.</li>
+<li>It greatly limits your <a href="#runtime-control">Runtime Control</a> since everything needs to be defined beforehand in the Unity Editor.</li>
 <li>The states don't even align with the background grid.</li>
 </ul>
 <p>These factors make it difficult to achieve an effective development workflow. It's not impossible, just more difficult than should really be necessary.</p>
@@ -300,12 +301,13 @@ public void PlayAttack()
 <ol>
 <li>Has a state with that name actually been set up in the Animator Controller? Are you sure it's not <code>"attack"</code> or <code>"Attack01"</code> or <code>"Light Attack"</code>? Better go check.</li>
 <li>What other animations are there to choose from? Better go check.</li>
-<li>What will happen when that animation finishes? Maybe a transition? Better go check.</li>
+<li>What will happen when that animation finishes? Nothing? Maybe a transition? Maybe there's a parameter you need to set to determine which transition it will use? Better go check.</li>
 <li>How can you make sure everything is spelled correctly? Better go check.</li>
 <li>What else do you need to modify if you want to rename it to <code>"Light Attack"</code> because you are about to add a <code>"Heavy Attack"</code>? Better go check. The state in the Animator Controller of course, but what else? What if there's another script relying on a string that was entered in the Inspector so a <code>Ctrl + F</code> to find the text <code>"Attack"</code> in your scripts won't even find it?</li>
 <li>Is this script being used for multiple different Animator Controllers? Better go check. If it is then lucky you, now you get to re-check all those questions for each controller.</li>
 </ol>
-<p>So how could this be improved? Well, you've probably already guessed that the answer is going to be "by using Animancer". With it, the code could look like this:</p>
+<p>There's a clear pattern here: every time you want to verify an aspect of its behaviour, you have to figure out where that behaviour is actually defined and go check it manually.</p>
+<p>So how could this be improved? Well, you've probably already guessed that the answer is "by using Animancer". With it, the code could look like this:</p>
 <pre><code class="language-cs">[SerializeField]
 private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
@@ -318,7 +320,7 @@ public void PlayAttack()
     state.OnEnd = OnAttackEnd;
 }
 </code></pre>
-<p>This time we have slightly more complexity in the code, but in exchange that code does not require an Animator Controller to have been set up correctly. So what does that do to those questions from before?</p>
+<p>This time we have slightly more complexity in the code, but in exchange that code does not require an Animator Controller to be set up separately. So what does that do to those questions from before?</p>
 <ol>
 <li>Irrelevant. The code defines the animation it will play.</li>
 <li>In this case there are no other animations to choose from because we only have one <code>AnimationClip</code> field. But if for example you set up a <code>Weapon</code> class with various fields for all of the animations it can have, then your IDE would be able to give you a list of those fields to choose from and you could probably jump to that class with a single keypress if necessary (<code>F12</code> in Visual Studio).</li>
@@ -351,7 +353,7 @@ public void PlayAttack()
 <p>So you have these two separate things - scripts and <code>AnimatorController</code>s - which are inter-dependant, yet you have no proper way of visualising, validating, or enforcing those dependencies.</p>
 <p><strong>Animancer</strong> avoids these problems by not splitting up the requirement in the first place. A script determines <em><strong>when</strong> the animation needs to be played</em> and simply tells it to play by passing the <code>AnimationClip</code> to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> without the need to depend on anything extra outside of the script. No dependency on pre-defined states, transitions, or parameters. Looking at the script - in the Inspector or in code - can clearly show you which <code>AnimationClip</code>s it wants and you can use code comments and <a href="https://docs.unity3d.com/ScriptReference/TooltipAttribute.html"><code>[Tooltip]</code></a> attributes to give more information.</p>
 <h1 id="responsibilities">Responsibilities</h1>
-<p>Programmers have a concept known as the "<a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a>" which states that every class or function should have responsibility over a single part of the functionality of the overall application. This is extremely helpful for developing complex systems in a way that is easy to maintain as the application grows, yet Animator Controllers do not support that concept. Instead, they are <a href="https://en.wikipedia.org/wiki/God_object">God Objects</a> which are responsible for all the animations a character can perform, regardless of which systems actually use those animations.</p>
+<p>Programmers have a concept known as the "<a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a>" which states that every class or function should have responsibility over a single part of the functionality of the overall application. This is extremely helpful for developing complex systems in a way that is easy to maintain as the application grows, yet Animator Controllers do not support that concept. Instead, these <a href="https://en.wikipedia.org/wiki/God_object">God Objects</a> are responsible for all the animations a character can perform, regardless of which systems actually use those animations.</p>
 <p>Animancer gives you the freedom to define individual aspects of a character wherever they make the most sense, which often means creating certain logical groupings and wrappers for them so that multiple characters can share the same structure.</p>
 <p>These groupings can be defined using a different approach depending on the circumstances:</p>
 <ul>
@@ -364,6 +366,24 @@ public void PlayAttack()
 <li>Instead of scattering your animation references among each individual locomotion script (walk, climb, swim, etc.) you could group them together into a <code>LocomotionData</code> class which allows you to define movement speeds and other parameters alongside the animations while remaining entirely separate from their attacks and other actions. If you find it likely that you will want to reuse a particular set of animations many times with different stats, a <code>ScriptableObject</code> based approach could allow you to define <code>LocomotionAnimations</code> separately from <code>LocomotionStats</code>.</li>
 </ul>
 <p>Using <a href="../../manual/animator-controllers">Controller States</a> can also be an effective way of grouping certain animations together because they allow you to use multiple smaller Animator Controllers instead of a single large one.</p>
+<h1 id="runtime-control">Runtime Control</h1>
+<p>Animator Controllers need to be set up in the Unity Editor, then their structure is mostly fixed in place and either cannot be changed at runtime or requires some additional setup to make changes possible:</p>
+<ul>
+<li>You can't manually control animations in the Inspector.</li>
+<li>You can't add new states. You can only use Animator Override Controllers to replace existing animations, meaning you often need to create dummy <code>AnimationClip</code>s and states with the sole purpose of being replaced.</li>
+<li>You can't add, remove, or rename parameters.</li>
+<li>You can't change transitions.</li>
+<li>You can't control <a href="../speed-and-time#speed">animation speeds</a> unless you link them to a parameter.</li>
+<li>You can't control <a href="../speed-and-time#time">animation time</a>, only normalized time.</li>
+<li>You can't directly control animation weights.</li>
+<li>You can't fade layer weights without updating them yourself over time.</li>
+<li>You can't move animations to a different layer.</li>
+<li>You can't change layer masks.</li>
+<li>You can't enable or disable Inverse Kinematics (for example, to improve performance).</li>
+<li>You can't access any information about animations that aren't currently playing.</li>
+<li>You can't access state names for debugging. You have to use hash codes.</li>
+</ul>
+<p>All of those things can easily be done with Animancer.</p>
 
 	</section>
                 

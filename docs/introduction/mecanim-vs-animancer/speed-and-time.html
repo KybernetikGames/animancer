@@ -104,6 +104,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/wait-for-animation">Wait for Animation</a></li>
                 <li class="selected"><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -233,7 +234,6 @@
                     <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/source/performance-benchmarks">Performance Benchmarks</a></li>
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
@@ -323,7 +323,7 @@ void PlayAnimation()
 
 void LudicrousSpeed()
 {
-    _Animator.SetFloat("Parameter Name", 9000);
+    _Animator.SetFloat("ParameterName", 9000);
 }
 </code></pre>
 <p>It is also possible to set the <code>speed</code> property on the <code>Animator</code> component itself, however this is generally not recommended because it affects all animations at once. Transitioning from a fast animation into a slow one would either play them both fast or both slow or gradually blend the speed, but it could not simply allow one to play fast while the other plays slowly.</p>
@@ -380,13 +380,13 @@ void SkipToHalfTime()
 <li>Select the animation's state.</li>
 <li>Tick the <code>Parameter</code> toggle next to the <code>Normalized Time</code> field.</li>
 <li>Select the parameter you just created from the dropdown menu.</li>
-<li>Now you can set the parameter by calling <code>Animator.SetFloat("Parameter Name", value)</code> which will control the normalized time of the animation.</li>
+<li>Now you can set the parameter by calling <code>Animator.SetFloat("ParameterName", value)</code> which will control the normalized time of the animation.</li>
 </ol>
 <pre><code class="language-cs">[SerializeField] Animator _Animator;
 
 void SkipToHalfTime()
 {
-    _Animator.SetFloat("Parameter Name", 0.5f);
+    _Animator.SetFloat("ParameterName", 0.5f);
 }
 </code></pre>
 <p><strong>Warning</strong>: doing this will cause the parameter to control the state constantly. It will no longer play normally unless you manually update the parameter every frame.</p>
