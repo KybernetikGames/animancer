@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -149,6 +149,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -158,7 +159,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -314,7 +315,7 @@ class Type type-node
 								<td>
 									<div>
     Adds a menu function to open a web page. If the 'linkSuffix' starts with a '/' then it will be relative to
-    the <code class="cs">Animancer.AnimancerPlayable.APIDocumentationURL</code>.
+    the <code class="cs">Animancer.Strings.DocumentationURL</code>.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -405,7 +406,7 @@ class Type type-node
 									<div>
     Calls <code class="cs">UnityEngine.GUIStyle.CalcMinMaxWidth(UnityEngine.GUIContent,System.Single@,System.Single@)</code> and returns the max width.
     <p></p>
-    This method uses the <code class="cs">Animancer.Editor.AnimancerEditorUtilities.TempContent(System.String,System.String)</code>.
+    This method uses the <code class="cs">Animancer.Editor.AnimancerEditorUtilities.TempContent(System.String,System.String,System.Boolean)</code>.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -415,7 +416,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Draws a label showing the 'weight' aligned to the right side of the 'position' and reduces its
+    Draws a label showing the 'weight' aligned to the right side of the 'area' and reduces its
     <code class="cs">UnityEngine.Rect.width</code> to remove that label from its area.
     </div>
 											<div><small><em>static</em></small></div>
@@ -498,7 +499,8 @@ class Type type-node
 								<td>T</td>
 								<td>
 									<div>
-    Tries to find a <code class="cs">T</code> component on the 'gameObject' or its parents or children (in that order).
+    Tries to find a <span name="T" class="typeparamref">T</span> component on the 'gameObject' or its parents or children (in that
+    order).
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -508,6 +510,14 @@ class Type type-node
 								<td>bool</td>
 								<td>
 									<div>Wraps <code class="cs">UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(UnityEngine.Object)</code>.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/C2941A9C">GetLayoutRect<wbr>(bool)<wbr></a></td>
+								<td>Rect</td>
+								<td>
+									<div>Gets a <code class="cs">UnityEngine.GUILayout</code> rect occupying a single standard line.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -526,17 +536,15 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/62532D3C">GetParameterValue<wbr>(Animator, <wbr>Animator<wbr>Controller<wbr>Parameter)<wbr></a></td>
 								<td>Object</td>
 								<td>
-									<div>
-    Gets the value of the 'parameter' in the 'animator'.
-    </div>
+									<div>Gets the value of the 'parameter' in the 'animator'.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D24A840B">GetRect<wbr>(bool)<wbr></a></td>
-								<td>Rect</td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/1E7E67C0">GetParameterValue<wbr>(<wbr>Animator<wbr>Controller<wbr>Playable, <wbr>Animator<wbr>Controller<wbr>Parameter)<wbr></a></td>
+								<td>Object</td>
 								<td>
-									<div>Gets a <code class="cs">UnityEngine.GUILayout</code> rect occupying a single standard line.</div>
+									<div>Gets the value of the 'parameter' in the 'playable'.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -582,6 +590,16 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D7CCC2A6">IsValid<wbr>(AnimancerNode)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Returns true if the 'node' is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/CE3564F5">Register<wbr>Non<wbr>Critical<wbr>Issue<wbr>(Action<wbr>&lt;<wbr>String<wbr>Builder&gt;<wbr>)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -620,12 +638,28 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/CFA99179">SetParameterValue<wbr>(Animator, <wbr>Animator<wbr>Controller<wbr>Parameter, <wbr>Object)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/5D67B37C">SetLooping<wbr>(AnimationClip, <wbr>bool)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>
-    Sets the value of the 'parameter' in the 'animator'.
+    Sets the <code class="cs">UnityEngine.Motion.isLooping</code> flag.
     </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/CFA99179">SetParameterValue<wbr>(Animator, <wbr>Animator<wbr>Controller<wbr>Parameter, <wbr>Object)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Sets the value of the 'parameter' in the 'animator'.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/B391814F">SetParameterValue<wbr>(<wbr>Animator<wbr>Controller<wbr>Playable, <wbr>Animator<wbr>Controller<wbr>Parameter, <wbr>Object)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Sets the value of the 'parameter' in the 'playable'.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -644,50 +678,74 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Divides the given 'position' such that the fields associated with both labels will have equal space
+    Divides the given 'area' such that the fields associated with both labels will have equal space
     remaining after the labels themselves.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/26BF95DF">StealWidth<wbr>(Rect, <wbr>float)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/61BFDEC6">StealFromLeft<wbr>(Rect, <wbr>float)<wbr></a></td>
 								<td>Rect</td>
 								<td>
 									<div>
-    Subtracts the 'width' from the 'area' and returns a new <code class="cs">UnityEngine.Rect</code> occupying the removed section.
+    Subtracts the 'width' from the left side of the 'area' and returns a new <code class="cs">UnityEngine.Rect</code> occupying the
+    removed section.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/0655FCCA">TempContent<wbr>(string, <wbr>string)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/4D9FBDBA">StealFromRight<wbr>(Rect, <wbr>float)<wbr></a></td>
+								<td>Rect</td>
+								<td>
+									<div>
+    Subtracts the 'width' from the right side of the 'area' and returns a new <code class="cs">UnityEngine.Rect</code> occupying the
+    removed section.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/5C7AFF20">TempContent<wbr>(<wbr>Serialized<wbr>Property, <wbr>bool)<wbr></a></td>
 								<td>GUIContent</td>
 								<td>
 									<div>
-    Creates and returns a <code class="cs">UnityEngine.GUIContent</code> with the specified parameters on the first call and then
-    simply returns the same one with new parameters on each subsequent call.
+    Returns a <code class="cs">UnityEngine.GUIContent</code> with the <code class="cs">UnityEditor.SerializedProperty.displayName</code> and
+    <code class="cs">UnityEditor.SerializedProperty.tooltip</code>. The same instance is returned by every subsequent call.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/786B5847">Try<wbr>Use<wbr>Click<wbr>In<wbr>Last<wbr>Rect<wbr>()<wbr></a></td>
-								<td>bool</td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D25D6EED">TempContent<wbr>(string, <wbr>string, <wbr>bool)<wbr></a></td>
+								<td>GUIContent</td>
 								<td>
 									<div>
-    Checks if the current event is a mouse up event inside the last GUI Layout rect that was drawn.
+    Returns a <code class="cs">UnityEngine.GUIContent</code> with the specified parameters. The same instance is returned by
+    every subsequent call.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/B030272A">TryUseContextClick<wbr>(Rect)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/C807ED2B">TryUseClickEvent<wbr>(Rect, <wbr>int)<wbr></a></td>
 								<td>bool</td>
 								<td>
 									<div>
-    Returns true and uses the <code class="cs">UnityEngine.Event.current</code> if it was a <code class="cs">UnityEngine.EventType.ContextClick</code>
-    inside the 'area'. Otherwise returns false.
+    Returns true and uses the current event if it is <code class="cs">UnityEngine.EventType.MouseUp</code> inside the specified
+    'area'.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/8BC54C38">Try<wbr>Use<wbr>Click<wbr>Event<wbr>In<wbr>Last<wbr>Rect<wbr>(int)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Returns true and uses the current event if it is <code class="cs">UnityEngine.EventType.MouseUp</code> inside the last GUI Layout
+    <code class="cs">UnityEngine.Rect</code> that was drawn.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>

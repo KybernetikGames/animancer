@@ -104,7 +104,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -313,6 +313,8 @@
 
 <p>This example demonstrates how you can remake the Animator Controller based character setup used in Unity's <a href="https://assetstore.unity.com/packages/templates/tutorials/3d-game-kit-115747">3D Game Kit</a> to use Animancer (and its <a href="../../../manual/finite-state-machines">Finite State Machine</a> system) instead.</p>
 
+<p><em><a href="http://u3d.as/19Xb"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../manual/animator-controllers">Controller States</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../introduction/feature-comparison">Feature Comparison</a> for more information.</em></p>
+
 <p><img src="gameplay.gif" class="img-responsive"></p>
 
 
@@ -353,9 +355,9 @@
 
 <p>The Animator Controller contains a few <code>StateMachineBehaviour</code>s on certain states, but it is mostly controlled by the <code>PlayerController</code> component. This is a poorly designed setup because even though it uses the concept of a Finite State Machine, it still violates the <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a> by keeping the individual logic of all states in that one huge class instead of separating their concerns into multiple scripts. The practical problems this causes are explained later on in their relevant sections.</p>
 
-<p>Animancer instead uses a code based <a href="../../../manual/finite-state-machines">Finite State Machine</a> with a central <code>Creature</code> script and a separate <code>CreatureState</code> for each of those states like in the <a href="../../state-machines">State Machines</a> examples. The states are clearly defined by their own code logic rather than being a messy combination of details in the Animator Controller and various checks and commands scattered throughout a script.</p>
+<p>Animancer instead uses a code based <a href="../../../manual/finite-state-machines">Finite State Machine</a> with a central <code>Creature</code> script and a separate <code>CreatureState</code> for each of those states like in the <a href="../../state-machines">State Machines</a> examples. Many of the states directly reference their <code>AnimationClip</code>s while some of them play their own invididual <a href="../../../manual/animator-controllers">Animator Controllers</a> containing a single Blend Tree each.</p>
 
-<p>The key difference between <code>PlayerController</code> and <code>Creature</code> is that the former is responsible for managing everything the character can do while the latter is only responsible for things common to multiple states like gravity and turning. For example, if you want to know what is involved in the Animancer's <code>AirborneState</code>, you can go to that script to see what it does. But if you want to know what is involved in the original <code>AirborneSM</code>, you need to find the <code>PlayerController.FixedUpdate</code> method which contains calls to logic for input blocking, attacks, movement and turning, audio, and a time out to idle. Most of those things aren't relevant when the character is in the air, but you can't be sure of that without going through them all.</p>
+<p>The key difference between <code>PlayerController</code> and <code>Creature</code> is that the former is responsible for managing everything the character can do while the latter is only responsible for things common to multiple states like gravity and turning. For example, if you want to know what is involved in the Animancer's <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code>, you can go to that script to see what it does. But if you want to know what is involved in the original <code>AirborneSM</code>, you need to examine the Animator Controller and also find the <code>PlayerController.FixedUpdate</code> and <code>OnAnimatorMove</code> methods which contain logic for input blocking, attacks, movement, turning, audio, and a time out to idle. Most of those things aren't relevant when the character is in the air, but you can't be sure of that without going through them all so it would be very much harder than necessary to find and fix any bugs.</p>
 
 			<div class="box">
 				<div class="box-body no-padding">

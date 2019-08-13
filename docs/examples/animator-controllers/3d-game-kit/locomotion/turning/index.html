@@ -111,7 +111,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -484,12 +484,12 @@
 </ul>
 <h1 id="animancer">Animancer</h1>
 <p>The <code>LocomotionState</code> script is responsible for both the regular turning and the logic to trigger the quick turn animations. This puts all the fields in one place where they are all visible in the Inspector at once instead of splitting them across two states and transitions which can only be selected one at a time to compare them manually:</p>
-<pre><code class="language-cs">[SerializeField] private ClipState.Serializable _QuickTurnLeft;
-[SerializeField] private ClipState.Serializable _QuickTurnRight;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> _QuickTurnLeft;
+[SerializeField] private <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> _QuickTurnRight;
 [SerializeField] private float _QuickTurnMoveSpeed = 2;
 [SerializeField] private float _QuickTurnAngle = 145;
 </code></pre>
-<p>On startup we set their <code>OnEnd</code> callback to return to the main <code>_LocomotionBlendTree</code> state. Note how these are <code>ClipState.Serializable</code>s so they will assign their <code>OnEnd</code> callback to their actual state every time it is played (since <code>AnimancerState.OnEnd</code> is cleared every time). This improves performance by avoiding the creation of a new delegate object every time it is used.</p>
+<p>On startup we set their <code>OnEnd</code> callback to return to the main <code>_LocomotionBlendTree</code> state. Note how these are <code><a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a></code>s so they will assign their <code>OnEnd</code> callback to their actual state every time it is played (since <code><a href="/animancer/api/Animancer/AnimancerState/4763F42D">AnimancerState.OnEnd</a></code> is cleared every time). This improves performance by avoiding the creation of a new delegate object every time it is used.</p>
 <pre><code class="language-cs">private void Awake()
 {
     _QuickTurnLeft.OnEnd = _QuickTurnRight.OnEnd = () =&gt; Animancer.Transition(_LocomotionBlendTree);

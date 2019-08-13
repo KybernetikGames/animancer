@@ -110,7 +110,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -377,7 +377,7 @@ using UnityEngine;
 
 public sealed class IdleState : CreatureState
 {
-    [SerializeField] private ClipState.Serializable _MainAnimation;
+    [SerializeField] private <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> _MainAnimation;
     [SerializeField] private float _RandomizeDelay = 5;
     [SerializeField] private float _MinRandomizeInterval = 0;
     [SerializeField] private float _MaxRandomizeInterval = 20;
@@ -436,7 +436,7 @@ public sealed class IdleState : CreatureState
 </code></pre>
 <p></p></details><p></p>
 <p>We start with some serialized fields to show in the Inspector:</p>
-<pre><code class="language-cs">[SerializeField] private ClipState.Serializable _MainAnimation;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> _MainAnimation;
 [SerializeField] private float _FirstRandomizeDelay = 5;
 [SerializeField] private float _MinRandomizeInterval = 0;
 [SerializeField] private float _MaxRandomizeInterval = 20;
@@ -497,7 +497,7 @@ public bool CheckMotionState()
 </code></pre>
 <p>In an Animator Controller you need to manually set up the same transitions all over the place. For example, many states in the original have exit transitions to the <em>Airborne</em> state based on the <code>Grounded</code> parameter so every time a new state is added you also need to make those same transitions. Adding a new movement state such as <em>Swimming</em> or <em>Flying</em> would mean that you need to basically go through every state with a transition to <em>Airborne</em> and add a transition to the new state. However, doing it in code with a standard <code>CheckMotionState</code> method means that any newly added state can clearly have the same standard transitions and any modifications to that method will automatically affect everything which calls that method.</p>
 <h1 id="update-speed-control">Update Speed Control</h1>
-<p>At this point we know we are still <em>Idle</em> this frame so we just want to decelerate the <code>Creature.ForwardSpeed</code>, but we might as well share the same logic that other states will use for movement, so we put that function in the <code>Creature</code> class:</p>
+<p>At this point we know we are still <em>Idle</em> this frame so we just want to decelerate the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a></code>, but we might as well share the same logic that other states will use for movement, so we put that function in the <code>Creature</code> class:</p>
 <pre><code class="language-cs">// IdleState.cs:
 private void FixedUpdate()
     ...

@@ -107,7 +107,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -322,7 +322,7 @@
 </ul>
 <p><img src="bad-jump.gif" class="img-responsive"></p>
 <h1 id="groundedness">Groundedness</h1>
-<p>The <code>CharacterController</code> component is a capsule shape and it is possible to get the edge of the bottom curve of your capsule on top of a corner, causing it to react as if you were properly on the ground even though the center of the character is actually standing in mid air. If you get close enough to the edge, it can even be far enough down the curve that you can't actually move onto the platform because it is too steep, meaning it is treating that edge as both the ground and a wall at the same time.</p>
+<p>The <code>CharacterController</code> component is a capsule shape and it is possible to get the edge of the bottom curve of your capsule on top of a corner, causing it to react as if you were properly on the ground even though the center of the character is actually standing in mid air. If you get close enough to the edge, it can even be far enough down the curve that you can't even move onto the platform because it is too steep, meaning it is treating that edge as both the ground and a wall at the same time.</p>
 <p></p><div style="display:flex">
   <div><img src="bad-grip.gif" class="img-responsive"></div>
   <div style="padding-left:1em"><img src="bad-grip-gizmo.png" class="img-responsive"></div>
@@ -334,15 +334,17 @@
 <li>The <code>PlayerController</code> only reacts to jump input in <code>FixedUpdate</code>, meaning that quick keypresses can be missed if multiple <code>Update</code>s occur between them (if a key is pressed on the first <code>Update</code>, then released on the second, the following <code>FixedUpdate</code> will not detect that keypress). This might seem obvious, but <strong>randomly ignoring legitimate player input is not good</strong>.</li>
 <li>You can't attack during the <a href="../locomotion/turning#quick-turns">quick turn</a> animations. This is another arbitrary lack of control. You can almost always attack when on the ground, except when you happen to turn sharp enough while moving quickly enough to trigger one of the quick turn animations, in which case you suddenly can't attack for a short time.</li>
 <li>You also can't attack during the exit transition of a previous attack. There's a very small window time right before that where pressing the button again will execute the next attack in the combo, but then the attack ends and any attack inputs are ignored until you finish returning to <em>Idle</em>.</li>
-<li>The logical flow from pressing a button to executing everything involved in <a href="../airborne#jumping">jumping</a> is extremely disorganised and hard to follow.</li>
+<li>The logical flow from pressing a button to executing the desired action (such as <a href="../airborne#jumping">jumping</a> or <a href="../attack#original">attacking</a>) is extremely disorganised and hard to follow.</li>
 </ul>
 <p>Splitting <code>PlayerInput</code> away from the rest of the <code>PlayerController</code> is good for separation of concerns, however some of the concerns ended up in the wrong place:</p>
 <ul>
 <li>Converting the player's desired movement direction into world space should be done in <code>PlayerInput</code>. That way if a different input system is used - such as for example, recording events and then replaying them later on or using AI to control the character - then that system gets to decide exactly how it wants to move the player instead of having the player interpret everything it says to be relative to the camera.</li>
 <li>The <code>LocomotionSM</code> has an arbitrary input "dead zone" in the conditions of its transitions where any speed below 0.1 is treated as not moving. Again, this is something that should be handled as part of the input system so it can be easily customised, not hidden as a bunch of magic numbers in half a dozen different Animator Controller transitions.</li>
+<li>It contains a <code>public static PlayerInput Instance</code> singleton property that it assigns in its own <code>Awake</code> method so other scripts can access it through that property. But for some unknown reason, some scripts use <code>Object.FindObjectOfType</code> to find it themselves and the <code>PlayerController</code> uses <code>GetComponent</code> to find it. It's possible that there's a genuine reason for these differences, but it's unlikely and without comments there's no easy way to tell.</li>
 </ul>
 <h1 id="audio">Audio</h1>
-<p>The original character uses a <code>RandomAudioPlayer</code> script to take care of playing randomly selected sounds and also provide a different selection depending on the <code>Material</code> of the object the character is standing on. In particular, this is used to have footstep sounds that eash sound slightly different and have a different set of sounds for different surfaces (stone, grass, etc.). The concept was sound, but the implementation had one notable flaw which was corrected when copying it over to the Animancer character: the <code>playing</code> and <code>canPlay</code> fields:</p>
+<p>The original character uses a <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a></code> script to take care of playing randomly selected sounds and also provide a different selection depending on the <code>Material</code> of the object the character is standing on. In particular, this is used to have footstep sounds that eash sound slightly different and have a different set of sounds for different surfaces (stone, grass, etc.).</p>
+<p>The concept was sound, but the implementation had one notable flaw which was corrected when copying it over to the Animancer character: the <code>playing</code> and <code>canPlay</code> fields:</p>
 <pre><code class="language-cs">[HideInInspector]
 public bool playing;
 [HideInInspector]
@@ -354,12 +356,12 @@ public bool canPlay;
 <li>Alternatively, they could have been auto-properties which do not get serialized anyway: <code>public bool Playing { get; set; }</code>.</li>
 </ul>
 </li>
-<li>But the real issue is that they should not even be in this class in the first place. The <code>RandomAudioPlayer</code> class is used in several dozen places throughout the project, but the only place that actually uses these two fields for anything is in the <code>PlayerController.PlayAudio</code> method for the footstep sounds so there is no reason for them not to be in that class instead.</li>
+<li>But the real issue is that they should not even be in this class in the first place. The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a></code> class doesn't use them itself and of the several dozen places throughout the project that use it, the only place that actually uses these two fields is in the <code>PlayerController.PlayAudio</code> method for the footstep sounds so there is no reason for them not to be in that class instead.</li>
 </ul>
 <h1 id="naming-conventions">Naming Conventions</h1>
 <p>There are also a number of issues with the quality of the code and project structure in the 3D Game Kit. These barely even qualify as minor problems, but they are worth noting in a product that was made by Unity Technologies and should thus be held to a high standard.</p>
 <p>It doesn't matter so much whether you use <code>m_Name</code> for private fields or <code>camelCase</code> for properties or whatever specific naming convention you use. The most important things are to use a <strong>meaningful</strong> convention and to apply it <strong>consistently</strong>.</p>
-<p>For a naming convention to be <strong>meaningful</strong>, it should provide useful information that isn't already easily accessible:</p>
+<p>For a naming convention to be <strong>meaningful</strong>, it should provide or emphasize useful information that isn't already easily accessible:</p>
 <ul>
 <li>In the player's Animator Controller, the main sub state machines have an <code>SM</code> suffix which differentiates them from other states (<code>IdleSM</code>, <code>LocomotionSM</code>, etc.). This is totally unnecessary since sub state machines are already clearly differentiated by having a hexagon shape instead of being rectangular.
 <ul>
@@ -372,16 +374,15 @@ public bool canPlay;
 <ul>
 <li>The <code>PlayerInput</code> script in particular has several notable issues:
 <ul>
-<li>It contains a <code>public static PlayerInput Instance</code> singleton property that it assigns in its own <code>Awake</code> method so some scripts access it through that property, but for some unknown reason other scripts use <code>Object.FindObjectOfType</code> to find it themselves and the <code>PlayerController</code> uses <code>GetComponent</code> to find it. It's possible that there's a genuine reason for these differences, but it's unlikely and without comments there's no easy way to tell.</li>
 <li>The protected field <code>m_Movement</code> is exposed publicly by the <code>MoveInput</code> property. Shortening from <code>Movement</code> to <code>Move</code> just seems lazy, but the <code>Input</code> suffix is unnecessary in a class which is already called <code>PlayerInput</code>.</li>
 <li><code>MoveInput</code>, <code>CameraInput</code>, and <code>JumpInput</code> all have that suffix, but then <code>Attack</code> and <code>Pause</code> don't. This implies something different about those groups of properties, but upon investigation that doesn't seem to be the case.</li>
 <li>The <code>CameraInput</code> property is never used (camera rotation seems to be handled by Cinemachine). Unused code should generally be removed to avoid wasting people's time when they are trying to figure out how things work.</li>
 </ul>
 </li>
 <li>The <code>MeleeWeapon.PARTICLE_COUNT</code> constant also deserves a mention because other constants use the <code>k_PascalCase</code> convention.</li>
-<li>There are plenty of places in the code and the Animator Controller that specifically mention the character's name (Ellen), which is silly because renaming the character has no bearing on their logic.
+<li>There are plenty of places in the code and the Animator Controller that specifically mention the character's name (Ellen), which is silly because the name of the character has no bearing on their logic.
 <ul>
-<li><code>EllenRunForwardLandingFast</code> is fine as the name of an <code>AnimationClip</code> because it's specific to that character model and having a name makes it easier to remember than something like "Character 3". But it should not also be used for the name of the Animator Controller state that it is used in. That state should have a general name like "Hard Landing" to describe what it is actually used for.</li>
+<li><code>EllenRunForwardLandingFast</code> is fine as the name of an <code>AnimationClip</code> because it's specific to that character model and giving her a name makes it easier to remember than something like "Character 3". But it should not also be used for the name of the Animator Controller state that it is used in. That state should have a general name like "Hard Landing" to describe what it is actually used for.</li>
 </ul>
 </li>
 </ul>

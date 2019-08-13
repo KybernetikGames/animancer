@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -149,6 +149,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -158,7 +159,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -182,7 +183,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Internal]
-    A custom inspector for an <code class="cs">Animancer.AnimancerLayer</code> which sorts and exposes some of its internal values.
+    A custom Inspector for an <code class="cs">Animancer.AnimancerLayer</code> which sorts and exposes some of its internal values.
     </div>
 
 		<div class="panel panel-default">
@@ -196,11 +197,18 @@
 								<dt>Namespace</dt>
 								<dd><a href="/animancer/api/Animancer.Editor">Animancer<wbr>.Editor</a></dd>
 											
+								<dt>Interfaces</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>								
+									</ul>
+								</dd>
 							
 								<dt>Base Types</dt>
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
+											<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
@@ -210,7 +218,10 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["Object"]
+	Type--&gt;Base0["AnimancerNodeDrawer&lt;AnimancerLayer&gt;"]
+	Base0--&gt;Base1["Object"]
+	Type-.-&gt;Interface0["IAnimancerNodeDrawer"]
+	click Interface0 "/animancer/api/Animancer.Editor/IAnimancerNodeDrawer"
 	Type["AnimancerLayerDrawer"]
 class Type type-node
 
@@ -221,7 +232,7 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public sealed class AnimancerLayerDrawer</code></pre>
+	<pre><code>public sealed class AnimancerLayerDrawer : AnimancerNodeDrawer&lt;AnimancerLayer&gt;, IAnimancerNodeDrawer</code></pre>
 
 
 
@@ -246,14 +257,14 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/CD2780FB">ActiveStates</a></td>
 								<td></td>
 								<td>
-									<div>The states in the target layer which have non-zero <code class="cs">AnimancerState.Weight</code>.</div>
+									<div>The states in the target layer which have non-zero <code class="cs">Animancer.AnimancerNode.Weight</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/46090118">InactiveStates</a></td>
 								<td></td>
 								<td>
-									<div>The states in the target layer which have zero <code class="cs">AnimancerState.Weight</code>.</div>
+									<div>The states in the target layer which have zero <code class="cs">Animancer.AnimancerNode.Weight</code>.</div>
 								</td>
 							</tr>
 					</tbody></table>
@@ -273,10 +284,10 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/C1B900D7">Layer</a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/2E150838">RegionStyle</a></td>
+								<td>GUIStyle</td>
 								<td>
-									<div>The target layer. Set by <code class="cs">Animancer.Editor.AnimancerLayerDrawer.GatherStates(Animancer.AnimancerLayer)</code>.</div>
+									<div>The <code class="cs">UnityEngine.GUIStyle</code> used for the area encompassing this drawer. <code class="cs">UnityEngine.GUISkin.box</code>.</div>
 								</td>
 							</tr>
 					</tbody></table>
@@ -296,10 +307,35 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/DCDD66D5">DoInspectorGUI<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/5381CED1">DoDetailsGUI<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Draws all states in the given layer.</div>
+									<div> Draws the details of the target state in the GUI.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/3907B368">DoFoldoutGUI<wbr>(Rect, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Draws a foldout arrow to expand/collapse the state details.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/C868B569">DoGUI<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Draws the details and controls for the target <code class="cs">Animancer.Editor.AnimancerNodeDrawer`1.Target</code> in the Inspector.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/59F8DBC8">DoLabelGUI<wbr>(Rect, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Draws the layer's name and weight.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -311,6 +347,13 @@ class Type type-node
     this method creates a new state in the 'target' for each animation.
     </div>
 											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer/120198DF">PopulateContextMenu<wbr>(GenericMenu)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only] Adds functions relevant to the <code class="cs">Animancer.Editor.AnimancerNodeDrawer`1.Target</code>.</div>
 								</td>
 							</tr>
 					</tbody></table>

@@ -106,7 +106,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -357,9 +357,9 @@ private void Awake()
 <pre><code class="language-cs">using System;
 using UnityEngine;
 
-public sealed class RespawnState : CreatureState
+public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a> : CreatureState
 {
-    [SerializeField] private ClipState.Serializable _Animation;
+    [SerializeField] private <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a> _Animation;
 
     private void OnEnable()
     {
@@ -377,9 +377,9 @@ public sealed class RespawnState : CreatureState
 <p>This gives us a simple component that we can set up in the Inspector:</p>
 <p><img src="animancer-respawn.png" class="img-responsive"></p>
 <h1 id="ai-chasing">AI Chasing</h1>
-<p>Since enemies and AI are outside the scope of this example, the <code>RespawnState</code> script doesn't do anything equivalent to the original <code>PlayerController.RespawnFinished</code> method, but adding such behaviour would be straightforward.</p>
+<p>Since enemies and AI are outside the scope of this example, the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> script doesn't do anything equivalent to the original <code>PlayerController.RespawnFinished</code> method, but adding such behaviour would be straightforward.</p>
 <p>Doing something when the <em>Respawn</em> state is exited would be as simple as adding an <code>OnDisable</code> method.</p>
-<p>If an AI script needs to check whether a creature is currently respawning, it can check <code>if (creature.StateMachine.CurrentState is RespawnState)</code>. That's a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI didn't specifically depend on the <code>RespawnState</code> class or even particularly care <em>why</em> they aren't allowed to chase the player at that time so it might be better something like this:</p>
+<p>If an AI script needs to check whether a creature is currently respawning, it can check <code>if (creature.StateMachine.CurrentState is RespawnState)</code>. That's a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI didn't specifically depend on the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> class or even particularly care <em>why</em> they aren't allowed to chase the player at that time so it might be better something like this:</p>
 <pre><code class="language-cs">// Set the default in the base CreatureState:
 public virtual bool CanBeChased { get { return true; } }
 
@@ -399,7 +399,7 @@ if (creature.StateMachine.CurrentState.CanBeChased)
 </ol>
 <p>But to do the same with Animancer you could basically do the same thing without the last step:</p>
 <ol>
-<li>Remove the <code>RespawnState</code> component.</li>
+<li>Remove the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> component.</li>
 <li>Assign the <code>IdleState</code> component to the <code>Creature._Respawn</code> field in the Inspector (so the same state is assigned to both <em>Respawn</em> and <em>Idle</em>).</li>
 </ol>
 <p>We didn't intentionally plan the Animancer setup to support creatures without a respawn animation, but we have the ability to do so anyway since we structured the code properly. Being able to try out ideas and adapt to changing requirements like this is extremely valuable in software development.</p>

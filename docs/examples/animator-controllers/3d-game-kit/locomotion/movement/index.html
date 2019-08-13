@@ -112,7 +112,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -414,13 +414,13 @@
 <li><a href="#on-animator-move-1">On Animator Move</a></li>
 </ol>
 <h1 id="setup-blend-tree">1. Setup Blend Tree</h1>
-<p>We start with a <code>Vector2ControllerState</code>, which is a <a href="../../../../../manual/animator-controllers">Controller State</a> that will play an Animator Controller with the addition of properties to easily allow access to two of its float parameters:</p>
+<p>We start with a <code><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2ControllerState</a></code>, which is a <a href="../../../../../manual/animator-controllers">Controller State</a> that will play an Animator Controller with the addition of properties to easily allow access to two of its float parameters:</p>
 <ul>
 <li><code>ParameterX</code> is the <code>Speed</code> parameter which we set to control the Blend Tree.</li>
 <li><code>ParameterY</code> is <code>FootFall</code> parameter which gets automatically updated by a curve built into each of the animations (and blended by the Blend Tree) so that we can read from it to determine when to play the footstep sounds.</li>
 </ul>
-<p>More accurately, we are using a <code>Vector2ControllerState.Serializable</code> which will give us the fields we need in the Inspector to so that it can create an actual <code>Vector2ControllerState</code> when we pass it into <code>AnimatorController.Transition</code>.</p>
-<pre><code class="language-cs">[SerializeField] private Vector2ControllerState.Serializable _LocomotionBlendTree;
+<p>More accurately, we are using a <code><a href="/animancer/api/Animancer/Serializable">Vector2ControllerState.Serializable</a></code> which will give us the fields we need in the Inspector to so that it can create an actual <code><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2ControllerState</a></code> when we pass it into <code>AnimatorController.Transition</code>.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/Serializable">Vector2ControllerState.Serializable</a> _LocomotionBlendTree;
 
 private void OnEnable()
 {
@@ -462,11 +462,11 @@ private void OnEnable()
 <p>The original <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
 <p>But since each of our states is a separate class, we can use the power of polymorphism, i.e. give the base <code>CreatureState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
 <pre><code class="language-cs">// In CreatureState:
-public virtual Vector3 RootMotion { get { return Animancer.Animator.deltaPosition; } }
+public virtual Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> { get { return Animancer.Animator.deltaPosition; } }
 </code></pre>
-<p>Then any states that want different behaviour such as the <code>AirborneState</code> can <code>override</code> that property:</p>
+<p>Then any states that want different behaviour such as the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> can <code>override</code> that property:</p>
 <pre><code class="language-cs">// In AirborneState:
-public override Vector3 RootMotion
+public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a>
 {
     get
     {
@@ -482,7 +482,7 @@ public override Vector3 RootMotion
 </code></pre>
 <p>Note that there's actually more to the <code>GetRootMotion</code> method. See <a href="#full-movement-control">Full Movement Control</a> below.</p>
 <h2 id="check-ground">Check Ground</h2>
-<p>Once we have the desired movement, we use a raycast to determine the orientation of the ground and rotate the movement onto that plane so we can move at a consistent speed up and down hills. We also get the <code>Material</code> of the ground for other scripts to use when determining what type of sounds to play (specifically, <code>LocomotionState</code> and <code>LandingState</code>). This method is essentially the same as the first part of the original <code>PlayerController.OnAnimatorMove</code> method.</p>
+<p>Once we have the desired movement, we use a raycast to determine the orientation of the ground and rotate the movement onto that plane so we can move at a consistent speed up and down hills. We also get the <code>Material</code> of the ground for other scripts to use when determining what type of sounds to play (specifically, <code>LocomotionState</code> and <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code>). This method is essentially the same as the first part of the original <code>PlayerController.OnAnimatorMove</code> method.</p>
 <pre><code class="language-cs">private void CheckGround(ref Vector3 movement)
 {
     if (!CharacterController.isGrounded)
@@ -544,7 +544,7 @@ public override bool StickToGround { get { return false; } }
       <td><img src="full-movement-control.gif" class="img-responsive"></td>
     </tr>
     <tr>
-      <td colspan="2">In the worst case with the right input timing you can run almost entirely perpendicular to the direction you want to go because each change is within about 90 degrees of the target direction so it doesn't cross the ~145 degree threshold required for a quick turn animation. Again, this is simulating only left and right input with no forward input.</td>
+      <td colspan="2">In the worst case with the right input timing you can run almost entirely perpendicular to the direction you want to go because each change is within about 90 degrees of the target direction so it doesn't cross the ~145 degree threshold required for a <a href="../turning#quick-turns">quick turn</a> animation. Again, this is simulating only left and right input with no forward input.</td>
     </tr>
     <tr>
       <td><img src="no-movement-control-worst.gif" class="img-responsive"></td>

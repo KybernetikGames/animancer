@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -79,7 +79,6 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
-<p><a href="#Attributes">Attributes</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -148,6 +147,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -157,7 +157,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -181,7 +181,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Editor-Only]
-    A custom inspector for <code class="cs">UnityEngine.ScriptableObject</code>s which adds a message explaining that changes in play
+    A custom Inspector for <code class="cs">UnityEngine.ScriptableObject</code>s which adds a message explaining that changes in play
     mode will persist.
     </div>
 
@@ -221,32 +221,10 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>[CustomEditor(typeof(ScriptableObject), true, isFallback = true), CanEditMultipleObjects]
-public class ScriptableObjectEditor : Editor</code></pre>
+	<pre><code>public class ScriptableObjectEditor : Editor</code></pre>
 
 
 
-	<h1 id="Attributes">Attributes</h1>
-	<div class="box">
-		<div class="box-body no-padding table-responsive">
-			<table class="table table-striped table-hover two-cols">
-				<thead>
-					<tr>
-						<th>Type</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-					<tbody><tr>
-						<td>CustomEditor</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Can<wbr>Edit<wbr>Multiple<wbr>Objects</td>
-						<td></td>
-					</tr>
-			</tbody></table>
-		</div>
-	</div>	
 
 
 
@@ -271,9 +249,9 @@ public class ScriptableObjectEditor : Editor</code></pre>
 								<td>void</td>
 								<td>
 									<div>
-    Called by the Unity editor to draw the custom inspector GUI elements.
+    Called by the Unity editor to draw the custom Inspector GUI elements.
     <p></p>
-    Draws the regular inspector then adds a message explaining that changes in Play Mode will persist.
+    Draws the regular Inspector then adds a message explaining that changes in Play Mode will persist.
     </div>
 								</td>
 							</tr>

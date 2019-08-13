@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -161,16 +161,18 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/EventfulAnimancerComponent">Eventful<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FloatControllerState">FloatControllerState</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/PixelPerfectPositioning">Pixel<wbr>Perfect<wbr>Positioning</a></li>
+				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Vector3ControllerState">Vector3<wbr>Controller<wbr>State</a></li>
 			<li class="header">Interface Types</li>
@@ -180,6 +182,7 @@
 				<li><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></li>
 				<li><a href="/animancer/api/Animancer/IEarlyUpdate">IEarlyUpdate</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
+				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 
@@ -226,6 +229,7 @@
 											<li>IEnumerable<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
 											<li>IEnumerator</li>								
 											<li>IDisposable</li>								
+											<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
 											<li><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></li>								
 									</ul>
 								</dd>
@@ -247,8 +251,10 @@
 	Type-.-&gt;Interface0["IEnumerable&lt;AnimancerState&gt;"]
 	Type-.-&gt;Interface1["IEnumerator"]
 	Type-.-&gt;Interface2["IDisposable"]
-	Type-.-&gt;Interface3["IAnimationClipSource"]
-	click Interface3 "/animancer/api/Animancer/IAnimationClipSource"
+	Type-.-&gt;Interface3["IPlayableWrapper"]
+	click Interface3 "/animancer/api/Animancer/IPlayableWrapper"
+	Type-.-&gt;Interface4["IAnimationClipSource"]
+	click Interface4 "/animancer/api/Animancer/IAnimationClipSource"
 	Type["AnimancerPlayable"]
 class Type type-node
 
@@ -260,7 +266,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>public sealed class AnimancerPlayable : PlayableBehaviour, IEnumerable&lt;AnimancerState&gt;, 
-    IEnumerator, IDisposable, IAnimationClipSource</code></pre>
+    IEnumerator, IDisposable, IPlayableWrapper, IAnimationClipSource</code></pre>
 
 
 
@@ -282,28 +288,12 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/2E03F67A">APIDocumentationURL</a></td>
-								<td>https://kybernetikgames.github.io/animancer/api/Animancer</td>
-								<td>
-									<div>The URL of the website where the Animancer API documentation is hosted.</div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/506035E7">DefaultFadeDuration</a></td>
 								<td>0.3</td>
 								<td>
 									<div>
     The fade duration for any of the CrossFade methods to use if the caller doesn't specify.
     </div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/0A4066CF">DocumentationURL</a></td>
-								<td>https://kybernetikgames.github.io/animancer</td>
-								<td>
-									<div>The URL of the website where the Animancer documentation is hosted.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -352,7 +342,7 @@ class Type type-node
 								<td>
 									<div>
     The average velocity of the root motion of all currently playing animations, taking their current
-    <code class="cs">AnimancerState.Weight</code> into account.
+    <code class="cs">Animancer.AnimancerNode.Weight</code> into account.
     </div>
 								</td>
 							</tr>
@@ -429,7 +419,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/FBD2FD77">IsGraphPlaying</a></td>
 								<td>bool</td>
 								<td>
-									<div>Indicates whether the <code class="cs">Graph</code> is currently playing.</div>
+									<div>Indicates whether the <code class="cs">UnityEngine.Playables.PlayableGraph</code> is currently playing.</div>
 								</td>
 							</tr>
 							<tr>
@@ -437,16 +427,16 @@ class Type type-node
 								<td>bool</td>
 								<td>
 									<div>
-    Returns true as long as the <code class="cs">Graph</code> hasn't been destroyed (such as by <code class="cs">Animancer.AnimancerPlayable.Dispose</code>).
+    Returns true as long as the <code class="cs">UnityEngine.Playables.PlayableGraph</code> hasn't been destroyed (such as by <code class="cs">Animancer.AnimancerPlayable.Dispose</code>).
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/24F53013">Keep<wbr>Playables<wbr>Connected</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">Keep<wbr>Children<wbr>Connected</a></td>
 								<td>bool</td>
 								<td>
 									<div>
-    Indicates whether playables should stay connected to the graph at all times.
+    Indicates whether child playables should stay connected to the graph at all times.
     <p></p>
     By default, this value is false so that playables will be disconnected from the graph while they are at 0
     weight which stops it from evaluating them every frame and is generally more efficient.
@@ -463,10 +453,27 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/5840669B">Speed</a></td>
+								<td>float</td>
+								<td>
+									<div>
+     How fast the <code class="cs">Animancer.AnimancerState.Time</code> of all animations is advancing every frame.
+     <p></p>
+     1 is the normal speed.
+     <p></p>
+     A negative value will play the animations backwards.
+     <p></p>
+     Setting this value to 0 would pause all animations, but calling <code class="cs">Animancer.AnimancerPlayable.PauseGraph</code> is more efficient.
+     <p></p>
+     Animancer Lite does not allow this value to be changed in a runtime build.
+     </div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/8C56F9FA">UpdateMode</a></td>
 								<td>DirectorUpdateMode</td>
 								<td>
-									<div>Determines what time source is used to update the <code class="cs">Graph</code>.</div>
+									<div>Determines what time source is used to update the <code class="cs">UnityEngine.Playables.PlayableGraph</code>.</div>
 								</td>
 							</tr>
 					</tbody></table>
@@ -514,7 +521,7 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/092EC880">CreatePlayable<wbr>(string)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/DA71ED82">Create<wbr>()<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></td>
 								<td>
 									<div>
@@ -522,6 +529,8 @@ class Type type-node
     <p></p>
     The caller is responsible for calling <code class="cs">Animancer.AnimancerPlayable.Dispose</code> on the returned object, except in Edit Mode
     where it will be called automatically.
+    <p></p>
+    Consider calling <code class="cs">Animancer.AnimancerPlayable.SetNextGraphName(System.String)</code> before this method to give it a name.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -562,8 +571,8 @@ class Type type-node
     If the 'state' was already playing and fading in with less time remaining than the 'fadeDuration', this
     method will allow it to complete the existing fade rather than starting a slower one.
     <p></p>
-    If the layer currently has 0 <code class="cs">Weight</code>, this method will instead start fading in the layer
-    itself and simply <code class="cs">Animancer.AnimancerPlayable.Play(UnityEngine.Animator,Animancer.AnimancerPlayable)</code> the 'state'.
+    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will instead start fading in the layer
+    itself and simply <code class="cs">Animancer.AnimancerState.Play</code> the 'state'.
     <p></p>
     Animancer Lite only allows the default 'fadeDuration' (0.3 seconds) in a runtime build.
     </div>
@@ -598,8 +607,8 @@ CrossFade(state, fadeDuration);</code></pre>.
     If the animation was already playing and fading in with less time remaining than the 'fadeDuration', this
     method will allow it to complete the existing fade rather than starting a slower one.
     <p></p>
-    If the layer currently has 0 <code class="cs">Weight</code>, this method will instead start fading in the layer
-    itself and simply <code class="cs">Animancer.AnimancerPlayable.Play(UnityEngine.Animator,Animancer.AnimancerPlayable)</code> the 'state'.
+    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will instead start fading in the layer
+    itself and simply <code class="cs">Animancer.AnimancerState.Play</code> the 'state'.
     <p></p>
     Animancer Lite only allows the default 'fadeDuration' (0.3 seconds) in a runtime build.
     </div>
@@ -613,7 +622,7 @@ CrossFade(state, fadeDuration);</code></pre>.
     Starts fading in the 'state' from the start over the course of the 'fadeDuration' while fading out all
     others in the same layer. Returns the 'state'.
     <p></p>
-    If the 'state' isn't currently at 0 <code class="cs">AnimancerState.Weight</code>, this method will actually fade it
+    If the 'state' isn't currently at 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will actually fade it
     to 0 along with the others and create and return a new state with the same clip to fade to 1. This ensures
     that calling this method will always fade out from all current states and fade in from the start of the
     desired animation. States created for this purpose are cached so they can be reused in the future.
@@ -621,8 +630,8 @@ CrossFade(state, fadeDuration);</code></pre>.
     Calling this method repeatedly on subsequent frames will probably have undesirable effects; you most likely
     want to use <code class="cs">Animancer.AnimancerPlayable.CrossFade(Animancer.AnimancerState,System.Single)</code> instead.
     <p></p>
-    If the layer currently has 0 <code class="cs">Weight</code>, this method will instead start fading in the layer
-    itself and simply <code class="cs">Animancer.AnimancerPlayable.Play(UnityEngine.Animator,Animancer.AnimancerPlayable)</code> the 'state'.
+    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will instead start fading in the layer
+    itself and simply <code class="cs">Animancer.AnimancerState.Play</code> the 'state'.
     <p></p>
     Animancer Lite only allows the default 'fadeDuration' (0.3 seconds) in a runtime build.
     </div>
@@ -651,7 +660,7 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
     Starts fading in the animation registered with the 'key' from the start over the course of the
     'fadeDuration' while fading out all others in the same layer. Returns its state.
     <p></p>
-    If the animation isn't currently at 0 <code class="cs">AnimancerState.Weight</code>, this method will actually fade
+    If the animation isn't currently at 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will actually fade
     it to 0 along with the others and create and return a new state with the same clip to fade to 1. This
     ensures that calling this method will always fade out from all current states and fade in from the start of
     the desired animation. States created for this purpose are cached so they can be reused in the future.
@@ -659,8 +668,8 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
     Calling this method repeatedly on subsequent frames will probably have undesirable effects; you most likely
     want to use <code class="cs">Animancer.AnimancerPlayable.CrossFade(System.Object,System.Single)</code> instead.
     <p></p>
-    If the layer currently has 0 <code class="cs">Weight</code>, this method will instead start fading in the layer
-    itself and simply <code class="cs">Animancer.AnimancerPlayable.Play(UnityEngine.Animator,Animancer.AnimancerPlayable)</code> the 'state'.
+    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will instead start fading in the layer
+    itself and simply <code class="cs">Animancer.AnimancerState.Play</code> the 'state'.
     <p></p>
     Animancer Lite only allows the default 'fadeDuration' (0.3 seconds) in a runtime build.
     </div>
@@ -670,7 +679,10 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/26616051">DestroyState<wbr>(AnimancerState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. Just call <code class="cs">Animancer.AnimancerState.Dispose</code>.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just call <code class="cs">Animancer.AnimancerState.Dispose</code>.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -687,7 +699,37 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td>void</td>
 								<td>
 									<div>
-    Destroys the <code class="cs">Graph</code> and all its layers and states. This operation cannot be undone.
+    Destroys the <code class="cs">UnityEngine.Playables.PlayableGraph</code> and all its layers and states. This operation cannot be undone.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/84B8649B">Dispose<wbr>(AnimancerState)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just call <code class="cs">Animancer.AnimancerState.Dispose</code> on the state itself.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/228BFA72">Dispose<wbr>(IHasKey)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerState.Dispose</code> on the state associated with the <code class="cs">Animancer.IHasKey.Key</code>
+    (if any). Returns true if the state existed.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/767DF79A">Dispose<wbr>(Object)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerState.Dispose</code> on the state associated with the 'key' (if any).
+    Returns true if the state existed.
     </div>
 								</td>
 							</tr>
@@ -769,7 +811,10 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/020CBD47">GetOrCreateState<wbr>(AnimancerState, <wbr>AnimationClip, <wbr>int)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. The whole point of a key is to identify a state in the first place.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    The whole point of a key is to identify a state in the first place.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -811,7 +856,10 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/12801868">GetState<wbr>(AnimancerState)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. The whole point of a key is to identify a state in the first place.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    The whole point of a key is to identify a state in the first place.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -837,7 +885,7 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td>float</td>
 								<td>
 									<div>
-    Calculates the total <code class="cs">AnimancerState.Weight</code> of all states in this playable.
+    Calculates the total <code class="cs">Animancer.AnimancerNode.Weight</code> of all states in this playable.
     </div>
 								</td>
 							</tr>
@@ -876,7 +924,10 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/E3E5EF3B">IsPlaying<wbr>(AnimancerState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. Just check <code class="cs">Animancer.AnimancerState.IsPlaying</code>.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just check <code class="cs">Animancer.AnimancerNode.IsPlaying</code>.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -905,7 +956,7 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
     Returns true if the 'clip' is currently being played by at least one state in any layer.
     <p></p>
     This method is inefficient because it searches through every state to find any that are playing the 'clip',
-    unlike <code class="cs">IsPlaying(AnimationClip)</code> which only checks the state registered using the 'clip's key.
+    unlike <code class="cs">Animancer.AnimancerPlayable.IsPlaying(System.Object)</code> which only checks the state registered using the specified key.
     </div>
 								</td>
 							</tr>
@@ -917,7 +968,7 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
     Returns true if the 'clip' is currently being played by at least one state in the specified layer.
     <p></p>
     This method is inefficient because it searches through every state to find any that are playing the 'clip',
-    unlike <code class="cs">IsPlaying(AnimationClip)</code> which only checks the state registered using the 'clip's key.
+    unlike <code class="cs">Animancer.AnimancerPlayable.IsPlaying(System.Object)</code> which only checks the state registered using the specified key.
     </div>
 								</td>
 							</tr>
@@ -945,7 +996,7 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td>void</td>
 								<td>
 									<div>
-    Freezes the <code class="cs">Graph</code> at its current state.
+    Freezes the <code class="cs">UnityEngine.Playables.PlayableGraph</code> at its current state.
     <p></p>
     If you call this method, you are responsible for calling <code class="cs">Animancer.AnimancerPlayable.UnpauseGraph</code> to resume playing.
     </div>
@@ -1007,7 +1058,7 @@ Play(state, fadeDuration);</code></pre>.
 								<td>void</td>
 								<td>
 									<div>[Internal]
-    Called by Unity before the <code class="cs">Graph</code> is evaluated. Updates the playing states.
+    Called by Unity before the <code class="cs">UnityEngine.Playables.PlayableGraph</code> is evaluated. Updates the playing states.
     </div>
 								</td>
 							</tr>
@@ -1053,7 +1104,7 @@ Play(state, fadeDuration);</code></pre>.
 								<td>void</td>
 								<td>
 									<div>[Editor-Conditional]
-    Sets the inspector display name of the layer at the specified index. Note that layer names are Editor-Only
+    Sets the Inspector display name of the layer at the specified index. Note that layer names are Editor-Only
     so any calls to this method will automatically be compiled out of a runtime build.
     </div>
 								</td>
@@ -1065,6 +1116,16 @@ Play(state, fadeDuration);</code></pre>.
 									<div>[Pro-Only]
     If the <code class="cs">Animancer.AnimancerPlayable.LayerCount</code> is below the specified 'min', this method increases it to that value.
     </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/B0E46B77">SetNextGraphName<wbr>(string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Conditional]
+    Sets the display name for the next <code class="cs">Animancer.AnimancerPlayable.Create</code> call to give its <code class="cs">UnityEngine.Playables.PlayableGraph</code>.
+    </div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1081,7 +1142,10 @@ Play(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/3EC0FD42">Stop<wbr>(AnimancerState)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. Just call <code class="cs">Animancer.AnimancerState.Stop</code>.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just call <code class="cs">Animancer.AnimancerState.Stop</code>.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -1118,7 +1182,10 @@ Play(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/84294472">TryGetState<wbr>(AnimancerState, <wbr>AnimancerState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. The whole point of a key is to identify a state in the first place.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    The whole point of a key is to identify a state in the first place.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -1146,7 +1213,7 @@ Play(state, fadeDuration);</code></pre>.
 								<td>void</td>
 								<td>
 									<div>
-    Resumes playing the <code class="cs">Graph</code> if <code class="cs">Animancer.AnimancerPlayable.PauseGraph</code> was called previously.
+    Resumes playing the <code class="cs">UnityEngine.Playables.PlayableGraph</code> if <code class="cs">Animancer.AnimancerPlayable.PauseGraph</code> was called previously.
     </div>
 								</td>
 							</tr>

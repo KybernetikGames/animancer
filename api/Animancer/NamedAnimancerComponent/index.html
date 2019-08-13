@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -162,16 +162,18 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/EventfulAnimancerComponent">Eventful<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FloatControllerState">FloatControllerState</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li class="selected"><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/PixelPerfectPositioning">Pixel<wbr>Perfect<wbr>Positioning</a></li>
+				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Vector3ControllerState">Vector3<wbr>Controller<wbr>State</a></li>
 			<li class="header">Interface Types</li>
@@ -181,6 +183,7 @@
 				<li><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></li>
 				<li><a href="/animancer/api/Animancer/IEarlyUpdate">IEarlyUpdate</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
+				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 
@@ -240,6 +243,12 @@
 									</ul>
 								</dd>				
 							
+								<dt>Derived Types</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>								
+									</ul>
+								</dd>			
 							
 						</dl>
 					</div>		
@@ -257,6 +266,8 @@
 	click Interface3 "/animancer/api/Animancer/IAnimationClipSource"
 	Type["NamedAnimancerComponent"]
 class Type type-node
+	Derived0["HybridAnimancerComponent"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/HybridAnimancerComponent"
 
 						</div>
 					</div>
@@ -266,7 +277,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[AddComponentMenu("Animancer/Named Animancer Component")]
-[HelpURL(AnimancerPlayable.APIDocumentationURL + "/NamedAnimancerComponent")]
+[HelpURL(Strings.APIDocumentationURL + "/NamedAnimancerComponent")]
 public class NamedAnimancerComponent : AnimancerComponent, IAnimancerComponent, 
     IEnumerable&lt;AnimancerState&gt;, IEnumerator, IAnimationClipSource</code></pre>
 
@@ -758,6 +769,50 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerComponent/85462AD2">Dispose<wbr>(AnimancerState)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just call <code class="cs">Animancer.AnimancerState.Dispose</code> on the state itself.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerComponent/5E4FBB48">Dispose<wbr>(AnimationClip)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerState.Dispose</code> on the state associated with the 'clip' (if any).
+    Returns true if the state existed.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerComponent/0EE3CEA9">Dispose<wbr>(IHasKey)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerState.Dispose</code> on the state associated with the <code class="cs">Animancer.IHasKey.Key</code>
+    (if any). Returns true if the state existed.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerComponent/B197C405">Dispose<wbr>(Object)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerState.Dispose</code> on the state associated with the 'key' (if any).
+    Returns true if the state existed.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerComponent/585FB5DB">Evaluate<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -821,7 +876,10 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerComponent/186A28FD">GetOrCreateState<wbr>(AnimancerState, <wbr>AnimationClip, <wbr>int)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. The whole point of a key is to identify a state in the first place.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    The whole point of a key is to identify a state in the first place.
+    </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
 								</td>
 							</tr>
@@ -873,7 +931,10 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerComponent/7AFE561F">GetState<wbr>(AnimancerState)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. The whole point of a key is to identify a state in the first place.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    The whole point of a key is to identify a state in the first place.
+    </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
 								</td>
 							</tr>
@@ -932,7 +993,9 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerComponent/F742F178">IsPlaying<wbr>(AnimancerState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. Just check IsPlaying on the state itself.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just check IsPlaying on the state itself.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
 								</td>
 							</tr>
@@ -1036,7 +1099,7 @@ CrossFadeFromStart(state, fadeDuration);</code></pre>.
 								<td>
 									<div>[Editor-Only]
     Called by the Unity Editor in Edit Mode whenever an instance of this script is loaded or a value is changed
-    in the inspector.
+    in the Inspector.
     <p></p>
     Uses <code class="cs">Animancer.ClipState.ValidateClip(UnityEngine.AnimationClip)</code> to ensure that all of the clips in the <code class="cs">Animancer.NamedAnimancerComponent.Animations</code>
     array are supported by the <code class="cs">Animancer</code> system and removes any others.
@@ -1154,7 +1217,7 @@ Play(state, fadeDuration);</code></pre>.
 								<td>void</td>
 								<td>
 									<div>[Editor-Conditional]
-    Sets the inspector display name of the layer at the specified index. Note that layer names are Editor-Only
+    Sets the Inspector display name of the layer at the specified index. Note that layer names are Editor-Only
     so any calls to this method will automatically be compiled out of a runtime build.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
@@ -1184,7 +1247,9 @@ Play(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerComponent/8BB2F644">Stop<wbr>(AnimancerState)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. Just call Stop() on the state itself.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just call Stop() on the state itself.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
 								</td>
 							</tr>
@@ -1234,7 +1299,10 @@ Play(state, fadeDuration);</code></pre>.
 								<td><a href="/animancer/api/Animancer/AnimancerComponent/B8CAA3D1">TryGetState<wbr>(AnimancerState, <wbr>AnimancerState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>[Warning] You cannot use an AnimancerState as a key. The whole point of a key is to identify a state in the first place.</div>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    The whole point of a key is to identify a state in the first place.
+    </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></em></small></div>
 								</td>
 							</tr>

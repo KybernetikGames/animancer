@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -150,6 +150,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -159,7 +160,7 @@
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -182,7 +183,7 @@
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[Editor-Only] Draws the inspector GUI for an <code class="cs">Animancer.AnimancerState</code>.</div>
+	<div class="lead">[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.AnimancerState</code>.</div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">
@@ -198,7 +199,7 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>								
 									</ul>
 								</dd>
 							
@@ -206,6 +207,7 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
+											<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer</a><wbr>&lt;<a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1#typeparam-T">T</a>&gt;<wbr></li>								
 											<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer</a><wbr>&lt;<a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1#typeparam-T">T</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
@@ -213,8 +215,8 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/Drawer">ControllerState<wbr>.Drawer</a></li>								
 											<li><a href="/animancer/api/Animancer/Drawer">MixerState<wbr>.Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer/Drawer">ControllerState<wbr>.Drawer</a></li>								
 									</ul>
 								</dd>			
 							
@@ -224,14 +226,15 @@
 						<div class="mermaid">
 							graph BT
 	Type--&gt;Base0["AnimancerStateDrawer&lt;T&gt;"]
-	Base0--&gt;Base1["Object"]
-	Type-.-&gt;Interface0["IAnimancerStateDrawer"]
-	click Interface0 "/animancer/api/Animancer.Editor/IAnimancerStateDrawer"
+	Base0--&gt;Base1["AnimancerNodeDrawer&lt;T&gt;"]
+	Base1--&gt;Base2["Object"]
+	Type-.-&gt;Interface0["IAnimancerNodeDrawer"]
+	click Interface0 "/animancer/api/Animancer.Editor/IAnimancerNodeDrawer"
 	Type["ParametizedAnimancerStateDrawer&lt;T&gt;"]
 class Type type-node
-	Derived0["ControllerState.Drawer"]--&gt;Type
+	Derived0["MixerState.Drawer"]--&gt;Type
 	click Derived0 "/animancer/api/Animancer/Drawer"
-	Derived1["MixerState.Drawer"]--&gt;Type
+	Derived1["ControllerState.Drawer"]--&gt;Type
 	click Derived1 "/animancer/api/Animancer/Drawer"
 
 						</div>
@@ -242,7 +245,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>public abstract class ParametizedAnimancerStateDrawer&lt;T&gt; : AnimancerStateDrawer&lt;T&gt;, 
-    IAnimancerStateDrawer
+    IAnimancerNodeDrawer
     where T : AnimancerState</code></pre>
 
 
@@ -281,7 +284,7 @@ class Type type-node
 							<tbody><tr>
 								<td><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1/0CE6B08E">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>(T)<wbr></a></td>
 									<td>
-    Constructs a new <code class="cs">Animancer.Editor.ParametizedAnimancerStateDrawer`1</code> to manage the inspector GUI for the 'state'.
+    Constructs a new <code class="cs">Animancer.Editor.ParametizedAnimancerStateDrawer`1</code> to manage the Inspector GUI for the 'state'.
     </td>
 							</tr>
 					</tbody></table>

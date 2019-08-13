@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -156,16 +156,19 @@
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/1BDC5F18">CurrentStateID</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/CF80D667">Default<wbr>Apply<wbr>Animator<wbr>I<wbr>K</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/2137BD67">DefaultApplyFootIK</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/AACBC52A">EffectiveSpeed</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">FadeSpeed</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/FFE6503F">IsActive</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/769638CF">IsAdditive</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/59F38110">IsPlaying</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/5788DE65">IsStopped</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/7C52CF73">IsValid</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/2BEAA34D">Keep<wbr>Children<wbr>Connected</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/92709FF1">Layer</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/5BBF5FC0">Name</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/0C2FF8DE">Parent</a></li>
-				<li><a href="/animancer/api/Animancer/AnimancerLayer/5D6C7FD6">ParentPlayable</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/DAC70AD6">PortIndex</a></li>
-				<li><a href="/animancer/api/Animancer/AnimancerLayer/7C014C25">Stay<wbr>Connected<wbr>When<wbr>Weightless</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">TargetWeight</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">Weight</a></li>
 			<li class="header">Method Members</li>
@@ -180,7 +183,7 @@
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/24BA2677">GetDisplayKey<wbr>(AnimancerState)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/47E1DEFF">GetEnumerator<wbr>()<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/F4727786">GetTotalWeight<wbr>()<wbr></a></li>
-				<li><a href="/animancer/api/Animancer/AnimancerLayer/EB8BA435">IsPlaying<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayer/562D37C2">IsAnyStatePlaying<wbr>()<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerLayer/E0044B7C">IsPlayingClip<wbr>(AnimationClip)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/D9710C19">MoveTowards<wbr>(float, <wbr>float, <wbr>float)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/057FFBCF">OnAddChild<wbr>(IList<wbr>&lt;<wbr>Animancer<wbr>State&gt;<wbr>, <wbr>AnimancerState)<wbr></a></li>
@@ -222,7 +225,7 @@
     Starts fading in the 'state' from the start over the course of the 'fadeDuration' while fading out all
     others in this layer. Returns the 'state'.
     <p></p>
-    If the 'state' isn't currently at 0 <code class="cs">AnimancerState.Weight</code>, this method will actually fade it
+    If the 'state' isn't currently at 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will actually fade it
     to 0 along with the others and create and return a new state with the same clip to fade to 1. This ensures
     that calling this method will always fade out from all current states and fade in from the start of the
     desired animation. States created for this purpose are cached so they can be reused in the future.
@@ -230,7 +233,7 @@
     Calling this method repeatedly on subsequent frames will probably have undesirable effects; you most likely
     want to use <code class="cs">Animancer.AnimancerLayer.CrossFade(Animancer.AnimancerState,System.Single)</code> instead.
     <p></p>
-    If this layer currently has 0 <code class="cs">Weight</code>, this method will instead start fading in the layer
+    If this layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will instead start fading in the layer
     itself and simply <code class="cs">Animancer.AnimancerLayer.Play(Animancer.AnimancerState)</code> the 'state'.
     <p></p>
     Animancer Lite only allows the default 'fadeDuration' (0.3 seconds) in a runtime build.

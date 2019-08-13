@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -81,7 +81,7 @@
 <p><a href="#Syntax">Syntax</a></p>
 <p><a href="#TypeParameters">Type Parameters</a></p>
 <p><a href="#Constructors">Constructors</a></p>
-<p><a href="#fields">Fields</a></p>
+<p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -150,6 +150,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -159,7 +160,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -182,7 +183,7 @@
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[Editor-Only] Draws the inspector GUI for an <code class="cs">Animancer.AnimancerState</code>.</div>
+	<div class="lead">[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.AnimancerState</code>.</div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">
@@ -198,7 +199,7 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>								
 									</ul>
 								</dd>
 							
@@ -206,6 +207,7 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
+											<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer</a><wbr>&lt;<a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1#typeparam-T">T</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
@@ -222,9 +224,10 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["Object"]
-	Type-.-&gt;Interface0["IAnimancerStateDrawer"]
-	click Interface0 "/animancer/api/Animancer.Editor/IAnimancerStateDrawer"
+	Type--&gt;Base0["AnimancerNodeDrawer&lt;T&gt;"]
+	Base0--&gt;Base1["Object"]
+	Type-.-&gt;Interface0["IAnimancerNodeDrawer"]
+	click Interface0 "/animancer/api/Animancer.Editor/IAnimancerNodeDrawer"
 	Type["AnimancerStateDrawer&lt;T&gt;"]
 class Type type-node
 	Derived0["ParametizedAnimancerStateDrawer&lt;T&gt;"]--&gt;Type
@@ -239,7 +242,8 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public class AnimancerStateDrawer&lt;T&gt; : IAnimancerStateDrawer where T : AnimancerState</code></pre>
+	<pre><code>public class AnimancerStateDrawer&lt;T&gt; : AnimancerNodeDrawer&lt;T&gt;, IAnimancerNodeDrawer 
+    where T : AnimancerState</code></pre>
 
 
 
@@ -277,7 +281,7 @@ class Type type-node
 							<tbody><tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/C871B274">AnimancerStateDrawer<wbr>(T)<wbr></a></td>
 									<td>
-    Constructs a new <code class="cs">Animancer.Editor.AnimancerStateDrawer`1</code> to manage the inspector GUI for the 'state'.
+    Constructs a new <code class="cs">Animancer.Editor.AnimancerStateDrawer`1</code> to manage the Inspector GUI for the 'target'.
     </td>
 							</tr>
 					</tbody></table>
@@ -286,39 +290,43 @@ class Type type-node
 		
 
 
-			<h1 id="fields">Fields</h1>
+
+			<h1 id="Properties">Properties</h1>
 			<div class="box">
 				<div class="box-body no-padding table-responsive">
 					<table class="table table-striped table-hover three-cols">
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Constant Value</th>
+								<th>Value</th>
 								<th>Summary</th>
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/029E0951">DetailsPrefix</a></td>
-								<td>Details/</td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/99AADBD3">DisplayLength</a></td>
+								<td>float</td>
 								<td>
-									<div>
-    The menu label prefix used for details about the target state.
-    </div>
-											<div><small><em>static</em></small></div>
+									<div>Returns the <code class="cs">Animancer.AnimancerState.Length</code>.</div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/8E2FB714">State</a></td>
-								<td></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/6AE77F0F">DisplayTime</a></td>
+								<td>float</td>
 								<td>
-									<div>The state being managed.</div>
+									<div>Returns the <code class="cs">Animancer.AnimancerState.Time</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/F392182F">RegionStyle</a></td>
+								<td>GUIStyle</td>
+								<td>
+									<div>The <code class="cs">UnityEngine.GUIStyle</code> used for the area encompassing this drawer. Null.</div>
 								</td>
 							</tr>
 					</tbody></table>
 				</div>
 			</div>
 		
-
 
 			<h1 id="Methods">Methods</h1>
 			<div class="box">
@@ -342,16 +350,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/12826B9D">CheckContextMenu<wbr>(Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Checks if the current event is a context menu click within the 'clickArea' and opens a context menu with various
-    functions for the <code class="cs">Animancer.Editor.AnimancerStateDrawer`1.State</code>.
-    </div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/00B6AE88">DoDetailsGUI<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -366,31 +364,33 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/26FD42F9">DoGUI<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the details and controls for the target <code class="cs">Animancer.Editor.AnimancerStateDrawer`1.State</code> in the inspector.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/D3DBE6DD">DoLabelGUI<wbr>(Rect, <wbr>string)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/25BCD11B">DoLabelGUI<wbr>(Rect, <wbr>string)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>
     Draws the state's main label: an <code class="cs">UnityEngine.Object</code> field if it has a
     <code class="cs">Animancer.AnimancerState.MainObject</code>, otherwise just a simple text label.
     <p></p>
-    Also handles Ctrl + Click on the label to CrossFade the animation and shows a bar to indicate its progress.
+    Also shows a bar to indicate its progress.
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/E5C8C8A0">DoPlayingDetailsGUI<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/6B61A32D">PopulateContextMenu<wbr>(GenericMenu)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>
-    Draws controls for <code class="cs">Animancer.AnimancerState.IsPlaying</code>, <code class="cs">Animancer.AnimancerState.Speed</code>, and
-    <code class="cs">AnimancerState.Weight</code>.
+    Checks if the current event is a context menu click within the 'clickArea' and opens a context menu with various
+    functions for the <code class="cs">Animancer.Editor.AnimancerNodeDrawer`1.Target</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1/521E3481">SetTime<wbr>(bool, <wbr>float)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Sets the <code class="cs">Animancer.AnimancerState.Time</code> or <code class="cs">Animancer.AnimancerState.NormalizedTime</code>.
     </div>
 								</td>
 							</tr>

@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -161,16 +161,18 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/EventfulAnimancerComponent">Eventful<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FloatControllerState">FloatControllerState</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/PixelPerfectPositioning">Pixel<wbr>Perfect<wbr>Positioning</a></li>
+				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Vector3ControllerState">Vector3<wbr>Controller<wbr>State</a></li>
 			<li class="header">Interface Types</li>
@@ -180,6 +182,7 @@
 				<li><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></li>
 				<li><a href="/animancer/api/Animancer/IEarlyUpdate">IEarlyUpdate</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
+				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 			<li class="header">Struct Types</li>
 				<li class="selected"><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 
@@ -246,25 +249,21 @@ class Type type-node
 
 	<h1 id="Examples">Examples</h1>
 	<div>
-    <p>To set up a receiver for an Animation Event with the Function Name "Event":</p>
-    <pre><code class="cs">/// &lt;summary&gt;A callback for Animation Events with the function name "Event".&lt;/summary&gt;
+    To set up a receiver for an Animation Event with the Function Name "Event":
+    <p></p><pre><code class="cs">/// &lt;summary&gt;A callback for Animation Events with the Function Name "Event".&lt;/summary&gt;
 public AnimationEventReceiver onEvent;
-
-/// &lt;summary&gt;Constructs a new &lt;see cref="MyClass"&gt;.&lt;/summary&gt;
-public MyClass()
-{
-    // This is optional and will automatically be compiled out of runtime builds.
-    // It allows the receiver to perform additional safety checks.
-    onEvent.SetFunctionName("Event");
-}
 
 /// &lt;summary&gt;Called by Animation Events.&lt;/summary&gt;
 private void Event(AnimationEvent animationEvent)
 {
+    // This is optional and will automatically be compiled out of runtime builds.
+    // It allows the receiver to perform additional safety checks.
+    onEvent.SetFunctionName("Event");
+    
     onEvent.HandleEvent(animationEvent);
 }</code></pre>
-    <p>Then to register a callback to that receiver:</p>
-    <pre><code class="cs">var state = animancer.Play(clip);
+    Then to register a callback to that receiver:
+    <p></p><pre><code class="cs">var state = animancer.Play(clip);
 onEvent.Set(state, (animationEvent) =&gt;
 {
     ...
@@ -390,9 +389,9 @@ onEvent.Set(state, (animationEvent) =&gt;
 								<td>void</td>
 								<td>
 									<div>[Editor-Conditional]
-    Sets the <code class="cs">Animancer.AnimationEventReceiver.FunctionName</code> to allow <code class="cs">Animancer.AnimationEventReceiver.Set(Animancer.AnimancerState,System.Action{UnityEngine.AnimationEvent})</code> to perform additional safety checks to
-    ensure that the <code class="cs">Animancer.AnimancerState.Clip</code> actually has an event with the expected 'name' and also
-    to allow <code class="cs">Animancer.AnimationEventReceiver.HandleEvent(UnityEngine.AnimationEvent)</code> to verify that any events it is given have that 'name' as well.
+    Sets the <code class="cs">Animancer.AnimationEventReceiver.FunctionName</code> so <code class="cs">Animancer.AnimationEventReceiver.Set(Animancer.AnimancerState,System.Action{UnityEngine.AnimationEvent})</code> can perform additional safety checks to ensure
+    that the <code class="cs">Animancer.AnimancerState.Clip</code> actually has an event with the expected 'name' and also to allow
+    <code class="cs">Animancer.AnimationEventReceiver.HandleEvent(UnityEngine.AnimationEvent)</code> to verify that any events it is given have that 'name' as well.
     </div>
 								</td>
 							</tr>

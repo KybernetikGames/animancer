@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -148,6 +148,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -157,7 +158,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -181,7 +182,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Editor-Only]
-    A custom inspector for components with an <code class="cs">Animancer.AnimancerPlayable</code>.
+    A custom Inspector for components with an <code class="cs">Animancer.AnimancerPlayable</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -278,7 +279,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Draws the rest of the inspector fields after the Animator field.
+    Draws the rest of the Inspector fields after the Animator field.
     </div>
 								</td>
 							</tr>
@@ -287,8 +288,10 @@ class Type type-node
 								<td>bool</td>
 								<td>
 									<div>[Editor-Only]
-    Draws any custom GUI for the 'property'. The return value indicates whether the GUI should replace the
-    regular call to <code class="cs">UnityEditor.EditorGUILayout.PropertyField(UnityEditor.SerializedProperty,UnityEngine.GUILayoutOption[])</code> or not.
+    Draws any custom GUI for the 'property'.
+    The return value indicates whether the GUI should replace the regular call to
+    <code class="cs">UnityEditor.EditorGUILayout.PropertyField(UnityEditor.SerializedProperty,UnityEngine.GUIContent,System.Boolean,UnityEngine.GUILayoutOption[])</code> or
+    not. True = GUI was drawn, so don't draw the regular GUI. False = Draw the regular GUI.
     </div>
 								</td>
 							</tr>
@@ -324,7 +327,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Called by the Unity editor to draw the custom inspector GUI elements.
+    Called by the Unity editor to draw the custom Inspector GUI elements.
     </div>
 								</td>
 							</tr>
@@ -334,7 +337,7 @@ class Type type-node
 								<td>
 									<div>
     If we have only one object selected and are in Play Mode, we need to constantly repaint to keep the
-    inspector up to date with the latest details.
+    Inspector up to date with the latest details.
     </div>
 								</td>
 							</tr>

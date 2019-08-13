@@ -110,7 +110,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance-benchmarks">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
 
                     </ul>
                 </li>
@@ -345,7 +345,7 @@ using UnityEngine;
 public sealed class AttackState : CreatureState
 {
     [Serializable]
-    public class AttackClip : ClipState.Serializable
+    public class AttackClip : <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a>
     {
         [SerializeField]
         [Tooltip("The normalized time when this attack will begin transitioning back to idle")]
@@ -358,7 +358,7 @@ public sealed class AttackState : CreatureState
         }
 
         [SerializeField]
-        private AttackTrail _Trail;
+        private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a> _Trail;
 
         public override void Apply(AnimancerState state)
         {
@@ -368,8 +368,8 @@ public sealed class AttackState : CreatureState
     }
 
     [SerializeField] private float _TurnSpeed = 400;
-    [SerializeField] private RandomAudioPlayer _WeaponAudio;
-    [SerializeField] private RandomAudioPlayer _EmoteAudio;
+    [SerializeField] private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _WeaponAudio;
+    [SerializeField] private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteAudio;
     [SerializeField] private AttackClip[] _Animations;
 
     private int _AttackIndex = int.MaxValue;
@@ -396,7 +396,7 @@ public sealed class AttackState : CreatureState
         Animancer.Transition(_Attack);
         _WeaponAudio.PlayRandomClip();
         _EmoteAudio.PlayRandomClip();
-        Creature.ForwardSpeed = 0;
+        <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
     }
 
     public override bool FullMovementControl { get { return false; } }
@@ -416,8 +416,9 @@ public sealed class AttackState : CreatureState
 }
 </code></pre>
 <p></p></details><p></p>
+<p>Well, not quite <em>all</em> the logic:</p>
 <h1 id="buffered-input">Buffered Input</h1>
-<p>Well, not quite <em>all</em> the logic. The initial input check is handled by the <code>KeyboardAndMouseBrain</code> script.</p>
+<p>The initial input check is handled by the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/KeyboardAndMouseBrain">KeyboardAndMouseBrain</a></code> script.</p>
 <p>It starts with a reference to the <em>Attack</em> state which is assigned in the Inspector.</p>
 <pre><code class="language-cs">[SerializeField] private CreatureState _Attack;
 </code></pre>
@@ -456,9 +457,9 @@ private void Awake()
 </code></pre>
 <p>Using the same 0.5 second window for every attack gives much more consistent gameplay where the player can get a feel for when they will need to press the button rather than arbitrarily varying it for every attack.</p>
 <h1 id="attack-details">Attack Details</h1>
-<p>Now that we've taken care of getting into the <code>AttackState</code>, we want to make an array of <code>AnimationClip</code>s with some additional details such as transition timings. This is what <a href="../../../../manual/state-serializables">State Serializables</a> like <code>ClipState.Serializable</code> are good for, but we want a few more details so we declare a class that inherits from it:</p>
+<p>Now that we've taken care of getting into the <code>AttackState</code>, we want to make an array of <code>AnimationClip</code>s with some additional details such as transition timings. This is what <a href="../../../../manual/state-serializables">State Serializables</a> like <code><a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a></code> are good for, but we want a few more details so we declare a class that inherits from it:</p>
 <pre><code class="language-cs">[Serializable]
-public class AttackClip : ClipState.Serializable
+public class AttackClip : <a href="/animancer/api/Animancer/Serializable">ClipState.Serializable</a>
 {
 </code></pre>
 <p>The first thing we want is a value to determine when we want the animation to end:</p>
@@ -472,9 +473,9 @@ public class AttackClip : ClipState.Serializable
         get { return _EndNormalizedTime; }
     }
 </code></pre>
-<p>We also want an <code>AttackTrail</code>, which is the visual light trail effect that appears when swinging the weapon</p>
+<p>We also want an <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a></code>, which is the visual light trail effect that appears when swinging the weapon</p>
 <pre><code class="language-cs">    [SerializeField]
-    private AttackTrail _Trail;
+    private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a> _Trail;
 </code></pre>
 <p>Rather than exposing it publicly for the <code>AttackState</code> to activate when it plays this attack, we can override the <code>Apply</code> method to handle that responsibility internally:</p>
 <pre><code class="language-cs">    public override void Apply(AnimancerState state)
@@ -485,21 +486,23 @@ public class AttackClip : ClipState.Serializable
 }
 </code></pre>
 <p>If we wanted the ability to tweak the speed of the attack animation, we would also need to pass that speed onto the trail so it gets shown correctly in relation to the character.</p>
-<p></p><details><summary>The <code>AttackTrail</code> script is a cleaned up copy of the <code>TimeEffect</code> script used by the original character (renamed because the original name was misleading, though there might still be a better possibility):</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a></code> script is a cleaned up copy of the <code>TimeEffect</code> script used by the original character (renamed because the original name was misleading, though there might still be a better possibility):</summary><p>
 </p><pre><code class="language-cs">using System.Collections;
 using UnityEngine;
 
-public sealed class AttackTrail : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a> : MonoBehaviour
 {
     [SerializeField] private Light _Light;
     [SerializeField] private Animation _Animation;
 
+#if UNITY_EDITOR
     private void Reset()
     {
         _Light = Editor.AnimancerEditorUtilities.GetComponentInHierarchy&lt;Light&gt;(gameObject);
         _Animation = Editor.AnimancerEditorUtilities.GetComponentInHierarchy&lt;Animation&gt;(gameObject);
         gameObject.SetActive(false);
     }
+#endif
 
     public void Activate()
     {
@@ -524,8 +527,8 @@ public sealed class AttackTrail : MonoBehaviour
 <h1 id="fields">Fields</h1>
 <p>Now that we have made the <code>AttackClip</code> class to encapsulate the details we want, we can make some serialized fields to show in the Inspector:</p>
 <pre><code class="language-cs">[SerializeField] private float _TurnSpeed = 400;
-[SerializeField] private RandomAudioPlayer _WeaponAudio;
-[SerializeField] private RandomAudioPlayer _EmoteAudio;
+[SerializeField] private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _WeaponAudio;
+[SerializeField] private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteAudio;
 [SerializeField] private AttackClip[] _Animations;
 </code></pre>
 <p>Logically, the <code>_Animations</code> array should probably be first because it gets used first and is most important, however putting the unique fields first instead makes the Inspector a bit easier to read.</p>
@@ -560,7 +563,7 @@ private AttackClip _Attack;
     Animancer.Transition(_Attack);
     _WeaponAudio.PlayRandomClip();
     _EmoteAudio.PlayRandomClip();
-    Creature.ForwardSpeed = 0;
+    <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
 }
 </code></pre>
 <h1 id="updates">Updates</h1>

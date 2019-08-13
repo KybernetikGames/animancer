@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -150,6 +150,7 @@
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor">Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerLayerDrawer">AnimancerLayerDrawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimancerStateSerializableDrawer">Animancer<wbr>State<wbr>Serializable<wbr>Drawer</a></li>
@@ -159,7 +160,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">Scriptable<wbr>Object<wbr>Editor</a></li>
 			<li class="header">Interface Types</li>
-				<li><a href="/animancer/api/Animancer.Editor/IAnimancerStateDrawer">I<wbr>Animancer<wbr>State<wbr>Drawer</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></li>
 
@@ -183,7 +184,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Editor-Only]
-    A custom inspector for <code class="cs">Animancer.AnimancerComponent</code>s.
+    A custom Inspector for <code class="cs">Animancer.AnimancerComponent</code>s.
     </div>
 
 		<div class="panel panel-default">
@@ -277,14 +278,6 @@ public class AnimancerComponentEditor : AnimancerPlayableEditor</code></pre>
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor/B5D07FE6">DeveloperEmail</a></td>
-								<td>AnimancerUnityPlugin@gmail.com</td>
-								<td>
-									<div>The email address which handles support for Animancer.</div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor/903FDAEF">MenuItemPrefix</a></td>
 								<td>CONTEXT/AnimancerComponent/</td>
 								<td>
@@ -345,7 +338,7 @@ public class AnimancerComponentEditor : AnimancerPlayableEditor</code></pre>
 								<td>void</td>
 								<td>
 									<div>
-    Draws the rest of the inspector fields after the Animator field.
+    Draws the rest of the Inspector fields after the Animator field.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></em></small></div>
 								</td>
@@ -355,8 +348,10 @@ public class AnimancerComponentEditor : AnimancerPlayableEditor</code></pre>
 								<td>bool</td>
 								<td>
 									<div>[Editor-Only]
-    Draws any custom GUI for the 'property'. The return value indicates whether the GUI should replace the
-    regular call to <code class="cs">UnityEditor.EditorGUILayout.PropertyField(UnityEditor.SerializedProperty,UnityEngine.GUILayoutOption[])</code> or not.
+    Draws any custom GUI for the 'property'.
+    The return value indicates whether the GUI should replace the regular call to
+    <code class="cs">UnityEditor.EditorGUILayout.PropertyField(UnityEditor.SerializedProperty,UnityEngine.GUIContent,System.Boolean,UnityEngine.GUILayoutOption[])</code> or
+    not. True = GUI was drawn, so don't draw the regular GUI. False = Draw the regular GUI.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></em></small></div>
 								</td>
@@ -369,14 +364,6 @@ public class AnimancerComponentEditor : AnimancerPlayableEditor</code></pre>
     Draws the state of each animation that is playing or has been played.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerComponentEditor/668A14A1">EmailTheDeveloper<wbr>()<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Opens an email to "AnimancerUnityPlugin@gmail.com" and copies that string to the clipboard.</div>
-											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -404,7 +391,7 @@ public class AnimancerComponentEditor : AnimancerPlayableEditor</code></pre>
 								<td>void</td>
 								<td>
 									<div>
-    Called by the Unity editor to draw the custom inspector GUI elements.
+    Called by the Unity editor to draw the custom Inspector GUI elements.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></em></small></div>
 								</td>
@@ -415,7 +402,7 @@ public class AnimancerComponentEditor : AnimancerPlayableEditor</code></pre>
 								<td>
 									<div>
     If we have only one object selected and are in Play Mode, we need to constantly repaint to keep the
-    inspector up to date with the latest details.
+    Inspector up to date with the latest details.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/AnimancerPlayableEditor">Animancer<wbr>Playable<wbr>Editor</a></em></small></div>
 								</td>

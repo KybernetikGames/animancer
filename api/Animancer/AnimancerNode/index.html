@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="http://u3d.as/19Xd"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
@@ -162,16 +162,18 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/EventfulAnimancerComponent">Eventful<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FloatControllerState">FloatControllerState</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>
 				<li><a href="/animancer/api/Animancer/PixelPerfectPositioning">Pixel<wbr>Perfect<wbr>Positioning</a></li>
+				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Vector3ControllerState">Vector3<wbr>Controller<wbr>State</a></li>
 			<li class="header">Interface Types</li>
@@ -181,6 +183,7 @@
 				<li><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></li>
 				<li><a href="/animancer/api/Animancer/IEarlyUpdate">IEarlyUpdate</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
+				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 
@@ -204,7 +207,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    Base class for <code class="cs">Animancer</code> objects with a <code class="cs">Animancer.AnimancerNode.Weight</code> the can fade over time.
+    Base class for <code class="cs">UnityEngine.Playables.Playable</code> wrapper objects in <code class="cs">Animancer</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -223,6 +226,7 @@
 									<ul class="list-unstyled">
 											<li>IEnumerable<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
 											<li>IEnumerator</li>								
+											<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
 									</ul>
 								</dd>
 							
@@ -236,8 +240,8 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></li>								
 											<li><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></li>								
+											<li><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></li>								
 									</ul>
 								</dd>			
 							
@@ -249,12 +253,14 @@
 	Type--&gt;Base0["Object"]
 	Type-.-&gt;Interface0["IEnumerable&lt;AnimancerState&gt;"]
 	Type-.-&gt;Interface1["IEnumerator"]
+	Type-.-&gt;Interface2["IPlayableWrapper"]
+	click Interface2 "/animancer/api/Animancer/IPlayableWrapper"
 	Type["AnimancerNode"]
 class Type type-node
-	Derived0["AnimancerLayer"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/AnimancerLayer"
-	Derived1["AnimancerState"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/AnimancerState"
+	Derived0["AnimancerState"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/AnimancerState"
+	Derived1["AnimancerLayer"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/AnimancerLayer"
 
 						</div>
 					</div>
@@ -263,7 +269,7 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public abstract class AnimancerNode : IEnumerable&lt;AnimancerState&gt;, IEnumerator</code></pre>
+	<pre><code>public abstract class AnimancerNode : IEnumerable&lt;AnimancerState&gt;, IEnumerator, IPlayableWrapper</code></pre>
 
 
 
@@ -333,10 +339,46 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/AACBC52A">EffectiveSpeed</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.AnimancerNode.Speed</code> of this node multiplied by the <code class="cs">Animancer.AnimancerNode.Speed</code> of each of its parents down the
+    hierarchy (including the root <code class="cs">Animancer.AnimancerPlayable</code>) to determine the actual speed its output is
+    being played at.
+    </div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">FadeSpeed</a></td>
 								<td>float</td>
 								<td>
 									<div>The speed at which this layer is fading towards the <code class="cs">Animancer.AnimancerNode.TargetWeight</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/FFE6503F">IsActive</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Returns true if this state is playing and is at or fading towards a non-zero <code class="cs">Animancer.AnimancerNode.Weight</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/59F38110">IsPlaying</a></td>
+								<td>bool</td>
+								<td>
+									<div>Is the <code class="cs">Animancer.AnimancerState.Time</code> automatically advancing?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/5788DE65">IsStopped</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Returns true if this state is not playing and is at 0 <code class="cs">Animancer.AnimancerNode.Weight</code>.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -352,7 +394,9 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerNode/D16FF160">Keep<wbr>Children<wbr>Connected</a></td>
 								<td>bool</td>
 								<td>
-									<div>Indicates whether child playables should stay connected to this mixer at all times.</div>
+									<div>
+    Indicates whether child playables should stay connected to this mixer at all times (default false).
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -364,21 +408,9 @@ class Type type-node
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/9A86BE5B">Parent</a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></td>
+								<td><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></td>
 								<td>
-									<div>
-    The node which receives the output of this node.
-    <p></p>
-    If this is an <code class="cs">Animancer.AnimancerLayer</code> connected to the root <code class="cs">Animancer.AnimancerPlayable</code> it will
-    not have a <code class="cs">Animancer.AnimancerNode.Parent</code>.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/0591A44D">ParentPlayable</a></td>
-								<td>Playable</td>
-								<td>
-									<div>The parent's <code class="cs">UnityEngine.Playables.Playable</code>.</div>
+									<div>The object which receives the output of this node.</div>
 								</td>
 							</tr>
 							<tr>
@@ -386,17 +418,25 @@ class Type type-node
 								<td>int</td>
 								<td>
 									<div>
-    The index of the port this node is connected to on the parent's <code class="cs">IAnimationMixer.Playable</code>.
+    The index of the port this node is connected to on the parent's <code class="cs">UnityEngine.Playables.Playable</code>.
     <p></p>
     A negative value indicates that it is not assigned to a port.
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/7B16D2B9">Stay<wbr>Connected<wbr>When<wbr>Weightless</a></td>
-								<td>bool</td>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></td>
+								<td>float</td>
 								<td>
-									<div>The parent's <code class="cs">Animancer.AnimancerNode.KeepChildrenConnected</code>.</div>
+									<div>
+     How fast the <code class="cs">UnityEngine.Time</code> is advancing every frame.
+     <p></p>
+     1 is the normal speed.
+     <p></p>
+     A negative value will play the animation backwards.
+     <p></p>
+     Animancer Lite does not allow this value to be changed in a runtime build.
+     </div>
 								</td>
 							</tr>
 							<tr>
@@ -442,7 +482,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Connects the <code class="cs">Animancer.AnimancerNode._Playable</code> to the parent <code class="cs">IAnimationMixer.Playable</code>.
+    Connects the <code class="cs">Animancer.AnimancerNode._Playable</code> to the <code class="cs">Animancer.AnimancerNode.Parent</code>.
     </div>
 								</td>
 							</tr>
@@ -451,7 +491,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Disconnects the <code class="cs">Animancer.AnimancerNode._Playable</code> from the parent <code class="cs">IAnimationMixer.Playable</code>.
+    Disconnects the <code class="cs">Animancer.AnimancerNode._Playable</code> from the <code class="cs">Animancer.AnimancerNode.Parent</code>.
     </div>
 								</td>
 							</tr>
@@ -537,10 +577,10 @@ class Type type-node
 								<td>
 									<div>
     Updates the <code class="cs">Animancer.AnimancerNode.Weight</code> for fading, applies it to this state's port on the parent mixer, and plays
-    or pauses the <code class="cs">Animancer.AnimancerNode._Playable</code> if its state is dirty.
+    or pauses the <code class="cs">UnityEngine.Playables.Playable</code> if its state is dirty.
     <p></p>
-    If the root <code class="cs">AnimancerPlayable.DisconnectWeightlessPlayables</code> is set to true, this method will
-    also connect/disconnect its state from the animation mixer in the playable graph.
+    If the <code class="cs">Animancer.AnimancerNode.Parent</code>'s <code class="cs">Animancer.AnimancerNode.KeepChildrenConnected</code> is set to false, this method will
+    also connect/disconnect this node from the <code class="cs">Animancer.AnimancerNode.Parent</code> in the playable graph.
     </div>
 								</td>
 							</tr>
@@ -579,6 +619,16 @@ class Type type-node
 								<td>
 									<div>
     Returns the duration of the 'node's current fade (if any), otherwise returns the 'defaultDuration'.
+    </div>
+										<div><small><em>From <a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D7CCC2A6">IsValid<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Returns true if the 'node' is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.
     </div>
 										<div><small><em>From <a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></em></small></div>
 								</td>
