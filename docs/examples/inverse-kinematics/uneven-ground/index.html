@@ -104,7 +104,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
                 </li>
@@ -448,20 +448,20 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
         if (weight == 0)
             return;
 
+        var rotation = _Animancer.Animator.GetIKRotation(goal);
+        var localUp = rotation * Vector3.up;
+
         var position = footTransform.position;
-        position.y = transform.position.y + _RaycastOriginY;
+        position += localUp * _RaycastOriginY;
 
         var distance = _RaycastOriginY - _RaycastEndY;
 
         RaycastHit hit;
-        if (Physics.Raycast(position, Vector3.down, out hit, distance))
+        if (Physics.Raycast(position, -localUp, out hit, distance))
         {
             position = hit.point;
-            position.y += footBottomHeight;
+            position += localUp * footBottomHeight;
             _Animancer.Animator.SetIKPosition(goal, position);
-
-            var rotation = _Animancer.Animator.GetIKRotation(goal);
-            var localUp = rotation * Vector3.up;
 
             var rotAxis = Vector3.Cross(localUp, hit.normal);
             var angle = Vector3.Angle(localUp, hit.normal);
@@ -471,8 +471,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
         }
         else
         {
-            position.y -= distance;
-            position.y += footBottomHeight;
+            position += localUp * (footBottomHeight - distance);
             _Animancer.Animator.SetIKPosition(goal, position);
         }
     }
@@ -541,8 +540,11 @@ private void UpdateFootIK(AvatarIKGoal goal, <a href="/animancer/api/Animancer/E
     if (weight == 0)
         return;
 
+    var rotation = _Animancer.Animator.GetIKRotation(goal);
+    var localUp = rotation * Vector3.up;
+
     var position = footTransform.position;
-    position.y = transform.position.y + _RaycastOriginY;
+    position += localUp * _RaycastOriginY;
 
     var distance = _RaycastOriginY - _RaycastEndY;
 </code></pre>
@@ -551,11 +553,8 @@ private void UpdateFootIK(AvatarIKGoal goal, <a href="/animancer/api/Animancer/E
 if (Physics.Raycast(position, Vector3.down, out hit, distance))
 {
     position = hit.point;
-    position.y += footBottomHeight;
+    position += localUp * footBottomHeight;
     _Animancer.Animator.SetIKPosition(goal, position);
-
-    var rotation = _Animancer.Animator.GetIKRotation(goal);
-    var localUp = rotation * Vector3.up;
 
     var rotAxis = Vector3.Cross(localUp, hit.normal);
     var angle = Vector3.Angle(localUp, hit.normal);
@@ -567,8 +566,7 @@ if (Physics.Raycast(position, Vector3.down, out hit, distance))
 <p>Otherwise if nothing was hit, we simply stretch the leg out to the end of the ray:</p>
 <pre><code class="language-cs">else
 {
-    position.y -= distance;
-    position.y += footBottomHeight;
+    position += localUp * (footBottomHeight - distance);
     _Animancer.Animator.SetIKPosition(goal, position);
 }
 </code></pre>
@@ -619,31 +617,34 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
         if (weight == 0)
             return;
 
+        // Get the local up direction of the foot.
+        var rotation = _Animancer.Animator.GetIKRotation(goal);
+        var localUp = rotation * Vector3.up;
+
         var position = footTransform.position;
-        position.y = transform.position.y + _RaycastOriginY;
+        position += localUp * _RaycastOriginY;
 
         var distance = _RaycastOriginY - _RaycastEndY;
 
         RaycastHit hit;
-        if (Physics.Raycast(position, Vector3.down, out hit, distance))
+        if (Physics.Raycast(position, -localUp, out hit, distance))
         {
+            // Use the hit point as the desired position.
             position = hit.point;
-            position.y += footBottomHeight;
+            position += localUp * footBottomHeight;
             _Animancer.Animator.SetIKPosition(goal, position);
 
-            var rotation = _Animancer.Animator.GetIKRotation(goal);
-            var localUp = rotation * Vector3.up;
-
+            // Use the hit normal to calculate the desired rotation.
             var rotAxis = Vector3.Cross(localUp, hit.normal);
             var angle = Vector3.Angle(localUp, hit.normal);
             rotation = Quaternion.AngleAxis(angle, rotAxis) * rotation;
 
             _Animancer.Animator.SetIKRotation(goal, rotation);
         }
+        // Otherwise simply stretch the leg out to the end of the ray.
         else
         {
-            position.y -= distance;
-            position.y += footBottomHeight;
+            position += localUp * (footBottomHeight - distance);
             _Animancer.Animator.SetIKPosition(goal, position);
         }
     }

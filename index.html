@@ -148,11 +148,9 @@ h1
 <table>
 
     <tbody><tr><td>
-        <p><strong>Animancer</strong> is a powerful animation system for <a href="https://unity3d.com">Unity</a> which provides more control over your animations and solves many of the common <a href="docs/introduction/mecanim-vs-animancer/why-replace-mecanim">problems with Animator Controllers</a> by allowing scripts to directly reference AnimationClips and play them without any additional setup steps.</p>
+        <p><strong>Animancer</strong> is a powerful animation system for <a href="https://unity3d.com">Unity</a> which uses the Playables API to give you explicit control over each animation and solves many of the common <a href="docs/introduction/mecanim-vs-animancer/why-replace-mecanim">problems with Animator Controllers</a> by allowing scripts to directly play Animation Clips without any additional setup steps. It can replace Animator Controllers entirely or work alongside them on the same character.</p>
 
-        <p>It also supports a <a href="docs/examples/animator-controllers/hybrid">hybrid</a> approach utilising both Animator Controllers and direct references for different tasks. Or you can even mix <a href="docs/examples/animator-controllers/3d-game-kit">multiple Animator Controllers</a> on a single character. You get total freedom to structure each project to suit your needs.</p>
-
-        <a href="http://u3d.as/19Xd">Animancer Lite</a> allows you to try out all the <strong><a href="docs/introduction/feature-comparison">features</a></strong> for <strong>FREE</strong> while <a href="http://u3d.as/19Xbn">Animancer Pro</a> removes any restrictions and includes the full source code.
+        <a href="http://u3d.as/19Xd">Animancer Lite</a> allows you to try out all the <a href="docs/introduction/feature-comparison">Features</a> for <strong>FREE</strong>.
     </td></tr>
 
 
@@ -161,7 +159,7 @@ h1
         <td width="25%" class="tile"><a class="tile-link" href="docs"><span class="tile-link">Documentation</span><img src="images/tile-documentation.gif" width="100%"></a></td>
         <td width="25%" class="tile"><a class="tile-link" href="docs/examples"><span class="tile-link">Examples</span><img src="images/tile-examples.gif" width="100%"></a></td>
         <td width="25%" class="tile"><a class="tile-link" href="docs/introduction/mecanim-vs-animancer/performance"><span class="tile-link">Performance</span><img src="images/tile-performance.gif" width="100%"></a></td>
-        <td width="25%" class="tile"><a class="tile-link" href="docs/introduction/feature-comparison#compatability"><span class="tile-link">Compatability</span><img src="images/tile-compatability.png" width="100%"></a></td>
+        <td width="25%" class="tile"><a class="tile-link" href="api/Animancer/AnimancerComponent"><span class="tile-link">API</span><img src="images/tile-api.gif" width="100%"></a></td>
     </tr></tbody></table></td></tr>
 
 
@@ -194,7 +192,7 @@ public class PlayAnimation : MonoBehaviour
 
     <tr><td>
         <p><a href="docs/manual/playing-animations#waiting-for-animations"></a></p><h1><a href="docs/manual/playing-animations#waiting-for-animations"><i class="fa fa-history"></i> Easy Waiting</a></h1><p></p>
-        <p>Register an <code><a href="/animancer/api/Animancer/AnimancerState/4763F42D">AnimancerState.OnEnd</a></code> callback to be triggered when an animation finishes so you don't need to constantly check whether it is done.</p>
+        <p>Register a callback to be triggered when an animation finishes so you don't need to constantly check whether it is done.</p>
 <pre><code class="cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
     var state = animancer.Play(clip);
@@ -215,15 +213,15 @@ public class PlayAnimation : MonoBehaviour
 
     <tr><td>
         <p><a href="docs/manual/state-serializables"><img src="docs/manual/state-serializables/clipstate-serializablewithendevent.png" class="img-responsive img-right"></a></p><h1><a href="docs/manual/state-serializables"><i class="fa fa-cogs"></i> Simple Configuration</a></h1><p></p>
-        <p>Manage the details of your animations in the Inspector so they can be edited as part of the scene (or prefab) instead of hard coding them in your scripts. You can even extend the available data types or implement your own to define specific data for each animation as demonstrated in the <a href="docs/examples/basics/sequence-coroutine">Basics/Sequence Coroutine</a> example.</p>
+        <p>Manage the details of your animations in the Inspector so they can be edited as part of the scene or use scripts to control everything dynamically at runtime. You can even extend the available data types or implement your own to define specific data for each animation as demonstrated in the <a href="docs/examples/basics/sequence-coroutine">Basics/Sequence Coroutine</a> example.</p>
         Note that the ability to set a custom <code>Fade Duration</code>, <code>Speed</code>, or <code>Start Time</code> are <strong><a href="#pro-only">Pro-Only</a></strong> features. See <a href="#total-control">Total Control</a> for details.
     </td></tr>
 
 
 
     <tr><td>
-        <p><a href="docs/examples/directional-sprites/basic-movement"></a></p><h1><a href="docs/examples/directional-sprites/basic-movement"><i class="fa fa-puzzle-piece"></i> Flexible Structure</a></h1><p></p>
-        <p>Organise your animations using arrays, <code>ScriptableObject</code>s, or any other structure you can come up with to suit your needs. Directly reference the <code>AnimationClip</code>s you want to use instead of relying on magic strings, allowing your script's dependencies to be clearly visible in the Inspector so that debugging and refactoring are as easy as possible.</p>
+        <p><a href="docs/examples/directional-sprites/basic-movement"></a></p><h1><a href="docs/examples/directional-sprites/basic-movement"><i class="fa fa-share-alt"></i> Flexible Structure</a></h1><p></p>
+        <p>Organise your animations using arrays, <code>ScriptableObject</code>s, or any other structure you can come up with to suit your needs. Avoid <a href="docs/introduction/mecanim-vs-animancer/why-replace-mecanim#magic-strings">magic strings</a> and develop modular logic to streamline your debugging and refactoring processes.</p>
         <p>This allows you to define common structures like <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> which can be reused in a variety of situations as demonstrated in the <a href="docs/examples/directional-sprites">Directional Sprites</a> examples:</p>
         <a href="docs/examples/directional-sprites/basic-movement"><div style="display:flex">
             <div><img src="docs/examples/directional-sprites/basic-movement/mage.gif" class="img-responsive" style="max-height:205px"></div>
@@ -235,7 +233,7 @@ public class PlayAnimation : MonoBehaviour
 
 
     <tr><td>
-        <p><a href="docs/manual/inspector#animation-details"><img src="docs/manual/inspector/inspector-controls.gif" class="img-responsive img-right" style="max-height:250px"></a><a href="docs/manual/Inspector"></a></p><h1><a href="docs/manual/Inspector"><i class="fa fa-eye"></i> Live Inspector</a></h1><p></p>
+        <p><a href="docs/manual/inspector#animation-details"><img src="docs/manual/inspector/inspector-controls.gif" class="img-responsive img-right" style="max-height:250px"></a><a href="docs/manual/inspector"></a></p><h1><a href="docs/manual/inspector"><i class="fa fa-eye"></i> Live Inspector</a></h1><p></p>
         <p>View the current details of your animations in the Inspector with manual controls for debugging and testing.</p>
         <ul>
             <li>All fields can be edited in real-time.</li>
@@ -250,7 +248,7 @@ public class PlayAnimation : MonoBehaviour
     <tr><td>
         <div style="display:flex">
             <div><p></p><h1><a href="docs/manual/finite-state-machines"><i class="fa fa-sitemap"></i> Finite State Machines</a></h1><p></p>
-        Animancer doesn't force you to use a restrictive state machine system like Mecanim Animator Controllers. The <code>Animancer.FSM</code> is very flexible and entirely separate from the animation system. They work well together, but you can very easily modify it or use any other system you prefer. The <a href="docs/examples/state-machines">State Machines</a> examples demonstrate how to use it.</div>
+        Animancer doesn't force you to use a restrictive state machine system like Animator Controllers do. The <code>Animancer.FSM</code> is very flexible and entirely separate from the animation system. They work well together, but you can very easily modify it or use any other system you prefer. The <a href="docs/examples/state-machines">State Machines</a> examples demonstrate how to use it.</div>
             <div><a href="docs/examples/state-machines/more-brains"><img src="docs/examples/state-machines/more-brains/brain-transplant.gif" class="img-right" style="height:200px"></a></div>
             <div><a href="docs/examples/state-machines/platformer"><img src="docs/examples/state-machines/platformer/platformer.gif" class="img-right" style="height:200px"></a></div>
         </div>
@@ -259,23 +257,23 @@ public class PlayAnimation : MonoBehaviour
 
 
     <tr><td>
-        <p><a href="api/Animancer/AnimancerComponent"><img src="images/class-diagram.png" class="img-right" style="max-height:85px"></a></p><h1><a href="docs"><i class="fa fa-book"></i> Extensive Documentation</a></h1><p></p>
-        Comprehensive <a href="docs">user manual</a>, <a href="api/Animancer/AnimancerComponent">API documentation</a>, and <a href="docs/examples">examples</a>.
+        <p><a href="docs/introduction/mecanim-vs-animancer/performance"><img src="docs/introduction/mecanim-vs-animancer/performance/instantiate.png" class="img-right" style="max-height:115px"></a></p><h1><a href="docs/introduction/mecanim-vs-animancer/performance"><i class="fa fa-area-chart"></i> High Performance</a></h1><p></p>
+        In comparison to an Animator Controller, Animancer is notably faster at <a href="docs/introduction/mecanim-vs-animancer/performance#instantiation">Instantiation</a> and has a very slightly faster <a href="docs/introduction/mecanim-vs-animancer/performance#average-frame-rate">Avarage Frame Rate</a>, though the differences are usually small enough not to matter.
     </td></tr>
 
 
 
     <tr><td>
-        <p><a href="docs/examples/inverse-kinematics/puppet"><img src="images/inverse-kinematics.gif" class="img-right" style="max-height:310px"></a></p><h1><a href="docs/introduction/feature-comparison"><i class="fa fa-star"></i> Other Features</a></h1><p></p>
-        <p>Animancer also supports most of the non Animator Controller features of Unity's animation system:</p>
+        <p><a href="docs/examples/inverse-kinematics/puppet"><img src="images/inverse-kinematics.gif" class="img-right" style="max-height:340px"></a></p><h1><a href="docs/introduction/feature-comparison#compatability"><i class="fa fa-puzzle-piece"></i> Great Compatability</a></h1><p></p>
+        <p>Most systems developed for regular Animator Controllers should work with Animancer and it supports most of the other features of Unity's animation system:</p>
         <ul>
-            <li><a href="https://docs.unity3d.com/Manual/FBXImporter-Rig.html">Humanoid and generic rigs</a></li>
-            <li><a href="https://docs.unity3d.com/Manual/UsingHumanoidChars.html">Animation retargeting</a></li>
-            <li><a href="https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/player-and-enemy-animations">Sprite animations</a></li>
-            <li><a href="docs/examples/locomotion/root-motion">Root motion</a></li>
-            <li><a href="docs/manual/animation-events">Animation events</a></li>
-            <li><a href="docs/manual/inverse-kinematics">Inverse kinematics (IK)</a></li>
-            <li><a href="https://docs.unity3d.com/Manual/TargetMatching.html">Target matching</a></li>
+            <li><a href="https://docs.unity3d.com/Manual/UsingHumanoidChars.html">Humanoid Animation Retargeting</a></li>
+            <li><a href="https://docs.unity3d.com/Manual/FBXImporter-Rig.html">Generic Rigs</a></li>
+            <li><a href="https://unity3d.com/learn/tutorials/projects/2d-roguelike-tutorial/player-and-enemy-animations">Sprite Animations</a></li>
+            <li><a href="docs/examples/locomotion/root-motion">Root Motion</a></li>
+            <li><a href="docs/manual/animation-events">Animation Events</a></li>
+            <li><a href="docs/manual/inverse-kinematics">Inverse Kinematics (IK)</a></li>
+            <li><a href="https://docs.unity3d.com/Manual/TargetMatching.html">Target Matching</a></li>
         </ul>
     </td></tr>
 
@@ -284,7 +282,7 @@ public class PlayAnimation : MonoBehaviour
     <tr><td>
         <p></p><h1 id="pro-only"><a href="http://u3d.as/19Xb"><i class="fa fa-shopping-cart"></i> Animancer Pro Features</a></h1><p></p>
         <p>You can try out the following features in the Unity Editor with <a href="http://u3d.as/19Xd">Animancer Lite</a>, but you will need to purchase Animancer Pro to use them in a runtime build or view the Source Code. See the <a href="docs/introduction/feature-comparison">Feature Comparison</a> for the full list of differences.</p><p>
-        Also note that most people only leave a review of Animancer Pro but not Lite so if you are looking for other opinions you will find many more on that page.
+        Also note that most people only leave a review of the Pro version but not Lite so if you are looking for other opinions you will find many more on that page.
     </p></td></tr>
 
 
@@ -307,21 +305,22 @@ Animancer Lite allows you to get those values, but not set them.
 
     <tr><td>
         <p><a href="docs/examples/layers"><img src="docs/examples/layers/masked.gif" class="img-responsive img-right" style="max-height:250px"></a></p><h1><a href="docs/manual/blending/layers"><i class="fa fa-align-justify"></i> Animation Layers</a> &nbsp;&nbsp; <a href="#pro-only">[Pro-Only]</a></h1><p></p>
-        Manage multiple animations at the same time (generally on different body parts). Layers can either override or add to each other and you can fade them in and out just like individual animations. The <a href="docs/examples/layers">Layers</a> example demonstrates how to use them.
+        <p>Manage multiple animation sets at the same time (generally on different body parts). Layers can either override or add to each other and you can fade them in and out just like individual animations.</p>
+        The <a href="docs/examples/layers">Layers</a> example demonstrates how to use them.
     </td></tr>
 
 
 
     <tr><td>
-        <p><a href="docs/examples/locomotion/linear-blending"><img src="docs/examples/locomotion/linear-blending/blend-tree-inspector.png" class="img-responsive img-right"></a></p><h1><a href="docs/manual/animator-controllers"><i class="fa fa-map-signs"></i> Animator Controllers</a> &nbsp;&nbsp; <a href="#pro-only">[Pro-Only]</a></h1><p></p>
-        Animancer does not require the use of <code>AnimatorController</code> assets, but it does support them via the <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> class (and its children). This means that instead of putting everything in one massive <code>AnimatorController</code> like you would in Mecanim, you can use individual separate <code>AnimationClips</code> for most tasks and split your controllers up into manageable groups across several assets. The <a href="docs/examples/animator-controllers">Animator Controllers</a> examples demonstrate how to use them.
+        <a href="docs/examples/locomotion/linear-blending"><img src="docs/examples/locomotion/linear-blending/blend-tree-inspector.png" class="img-responsive img-right"></a><h1><a href="docs/manual/animator-controllers"><i class="fa fa-map-signs"></i> Animator Controllers</a> &nbsp;&nbsp; <a href="#pro-only">[Pro-Only]</a></h1><p></p>
+        Animancer does not require the use of Animator Controllers, but it does support a <a href="docs/examples/animator-controllers/hybrid">hybrid</a> approach which uses them alongside direct <code>AnimationClip</code> references for different tasks. You can even mix <a href="docs/examples/animator-controllers/3d-game-kit">multiple Animator Controllers</a> on a single character. You get total freedom to structure each project to suit your needs.
     </td></tr>
 
 
 
     <tr><td>
         <p><a href="docs/examples/locomotion/linear-blending"><img src="docs/examples/locomotion/linear-blending/mixer-inspector.png" class="img-responsive img-right"></a></p><h1><a href="docs/manual/blending/mixers"><i class="fa fa-code-fork"></i> Animation Mixers</a> &nbsp;&nbsp; <a href="#pro-only">[Pro-Only]</a></h1><p></p>
-        <p>Blend Trees automatically handle a lot of things for you such as timing walk animations so that they all put the character's foot down at the same time for better blending. Animation Mixers on the other hand give you full access to all sub-states so that you can control the finer details yourself.</p>
+        <p>Blend Trees automatically handle a lot of things for you such as timing walk animations so that they all put the character's foot down at the same time for better blending. Animation Mixers on the other hand can be created dynamically at runtime and give you full access to all sub-states so that you can control the finer details yourself.</p>
         The <a href="docs/examples/locomotion/linear-blending">Locomotion/Linear Blending</a> example goes into more detail about their differences.
     </td></tr>
 
@@ -336,13 +335,13 @@ Animancer Lite allows you to get those values, but not set them.
 
     <tr><td>
         <p><a href="docs/source"><img src="images/source-files.png" class="img-responsive img-right" style="max-height:170px"></a></p><h1><a href="docs/source"><i class="fa fa-code"></i> Source Code</a> &nbsp;&nbsp; <a href="#pro-only">[Pro-Only]</a></h1><p></p>
-        The full source code of Animancer is included as plain C# files with detailed comments so you can see all its internal workings, track down bugs, make any modifications you see fit, and avoid becoming dependant on the developer to fix issues (but feel free to <a href="https://forum.unity.com/threads/566452/">post in the Unity forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer">AnimancerUnityPlugin@gmail.com</a> if you need support).
+        The full source code of Animancer is included as plain C# files with detailed comments so you can see all its internal workings, track down bugs, make any modifications you see fit, and avoid becoming dependant on the developer to fix issues (but feel free to <a href="https://forum.unity.com/threads/566452">post in the Unity forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer">AnimancerUnityPlugin@gmail.com</a> if you need support).
     </td></tr>
 
 
 
     <tr><td>
-        Check out the <a href="docs">Documentation</a> and <a href="docs/examples">Examples</a> to get started.
+        Check out the <a href="docs">Documentation</a>, <a href="faq">FAQ</a>, and <a href="docs/examples">Examples</a> to get started.
     </td></tr>
 
 </tbody></table>                

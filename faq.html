@@ -98,7 +98,7 @@
 			<h1>Frequently Asked Questions</h1>
 		</section>
 	<section class="content">
-		<p></p><table class="table">
+		<table class="table">
   <thead><tr>
     <th>Question</th>
     <th>Answer</th>
@@ -146,7 +146,19 @@
     state.Speed = ...
     state.OnEnd = ...
 }</code></pre>
-<p>Speed and time control are demonstrated in the <a href="docs/examples/fine-control">Fine Control</a> examples.</p></details></td>
+<p>Speed and time control are demonstrated in the <a href="docs/examples/fine-control">Fine Control</a> examples.</p>
+<p>Those properties are not included as parameters in the <code>Play</code> and <code>CrossFade</code> methods because they already have multiple overloads with several default values and a call like <code>CrossFade(clip, 0.25f, 1, 0.5f, 0.5f)</code> would not be particularly clear about what each value does without close examination. But if you really wanted to, you could implement them using extension methods:</p>
+<pre><code class="cs">public static class AnimancerExtensions
+{
+    public static <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> Play(this <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer, AnimationClip clip, int layer, float time, float speed, System.Action onEnd)
+    {
+        var state = animancer.Play(clip, layer);
+        state.Time = time;
+        state.Speed = speed;
+        state.OnEnd = onEnd;
+        return state;
+    }
+}</code></pre></details></td>
   </tr>
   <tr>
     <td>Can I still use Animator Controllers?</td>

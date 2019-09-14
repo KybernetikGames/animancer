@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - ManualMixerState.ManualMixerState.Serializable&lt;TMixer&gt; Class</title>
+        <title>Animancer - API - AnimancerState.AnimancerState.Serializable&lt;TState&gt; Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -200,16 +200,16 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a>.</h3>
-	<h1>ManualMixerState<wbr>.Serializable<wbr>&lt;TMixer&gt;<wbr> <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>.</h3>
+	<h1>AnimancerState<wbr>.Serializable<wbr>&lt;TState&gt;<wbr> <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    Base class for serializable objects which can create a particular type of <code class="cs">Animancer.ManualMixerState</code>
-    when passed into <code class="cs">Animancer.AnimancerPlayable.Transition(Animancer.IAnimancerTransition,System.Int32)</code>.
+    Base class for serializable objects which can create a particular type of <code class="cs">Animancer.AnimancerState</code> when
+    passed into <code class="cs">Animancer.AnimancerPlayable.Transition(Animancer.IAnimancerTransition,System.Int32)</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -235,15 +235,15 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
-											<li><a href="/animancer/api/Animancer/Serializable_1">AnimancerState<wbr>.Serializable</a><wbr>&lt;<a href="/animancer/api/Animancer/Serializable_1#typeparam-TMixer">TMixer</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/Serializable_2">MixerState<wbr>.Serializable</a><wbr>&lt;<a href="/animancer/api/Animancer/Serializable_2#typeparam-TMixer">TMixer</a>, <wbr><a href="/animancer/api/Animancer/Serializable_2#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Serializable">ManualMixerState<wbr>.Serializable</a></li>								
+											<li><a href="/animancer/api/Animancer/Serializable_1">ManualMixerState<wbr>.Serializable</a><wbr>&lt;<a href="/animancer/api/Animancer/Serializable_1#typeparam-TMixer">TMixer</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Serializable_1">ControllerState<wbr>.Serializable</a><wbr>&lt;<a href="/animancer/api/Animancer/Serializable_1#typeparam-TState">TState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Serializable">ClipState<wbr>.Serializable</a></li>								
 									</ul>
 								</dd>			
 							
@@ -252,18 +252,19 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["AnimancerState.Serializable&lt;TMixer&gt;"]
-	Base0--&gt;Base1["Object"]
+	Type--&gt;Base0["Object"]
 	Type-.-&gt;Interface0["IAnimancerTransition"]
 	click Interface0 "/animancer/api/Animancer/IAnimancerTransition"
 	Type-.-&gt;Interface1["IHasKey"]
 	click Interface1 "/animancer/api/Animancer/IHasKey"
-	Type["ManualMixerState.Serializable&lt;TMixer&gt;"]
+	Type["AnimancerState.Serializable&lt;TState&gt;"]
 class Type type-node
-	Derived0["MixerState.Serializable&lt;TMixer, TParameter&gt;"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/Serializable_2"
-	Derived1["ManualMixerState.Serializable"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/Serializable"
+	Derived0["ManualMixerState.Serializable&lt;TMixer&gt;"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/Serializable_1"
+	Derived1["ControllerState.Serializable&lt;TState&gt;"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/Serializable_1"
+	Derived2["ClipState.Serializable"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/Serializable"
 
 						</div>
 					</div>
@@ -273,9 +274,8 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[Serializable]
-public abstract class ManualMixerState.Serializable&lt;TMixer&gt; : AnimancerState.Serializable&lt;TMixer&gt;, 
-    IAnimancerTransition, IHasKey
-    where TMixer : ManualMixerState</code></pre>
+public abstract class AnimancerState.Serializable&lt;TState&gt; : IAnimancerTransition, IHasKey 
+    where TState : AnimancerState</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
@@ -312,8 +312,8 @@ public abstract class ManualMixerState.Serializable&lt;TMixer&gt; : AnimancerSta
 						<th>Description</th>
 					</tr>
 				</thead>
-					<tbody><tr id="typeparam-TMixer">
-						<td>TMixer</td>
+					<tbody><tr id="typeparam-TState">
+						<td>TState</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -337,22 +337,39 @@ public abstract class ManualMixerState.Serializable&lt;TMixer&gt; : AnimancerSta
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Serializable_1/1A6635DF">Clips</a></td>
-								<td>AnimationClip[]</td>
+								<td><a href="/animancer/api/Animancer/Serializable_1/8DCEEA0A">CrossFadeFromStart</a></td>
+								<td>bool</td>
 								<td>
 									<div>
-    The <code class="cs">Animancer.ClipState.Clip</code> to use for each state in the mixer.
+    When a serializable is passed into <code class="cs">Animancer.AnimancerPlayable.Transition(Animancer.IAnimancerTransition,System.Int32)</code>, this property
+    determines whether it needs to fade in from the start of the animation.
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Serializable_1/BA21CD15">Speeds</a></td>
-								<td>float[]</td>
+								<td><a href="/animancer/api/Animancer/Serializable_1/17059688">FadeDuration</a></td>
+								<td>float</td>
+								<td>
+									<div>The amount of time the transition should take (in seconds).</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable_1/4543ED31">Key</a></td>
+								<td>Object</td>
 								<td>
 									<div>
-    The <code class="cs">Animancer.AnimancerNode.Speed</code> to use for each state in the mixer.
+    The <code class="cs">Animancer.AnimancerState.Key</code> which the created state will be registered with.
     <p></p>
-    If the size of this array doesn't match the <code class="cs">Animancer.ManualMixerState.Serializable`1.Clips</code>, it will be ignored.
+    By default, a serializable is used as its own <code class="cs">Animancer.AnimancerState.Serializable`1.Key</code>, but this property can be overridden.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable_1/2CBF89FF">State</a></td>
+								<td><a href="/animancer/api/Animancer/Serializable_1#typeparam-TState">TState</a></td>
+								<td>
+									<div>
+    The state that was most recently created by this object.
     </div>
 								</td>
 							</tr>
@@ -373,11 +390,23 @@ public abstract class ManualMixerState.Serializable&lt;TMixer&gt; : AnimancerSta
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Serializable_1/BF3E0206">InitialiseState<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Serializable_1/69C74DAB">Apply<wbr>(AnimancerState)<wbr></a></td>
 								<td>void</td>
 								<td>
+									<div>[<code class="cs">Animancer.IAnimancerTransition</code>]
+    Called by <code class="cs">Animancer.AnimancerPlayable.Transition(Animancer.IAnimancerTransition,System.Int32)</code> to apply any modifications to the 'state'.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Serializable_1/ED7DD400">CreateState<wbr>(AnimancerLayer)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Serializable_1#typeparam-TState">TState</a></td>
+								<td>
 									<div>
-    Initialises the <code class="cs">Animancer.AnimancerState.Serializable`1.State</code> immediately after it is created.
+    Creates and returns a new <span name="TState" class="typeparamref">TState</span> connected to the 'layer'.
+    <p></p>
+    This method also assigns it as the <code class="cs">Animancer.AnimancerState.Serializable`1.State</code> (which must be done manually when overriding
+    this method).
     </div>
 								</td>
 							</tr>

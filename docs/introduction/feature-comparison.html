@@ -81,6 +81,7 @@
 <p><a href="#control">Control</a></p>
 <p><a href="#blending">Blending</a></p>
 <p><a href="#humanoids">Humanoids</a></p>
+<p><a href="#fsm">Finite State Machines</a></p>
 <p><a href="#unity-versions">Unity Versions</a></p>
 <p><a href="#compatability">Compatability</a></p>
 <hr class="infobar-hidden">
@@ -108,7 +109,7 @@
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
-                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
                 </li>
@@ -373,17 +374,6 @@ summary
   <tr class="section"><td colspan="6"><h1 id="workflow">Workflow</h1></td></tr>
   
   <tr>
-    <td><details><summary>Visual state machine interface (Animator Controllers)</summary>
-      <p>Mecanim provides a Graphical User Interface for configuring animation states, transitions, and other details in the Unity Editor instead of allowing those details to be controlled using scripts like the other systems. One of the main advantages of this visual interface is the ability to preview the transitions between animations in Edit Mode.</p>
-      Animancer primarily focusses on the use of scripts to control animations, however it does allow you to create <code>AnimatorController</code> assets using Mecanim's visual interface and play them using <a href="../manual/controller-states">Controller States</a>.</details></td>
-    <td class="y">
-    </td><td class="n">
-    </td><td class="n">
-    </td><td class="n"><a href="#animator-controller">[1]</a></td>
-    <td class="n"><a href="#animator-controller">[1]</a></td>
-  </tr>
-  
-  <tr>
     <td><details><summary>No need for Animator Controllers</summary>
       <p>Mecanim requires that all possible animation states be defined upfront in the Unity Editor as part of an Animator Controller and imposes severe limitations on your ability to have scripts control things at runtime.</p>
       <p>Legacy and Simple Animation are primarily designed around assigning the animations you want to an array in the Inspector, but they do allow scripts to add more animations dynamically at runtime.</p>
@@ -620,6 +610,60 @@ summary
       <p>The Playables API exposes standard IK features which Mecanim and Animancer can utilise, however Simple Animation does not support these features because it was designed to replicate Legacy which does not support them.</p>
       Unity 2018.3 or later is required to use IK effectively with Animancer. See the <a href="#unity-versions">Unity Versions</a> section below for details.</details></td>
     <td class="y">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+    </td><td class="y">
+  </td></tr>
+  <tr class="section"><td colspan="6"><h1 id="fsm">Finite State Machines</h1></td></tr>
+  
+  <tr>
+    <td><details><summary>General purpose Finite State Machine</summary>
+      <p>Animator Controllers can be used to manage the gameplay state of an object as part of its animation state.</p>
+      Animancer is not tied to a specific state machine implementation, but it does include a general purpose <a href="../manual/finite-state-machine">Finite State Machine</a> system in the <code>Animancer.FSM</code> namespace which is entirely separate from the animation system and is flexible enough for most needs. They work well together, but you can very easily modify it or use any other system you prefer.</details></td>
+    <td class="y">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>Visual configuration interface</summary>
+      <p>Mecanim provides a Graphical User Interface for configuring animation states, transitions, and other details in the Unity Editor instead of allowing those details to be controlled using scripts like the other systems. One of the main advantages of this visual interface is the ability to preview the transitions between animations in Edit Mode.</p>
+      Animancer primarily focusses on the use of scripts to control animations, however it does allow you to create <code>AnimatorController</code> assets using Mecanim's visual interface and play them using <a href="../manual/controller-states">Controller States</a>.</details></td>
+    <td class="y">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n"><a href="#animator-controller">[1]</a></td>
+    <td class="n"><a href="#animator-controller">[1]</a></td>
+  </tr>
+  
+  <tr>
+    <td><details><summary>Constructed by scripts</summary>
+      The <code>Animancer.FSM</code> system is entirely configured and controlled by scripts so the logic for what happens during a particular state can be defined alongside the logic for when it will transition to other states rather than having some of that logic in an Animator Controller and the rest in scripts.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>Structure can change dynamically at runtime</summary>
+      <p>The full structure of an Animator Controller must be defined in the Unity Editor and cannot be changed at runtime</p>
+      But the <code>Animancer.FSM</code> system can be changed based on any criteria you want and doesn't even need to have all its states defined in the same place or configured on startup.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>States can be MonoBehaviour, ScriptableObject, or any other type</summary>
+      The only requirement for a class to be used as a state in the <code>Animancer.FSM</code> system is to inherit from <code><a href="/animancer/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code>. This means they can be <code>MonoBehaviour</code> components to receive updates, collision events, and other messages, or <code>ScriptableObject</code> assets which can be referenced anywhere in the project, or even just regular classes which are fully constructed and managed by scripts.</details></td>
+    <td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="y">
