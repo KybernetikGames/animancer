@@ -61,8 +61,8 @@
         <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
         <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
         <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
-        <li><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
-        <li><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
+        <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
+        <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetikgames.github.io/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -316,7 +316,7 @@
 <li><a href="../../../manual/animation-events#simple-events">Simple Events</a>: the <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> allows you to register callbacks that will be triggered by events with the function name <code>"Event"</code>.</li>
 <li><a href="../../../manual/animation-events#end-events">End Events</a>: events with the function name <code>"End"</code> will trigger the standard <code>OnEnd</code> callback early rather than waiting for it to actually finish, allowing you to adjust the timing of your transitions.</li>
 </ol>
-<p><em><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../manual/blending/fading">Fading with a non-default duration.</a> Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/feature-comparison">Feature Comparison</a> for more information.</em></p>
+<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../manual/blending/fading">Fading with a non-default duration.</a> Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/feature-comparison">Feature Comparison</a> for more information.</em></p>
 <p><img src="simple-and-end-events.gif" class="img-responsive"></p>
 <p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.AnimationEvents/GolfHitController">GolfHitController</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -457,7 +457,7 @@ _EventReceiver.onEvent.Set(state, (animationEvent) =&gt;
 }
 </code></pre>
 <p>We want to transition to <em>Idle</em>, but our script doesn't (and shouldn't) know how long is left in the animation, so instead of hard coding a value or calculating it ourselves we use <code>AnimancerPlayable.GetFadeOutDuration</code> to get the duration specified by the <code>Float</code> parameter of the triggering event. We could have used a positive value to give a specific duration, but since we left it at 0 that method will return the full remaining duration of the animation.</p>
-<p><em>Note that using a custom fade duration is a <a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5"><strong>Pro-Only</strong></a> feature. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/feature-comparison">Feature Comparison</a> for more information.</em></p>
+<p><em>Note that using a custom fade duration is a <a href="/animancer/pro"><strong>Pro-Only</strong></a> feature. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/feature-comparison">Feature Comparison</a> for more information.</em></p>
 <p>Since we called <code>CrossFade</code>, the <code>OnEnd</code> callback gets cleared immediately so it won't be called again if the animation happens to reach the end normally before it finishes fading out.</p>
 <p>If you watch the <code>Weight</code> of the animations, you can see that normally it only starts fading once the animation is fully complete, but with the early end it starts fading much earlier and finishes fading when the animation is fully complete.</p>
 
