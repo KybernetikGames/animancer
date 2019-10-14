@@ -83,6 +83,7 @@
 <p><a href="#changes">Changes</a></p>
 <p><a href="#improvements">Improvements</a></p>
 <p><a href="#fixes">Fixes</a></p>
+<p><a href="#opinions-wanted-major-api-changes">Opinions Wanted: Major API Changes</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -313,7 +314,10 @@
 		<blockquote class="blockquote">
 <p>2019-??-??</p>
 </blockquote>
-<p>Animancer v4.0 is currently in development. If you have any suggestions or would like to help test it, please <a href="/animancer/forum/">post in the Unity forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
+<p>Animancer v4.0 is currently in development. If you have any suggestions or would like to help test it, please <a href="/animancer/forum">post in the Unity forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
+<blockquote class="blockquote">
+<p><strong><a href="#opinions-wanted-major-api-changes">Opinions Wanted: Major API Changes</a></strong></p>
+</blockquote>
 <p>This page was last updated on 2019-10-14 (it probably won't be updated regularly).</p>
 <h1 id="to-do">To Do</h1>
 <ul>
@@ -322,7 +326,7 @@
 <li>States now have an <code>EndEvent</code> property which is a struct containing both a time and callback so you can set animations to end early without needing to use Unity's <a href="../manual/animation-events#end-events">Animation Events</a>. The <code>OnEnd</code> property still exists and simply wraps the event to leave the time at the previous value (the end of the animation by default).</li>
 <li>You can now add similar events anywhere throughout the animation, similar to Unity's <a href="../manual/animation-events#end-events">Animation Events</a>, but tied to a single state instead of every use of a particular <code>AnimationClip</code>.</li>
 <li>You can access the details of the event currently being triggered using the static <code><a href="/animancer/api/Animancer/AnimancerEvent/6EBFA67C">AnimancerEvent.State</a></code> and <code>Event</code> properties.</li>
-<li>Events currently need to be configured in code, but the goal is to store them in <code>Transition</code>s (formerly called Serializables) using <code>UnityEvent</code>s to set up the callbacks (with an easy alternative that uses <a href="https://kybernetikgames.github.io/ultevents/">UltEvents</a>).</li>
+<li>Events currently need to be configured in code, but the goal is to store them in <code>Transition</code>s (formerly called Serializables) using <code>UnityEvent</code>s to set up the callbacks (with an easy alternative that uses <a href="https://kybernetikgames.github.io/ultevents">UltEvents</a>).</li>
 <li>Try to support events on <a href="../manual/blending/mixers">Mixers</a>. This will likely be possible if time synchronisation can be implemented (see below).</li>
 <li>Try to support events on <a href="../manual/animator-controllers">Controller States</a>. This will be much harder to implement because it would need to account for internal state changes (so it can't just use the same code to check the time) and it would probably never be able to reliably trigger events at or near the of a state because it might already be part of the way into that state by the time Animancer gets a chance to detect the change.</li>
 <li>Try to support conversion between <a href="../manual/animation-events#end-events">Animation Events</a> and Animancer Events.</li>
@@ -470,6 +474,80 @@
 <li>Fixed the <code>AnimancerStateDrawer</code> progress bars to be properly visible in the Dark Theme and changed the colors to be a bit stronger overall.</li>
 <li>The <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> finalizer will no longer destroy the graph automatically while in Play Mode since that would mean a runtime warning anyway.</li>
 </ul>
+<h1 id="opinions-wanted-major-api-changes">Opinions Wanted: Major API Changes</h1>
+<blockquote class="blockquote">
+<p><strong>TL;DR</strong>: should <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> all be renamed to <code>Play</code>?</p>
+</blockquote>
+<p>If you have an opinion, please <a href="/animancer/forum">post it in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
+<h2 id="background">Background</h2>
+<ul>
+<li>In <a href="animancer-v3-1">v3.1</a>, none of the internal classes have access to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> so they can't call its <code>GetKey(clip)</code> method and therefore can't have methods like <code>Play(clip)</code>.</li>
+<li>But that's no longer the case in <a href="animancer-v4-0">v4.0</a>. In particular, this means you can more cleanly play an animation using an <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> reference:</li>
+</ul>
+<pre><code class="language-cs">// In v3.1:
+var layer = animancer.GetLayer(1);// On startup or something.
+animancer.Play(clip, layer.PortIndex);
+
+// In v4.0:
+var layer = animancer.Layers[1];// Layers are now a proper collection.
+layer.Play(clip);// Now we can play the clip directly on the layer.
+// Or:
+animancer.Layers[1].Play(clip);
+</code></pre>
+<h2 id="change-1">Change #1</h2>
+<blockquote class="blockquote">
+<p>Remove the <code>layerIndex</code> parameter.</p>
+</blockquote>
+<p>I'm planning to remove the <code>layerIndex</code> parameter from <code>AnimancerComponent.Play</code>/<code>CrossFade</code>/<code>Transition</code>. Those methods would simply leave the animation on its current layer or create it on layer 0 while <code>AnimancerLayer.Play</code>/etc. would change the animation to that layer. <code>animancer.Layers[1].CrossFade(clip, 0.3f)</code> is a bit longer to type than <code>animancer.CrossFade(clip, 0.3f, 1)</code>, but will make your intent much clearer. This would greatly simplify the main public API of Animancer:</p>
+<p>In v3.1, <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has several overloads of <code>Play</code>/<code>CrossFade</code>/<code>Transition</code> which are made even more complicated by the presence of default parameters:</p>
+<pre><code class="language-cs">// Note: replaced DefaultFadeDuration with just DefaultDuration to keep everything on one line.
+Play(AnimationClip clip, int layerIndex = -1)
+Play(AnimancerState state)
+Play(object key)
+CrossFade(AnimationClip clip, float fadeDuration = DefaultDuration, int layerIndex = -1)
+CrossFade(AnimancerState state, float fadeDuration = DefaultDuration)
+CrossFade(object key, float fadeDuration = DefaultDuration)
+CrossFadeFromStart(AnimationClip clip, float fadeDuration = DefaultDuration, int layerIndex = -1)
+CrossFadeFromStart(AnimancerState state, float fadeDuration = DefaultDuration, int layerIndex = -1)
+CrossFadeFromStart(object key, float fadeDuration = DefaultDuration, int layerIndex = -1)
+Transition(IAnimancerTransition transition, int layerIndex = -1)
+</code></pre>
+<p>That's 10 methods, but if we count each default parameter as another overload it's actually more like 22 methods.</p>
+<p>With the removal of the <code>layerIndex</code> parameter, that can all be much simpler in v4.0:</p>
+<pre><code class="language-cs">Play(AnimationClip clip)
+Play(AnimancerState state)
+Play(object key)
+CrossFade(AnimationClip clip, float fadeDuration = DefaultFadeDuration)
+CrossFade(AnimancerState state, float fadeDuration = DefaultFadeDuration)
+CrossFade(object key, float fadeDuration = DefaultFadeDuration)
+CrossFadeFromStart(AnimationClip clip, float fadeDuration = DefaultFadeDuration)
+CrossFadeFromStart(AnimancerState state, float fadeDuration = DefaultFadeDuration)
+CrossFadeFromStart(object key, float fadeDuration = DefaultFadeDuration)
+Transition(IAnimancerTransition transition)
+</code></pre>
+<p>That takes the number of methods down to 16. I'm fairly certain this change is a good idea, so I mainly want feedback on the following idea:</p>
+<h2 id="change-2">Change #2</h2>
+<blockquote class="blockquote">
+<p>Rename <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> to all be called <code>Play</code>.</p>
+</blockquote>
+<ul>
+<li><code>Play(x)</code> would be the same as it is now, except that <code>Play(transition)</code> would be like the old <code>Transition</code> method.</li>
+<li><code>Play(x, duration)</code> would be a <code>CrossFade</code>.</li>
+<li><code>Play(x, duration, startTime)</code> would be a <code>CrossFadeFromStart</code>.</li>
+</ul>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Faster to type. Particularly for <code>Transition</code> which starts the same as the <code>transform</code> property so it can't be immediately auto-completed.</li>
+<li>More unified API so you don't need to change the method name when changing the parameter from an <code>AnimationClip</code> to a <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code> or when adding the <code>startTime</code> parameter to a fade.</li>
+<li>It should be easier for beginners to understand. If they call <code>Play</code> and then want to make it fade over time, they can just add the duration parameter without needing to understand what a "Cross Fade" is or wonder why <code>CrossFadeFromStart</code> exists.</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li><code>CrossFade</code> can't have a default duration any more. Does anyone actually use it? I did in the past when I was being lazy, but now I generally use transitions for everything anyway.</li>
+<li><code>Play(x, float, float)</code> isn't inherently clear about which <code>float</code> is the duration and which is the start time.</li>
+</ul>
+<p>Thoughts? Are the Pros worth the Cons? Can you think of any others to add?</p>
+<p>If you have an opinion, please <a href="/animancer/forum">post it in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
 
 	</section>
                 
