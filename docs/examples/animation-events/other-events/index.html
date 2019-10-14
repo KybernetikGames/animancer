@@ -279,7 +279,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/changes/ideas">Ideas</a></li>
-                <li><a href="/animancer/docs/changes/animancer-v4-0">Plans for v4.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-0">Progress of v4.0</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
@@ -310,11 +310,11 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/05 Animation Events/02 Other Events</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.AnimationEvents"><code>Animancer.Examples.AnimationEvents</code></a></p>
 </blockquote>
-<p>This example demonstrates how you can use <a href="../../../programming-patterns/animation-events">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle.</p>
+<p>This example demonstrates how you can use <a href="../../../manual/animation-events">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle.</p>
 <p><img src="walk.gif" class="img-responsive"></p>
 <p>Well ... that's easily the most useless video in the entire documentation since the only purpose of this example is to trigger sounds.</p>
 <h1 id="creating-the-events">Creating the Events</h1>
-<p>Adding <a href="../../../programming-patterns/animation-events">Animation Events</a> to an <code>AnimationClip</code> asset modifies it, so we start by creating a copy of the <em>Humanoid-Walk</em> animation (<code>Ctrl + D</code>) and calling it <em>Humanoid-Walk-Footsteps</em>. Then we can follow the same steps outlined in <a href="../simple-and-end-events#animation-events">Simple and End Events</a> to add the events. This time we want to use the function name <code>"Footstep"</code> to trigger a function we will define in the script below.</p>
+<p>Adding <a href="../../../manual/animation-events">Animation Events</a> to an <code>AnimationClip</code> asset modifies it, so we start by creating a copy of the <em>Humanoid-Walk</em> animation (<code>Ctrl + D</code>) and calling it <em>Humanoid-Walk-Footsteps</em>. Then we can follow the same steps outlined in <a href="../simple-and-end-events#animation-events">Simple and End Events</a> to add the events. This time we want to use the function name <code>"Footstep"</code> to trigger a function we will define in the script below.</p>
 <ol>
 <li>Put the first event on frame 1, just as the left foot touches down.</li>
 <li>Put the second event on frame 13, just as the right foot touches down.</li>
@@ -348,7 +348,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.AnimationEvents/F
 <li>Note that the minimum value in <code>Random.Range</code> is <em>inclusive</em> (so it can pick 0) while the maximum value is <em>exclusive</em> (so it can not pick <code>_Sounds.Length</code>), which is perfect for picking a random element from a collection because the last element is <code>_Sounds.Length - 1</code>.</li>
 </ul>
 <p>Note that this script isn't actually playing the animation, the scene is using a <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> with the animation assigned as the <code>Default Animation</code> in the Inspector and <code>Play Automatically</code> enabled. It doesn't matter what tells the animation to play, its events simply look through all components on the same object as the <code>Animator</code> for methods with the appropriate name.</p>
-<p>A more complex system could have different footstep sounds depending on the surface being stepped on. This could be done by raycasting down from the feet and determining which sound to use based on the <code>sharedMaterial</code> of the ground's <code>Renderer</code> or even a simple script that holds an <code>enum</code> indicating the type. Such a system might not even use <a href="../../../programming-patterns/animation-events">Animation Events</a> though. It could use the raycasts to determine when a character's feet touch down so it would work for all animations without manually adding events to them all and could even calculate the desired volume based on the velocity of the foot (though events could also use their <code>Float</code> parameter to specify the volume).</p>
+<p>A more complex system could have different footstep sounds depending on the surface being stepped on. This could be done by raycasting down from the feet and determining which sound to use based on the <code>sharedMaterial</code> of the ground's <code>Renderer</code> or even a simple script that holds an <code>enum</code> indicating the type. Such a system might not even use <a href="../../../manual/animation-events">Animation Events</a> though. It could use the raycasts to determine when a character's feet touch down so it would work for all animations without manually adding events to them all and could even calculate the desired volume based on the velocity of the foot (though events could also use their <code>Float</code> parameter to specify the volume).</p>
 
 	</section>
                 
