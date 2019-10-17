@@ -348,7 +348,7 @@
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <h2 id="restructuring">Restructuring</h2>
 <ul>
-<li>Added <code><a href="/animancer/api/Animancer/AnimancerLayerList">AnimancerLayerList</a></code> to move all layer list functionality out of <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>.
+<li>Added <code>AnimancerLayerList</code> to move all layer list functionality out of <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>.
 <ul>
 <li>The list is exposed by the <code>Layers</code> property, so instead of things like <code>animancer.LayerCount</code> you now use <code>animancer.Layers.Count</code>.</li>
 <li>Removed all the layer wrapper methods from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> since it now exposes the <code>Layers</code> property as well.</li>
@@ -367,7 +367,7 @@
 </li>
 <li>Renamed <code>Dispose</code> to <code>Destroy</code> and removed <code>IDisposable</code> from everything since they didn't follow regular disposal patterns. It doesn't make sense to put an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> in a <code>using</code> statement and if you declare a <code>new <a href="/animancer/api/Animancer/ClipState">ClipState</a></code> locally, you don't need to dispose it because it will be cleaned up when the graph is destroyed.</li>
 <li>Renamed <code>AnimancerNode.PortIndex</code> to <code>Index</code> (and associated method parameters and comments).</li>
-<li>Renamed <code>HybridAnimancerComponent.PlayController</code> to <code>TransitionToController</code> since it uses a traisition rather than playing instantly.</li>
+<li>Renamed <code>HybridAnimancerComponent.PlayController</code> to <code>TransitionToController</code> since it uses a transition rather than playing instantly.</li>
 <li>Renamed <code>AnimancerLayer.CurrentStateID</code> to <code>CommandCount</code> (same in <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>).</li>
 <li>Renamed <code>IEarlyUpdate</code> to <code><a href="/animancer/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code>.</li>
 </ul>
@@ -399,7 +399,7 @@
 <ul>
 <li><code>AnimancerState.Transition.State</code> is now the state most recently passed into <code>Apply</code> (backed by the un-cast <code>BaseState</code>) so they can be more easily used on multiple objects.
 <ul>
-<li>Overrides of <code>CreateState</code> no longer need to manually set the <code>State</code> (but can if they want to).</li>
+<li>Overrides of <code>CreateState</code> no longer need to manually set the <code>State</code>.</li>
 </ul>
 </li>
 <li>Changed <code>HybridAnimancerController.TransitionToController</code> to return its <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>.</li>
@@ -480,40 +480,21 @@
 </blockquote>
 <p>If you have an opinion, please <a href="/animancer/forum">post it in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
 <h2 id="background">Background</h2>
-<ul>
-<li>In <a href="animancer-v3-1">v3.1</a>, none of the internal classes have access to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> so they can't call its <code>GetKey(clip)</code> method and therefore can't have methods like <code>Play(clip)</code>.</li>
-<li>But that's no longer the case in <a href="animancer-v4-0">v4.0</a>. In particular, this means you can more cleanly play an animation using an <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> reference:</li>
-</ul>
-<pre><code class="language-cs">// In v3.1:
-var layer = animancer.GetLayer(1);// On startup or something.
-animancer.Play(clip, layer.PortIndex);
-
-// In v4.0:
-var layer = animancer.Layers[1];// Layers are now a proper collection.
-layer.Play(clip);// Now we can play the clip directly on the layer.
-// Or:
-animancer.Layers[1].Play(clip);
-</code></pre>
-<h2 id="change-1">Change #1</h2>
-<blockquote class="blockquote">
-<p>Remove the <code>layerIndex</code> parameter.</p>
-</blockquote>
-<p>I'm planning to remove the <code>layerIndex</code> parameter from <code>AnimancerComponent.Play</code>/<code>CrossFade</code>/<code>Transition</code>. Those methods would simply leave the animation on its current layer or create it on layer 0 while <code>AnimancerLayer.Play</code>/etc. would change the animation to that layer. <code>animancer.Layers[1].CrossFade(clip, 0.3f)</code> is a bit longer to type than <code>animancer.CrossFade(clip, 0.3f, 1)</code>, but will make your intent much clearer. This would greatly simplify the main public API of Animancer:</p>
-<p>In v3.1, <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has several overloads of <code>Play</code>/<code>CrossFade</code>/<code>Transition</code> which are made even more complicated by the presence of default parameters:</p>
+<p>In v3.1, <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has several overloads of <code>Play</code>/<code>CrossFade</code>/<code>Transition</code> which are made even more complicated by the presence of default parameters for <code>fadeDuration</code> and <code>layerIndex</code>:</p>
 <pre><code class="language-cs">// Note: replaced DefaultFadeDuration with just DefaultDuration to keep everything on one line.
-Play(AnimationClip clip, int layerIndex = -1)
+Play(AnimationClip clip, int layerIndex = 0)
 Play(AnimancerState state)
 Play(object key)
-CrossFade(AnimationClip clip, float fadeDuration = DefaultDuration, int layerIndex = -1)
+CrossFade(AnimationClip clip, float fadeDuration = DefaultDuration, int layerIndex = 0)
 CrossFade(AnimancerState state, float fadeDuration = DefaultDuration)
 CrossFade(object key, float fadeDuration = DefaultDuration)
-CrossFadeFromStart(AnimationClip clip, float fadeDuration = DefaultDuration, int layerIndex = -1)
-CrossFadeFromStart(AnimancerState state, float fadeDuration = DefaultDuration, int layerIndex = -1)
-CrossFadeFromStart(object key, float fadeDuration = DefaultDuration, int layerIndex = -1)
-Transition(IAnimancerTransition transition, int layerIndex = -1)
+CrossFadeFromStart(AnimationClip clip, float fadeDuration = DefaultDuration, int layerIndex = 0)
+CrossFadeFromStart(AnimancerState state, float fadeDuration = DefaultDuration, int layerIndex = 0)
+CrossFadeFromStart(object key, float fadeDuration = DefaultDuration, int layerIndex = 0)
+Transition(IAnimancerTransition transition, int layerIndex = 0)
 </code></pre>
 <p>That's 10 methods, but if we count each default parameter as another overload it's actually more like 22 methods.</p>
-<p>With the removal of the <code>layerIndex</code> parameter, that can all be much simpler in v4.0:</p>
+<p>In v4.0, the <code>layerIndex</code> parameter has been removed:</p>
 <pre><code class="language-cs">Play(AnimationClip clip)
 Play(AnimancerState state)
 Play(object key)
@@ -525,11 +506,24 @@ CrossFadeFromStart(AnimancerState state, float fadeDuration = DefaultFadeDuratio
 CrossFadeFromStart(object key, float fadeDuration = DefaultFadeDuration)
 Transition(IAnimancerTransition transition)
 </code></pre>
-<p>That takes the number of methods down to 16. I'm fairly certain this change is a good idea, so I mainly want feedback on the following idea:</p>
-<h2 id="change-2">Change #2</h2>
+<p>That takes the number of methods down to 16 and means that you don't need to worry about layers unless you actually want to use them, which should make it easier for new users in particular. If you do want to play an animation on a particular layer, do now do it using the layer itself:</p>
+<pre><code class="language-cs">animancer.Layers[1].Play(clip);
+</code></pre>
+<h2 id="the-change">The Change</h2>
 <blockquote class="blockquote">
 <p>Rename <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> to all be called <code>Play</code>.</p>
 </blockquote>
+<pre><code class="language-cs">Play(AnimationClip clip)
+Play(AnimancerState state)
+Play(object key)
+Play(AnimationClip clip, float fadeDuration)
+Play(AnimancerState state, float fadeDuration)
+Play(object key, float fadeDuration)
+Play(AnimationClip clip, float fadeDuration)
+Play(AnimancerState state, float fadeDuration)
+Play(object key, float fadeDuration)
+Play(IAnimancerTransition transition)
+</code></pre>
 <ul>
 <li><code>Play(x)</code> would be the same as it is now, except that <code>Play(transition)</code> would be like the old <code>Transition</code> method.</li>
 <li><code>Play(x, duration)</code> would be a <code>CrossFade</code>.</li>
@@ -545,6 +539,7 @@ Transition(IAnimancerTransition transition)
 <ul>
 <li><code>CrossFade</code> can't have a default duration any more. Does anyone actually use it? I did in the past when I was being lazy, but now I generally use transitions for everything anyway.</li>
 <li><code>Play(x, float, float)</code> isn't inherently clear about which <code>float</code> is the duration and which is the start time.</li>
+<li>10 overloads of a single method is quite a lot.</li>
 </ul>
 <p>Thoughts? Are the Pros worth the Cons? Can you think of any others to add?</p>
 <p>If you have an opinion, please <a href="/animancer/forum">post it in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
