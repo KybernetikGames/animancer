@@ -324,7 +324,7 @@
 </ul>
 <h1 id="highlights">Highlights</h1>
 <ul>
-<li>The main public API has been significantly restructured:
+<li>The <a href="#upgrade-guide">main public API</a> has been significantly restructured:
 <ul>
 <li>The <code>Play</code>, <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> methods have all been unified as <code>Play</code> with fewer overall parameter combinations.</li>
 <li>Layers are now treated as a proper collection. So instead of <code>animancer.LayerCount</code>, <code>animancer.GetLayer(...)</code>, or <code>animancer.SetLayerAdditive(...)</code>, you now use <code>animancer.Layers.Count</code>, <code>animancer.Layers[...]</code>, or <code>animancer.Layers.SetAdditive(...)</code>.</li>
@@ -341,8 +341,9 @@
 </li>
 <li>New <a href="#transition-previews">Transition Preview Window</a> allows you to preview your transitions on your character without entering Play Mode.</li>
 <li>Implemented <a href="#mixer-time-synchronisation">Mixer Time Synchronisation</a>.</li>
-<li>New <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> allows you to play Timeline assets in Animancer.</li>
+<li>New <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> allows you to play <a href="#timeline">Timeline</a> assets in Animancer.</li>
 <li>Added support for Unity 2019.3.</li>
+<li>Added <code>Assets/Create/Animation Clip</code> menu function since the Animation window doesn't allow you to create new <code>AnimationClip</code>s without an Animator Controller.</li>
 </ul>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>The main public API has been significantly restructured in several ways which are likely to affect most users, so if you upgrade a project from an earlier version you will likely get some compiler errors which this section will help you fix.</p>
@@ -419,6 +420,10 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <td><code>animancer.SetLayerMask(1, mask)</code></td>
 <td><code>animancer.Layers.SetMask(mask)</code><br><code>animancer.Layers[1].SetMask(mask)</code></td>
 </tr>
+<tr>
+<td><code>AnimancerPlayable.maxLayerCount = 8</code></td>
+<td><code>AnimancerPlayable.LayerList.defaultCapacity = 8</code><br><code>AnimancerPlayable.LayerList.SetMinDefaultCapacity(8)</code></td>
+</tr>
 </tbody>
 </table>
 <p>In earlier versions the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class was the only one with access to its <code>GetKey(AnimationClip)</code> method, meaning that it could have a <code>Play(AnimationClip)</code> method where other classes (<code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> and <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>) could not because they would not be able to determine what key to look up the state with in the internal dictionary (usually the clip is its own key, but <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> uses the clip's name so you can call <code>Play("Name")</code>). But Animancer v4.0 gives the <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> a reference to its component, so now you can call <code>animancer.Layers[1].Play(clip)</code> as shown above. Also note that this changes the meaning of the default <code>animancer.Play(clip)</code> so that instead of playing the animation on layer 0 it will now leave it on whatever layer it is currently on.</p>
@@ -431,6 +436,10 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>animancer.CurrentState</code></td>
+<td><code>animancer.States.Current</code></td>
+</tr>
 <tr>
 <td><code>animancer.StateCount</code></td>
 <td><code>animancer.States.Count</code></td>
@@ -451,10 +460,6 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <td><code>animancer.Dispose(clip)</code></td>
 <td><code>animancer.States.Destroy(clip)</code></td>
 </tr>
-<tr>
-<td><code>AnimancerPlayable.maxLayerCount = 8</code></td>
-<td><code>AnimancerPlayable.LayerList.defaultCapacity = 8</code></td>
-</tr>
 </tbody>
 </table>
 <h2 id="renaming">Renaming</h2>
@@ -470,6 +475,7 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li>Renamed <code>AnimancerNode.PortIndex</code> to <code>Index</code>.</li>
 <li>Renamed <code>AnimancerLayer.CurrentStateID</code> to <code>CommandCount</code> (same in <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>).</li>
 <li>Renamed <code>IEarlyUpdate</code> to <code><a href="/animancer/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code>.</li>
+<li>Renamed the <code>AnimancerPlayable.StateDictionary.Destroy</code> overloads that take collections to <code>DestroyAll</code> to avoid ambiguity.</li>
 </ul>
 <h1 id="features">Features</h1>
 <h2 id="improved-transition-inspector">Improved Transition Inspector</h2>
@@ -498,7 +504,7 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li>Rather than giving the <code>Start Time</code> a <code>Normalized</code> toggle to swap between normalized time and raw seconds, it now simply shows both values side by side so you can edit whichever one you want. This has been applied to the other fields as well.</li>
 <li>All relevant fields now display an appropriate suffix to indicate the units ("x" indicates normalized time while "s" indicates raw seconds).</li>
 <li><code>Speed</code> now has a toggle to determine if it is actually applied (otherwise the state simply retains whatever speed it had previously).</li>
-<li>The new <a href="#animancer-events">Animancer Event</a> system allows the <code>OnEnd</code> callback to have a custom time instead of always being at the exact end of the animation, so that value is made available in the Inspector with a toggle to show a <code>UnityEvent</code> that lets you configure the callback as well (see <a href="#animancer-events">Animancer Events</a> for more details).
+<li>The new <a href="#animancer-events">Animancer Event</a> system allows the <code>OnEnd</code> callback to have a custom time instead of always being at the exact end of the animation, so that value is made available in the Inspector with a toggle to show a <code>UnityEvent</code> that lets you configure the callback as well.
 <ul>
 <li>Note that when the <code>End Time</code> toggle is disabled, the value will actually be calculated based on the <code>Speed</code>. When playing forwards the animation will end at <code>NormalizedTime == 1</code>, but when playing backwards it will end at <code>NormalizedTime == 0</code>.</li>
 </ul>
@@ -514,13 +520,13 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 </ul>
 <p>There are also a few changes on the code side:</p>
 <ul>
-<li>Removed <code>StartTimeIsNormalized</code> and renamed <code>StartTime</code> to <code>NormalizedStartTime</code>. It always saves the normalized time value regardless of which one you set.</li>
+<li>Removed <code>StartTimeIsNormalized</code> and renamed <code>StartTime</code> to <code>NormalizedStartTime</code>. It always saves the normalized time value regardless of which one you set in the Inspector.</li>
 <li><code>Speed</code> can now be set to <code>NaN</code> to prevent it from changing the existing value (this is what disabling the Inspector toggle does to any of the fields).</li>
 </ul>
 <h2 id="transition-previews">Transition Previews</h2>
-<p>The Transition Preview Window is still a work in progress. It will allow you to fine tune your transition details and see what your model looks like without needing to enter Play Mode.</p>
+<p>The "eye" button in the top right of each <code>Transition</code> in the Inspector opens a window for previewing the transition so you can fine tune its details and see what your model looks like without needing to enter Play Mode.</p>
 <p><img src="transition-preview.gif" class="img-responsive"></p>
-<p>Note that this feature requires Unity 2018.3+ since earlier versions couldn't properly play animations in Edit Mode.</p>
+<p>Note that the options in the "Preview Settings" area are only for the purpose of the preview. They are not serialized and have no effect outside the preview window.</p>
 <h2 id="animancer-events">Animancer Events</h2>
 <p>Unity has an inbuilt <a href="https://docs.unity3d.com/Manual/script-AnimationWindowEvent.html">Animation Event</a> system which allows you to trigger script functions when an animation passes a specific time. Animancer supports this system and it is very useful, but it has several notable drawbacks:</p>
 <ul>
@@ -574,7 +580,28 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <p><img src="animancer-event-inspector.gif" class="img-responsive"></p>
 <ul>
 <li>You can select and edit events one at a time, or you can click the foldout arrow next to the timeline to instead show all of the events at once.</li>
-<li>Note that each transition defines how it fades in but not how it fades out (because that gets determined by the next transition), so the timeline simply uses a default value. If the end time is less than the animation length, it shows the fade out ending at the end of the animation. Or if the end time is greater than the length, it shows the default 0.25 second fade.</li>
+<li>You can set up event times using the Inspector and leave their callbacks blank so they can be set in code on startup like so:</li>
+</ul>
+<pre><code class="language-cs">// MeleeAttack.cs:
+
+[SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Animation;
+
+private void Awake()
+{
+    var events = _Animation.Events;
+    events.OnEnd = Creature.EnterIdleState;
+    Debug.Assert(events.Count == 1, "Expected 1 event for the hit time");
+    events.Set(0, OnHit);
+}
+
+public void Attack()
+{
+    Creature.Animancer.Play(_Animation);
+}
+</code></pre>
+<ul>
+<li>Or you can of course configure the events entirely in code.</li>
+<li>Each transition defines how it fades in but not how it fades out (because that gets determined by the next transition), so the timeline simply uses a default value. If the end time is less than the animation length, it shows the fade out ending at the end of the animation. Or if the end time is greater than the length, it shows the default 0.25 second fade.</li>
 <li><code>ClipState.SerializableWithEndEvent</code> no longer exists since all transitions now have events.</li>
 </ul>
 <h3 id="ultevents">UltEvents</h3>
@@ -593,7 +620,7 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <ul>
 <li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code>CurrentEvent</code> and <code>CurrentState</code>, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards.</li>
 <li>Changing the <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> prevents that state from triggering any more events during that frame.</li>
-<li>Animancer Events work with <a href="../../manual/fading/mixers">Mixers</a>. Blend Trees will trigger Animation Events on all of the <code>AnimationClip</code>s they contain, but this allows events to be placed on the <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> itself so they get triggered according to the weighted average normalized time of the mixed states.
+<li>Animancer Events work with <a href="../../manual/blending/mixers">Mixers</a>. Blend Trees will trigger Animation Events on all of the <code>AnimationClip</code>s they contain, but this allows events to be placed on the <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> itself so they get triggered according to the weighted average normalized time of the mixed states.
 <ul>
 <li>They also technically work with <a href="../../manual/animator-controllers">Controller States</a>, though this is not necessarily very useful because they do not check what the Animator Controller is doing internally.</li>
 </ul>
@@ -612,6 +639,26 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 </li>
 <li>Added <code><a href="/animancer/api/Animancer/AnimancerState/58114E95">AnimancerState.HasEvents</a></code> to check if there are any events without accessing the <code>Events</code> property (because that would retrieve a new sequence from the <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code>).</li>
 </ul>
+<h2 id="mixer-time-synchronisation">Mixer Time Synchronisation</h2>
+<ul>
+<li><code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code>s can now synchronise the times of their children.
+<ul>
+<li>It's not quite as advanced as the proper <a href="../../manual/blending/mixers#blend-trees-vs.mixers">Foot Phase Synchronisation</a> used in Blend Trees which analyses the strides the character makes so that it can better synchronise animations with non-uniform timings such as when walking with a limp or an animation that includes multiple walk cycles.</li>
+<li>But it does have one major advantage: you actually get to control it so you can choose which animations are synchronised.</li>
+<li>It's on by default and can be disabled for individual children using the <code>SynchroniseChildren</code> array.</li>
+<li>This advantage can be seen in the <a href="../../examples/locomotion/linear-blending">Locomotion/Linear Blending</a> example. Enabling synchronisation on all animations gives the same result as the Blend Tree, meaning that the blending between <em>Idle</em> and <em>Walk</em> gives a much slower shuffle than it should. But disabling synchronisation on the <em>Idle</em> gives a much better result because there's no need for consistency between the timing of those two animations.</li>
+</ul>
+</li>
+<li><code><a href="/animancer/api/Animancer/MixerState/878ADD5A">MixerState.IsLooping</a></code> now returns true if any child state is looping.</li>
+</ul>
+<p><img src="mixer-sync-no-idle.gif" class="img-responsive"></p>
+<h2 id="timeline">Timeline</h2>
+<ul>
+<li>Added <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> for playing <code>PlayableAsset</code>s.</li>
+<li>Added an introduction sequence to the <code>State Machines/Platformer</code> example. This allows the sequence of animations to be configured using the Timeline window and then played as if it were a single animation.</li>
+</ul>
+<p><img src="platformer-intro.gif" class="img-responsive"></p>
+<p><img src="timeline.png" class="img-responsive"></p>
 <h1 id="changes">Changes</h1>
 <ul>
 <li>Replaced <code>AnimancerComponent.StopOnDisable</code> with <code>ActionOnDisable</code> which is an enum with several new values:
@@ -644,8 +691,8 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li>Added a minor optimisation in the setter to only cast the value to <code>double</code> once.</li>
 <li>Moved time caching from <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to the base <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> so it can be used by all states.</li>
 <li>Added a non-NaN assertion to the <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> setter.</li>
-<li><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code> now overrides <code>NewTime</code> to access the weighted average <code>Time</code> of all child states.</li>
-<li><code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> now overrides <code>NewTime</code> to access the <code>StateInfo.normalizedTime</code>.</li>
+<li><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code> overrides <code>NewTime</code> to access the weighted average <code>Time</code> of all child states.</li>
+<li><code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> overrides <code>NewTime</code> to access the <code>StateInfo.normalizedTime</code>.</li>
 </ul>
 </li>
 <li>Removed <code>AnimancerState.NormalizedSpeed</code> because it was not really that useful and got in the way of auto-correct suggesting <code>NormalizedTime</code>. The getter was simply <code>Speed / Length</code> and the setter <code>Speed = value * Length</code>.</li>
@@ -657,9 +704,21 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li><code><a href="/animancer/api/Animancer/AnimationEventReceiver">AnimationEventReceiver</a></code> now uses <code><a href="/animancer/api/Animancer/AnimancerUtilities/9FBCB86A">AnimancerUtilities.HasEvent(IAnimationClipCollection, string)</a></code> so that each state doesn't need to manually iterate through all its clips.</li>
 </ul>
 </li>
+<li>Changed <code>StateBehaviour.Reset</code> to <code>OnValidate</code> so it always enforces its rule.</li>
+<li>Replaced the custom transition context menus with the standard serialized property context menu:
+<ul>
+<li>It now displays the size of the serialized Animancer Event arrays.</li>
+</ul>
+</li>
+<li>Made several <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> members virtual instead of abstract: <code>AverageVelocity</code>, <code>ApplyAnimatorIK</code>, <code>ApplyFootIK</code>.</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
+<li><code>Play(transition)</code> no longer tries to calculate the fade out duration. If you want to do that, you need to call <code>AnimancePlayable.GetFadeOutDuration</code> and pass it into <code>Play(transition, duration, mode)</code>.
+<ul>
+<li>Moved the main part of <code>AnimancerPlayable.GetFadeOutDuration</code> to <code><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>, leaving behind only the part specific to Animation Events with the function name "End".</li>
+</ul>
+</li>
 <li>Added <code>Restore Bind Pose</code> context menu function to <code>Animator</code> components.</li>
 <li>Adding a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to an object with an <code>AnimatorController</code> assigned to its <code>Animator</code> will now assign that controller to the animancer instead of only clearing it.</li>
 <li>Removed unnecessary calls to <code>SetInputCount</code> and <code>SetInputWeight</code> during <code>AnimancerPlayable.OnPlayableCreate</code>.</li>
@@ -670,6 +729,8 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li>All <code>Transition</code>s now implement <code><a href="/animancer/api/Animancer/IAnimationClipCollection">IAnimationClipCollection</a></code>.</li>
 <li>Added various <code>Gather</code> methods to <code><a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code>.</li>
 <li>Moved the reflection based clip gathering system from <code><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">AnimancerEditorUtilities</a></code> into a dedicated <code><a href="/animancer/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code> class and improved its reliability.</li>
+<li>It now finds the character's root object using the prefab root or by counting the number of <code>Animator</code>s below each parent. An object with more <code>Animator</code>s is assumed to be the parent of multiple characters, so the previous object is the root. Once it finds the root, it gathers animations from the child components of that object.</li>
+<li>Added <code><a href="/animancer/api/Animancer/IAnimancerRoot">IAnimancerRoot</a></code> for components to manually specify which object is the root.</li>
 </ul>
 </li>
 <li>Added <code>AnimancerStateDictionary.Destroy</code> methods for collections and <code><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code>.</li>
@@ -687,9 +748,26 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 </ul>
 </li>
 <li>Added <code>[&lt;see cref="SerializeField"/&gt;]</code> tags to the start of comments for all properties that directly wrap serialized fields.</li>
+<li>Improved <code><a href="/animancer/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> (a <code>ScriptableObject</code> that holds a single <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code>):
+<ul>
+<li>Renamed the <code>Animation</code> field and property to <code>Transition</code>.</li>
+<li>Added <code>Events</code> wrapper.</li>
+</ul>
+</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
+<li>Fixed various issues in Unity 2019.3:
+<ul>
+<li>Fixed the preview icon to use a different texture since the old one seems to be missing.</li>
+<li>Fixed <code>AnimancerGUI.DoOptionalTimeField</code>.</li>
+<li>Fixed the event drawer foldout.</li>
+<li>Fixed Inspector Error on the <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>.</li>
+<li>Fixed import warnings from the Spider Bot model due to multiple objects having the same name.</li>
+<li>Added a workaround so the base <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> does not take proprity over its more specific children (only happens in a DLL).</li>
+</ul>
+</li>
+<li>Added <code>DummyObjectDrawer</code> as a fallback custom Inspector for any <code>Object</code> ... which does nothing (the class literally just inherits from <code>UnityEditor.Editor</code> and has no members). For some reason Unity executes <code>PropertyDrawer</code>s differently in the default Inspector than it does in a custom Inspector (even an empty one) and that difference causes the <code><a href="/animancer/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> to not display properly without a custom Inspector. Since it is set as a fallback, any other custom Inspector should automatically override it, but if not you can simply delete <code>Animancer/Internal/Editor Utilities/Inspector/DummyObjectEditor.cs</code>.</li>
 <li>Fixed <code>FadeMode.FromStart</code> to work properly with the <code>fadeDuration</code> set to 0.</li>
 <li>Fading now accounts for the speed of the parent nodes.</li>
 <li>Fixed <code>ControllerState.GatherDefaultStates</code> to properly gather the state for layer 0.</li>
@@ -706,12 +784,20 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li>Fixed the 2D mixer states to round children with <code>weight &lt; 0.01f</code> to 0. Otherwise they often get very small weights and still trigger Animation Events.</li>
 <li>Added comments explaining that when <code>OnAnimatorIK</code> is called the layer index parameter will always be zero (a limitation of the Playables API).</li>
 <li>Replaced all usage of <code>EditorStyles.label</code> with <code>GUI.skin.label</code> since they are slightly different in some Unity versions and the latter is the default used by <code>GUI.Label</code>.</li>
+<li>Fixed <code>AnimancerEvent.Sequence.AssertNormalizedTimes</code> to properly account for <code>NaN</code>s.</li>
+<li>Fixed the <code>End Event/Clear</code> context menu function to be disabled when the time is not set.</li>
+<li><code>Ctrl + Click</code> on a state in the Inspector now unpauses the graph as well as fading to that state.</li>
 </ul>
 <h1 id="examples">Examples</h1>
 <ul>
 <li>Added <a href="../../examples/basics/hybrid-system">Basics/Hybrid System</a> example to demonstrate the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Animator Controllers/Hybrid</a>.</li>
 <li>Cleaned up the <code>Spider Bot</code> example animation names to match the same convention as others.</li>
 <li>Improved the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> example script to account for the foot rotation when calculating the raycast diration.</li>
+<li>Updated the <code>Sequence Coroutine</code> example to use the new custom end time system rather than needing a <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.
+<ul>
+<li>Added an introduction sequence to the <code>State Machines/Platformer</code> example using <a href="#timeline">Timeline</a>.</li>
+</ul>
+</li>
 <li>The <code>ReadMe</code> now lists all example scenes for easy navigation.</li>
 </ul>
 <h1 id="internal">Internal</h1>
@@ -752,6 +838,8 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/ap
 <li><code><a href="/animancer/api/Animancer.Editor/PropertyReference">Serialization.PropertyReference</a></code> is a serializable reference to a <code>SerializedProperty</code>.</li>
 </ul>
 </li>
+<li>Moved the custom GUI for the <code>Start Time</code> and <code>Speed</code> fields to the base <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code>.</li>
+<li>All calls to <code>EditorGUI.Foldout</code> now set <code>EditorGUIUtility.hierarchyMode = true</code> to ensure that the arrow gets the correct indentation.</li>
 </ul>
 
 	</section>

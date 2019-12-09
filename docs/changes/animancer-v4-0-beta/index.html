@@ -326,12 +326,11 @@
 </ul>
 </li>
 <li>If you would like to test Animancer Pro, simply email the Invoice Number from your Asset Store purchase to <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</li>
-<li>Please <a href="/animancer/forum">post your feedback in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</li>
 </ul>
 <h1 id="feedback">Feedback</h1>
-<p>All feedback is welcome, but there are a few areas in particular that I am interested in:</p>
+<p>Please <a href="/animancer/forum">post your feedback in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>. All feedback is welcome, but there are a few areas in particular that I am interested in:</p>
 <ul>
-<li><strong>Transition Previews</strong>: the "Eye" icon in the top right of every Transition field in the Inspector allows you to preview what the model looks like throughout the transition and its animation. Unfortunately I don't personally have much use for this feature so I won't be able to continue improving it without feedback because I won't actually know what needs to be improved. So let me know if you have any ideas for it.</li>
+<li><strong>Transition Previews</strong>: the "eye" icon in the top right of every Transition field in the Inspector allows you to preview what the model looks like throughout the transition and its animation. Unfortunately I don't personally have much use for this feature so I won't be able to continue improving it without feedback because I won't actually know what needs to be improved. So let me know if you have any ideas for it.</li>
 <li><strong>Documentation</strong>: the new general documentation has not yet been updated except for the <a href="../animancer-v4-0">v4.0 Change Log</a>. So if anything is not explained there or if you have trouble figuring something out, please let me know since that will help determine what needs to go into the documentation.</li>
 <li><strong>Fade Modes</strong>: the new <code><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></code> enum explained in the <a href="../animancer-v4-0#playing-and-fading">Playing and Fading</a> section:
 <ul>
@@ -347,7 +346,6 @@
 </ul>
 </li>
 </ul>
-<p>Please <a href="/animancer/forum">post your feedback in the Unity Forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
 <h1 id="to-do">To Do</h1>
 <ul>
 <li>Improve the examples.</li>
@@ -366,6 +364,7 @@
 <li>Added Timeline support.</li>
 <li>Improved the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code>.</li>
 <li>Added support for Unity 2019.3.</li>
+<li>Added <code>Assets/Create/Animation Clip</code> menu function since the Animation window doesn't allow you to create new <code>AnimationClip</code>s without an Animator Controller.</li>
 </ul>
 </li>
 <li>Improved Mixer States:
@@ -398,6 +397,10 @@
 <li>Selecting an event or modifying its time now sets the time of the preview as well.</li>
 <li>Fixed errors when entering Play Mode with the window open.</li>
 <li>It now shows a warning explaining that multi-animation previewing doesn't work properly before Unity 2018.3.</li>
+<li>Fixed null exception if there are no <code>Animator</code>s in the previewed object.</li>
+<li>The <code>Transition From</code> and <code>Transition To</code> dropdown menus now have a "None" option.</li>
+<li>The <code>Play</code> button now changes to <code>Pause</code> if the graph is already playing.</li>
+<li>Added <code>Overall Speed</code> field to the <code>Preview Settings</code>.</li>
 </ul>
 </li>
 <li>Added support for Unity 2019.3:
@@ -433,17 +436,17 @@
 <li>Adjusted <code><a href="/animancer/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> highlight color to look better in the dark skin.</li>
 <li>Fixed it to not lose the hot control when dragging the time of the dummy end event.</li>
 <li>Fixed <code>TemporarySettings</code> to not lose selected events during assembly reloads.</li>
-<li>Removed <code>ISerializationCallbackReceiver</code> from <code>TemporarySettings</code> and changed it to use <code>OnEnable</code> and <code>OnDisable</code> because certain oeprations can't be used during serialization.</li>
+<li>Removed <code>ISerializationCallbackReceiver</code> from <code>TemporarySettings</code> and changed it to use <code>OnEnable</code> and <code>OnDisable</code> because certain operations can't be used during serialization.</li>
 <li>Fixed potential null exception in <code>TemporarySettings</code> on startup.</li>
 <li>Fixed manually typing an event time with all events visible to properly allow the change to be undone without clicking on another field.</li>
 </ul>
 </li>
 <li>Replaced the custom transition context menus with the standard serialized property context menu:
 <ul>
-<li>It now displays the size of the serialized event arrays.</li>
-<li>Fixed the <code>End Event/Clear</code> context menu function to be disabled when the time is not set.</li>
+<li>It now displays the size of the serialized Animancer Event arrays.</li>
 </ul>
 </li>
+<li>Fixed the <code>End Event/Clear</code> context menu function to be disabled when the time is not set.</li>
 <li>Updated the <code>Sequence Coroutine</code> example to use the new custom end time system rather than needing a <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.</li>
 <li>Improved <code><a href="/animancer/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> (a <code>ScriptableObject</code> that holds a single <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code>):
 <ul>
@@ -454,12 +457,11 @@
 <li>Moved the custom GUI for the <code>Start Time</code> and <code>Speed</code> fields to the base <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code>.</li>
 <li><code>AnimancerGUI.DoOptionalTimeFieldGUI</code> now makes sure that the label doesn't overlap the toggle.</li>
 <li>Added <code>AnimancerPlayable.LayerList.SetMinDefaultCapacity</code>.</li>
+<li>Renamed the <code>AnimancerPlayable.StateDictionary.Destroy</code> overloads that take collections to <code>DestroyAll</code> to avoid ambiguity.</li>
 <li>Removed <code>AnimancerComponent.CurrentState</code> since you can just use <code>animancer.States.Current</code>.</li>
 <li>Renamed <code>AnimancerGUI.DeselectGUI</code> to <code>Deselect</code> and fixed it to not prevent Undo commands.</li>
 <li>Removed unnecessary <code>GUI</code> suffix from various methods in <code><a href="/animancer/api/Animancer.Editor/AnimancerGUI">AnimancerGUI</a></code>.</li>
-<li>Added <code>Assets/Create/Animation Clip</code> menu function.</li>
 <li>Made several <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> members virtual instead of abstract: <code>AverageVelocity</code>, <code>ApplyAnimatorIK</code>, <code>ApplyFootIK</code>.</li>
-<li>Renamed the <code>AnimancerPlayable.StateDictionary.Destroy</code> overloads that take collections to <code>DestroyAll</code> to avoid ambiguity.</li>
 <li>Fixed an exception caused by destroying a state that has events.</li>
 <li>Improved <code><a href="/animancer/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code>:
 <ul>
