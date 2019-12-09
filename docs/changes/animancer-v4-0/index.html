@@ -285,7 +285,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/changes/ideas">Ideas</a></li>
-                <li><a href="/animancer/docs/changes/animancer-v4-0-alpha">Alpha Test v4.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-0-beta">Beta Test v4.0</a></li>
                 <li class="selected"><a href="/animancer/docs/changes/animancer-v4-0">Progress of v4.0</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
@@ -317,10 +317,10 @@
 <p>Planned Release 2020-01-??</p>
 </blockquote>
 <ul>
-<li>Animancer v4.0 is currently in development and has reached the Alpha phase (all the major features are stable, though it might not be considered a true Alpha depending on the definition you use).</li>
+<li>Animancer v4.0 is currently in development and has reached the Beta phase (feature complete, but the examples and documentation are not ready yet).</li>
 <li><strong>Upgrading from earlier versions will be free as always</strong>.</li>
-<li>Check out the <a href="../animancer-v4-0-alpha">Alpha Test</a> page if you would like to help test it.</li>
-<li>This page was last updated on 2019-11-25 (it will not be updated regularly).</li>
+<li>Check out the <a href="../animancer-v4-0-beta">Beta Test</a> page if you would like to help test it.</li>
+<li>This page was last updated on 2019-12-09 (it will not be updated regularly).</li>
 </ul>
 <h1 id="highlights">Highlights</h1>
 <ul>
@@ -328,7 +328,7 @@
 <ul>
 <li>The <code>Play</code>, <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> methods have all been unified as <code>Play</code> with fewer overall parameter combinations.</li>
 <li>Layers are now treated as a proper collection. So instead of <code>animancer.LayerCount</code>, <code>animancer.GetLayer(...)</code>, or <code>animancer.SetLayerAdditive(...)</code>, you now use <code>animancer.Layers.Count</code>, <code>animancer.Layers[...]</code>, or <code>animancer.Layers.SetAdditive(...)</code>.</li>
-<li>Same for states. So instead of <code>animancer.GetState(...)</code> you now use <code>animancer.States[...]</code>.</li>
+<li>Same for states. So instead of <code>animancer.GetState(...)</code> you now use <code>animancer.States[...]</code> and <code>animancer.CurrentState</code> is now <code>animancer.States.Current</code>.</li>
 <li>Serializables are now called Transitions (i.e. you now use <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code> instead of <code>ClipState.Serializable</code>).</li>
 </ul>
 </li>
@@ -339,7 +339,10 @@
 <li>The <code>AnimancerState.OnEnd</code> callback has moved to <code>AnimancerState.Events.OnEnd</code> and you can optionally specify a time for it instead of always being at the end of the clip.</li>
 </ul>
 </li>
-<li>New Transition Preview Window allows you to preview your transitions on your character without entering Play Mode.</li>
+<li>New <a href="#transition-previews">Transition Preview Window</a> allows you to preview your transitions on your character without entering Play Mode.</li>
+<li>Implemented <a href="#mixer-time-synchronisation">Mixer Time Synchronisation</a>.</li>
+<li>New <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> allows you to play Timeline assets in Animancer.</li>
+<li>Added support for Unity 2019.3.</li>
 </ul>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>The main public API has been significantly restructured in several ways which are likely to affect most users, so if you upgrade a project from an earlier version you will likely get some compiler errors which this section will help you fix.</p>
