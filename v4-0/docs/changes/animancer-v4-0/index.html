@@ -360,18 +360,21 @@
 <p><a href="../../#importing-animancer">Remember to always <strong>delete any older version of Animancer</strong> before upgrading</a>.</p>
 </blockquote>
 <h2 id="playing-and-fading">Playing and Fading</h2>
+<p></p><details><summary>The <code>AnimancerComponent.Play</code>, <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> methods are now all called <code>Play</code>. The <a href="../../manual/playing-animations#play-methods">Playing Animations</a> page explains their differences.</summary>
 <p>In <a href="../animancer-v3-1">v3.1</a>, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> had several overloads each of <code>Play</code>/<code>CrossFade</code>/<code>Transition</code> which were made even more complicated by the presence of default parameters for <code>fadeDuration</code> and <code>layerIndex</code>:</p>
-<pre><code class="language-cs">Play(AnimationClip clip, int layerIndex = 0)
+<pre><code class="language-cs">// Old Methods from v3.1:
+
+Play(AnimationClip clip, int layerIndex = 0)
 Play(AnimancerState state)
 Play(object key)
 
-// Note: replaced DefaultFadeDuration with just DefaultDuration to fit everything on one line.
-CrossFade(AnimationClip clip,            float fadeDuration = DefaultDuration, int layerIndex = 0)
-CrossFade(AnimancerState state,          float fadeDuration = DefaultDuration)
-CrossFade(object key,                    float fadeDuration = DefaultDuration)
-CrossFadeFromStart(AnimationClip clip,   float fadeDuration = DefaultDuration, int layerIndex = 0)
-CrossFadeFromStart(AnimancerState state, float fadeDuration = DefaultDuration, int layerIndex = 0)
-CrossFadeFromStart(object key,           float fadeDuration = DefaultDuration, int layerIndex = 0)
+// Note: replaced "DefaultFadeDuration" with just "Default" to fit everything on one line.
+CrossFade(AnimationClip clip,            float fadeDuration = Default, int layerIndex = 0)
+CrossFade(AnimancerState state,          float fadeDuration = Default)
+CrossFade(object key,                    float fadeDuration = Default)
+CrossFadeFromStart(AnimationClip clip,   float fadeDuration = Default, int layerIndex = 0)
+CrossFadeFromStart(AnimancerState state, float fadeDuration = Default, int layerIndex = 0)
+CrossFadeFromStart(object key,           float fadeDuration = Default, int layerIndex = 0)
 
 Transition(IAnimancerTransition transition, int layerIndex = 0)
 </code></pre>
@@ -383,7 +386,9 @@ Transition(IAnimancerTransition transition, int layerIndex = 0)
 <li>The new <code><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></code> enum controls how a fade actually works, which includes the old <code>CrossFadeFromStart</code> functionality and the ability to use the specified <code>fadeDuration</code> as a portion of the clip length rather than raw seconds. See the <code><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></code> API documentation for the details of each value.</li>
 <li>This takes it down to only 12 parameter combinations:</li>
 </ul>
-<pre><code class="language-cs">// Play.
+<pre><code class="language-cs">// New Methods in v4.0:
+
+// Play.
 Play(AnimationClip clip)
 Play(AnimancerState state)
 Play(object key)
@@ -399,8 +404,9 @@ Play(IAnimancerTransition transition)
 Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)
 </code></pre>
 <p>Unfortunately this means it is no longer possible to have a default value for the <code>fadeDuration</code> parameter because skipping that parameter would just use the instant <code>Play(clip)</code> method instead of <code>Play(clip, defaultFadeDuration)</code>. The <code>AnimancerPlayable.DefaultFadeDuration</code> constant still exists though, since it is used in several places such as the default value to use for a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>. Also note that the value is now <code>0.25</code> seconds to match the default Mecanim transition settings (it used to be <code>0.3</code> as the default used by the Legacy animation system).</p>
+</details><p></p>
 <h2 id="collections">Collections</h2>
-<p>Layers are now treated as a proper collection via the new <code><a href="/animancer/v4-0/api/Animancer/LayerList">AnimancerPlayable.LayerList</a></code> class which can be accessed via the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent/5A1697AB">AnimancerComponent.Layers</a></code> property. All layer related members have been moved into <code>LayerList</code>, for example:</p>
+<p></p><details><summary>All <a href="../../manual/blending/layers">Layer</a> functionality in <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has been moved into the new <code>Layers</code> property.</summary>
 <table class="table">
 <thead>
 <tr>
@@ -436,7 +442,8 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4
 </tbody>
 </table>
 <p>In earlier versions the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class was the only one with access to its <code>GetKey(AnimationClip)</code> method, meaning that it could have a <code>Play(AnimationClip)</code> method where other classes (<code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>) could not because they would not be able to determine what key to look up the state with in the internal dictionary (usually the clip is its own key, but <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> uses the clip's name so you can call <code>Play("Name")</code>). But Animancer v4.0 gives the <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> a reference to its component, so now you can call <code>animancer.Layers[1].Play(clip)</code> as shown above. Also note that this changes the meaning of the default <code>animancer.Play(clip)</code> so that instead of playing the animation on layer 0 it will now leave it on whatever layer it is currently on.</p>
-<p>The same has been done for states via the new <code><a href="/animancer/v4-0/api/Animancer/StateDictionary">AnimancerPlayable.StateDictionary</a></code> class which can be accessed via the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent/478CDD7C">AnimancerComponent.States</a></code> property:</p>
+</details><p></p>
+<p></p><details><summary>All <a href="../../manual/states">State</a> functionality in <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has been moved into the new <code>States</code> property.</summary>
 <table class="table">
 <thead>
 <tr>
@@ -471,21 +478,46 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4
 </tr>
 </tbody>
 </table>
+</details><p></p>
 <h2 id="renaming">Renaming</h2>
-<ul>
-<li>Renamed <code>AnimancerState.Serializable</code> and all its derived classes to <code>Transition</code>.</li>
-<li>Renamed <code>Vector2ControllerState</code> to <code><a href="/animancer/v4-0/api/Animancer/Float2ControllerState">Float2ControllerState</a></code> since it wraps two separate <code>float</code> parameters, even if it allows them to be accessed as a single <code>Vector2</code>.
-<ul>
-<li>Renamed <code>Vector3ControllerState</code> to <code><a href="/animancer/v4-0/api/Animancer/Float3ControllerState">Float3ControllerState</a></code> for the same reason.</li>
-<li>Renamed <code>FloatControllerState</code> to <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> for consistency (and so it sorts before the other two).</li>
-</ul>
-</li>
-<li>Renamed <code>Dispose</code> to <code>Destroy</code> and removed <code>IDisposable</code> from everything since they didn't follow regular disposal patterns. It doesn't make sense to put an <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> in a <code>using</code> statement and if you declare a <code>new <a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code> locally, you don't need to dispose it because it will be cleaned up when the graph is destroyed.</li>
-<li>Renamed <code>AnimancerNode.PortIndex</code> to <code>Index</code>.</li>
-<li>Renamed <code>AnimancerLayer.CurrentStateID</code> to <code>CommandCount</code> (same in <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>).</li>
-<li>Renamed <code>IEarlyUpdate</code> to <code><a href="/animancer/v4-0/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code>.</li>
-<li>Renamed the <code>AnimancerPlayable.StateDictionary.Destroy</code> overloads that take collections to <code>DestroyAll</code> to avoid ambiguity.</li>
-</ul>
+<table class="table">
+<thead>
+<tr>
+<th>Old Name (v3.1)</th>
+<th>New Name (v4.0) and Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All <code>Serializable</code> classes such as <code>ClipState.Serializable</code></td>
+<td><code>Transition</code><br>A more descriptive name. They encapsulate the fade duration, start time, etc. of an animation in much the same way as transitions in an Animator Controller. The fact that they are serializable is less significant.</td>
+</tr>
+<tr>
+<td><code>FloatControllerState</code><br><code>Vector2ControllerState</code><br><code>Vector3ControllerState</code></td>
+<td><code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code><br><code><a href="/animancer/v4-0/api/Animancer/Float2ControllerState">Float2ControllerState</a></code><br><code><a href="/animancer/v4-0/api/Animancer/Float3ControllerState">Float3ControllerState</a></code><br>They each wrap a specific number of <code>float</code> parameters, even if they happen to also allow those parameters to be accessed as a <code>Vector2</code> or <code>Vector3</code>.</td>
+</tr>
+<tr>
+<td>Most <code>Dispose</code> methods</td>
+<td><code>Destroy</code><br>Removed <code>IDisposable</code> from everything that does not follow regular disposal patterns. It makes no sense to put an <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> in a <code>using</code> statement and if you declare a <code>new <a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code> locally, you do not need to dispose it because it will be cleaned up when the graph is destroyed.</td>
+</tr>
+<tr>
+<td>All of the <code>AnimancerPlayable.StateDictionary.Destroy</code> methods that take collections</td>
+<td><code>AnimancerPlayable.StateDictionary.DestroyAll</code><br>To avoid ambiguity.</td>
+</tr>
+<tr>
+<td><code>AnimancerNode.PortIndex</code></td>
+<td><code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/DB78AEB6">AnimancerNode.Index</a></code><br>A simpler name since referring to "ports" was just confusing people anyway.</td>
+</tr>
+<tr>
+<td><code>AnimancerLayer.CurrentStateID</code><br><code>AnimancerPlayable.CurrentStateID</code></td>
+<td><code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/1393080E">AnimancerLayer.CommandCount</a></code><br><code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable/7C4112E5">AnimancerPlayable.CommandCount</a></code><br>A more descriptive name.</td>
+</tr>
+<tr>
+<td><code>IEarlyUpdate</code></td>
+<td><code><a href="/animancer/v4-0/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code><br>Now contains both <code>EarlyUpdate</code> and <code>LateUpdate</code> methods.</td>
+</tr>
+</tbody>
+</table>
 <h1 id="features">Features</h1>
 <h2 id="improved-transition-inspector">Improved Transition Inspector</h2>
 <p>As mentioned above, <code>AnimancerState.Serializable</code> and all its derived classes have been renamed to <code>Transition</code>. But that's not all, they have also received a major upgrade to their Inspector interface:</p>
