@@ -57,10 +57,8 @@
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/v4-0/docs"><img src="/animancer/v4-0/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
-        <li><a href="/animancer/v4-0/faq"><img src="/animancer/v4-0/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
+        <li><a href="/animancer/v4-0/docs/help"><img src="/animancer/v4-0/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
         <li><a href="/animancer/v4-0/api/Animancer/AnimancerComponent"><img src="/animancer/v4-0/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
-        <li><a href="/animancer/forum"><img src="/animancer/v4-0/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
-        <li><a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer"><img src="/animancer/v4-0/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/v4-0/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/v4-0/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetikgames.github.io/kailas-dierk/unity-assets"><img src="/animancer/v4-0/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -97,6 +95,7 @@
                     <ul class="sidebar-menu">
                         
 
+                <li><a href="/animancer/v4-0/docs/help">Help and FAQ</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -282,6 +281,7 @@
                     <a href="/animancer/v4-0/docs/source">Source Code</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/v4-0/docs/source/dlls">DLLs</a></li>
                 <li><a href="/animancer/v4-0/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/v4-0/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/v4-0/docs/source/asset-sources">Asset Sources</a></li>
@@ -329,7 +329,8 @@
 <li>Animancer v4.0 is currently in development and has reached the Beta phase (feature complete, but the examples and documentation are not ready yet).</li>
 <li><strong>Upgrading from earlier versions will be free as always</strong>.</li>
 <li>Check out the <a href="../animancer-v4-0-beta">Beta Test</a> page if you would like to help test it.</li>
-<li>This page was last updated on 2019-12-13.</li>
+<li>Please create a <a href="https://github.com/KybernetikGames/animancer/issues">Github Issue</a> if you have any questions, bug reports, feature suggestions, etc. This will probably become the main discussion location since every topic can have its own thread instead of having everything in a single large thread like the Unity Forum.</li>
+<li>This page was last updated on 2019-12-16.</li>
 </ul>
 <h1 id="highlights">Highlights</h1>
 <ul>
@@ -351,14 +352,21 @@
 <li>New <a href="#transition-previews">Transition Preview Window</a> allows you to preview your transitions on your character without entering Play Mode.</li>
 <li>Implemented <a href="#mixer-time-synchronisation">Mixer Time Synchronisation</a>.</li>
 <li>New <code><a href="/animancer/v4-0/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> allows you to play <a href="#timeline">Timeline</a> assets in Animancer.</li>
-<li>Added support for Unity 2019.3.</li>
+<li>Added support for Unity 2019.3 (most upgrades are fine, but that one broke a lot of things).</li>
 <li>Added <code>Assets/Create/Animation Clip</code> menu function since the Animation window doesn't allow you to create new <code>AnimationClip</code>s without an Animator Controller.</li>
 </ul>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
-<p>The main public API has been significantly restructured in several ways which are likely to affect most users, so if you upgrade a project from an earlier version you will likely get some compiler errors which this section will help you fix.</p>
+<p>The main public API has been significantly restructured in several ways which will affect all users, so this section will help you fix the errors you get when upgrading a project from an earlier version.</p>
 <blockquote class="blockquote">
 <p><a href="../../#importing-animancer">Remember to always <strong>delete any older version of Animancer</strong> before upgrading</a>.</p>
 </blockquote>
+<h2 id="serialized-data">Serialized Data</h2>
+<p>Some of the changes to serialized data structures will unfortunately cause certain values to be lost when upgrading so if you were using any of the following things you will need to set them again manually:</p>
+<ul>
+<li>The <code>AnimancerComponent.StopOnDisable</code> bool was previously serialized by the <code>Animator</code> component itself, but it has now been replaced by the <code><a href="/animancer/v4-0/api/Animancer/DisableAction">AnimancerComponent.DisableAction</a></code> enum which is serialized in the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> itself (and accessable via the <code>ActionOnDisable</code> property). <code>Stop</code> and <code>Pause</code> correspond to the previous <code>true</code> and <code>false</code>, but there are now several other values too.</li>
+<li><code>ClipState.Transition.StartTime</code> (formerly <code>ClipState.Serializable.StartTime</code>) is now always serialized as a normalized time value since the Inspector shows the value as both normalized time and seconds. So if you previously had the value set to seconds, it will now be incorrect.</li>
+<li><a href="#mixer-time-synchronisation">Mixer Time Synchronisation</a> is now enabled by default for all mixers so they will give different results to before it was implemented (likely better results).</li>
+</ul>
 <h2 id="playing-and-fading">Playing and Fading</h2>
 <p></p><details><summary>The <code>AnimancerComponent.Play</code>, <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> methods are now all called <code>Play</code>. The <a href="../../manual/playing-animations#play-methods">Playing Animations</a> page explains their differences.</summary>
 <p>In <a href="../animancer-v3-1">v3.1</a>, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> had several overloads each of <code>Play</code>/<code>CrossFade</code>/<code>Transition</code> which were made even more complicated by the presence of default parameters for <code>fadeDuration</code> and <code>layerIndex</code>:</p>
@@ -627,15 +635,7 @@ public void Attack()
 <p><img src="timeline.png" class="img-responsive"></p>
 <h1 id="changes">Changes</h1>
 <ul>
-<li>Replaced <code>AnimancerComponent.StopOnDisable</code> with <code>ActionOnDisable</code> which is an enum with several new values:
-<ul>
-<li><code>Stop</code> - The default value still stops all animations (same as <code>StopOnDisable = true</code> did).</li>
-<li><code>Pause</code> - Pauses the graph so animations can resume from their current state afterwards (same as <code>StopOnDisable = false</code> did).</li>
-<li><code>Continue</code> - Keeps playing while inactive.</li>
-<li><code>Reset</code> - Resets the object to its bind pose. An Inspector message explains that <code>Reset</code> will only work if the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> is above the <code>Animator</code> and it shows a button to fix it.</li>
-<li><code>Destroy</code> - Destroys the graph.</li>
-</ul>
-</li>
+<li>Replaced <code>AnimancerComponent.StopOnDisable</code> with <code>ActionOnDisable</code> which is a <code><a href="/animancer/v4-0/api/Animancer/DisableAction">AnimancerComponent.DisableAction</a></code> enum with <code>Stop</code> and <code>Pause</code> corresponding to the previous <code>true</code> and <code>false</code> as well as several new values.</li>
 <li><code>AnimancerState.Transition.State</code> is now the state most recently passed into <code>Apply</code> (backed by the un-cast <code>BaseState</code>) so they can be more easily used on multiple objects.
 <ul>
 <li>Overrides of <code>CreateState</code> no longer need to manually set the <code>State</code>.</li>
@@ -677,6 +677,8 @@ public void Attack()
 </ul>
 </li>
 <li>Made several <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> members virtual instead of abstract: <code>AverageVelocity</code>, <code>ApplyAnimatorIK</code>, <code>ApplyFootIK</code>.</li>
+<li>Added Assembly Definitions for <code>Animancer.FSM</code> and <code>Animancer.Examples</code> to make sure the <code>FSM</code> system is entirely separate.</li>
+<li>Removed null checks from <code>AnimancerPlayable.Play(animator, playable, component)</code> so it will now throw exceptions if the parameters are null.</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
@@ -756,15 +758,20 @@ public void Attack()
 </ul>
 <h1 id="examples">Examples</h1>
 <ul>
-<li>Added <a href="../../examples/basics/hybrid-system">Basics/Hybrid System</a> example to demonstrate the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Animator Controllers/Hybrid</a>.</li>
-<li>Cleaned up the <code>Spider Bot</code> example animation names to match the same convention as others.</li>
-<li>Improved the <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> example script to account for the foot rotation when calculating the raycast diration.</li>
-<li>Updated the <code>Sequence Coroutine</code> example to use the new custom end time system rather than needing a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.
+<li>The <code><a href="/animancer/v4-0/api/Animancer.Editor/ReadMe">ReadMe</a></code> now lists all example scenes for easy navigation.</li>
+<li>Renamed <code>Basics/Simple Playing</code> to <a href="../../basics/quick-play">Quick Play</a> and improved its script comments a bit.</li>
+<li>Updated <a href="../../basics/sequence-coroutine">Basics/Sequence Coroutine</a> to use the new custom end time system rather than needing a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.</li>
+<li>Added an introduction sequence to <a href="../../state-machines/platformer">State Machines/Platformer</a> using <a href="#timeline">Timeline</a>.</li>
+<li>Improved <a href="../../locomotion/root-motion">Locomotion/RootMotion</a>:
 <ul>
-<li>Added an introduction sequence to the <code>State Machines/Platformer</code> example using <a href="#timeline">Timeline</a>.</li>
+<li>It now overrides <code>Transition.Apply</code> to set the root motion flag so the caller doesn't need to do it.</li>
+<li>It now has some extra fields to specify another object to apply the root motion to.</li>
 </ul>
 </li>
-<li>The <code>ReadMe</code> now lists all example scenes for easy navigation.</li>
+<li>Added <a href="../../examples/basics/hybrid-system">Basics/Hybrid System</a> to demonstrate the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Animator Controllers/Hybrid</a>.</li>
+<li>Cleaned up <a href="../../fine-control/spider-bot">Fine Control/Spider Bot</a> animation names to match the same convention as others.</li>
+<li>Improved <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> to account for the foot rotation when calculating the raycast diration.</li>
+<li>Added <code>[DefaultExecutionOrder]</code> attributes to all <code>Creature</code> examples as well as comments in <code>Awake</code> to reinforce its importance.</li>
 </ul>
 <h1 id="internal">Internal</h1>
 <ul>
@@ -774,7 +781,7 @@ public void Attack()
 <li>Split <code>AnimancerPlayableEditor</code> into <code><a href="/animancer/v4-0/api/Animancer.Editor/BaseAnimancerComponentEditor">BaseAnimancerComponentEditor</a></code> and <code><a href="/animancer/v4-0/api/Animancer.Editor/AnimancerPlayableDrawer">AnimancerPlayableDrawer</a></code> to the preview window can draw its <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> without actually having an <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</li>
 <li>Moved <code><a href="/animancer/v4-0/api/Animancer/FastComparer">FastComparer</a></code> out of <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>.</li>
 <li>Changed <code>AnimancerLayer.DestroyStates</code> and <code>ManualMixerState.DestroyChildren</code> to iterate in reverse order.</li>
-<li>Moved <code>AnimancerEditorUtilities.GUIStyles</code> out to <code><a href="/animancer/v4-0/api/Animancer.Editor/AnimancerGUI">AnimancerGUI</a></code> and moved the GUI utilities there.
+<li>Moved <code>AnimancerEditorUtilities.GUIStyles</code> out to <code><a href="/animancer/v4-0/api/Animancer.Editor/AnimancerGUI">AnimancerGUI</a></code> and moved all GUI utilities there.
 <ul>
 <li>Renamed <code>GetLayoutRect</code> to <code>LayoutSingleLineRect</code>.</li>
 <li>Added <code>padding</code> parameter to <code>StealFromLeft</code> and <code>StealFromRight</code>.</li>

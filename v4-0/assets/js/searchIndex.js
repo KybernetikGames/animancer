@@ -39,188 +39,76 @@ var searchModule = function() {
     a(
         {
             id:0,
-            title:"IdleAndWalkAndRun",
-            content:"IdleAndWalkAndRun",
+            title:"IPlayableWrapper",
+            content:"IPlayableWrapper",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun',
-            title:"IdleAndWalkAndRun",
+            url:'/animancer/v4-0/api/Animancer/IPlayableWrapper',
+            title:"IPlayableWrapper",
             description:""
         }
     );
     a(
         {
             id:1,
-            title:"ClipState Transition Drawer",
-            content:"ClipState Transition Drawer",
+            title:"PlayingAndFading",
+            content:"PlayingAndFading",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"ClipState.Transition.Drawer",
+            url:'/animancer/v4-0/api/Animancer.Examples.Basics/PlayingAndFading',
+            title:"PlayingAndFading",
             description:""
         }
     );
     a(
         {
             id:2,
-            title:"AnimancerComponentEditor",
-            content:"AnimancerComponentEditor",
+            title:"TransitionDrawer TransitionContext",
+            content:"TransitionDrawer TransitionContext",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerComponentEditor',
-            title:"AnimancerComponentEditor",
+            url:'/animancer/v4-0/api/Animancer.Editor/TransitionContext',
+            title:"TransitionDrawer.TransitionContext",
             description:""
         }
     );
     a(
         {
             id:3,
-            title:"ObstacleTreadmill",
-            content:"ObstacleTreadmill",
+            title:"FlinchState",
+            content:"FlinchState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill',
-            title:"ObstacleTreadmill",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers/FlinchState',
+            title:"FlinchState",
             description:""
         }
     );
     a(
         {
             id:4,
-            title:"IKPuppetTarget",
-            content:"IKPuppetTarget",
+            title:"TimeRuler",
+            content:"TimeRuler",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/IKPuppetTarget',
-            title:"IKPuppetTarget",
+            url:'/animancer/v4-0/api/Animancer.Editor/TimeRuler',
+            title:"TimeRuler",
             description:""
         }
     );
     a(
         {
             id:5,
-            title:"ParametizedAnimancerStateDrawer",
-            content:"ParametizedAnimancerStateDrawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1',
-            title:"ParametizedAnimancerStateDrawer<T>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:6,
-            title:"TransitionDrawer",
-            content:"TransitionDrawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/TransitionDrawer',
-            title:"TransitionDrawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:7,
-            title:"AnimancerEvent Sequence",
-            content:"AnimancerEvent Sequence",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Sequence',
-            title:"AnimancerEvent.Sequence",
-            description:""
-        }
-    );
-    a(
-        {
-            id:8,
-            title:"CreatureBrain",
-            content:"CreatureBrain",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/CreatureBrain',
-            title:"CreatureBrain",
-            description:""
-        }
-    );
-    a(
-        {
-            id:9,
-            title:"AnimationEventReceiver",
-            content:"AnimationEventReceiver",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimationEventReceiver',
-            title:"AnimationEventReceiver",
-            description:""
-        }
-    );
-    a(
-        {
-            id:10,
-            title:"MouseBrain",
-            content:"MouseBrain",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/MouseBrain',
-            title:"MouseBrain",
-            description:""
-        }
-    );
-    a(
-        {
-            id:11,
-            title:"AnimancerEditorUtilities",
-            content:"AnimancerEditorUtilities",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerEditorUtilities',
-            title:"AnimancerEditorUtilities",
-            description:""
-        }
-    );
-    a(
-        {
-            id:12,
-            title:"SpriteCharacterController",
-            content:"SpriteCharacterController",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.DirectionalSprites/SpriteCharacterController',
-            title:"SpriteCharacterController",
-            description:""
-        }
-    );
-    a(
-        {
-            id:13,
             title:"SpiderBotBasic",
             content:"SpiderBotBasic",
             description:'',
@@ -234,49 +122,133 @@ var searchModule = function() {
     );
     a(
         {
-            id:14,
-            title:"LocomotionState",
-            content:"LocomotionState",
+            id:6,
+            title:"Serialization",
+            content:"Serialization",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState',
-            title:"LocomotionState",
+            url:'/animancer/v4-0/api/Animancer.Editor/Serialization',
+            title:"Serialization",
+            description:""
+        }
+    );
+    a(
+        {
+            id:7,
+            title:"IdleAndWalkAndRun",
+            content:"IdleAndWalkAndRun",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun',
+            title:"IdleAndWalkAndRun",
+            description:""
+        }
+    );
+    a(
+        {
+            id:8,
+            title:"RaycastFootIK",
+            content:"RaycastFootIK",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK',
+            title:"RaycastFootIK",
+            description:""
+        }
+    );
+    a(
+        {
+            id:9,
+            title:"DirectionalMixerState",
+            content:"DirectionalMixerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/DirectionalMixerState',
+            title:"DirectionalMixerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:10,
+            title:"Creature",
+            content:"Creature",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Creature',
+            title:"Creature",
+            description:""
+        }
+    );
+    a(
+        {
+            id:11,
+            title:"LinearBlendTreeLocomotion",
+            content:"LinearBlendTreeLocomotion",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion',
+            title:"LinearBlendTreeLocomotion",
+            description:""
+        }
+    );
+    a(
+        {
+            id:12,
+            title:"PlayableAssetState Transition Drawer",
+            content:"PlayableAssetState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"PlayableAssetState.Transition.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:13,
+            title:"Creature",
+            content:"Creature",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature',
+            title:"Creature",
+            description:""
+        }
+    );
+    a(
+        {
+            id:14,
+            title:"AnimancerEvent Sequence Enumerator",
+            content:"AnimancerEvent Sequence Enumerator",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Enumerator',
+            title:"AnimancerEvent.Sequence.Enumerator",
             description:""
         }
     );
     a(
         {
             id:15,
-            title:"IKPuppetLookTarget",
-            content:"IKPuppetLookTarget",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget',
-            title:"IKPuppetLookTarget",
-            description:""
-        }
-    );
-    a(
-        {
-            id:16,
-            title:"ManualMixerState Transition Drawer",
-            content:"ManualMixerState Transition Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"ManualMixerState.Transition.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:17,
             title:"GUIElementWidthBoldable",
             content:"GUIElementWidthBoldable",
             description:'',
@@ -285,6 +257,34 @@ var searchModule = function() {
         {
             url:'/animancer/v4-0/api/Animancer.Editor/GUIElementWidthBoldable',
             title:"GUIElementWidthBoldable",
+            description:""
+        }
+    );
+    a(
+        {
+            id:16,
+            title:"Float ControllerState",
+            content:"Float ControllerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Float3ControllerState',
+            title:"Float3ControllerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:17,
+            title:"ControllerState Drawer",
+            content:"ControllerState Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"ControllerState.Drawer",
             description:""
         }
     );
@@ -305,1574 +305,6 @@ var searchModule = function() {
     a(
         {
             id:19,
-            title:"TimeScale",
-            content:"TimeScale",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples/TimeScale',
-            title:"TimeScale",
-            description:""
-        }
-    );
-    a(
-        {
-            id:20,
-            title:"AnimancerEvent",
-            content:"AnimancerEvent",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimancerEvent',
-            title:"AnimancerEvent",
-            description:""
-        }
-    );
-    a(
-        {
-            id:21,
-            title:"LinearMixerState Transition",
-            content:"LinearMixerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"LinearMixerState.Transition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:22,
-            title:"StateMachine",
-            content:"StateMachine",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.FSM/StateMachine_1',
-            title:"StateMachine<TState>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:23,
-            title:"DelegateState",
-            content:"DelegateState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.FSM/DelegateState_1',
-            title:"DelegateState<TState>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:24,
-            title:"MixerState",
-            content:"MixerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/MixerState',
-            title:"MixerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:25,
-            title:"IAnimancerTransitionDetailed",
-            content:"IAnimancerTransitionDetailed",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/IAnimancerTransitionDetailed',
-            title:"IAnimancerTransitionDetailed",
-            description:""
-        }
-    );
-    a(
-        {
-            id:26,
-            title:"Strings",
-            content:"Strings",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Strings',
-            title:"Strings",
-            description:""
-        }
-    );
-    a(
-        {
-            id:27,
-            title:"Float ControllerState Transition",
-            content:"Float ControllerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"Float1ControllerState.Transition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:28,
-            title:"SimpleEventReceiver",
-            content:"SimpleEventReceiver",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/SimpleEventReceiver',
-            title:"SimpleEventReceiver",
-            description:""
-        }
-    );
-    a(
-        {
-            id:29,
-            title:"TimelineState",
-            content:"TimelineState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/TimelineState',
-            title:"TimelineState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:30,
-            title:"PixelPerfectPositioning",
-            content:"PixelPerfectPositioning",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/PixelPerfectPositioning',
-            title:"PixelPerfectPositioning",
-            description:""
-        }
-    );
-    a(
-        {
-            id:31,
-            title:"LayerExample",
-            content:"LayerExample",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Layers/LayerExample',
-            title:"LayerExample",
-            description:""
-        }
-    );
-    a(
-        {
-            id:32,
-            title:"AnimancerTransition",
-            content:"AnimancerTransition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimancerTransition_2',
-            title:"AnimancerTransition<TTransition, TState>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:33,
-            title:"Creature",
-            content:"Creature",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Creatures/Creature',
-            title:"Creature",
-            description:""
-        }
-    );
-    a(
-        {
-            id:34,
-            title:"Strings DocsURLs",
-            content:"Strings DocsURLs",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/DocsURLs',
-            title:"Strings.DocsURLs",
-            description:""
-        }
-    );
-    a(
-        {
-            id:35,
-            title:"CreatureState",
-            content:"CreatureState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureState',
-            title:"CreatureState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:36,
-            title:"ScreenBoundsTeleporter",
-            content:"ScreenBoundsTeleporter",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/ScreenBoundsTeleporter',
-            title:"ScreenBoundsTeleporter",
-            description:""
-        }
-    );
-    a(
-        {
-            id:37,
-            title:"IKeyHolder",
-            content:"IKeyHolder",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/IKeyHolder',
-            title:"IKeyHolder",
-            description:""
-        }
-    );
-    a(
-        {
-            id:38,
-            title:"Health",
-            content:"Health",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health',
-            title:"Health",
-            description:""
-        }
-    );
-    a(
-        {
-            id:39,
-            title:"Creature",
-            content:"Creature",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.InterruptManagement/Creature',
-            title:"Creature",
-            description:""
-        }
-    );
-    a(
-        {
-            id:40,
-            title:"AnimationType",
-            content:"AnimationType",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimationType',
-            title:"AnimationType",
-            description:""
-        }
-    );
-    a(
-        {
-            id:41,
-            title:"FlinchState",
-            content:"FlinchState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers/FlinchState',
-            title:"FlinchState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:42,
-            title:"CreatureBrain",
-            content:"CreatureBrain",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureBrain',
-            title:"CreatureBrain",
-            description:""
-        }
-    );
-    a(
-        {
-            id:43,
-            title:"IdleState",
-            content:"IdleState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/IdleState',
-            title:"IdleState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:44,
-            title:"AnimancerTransition",
-            content:"AnimancerTransition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimancerTransition',
-            title:"AnimancerTransition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:45,
-            title:"GUIElementWidth",
-            content:"GUIElementWidth",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/GUIElementWidth',
-            title:"GUIElementWidth",
-            description:""
-        }
-    );
-    a(
-        {
-            id:46,
-            title:"RespawnState",
-            content:"RespawnState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState',
-            title:"RespawnState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:47,
-            title:"EventSequenceDrawer Context",
-            content:"EventSequenceDrawer Context",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/Context',
-            title:"EventSequenceDrawer.Context",
-            description:""
-        }
-    );
-    a(
-        {
-            id:48,
-            title:"FastComparer",
-            content:"FastComparer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/FastComparer',
-            title:"FastComparer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:49,
-            title:"Float ControllerState",
-            content:"Float ControllerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Float2ControllerState',
-            title:"Float2ControllerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:50,
-            title:"Float ControllerState Transition Drawer",
-            content:"Float ControllerState Transition Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"Float3ControllerState.Transition.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:51,
-            title:"ControllerState Transition Drawer",
-            content:"ControllerState Transition Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"ControllerState.Transition.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:52,
-            title:"StateExtensions",
-            content:"StateExtensions",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.FSM/StateExtensions',
-            title:"StateExtensions",
-            description:""
-        }
-    );
-    a(
-        {
-            id:53,
-            title:"CreatureState Priority",
-            content:"CreatureState Priority",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.InterruptManagement/Priority',
-            title:"CreatureState.Priority",
-            description:""
-        }
-    );
-    a(
-        {
-            id:54,
-            title:"IKPuppet",
-            content:"IKPuppet",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/IKPuppet',
-            title:"IKPuppet",
-            description:""
-        }
-    );
-    a(
-        {
-            id:55,
-            title:"Float ControllerState Transition",
-            content:"Float ControllerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"Float3ControllerState.Transition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:56,
-            title:"DirectionalAnimationSet Diagonals",
-            content:"DirectionalAnimationSet Diagonals",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Diagonals',
-            title:"DirectionalAnimationSet8.Diagonals",
-            description:""
-        }
-    );
-    a(
-        {
-            id:57,
-            title:"MixerState TransitionDrawer",
-            content:"MixerState TransitionDrawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/TransitionDrawer',
-            title:"MixerState.TransitionDrawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:58,
-            title:"RaycastFootIK",
-            content:"RaycastFootIK",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK',
-            title:"RaycastFootIK",
-            description:""
-        }
-    );
-    a(
-        {
-            id:59,
-            title:"TransitionPreviewWindow",
-            content:"TransitionPreviewWindow",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/TransitionPreviewWindow',
-            title:"TransitionPreviewWindow",
-            description:""
-        }
-    );
-    a(
-        {
-            id:60,
-            title:"ManualMixerState",
-            content:"ManualMixerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/ManualMixerState',
-            title:"ManualMixerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:61,
-            title:"RandomAudioPlayer",
-            content:"RandomAudioPlayer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer',
-            title:"RandomAudioPlayer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:62,
-            title:"DirectionalAnimationSet",
-            content:"DirectionalAnimationSet",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/DirectionalAnimationSet',
-            title:"DirectionalAnimationSet",
-            description:""
-        }
-    );
-    a(
-        {
-            id:63,
-            title:"ControllerState Transition",
-            content:"ControllerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition_1',
-            title:"ControllerState.Transition<TState>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:64,
-            title:"SequenceCoroutine",
-            content:"SequenceCoroutine",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Basics/SequenceCoroutine',
-            title:"SequenceCoroutine",
-            description:""
-        }
-    );
-    a(
-        {
-            id:65,
-            title:"OrbitControls",
-            content:"OrbitControls",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples/OrbitControls',
-            title:"OrbitControls",
-            description:""
-        }
-    );
-    a(
-        {
-            id:66,
-            title:"AnimancerState Transition",
-            content:"AnimancerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition_1',
-            title:"AnimancerState.Transition<TState>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:67,
-            title:"CreatureState",
-            content:"CreatureState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/CreatureState',
-            title:"CreatureState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:68,
-            title:"IHasKey",
-            content:"IHasKey",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/IHasKey',
-            title:"IHasKey",
-            description:""
-        }
-    );
-    a(
-        {
-            id:69,
-            title:"Float ControllerState Transition",
-            content:"Float ControllerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"Float2ControllerState.Transition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:70,
-            title:"DirectionalAnimationSet Direction",
-            content:"DirectionalAnimationSet Direction",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Direction',
-            title:"DirectionalAnimationSet.Direction",
-            description:""
-        }
-    );
-    a(
-        {
-            id:71,
-            title:"Float ControllerState",
-            content:"Float ControllerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Float3ControllerState',
-            title:"Float3ControllerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:72,
-            title:"IState",
-            content:"IState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.FSM/IState_1',
-            title:"IState<TState>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:73,
-            title:"AttackState AttackClip",
-            content:"AttackState AttackClip",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackClip',
-            title:"AttackState.AttackClip",
-            description:""
-        }
-    );
-    a(
-        {
-            id:74,
-            title:"MixerState Transition",
-            content:"MixerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition_2',
-            title:"MixerState.Transition<TMixer, TParameter>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:75,
-            title:"PlayAnimationOnClick",
-            content:"PlayAnimationOnClick",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Basics/PlayAnimationOnClick',
-            title:"PlayAnimationOnClick",
-            description:""
-        }
-    );
-    a(
-        {
-            id:76,
-            title:"AnimancerStateDrawer",
-            content:"AnimancerStateDrawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerStateDrawer_1',
-            title:"AnimancerStateDrawer<T>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:77,
-            title:"NamedAnimancerComponentEditor",
-            content:"NamedAnimancerComponentEditor",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/NamedAnimancerComponentEditor',
-            title:"NamedAnimancerComponentEditor",
-            description:""
-        }
-    );
-    a(
-        {
-            id:78,
-            title:"Float ControllerState Transition Drawer",
-            content:"Float ControllerState Transition Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"Float2ControllerState.Transition.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:79,
-            title:"NamedAnimancerComponent",
-            content:"NamedAnimancerComponent",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/NamedAnimancerComponent',
-            title:"NamedAnimancerComponent",
-            description:""
-        }
-    );
-    a(
-        {
-            id:80,
-            title:"AnimancerLayer",
-            content:"AnimancerLayer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimancerLayer',
-            title:"AnimancerLayer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:81,
-            title:"NestedAnimatorEditor",
-            content:"NestedAnimatorEditor",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/NestedAnimatorEditor',
-            title:"NestedAnimatorEditor",
-            description:""
-        }
-    );
-    a(
-        {
-            id:82,
-            title:"BoolPref",
-            content:"BoolPref",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/BoolPref',
-            title:"BoolPref",
-            description:""
-        }
-    );
-    a(
-        {
-            id:83,
-            title:"CreatureState",
-            content:"CreatureState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.InterruptManagement/CreatureState',
-            title:"CreatureState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:84,
-            title:"StartingPositions",
-            content:"StartingPositions",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/StartingPositions',
-            title:"StartingPositions",
-            description:""
-        }
-    );
-    a(
-        {
-            id:85,
-            title:"ControllerState Parameter",
-            content:"ControllerState Parameter",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Parameter',
-            title:"ControllerState.Parameter",
-            description:""
-        }
-    );
-    a(
-        {
-            id:86,
-            title:"TransitionDrawer TransitionContext",
-            content:"TransitionDrawer TransitionContext",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/TransitionContext',
-            title:"TransitionDrawer.TransitionContext",
-            description:""
-        }
-    );
-    a(
-        {
-            id:87,
-            title:"RandomAudioPlayer MaterialAudioOverride",
-            content:"RandomAudioPlayer MaterialAudioOverride",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/MaterialAudioOverride',
-            title:"RandomAudioPlayer.MaterialAudioOverride",
-            description:""
-        }
-    );
-    a(
-        {
-            id:88,
-            title:"ClipState Transition",
-            content:"ClipState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"ClipState.Transition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:89,
-            title:"AnimancerEditorUtilities DummyAnimancerComponent",
-            content:"AnimancerEditorUtilities DummyAnimancerComponent",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/DummyAnimancerComponent',
-            title:"AnimancerEditorUtilities.DummyAnimancerComponent",
-            description:""
-        }
-    );
-    a(
-        {
-            id:90,
-            title:"LinearMixerState",
-            content:"LinearMixerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/LinearMixerState',
-            title:"LinearMixerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:91,
-            title:"AnimancerPlayable",
-            content:"AnimancerPlayable",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimancerPlayable',
-            title:"AnimancerPlayable",
-            description:""
-        }
-    );
-    a(
-        {
-            id:92,
-            title:"ManualMixerState Transition",
-            content:"ManualMixerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"ManualMixerState.Transition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:93,
-            title:"ClipState Drawer",
-            content:"ClipState Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"ClipState.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:94,
-            title:"ClickToInteract",
-            content:"ClickToInteract",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.FineControl/ClickToInteract',
-            title:"ClickToInteract",
-            description:""
-        }
-    );
-    a(
-        {
-            id:95,
-            title:"AttackTrail",
-            content:"AttackTrail",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail',
-            title:"AttackTrail",
-            description:""
-        }
-    );
-    a(
-        {
-            id:96,
-            title:"SpriteMovementController",
-            content:"SpriteMovementController",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.DirectionalSprites/SpriteMovementController',
-            title:"SpriteMovementController",
-            description:""
-        }
-    );
-    a(
-        {
-            id:97,
-            title:"MixerState Transition",
-            content:"MixerState Transition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Transition2D',
-            title:"MixerState.Transition2D",
-            description:""
-        }
-    );
-    a(
-        {
-            id:98,
-            title:"PlayableAssetState",
-            content:"PlayableAssetState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/PlayableAssetState',
-            title:"PlayableAssetState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:99,
-            title:"Key",
-            content:"Key",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Key',
-            title:"Key",
-            description:""
-        }
-    );
-    a(
-        {
-            id:100,
-            title:"MouseDrag",
-            content:"MouseDrag",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/MouseDrag',
-            title:"MouseDrag",
-            description:""
-        }
-    );
-    a(
-        {
-            id:101,
-            title:"IdleState",
-            content:"IdleState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/IdleState',
-            title:"IdleState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:102,
-            title:"ClipState",
-            content:"ClipState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/ClipState',
-            title:"ClipState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:103,
-            title:"PlayableAssetState Transition Drawer",
-            content:"PlayableAssetState Transition Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"PlayableAssetState.Transition.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:104,
-            title:"Creature",
-            content:"Creature",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature',
-            title:"Creature",
-            description:""
-        }
-    );
-    a(
-        {
-            id:105,
-            title:"GolfMiniGame",
-            content:"GolfMiniGame",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers/GolfMiniGame',
-            title:"GolfMiniGame",
-            description:""
-        }
-    );
-    a(
-        {
-            id:106,
-            title:"ObjectPool",
-            content:"ObjectPool",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/ObjectPool',
-            title:"ObjectPool",
-            description:""
-        }
-    );
-    a(
-        {
-            id:107,
-            title:"FootstepEvents",
-            content:"FootstepEvents",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimationEvents/FootstepEvents',
-            title:"FootstepEvents",
-            description:""
-        }
-    );
-    a(
-        {
-            id:108,
-            title:"LocomotionState",
-            content:"LocomotionState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/LocomotionState',
-            title:"LocomotionState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:109,
-            title:"AnimancerPlayable StateDictionary",
-            content:"AnimancerPlayable StateDictionary",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/StateDictionary',
-            title:"AnimancerPlayable.StateDictionary",
-            description:""
-        }
-    );
-    a(
-        {
-            id:110,
-            title:"StateMachine InputBuffer",
-            content:"StateMachine InputBuffer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.FSM/InputBuffer',
-            title:"StateMachine<TKey, TState>.InputBuffer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:111,
-            title:"IdleAndWalk",
-            content:"IdleAndWalk",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndWalk',
-            title:"IdleAndWalk",
-            description:""
-        }
-    );
-    a(
-        {
-            id:112,
-            title:"DirectionalMixerState",
-            content:"DirectionalMixerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/DirectionalMixerState',
-            title:"DirectionalMixerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:113,
-            title:"AnimancerPlayable LayerList",
-            content:"AnimancerPlayable LayerList",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/LayerList',
-            title:"AnimancerPlayable.LayerList",
-            description:""
-        }
-    );
-    a(
-        {
-            id:114,
-            title:"Serialization",
-            content:"Serialization",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/Serialization',
-            title:"Serialization",
-            description:""
-        }
-    );
-    a(
-        {
-            id:115,
-            title:"LandingState",
-            content:"LandingState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState',
-            title:"LandingState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:116,
-            title:"IAnimancerRoot",
-            content:"IAnimancerRoot",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/IAnimancerRoot',
-            title:"IAnimancerRoot",
-            description:""
-        }
-    );
-    a(
-        {
-            id:117,
-            title:"TimeRuler",
-            content:"TimeRuler",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/TimeRuler',
-            title:"TimeRuler",
-            description:""
-        }
-    );
-    a(
-        {
-            id:118,
-            title:"CreatureState",
-            content:"CreatureState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Creatures/CreatureState',
-            title:"CreatureState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:119,
-            title:"ControllerState",
-            content:"ControllerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/ControllerState',
-            title:"ControllerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:120,
-            title:"IAnimationClipCollection",
-            content:"IAnimationClipCollection",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/IAnimationClipCollection',
-            title:"IAnimationClipCollection",
-            description:""
-        }
-    );
-    a(
-        {
-            id:121,
-            title:"AnimancerComponent",
-            content:"AnimancerComponent",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/AnimancerComponent',
-            title:"AnimancerComponent",
-            description:""
-        }
-    );
-    a(
-        {
-            id:122,
-            title:"Serialization PropertyReference",
-            content:"Serialization PropertyReference",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/PropertyReference',
-            title:"Serialization.PropertyReference",
-            description:""
-        }
-    );
-    a(
-        {
-            id:123,
-            title:"AnimancerEvent Sequence Serializable",
-            content:"AnimancerEvent Sequence Serializable",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Serializable',
-            title:"AnimancerEvent.Sequence.Serializable",
-            description:""
-        }
-    );
-    a(
-        {
-            id:124,
-            title:"Float ControllerState",
-            content:"Float ControllerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Float1ControllerState',
-            title:"Float1ControllerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:125,
-            title:"AnimationGatherer",
-            content:"AnimationGatherer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimationGatherer',
-            title:"AnimationGatherer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:126,
-            title:"Door",
-            content:"Door",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.FineControl/Door',
-            title:"Door",
-            description:""
-        }
-    );
-    a(
-        {
-            id:127,
-            title:"AnimancerEvent Sequence Enumerator",
-            content:"AnimancerEvent Sequence Enumerator",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Enumerator',
-            title:"AnimancerEvent.Sequence.Enumerator",
-            description:""
-        }
-    );
-    a(
-        {
-            id:128,
-            title:"MixerState",
-            content:"MixerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/MixerState_1',
-            title:"MixerState<TParameter>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:129,
-            title:"AnimancerLayerDrawer",
-            content:"AnimancerLayerDrawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerLayerDrawer',
-            title:"AnimancerLayerDrawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:130,
-            title:"IAnimancerTransition",
-            content:"IAnimancerTransition",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/IAnimancerTransition',
-            title:"IAnimancerTransition",
-            description:""
-        }
-    );
-    a(
-        {
-            id:131,
             title:"SpiderBotAdvanced",
             content:"SpiderBotAdvanced",
             description:'',
@@ -1886,245 +318,385 @@ var searchModule = function() {
     );
     a(
         {
-            id:132,
-            title:"GolfHitController State",
-            content:"GolfHitController State",
+            id:20,
+            title:"NamedAnimancerComponent",
+            content:"NamedAnimancerComponent",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimationEvents/State',
-            title:"GolfHitController.State",
+            url:'/animancer/v4-0/api/Animancer/NamedAnimancerComponent',
+            title:"NamedAnimancerComponent",
             description:""
         }
     );
     a(
         {
-            id:133,
-            title:"Key KeyedList",
-            content:"Key KeyedList",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/KeyedList_1',
-            title:"Key.KeyedList<T>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:134,
-            title:"StateMachine InputBuffer",
-            content:"StateMachine InputBuffer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.FSM/InputBuffer',
-            title:"StateMachine<TState>.InputBuffer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:135,
-            title:"KeyboardAndMouseBrain",
-            content:"KeyboardAndMouseBrain",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/KeyboardAndMouseBrain',
-            title:"KeyboardAndMouseBrain",
-            description:""
-        }
-    );
-    a(
-        {
-            id:136,
-            title:"ObjectPool",
-            content:"ObjectPool",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/ObjectPool_1',
-            title:"ObjectPool<T>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:137,
-            title:"LinearMixerLocomotion",
-            content:"LinearMixerLocomotion",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearMixerLocomotion',
-            title:"LinearMixerLocomotion",
-            description:""
-        }
-    );
-    a(
-        {
-            id:138,
-            title:"ExposedCurve",
-            content:"ExposedCurve",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/ExposedCurve',
-            title:"ExposedCurve",
-            description:""
-        }
-    );
-    a(
-        {
-            id:139,
-            title:"DirectionalAnimationSet Direction",
-            content:"DirectionalAnimationSet Direction",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Direction',
-            title:"DirectionalAnimationSet8.Direction",
-            description:""
-        }
-    );
-    a(
-        {
-            id:140,
-            title:"RootMotion",
-            content:"RootMotion",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion',
-            title:"RootMotion",
-            description:""
-        }
-    );
-    a(
-        {
-            id:141,
-            title:"AnimancerNodeDrawer",
-            content:"AnimancerNodeDrawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerNodeDrawer_1',
-            title:"AnimancerNodeDrawer<T>",
-            description:""
-        }
-    );
-    a(
-        {
-            id:142,
-            title:"HybridAnimancerComponent",
-            content:"HybridAnimancerComponent",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/HybridAnimancerComponent',
-            title:"HybridAnimancerComponent",
-            description:""
-        }
-    );
-    a(
-        {
-            id:143,
-            title:"CartesianMixerState",
-            content:"CartesianMixerState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/CartesianMixerState',
-            title:"CartesianMixerState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:144,
-            title:"MixerState Drawer",
-            content:"MixerState Drawer",
+            id:21,
+            title:"ClipState Transition Drawer",
+            content:"ClipState Transition Drawer",
             description:'',
             tags:''
         },
         {
             url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"MixerState.Drawer",
+            title:"ClipState.Transition.Drawer",
             description:""
         }
     );
     a(
         {
-            id:145,
-            title:"CreatureStats",
-            content:"CreatureStats",
+            id:22,
+            title:"NestedAnimatorEditor",
+            content:"NestedAnimatorEditor",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureStats',
-            title:"CreatureStats",
+            url:'/animancer/v4-0/api/Animancer.Editor/NestedAnimatorEditor',
+            title:"NestedAnimatorEditor",
             description:""
         }
     );
     a(
         {
-            id:146,
-            title:"MixerState Transition Drawer",
-            content:"MixerState Transition Drawer",
+            id:23,
+            title:"AnimancerPlayable",
+            content:"AnimancerPlayable",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/AnimancerPlayable',
+            title:"AnimancerPlayable",
+            description:""
+        }
+    );
+    a(
+        {
+            id:24,
+            title:"Float ControllerState Transition Drawer",
+            content:"Float ControllerState Transition Drawer",
             description:'',
             tags:''
         },
         {
             url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"MixerState.Transition2D.Drawer",
+            title:"Float3ControllerState.Transition.Drawer",
             description:""
         }
     );
     a(
         {
-            id:147,
-            title:"StateBehaviour",
-            content:"StateBehaviour",
+            id:25,
+            title:"Serialization ArrayPropertyAccessor",
+            content:"Serialization ArrayPropertyAccessor",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.FSM/StateBehaviour_1',
-            title:"StateBehaviour<TState>",
+            url:'/animancer/v4-0/api/Animancer.Editor/ArrayPropertyAccessor',
+            title:"Serialization.ArrayPropertyAccessor",
             description:""
         }
     );
     a(
         {
-            id:148,
-            title:"FadeMode",
-            content:"FadeMode",
+            id:26,
+            title:"IHasKey",
+            content:"IHasKey",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/FadeMode',
-            title:"FadeMode",
+            url:'/animancer/v4-0/api/Animancer/IHasKey',
+            title:"IHasKey",
             description:""
         }
     );
     a(
         {
-            id:149,
+            id:27,
+            title:"IAnimationClipCollection",
+            content:"IAnimationClipCollection",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/IAnimationClipCollection',
+            title:"IAnimationClipCollection",
+            description:""
+        }
+    );
+    a(
+        {
+            id:28,
+            title:"AnimancerEvent Sequence",
+            content:"AnimancerEvent Sequence",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Sequence',
+            title:"AnimancerEvent.Sequence",
+            description:""
+        }
+    );
+    a(
+        {
+            id:29,
+            title:"AnimancerPlayable LayerList",
+            content:"AnimancerPlayable LayerList",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/LayerList',
+            title:"AnimancerPlayable.LayerList",
+            description:""
+        }
+    );
+    a(
+        {
+            id:30,
+            title:"Door",
+            content:"Door",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.FineControl/Door',
+            title:"Door",
+            description:""
+        }
+    );
+    a(
+        {
+            id:31,
+            title:"StartingPositions",
+            content:"StartingPositions",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/StartingPositions',
+            title:"StartingPositions",
+            description:""
+        }
+    );
+    a(
+        {
+            id:32,
+            title:"ClickToInteract",
+            content:"ClickToInteract",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.FineControl/ClickToInteract',
+            title:"ClickToInteract",
+            description:""
+        }
+    );
+    a(
+        {
+            id:33,
+            title:"IAnimationClipSource",
+            content:"IAnimationClipSource",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/IAnimationClipSource',
+            title:"IAnimationClipSource",
+            description:""
+        }
+    );
+    a(
+        {
+            id:34,
+            title:"AnimancerLayerDrawer",
+            content:"AnimancerLayerDrawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerLayerDrawer',
+            title:"AnimancerLayerDrawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:35,
+            title:"ControllerState Parameter",
+            content:"ControllerState Parameter",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Parameter',
+            title:"ControllerState.Parameter",
+            description:""
+        }
+    );
+    a(
+        {
+            id:36,
+            title:"GolfMiniGame",
+            content:"GolfMiniGame",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers/GolfMiniGame',
+            title:"GolfMiniGame",
+            description:""
+        }
+    );
+    a(
+        {
+            id:37,
+            title:"FootstepEvents",
+            content:"FootstepEvents",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimationEvents/FootstepEvents',
+            title:"FootstepEvents",
+            description:""
+        }
+    );
+    a(
+        {
+            id:38,
+            title:"IState",
+            content:"IState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/IState_1',
+            title:"IState<TState>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:39,
+            title:"ManualMixerState Transition",
+            content:"ManualMixerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition_1',
+            title:"ManualMixerState.Transition<TMixer>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:40,
+            title:"Float ControllerState Transition",
+            content:"Float ControllerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"Float1ControllerState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:41,
+            title:"ClipState Drawer",
+            content:"ClipState Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"ClipState.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:42,
+            title:"ClipState Transition",
+            content:"ClipState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"ClipState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:43,
+            title:"TransitionDrawer",
+            content:"TransitionDrawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/TransitionDrawer',
+            title:"TransitionDrawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:44,
+            title:"SpriteCharacterController",
+            content:"SpriteCharacterController",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.DirectionalSprites/SpriteCharacterController',
+            title:"SpriteCharacterController",
+            description:""
+        }
+    );
+    a(
+        {
+            id:45,
+            title:"FastComparer",
+            content:"FastComparer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/FastComparer',
+            title:"FastComparer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:46,
+            title:"AnimancerComponent",
+            content:"AnimancerComponent",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/AnimancerComponent',
+            title:"AnimancerComponent",
+            description:""
+        }
+    );
+    a(
+        {
+            id:47,
             title:"AnimancerGUI",
             content:"AnimancerGUI",
             description:'',
@@ -2138,91 +710,49 @@ var searchModule = function() {
     );
     a(
         {
-            id:150,
-            title:"AnimancerGUI SpacingMode",
-            content:"AnimancerGUI SpacingMode",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Editor/SpacingMode',
-            title:"AnimancerGUI.SpacingMode",
-            description:""
-        }
-    );
-    a(
-        {
-            id:151,
-            title:"AttackState",
-            content:"AttackState",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/AttackState',
-            title:"AttackState",
-            description:""
-        }
-    );
-    a(
-        {
-            id:152,
+            id:48,
             title:"LocomotionState",
             content:"LocomotionState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers/LocomotionState',
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/LocomotionState',
             title:"LocomotionState",
             description:""
         }
     );
     a(
         {
-            id:153,
-            title:"ControllerState Drawer",
-            content:"ControllerState Drawer",
+            id:49,
+            title:"AnimancerPlayable StateDictionary",
+            content:"AnimancerPlayable StateDictionary",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"ControllerState.Drawer",
+            url:'/animancer/v4-0/api/Animancer/StateDictionary',
+            title:"AnimancerPlayable.StateDictionary",
             description:""
         }
     );
     a(
         {
-            id:154,
-            title:"CreatureStats",
-            content:"CreatureStats",
+            id:50,
+            title:"IKPuppetLookTarget",
+            content:"IKPuppetLookTarget",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/CreatureStats',
-            title:"CreatureStats",
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget',
+            title:"IKPuppetLookTarget",
             description:""
         }
     );
     a(
         {
-            id:155,
-            title:"Float ControllerState Transition Drawer",
-            content:"Float ControllerState Transition Drawer",
-            description:'',
-            tags:''
-        },
-        {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"Float1ControllerState.Transition.Drawer",
-            description:""
-        }
-    );
-    a(
-        {
-            id:156,
+            id:51,
             title:"AnimancerState",
             content:"AnimancerState",
             description:'',
@@ -2236,63 +766,231 @@ var searchModule = function() {
     );
     a(
         {
-            id:157,
-            title:"IAnimancerComponent",
-            content:"IAnimancerComponent",
+            id:52,
+            title:"AnimancerEvent Sequence Serializable",
+            content:"AnimancerEvent Sequence Serializable",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/IAnimancerComponent',
-            title:"IAnimancerComponent",
+            url:'/animancer/v4-0/api/Animancer/Serializable',
+            title:"AnimancerEvent.Sequence.Serializable",
             description:""
         }
     );
     a(
         {
-            id:158,
-            title:"DieState",
-            content:"DieState",
+            id:53,
+            title:"DirectionalAnimationSet Diagonals",
+            content:"DirectionalAnimationSet Diagonals",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState',
-            title:"DieState",
+            url:'/animancer/v4-0/api/Animancer/Diagonals',
+            title:"DirectionalAnimationSet8.Diagonals",
             description:""
         }
     );
     a(
         {
-            id:159,
-            title:"AnimancerPlayableDrawer",
-            content:"AnimancerPlayableDrawer",
+            id:54,
+            title:"AnimancerUtilities",
+            content:"AnimancerUtilities",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerPlayableDrawer',
-            title:"AnimancerPlayableDrawer",
+            url:'/animancer/v4-0/api/Animancer/AnimancerUtilities',
+            title:"AnimancerUtilities",
             description:""
         }
     );
     a(
         {
-            id:160,
-            title:"RandomAudioPlayer SoundBank",
-            content:"RandomAudioPlayer SoundBank",
+            id:55,
+            title:"SpriteCharacterController State",
+            content:"SpriteCharacterController State",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/SoundBank',
-            title:"RandomAudioPlayer.SoundBank",
+            url:'/animancer/v4-0/api/Animancer.Examples.DirectionalSprites/State',
+            title:"SpriteCharacterController.State",
             description:""
         }
     );
     a(
         {
-            id:161,
+            id:56,
+            title:"BoolPref",
+            content:"BoolPref",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/BoolPref',
+            title:"BoolPref",
+            description:""
+        }
+    );
+    a(
+        {
+            id:57,
+            title:"LinearMixerState Transition",
+            content:"LinearMixerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"LinearMixerState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:58,
+            title:"AnimancerGUI SpacingMode",
+            content:"AnimancerGUI SpacingMode",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/SpacingMode',
+            title:"AnimancerGUI.SpacingMode",
+            description:""
+        }
+    );
+    a(
+        {
+            id:59,
+            title:"Serialization PropertyReference",
+            content:"Serialization PropertyReference",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/PropertyReference',
+            title:"Serialization.PropertyReference",
+            description:""
+        }
+    );
+    a(
+        {
+            id:60,
+            title:"MouseDrag",
+            content:"MouseDrag",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/MouseDrag',
+            title:"MouseDrag",
+            description:""
+        }
+    );
+    a(
+        {
+            id:61,
+            title:"Key",
+            content:"Key",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Key',
+            title:"Key",
+            description:""
+        }
+    );
+    a(
+        {
+            id:62,
+            title:"ScriptableObjectEditor",
+            content:"ScriptableObjectEditor",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/ScriptableObjectEditor',
+            title:"ScriptableObjectEditor",
+            description:""
+        }
+    );
+    a(
+        {
+            id:63,
+            title:"ObjectPool",
+            content:"ObjectPool",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/ObjectPool_1',
+            title:"ObjectPool<T>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:64,
+            title:"TimelineState",
+            content:"TimelineState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/TimelineState',
+            title:"TimelineState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:65,
+            title:"EventSequenceDrawer Context",
+            content:"EventSequenceDrawer Context",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/Context',
+            title:"EventSequenceDrawer.Context",
+            description:""
+        }
+    );
+    a(
+        {
+            id:66,
+            title:"CartesianMixerState",
+            content:"CartesianMixerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/CartesianMixerState',
+            title:"CartesianMixerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:67,
+            title:"StateMachine",
+            content:"StateMachine",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/StateMachine_1',
+            title:"StateMachine<TState>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:68,
             title:"GroundDetector",
             content:"GroundDetector",
             description:'',
@@ -2306,35 +1004,861 @@ var searchModule = function() {
     );
     a(
         {
-            id:162,
-            title:"EventSequenceDrawer",
-            content:"EventSequenceDrawer",
+            id:69,
+            title:"IAnimancerTransition",
+            content:"IAnimancerTransition",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/EventSequenceDrawer',
-            title:"EventSequenceDrawer",
+            url:'/animancer/v4-0/api/Animancer/IAnimancerTransition',
+            title:"IAnimancerTransition",
             description:""
         }
     );
     a(
         {
-            id:163,
-            title:"IAnimancerUpdatable",
-            content:"IAnimancerUpdatable",
+            id:70,
+            title:"HybridSystem",
+            content:"HybridSystem",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/IAnimancerUpdatable',
-            title:"IAnimancerUpdatable",
+            url:'/animancer/v4-0/api/Animancer.Examples.Basics/HybridSystem',
+            title:"HybridSystem",
             description:""
         }
     );
     a(
         {
-            id:164,
+            id:71,
+            title:"LocomotionState",
+            content:"LocomotionState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers/LocomotionState',
+            title:"LocomotionState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:72,
+            title:"ControllerState Transition Drawer",
+            content:"ControllerState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"ControllerState.Transition.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:73,
+            title:"DirectionalAnimationSet Direction",
+            content:"DirectionalAnimationSet Direction",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Direction',
+            title:"DirectionalAnimationSet.Direction",
+            description:""
+        }
+    );
+    a(
+        {
+            id:74,
+            title:"ReadMe",
+            content:"ReadMe",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/ReadMe',
+            title:"ReadMe",
+            description:""
+        }
+    );
+    a(
+        {
+            id:75,
+            title:"DirectionalAnimationSet",
+            content:"DirectionalAnimationSet",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/DirectionalAnimationSet8',
+            title:"DirectionalAnimationSet8",
+            description:""
+        }
+    );
+    a(
+        {
+            id:76,
+            title:"CreatureState",
+            content:"CreatureState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureState',
+            title:"CreatureState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:77,
+            title:"ConversionCache",
+            content:"ConversionCache",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/ConversionCache_2',
+            title:"ConversionCache<TKey, TValue>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:78,
+            title:"Creature",
+            content:"Creature",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Creatures/Creature',
+            title:"Creature",
+            description:""
+        }
+    );
+    a(
+        {
+            id:79,
+            title:"IdleState",
+            content:"IdleState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/IdleState',
+            title:"IdleState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:80,
+            title:"StateExtensions",
+            content:"StateExtensions",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/StateExtensions',
+            title:"StateExtensions",
+            description:""
+        }
+    );
+    a(
+        {
+            id:81,
+            title:"IKeyHolder",
+            content:"IKeyHolder",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/IKeyHolder',
+            title:"IKeyHolder",
+            description:""
+        }
+    );
+    a(
+        {
+            id:82,
+            title:"AnimancerLayer",
+            content:"AnimancerLayer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/AnimancerLayer',
+            title:"AnimancerLayer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:83,
+            title:"CreatureState",
+            content:"CreatureState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Creatures/CreatureState',
+            title:"CreatureState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:84,
+            title:"SimpleEventReceiver",
+            content:"SimpleEventReceiver",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/SimpleEventReceiver',
+            title:"SimpleEventReceiver",
+            description:""
+        }
+    );
+    a(
+        {
+            id:85,
+            title:"StateBehaviour",
+            content:"StateBehaviour",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/StateBehaviour_1',
+            title:"StateBehaviour<TState>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:86,
+            title:"RootMotion MotionClip",
+            content:"RootMotion MotionClip",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/MotionClip',
+            title:"RootMotion.MotionClip",
+            description:""
+        }
+    );
+    a(
+        {
+            id:87,
+            title:"DirectionalAnimationSet Direction",
+            content:"DirectionalAnimationSet Direction",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Direction',
+            title:"DirectionalAnimationSet8.Direction",
+            description:""
+        }
+    );
+    a(
+        {
+            id:88,
+            title:"IKPuppet",
+            content:"IKPuppet",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/IKPuppet',
+            title:"IKPuppet",
+            description:""
+        }
+    );
+    a(
+        {
+            id:89,
+            title:"LinearMixerState",
+            content:"LinearMixerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/LinearMixerState',
+            title:"LinearMixerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:90,
+            title:"LinearMixerLocomotion",
+            content:"LinearMixerLocomotion",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearMixerLocomotion',
+            title:"LinearMixerLocomotion",
+            description:""
+        }
+    );
+    a(
+        {
+            id:91,
+            title:"Health",
+            content:"Health",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health',
+            title:"Health",
+            description:""
+        }
+    );
+    a(
+        {
+            id:92,
+            title:"SoloAnimation",
+            content:"SoloAnimation",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/SoloAnimation',
+            title:"SoloAnimation",
+            description:""
+        }
+    );
+    a(
+        {
+            id:93,
+            title:"PixelPerfectPositioning",
+            content:"PixelPerfectPositioning",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/PixelPerfectPositioning',
+            title:"PixelPerfectPositioning",
+            description:""
+        }
+    );
+    a(
+        {
+            id:94,
+            title:"MixerState TransitionDrawer",
+            content:"MixerState TransitionDrawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/TransitionDrawer',
+            title:"MixerState.TransitionDrawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:95,
+            title:"ManualMixerState Transition",
+            content:"ManualMixerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"ManualMixerState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:96,
+            title:"RandomAudioPlayer SoundBank",
+            content:"RandomAudioPlayer SoundBank",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/SoundBank',
+            title:"RandomAudioPlayer.SoundBank",
+            description:""
+        }
+    );
+    a(
+        {
+            id:97,
+            title:"PlayableAssetState Transition",
+            content:"PlayableAssetState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"PlayableAssetState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:98,
+            title:"DirectionalAnimationSet",
+            content:"DirectionalAnimationSet",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/DirectionalAnimationSet',
+            title:"DirectionalAnimationSet",
+            description:""
+        }
+    );
+    a(
+        {
+            id:99,
+            title:"TransitionPreviewWindow",
+            content:"TransitionPreviewWindow",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/TransitionPreviewWindow',
+            title:"TransitionPreviewWindow",
+            description:""
+        }
+    );
+    a(
+        {
+            id:100,
+            title:"AnimancerEditorUtilities DummyAnimancerComponent",
+            content:"AnimancerEditorUtilities DummyAnimancerComponent",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/DummyAnimancerComponent',
+            title:"AnimancerEditorUtilities.DummyAnimancerComponent",
+            description:""
+        }
+    );
+    a(
+        {
+            id:101,
+            title:"LocomotionState",
+            content:"LocomotionState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState',
+            title:"LocomotionState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:102,
+            title:"AnimancerComponentEditor",
+            content:"AnimancerComponentEditor",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerComponentEditor',
+            title:"AnimancerComponentEditor",
+            description:""
+        }
+    );
+    a(
+        {
+            id:103,
+            title:"MixerState Transition",
+            content:"MixerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition2D',
+            title:"MixerState.Transition2D",
+            description:""
+        }
+    );
+    a(
+        {
+            id:104,
+            title:"StateMachine InputBuffer",
+            content:"StateMachine InputBuffer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/InputBuffer',
+            title:"StateMachine<TState>.InputBuffer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:105,
+            title:"LayerExample",
+            content:"LayerExample",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Layers/LayerExample',
+            title:"LayerExample",
+            description:""
+        }
+    );
+    a(
+        {
+            id:106,
+            title:"MixerState Drawer",
+            content:"MixerState Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"MixerState.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:107,
+            title:"Float ControllerState Transition Drawer",
+            content:"Float ControllerState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"Float1ControllerState.Transition.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:108,
+            title:"AnimancerNode",
+            content:"AnimancerNode",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/AnimancerNode',
+            title:"AnimancerNode",
+            description:""
+        }
+    );
+    a(
+        {
+            id:109,
+            title:"IKPuppetTarget",
+            content:"IKPuppetTarget",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/IKPuppetTarget',
+            title:"IKPuppetTarget",
+            description:""
+        }
+    );
+    a(
+        {
+            id:110,
+            title:"ManualMixerState Transition Drawer",
+            content:"ManualMixerState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"ManualMixerState.Transition.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:111,
+            title:"MixerState Transition",
+            content:"MixerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition_2',
+            title:"MixerState.Transition<TMixer, TParameter>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:112,
+            title:"AnimationType",
+            content:"AnimationType",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimationType',
+            title:"AnimationType",
+            description:""
+        }
+    );
+    a(
+        {
+            id:113,
+            title:"Float ControllerState Transition",
+            content:"Float ControllerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"Float2ControllerState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:114,
+            title:"IOwnedState",
+            content:"IOwnedState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/IOwnedState_1',
+            title:"IOwnedState<TState>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:115,
+            title:"KeyboardAndMouseBrain",
+            content:"KeyboardAndMouseBrain",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/KeyboardAndMouseBrain',
+            title:"KeyboardAndMouseBrain",
+            description:""
+        }
+    );
+    a(
+        {
+            id:116,
+            title:"MixerState Transition Drawer",
+            content:"MixerState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"MixerState.Transition2D.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:117,
+            title:"OrbitControls",
+            content:"OrbitControls",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples/OrbitControls',
+            title:"OrbitControls",
+            description:""
+        }
+    );
+    a(
+        {
+            id:118,
+            title:"TimeScale",
+            content:"TimeScale",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples/TimeScale',
+            title:"TimeScale",
+            description:""
+        }
+    );
+    a(
+        {
+            id:119,
+            title:"ScreenBoundsTeleporter",
+            content:"ScreenBoundsTeleporter",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/ScreenBoundsTeleporter',
+            title:"ScreenBoundsTeleporter",
+            description:""
+        }
+    );
+    a(
+        {
+            id:120,
+            title:"IAnimancerRoot",
+            content:"IAnimancerRoot",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/IAnimancerRoot',
+            title:"IAnimancerRoot",
+            description:""
+        }
+    );
+    a(
+        {
+            id:121,
+            title:"KeyboardBrain",
+            content:"KeyboardBrain",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain',
+            title:"KeyboardBrain",
+            description:""
+        }
+    );
+    a(
+        {
+            id:122,
+            title:"ControllerState Transition",
+            content:"ControllerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"ControllerState.Transition",
+            description:""
+        }
+    );
+    a(
+        {
+            id:123,
+            title:"Creature",
+            content:"Creature",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.InterruptManagement/Creature',
+            title:"Creature",
+            description:""
+        }
+    );
+    a(
+        {
+            id:124,
+            title:"AnimationEventReceiver",
+            content:"AnimationEventReceiver",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/AnimationEventReceiver',
+            title:"AnimationEventReceiver",
+            description:""
+        }
+    );
+    a(
+        {
+            id:125,
+            title:"PlayAnimationOnClick",
+            content:"PlayAnimationOnClick",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Basics/PlayAnimationOnClick',
+            title:"PlayAnimationOnClick",
+            description:""
+        }
+    );
+    a(
+        {
+            id:126,
+            title:"CreatureBrain",
+            content:"CreatureBrain",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureBrain',
+            title:"CreatureBrain",
+            description:""
+        }
+    );
+    a(
+        {
+            id:127,
+            title:"Key KeyedList",
+            content:"Key KeyedList",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/KeyedList_1',
+            title:"Key.KeyedList<T>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:128,
+            title:"IdleAndWalk",
+            content:"IdleAndWalk",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndWalk',
+            title:"IdleAndWalk",
+            description:""
+        }
+    );
+    a(
+        {
+            id:129,
+            title:"FadeMode",
+            content:"FadeMode",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/FadeMode',
+            title:"FadeMode",
+            description:""
+        }
+    );
+    a(
+        {
+            id:130,
             title:"CreatureState",
             content:"CreatureState",
             description:'',
@@ -2348,15 +1872,491 @@ var searchModule = function() {
     );
     a(
         {
-            id:165,
-            title:"ConversionCache",
-            content:"ConversionCache",
+            id:131,
+            title:"AttackTrail",
+            content:"AttackTrail",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/ConversionCache_2',
-            title:"ConversionCache<TKey, TValue>",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail',
+            title:"AttackTrail",
+            description:""
+        }
+    );
+    a(
+        {
+            id:132,
+            title:"StateMachine InputBuffer",
+            content:"StateMachine InputBuffer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/InputBuffer',
+            title:"StateMachine<TKey, TState>.InputBuffer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:133,
+            title:"AirborneState",
+            content:"AirborneState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState',
+            title:"AirborneState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:134,
+            title:"IInteractable",
+            content:"IInteractable",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable',
+            title:"IInteractable",
+            description:""
+        }
+    );
+    a(
+        {
+            id:135,
+            title:"GolfHitController State",
+            content:"GolfHitController State",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimationEvents/State',
+            title:"GolfHitController.State",
+            description:""
+        }
+    );
+    a(
+        {
+            id:136,
+            title:"MixerState",
+            content:"MixerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/MixerState_1',
+            title:"MixerState<TParameter>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:137,
+            title:"JumpState",
+            content:"JumpState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/JumpState',
+            title:"JumpState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:138,
+            title:"AttackState",
+            content:"AttackState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/AttackState',
+            title:"AttackState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:139,
+            title:"GUIElementWidth",
+            content:"GUIElementWidth",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/GUIElementWidth',
+            title:"GUIElementWidth",
+            description:""
+        }
+    );
+    a(
+        {
+            id:140,
+            title:"ControllerState",
+            content:"ControllerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/ControllerState',
+            title:"ControllerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:141,
+            title:"ControllerState Transition",
+            content:"ControllerState Transition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Transition_1',
+            title:"ControllerState.Transition<TState>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:142,
+            title:"Serialization PropertyAccessor",
+            content:"Serialization PropertyAccessor",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/PropertyAccessor',
+            title:"Serialization.PropertyAccessor",
+            description:""
+        }
+    );
+    a(
+        {
+            id:143,
+            title:"LocalPlayerBrain",
+            content:"LocalPlayerBrain",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/LocalPlayerBrain',
+            title:"LocalPlayerBrain",
+            description:""
+        }
+    );
+    a(
+        {
+            id:144,
+            title:"MixerState Transition MixerType",
+            content:"MixerState Transition MixerType",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/MixerType',
+            title:"MixerState.Transition2D.MixerType",
+            description:""
+        }
+    );
+    a(
+        {
+            id:145,
+            title:"BaseAnimancerComponentEditor",
+            content:"BaseAnimancerComponentEditor",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/BaseAnimancerComponentEditor',
+            title:"BaseAnimancerComponentEditor",
+            description:""
+        }
+    );
+    a(
+        {
+            id:146,
+            title:"DieState",
+            content:"DieState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState',
+            title:"DieState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:147,
+            title:"StateMachine",
+            content:"StateMachine",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.FSM/StateMachine_2',
+            title:"StateMachine<TKey, TState>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:148,
+            title:"ManualMixerState",
+            content:"ManualMixerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/ManualMixerState',
+            title:"ManualMixerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:149,
+            title:"AnimancerPlayableDrawer",
+            content:"AnimancerPlayableDrawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerPlayableDrawer',
+            title:"AnimancerPlayableDrawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:150,
+            title:"Float ControllerState",
+            content:"Float ControllerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Float2ControllerState',
+            title:"Float2ControllerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:151,
+            title:"Serialization ObjectReference",
+            content:"Serialization ObjectReference",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/ObjectReference',
+            title:"Serialization.ObjectReference",
+            description:""
+        }
+    );
+    a(
+        {
+            id:152,
+            title:"SequenceCoroutine",
+            content:"SequenceCoroutine",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.Basics/SequenceCoroutine',
+            title:"SequenceCoroutine",
+            description:""
+        }
+    );
+    a(
+        {
+            id:153,
+            title:"ParametizedAnimancerStateDrawer",
+            content:"ParametizedAnimancerStateDrawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1',
+            title:"ParametizedAnimancerStateDrawer<T>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:154,
+            title:"RandomAudioPlayer",
+            content:"RandomAudioPlayer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer',
+            title:"RandomAudioPlayer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:155,
+            title:"IAnimancerUpdatable",
+            content:"IAnimancerUpdatable",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/IAnimancerUpdatable',
+            title:"IAnimancerUpdatable",
+            description:""
+        }
+    );
+    a(
+        {
+            id:156,
+            title:"Validate",
+            content:"Validate",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Validate',
+            title:"Validate",
+            description:""
+        }
+    );
+    a(
+        {
+            id:157,
+            title:"CreatureBrain",
+            content:"CreatureBrain",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/CreatureBrain',
+            title:"CreatureBrain",
+            description:""
+        }
+    );
+    a(
+        {
+            id:158,
+            title:"Float ControllerState Transition Drawer",
+            content:"Float ControllerState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"Float2ControllerState.Transition.Drawer",
+            description:""
+        }
+    );
+    a(
+        {
+            id:159,
+            title:"AnimancerNodeDrawer",
+            content:"AnimancerNodeDrawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerNodeDrawer_1',
+            title:"AnimancerNodeDrawer<T>",
+            description:""
+        }
+    );
+    a(
+        {
+            id:160,
+            title:"MixerState",
+            content:"MixerState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/MixerState',
+            title:"MixerState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:161,
+            title:"MouseBrain",
+            content:"MouseBrain",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/MouseBrain',
+            title:"MouseBrain",
+            description:""
+        }
+    );
+    a(
+        {
+            id:162,
+            title:"SpriteMovementController",
+            content:"SpriteMovementController",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer.Examples.DirectionalSprites/SpriteMovementController',
+            title:"SpriteMovementController",
+            description:""
+        }
+    );
+    a(
+        {
+            id:163,
+            title:"PlayableAssetState",
+            content:"PlayableAssetState",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/PlayableAssetState',
+            title:"PlayableAssetState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:164,
+            title:"ExposedCurve",
+            content:"ExposedCurve",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/ExposedCurve',
+            title:"ExposedCurve",
+            description:""
+        }
+    );
+    a(
+        {
+            id:165,
+            title:"LinearMixerState Transition Drawer",
+            content:"LinearMixerState Transition Drawer",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/Drawer',
+            title:"LinearMixerState.Transition.Drawer",
             description:""
         }
     );
@@ -2377,322 +2377,322 @@ var searchModule = function() {
     a(
         {
             id:167,
-            title:"Creature",
-            content:"Creature",
+            title:"RootMotion",
+            content:"RootMotion",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Creature',
-            title:"Creature",
+            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion',
+            title:"RootMotion",
             description:""
         }
     );
     a(
         {
             id:168,
-            title:"Serialization ArrayPropertyAccessor",
-            content:"Serialization ArrayPropertyAccessor",
+            title:"AnimancerEvent",
+            content:"AnimancerEvent",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/ArrayPropertyAccessor',
-            title:"Serialization.ArrayPropertyAccessor",
+            url:'/animancer/v4-0/api/Animancer/AnimancerEvent',
+            title:"AnimancerEvent",
             description:""
         }
     );
     a(
         {
             id:169,
-            title:"Serialization ObjectReference",
-            content:"Serialization ObjectReference",
+            title:"AnimancerStateDrawer",
+            content:"AnimancerStateDrawer",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/ObjectReference',
-            title:"Serialization.ObjectReference",
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerStateDrawer_1',
+            title:"AnimancerStateDrawer<T>",
             description:""
         }
     );
     a(
         {
             id:170,
-            title:"ControllerState Transition",
-            content:"ControllerState Transition",
+            title:"ObjectPool",
+            content:"ObjectPool",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"ControllerState.Transition",
+            url:'/animancer/v4-0/api/Animancer/ObjectPool',
+            title:"ObjectPool",
             description:""
         }
     );
     a(
         {
             id:171,
-            title:"LinearMixerState Transition Drawer",
-            content:"LinearMixerState Transition Drawer",
+            title:"RandomAudioPlayer MaterialAudioOverride",
+            content:"RandomAudioPlayer MaterialAudioOverride",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Drawer',
-            title:"LinearMixerState.Transition.Drawer",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/MaterialAudioOverride',
+            title:"RandomAudioPlayer.MaterialAudioOverride",
             description:""
         }
     );
     a(
         {
             id:172,
-            title:"AnimancerNode",
-            content:"AnimancerNode",
+            title:"IAnimancerTransitionDetailed",
+            content:"IAnimancerTransitionDetailed",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/AnimancerNode',
-            title:"AnimancerNode",
+            url:'/animancer/v4-0/api/Animancer/IAnimancerTransitionDetailed',
+            title:"IAnimancerTransitionDetailed",
             description:""
         }
     );
     a(
         {
             id:173,
-            title:"CreatureBrain",
-            content:"CreatureBrain",
+            title:"AnimancerState Transition",
+            content:"AnimancerState Transition",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/CreatureBrain',
-            title:"CreatureBrain",
+            url:'/animancer/v4-0/api/Animancer/Transition_1',
+            title:"AnimancerState.Transition<TState>",
             description:""
         }
     );
     a(
         {
             id:174,
-            title:"RootMotion MotionClip",
-            content:"RootMotion MotionClip",
+            title:"ObstacleTreadmill",
+            content:"ObstacleTreadmill",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/MotionClip',
-            title:"RootMotion.MotionClip",
+            url:'/animancer/v4-0/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill',
+            title:"ObstacleTreadmill",
             description:""
         }
     );
     a(
         {
             id:175,
-            title:"SoloAnimation",
-            content:"SoloAnimation",
+            title:"AttackState AttackClip",
+            content:"AttackState AttackClip",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/SoloAnimation',
-            title:"SoloAnimation",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackClip',
+            title:"AttackState.AttackClip",
             description:""
         }
     );
     a(
         {
             id:176,
-            title:"IPlayableWrapper",
-            content:"IPlayableWrapper",
+            title:"HybridAnimancerComponent",
+            content:"HybridAnimancerComponent",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/IPlayableWrapper',
-            title:"IPlayableWrapper",
+            url:'/animancer/v4-0/api/Animancer/HybridAnimancerComponent',
+            title:"HybridAnimancerComponent",
             description:""
         }
     );
     a(
         {
             id:177,
-            title:"ManualMixerState Transition",
-            content:"ManualMixerState Transition",
+            title:"CreatureState",
+            content:"CreatureState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Transition_1',
-            title:"ManualMixerState.Transition<TMixer>",
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.InterruptManagement/CreatureState',
+            title:"CreatureState",
             description:""
         }
     );
     a(
         {
             id:178,
-            title:"SpriteCharacterController State",
-            content:"SpriteCharacterController State",
+            title:"Strings DocsURLs",
+            content:"Strings DocsURLs",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.DirectionalSprites/State',
-            title:"SpriteCharacterController.State",
+            url:'/animancer/v4-0/api/Animancer/DocsURLs',
+            title:"Strings.DocsURLs",
             description:""
         }
     );
     a(
         {
             id:179,
-            title:"IInteractable",
-            content:"IInteractable",
+            title:"ClipState",
+            content:"ClipState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable',
-            title:"IInteractable",
+            url:'/animancer/v4-0/api/Animancer/ClipState',
+            title:"ClipState",
             description:""
         }
     );
     a(
         {
             id:180,
-            title:"DirectionalAnimationSet",
-            content:"DirectionalAnimationSet",
+            title:"IAnimancerNodeDrawer",
+            content:"IAnimancerNodeDrawer",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/DirectionalAnimationSet8',
-            title:"DirectionalAnimationSet8",
+            url:'/animancer/v4-0/api/Animancer.Editor/IAnimancerNodeDrawer',
+            title:"IAnimancerNodeDrawer",
             description:""
         }
     );
     a(
         {
             id:181,
-            title:"HybridSystem",
-            content:"HybridSystem",
+            title:"AnimancerEditorUtilities",
+            content:"AnimancerEditorUtilities",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.Basics/HybridSystem',
-            title:"HybridSystem",
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimancerEditorUtilities',
+            title:"AnimancerEditorUtilities",
             description:""
         }
     );
     a(
         {
             id:182,
-            title:"LocalPlayerBrain",
-            content:"LocalPlayerBrain",
+            title:"IAnimancerComponent",
+            content:"IAnimancerComponent",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/LocalPlayerBrain',
-            title:"LocalPlayerBrain",
+            url:'/animancer/v4-0/api/Animancer/IAnimancerComponent',
+            title:"IAnimancerComponent",
             description:""
         }
     );
     a(
         {
             id:183,
-            title:"PlayableAssetState Transition",
-            content:"PlayableAssetState Transition",
+            title:"CreatureStats",
+            content:"CreatureStats",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Transition',
-            title:"PlayableAssetState.Transition",
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/CreatureStats',
+            title:"CreatureStats",
             description:""
         }
     );
     a(
         {
             id:184,
-            title:"JumpState",
-            content:"JumpState",
+            title:"Float ControllerState Transition",
+            content:"Float ControllerState Transition",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/JumpState',
-            title:"JumpState",
+            url:'/animancer/v4-0/api/Animancer/Transition',
+            title:"Float3ControllerState.Transition",
             description:""
         }
     );
     a(
         {
             id:185,
-            title:"ScriptableObjectEditor",
-            content:"ScriptableObjectEditor",
+            title:"CreatureState",
+            content:"CreatureState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/ScriptableObjectEditor',
-            title:"ScriptableObjectEditor",
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/CreatureState',
+            title:"CreatureState",
             description:""
         }
     );
     a(
         {
             id:186,
-            title:"NamedAnimations",
-            content:"NamedAnimations",
+            title:"AnimancerComponent DisableAction",
+            content:"AnimancerComponent DisableAction",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.Basics/NamedAnimations',
-            title:"NamedAnimations",
+            url:'/animancer/v4-0/api/Animancer/DisableAction',
+            title:"AnimancerComponent.DisableAction",
             description:""
         }
     );
     a(
         {
             id:187,
-            title:"AnimancerUtilities",
-            content:"AnimancerUtilities",
+            title:"Strings",
+            content:"Strings",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/AnimancerUtilities',
-            title:"AnimancerUtilities",
+            url:'/animancer/v4-0/api/Animancer/Strings',
+            title:"Strings",
             description:""
         }
     );
     a(
         {
             id:188,
-            title:"IAnimationClipSource",
-            content:"IAnimationClipSource",
+            title:"Float ControllerState",
+            content:"Float ControllerState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/IAnimationClipSource',
-            title:"IAnimationClipSource",
+            url:'/animancer/v4-0/api/Animancer/Float1ControllerState',
+            title:"Float1ControllerState",
             description:""
         }
     );
     a(
         {
             id:189,
-            title:"GolfHitController",
-            content:"GolfHitController",
+            title:"DelegateState",
+            content:"DelegateState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimationEvents/GolfHitController',
-            title:"GolfHitController",
+            url:'/animancer/v4-0/api/Animancer.FSM/DelegateState_1',
+            title:"DelegateState<TState>",
             description:""
         }
     );
@@ -2713,168 +2713,182 @@ var searchModule = function() {
     a(
         {
             id:191,
-            title:"AirborneState",
-            content:"AirborneState",
+            title:"NamedAnimations",
+            content:"NamedAnimations",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState',
-            title:"AirborneState",
+            url:'/animancer/v4-0/api/Animancer.Examples.Basics/NamedAnimations',
+            title:"NamedAnimations",
             description:""
         }
     );
     a(
         {
             id:192,
-            title:"Validate",
-            content:"Validate",
+            title:"RespawnState",
+            content:"RespawnState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/Validate',
-            title:"Validate",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState',
+            title:"RespawnState",
             description:""
         }
     );
     a(
         {
             id:193,
-            title:"AnimancerComponent DisableAction",
-            content:"AnimancerComponent DisableAction",
+            title:"AnimancerTransition",
+            content:"AnimancerTransition",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/DisableAction',
-            title:"AnimancerComponent.DisableAction",
+            url:'/animancer/v4-0/api/Animancer/AnimancerTransition_2',
+            title:"AnimancerTransition<TTransition, TState>",
             description:""
         }
     );
     a(
         {
             id:194,
-            title:"LinearBlendTreeLocomotion",
-            content:"LinearBlendTreeLocomotion",
+            title:"CreatureStats",
+            content:"CreatureStats",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion',
-            title:"LinearBlendTreeLocomotion",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureStats',
+            title:"CreatureStats",
             description:""
         }
     );
     a(
         {
             id:195,
-            title:"IOwnedState",
-            content:"IOwnedState",
+            title:"CreatureState Priority",
+            content:"CreatureState Priority",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.FSM/IOwnedState_1',
-            title:"IOwnedState<TState>",
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.InterruptManagement/Priority',
+            title:"CreatureState.Priority",
             description:""
         }
     );
     a(
         {
             id:196,
-            title:"MixerState Transition MixerType",
-            content:"MixerState Transition MixerType",
+            title:"GolfHitController",
+            content:"GolfHitController",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer/MixerType',
-            title:"MixerState.Transition2D.MixerType",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimationEvents/GolfHitController',
+            title:"GolfHitController",
             description:""
         }
     );
     a(
         {
             id:197,
-            title:"PlayingAndFading",
-            content:"PlayingAndFading",
+            title:"EventSequenceDrawer",
+            content:"EventSequenceDrawer",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.Basics/PlayingAndFading',
-            title:"PlayingAndFading",
+            url:'/animancer/v4-0/api/Animancer.Editor/EventSequenceDrawer',
+            title:"EventSequenceDrawer",
             description:""
         }
     );
     a(
         {
             id:198,
-            title:"BaseAnimancerComponentEditor",
-            content:"BaseAnimancerComponentEditor",
+            title:"CreatureBrain",
+            content:"CreatureBrain",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/BaseAnimancerComponentEditor',
-            title:"BaseAnimancerComponentEditor",
+            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/CreatureBrain',
+            title:"CreatureBrain",
             description:""
         }
     );
     a(
         {
             id:199,
-            title:"StateMachine",
-            content:"StateMachine",
+            title:"AnimationGatherer",
+            content:"AnimationGatherer",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.FSM/StateMachine_2',
-            title:"StateMachine<TKey, TState>",
+            url:'/animancer/v4-0/api/Animancer.Editor/AnimationGatherer',
+            title:"AnimationGatherer",
             description:""
         }
     );
     a(
         {
             id:200,
-            title:"IAnimancerNodeDrawer",
-            content:"IAnimancerNodeDrawer",
+            title:"NamedAnimancerComponentEditor",
+            content:"NamedAnimancerComponentEditor",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/IAnimancerNodeDrawer',
-            title:"IAnimancerNodeDrawer",
+            url:'/animancer/v4-0/api/Animancer.Editor/NamedAnimancerComponentEditor',
+            title:"NamedAnimancerComponentEditor",
             description:""
         }
     );
     a(
         {
             id:201,
-            title:"KeyboardBrain",
-            content:"KeyboardBrain",
+            title:"LandingState",
+            content:"LandingState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain',
-            title:"KeyboardBrain",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState',
+            title:"LandingState",
             description:""
         }
     );
     a(
         {
             id:202,
-            title:"Serialization PropertyAccessor",
-            content:"Serialization PropertyAccessor",
+            title:"IdleState",
+            content:"IdleState",
             description:'',
             tags:''
         },
         {
-            url:'/animancer/v4-0/api/Animancer.Editor/PropertyAccessor',
-            title:"Serialization.PropertyAccessor",
+            url:'/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/IdleState',
+            title:"IdleState",
+            description:""
+        }
+    );
+    a(
+        {
+            id:203,
+            title:"AnimancerTransition",
+            content:"AnimancerTransition",
+            description:'',
+            tags:''
+        },
+        {
+            url:'/animancer/v4-0/api/Animancer/AnimancerTransition',
+            title:"AnimancerTransition",
             description:""
         }
     );
