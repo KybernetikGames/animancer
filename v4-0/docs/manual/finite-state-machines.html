@@ -227,11 +227,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -242,18 +255,18 @@
 
                     </ul>
                 </li>
-                <li class="selected"><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li class="selected"><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -317,7 +330,7 @@
 		</section>
 	<section class="content">
 		<p>A Finite State Machine (often abbreviated FSM) is a system which manages the current state of an object and the other states it can be in. For example, a treasure chest can either be open or closed; that's two states, though you wouldn't necessarily set up a full FSM for something that simple. A character on the other hand has many states such as idle, walk, run, attack, and so on, therefore a FSM will often be a good choice for managing that behaviour.</p>
-<p>Animancer is not tied to a specific FSM implementation, meaning you can use any system you like. Instead of trying to squeeze a restrictive FSM into the animation system like Mecanim, you manage the states yourself and Animancer simply does what it is told. That said, Animancer does include a general purpose FSM system which is entirely separate from the animation system and is flexible enough for most needs. The <a href="../examples/state-machines">State Machines</a> examples demonstrate how to use it and the <a href="../examples/animator-controllers/3d-game-kit">Animator Controllers/3D Game Kit</a> example demonstrates how to convert an Animator Controller based character to use this system instead.</p>
+<p>Animancer is not tied to a specific FSM implementation, meaning you can use any system you like. Instead of trying to squeeze a restrictive FSM into the animation system like Mecanim, you manage the states yourself and Animancer simply does what it is told. That said, Animancer does include a general purpose FSM system which is entirely separate from the animation system and is flexible enough for most needs. The <a href="../examples/state-machines">State Machines</a> examples demonstrate how to use it and the <a href="../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example demonstrates how to convert an Animator Controller based character to use this system instead.</p>
 <p>The system is located in the <a href="../../api/Animancer.FSM"><code>Animancer.FSM</code></a> namespace with its source scripts in the <em>Assets/Plugins/Animancer/Utilities/State Machine</em> folder (the full source code of the system is included in Animancer Lite). It was designed with the following goals in mind:</p>
 <ul>
 <li><strong>Flexible</strong>: states can be <code>MonoBehaviour</code> components, <code>ScriptableObject</code>s, or regular C# classes.</li>
@@ -349,7 +362,7 @@
 <li>Keep a reference to the buffer and whenever you would normally call <code>TrySetState</code> on the state machine, call it on the buffer instead so that you can specify the desired <code>timeOut</code> duration.</li>
 <li>Call <code>Update</code> on the buffer every frame to have it try to enter the buffered state again (if there is one).</li>
 </ol>
-<p>The <a href="../examples/animator-controllers/3d-game-kit/Attack#buffered-input">Animator Controllers/3D Game Kit/Attack</a> example demonstrates how to use it.</p>
+<p>The <a href="../examples/animator-controllers/3d-game-kit/Attack#buffered-input">3D Game Kit/Attack</a> example demonstrates how to use it.</p>
 <p>This system only buffers a single state at a time. If the player presses the attack button while they are already attacking then presses the block button before the first attack ends, it will only execute the block rather than performing the entire second attack before blocking. This assumes the latest command is the only one that matters, which is often good for things like player input, but might not be best for all situations. If you want to ensure that all commands are executed in order, you could make a similar class (perhaps called <code>InputSequenceBuffer</code>) which manages a list of states instead of only a single <code>BufferedState</code>.</p>
 
 	</section>

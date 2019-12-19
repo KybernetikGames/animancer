@@ -232,11 +232,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -247,18 +260,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -332,7 +345,7 @@
 <li>When the user clicks the mouse, perform an action.</li>
 <li>When that action is complete, return to idle.</li>
 </ol>
-<p>If you just want to play a single animation without any scripting, check out the <a href="../../fine-control/solo-animation">Fine Control/Solo Animation</a> example.</p>
+<p>If you just want to play a single animation without any scripting, check out the <a href="../../fine-control/solo-animation">Solo Animation</a> example.</p>
 <p><img src="quick-play.gif" class="img-responsive"></p>
 <p>It consists of one very simple script called <code><a href="/animancer/v4-0/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code>:</p>
 <ul>
@@ -492,7 +505,7 @@ public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 <pre><code class="language-cs">var state = _Animancer.Play(_Action);
 state.Events.OnEnd = OnActionEnd;
 </code></pre>
-<p>There are a couple of different ways we could have done that which are listed on the <code><a href="/animancer/v4-0/api/Animancer/Sequence/9FF5A569">AnimancerEvent.Sequence.OnEnd</a></code> page. The <a href="../../../manual/waiting-for-animations">Waiting for Animations</a> page also explains some alternative approaches instead of using the <code>OnEnd</code> callback.</p>
+<p>There are a couple of different ways we could have done that which are listed on the <code><a href="/animancer/v4-0/api/Animancer/Sequence/9FF5A569">AnimancerEvent.Sequence.OnEnd</a></code> page. The <a href="../../../manual/events/end">End Events</a> page also explains some alternative approaches instead of using the <code>OnEnd</code> callback.</p>
 <p></p><details><summary>The full script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -570,8 +583,9 @@ public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 <h1 id="whats-next">What's Next?</h1>
 <p>That's all for this first tutorial, but there's plenty more where that came from:</p>
 <ul>
-<li><a href="../playing-and-fading">Playing and Fading</a> goes into more detail about the differences between the various parameter combinations you can give when calling the <code>Play</code> method.</li>
-<li><a href="../../animation-events/simple-and-end-events">Simple and End Events</a> builds upon this example to show how you can use Animation Events to trigger a function at a specific time during an animation to hit a ball and also how to adjust the transition back to idle to look more natural.</li>
+<li>If you want to easily customise animation details such as the fade duration in the Inspector instead of hard-coding them in your scripts, you can use <a href="../../../manual/transitions">Transitions</a>.</li>
+<li>The <a href="../playing-and-fading">Playing and Fading</a> example goes into more detail about the differences between the various parameter combinations you can give when calling the <code>Play</code> method.</li>
+<li>The <a href="../../animation-events/simple-and-end-events">Simple and End Events</a> example builds upon this example to show how you can use Animation Events to trigger a function at a specific time during an animation to hit a ball and also how to adjust the transition back to idle to look more natural.</li>
 </ul>
 <p>The up arrow in the bottom right corner of the page will take you back to the top.</p>
 

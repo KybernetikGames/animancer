@@ -79,9 +79,10 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#events-in-transitions">Events in Transitions</a></p>
 <p><a href="#events-in-code">Events in Code</a></p>
 <p><a href="#auto-clear">Auto Clear</a></p>
+<p><a href="#garbage">Garbage</a></p>
 <p><a href="#looping">Looping</a></p>
-<p><a href="#ultevents">UltEvents</a></p>
 <p><a href="#other-details">Other Details</a></p>
+<p><a href="#ultevents">UltEvents</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -231,11 +232,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -246,18 +260,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview active">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -320,18 +334,19 @@
 			<h1>Animancer Events</h1>
 		</section>
 	<section class="content">
-		<p><em><a href="../../waiting-for-animations#events">End Events</a> are available in <a href="/animancer/lite">Animancer Lite</a> but the ability to set a custom end time and use other events will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>. See the <a href="../introduction/features">Feature Comparison</a> for more information.</em></p>
-<p>Animancer includes a custom event system which has various <a href="../">differences from Unity's Animation Events</a>. Events can be configured in the Inspector when using <a href="#events-in-transitions">Transitions</a> as well as using <a href="#events-in-code">Code</a>.</p>
+		<p><em><a href="../../events/end#events">End Events</a> are available in <a href="/animancer/lite">Animancer Lite</a> but the ability to set a custom end time and use other events will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>. See the <a href="../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p>Animancer includes a custom event system which has various <a href="../">differences from Unity's Animation Events</a>. Events can be configured in the Inspector when using <a href="#events-in-transitions">Transitions</a> as well as using <a href="#events-in-code">Code</a>. Note that there are several differences between regular events and <a href="../../events/end#events">End Events</a> (which are explained on that page).</p>
 <h1 id="events-in-transitions">Events in Transitions</h1>
 <p>In addition to their other details, the serializable <a href="../../transitions">Transitions</a> also allow you to configure Animancer Events in the Inspector:</p>
 <p><img src="animancer-event-inspector.gif" class="img-responsive"></p>
 <ul>
 <li>You can select and edit events one at a time, or you can click the foldout arrow next to the timeline to instead show all of the events at once.</li>
 <li>A transition defines how it fades in but not how it fades out (because that gets determined by the next transition), so the Inspector timeline display simply uses a default value. If the end time is less than the animation length, it shows the fade out ending at the end of the animation. Or if the end time is greater than the length, it shows the default 0.25 second fade.</li>
+<li>Event <a href="../../transitions#time-fields">Time Fields</a> are always serialized as normalized time, regardless of which field you use to enter the value.</li>
 </ul>
 <h1 id="events-in-code">Events in Code</h1>
-<p></p><details><summary>Animancer Events can also be configured using code like so:</summary><p>
-</p><pre><code class="language-cs">// MeleeAttack.cs:
+<p>Animancer Events can also be configured using code like so:</p>
+<pre><code class="language-cs">// MeleeAttack.cs:
 
 [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Animation;
@@ -347,35 +362,32 @@ public void Attack()
     // Call OnHitEnd to deactivate the hit box when the animation passes 60% of its length.
     state.Events.Add(0.6f, OnHitEnd);
 
-    // Return to Idle when the animation finishes (see End Events for details).
+    // Return to Idle when the animation finishes.
     state.Events.OnEnd = EnterIdleState;
 }
 </code></pre>
-<p></p></details><p></p>
-<p></p><details><summary>Note that each callback delegate created like that will become garbage to be collected next time the events are cleared, which can potentially cause performance issues. This can be avoided by making your own <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> like so:</summary><p>
-</p><pre><code class="language-cs">// MeleeAttack.cs:
-
-[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private AnimationClip _Animation;
-
-private <a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a> _Events;
-
-private void Awake()
+<p>See <a href="../../events/end#events">End Events</a> for details about how the <code>OnEnd</code> event is different from others.</p>
+<p></p><details><summary>You can use Lambda Expressions and Anonymous Methods to define the code you want an event to run without needing to create another separate method:</summary><p>
+</p><pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
-    // Specifying the capacity is optional and it will still expand if necessary.
-    // But if the number of elements is known, specifying it is more efficient.
-    _Events = new AnimancerEvent.Sequence(2);
-    _Animation.Events.Add(0.4f, OnHitStart);
-    _Animation.Events.Add(0.6f, OnHitEnd);
+    var state = animancer.Play(clip);
 
-    // The End Event is not included in the capacity.
-    _Animation.Events.OnEnd = EnterIdleState;
-}
+    // All of the following options are functionally identical:
 
-public void Attack()
-{
-    var state = _Animation.Play(_Animation);
-    state.Events = _Events;
+    // Lambda expression:
+    state.Events.OnEnd = () =&gt;
+    {
+        Debug.Log(clip.name + " ended");
+    };
+
+    // One-line Lambda expression:
+    state.Events.OnEnd = () =&gt; Debug.Log(clip.name + " ended");
+
+    // Anonymous method:
+    state.Events.OnEnd = delegate()
+    {
+        Debug.Log(clip.name + " ended");
+    };
 }
 </code></pre>
 <p></p></details><p></p>
@@ -411,8 +423,72 @@ public void Attack()
 <li>You can assign your own <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> to that property and it will then be removed from the state when the events are cleared (but since you made the sequence it will not be cleared or added to the pool).</li>
 <li><a href="../../transitions">Transitions</a> each have their own sequence which they assign whenever they are played.</li>
 </ul>
-<p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, that skill won't want it to still have the <a href="../../waiting-for-animations#events">End Event</a> that returns to <em>Idle</em>.</p>
-<p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so it is covered in the <a href="../../../examples/state-machines/interrupt-management">State Machines/Interrupt Management</a> example.</p>
+<p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, it will not want that animation to still have the old <a href="../../events/end#events">End Event</a> that returns to <em>Idle</em>.</p>
+<p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so it is covered in the <a href="../../../examples/state-machines/interrupt-management">Interrupt Management</a> example.</p>
+<h1 id="garbage">Garbage</h1>
+<p>Memory allocation and <a href="https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals">Garbage Collection</a> are fairly complex topics which are not directly relevant here except for their performance implications. In simple terms, allocating memory takes time and de-allocating memory so it can be reused also takes time. Unity uses a system known as a "Garbage Collector" in which objects that are no longer being used are automatically cleaned up periodically without the developer needing to specifically indicate when each object can be de-allocated. Unfortunately, this clean up process can take long enough that it causes a noticeable lag from one frame to the next which is obviously bad for the user experience. Note that this performance cost is often insignificant and many people advise against trying to optimise things like this unless you actually find a problem occuring.</p>
+<p>Animancer Events use <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates">Delegates</a> as a very convenient way to determine what each event actually does, however they also have the downside of needing to be garbage collected when they are no longer being used which happens quite often since events are <a href="#auto-clear">Automatically Cleared</a> whenever a new animation is played.</p>
+<p></p><details><summary>Garbage Collection can be avoided by "<em>caching</em>" your variables, which in this case means you simply create your delegates once (usually on startup) and reuse the same ones every time:</summary><p>
+</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimationClip _Animation;
+
+private System.Action _OnAnimationEnd;
+
+void Awake()
+{
+    _OnAnimationEnd = () =&gt; Debug.Log("Animation ended");
+}
+
+void PlayAnimation()
+{
+    _Animancer.Play(_Animation).Events.OnEnd = _OnAnimationEnd;
+}
+</code></pre>
+<p>The delegate stored in <code>_OnAnimationEnd</code> will not be garbage collected until either it is set to something else (<code>null</code> or a different method) or until the whole object that it is in gets garbage collected.</p>
+<p></p></details><p></p>
+<p></p><details><summary><a href="transitions">Transitions</a> have their own events which do not get cleared and are automatically assigned to the state whenever it is played, so adding your events to them is another form of caching which is often more convenient than having a separate field to store the delegate in:</summary><p>
+</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Animation;
+
+void Awake()
+{
+    _Animation.Events.Sequence.OnEnd = () =&gt; Debug.Log("Animation ended");
+}
+
+void PlayAnimation()
+{
+    _Animancer.Play(_Animation);
+}
+</code></pre>
+<p></p></details><p></p>
+<p></p><details><summary>You can also make your own <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> like so:</summary><p>
+</p><pre><code class="language-cs">// MeleeAttack.cs:
+
+[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimationClip _Animation;
+
+private <a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a> _Events;
+
+private void Awake()
+{
+    // Specifying the capacity is optional and it will still expand if necessary.
+    // But if the number of elements is known, specifying it is more efficient.
+    _Events = new AnimancerEvent.Sequence(2);
+    _Animation.Events.Add(0.4f, OnHitStart);
+    _Animation.Events.Add(0.6f, OnHitEnd);
+
+    // The End Event is not included in the capacity.
+    _Animation.Events.OnEnd = EnterIdleState;
+}
+
+public void Attack()
+{
+    var state = _Animation.Play(_Animation);
+    state.Events = _Events;
+}
+</code></pre>
+<p>Your event sequence will be removed from the state when a different animation is played, but it will not be cleared so you can simply re-assign it next time.</p>
+<p></p></details><p></p>
 <h1 id="looping">Looping</h1>
 <p>Events behave differently depending on whether the animation is looping or not:</p>
 <ul>
@@ -425,17 +501,6 @@ public void Attack()
 </ul>
 </li>
 </ul>
-<h1 id="ultevents">UltEvents</h1>
-<p>By default, this system uses <code>UnityEvent</code>s to define the event callbacks. However, it can be modified to use any other similar type of events. In particular, if you want to use <a href="https://kybernetikgames.github.io/ultevents">UltEvents</a> you can do the following (this requires Animancer Pro):</p>
-<ol>
-<li>Select the <em>Assets/Plugins/Animancer/Animancer.asmdef</em> and add a Reference to the <code>UltEvents</code> Assembly Definition.</li>
-<li>Go into the Player Settings of your project and add <code>ANIMANCER_ULT_EVENTS</code> as a Scripting Define Symbol. Or you can simply edit the <code>AnimancerEvent.Sequence.Serializable.cs</code> script to change the event type.</li>
-</ol>
-<p>Note that the serialized data structure of <code>UnityEvent</code>s and <code>UltEvent</code>s is entirely different so swapping between them will cause all existing events to lose their data. If you can think of a better way to implement it so that both systems can be used separately, please <a href="/animancer/forum">post in the Unity forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
-<div style="display:flex">
-  <div style="padding-right:1em;"><img src="reference-ultevents.gif" class="img-responsive"></div>
-  <div style="padding-left:1em;"><img src="animancer-ultevents.gif" class="img-responsive"></div>
-</div>
 <h1 id="other-details">Other Details</h1>
 <p>This system has several other details worth mentioning:</p>
 <ul>
@@ -449,6 +514,17 @@ public void Attack()
 </li>
 <li>If you want to run your own code as part of the animation update, you can implement <code><a href="/animancer/v4-0/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code>.</li>
 </ul>
+<h1 id="ultevents">UltEvents</h1>
+<p>By default, this system uses <code>UnityEvent</code>s to define the event callbacks. However, it can be modified to use any other similar type of events. In particular, if you want to use <a href="https://kybernetikgames.github.io/ultevents">UltEvents</a> you can do the following (this requires Animancer Pro):</p>
+<ol>
+<li>Select the <em>Assets/Plugins/Animancer/Animancer.asmdef</em> and add a Reference to the <code>UltEvents</code> Assembly Definition.</li>
+<li>Go into the Player Settings of your project and add <code>ANIMANCER_ULT_EVENTS</code> as a Scripting Define Symbol. Or you can simply edit the <code>AnimancerEvent.Sequence.Serializable.cs</code> script to change the event type.</li>
+</ol>
+<p>Note that the serialized data structure of <code>UnityEvent</code>s and <code>UltEvent</code>s is entirely different so swapping between them will cause all existing events to lose their data. If you can think of a better way to implement it so that both systems can be used separately, please <a href="/animancer/forum">post in the Unity forums</a> or email <a href="mailto:AnimancerUnityPlugin@gmail.com?subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</p>
+<div style="display:flex">
+  <div style="padding-right:1em;"><img src="reference-ultevents.gif" class="img-responsive"></div>
+  <div style="padding-left:1em;"><img src="animancer-ultevents.gif" class="img-responsive"></div>
+</div>
 
 	</section>
                 

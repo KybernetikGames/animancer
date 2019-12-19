@@ -230,11 +230,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -245,18 +258,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -330,7 +343,7 @@
 </ul>
 <p><img src="nightmare-controller.png" class="img-responsive"></p>
 <p>This monstrosity was taken from an official Unity Blog post ironically titled "<a href="https://blogs.unity3d.com/2016/10/11/building-for-reuse-mecanim-on-recore/">Building for Reuse</a>". The sheer number of states and parameters turns it from a meaningful visualisation of a complex system into a convoluted mess that would be extremely difficult to work with. Programming patterns and other techniques that could normally be used to effectively develop something that complex simply cannot be used when everything is constrained by Animator Controllers.</p>
-<p>If you are interested in a direct practical comparison between the two systems, the <a href="../../../examples/animator-controllers/3d-game-kit">Animator Controllers/3D Game Kit</a> example is dedicated to the process of converting an Animator Controller based character to use Animancer instead.</p>
+<p>If you are interested in a direct practical comparison between the two systems, the <a href="../../../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example is dedicated to the process of converting an Animator Controller based character to use Animancer instead.</p>
 <h1 id="delays-and-unreliability">Delays and Unreliability</h1>
 <p>When you command an Animator Controller (such as changing its state or setting a parameter), it will not actually respond until the next time it gets updated and it might not even do what you want.</p>
 <p>For example, if you call <code>Play</code> then check which state is currently playing it will still return the previous state until the next frame and if you call <code>Play</code> again during the same frame it will ignore each call after the first instead of ending up in the last state you told it to play:</p>
@@ -380,7 +393,7 @@ Debug.Log(jumpState.IsPlaying);// False (not jumping anymore).
 Debug.Log(animancer.IsPlaying(attack));// True.
 Debug.Log(attackState.IsPlaying);// True.
 </code></pre>
-<p>Note that you are also less likely to even need to know the animation length because Animancer has several inbuilt ways of <a href="../../../manual/waiting-for-animations">Waiting for Animations to End</a>.</p>
+<p>Note that you are also less likely to even need to know the animation length because Animancer has several inbuilt ways of <a href="../../../manual/events/end">Waiting for Animations to End</a>.</p>
 <h1 id="magic-strings">Magic Strings</h1>
 <p>A "magic" variable is an arbitrary value that is used to activate certain functionality in a program without being derived or retrieved in some way, it simply appears from nothing as if by magic. Likewise, a "magic string" is a <code>string</code> that is used to control something that it has no real connection with. Take the following code for example:</p>
 <pre><code class="language-cs">[SerializeField]

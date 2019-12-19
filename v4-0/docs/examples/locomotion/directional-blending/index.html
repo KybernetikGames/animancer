@@ -224,11 +224,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -239,18 +252,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -318,8 +331,8 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/03 Locomotion/04 Directional Blending</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Locomotion"><code>Animancer.Examples.Locomotion</code></a></p>
 </blockquote>
-<p>This example expands upon the <a href="../../fine-control/spider-bot">Fine Control/Spider Bot</a> example with a 2D <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> to allow movement in any direction. It will likely be replaced in the future since it doesn't really explain anything new and doesn't demonstrate particularly good programming practices.</p>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../../manual/mixer-states">Mixer States</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p>This example expands upon the <a href="../../fine-control/spider-bot">Spider Bot</a> example with a 2D <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> to allow movement in any direction. It will likely be replaced in the future since it doesn't really explain anything new and doesn't demonstrate particularly good programming practices.</p>
+<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../../manual/blending/mixers">Mixer States</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
 <p></p><details><summary>This example is implemented by the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -428,7 +441,7 @@ var isSprinting = Input.GetButton("Fire3");
 _Locomotion.State.Parameter = movement;
 _Locomotion.State.Speed = (isMoving &amp;&amp; isSprinting) ? _SprintMultiplier : 1;
 </code></pre>
-<p>Note that this example moves in fixed directions for each key. The <a href="../../state-machines/brains">State Machines/Brains</a> example demonstrates how you can align the movement directions with the camera.</p>
+<p>Note that this example moves in fixed directions for each key. The <a href="../../state-machines/brains">Brains</a> example demonstrates how you can align the movement directions with the camera.</p>
 <p>The rest of <code>Update</code> is practically identical to <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotBasic">SpiderBotBasic</a></code> with an added <code>bool</code> to keep track of which state we are in.</p>
 <p>The actual movement implementation in <code>FixedUpdate</code> is simple for the sake of keeping the script short, but manipulating the <code>Rigidbody.velocity</code> directly is not generally recommended. A proper implementation would usually use <code>AddForce</code>.</p>
 

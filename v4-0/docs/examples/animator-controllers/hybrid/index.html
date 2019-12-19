@@ -228,11 +228,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -243,18 +256,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -333,9 +346,9 @@
 <h1 id="scripts">Scripts</h1>
 <p>There are only a few scripts in this example because it is similar enough to other examples that it can reuse some of their scripts:</p>
 <ul>
-<li>The <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimationEvents/GolfHitController">GolfHitController</a></code> script comes from the <a href="../../animation-events/simple-and-end-events">Animation Events/Simple and End Events</a> example. The mini game is essentially just that example.</li>
-<li>The core <code>Creature</code> script and base <code>CreatureState</code> script come from the <a href="../../state-machines/brains">State Machines/Brains</a> example.</li>
-<li><details><summary>The <code>LocomotionState</code> script is mostly identical to the same script from the <a href="../../state-machines/brains">State Machines/Brains</a> example except for the <code>UpdateAnimation</code> method which controls the <em>Locomotion</em> Blend Tree in the Animator Controller instead of directly referencing <code>AnimationClip</code>s. This Blend Tree also includes the <em>Idle</em> animation where the other example had a separate <code>IdleState</code> script.</summary><p>
+<li>The <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimationEvents/GolfHitController">GolfHitController</a></code> script comes from the <a href="../../animation-events/simple-and-end-events">Simple and End Events</a> example. The mini game is essentially just that example.</li>
+<li>The core <code>Creature</code> script and base <code>CreatureState</code> script come from the <a href="../../state-machines/brains">Brains</a> example.</li>
+<li><details><summary>The <code>LocomotionState</code> script is mostly identical to the same script from the <a href="../../state-machines/brains">Brains</a> example except for the <code>UpdateAnimation</code> method which controls the <em>Locomotion</em> Blend Tree in the Animator Controller instead of directly referencing <code>AnimationClip</code>s. This Blend Tree also includes the <em>Idle</em> animation where the other example had a separate <code>IdleState</code> script.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Examples.StateMachines.Brains;
 using UnityEngine;
@@ -462,7 +475,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
         return nextState == this;
     }
 </code></pre>
-<p>Normally a state like this would use its <code>Awake</code> method to register a callback to an <code>OnHitReceived</code> event of some sort in order to trigger itself, similar to the way <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> in the <a href="../../state-machines/platformer">State Machines/Platformer</a> example checks if the creature needs to die whenever damage is taken. That way, a creature without a <em>Flinch</em>/<em>Die</em> state won't bother checking a condition it doesn't care about (such as if an NPC can't be attacked). But for this example we just expose a public method so it can be called by a UI Button:</p>
+<p>Normally a state like this would use its <code>Awake</code> method to register a callback to an <code>OnHitReceived</code> event of some sort in order to trigger itself, similar to the way <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> in the <a href="../../state-machines/platformer">Platformer</a> example checks if the creature needs to die whenever damage is taken. That way, a creature without a <em>Flinch</em>/<em>Die</em> state won't bother checking a condition it doesn't care about (such as if an NPC can't be attacked). But for this example we just expose a public method so it can be called by a UI Button:</p>
 <pre><code class="language-cs">    public void OnTakeDamage()
     {
         Creature.StateMachine.TrySetState(this);
@@ -552,7 +565,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
 <p>Also note that despite being a <code>CreatureState</code>, this component is not attached to the same object as the <code>Creature</code>. It could be in an entirely different scene or prefab because the <code>Creature</code> does't need to know about it until it actually gets used (unlike in an Animator Controller where everything needs to be configured upfront in the same asset).</p>
 <p>It has several fields, most of which are serialized to show in the Inspector:</p>
 <ul>
-<li>The script from the <a href="../../animation-events/simple-and-end-events">Animation Events/Simple and End Events</a> example which will be enabled during this mini game:<br><code>[SerializeField] private AnimationEvents.GolfHitController _GolfHitController;</code></li>
+<li>The script from the <a href="../../animation-events/simple-and-end-events">Simple and End Events</a> example which will be enabled during this mini game:<br><code>[SerializeField] private AnimationEvents.GolfHitController _GolfHitController;</code></li>
 <li>The <em>GolfClub</em> object in the scene which will be placed in the character's hand during this mini game as well as its starting location so it can be returned there afterwards: <br><code>[SerializeField] private Transform _GolfClub;</code><br><code>private Vector3 _GolfClubStartPosition;</code><br><code>private Quaternion _GolfClubStartRotation;</code></li>
 <li>The location to move the character to once they leave this mini game:<br><code>[SerializeField] private Transform _ExitPoint;</code></li>
 <li>The UI <code>Text</code> objects which explain the different controls:<br><code>[SerializeField] private GameObject _RegularControls;</code><br><code>[SerializeField] private GameObject _GolfControls;</code></li>

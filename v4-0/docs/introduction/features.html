@@ -232,11 +232,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -247,18 +260,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -440,7 +453,7 @@ summary
     <td><details><summary>Use Animation Curves to control custom parameters</summary>
       <p>If a parameter in an Animator Controller has the same name as a curve in any of the animations it is playing, Mecanim will automatically update that parameter every frame with the value of the curve at the current animation time. If it is blending between multiple animations with the same curve, the value of the parameter will also be blended between them.</p>
       <p>Unfortunately, the Playables API (and thus the other animation systems) does not allow any similar access to the curves inside an <code>AnimationClip</code> at runtime.</p>
-      Animancer partially works around this problem using <a href="../manual/inverse-kinematics#exposed-curves">Exposed Curves</a> which extract a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed at runtime. However, this approach is much less convenient and does not have the same inherent blending that Mecanim does. The <a href="../examples/inverse-kinematics/uneven-ground">Inverse Kinematics/Uneven Ground</a> example demonstrates how to use them.</details></td>
+      Animancer partially works around this problem using <a href="../manual/inverse-kinematics#exposed-curves">Exposed Curves</a> which extract a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed at runtime. However, this approach is much less convenient and does not have the same inherent blending that Mecanim does. The <a href="../examples/inverse-kinematics/uneven-ground">Uneven Ground</a> example demonstrates how to use them.</details></td>
     <td class="y">
     </td><td class="n">
     </td><td class="n">
@@ -519,7 +532,7 @@ animancer.Play("Attack");
   
   <tr>
     <td><details><summary>Easily wait for animations to finish</summary>
-      Animancer supports several easy ways of <a href="../manual/waiting-for-animations">Waiting for Animations to End</a>, including <a href="../manual/waiting-for-animations#events">Events</a> and the ability to simply <code>yield return</code> an <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> in a <a href="../manual/waiting-for-animations#coroutines">Coroutine</a>.</details></td>
+      Animancer supports several easy ways of <a href="../manual/events/end">Waiting for Animations to End</a>, including <a href="../manual/events/end#events">Events</a> and the ability to simply <code>yield return</code> an <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> in a <a href="../manual/events/end#coroutines">Coroutine</a>.</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -529,7 +542,7 @@ animancer.Play("Attack");
   
   <tr>
     <td><details><summary>Play animations in Edit Mode</summary>
-      Animancer allows animations to be played in <a href="../manual/playing-animations#edit-mode">Edit Mode</a> just as easily as in Play Mode. The <a href="../examples/fine-control/doors">Fine Control/Doors</a> example uses this to show how far open each door is when editing the scene.</details></td>
+      Animancer allows animations to be played in <a href="../manual/playing#edit-mode">Edit Mode</a> just as easily as in Play Mode. The <a href="../examples/fine-control/doors">Doors</a> example uses this to show how far open each door is when editing the scene.</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -585,7 +598,7 @@ animancer.Play("Attack");
       <p>Imagine you want to repeatedly perform an action consisting of a single animation with a smooth transition from the end of one action to the start of the next.</p>
       <p>Most systems only allow each state to have one set of values; it can either be near the end and fading out or near the start and fading in, but not both. Attempting to do so will cause it to either snap back to the start without a smooth transition or ignore you completely, depending on the system.</p>
       <p>Animancer has a <a href="../manual/blending/fading"><code>CrossFadeFromStart</code></a> method which checks if the animation state is still in use and will simply create another state for the same animation if necessary. This allows the new state to fade in from the start while the previous state continues fading out. You could potentially do the same thing with the other systems, but it isn't built in and Mecanim in particular would require significantly more effort because it doesn't allow states to be created dynamically at runtime.</p>
-      The <a href="../examples/basics/playing-and-fading#bad-crossfade-from-start">Basics/Playing And Fading</a> example covers this concept in greater detail.</details></td>
+      The <a href="../examples/basics/playing-and-fading#bad-crossfade-from-start">Playing And Fading</a> example covers this concept in greater detail.</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -784,7 +797,7 @@ animancer.Play("Attack");
 </tr>
 <tr>
 <td>2018.3</td>
-<td><p>Added the <code><a href="/animancer/v4-0/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> interface which allows the Animation Window to access animations from custom components (specifically, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>s) rather than only from an <code>AnimatorController</code>.</p><p>Fixed the bug that prevented the <a href="../manual/inverse-kinematics">IK Pass</a> from working while fading between animations.</p>Fixed animations played in <a href="../manual/playing-animations#edit-mode">Edit Mode</a> to work properly.</td>
+<td><p>Added the <code><a href="/animancer/v4-0/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> interface which allows the Animation Window to access animations from custom components (specifically, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>s) rather than only from an <code>AnimatorController</code>.</p><p>Fixed the bug that prevented the <a href="../manual/inverse-kinematics">IK Pass</a> from working while fading between animations.</p>Fixed animations played in <a href="../manual/playing#edit-mode">Edit Mode</a> to work properly.</td>
 </tr>
 <tr>
 <td>2019.3</td>
@@ -799,7 +812,7 @@ animancer.Play("Attack");
 <li>Anything that uses <code>LateUpdate</code> to modify the model after the animations are updated will work exactly the same as usual.</li>
 <li>Anything that uses <code>OnAnimatorIK</code> simply needs IK to be turned on by setting <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a> = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. This requires Unity 2018.3 to work properly as mentioned above. See <a href="../manual/inverse-kinematics">Inverse Kinematics</a> for more details.</li>
 <li>Anything that uses <code>StateMachineBehaviour</code>s will not work directly with Animancer unless you use a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an actual Animator Controller. See <a href="../manual/finite-state-machines">Finite State Machines</a> for details about the state machine system included with Animancer and the <a href="../examples/animator-controllers">Animator Controllers</a> examples for details about playing or deconstructing them.</li>
-<li>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/inverse-kinematics#exposed-curves">Inverse Kinematics/Exposed Curves</a> section for more details.</li>
+<li>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/inverse-kinematics#exposed-curves">Exposed Curves</a> section for more details.</li>
 </ul>
 
 	</section>

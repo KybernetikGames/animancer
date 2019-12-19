@@ -228,11 +228,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -243,18 +256,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -320,7 +333,7 @@
 		<p>The most common form of animation uses Forward Kinematics where each bone is given a specific rotation which it adds to the rotation of its parent. So you rotate the shoulder and the elbow moves accordingly because it is a child of the shoulder. You rotate the elbow and the hand moves accordingly. And so on.</p>
 <p>But sometimes it is desirable to directly control the end point instead. With Inverse Kinematics, you specify the desired position of a hand or foot and the IK system figures out how to rotate the bones to get it there. This can be used to have a hand reach a specific point such as a door handle or adjusting the height of a foot to match the terrain.</p>
 <p>Animancer allows you to use Unity's inbuilt <a href="https://docs.unity3d.com/Manual/InverseKinematics.html">Humanoid IK</a> system in mostly the same way you would with Mecanim. The main difference is that you enable it by setting <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/0A02E3C9">AnimancerLayer.ApplyFootIK</a></code> or <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a></code> (or the same properties in a specific <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code>) instead of enabling it with toggles in an Animator Controller.</p>
-<p>You can also enable/disable IK using the <a href="../inspector#context-menus">Context Menu Functions</a> in the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for testing purposes (the setting will not be stored in the scene or prefab, so you will always need to enable Ik with a script to use it at runtime).</p>
+<p>You can also enable/disable IK using the <a href="../playing/inspector#context-menus">Context Menu Functions</a> in the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for testing purposes (the setting will not be stored in the scene or prefab, so you will always need to enable Ik with a script to use it at runtime).</p>
 <p>The <a href="../../examples/inverse-kinematics">Inverse Kinematics</a> examples demonstrate the use of this feature.</p>
 <h1 id="foot-ik">Foot IK</h1>
 <p><em>Foot IK</em> allows Unity to make the character's feet more closely match the original animation's positions after retargeting it from the animation's rig to the model's rig. This can help reduce foot sliding caused by differing rig proportions, but it also often has undesirable results so it should be selected on a case by case basis.</p>
@@ -373,7 +386,7 @@ private void OnAnimatorIK(int layerIndex)
     _Animancer.Animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
 }
 </code></pre>
-<p>The <a href="../../examples/inverse-kinematics/uneven-ground">Inverse Kinematics/Uneven Ground</a> example demonstrates the use of this feature in more detail.</p>
+<p>The <a href="../../examples/inverse-kinematics/uneven-ground">Uneven Ground</a> example demonstrates the use of this feature in more detail.</p>
 
 	</section>
                 

@@ -235,11 +235,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -250,18 +263,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -378,7 +391,7 @@
 <p>This limitation and various others can be avoided with a free plugin called <a href="https://kybernetikgames.github.io/ultevents">UltEvents</a> (also made by <a href="https://kybernetikgames.github.io/kailas-dierk/unity-assets">Kybernetik</a> like Animancer). Unfortunately, it is not possible to directly change the inbuilt <code>Button</code> component to use an <code>UltEvent</code> instead of a <code>UnityEvent</code>, but it has an <code>UltEventHolder</code> component which you could add to a <code>Button</code>. Have the <code>Button</code> call the <code>UltEventHolder</code>s <code>Invoke</code> method and configure the event you want in the <code>UltEventHolder</code> instead. It also means that you can use <code>UltEvent</code>s in your own scripts any time you would normally use a <code>UnityEvent</code> to make use of the superior features and improved Inspector interface.</p>
 <p></p></details><p></p>
 <h1 id="play-then-idle">Play then Idle</h1>
-<p>Most of the time you don't want a character to just freeze once they finish an animation, you want them so start doing something else. In this simple example that means we want them to just return to the <em>Idle</em> animation using the <a href="../../../manual/waiting-for-animations#events">End Event</a>, so our next method looks like this:</p>
+<p>Most of the time you don't want a character to just freeze once they finish an animation, you want them so start doing something else. In this simple example that means we want them to just return to the <em>Idle</em> animation using the <a href="../../../manual/events/end#events">End Event</a>, so our next method looks like this:</p>
 <pre><code class="language-cs">public void PlayThenIdle()
 {
     _Animancer.Play(_Action).Events.OnEnd = () =&gt; _Animancer.Play(_Idle);
@@ -410,7 +423,7 @@
 </code></pre>
 <p><img src="play-from-start-then-idle.gif" class="img-responsive"></p>
 <h1 id="crossfade">CrossFade</h1>
-<p>Instead of immediately snapping the character's pose to the new animation, it is often desirable to transition towards it over time to give the impression of smooth motion. This is called "<a href="../../../manual/blending/fading"><em>Cross Fading</em></a>", which can be done by simply any of the <a href="../../../manual/playing-animations#cross-fade">Play methods that have a "fadeDuration" parameter</a> to specify how long you want the transition to take:</p>
+<p>Instead of immediately snapping the character's pose to the new animation, it is often desirable to transition towards it over time to give the impression of smooth motion. This is called "<a href="../../../manual/blending/fading"><em>Cross Fading</em></a>", which can be done by simply any of the <a href="../../../manual/playing#cross-fade">Play methods that have a "fadeDuration" parameter</a> to specify how long you want the transition to take:</p>
 <pre><code class="language-cs">public void CrossFade()
 {
     _Animancer.Play(_Action, 0.25f);
@@ -418,7 +431,8 @@
 </code></pre>
 <p>The optional <code><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></code> parameter determines whether the specified <code>fadeDuration</code> is measured in seconds or as a portion of the animation's length. The default is seconds.</p>
 <p><img src="crossfade.gif" class="img-responsive"></p>
-<p>Note how the <code>Weight</code>s on the right of the Inspector change over time instead of snapping to their target value instantly.</p>
+<p>Note how the <code>Weight</code>s on the right of the Inspector change over time instead of snapping to their target value instantly. If you want to see it in slow motion, you can put a <code><a href="/animancer/v4-0/api/Animancer.Examples/TimeScale">TimeScale</a></code> component on any object in the scene to easily control the game's overall speed.</p>
+<p>It is often better to use <a href="../../../manual/transitions">Transitions</a> so that you can edit the animation details in the Inspector and preview what it will look like instead of hard-coding everything in your scripts. However, the purpose of this example is to explain how things work internally so they will not be used here.</p>
 <h1 id="crossfade-then-idle">CrossFade then Idle</h1>
 <p>Same as with <a href="#play-then-idle">Play then Idle</a>, we want to go back to <em>Idle</em> once the <em>GolfSwing</em> ends, but this time we can do it smoothly:</p>
 <pre><code class="language-cs">public void CrossFadeThenIdle()

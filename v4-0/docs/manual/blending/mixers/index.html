@@ -228,11 +228,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview active">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -243,18 +256,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -322,9 +335,9 @@
 </blockquote>
 <p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase Animancer Pro. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
 <p><code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code>s serve the same purpose as Mecanim Blend Trees; they allow you to blend multiple animations based on a parameter. For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
-<p>The <a href="../../../examples/locomotion/linear-blending">Locomotion/Linear Blending</a> example demonstrates how to use Mixers and Blend Trees.</p>
+<p>The <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example demonstrates how to use Mixers and Blend Trees.</p>
 <p><img src="../../../examples/locomotion/linear-blending/linear-blending.gif" class="img-responsive"></p>
-<p>Mixers are usually set up in the Inspector using <a href="../../transitions#mixer-transitions">Mixer Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
+<p>Mixers are usually set up in the Inspector using <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
 <p><img src="../../../examples/locomotion/linear-blending/mixer-inspector.png" class="img-responsive"></p>
 <h1 id="choosing-a-mixer">Choosing a Mixer</h1>
 <p>There are several different mixer types and you can create your own by inheriting from any of them:</p>
@@ -370,11 +383,11 @@
 <p><code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code>s are a type of <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> with several other differences from regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code>s:</p>
 <ul>
 <li>The <code>Clip</code> property will always return null.</li>
-<li>States inside an <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> are not generally registered in the internal <a href="../../states#keys">Dictionary</a>. If you need to access these states directly you must do so via their index in the mixer itself. All inbuilt mixers expose their <code>States</code> as an array.</li>
+<li>States inside an <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> are not generally registered in the internal <a href="../../playing/states#keys">Dictionary</a>. If you need to access these states directly you must do so via their index in the mixer itself. All inbuilt mixers expose their <code>States</code> as an array.</li>
 <li>Since mixers don’t have a duration or time of their own, they don’t actually have an <code>OnEnd</code> callback but will instead pass on anything they are given to all of their child states.</li>
 </ul>
 <h1 id="manual-creation">Manual Creation</h1>
-<p>If you don't want to use a <a href="../../transitions#mixer-transitions">Mixer Transition</a>, you can create one yourself using code:</p>
+<p>If you don't want to use a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, you can create one yourself using code:</p>
 <ol>
 <li>Select a mixer type from the table above and make a <code>new</code> one. For example, <code>new <a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></code>.</li>
 <li>Call one of the <code>Initialise</code> methods on the mixer:</li>

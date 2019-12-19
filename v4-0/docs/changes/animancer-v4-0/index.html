@@ -233,11 +233,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -248,18 +261,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -358,7 +371,7 @@
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>The main public API has been significantly restructured in several ways which will affect all users, so this section will help you fix the errors you get when upgrading a project from an earlier version.</p>
 <blockquote class="blockquote">
-<p><a href="../../#importing-animancer">Remember to always <strong>delete any older version of Animancer</strong> before upgrading</a>.</p>
+<p><a href="../../#getting-animancer">Remember to always <strong>delete any older version of Animancer</strong> before upgrading</a>.</p>
 </blockquote>
 <h2 id="serialized-data">Serialized Data</h2>
 <p>Some of the changes to serialized data structures will unfortunately cause certain values to be lost when upgrading so if you were using any of the following things you will need to set them again manually:</p>
@@ -368,7 +381,7 @@
 <li><a href="#mixer-time-synchronisation">Mixer Time Synchronisation</a> is now enabled by default for all mixers so they will give different results to before it was implemented (likely better results).</li>
 </ul>
 <h2 id="playing-and-fading">Playing and Fading</h2>
-<p></p><details><summary>The <code>AnimancerComponent.Play</code>, <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> methods are now all called <code>Play</code>. The <a href="../../manual/playing-animations#play-methods">Playing Animations</a> page explains their differences.</summary>
+<p></p><details><summary>The <code>AnimancerComponent.Play</code>, <code>CrossFade</code>, <code>CrossFadeFromStart</code>, and <code>Transition</code> methods are now all called <code>Play</code>. The <a href="../../manual/playing#play-methods">Playing Animations</a> page explains their differences.</summary>
 <p>In <a href="../animancer-v3-1">v3.1</a>, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> had several overloads each of <code>Play</code>/<code>CrossFade</code>/<code>Transition</code> which were made even more complicated by the presence of default parameters for <code>fadeDuration</code> and <code>layerIndex</code>:</p>
 <pre><code class="language-cs">// Old Methods from v3.1:
 
@@ -451,7 +464,7 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4
 </table>
 <p>In earlier versions the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class was the only one with access to its <code>GetKey(AnimationClip)</code> method, meaning that it could have a <code>Play(AnimationClip)</code> method where other classes (<code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>) could not because they would not be able to determine what key to look up the state with in the internal dictionary (usually the clip is its own key, but <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> uses the clip's name so you can call <code>Play("Name")</code>). But Animancer v4.0 gives the <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> a reference to its component, so now you can call <code>animancer.Layers[1].Play(clip)</code> as shown above. Also note that this changes the meaning of the default <code>animancer.Play(clip)</code> so that instead of playing the animation on layer 0 it will now leave it on whatever layer it is currently on.</p>
 </details><p></p>
-<p></p><details><summary>All <a href="../../manual/states">State</a> functionality in <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has been moved into the new <code>States</code> property.</summary>
+<p></p><details><summary>All <a href="../../manual/playing/states">State</a> functionality in <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> has been moved into the new <code>States</code> property.</summary>
 <table class="table">
 <thead>
 <tr>
@@ -560,9 +573,9 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4
 </li>
 <li>Down the bottom is a visual timeline display of the main parameters:
 <ul>
+<li>The labels show key times (in seconds, rounded off).</li>
 <li>The blue highlighted area represents the fading in and out.</li>
 <li>The grey bar down the bottom represents the actual length of the animation.</li>
-<li>The lines labels are the start, end, and fade times.</li>
 <li>The button on the right adds an <a href="#animancer-events">Animancer Event</a> which will also be shown in this area.</li>
 </ul>
 </li>
@@ -608,9 +621,9 @@ public void Attack()
 }
 </code></pre>
 <ul>
-<li>Every event sequence has a separate <a href="../../manual/waiting-for-animations#events">End Event</a> which takes the place of the old <code>AnimancerState.OnEnd</code> callback and allows a custom time to be specified instead of always occuring at the very end of the animation.</li>
-<li><a href="../../manual/waiting-for-animations#events">End Events</a> are included in <a href="/animancer/lite">Animancer Lite</a>, but the ability to set a custom end time and use other events is only available in the Unity Editor unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</li>
-<li>As with <a href="../../manual/waiting-for-animations#events">End Events</a> prior to Animancer v4.0, all events are cleared (and returned to the <code><a href="/animancer/v4-0/api/Animancer/ObjectPool">ObjectPool</a></code>) whenever a new animation is played. See <a href="../../manual/events/animancer#auto-clear">Auto Clear</a> for details.</li>
+<li>Every event sequence has a separate <a href="../../manual/events/end#events">End Event</a> which takes the place of the old <code>AnimancerState.OnEnd</code> callback and allows a custom time to be specified instead of always occuring at the very end of the animation.</li>
+<li><a href="../../manual/events/end#events">End Events</a> are included in <a href="/animancer/lite">Animancer Lite</a>, but the ability to set a custom end time and use other events is only available in the Unity Editor unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</li>
+<li>As with <a href="../../manual/events/end#events">End Events</a> prior to Animancer v4.0, all events are cleared (and returned to the <code><a href="/animancer/v4-0/api/Animancer/ObjectPool">ObjectPool</a></code>) whenever a new animation is played. See <a href="../../manual/events/animancer#auto-clear">Auto Clear</a> for details.</li>
 <li>By default, this system uses <code>UnityEvent</code>s to define the event callbacks in the Inspector. However, it can be modified to use any other similar type of events. In particular, changing it to use <a href="https://kybernetikgames.github.io/ultevents">UltEvents</a> only takes <a href="../../manual/events/animancer#ultevents">a few simple steps</a>.</li>
 </ul>
 <h2 id="mixer-time-synchronisation">Mixer Time Synchronisation</h2>
@@ -620,7 +633,7 @@ public void Attack()
 <li>It's not quite as advanced as the proper <a href="../../manual/blending/mixers#blend-trees-vs.mixers">Foot Phase Synchronisation</a> used in Blend Trees which analyses the strides the character makes so that it can better synchronise animations with non-uniform timings such as when walking with a limp or an animation that includes multiple walk cycles.</li>
 <li>But it does have one major advantage: you actually get to control it so you can choose which animations are synchronised.</li>
 <li>It's on by default and can be disabled for individual children using the <code>SynchroniseChildren</code> array.</li>
-<li>This advantage can be seen in the <a href="../../examples/locomotion/linear-blending">Locomotion/Linear Blending</a> example. Enabling synchronisation on all animations gives the same result as the Blend Tree, meaning that the blending between <em>Idle</em> and <em>Walk</em> gives a much slower shuffle than it should. But disabling synchronisation on the <em>Idle</em> gives a much better result because there's no need for consistency between the timing of those two animations.</li>
+<li>This advantage can be seen in the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example. Enabling synchronisation on all animations gives the same result as the Blend Tree, meaning that the blending between <em>Idle</em> and <em>Walk</em> gives a much slower shuffle than it should. But disabling synchronisation on the <em>Idle</em> gives a much better result because there's no need for consistency between the timing of those two animations.</li>
 </ul>
 </li>
 <li><code><a href="/animancer/v4-0/api/Animancer/MixerState/878ADD5A">MixerState.IsLooping</a></code> now returns true if any child state is looping.</li>
@@ -629,7 +642,7 @@ public void Attack()
 <h2 id="timeline">Timeline</h2>
 <ul>
 <li>Added <code><a href="/animancer/v4-0/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> for playing <code>PlayableAsset</code>s.</li>
-<li>Added an introduction sequence to the <code>State Machines/Platformer</code> example. This allows the sequence of animations to be configured using the Timeline window and then played as if it were a single animation.</li>
+<li>Added an introduction sequence to the <a href="../../examples/state/machines/platformer">Platformer</a> example. This allows the sequence of animations to be configured using the Timeline window and then played as if it were a single animation.</li>
 </ul>
 <p><img src="platformer-intro.gif" class="img-responsive"></p>
 <p><img src="timeline.png" class="img-responsive"></p>
@@ -682,8 +695,11 @@ public void Attack()
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
-<li><code>Play(transition)</code> no longer tries to calculate the fade out duration. If you want to do that, you need to call <code>AnimancePlayable.GetFadeOutDuration</code> and pass it into <code>Play(transition, duration, mode)</code>.
+<li><code>AnimancerComponent.InitialisePlayable</code> will now try using <code>GetComponent</code> if it has no <code>Animator</code> reference and throw an exception if one still isn't found.</li>
+<li>Improved <code><a href="/animancer/v4-0/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></code>:
 <ul>
+<li>It now implements a <code><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></code> directly instead of <code>bool CrossFadeFromStart</code>.</li>
+<li><code>Play(transition)</code> no longer tries to calculate the fade out duration. If you want to do that, you need to call <code>AnimancePlayable.GetFadeOutDuration</code> and pass it into <code>Play(transition, duration, mode)</code>.</li>
 <li>Moved the main part of <code>AnimancerPlayable.GetFadeOutDuration</code> to <code><a href="/animancer/v4-0/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>, leaving behind only the part specific to Animation Events with the function name "End".</li>
 </ul>
 </li>
@@ -758,18 +774,28 @@ public void Attack()
 </ul>
 <h1 id="examples">Examples</h1>
 <ul>
-<li>The <code><a href="/animancer/v4-0/api/Animancer.Editor/ReadMe">ReadMe</a></code> now lists all example scenes for easy navigation.</li>
-<li>Renamed <code>Basics/Simple Playing</code> to <a href="../../basics/quick-play">Quick Play</a> and improved its script comments a bit.</li>
-<li>Updated <a href="../../basics/sequence-coroutine">Basics/Sequence Coroutine</a> to use the new custom end time system rather than needing a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.</li>
-<li>Added an introduction sequence to <a href="../../state-machines/platformer">State Machines/Platformer</a> using <a href="#timeline">Timeline</a>.</li>
-<li>Improved <a href="../../locomotion/root-motion">Locomotion/RootMotion</a>:
+<li>Improved the <code><a href="/animancer/v4-0/api/Animancer.Editor/ReadMe">ReadMe</a></code>:
+<ul>
+<li>It now lists all example scenes for easy navigation.</li>
+<li>Improved the Inspector layout and added descriptions of each of the support links.</li>
+</ul>
+</li>
+<li>Renamed <code>Simple Playing</code> to <a href="../../basics/quick-play">Quick Play</a>.</li>
+<li>Improved the <a href="../../basics/sequence-coroutine">Sequence Coroutine</a> example:
+<ul>
+<li>It now uses the new custom end time system rather than needing a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.</li>
+<li>Added assertions for reliability.</li>
+</ul>
+</li>
+<li>Added an introduction sequence to <a href="../../state-machines/platformer">Platformer</a> using <a href="#timeline">Timeline</a>.</li>
+<li>Improved <a href="../../locomotion/root-motion">RootMotion</a>:
 <ul>
 <li>It now overrides <code>Transition.Apply</code> to set the root motion flag so the caller doesn't need to do it.</li>
 <li>It now has some extra fields to specify another object to apply the root motion to.</li>
 </ul>
 </li>
-<li>Added <a href="../../examples/basics/hybrid-system">Basics/Hybrid System</a> to demonstrate the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Animator Controllers/Hybrid</a>.</li>
-<li>Cleaned up <a href="../../fine-control/spider-bot">Fine Control/Spider Bot</a> animation names to match the same convention as others.</li>
+<li>Added <a href="../../examples/basics/hybrid-system">Hybrid System</a> to demonstrate the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Hybrid</a>.</li>
+<li>Cleaned up <a href="../../fine-control/spider-bot">Spider Bot</a> animation names to match the same convention as others.</li>
 <li>Improved <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> to account for the foot rotation when calculating the raycast diration.</li>
 <li>Added <code>[DefaultExecutionOrder]</code> attributes to all <code>Creature</code> examples as well as comments in <code>Awake</code> to reinforce its importance.</li>
 </ul>

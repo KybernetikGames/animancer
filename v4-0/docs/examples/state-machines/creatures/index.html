@@ -232,11 +232,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -247,18 +260,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -421,7 +434,7 @@ public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;, IAniman
 <p><img src="walk-button.png" class="img-responsive"></p>
 <p>The <a href="../brains">Brains</a> example goes into more detail about controlling creature actions.</p>
 <h1 id="returning-to-idle">Returning to Idle</h1>
-<p>As was explained in the <a href="../../fine-control/spider-bot#caching-delegates">Fine Control/Spider Bot</a> example, creating a new delegate for the <code>AnimancerState.OnEnd</code> callback creates garbage which is bad for performance. So rather than having every state create garbage every time they want to return to the idle state after an animation finishes, the core <code>Creature</code> class is a good place to cache that delegate.</p>
+<p>As was explained in the <a href="../../fine-control/spider-bot#caching-delegates">Spider Bot</a> example, creating a new delegate for the <code>AnimancerState.OnEnd</code> callback creates garbage which is bad for performance. So rather than having every state create garbage every time they want to return to the idle state after an animation finishes, the core <code>Creature</code> class is a good place to cache that delegate.</p>
 <pre><code class="language-cs">public Action ForceIdleState { get; private set; }
 
 private void Awake()
@@ -460,7 +473,7 @@ private void AfterInspectorGUI()
 <p>The purpose of inheriting from <code>StateBehaviour</code> is described on the <a href="../../../manual/finite-state-machines">Finite State Machine</a> page. Basically, it gives our states basic functionality as components which are disabled by default and only get enabled when the state is entered. It doesn't really achieve anything useful in this example since the states don't do anything more than play an animation on entry, but in more complex systems this makes it easier to implement states that need <code>Update</code> or <code>FixedUpdate</code> methods to be called while that particular state is the current one.</p>
 <p>The purpose of implementing <code>IAnimancerClipSource</code> (and the <code>public <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer</code> property) is explained in its API documentation page.</p>
 <h1 id="walk-and-run">Walk and Run</h1>
-<p>The base <code>CreatureState</code> class would normally not even have an <code>_Animation</code> field because some states might have no animation or even multiple animations. For example, <em>Walk</em> and <em>Run</em> might both be handled by a single <code>Locomotion</code> state which has references to both animations so that it can synchronise their walk cycles as described in the <a href="../../locomotion/walk-and-run">Locomotion/Walk and Run</a> example. Such a state would simply choose which animation to play depending on whether the creature's <a href="../brains">Brain</a> says it should be running.</p>
+<p>The base <code>CreatureState</code> class would normally not even have an <code>_Animation</code> field because some states might have no animation or even multiple animations. For example, <em>Walk</em> and <em>Run</em> might both be handled by a single <code>Locomotion</code> state which has references to both animations so that it can synchronise their walk cycles as described in the <a href="../../locomotion/walk-and-run">Walk and Run</a> example. Such a state would simply choose which animation to play depending on whether the creature's <a href="../brains">Brain</a> says it should be running.</p>
 <hr>
 <p>The <a href="../brains">Brains</a> example expands this system by implementing different ways of controlling creatures.</p>
 

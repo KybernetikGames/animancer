@@ -229,11 +229,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -244,18 +257,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -326,9 +339,9 @@
 <ul>
 <li>Added several new <a href="../examples">examples</a>:
 <ul>
-<li><a href="../examples/locomotion/root-motion">Locomotion/Root Motion</a> demonstrates how to use serializables to determine whether each animation should use root motion or not.</li>
-<li>[Pro-Only] <a href="../examples/animator-controllers/hybrid">Animator Controllers/Hybrid</a> demonstrates how to use a default Animator Controller for some things and individual separate AnimationClips for others.</li>
-<li>[Pro-Only] <a href="../examples/animator-controllers/3d-game-kit">Animator Controllers/3D Game Kit</a> demonstrates how to translate the player Animator Controller based character from the <a href="https://assetstore.unity.com/packages/templates/tutorials/3d-game-kit-115747">3D Game Kit</a> to use Animancer.</li>
+<li><a href="../examples/locomotion/root-motion">Root Motion</a> demonstrates how to use serializables to determine whether each animation should use root motion or not.</li>
+<li>[Pro-Only] <a href="../examples/animator-controllers/hybrid">Hybrid</a> demonstrates how to use a default Animator Controller for some things and individual separate AnimationClips for others.</li>
+<li>[Pro-Only] <a href="../examples/animator-controllers/3d-game-kit">3D Game Kit</a> demonstrates how to translate the player Animator Controller based character from the <a href="https://assetstore.unity.com/packages/templates/tutorials/3d-game-kit-115747">3D Game Kit</a> to use Animancer.</li>
 </ul>
 </li>
 <li>[Pro-Only] Added <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> for managing a main Animator Controller alongside the regular Animancer functionality.</li>
@@ -343,7 +356,7 @@
 <li>Added an implicit cast from <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> to <code>int</code> so you can pass a layer reference into <code>Play</code>/<code>CrossFade</code> methods.</li>
 <li>Added <code>AnimancerComponent.Dispose</code> methods that take a key so the caller doesn't need to get and null check a state before calling <code>AnimancerState.Dispose</code>.</li>
 <li>Added constructors and implicit casts to <code>ControllerState.Serializable</code>s.</li>
-<li>Added <code>AnimationClip/Toggle Looping</code> <a href="../manual/inspector#context-menus">Context Menu Function</a>.</li>
+<li>Added <code>AnimationClip/Toggle Looping</code> <a href="../manual/playing/inspector#context-menus">Context Menu Function</a>.</li>
 <li>[Pro-Only] Unsealed <code>AnimancerState.Stop</code> so <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> can override it to reset itself to its default state. If you don't want this behaviour, you can set its <code>DefaultStateHashes = null</code>.
 <ul>
 <li>[Pro-Only] Added <code><a href="/animancer/v4-0/api/Animancer/ControllerState/597E23EC">ControllerState.KeepStateOnStop</a></code> with a constructor parameter (default false) and a field in serializables.</li>
@@ -412,7 +425,7 @@
 <li>Fixed a bug in <code>InputBuffer.TrySetState</code> which caused it to attempt to enter the previously buffered state instead of the new one.</li>
 <li>Fixed exceptions caused when an <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode">AnimancerNode</a></code> has no parent.</li>
 <li>Fixed the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimationEvents/GolfHitController">GolfHitController</a></code> example script to be reusable if it is disabled and re-enabled.</li>
-<li>Changed the <code>Basics/Sequence Coroutine</code> example to use a <code>TextMesh</code> so it doesn't need to reference the UI assembly (was causing problems in the Unity 2019.2 Beta).</li>
+<li>Changed the <a href="../examples/basics/sequence-coroutine">Sequence Coroutine</a> example to use a <code>TextMesh</code> so it doesn't need to reference the UI assembly (was causing problems in the Unity 2019.2 Beta).</li>
 </ul>
 
 	</section>

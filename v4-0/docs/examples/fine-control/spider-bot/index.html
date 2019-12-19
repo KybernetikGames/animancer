@@ -228,11 +228,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -243,18 +256,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -324,7 +337,7 @@
 </blockquote>
 <p>This example demonstrates how you can make a robot that can wake up to move then go back to sleep by playing its awake animation backwards.</p>
 <p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
-<p>The <a href="../../locomotion/directional-blending">Locomotion/Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to move in any direction.</p>
+<p>The <a href="../../locomotion/directional-blending">Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to move in any direction.</p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
 <p></p><details><summary>This example is implemented by the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotBasic">SpiderBotBasic</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -444,7 +457,7 @@ private void Update()
 <p>And the same thing again for <code>_FadeToMovement</code>.</p>
 <p>In other situations, we could simplify the delegate caching by replacing the <code>AnimationClip</code> field with a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> which contains an <code>AnimationClip</code>, some other details, and an <code>OnEnd</code> callback which does not automatically get cleared so it can assign the same one to the state every time it plays. Unfortunately, in this situation we want to reuse the same state going both ways with a different callback at each end, so we wouldn't be able to cache them both with only one transition. We could make a single method which chooses what to do based on the current input, but that would add more complexity than simply caching the delegates manually.</p>
 <hr>
-<p>The <a href="../../locomotion/directional-blending">Locomotion/Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to move in any direction.</p>
+<p>The <a href="../../locomotion/directional-blending">Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to move in any direction.</p>
 
 	</section>
                 

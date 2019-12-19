@@ -228,11 +228,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -243,18 +256,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -323,7 +336,7 @@
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.DirectionalSprites"><code>Animancer.Examples.DirectionalSprites</code></a></p>
 </blockquote>
 <p>This example demonstrates how you can use <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s to organise animations in groups of up/right/down/left, using the exact same structure for both <em>Idle</em> and <em>Walk</em> animations across various different characters. The <a href="../character-controller">Character Controller</a> example extends this concept into a more complex character and shows an alternate character that uses <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>s to allow diagonal movement without making any changes to the example script. This is one of the major advantages Animancer has over Mecanim: you can define reusable data structures to suit your needs instead of trying to manually duplicate a particular pattern in an Animator Controller and being unable to easily refactor or extend what you have made.</p>
-<p>Also note that <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s are not limited to only <code>Sprite</code> animations. The <a href="../../locomotion/directional-blending">Locomotion/Directional Blending</a> example originally used a set for its movement animations before <a href="../../../manual/transitions">Transitions</a> were implemented.</p>
+<p>Also note that <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s are not limited to only <code>Sprite</code> animations. The <a href="../../locomotion/directional-blending">Directional Blending</a> example originally used a set for its movement animations before <a href="../../../manual/transitions">Transitions</a> were implemented.</p>
 <p></p><figure>
     <img src="mage.gif" class="img-responsive">
     <figcaption><a href="https://opengameart.org/content/16x16-mage">16x16 Mage</a> created by saint11 - CC0 Licence.</figcaption>
@@ -410,7 +423,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.DirectionalS
 <p>If you use <a href="https://kybernetikgames.github.io/inspector-gadgets/pro">Inspector Gadgets Pro</a>'s <a href="https://kybernetikgames.github.io/inspector-gadgets/docs/script-inspector/object-reference-fields/">Nested Object Drawers</a> feature (by clicking on the foldout arrows) you can see the animations contained in both sets at the same time:</p>
 <p><img src="sprite-movement-controller-expanded.png" class="img-responsive"></p>
 <h1 id="edit-mode">Edit Mode</h1>
-<p>If we were to make another character with some different <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s, it would use those animations at runtime but it would not actually show the correct sprite until then. Fortunately, Animancer allows you to easily play animations in <a href="../../../manual/playing-animations#edit-mode">Edit Mode</a>. All we need to do it use <code>MonoBehaviour.OnValidate</code> to call <code>AnimancerUtilities.EditModePlay</code>:</p>
+<p>If we were to make another character with some different <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s, it would use those animations at runtime but it would not actually show the correct sprite until then. Fortunately, Animancer allows you to easily play animations in <a href="../../../manual/playing#edit-mode">Edit Mode</a>. All we need to do it use <code>MonoBehaviour.OnValidate</code> to call <code>AnimancerUtilities.EditModePlay</code>:</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
 private void OnValidate()
 {

@@ -228,11 +228,24 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/manual/playing-animations">Playing Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/states">States</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/waiting-for-animations">Waiting for Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inspector">Inspector</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/component-types">Component Types</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -243,18 +256,18 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/transitions">Transitions</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li class="treeview active">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li class="selected"><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></li>
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
                     </ul>
@@ -363,7 +376,7 @@
 <h1 id="simple-events">Simple Events</h1>
 <p><img src="simple-event.png" class="img-responsive img-right"> The <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component has an <code>onEvent</code> callback which is triggered by Animation Events using the function name <code>"Event"</code>. This means you can start an animation then register a callback for when its event occurs. It will automatically assert that the <code>AnimationClip</code> actually has an event with that name (while in the Unity Editor).</p>
 <p>The <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component mainly serves as an example of how you can implement your own events using the <code><a href="/animancer/v4-0/api/Animancer/AnimationEventReceiver">AnimationEventReceiver</a></code> struct, but it could be useful in a simple game if you set up all of your animations with only one event each that uses <code>"Event"</code> as the <code>Function</code> name (<code>Attack</code> script uses the event to indicate the hit time, <code>Walk</code> script uses it to play footstep sounds, etc). The callback takes the triggering <code>AnimationEvent</code> as a parameter so you can access any of its values, including the <code>AnimationClip</code> that it comes from.</p>
-<p></p><details><summary>Using simple events in code is similar to using <a href="../../waiting-for-animations#events">End Events</a>, you simply access <code>onEvent</code> on the <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> rather than the state:</summary><p>
+<p></p><details><summary>Using simple events in code is similar to using <a href="../../events/end#events">End Events</a>, you simply access <code>onEvent</code> on the <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> rather than the state:</summary><p>
 </p><pre><code class="language-cs">[SerializeField]
 private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
@@ -378,9 +391,9 @@ _EventReceiver.onEvent.Set(state, ...);
 </code></pre>
 <p>It is recommended that you always use <code>Set</code> instead of only setting the <code>Callback</code> to ensure that you only receive the callback from the state you specify. Otherwise events from an animation that is fading out might trigger a callback you just registered for a new animation that is fading in.</p>
 <p></p></details><p></p>
-<p>The <a href="../../../examples/animation-events/simple-and-end-events#simple-event">Animation Events/Simple and End Events</a> example demonstrates the use of this feature.</p>
+<p>The <a href="../../../examples/animation-events/simple-and-end-events#simple-event">Simple and End Events</a> example demonstrates the use of this feature.</p>
 <h1 id="end-events">End Events</h1>
-<p><img src="end-event.png" class="img-responsive img-right"> Before Animancer v4.0, <a href="../../waiting-for-animations#events">End Events</a> did not allow you to specify a custom time so they always occured at the end of the animation. This is not always ideal for <a href="../../blending/fading">Cross Fading</a> so it can be useful to trigger the event early to allow the fade to occur while the animation is approaching the end rather than while it is already frozen on its last frame. This can now be done by either setting the <a href="../../waiting-for-animations#events">End Event</a> to use whatever time you like or by adding an Animation Event with the function name <code>"End"</code>.</p>
+<p><img src="end-event.png" class="img-responsive img-right"> Before Animancer v4.0, <a href="../../events/end#events">End Events</a> did not allow you to specify a custom time so they always occured at the end of the animation. This is not always ideal for <a href="../../blending/fading">Cross Fading</a> so it can be useful to trigger the event early to allow the fade to occur while the animation is approaching the end rather than while it is already frozen on its last frame. This can now be done by either setting the <a href="../../events/end#events">End Event</a> to use whatever time you like or by adding an Animation Event with the function name <code>"End"</code>.</p>
 <p>Such an event will not directly affect the animation. All it does is invoke the <code>OnEnd</code> callback you have registered, so if you haven't registered one or if the one you have registered doesn't stop the animation (usually by starting a different one) then the current animation will continue playing and will still trigger the <code>OnEnd</code> callback when it ends normally.</p>
 <p>The script triggering a <code>CrossFade</code> is usually responsible for determining the <code>fadeDuration</code> (whether by hard coding it or getting it from somewhere else), however when using End Events it can be useful to have the event itself specify the <code>fadeDuration</code>. To allow this, you can simply have your <code>OnEnd</code> callback use the <code>static</code> <code>AnimancerPlayable.GetFadeOutDuration</code> method to get the value from <code>Float</code> parameter of the triggering event:</p>
 <table class="table">
@@ -405,7 +418,7 @@ _EventReceiver.onEvent.Set(state, ...);
 </tr>
 </tbody>
 </table>
-<p>The <a href="../../../examples/animation-events/simple-and-end-events#end-event">Animation Events/Simple and End Events</a> example demonstrates the use of this feature.</p>
+<p>The <a href="../../../examples/animation-events/simple-and-end-events#end-event">Simple and End Events</a> example demonstrates the use of this feature.</p>
 
 	</section>
                 
