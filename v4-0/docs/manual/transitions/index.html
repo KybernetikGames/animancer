@@ -78,7 +78,6 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#fields">Fields</a></p>
 <p><a href="#previews">Previews</a></p>
-<p><a href="#sharing">Sharing</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -364,6 +363,7 @@ public class TransitionExample : MonoBehaviour
 </table>
 <p>The <a href="../../examples/basics/sequence-coroutine#custom-transitions">Sequence Coroutine</a> example demonstrates how to use transitions in more detail.</p>
 <h1 id="fields">Fields</h1>
+<p>The following table describes the fields in a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>. See the <a href="types">Transition Types</a> page for details about the other types.</p>
 <table class="table table-double-row-background">
   <thead>
     <tr><th>Name</th>
@@ -440,9 +440,20 @@ public class TransitionExample : MonoBehaviour
 </ul>
 <p>If the field has a toggle, disabling it will set the underlying value to <code>float.NaN</code> which has different effects depending on the field.</p>
 <h1 id="previews">Previews</h1>
-<p>auto pick animations</p>
-<p>very new, give feedback</p>
-<h1 id="sharing">Sharing</h1>
+<p>The icon on the right side of the Inspector for any transition opens a window which allows you to preview what it will look like so you can adjust its settings without entering Play Mode.</p>
+<p><img src="transition-preview.gif" class="img-responsive"></p>
+<ul>
+<li>Transitions only define the animation that will be played, but have no reference to the previous animation or the next animation so the <strong>Preview Settings</strong> area allows you to select which other animations you want to use.
+<ul>
+<li>Those settings are only used by this window, they are not serialized as part of the transition and will have no effect on it at runtime.</li>
+<li>It will attempt to find all other animations referenced by the same character to list them in the <code>Transition From</code> and <code>Transition To</code> dropdown menus, but you can always select any animation in your project using the object fields.</li>
+<li>Since the transition does not know which animations it will be transitioning to or from, it will try to pick an animation with "Idle" in its name by default.</li>
+</ul>
+</li>
+<li>The regular runtime <a href="../playing/inspector">Inspector</a> is shown below that so you can view and control all the details of the preview.</li>
+<li>You can drag and drop any character model into the preview scene and it will try to continue previewing the transition using that character.</li>
+<li>The usefulness of this feature may vary significantly depending on your workflow so please create a <a href="https://github.com/KybernetikGames/animancer/issues">GitHub Issue</a> if you have any feedback, suggestions, or bugs to report. See the <a href="../../help">Help</a> page for alternate contact methods.</li>
+</ul>
 
 	</section>
                 
