@@ -76,7 +76,14 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"></div>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#fields">Fields</a></p>
+<p><a href="#abstractions">Abstractions</a></p>
+<p><a href="#initialisation">Initialisation</a></p>
+<p><a href="#input">Input</a></p>
+<p><a href="#update">Update</a></p>
+<p><a href="#fixed-update">Fixed Update</a></p>
+<hr class="infobar-hidden">
+</div>
 
                 </section>
                 <section class="sidebar">    
@@ -122,7 +129,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -331,119 +338,256 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/03 Locomotion/04 Directional Blending</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Locomotion"><code>Animancer.Examples.Locomotion</code></a></p>
 </blockquote>
-<p>This example expands upon the <a href="../../fine-control/spider-bot">Spider Bot</a> example with a 2D <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> to allow movement in any direction. It will likely be replaced in the future since it doesn't really explain anything new and doesn't demonstrate particularly good programming practices.</p>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../../manual/blending/mixers">Mixer States</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p>This example expands upon the <a href="../../fine-control/spider-bot">Spider Bot</a> example with a 2D <a href="../../../manual/blending/mixers">Mixer</a> to allow movement in any direction and a <code>Rigidbody</code> so that the bot can follow the mouse cursor around.</p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/blending/mixers">Mixers</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
-<p></p><details><summary>This example is implemented by the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>This example is implemented by the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> script which looks like this (with the comments removed since we are about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
-using System;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a> : MonoBehaviour, IAnimancerClipSource
+public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a> : <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
 {
-    [Header("Physics")]
     [SerializeField] private Rigidbody _Body;
+    [SerializeField] private float _TurnSpeed = 60;
     [SerializeField] private float _MovementSpeed = 1.5f;
     [SerializeField] private float _SprintMultiplier = 2;
 
-    [Header("Animation")]
-
     [SerializeField]
-    private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+    private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
 
-    [SerializeField] private AnimationClip _WakeUp;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _Locomotion;
-    [SerializeField] private float _AnimationAcceleration = 3;
-
-    private bool _IsAwake;
-    private Action _PauseGraph;
-    private Action _FadeToMovement;
-
-    public <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
-
-    private void Awake()
+    protected override <a href="/animancer/v4-0/api/Animancer/IAnimancerTransition">IAnimancerTransition</a> MovementAnimation
     {
-        _Animancer.Play(_WakeUp);
-        _Animancer.Playable.Evaluate();
-        _Animancer.Playable.PauseGraph();
-
-        _Animancer.GetOrCreateState(_Locomotion);
-
-        _PauseGraph = _Animancer.Playable.PauseGraph;
-        _FadeToMovement = () =&gt; _Animancer.Transition(_Locomotion);
+        get { return _Move; }
     }
 
-    private void Update()
+    private Vector3 _MovementDirection;
+
+    protected override bool IsMoving
     {
-        var input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        input = Vector2.ClampMagnitude(input, 1);
-        var isMoving = input != Vector2.zero;
+        get { return _MovementDirection != Vector3.zero; }
+    }
 
-        var isSprinting = Input.GetButton("Fire3");
+    protected override void Awake()
+    {
+        base.Awake();
+        Animancer.States.GetOrCreate(_Move);
+    }
 
-        var movement = Vector2.MoveTowards(_Locomotion.State.Parameter, input, _AnimationAcceleration * Time.deltaTime);
-        _Locomotion.State.Parameter = movement;
-        _Locomotion.State.Speed = (isMoving &amp;&amp; isSprinting) ? _SprintMultiplier : 1;
+    protected override void Update()
+    {
+        _MovementDirection = GetMovementDirection();
+        base.Update();
 
-        if (isMoving || isSprinting)
+        if (_Move.State.IsActive)
         {
-            if (!_IsAwake)
-            {
-                _IsAwake = true;
+            var eulerAngles = transform.eulerAngles;
+            var targetEulerY = Camera.main.transform.eulerAngles.y;
+            eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetEulerY, _TurnSpeed * Time.deltaTime);
+            transform.eulerAngles = eulerAngles;
 
-                _Animancer.Playable.UnpauseGraph();
+            _Move.State.Parameter = new Vector2(
+                Vector3.Dot(transform.right, _MovementDirection),
+                Vector3.Dot(transform.forward, _MovementDirection));
 
-                var state = _Animancer.CrossFade(_WakeUp);
-                state.Speed = 1;
-
-                state.OnEnd = _FadeToMovement;
-            }
+            var isSprinting = Input.GetMouseButton(0);
+            _Move.State.Speed = isSprinting ? _SprintMultiplier : 1;
         }
         else
         {
-            if (_IsAwake)
-            {
-                _IsAwake = false;
+            _Move.State.Parameter = Vector2.zero;
+            _Move.State.Speed = 0;
+        }
+    }
 
-                var state = _Animancer.CrossFade(_WakeUp);
-                state.Speed = -1;
+    private Vector3 GetMovementDirection()
+    {
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (state.Weight == 0 || state.NormalizedTime &gt; 1)
-                    state.NormalizedTime = 1;
+        RaycastHit raycastHit;
+        if (!Physics.Raycast(ray, out raycastHit))
+            return Vector3.zero;
 
-                state.OnEnd = _PauseGraph;
-            }
+        var direction = raycastHit.point - transform.position;
+        direction.y = 0;
+
+        var distance = direction.magnitude;
+        if (distance &lt; _MovementSpeed * Time.fixedDeltaTime)
+        {
+            return Vector3.zero;
+        }
+        else
+        {
+            return direction / distance;
         }
     }
 
     private void FixedUpdate()
     {
-        var movement = _Locomotion.State.Parameter * _Locomotion.State.Speed * _MovementSpeed;
-        _Body.velocity = new Vector3(movement.x, 0, movement.y);
+        _Body.velocity = _MovementDirection * _Move.State.Speed * _MovementSpeed;
     }
 }
 </code></pre>
 <p></p></details><p></p>
-<p>We use the <code>[Header]</code> attribute on some of the fields to give them group headdings in the Inspector.</p>
-<p><img src="spider-bot-advanced-inspector.png" class="img-responsive"></p>
-<p>The initialisation is the same as <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotBasic">SpiderBotBasic</a></code> with the addition of <code>_Animancer.GetOrCreateState(_Locomotion);</code> to initialise the locomotion state immediately.</p>
-<p>In <code>Update</code> we start by checking all the input we want:</p>
-<pre><code class="language-cs">var input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-input = Vector2.ClampMagnitude(input, 1);
+<h1 id="fields">Fields</h1>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a> : <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
+{
+    [SerializeField]
+    private Rigidbody _Body;
 
-var isMoving = input != Vector2.zero;
+    [SerializeField]
+    private float _TurnSpeed = 60;
 
-var isSprinting = Input.GetButton("Fire3");
+    [SerializeField]
+    private float _MovementSpeed = 1.5f;
+
+    [SerializeField]
+    private float _SprintMultiplier = 2;
+
+    [SerializeField]
+    private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
+}
 </code></pre>
-<p>Then we gradually move the <code>_Locomotion</code> mixer's parameter towards the desired movement vector:</p>
-<pre><code class="language-cs">var movement = Vector2.MoveTowards(_Locomotion.State.Parameter, input, _AnimationAcceleration * Time.deltaTime);
-_Locomotion.State.Parameter = movement;
-_Locomotion.State.Speed = (isMoving &amp;&amp; isSprinting) ? _SprintMultiplier : 1;
+<p>Inheriting from <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more. Notably, instead of a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> like <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> used to play a single <code>AnimationClip</code>, this time we are using a <code><a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a></code> to allow blending between multiple animations on two axes (forward/back and left/right). See <a href="../../../manual/blending/mixers#choosing-a-mixer">Mixers</a> for more information about their different types.</p>
+</td>
+      <td><img src="inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="abstractions">Abstractions</h1>
+<p>This time we <code>override</code> the <code>MovementAnimation</code> to return the <code><a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a></code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
+<pre><code class="language-cs">[SerializeField]
+private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
+
+protected override <a href="/animancer/v4-0/api/Animancer/IAnimancerTransition">IAnimancerTransition</a> MovementAnimation
+{
+    get { return _Move; }
+}
+
+private Vector3 _MovementDirection;
+
+protected override bool IsMoving
+{
+    get { return _MovementDirection != Vector3.zero; }
+}
 </code></pre>
-<p>Note that this example moves in fixed directions for each key. The <a href="../../state-machines/brains">Brains</a> example demonstrates how you can align the movement directions with the camera.</p>
-<p>The rest of <code>Update</code> is practically identical to <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotBasic">SpiderBotBasic</a></code> with an added <code>bool</code> to keep track of which state we are in.</p>
-<p>The actual movement implementation in <code>FixedUpdate</code> is simple for the sake of keeping the script short, but manipulating the <code>Rigidbody.velocity</code> directly is not generally recommended. A proper implementation would usually use <code>AddForce</code>.</p>
+<h1 id="initialisation">Initialisation</h1>
+<p>The <code>Update</code> and <code>FixedUpdate</code> methods are going to be accessing the <code>_Move.State</code>, so we need to ensure that the state is created on startup even though it is not used yet:</p>
+<pre><code class="language-cs">protected override void Awake()
+{
+    base.Awake();
+    Animancer.States.GetOrCreate(_Move);
+}
+</code></pre>
+<p>Note that the base <code>SpiderBot.Awake</code> method is <code>virtual</code> and has its own implementation which we still want to use, so we call <code>base.Awake()</code> in our <code>override</code>.</p>
+<h1 id="input">Input</h1>
+<p>Rather than using keyboard input to control the bot, we are having it follow the mouse cursor to demonstrate movement in any direction.</p>
+<ol>
+<li>Get a ray from the main camera in the direction of the mouse cursor:</li>
+</ol>
+<pre><code class="language-cs">private Vector3 GetMovementDirection()
+{
+    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+</code></pre>
+<ol start="2">
+<li>Do a raycast with it and stop trying to move if the ray does not hit anything. Note that the bot is set to the Ignore Raycast layer so that the raycast will not hit it:</li>
+</ol>
+<pre><code class="language-cs">    RaycastHit raycastHit;
+    if (!Physics.Raycast(ray, out raycastHit))
+        return Vector3.zero;
+</code></pre>
+<ol start="3">
+<li>If the ray did hit something, calculate the horizontal direction from the bot to that point:</li>
+</ol>
+<pre><code class="language-cs">    var direction = raycastHit.point - transform.position;
+    direction.y = 0;
+</code></pre>
+<ol start="4">
+<li>If it is already close to the destination, stop moving. Note that <code>Time.deltaTime</code> is the same as <code>Time.fixedDeltaTime</code> during a <code>FixedUpdate</code>, but since this method is called by <code>Update</code> we want to make sure that it compares against the distance it would move during the next physics update rather than during this rendered frame:</li>
+</ol>
+<pre><code class="language-cs">    var distance = direction.magnitude;
+    if (distance &lt; _MovementSpeed * Time.fixedDeltaTime)
+    {
+        return Vector3.zero;
+    }
+</code></pre>
+<ol start="5">
+<li>Otherwise normalize the direction so that we do not change speed based on distance. Calling <code>direction.Normalize()</code> would do the same thing, but that would need to calculate the magnitude again so this is simply more efficient:</li>
+</ol>
+<pre><code class="language-cs">    else
+    {
+        return direction = distance;
+    }
+}
+</code></pre>
+<h1 id="update">Update</h1>
+<p>Like with <code>Awake</code>, we want to <code>override</code> the base <code>SpiderBot.Update</code> method to add some additional code.</p>
+<ol>
+<li>Determine the direction we want to move and store it in the <code>_MovementDirection</code> field so that <code>IsMoving</code> can also check it:</li>
+</ol>
+<pre><code class="language-cs">protected override void Update()
+{
+    _MovementDirection = GetMovementDirection();
+</code></pre>
+<ol start="2">
+<li>Call the base <code>SpiderBot.Update</code> method to wake up or go to sleep if necessary:</li>
+</ol>
+<pre><code class="language-cs">    base.Update();
+</code></pre>
+<ol start="3">
+<li>If the movement state is playing and not fading out, then we are allowed to move. This prevents movement while asleep and during the wake up animation:</li>
+</ol>
+<pre><code class="language-cs">    if (_Move.State.IsActive)
+    {
+</code></pre>
+<ol start="4">
+<li>Rotate towards the same Y angle as the camera:</li>
+</ol>
+<pre><code class="language-cs">        var eulerAngles = transform.eulerAngles;
+        var targetEulerY = Camera.main.transform.eulerAngles.y;
+        eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetEulerY, _TurnSpeed * Time.deltaTime);
+        transform.eulerAngles = eulerAngles;
+</code></pre>
+<ol start="5">
+<li>The movement direction is in world space, so we need to convert it to local space to be appropriate for the current rotation by using dot-products to determine how much of that direction lies along each axis (this would be unnecessary if we did not rotate at all):</li>
+</ol>
+<pre><code class="language-cs">        _Move.State.Parameter = new Vector2(
+            Vector3.Dot(transform.right, _MovementDirection),
+            Vector3.Dot(transform.forward, _MovementDirection));
+</code></pre>
+<ol start="6">
+<li>Set its speed depending on whether you are sprinting or not:</li>
+</ol>
+<pre><code class="language-cs">        var isSprinting = Input.GetMouseButton(0);
+        _Move.State.Speed = isSprinting ? _SprintMultiplier : 1;
+    }
+</code></pre>
+<ol start="7">
+<li>Otherwise if the movement state is not playing or is fading out, stop moving:</li>
+</ol>
+<pre><code class="language-cs">    else
+    {
+        _Move.State.Parameter = Vector2.zero;
+        _Move.State.Speed = 0;
+    }
+}
+</code></pre>
+<h1 id="fixed-update">Fixed Update</h1>
+<p>The actual movement implementation in <code>FixedUpdate</code> is simple for the sake of keeping the script short, but manipulating the <code>Rigidbody.velocity</code> directly is not generally recommended. A proper implementation would usually use <code>AddForce</code>:</p>
+<pre><code class="language-cs">private void FixedUpdate()
+{
+    _Body.velocity = _MovementDirection * _Move.State.Speed * _MovementSpeed;
+}
+</code></pre>
+<p>This all combines to give us a bot that can chase the mouse cursor around the scene:</p>
+<p><img src="spider-bot.gif" class="img-responsive"></p>
 
 	</section>
                 

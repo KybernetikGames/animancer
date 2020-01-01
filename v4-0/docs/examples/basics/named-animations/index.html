@@ -77,6 +77,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#setup">Setup</a></p>
+<p><a href="#startup">Startup</a></p>
 <p><a href="#idle">Idle</a></p>
 <p><a href="#walk">Walk</a></p>
 <p><a href="#run">Run</a></p>
@@ -127,7 +128,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -336,21 +337,22 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/01 Basics/04 Named Animations</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Basics"><code>Animancer.Examples.Basics</code></a></p>
 </blockquote>
-<p>The recommended way of using Animancer is by directly specifying the <code>AnimationClip</code> you want to play when telling it to play as the previous examples have demonstrated. However, Animancer does support the ability to play animations by name so this example explains how you can do that. It also explains how you can actually use any type of key (including enums) to identify your animations instead of only their names.</p>
+<p>The recommended way of using Animancer is by directly specifying the <code>AnimationClip</code> you want to play when telling it to play as the previous examples have demonstrated. However, Animancer does also support the ability to play animations by name so this example explains how you can do that. It also explains how you can actually use any type of key (including enums) to identify your animations instead of only their names.</p>
 <p><img src="named-animations.gif" class="img-responsive"></p>
 <p>Here's a quick overview of what's happening in that video:</p>
 <ol>
-<li>At first, no animation is playing. Because it is a Humanoid Rig, it gets put into a "compressed" or "hunched over" pose according to the muscle limits defined in the <code>Avatar</code> configuration.</li>
-<li>The "Idle" button calls <code>_Animancer.CrossFade("Humanoid-Idle");</code> to play the <em>Humanoid-Idle</em> animation which was already registered using the Inspector.</li>
-<li>The "Walk" button tries to do the same thing with <code>"Humanoid-Walk"</code> but fails because that animation has not yet been registered so we log a message for it.</li>
+<li>The <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> is set up with the <em>Humanoid-Idle</em> animation in its <code>Animations</code> list and <code>Play Automatically</code> disabled.</li>
+<li>After entering Play Mode, you can see in the Inspector that it creates a state for that animation but it is not playing and its <code>Weight</code> is at 0. Since the character is using a Humanoid Rig, having no animations with any weight puts it into a "compressed" or "hunched over" pose according to the muscle limits defined in the <code>Avatar</code> configuration.</li>
+<li>The "Idle" button calls <code>_Animancer.Play("Humanoid-Idle");</code> to play the state with that name.</li>
+<li>The "Walk" button tries to do the same thing with <code>"Humanoid-Walk"</code> but fails because no state has yet been created for that animation so the example script just logs a message for it.</li>
 <li>The "Initialise Walk State" button creates a state for the <em>Humanoid-Walk</em> animation.</li>
 <li>Now that the state exists, the "Walk" button can play it by name.</li>
-<li>The "Run" button passes the <em>Humanoid-Run</em> <code>AnimationClip</code> into the <code>CrossFade</code> method to show that names and direct references can both be used on the same object.</li>
+<li>The "Run" button passes the <em>Humanoid-Run</em> <code>AnimationClip</code> into the <code>Play</code> method to show that names and direct references can both be used on the same object.</li>
 </ol>
-<p>Using string names to identify animations is not the recommended way of using Animancer because it is unsafe. Any spelling mistake between the file name and the string you use will prevent it from working and any time you rename an animation you will need to manually go around and update the string everywhere it is used. This actually happened during the development of Animancer; once the sprite examples were implemented their animations began cluttering up the object picker window so all humanoid animations were renamed from just <em>Idle</em> to <em>Humanoid-Idle</em>. This was fine for everything else, but this example needed to have all of its strings manually updated to the new convention.</p>
+<p>Using string names to identify animations is not the recommended way of using Animancer because it is unsafe. Any spelling mistake between the file name and the string you use will prevent it from working and any time you rename an animation you will need to manually go around and update the string everywhere it is used. This actually happened during the development of Animancer; once the sprite examples were implemented their animations began cluttering up the object picker window so all humanoid animations were renamed from just <em>Idle</em> to <em>Humanoid-Idle</em>. That was fine for everything else, but this example script needed to have all of its strings manually updated to the new convention.</p>
 <h1 id="setup">Setup</h1>
 <p>We start with the <a href="../basic-scene-setup">Basic Scene Setup</a>, but don't use a ground plane because the initial "compressed" pose centers the character around the origin so he would be halfway into the ground at that point and we would rather show the full pose.</p>
-<p></p><details><summary>Then we have the <code><a href="/animancer/v4-0/api/Animancer.Examples.Basics/NamedAnimations">NamedAnimations</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Basics/NamedAnimations">NamedAnimations</a></code> script contains all the example code and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -362,12 +364,12 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Basics/Named
 
     public void PlayIdle()
     {
-        _Animancer.CrossFade("Humanoid-Idle");
+        _Animancer.Play("Humanoid-Idle");
     }
 
     public void PlayWalk()
     {
-        var state = _Animancer.CrossFade("Humanoid-Walk");
+        var state = _Animancer.Play("Humanoid-Walk");
         if (state == null)
         {
             Debug.Log("No state called 'Humanoid-Walk' exists yet." +
@@ -377,21 +379,21 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Basics/Named
 
     public void InitialiseWalkState()
     {
-        _Animancer.CreateState(_Walk);
+        _Animancer.Layers[0].CreateState(_Walk);
         Debug.Log("Created a state to play " + _Walk, this);
     }
 
     public void PlayRun()
     {
-        _Animancer.CrossFade(_Run);
+        _Animancer.Play(_Run);
     }
 }
 </code></pre>
 <p></p></details><p></p>
 <p>Note how it references a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> instead of a regular <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> like we have used in all the other examples. The <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> inherits all the functionality from the base <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> with two main differences:</p>
 <ol>
-<li>It overrides the <code>GetKey</code> method which is used to determine which key to use for a given clip when calling <code>Play(AnimationClip)</code> without specifying a key. Specifically, it overrides it to return the <code>AnimationClip.name</code> instead of the <code>AnimationClip</code> itself like the base class. This means that <code>Play(_Idle)</code> and <code>Play("Humanoid-Idle")</code> can both be used and will share the same state (assuming <code>_Idle</code> is a reference to the same animation named <code>"Humanoid-Idle"</code>). This also has an extremely small performance cost since strings are less efficient than direct references.</li>
-<li>It also adds a <code>Play Automatically</code> toggle and an <code>Animations</code> array in the Inspector to allow you to set up a default animation and pre-register all the animations you want instead of needing methods like <code>InitialiseWalkState</code> which defeat the purpose of using strings in the first place.</li>
+<li>It overrides the <code>GetKey</code> method which is used to determine which key to use for a given clip when you call <code>Play(AnimationClip)</code> without specifying a key. Specifically, it overrides it to return the <code>AnimationClip.name</code> instead of the <code>AnimationClip</code> itself like the base class. This means that <code>Play(_Idle)</code> and <code>Play("Humanoid-Idle")</code> can both be used and will share the same state (assuming <code>_Idle</code> is a reference to the same animation named <code>"Humanoid-Idle"</code>). This also has an extremely small performance cost since strings are less efficient than direct references.</li>
+<li>It also adds a <code>Play Automatically</code> toggle and an <code>Animations</code> array in the Inspector to allow you to set up a default animation and pre-register all the animations you want instead of needing methods like <code>InitialiseWalkState</code> which generally defeat the purpose of using strings in the first place.</li>
 </ol>
 <p>This example doesn't actually need to use a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> field. It could just have a normal <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> field and assign the <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> to it in the Inspector the exact same way and the rest of the code would work exactly the same, but this way we ensure that the Inspector shows the fact that we intend to refer to animations by name.</p>
 <table class="table">
@@ -408,51 +410,49 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Basics/Named
 </tr>
 </tbody>
 </table>
-<p>Anyone familiar with Unity's Legacy <code>Animation</code> component will recognise the additions of the <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> as being quite similar.</p>
-<p>See <a href="../../manual/playing/component-types">Animancer Component Types</a> for more information about the different types.</p>
+<p>Anyone familiar with Unity's Legacy <code>Animation</code> component will recognise the additions of the <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> as being quite similar. See <a href="../../manual/playing/component-types">Animancer Component Types</a> for more information about the different types.</p>
+<h1 id="startup">Startup</h1>
+<p>The <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> is set up with the <em>Humanoid-Idle</em> animation in its <code>Animations</code> list and <code>Play Automatically</code> disabled. This means that when enter Play Mode you can see in the Inspector that it creates a state for that animation but it is not playing and its <code>Weight</code> is at 0. Since the character is using a Humanoid Rig, having no animations with any weight puts it into a "compressed" or "hunched over" pose according to the muscle limits defined in the <code>Avatar</code> configuration.</p>
+<p><img src="startup.gif" class="img-responsive"></p>
 <h1 id="idle">Idle</h1>
 <pre><code class="language-cs">public void PlayIdle()
 {
-    _Animancer.CrossFade("Humanoid-Idle");
+    _Animancer.Play("Humanoid-Idle");
 }
 </code></pre>
-<p>The image above shows the <em>Humanoid-Idle</em> animation in the <code>Animations</code> list, which means several things:</p>
-<ol>
-<li>Everything in that list will automatically have a state created for it on startup (in <code>Awake</code>).</li>
-<li>Since it's the first element in the list, it is also the <code>Default Animation</code> which will be played on startup (in <code>OnEnable</code>) if <code>Play Automatically</code> is enabled (which it normally is by default).</li>
-</ol>
-<p>So, since the <em>Humanoid-Idle</em> animation already has a state created for it (because it's in the list), we are able to immediately play it using <code>_Animancer.CrossFade("Humanoid-Idle");</code> without our script needing an actual reference to that <code>AnimationClip</code>.</p>
-<p><img src="play-idle.gif" class="img-responsive"></p>
+<p>Since the <em>Humanoid-Idle</em> animation already has a state created for it (because it's in the <code>Animations</code> list), we are able to immediately play it using its name without our example script needing an actual reference to that <code>AnimationClip</code>.</p>
+<p><img src="idle.gif" class="img-responsive"></p>
 <h1 id="walk">Walk</h1>
 <pre><code class="language-cs">public void PlayWalk()
 {
-    var state = _Animancer.CrossFade("Humanoid-Walk");
+    var state = _Animancer.Play("Humanoid-Walk");
     if (state == null)
     {
         Debug.Log("No state called 'Humanoid-Walk' exists yet." +
             " Click 'Initialise Walk State' to create it then try again.", this);
     }
 }
-
-public void InitialiseWalkState()
+</code></pre>
+<p>The <em>Humanoid-Walk</em> animation is not in the <code>Animations</code> list, meaning that if we try to play it with <code>_Animancer.Play("Humanoid-Walk");</code> it can't know which <code>AnimationClip</code> we want to play so it does nothing and returns null. For the sake of this example we check when that happens and log a message.</p>
+<p>To actually get it to work, the script needs a reference to the animation (<code>AnimationClip _Walk</code>) so it can create a state for it:</p>
+<pre><code class="language-cs">public void InitialiseWalkState()
 {
-    _Animancer.CreateState(_Walk);
+    _Animancer.Layers[0].CreateState(_Walk);
     Debug.Log("Created a state to play " + _Walk, this);
 }
 </code></pre>
-<p>The <em>Humanoid-Walk</em> animation is not in the <code>Animations</code> list, meaning that if we try to play it with <code>_Animancer.CrossFade("Humanoid-Walk");</code> it can't know which <code>AnimationClip</code> we want to play so it does nothing and returns null. For the sake of this example we check when that happens and log a message.</p>
-<p>To actually get it to work, the script needs a reference to the animation (<code>AnimationClip _Walk</code>) so it can call <code>_Animancer.CreateState(_Walk);</code>. We could specify a custom <code>key</code> when calling <code>CreateState</code>, but since we aren't it will determine the key based on the <code>AnimationClip</code> using the <code>GetKey</code> method (which uses the animation's name because it's a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>).</p>
-<p>Creating the state doesn't appear to do anything, but once it is created we can play it by name just like we did with the <em>Humanoid-Idle</em>.</p>
-<p><img src="play-walk.gif" class="img-responsive"></p>
+<p>We could specify a custom <code>key</code> when calling <code>CreateState</code>, but since we aren't it will determine the key using the <code>GetKey</code> method (which uses the animation's name because it's a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>).</p>
+<p>Creating the state doesn't immediately do anything to the character, but once it is created we can play it by name just like we did with the <em>Humanoid-Idle</em>.</p>
+<p><img src="walk.gif" class="img-responsive"></p>
 <h1 id="run">Run</h1>
 <pre><code class="language-cs">public void PlayRun()
 {
-    _Animancer.CrossFade(_Run);
+    _Animancer.Play(_Run);
 }
 </code></pre>
-<p>The <em>Humanoid-Run</em> animation is not in the <code>Animations</code> list either, but we have a reference to it (<code>AnimationClip _Run</code>) so we can just call <code>_Animancer.CrossFade(_Run);</code> to show that we can still use direct references in a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> where we have been using string names so far.</p>
-<p><img src="play-run.gif" class="img-responsive"></p>
-<p>If you take a look at the <em>LowPolyMan</em> in the Inspector you can see that despite being created in different ways, all of the states have been registered using their names as keys where they would normally just show their <code>AnimationClip</code> because it is being used as its own key.</p>
+<p>The <em>Humanoid-Run</em> animation is not in the <code>Animations</code> list either, but we have a reference to it (<code>AnimationClip _Run</code>) so we can just call <code>_Animancer.Play(_Run);</code> to show that we can still use direct references in a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> where we have been using string names so far.</p>
+<p><img src="run.gif" class="img-responsive"></p>
+<p>You can see in the Inspector that despite being created in different ways, all of the states have been registered using their names as keys where they would normally just show their <code>AnimationClip</code> because it is being used as its own key.</p>
 <table class="table">
 <thead>
 <tr>

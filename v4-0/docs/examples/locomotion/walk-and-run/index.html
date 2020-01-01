@@ -128,7 +128,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -338,7 +338,7 @@
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Locomotion"><code>Animancer.Examples.Locomotion</code></a></p>
 </blockquote>
 <p>This example demonstrates a simple script which plays a <em>Walk</em> animation while you hold down a key and then extends that with another script which can also play a <em>Run</em> animation if you hold down a different key at the same time. It also ensures that those animations remain in sync when blending between them so that the transition looks natural.</p>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="walk-and-run.gif" class="img-responsive"></p>
 <p></p><details><summary>The character on the right uses the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -372,13 +372,13 @@ public class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndW
         }
         else
         {
-            _Animancer.CrossFade(_Idle);
+            _Animancer.Play(_Idle, 0.25f);
         }
     }
 
     protected virtual void PlayMove()
     {
-        _Animancer.CrossFade(_Move);
+        _Animancer.Play(_Move, 0.25f);
     }
 }
 </code></pre>
@@ -406,7 +406,7 @@ public class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndW
             otherAnimation = _Run;
         }
 
-        var playState = Animancer.CrossFade(playAnimation);
+        var playState = Animancer.Play(playAnimation, 0.25f);
 
         var otherState = Animancer.GetState(otherAnimation);
         if (otherState != null &amp;&amp; otherState.IsPlaying)
@@ -431,11 +431,11 @@ public sealed class IdleAndWalkTutorial : MonoBehaviour
         var movement = Input.GetAxisRaw("Vertical");
         if (movement &gt; 0)
         {
-            _Animancer.CrossFade(_Walk);
+            _Animancer.Play(_Walk, 0.25f);
         }
         else
         {
-            _Animancer.CrossFade(_Idle);
+            _Animancer.Play(_Idle, 0.25f);
         }
     }
 }
@@ -450,7 +450,7 @@ public sealed class IdleAndWalkTutorial : MonoBehaviour
 public AnimationClip Idle { get { return _Idle; } }
 public AnimationClip Walk { get { return _Walk; } }
 </code></pre>
-<p>The last thing we need to be able to do is change the behaviour when you are moving. We could make the <code>Update</code> method <code>virtual</code>, but all we actually want to change is the <code>CrossFade(_Walk)</code> to choose between <em>Walk</em> or <em>Run</em> so we only need to move that part out to a <code>virtual</code> method.</p>
+<p>The last thing we need to be able to do is change the behaviour when you are moving. We could make the <code>Update</code> method <code>virtual</code>, but all we actually want to change is the <code>Play(_Walk, 0.25f)</code> to choose between <em>Walk</em> or <em>Run</em> so we only need to move that part out to a <code>virtual</code> method.</p>
 <p></p><details><summary>The full script now looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -478,13 +478,13 @@ public class IdleAndWalkTutorial : MonoBehaviour
         }
         else
         {
-            _Animancer.CrossFade(_Idle);
+            _Animancer.Play(_Idle, 0.25f);
         }
     }
 
     protected virtual void PlayMove()
     {
-        _Animancer.CrossFade(_Walk);
+        _Animancer.Play(_Walk, 0.25f);
     }
 }
 </code></pre>
@@ -499,7 +499,7 @@ public class IdleAndWalkAndRunTutorial : IdleAndWalkTutorial
     protected override void PlayMove()
     {
         var animation = Input.GetButton("Fire3") ? _Run : Walk;
-        Animancer.CrossFade(animation);
+        Animancer.Play(animation, 0.25f);
     }
 }
 </code></pre>
@@ -516,7 +516,7 @@ protected virtual void Reset()
 <p>And once we assign the <em>Run</em> animation in the Inspector, we get a character that can <em>Idle</em>, <em>Walk</em>, and <em>Run</em>.</p>
 <p><img src="walk-run-basic.gif" class="img-responsive"></p>
 <h1 id="synchronising-the-transition">Synchronising the Transition</h1>
-<p>We now have a functional script, but the transition between <em>Walk</em> and <em>Run</em> isn't quite perfect. Each time we start running is starts at the beginning of that animation, regardless of where we are at in the walk cycle so if you watch the arms or legs closely you can sometimes see an unnatural change in direction during the transition. Fortunately this is easy to solve by synchronising their <code>NormalizedTime</code>s during the transition since both animations contain exactly one walk cycle (one step with each leg).</p>
+<p>We now have a functional script, but the transition between <em>Walk</em> and <em>Run</em> isn't quite perfect. Each time we start running is starts at the beginning of that animation, regardless of where we are at in the walk cycle so if you watch the arms or legs closely you can sometimes see an unnatural change in direction during the transition. Fortunately this is easy to solve by synchronising their <code>NormalizedTime</code>s during the transition since both animations contain exactly one walk cycle (one step with each leg). If you want this synchronisation to be performed automatically, you can use <a href="../../../manual/blending/mixers">Mixers</a> or <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> which are both demonstrated in the <a href="../linear-blending">Linear Blending</a> example.</p>
 <p>Note that manipulating the <code>NormalizedTime</code> requires Animancer Pro (Animancer Lite allows you to try it out in the Unity Editor, but it will do nothing in runtime builds).</p>
 <p>First we need to get both animations: the one we are trying to play and the other one:</p>
 <pre><code class="language-cs">AnimationClip playAnimation, otherAnimation;
@@ -533,7 +533,7 @@ else
 }
 </code></pre>
 <p>Then we play the animation we want like before, but now we grab its <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code>:</p>
-<pre><code class="language-cs">var playState = Animancer.CrossFade(playAnimation);
+<pre><code class="language-cs">var playState = Animancer.Play(playAnimation, 0.25f);
 </code></pre>
 <p>Then we get the other animation's state and if it's still playing (because it hasn't finished fading out) we give its <code>NormalizedTime</code> to the animation we just started playing:</p>
 <pre><code class="language-cs">var otherState = Animancer.GetState(otherAnimation);
@@ -562,7 +562,7 @@ public class IdleAndWalkAndRunTutorial : IdleAndWalkTutorial
             otherAnimation = _Run;
         }
 
-        var playState = Animancer.CrossFade(playAnimation);
+        var playState = Animancer.Play(playAnimation, 0.25f);
 
         var otherState = Animancer.GetState(otherAnimation);
         if (otherState != null &amp;&amp; otherState.IsPlaying)
@@ -613,13 +613,13 @@ public class IdleAndWalkTutorial : MonoBehaviour
         }
         else
         {
-            _Animancer.CrossFade(_Idle);
+            _Animancer.Play(_Idle, 0.25f);
         }
     }
 
     protected virtual void PlayMove()
     {
-        _Animancer.CrossFade(_Walk);
+        _Animancer.Play(_Walk, 0.25f);
     }
 
     protected virtual void Reset()

@@ -76,7 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#beta-3">Beta 3</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#beta-4">Beta 4</a></p>
+<p><a href="#beta-3">Beta 3</a></p>
 <p><a href="#beta-2">Beta 2</a></p>
 <p><a href="#beta-1">Beta 1</a></p>
 <p><a href="#alpha-1">Alpha 1</a></p>
@@ -127,7 +128,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -332,7 +333,8 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p>Beta 3 Released 2019-12-20</p>
+<p>Beta 4 Released 2020-01-01</p>
+<p>Planned Full Release 2020-01-??</p>
 </blockquote>
 <ul>
 <li>Animancer v4.0 is currently in development and has reached the Beta phase (feature complete, but the examples and documentation are not ready yet).</li>
@@ -340,17 +342,98 @@
 <li>Check out the <a href="../animancer-v4-0">Change Log</a> for the full list of changes.</li>
 <li>If you would like to test Animancer Lite, you can download it directly from here:
 <ul>
-<li><a href="animancer-lite-v4-0b3-unity-2017-1.unitypackage">Unity 2017.1+</a></li>
-<li><a href="animancer-lite-v4-0b3-unity-2017-3.unitypackage">Unity 2017.3+</a></li>
-<li><a href="animancer-lite-v4-0b3-unity-2018-1.unitypackage">Unity 2018.1+</a></li>
-<li><a href="animancer-lite-v4-0b3-unity-2018-3.unitypackage">Unity 2018.3+</a></li>
-<li><a href="animancer-lite-v4-0b3-unity-2019-3.unitypackage">Unity 2019.3+</a></li>
+<li><a href="animancer-lite-v4-0b4-unity-2017-1.unitypackage">Unity 2017.1+</a></li>
+<li><a href="animancer-lite-v4-0b4-unity-2017-3.unitypackage">Unity 2017.3+</a></li>
+<li><a href="animancer-lite-v4-0b4-unity-2018-1.unitypackage">Unity 2018.1+</a></li>
+<li><a href="animancer-lite-v4-0b4-unity-2018-3.unitypackage">Unity 2018.3+</a></li>
+<li><a href="animancer-lite-v4-0b4-unity-2019-3.unitypackage">Unity 2019.3+</a></li>
 </ul>
 </li>
 <li>If you would like to test Animancer Pro, simply email the Invoice Number from your Asset Store purchase to <a href="mailto:AnimancerUnityPlugin@gmail.com?Subject=Animancer">AnimancerUnityPlugin@gmail.com</a>.</li>
 <li><strong>Feedback</strong>: I've posted a <a href="https://forum.unity.com/threads/790868">thread in Unity's "Work in Progress" Forum</a> which explains a few areas I'm particularly interested in getting feedback on so please leave any comments there.</li>
 <li><strong><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></strong>: please create an issue if you have any questions, bug reports, feature suggestions, etc. This will probably become the main discussion location since every topic can have its own thread instead of having everything in a single large thread like the Unity Forum.</li>
 <li><strong>To Do</strong>: now tracked by a <a href="https://github.com/KybernetikGames/animancer/issues/3">Github Issue</a>.</li>
+</ul>
+<h1 id="beta-4">Beta 4</h1>
+<blockquote class="blockquote">
+<p>Released 2020-01-01</p>
+</blockquote>
+<p>Changes since Beta 3 (see the <a href="../animancer-v4-0">v4.0 Change Log</a> for the full list of changes since v3.1):</p>
+<ul>
+<li>Improved <a href="../../manual/transitions/types#transition-assets">Transition Assets</a> (the <code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> <code>ScriptableObject</code>s that hold an <code>AnimancerState.Transition</code>):
+<ul>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> is now the non-generic base class for transition assets.</li>
+<li>Added transition assets for all transition types using the naming convention that <code>XXXTransition</code> has a <code>XXXState.Transition</code> (which will create a <code>XXXState</code> when played). For example, a <code><a href="/animancer/v4-0/api/Animancer/ClipTransition">ClipTransition</a></code> holds a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>.</li>
+<li>Any references to <code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> from previous versions are equivalent to the new <code><a href="/animancer/v4-0/api/Animancer/ClipTransition">ClipTransition</a></code>, however you may wish to leave fields as they are so that any transition asset can be assigned if you aren't doing anything specific to <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>s. Any previously created assets will be automatically changed to the new type.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> no longer exposes the properties of the <code>Transition</code> (except for those required by <code><a href="/animancer/v4-0/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></code>) so instead of <code>transitionAsset.Clip</code> you now need to use <code>transitionAsset.Transition.Clip</code>. This greatly simplifies its implementation as well as the implementation of all derived classes and makes it clearer that modifications are being applied to an object which may be shared.</li>
+<li><code>AnimancerTransition.Transition</code> now has a comment warning that the <code>transition.State</code> can only hold one value even though multiple states could have been created on different objects from that same transition.</li>
+</ul>
+</li>
+<li>Removed <code>Assets/Create/Animation Clip</code> menu function since Unity already has <code>Assets/Create/Animation</code> (which is inappropriately named since <code>Animation</code> is the name of the legacy component).</li>
+<li>Improved <code><a href="/animancer/v4-0/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code>:
+<ul>
+<li>It now draws the preview button as a toggle which stays active for the transition currently being previewed and can be clicked again to close the window.</li>
+<li>Events are now added at the preview time if the current property is being previewed.</li>
+<li>The transition currently being previewed is now highlighted in the Inspector.</li>
+<li>It no longer shows "Animation has no length", but pretends it has a standard 1 second length instead.</li>
+<li>It now displays the correct default <code>Start Time</code> when the <code>Speed</code> is negative.</li>
+</ul>
+</li>
+<li>Improved <code><a href="/animancer/v4-0/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code>:
+<ul>
+<li>The <code>Preview Settings</code> area now indicates that it is not serialized.</li>
+<li>It now shows previous/current/next animation rather than just from/to in order to avoid confusion.</li>
+<li>States are no longer expanded by default.</li>
+<li>It now automatically recreates the transition state when it starts playing or sets the time to make sure it is up to date.</li>
+<li>Fixed exception in <code>PlayTransition</code> if the next animation is cleared after the current animation starts.</li>
+<li>Fixed exceptions when using the preview button inside the window to close it.</li>
+<li>Setting the time after the fade out now resets the transition state's time properly.</li>
+<li>It now repaints immediately in response to undo commands (specifically, whenever the scene is modified).</li>
+</ul>
+</li>
+<li>Improved <code><a href="/animancer/v4-0/api/Animancer.Editor/TimeRuler">TimeRuler</a></code>:
+<ul>
+<li>It no longer uses 1 pixel of padding in Unity 2019.3 since the <code>Box</code> style no longer has an outline.</li>
+<li>You can now double click in it to add an event at that time.</li>
+<li>It now supports negative speeds.</li>
+</ul>
+</li>
+<li>Added <code><a href="/animancer/v4-0/api/Animancer/IAnimancerTransitionDetailed/F67BAD2F">IAnimancerTransitionDetailed.IsLooping</a></code> so the Inspector can force looping event times to stay between 0 and 1.
+<ul>
+<li>Setting a looping event time to 1 will instead set it to <code>AnimancerEvent.AlmostOne</code> because 1 would wrap around to 0.</li>
+</ul>
+</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Editor/BoolPref">BoolPref</a></code> can now take a custom key prefix.
+<ul>
+<li>Added prefixes to all prefs.</li>
+</ul>
+</li>
+<li>Fixed <code>AnimancerGUI.DoOptionalTimeField</code> to allow the seconds value to be set when it has no length.</li>
+<li>Renamed <code>MixerState.AreWeightsDirty</code> to <code>WeightsAreDirty</code>.</li>
+<li>Improved the output setup of <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>:
+<ul>
+<li>Removed the exception for initialising without an <code>Animator</code>.</li>
+<li>Renamed the static <code>Play</code> methods  to <code>SetOutput</code> and made them non-static.</li>
+<li>Calling <code>SetOutput</code> multiple times will now destroy the old <code>PlayableOutput</code> so it does not cause errors in Unity 2019.3+ and you can change the <code>Animator</code> properly.</li>
+</ul>
+</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> now avoids initialising its <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> in <code>Awake</code> if it has no animations.</li>
+<li><code>AnimancerLayer.CreateState</code> now properly sets the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code>.</li>
+<li>Renamed <code>AnimancerPlayable.StateDictionary.Create</code> to <code>CreateStates</code>.</li>
+<li>Renamed the Basics/Simple Hybrid example to Hybrid Basics.</li>
+<li><code>ClipState.Transition.Apply</code> now applies a default start time based on the speed if the <code>state.Weight == 0</code>. Same for <code><a href="/animancer/v4-0/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> transitions.</li>
+<li>Added <code>AnimancerEvent.Sequence.GetDefaultNormalizedStartTime</code>.</li>
+<li>The Linear Blending example now uses Transition Assets.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> now returns 0 if <code>Length</code> is 0.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> now sets the speed to infinity if the value is set to 0.</li>
+<li>The <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/2CE1FB39">AnimancerNode.Speed</a></code> and <code>Weight</code> setters now assert that the value is not NaN.</li>
+<li>Fixed mixer time synchronisation to not set the speeds to NaN when delta time is 0.</li>
+<li>Improved the Spider Bot and Directional Blending examples:
+<ul>
+<li>They now use a shared <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> base class and demonstrate polymorphism.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> now follows the mouse cursor so it can truly move in any direction rather than being limited to 8 directions with WASD.</li>
+</ul>
+</li>
 </ul>
 <h1 id="beta-3">Beta 3</h1>
 <blockquote class="blockquote">

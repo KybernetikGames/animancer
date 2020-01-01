@@ -131,7 +131,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -336,7 +336,7 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p>Planned Release 2020-01-??</p>
+<p>Planned Full Release 2020-01-??</p>
 </blockquote>
 <ul>
 <li>Animancer v4.0 is currently in development and has reached the Beta phase (feature complete, but the examples and documentation are not ready yet).</li>
@@ -355,6 +355,7 @@
 <li>Serializables are now called <a href="../../manual/transitions">Transitions</a> (i.e. you now use <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> instead of <code>ClipState.Serializable</code>).</li>
 </ul>
 </li>
+<li>All transition types now have a corresponding <a href="#transition-assets">Transition Asset</a> type.</li>
 <li>[Pro-Only] New <a href="#animancer-events">Animancer Event</a> system for general events without needing to use Unity's <a href="../../manual/animation-events#end-events">Animation Events</a>:
 <ul>
 <li>You can specify events per-state instead of per-clip.</li>
@@ -366,7 +367,6 @@
 <li>Implemented <a href="#mixer-time-synchronisation">Mixer Time Synchronisation</a>.</li>
 <li>New <code><a href="/animancer/v4-0/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> allows you to play <a href="#timeline">Timeline</a> assets in Animancer.</li>
 <li>Added support for Unity 2019.3 (most upgrades are fine, but that one broke a lot of things).</li>
-<li>Added <code>Assets/Create/Animation Clip</code> menu function since the Animation window doesn't allow you to create new <code>AnimationClip</code>s without an Animator Controller.</li>
 </ul>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>The main public API has been significantly restructured in several ways which will affect all users, so this section will help you fix the errors you get when upgrading a project from an earlier version.</p>
@@ -537,6 +537,10 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4
 <td><code>IEarlyUpdate</code></td>
 <td><code><a href="/animancer/v4-0/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code><br>Now contains both <code>EarlyUpdate</code> and <code>LateUpdate</code> methods.</td>
 </tr>
+<tr>
+<td><code>MixerState.AreWeightsDirty</code></td>
+<td><code><a href="/animancer/v4-0/api/Animancer/MixerState/12361DE9">MixerState.WeightsAreDirty</a></code><br>Better phrasing.</td>
+</tr>
 </tbody>
 </table>
 <h1 id="features">Features</h1>
@@ -589,6 +593,15 @@ Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4
 <p>The "eye" button in the top right of each <code>Transition</code> in the Inspector opens a window for previewing the transition so you can fine tune its details and see what your model looks like without needing to enter Play Mode.</p>
 <p><img src="transition-preview.gif" class="img-responsive"></p>
 <p>Note that the options in the "Preview Settings" area are only for the purpose of the preview. They are not serialized and have no effect outside the preview window.</p>
+<h2 id="transition-assets">Transition Assets</h2>
+<p>All transition types now have a corresponding <a href="../../manual/transitions/types#transition-assets">Transition Asset</a> (a <code>ScriptableObject</code> with a single field for that transition type):</p>
+<ul>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> is now the non-generic base class for transition assets.</li>
+<li>Added transition assets for all transition types using the naming convention that <code>XXXTransition</code> has a <code>XXXState.Transition</code> (which will create a <code>XXXState</code> when played). For example, a <code><a href="/animancer/v4-0/api/Animancer/ClipTransition">ClipTransition</a></code> holds a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>.</li>
+<li>Any references to <code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> from previous versions are equivalent to the new <code><a href="/animancer/v4-0/api/Animancer/ClipTransition">ClipTransition</a></code>, however you may wish to leave fields as they are so that any transition asset can be assigned if you aren't doing anything specific to <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>s. Any previously created assets will be automatically changed to the new type.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> no longer exposes the properties of the <code>Transition</code> (except for those required by <code><a href="/animancer/v4-0/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></code>) so instead of <code>transitionAsset.Clip</code> you now need to use <code>transitionAsset.Transition.Clip</code>. This greatly simplifies its implementation as well as the implementation of all derived classes and makes it clearer that modifications are being applied to an object which may be shared.</li>
+<li><code>AnimancerTransition.Transition</code> now has a comment warning that the <code>transition.State</code> can only hold one value even though multiple states could have been created on different objects from that same transition.</li>
+</ul>
 <h2 id="animancer-events">Animancer Events</h2>
 <p>Animancer has always supported Unity's inbuilt <a href="../../manual/events/animation">Animation Events</a>, but they have several notable drawbacks which are avoided by the new event system:</p>
 <ul>
@@ -656,6 +669,7 @@ public void Attack()
 </li>
 <li>Changed <code>HybridAnimancerController.PlayController</code> to return its <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>.</li>
 <li><code><a href="/animancer/v4-0/api/Animancer/Transition">ControllerState.Transition</a></code> now uses itself as the key instead of the controller in case something else happens to use the same controller with a different set of parameters.</li>
+<li><code>AnimancerLayer.CreateState</code> now properly sets the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code>.</li>
 <li>Added a <code><a href="/animancer/v4-0/api/Animancer/Validate">Validate</a></code> class for all the validation methods and Lite restrictions.
 <ul>
 <li><code>Validate.FadeDuration</code> now allows 0 in Animancer Lite.</li>
@@ -692,10 +706,23 @@ public void Attack()
 <li>Made several <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> members virtual instead of abstract: <code>AverageVelocity</code>, <code>ApplyAnimatorIK</code>, <code>ApplyFootIK</code>.</li>
 <li>Added Assembly Definitions for <code>Animancer.FSM</code> and <code>Animancer.Examples</code> to make sure the <code>FSM</code> system is entirely separate.</li>
 <li>Removed null checks from <code>AnimancerPlayable.Play(animator, playable, component)</code> so it will now throw exceptions if the parameters are null.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Editor/BoolPref">BoolPref</a></code> can now take a custom key prefix.
+<ul>
+<li>Added prefixes to all prefs.</li>
+</ul>
+</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
 <li><code>AnimancerComponent.InitialisePlayable</code> will now try using <code>GetComponent</code> if it has no <code>Animator</code> reference and throw an exception if one still isn't found.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> now avoids initialising its <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> in <code>Awake</code> if it has no animations.</li>
+<li>Improved the output setup of <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>:
+<ul>
+<li>Removed the exception for initialising without an <code>Animator</code>.</li>
+<li>Renamed the static <code>Play</code> methods  to <code>SetOutput</code> and made them non-static.</li>
+<li>Calling <code>SetOutput</code> multiple times will now destroy the old <code>PlayableOutput</code> so it does not cause errors in Unity 2019.3+ and you can change the <code>Animator</code> properly.</li>
+</ul>
+</li>
 <li>Improved <code><a href="/animancer/v4-0/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></code>:
 <ul>
 <li>It now implements a <code><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></code> directly instead of <code>bool CrossFadeFromStart</code>.</li>
@@ -703,6 +730,10 @@ public void Attack()
 <li>Moved the main part of <code>AnimancerPlayable.GetFadeOutDuration</code> to <code><a href="/animancer/v4-0/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>, leaving behind only the part specific to Animation Events with the function name "End".</li>
 </ul>
 </li>
+<li><code>ClipState.Transition.Apply</code> now applies a default start time based on the speed if the <code>state.Weight == 0</code>. Same for <code><a href="/animancer/v4-0/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> transitions.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> now returns 0 if <code>Length</code> is 0.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> now sets the speed to infinity if the value is set to 0.</li>
+<li>The <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/2CE1FB39">AnimancerNode.Speed</a></code> and <code>Weight</code> setters now assert that the value is not NaN.</li>
 <li>Added <code>Restore Bind Pose</code> context menu function to <code>Animator</code> components.</li>
 <li>Adding a <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to an object with an <code>AnimatorController</code> assigned to its <code>Animator</code> will now assign that controller to the animancer instead of only clearing it.</li>
 <li>Removed unnecessary calls to <code>SetInputCount</code> and <code>SetInputWeight</code> during <code>AnimancerPlayable.OnPlayableCreate</code>.</li>
@@ -732,12 +763,6 @@ public void Attack()
 </ul>
 </li>
 <li>Added <code>[&lt;see cref="SerializeField"/&gt;]</code> tags to the start of comments for all properties that directly wrap serialized fields.</li>
-<li>Improved <code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> (a <code>ScriptableObject</code> that holds a single <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>):
-<ul>
-<li>Renamed the <code>Animation</code> field and property to <code>Transition</code>.</li>
-<li>Added <code>Events</code> wrapper.</li>
-</ul>
-</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
@@ -780,22 +805,29 @@ public void Attack()
 <li>Improved the Inspector layout and added descriptions of each of the support links.</li>
 </ul>
 </li>
-<li>Renamed <code>Simple Playing</code> to <a href="../../basics/quick-play">Quick Play</a>.</li>
-<li>Improved the <a href="../../basics/sequence-coroutine">Sequence Coroutine</a> example:
+<li>Renamed <code>Simple Playing</code> to <a href="../../examples/basics/quick-play">Quick Play</a>.</li>
+<li>Added <a href="../../examples/basics/hybrid">Hybrid Basics</a> to demonstrate the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Hybrid</a>.</li>
+<li>Improved <a href="../../examples/basics/sequence-coroutine">Sequence Coroutine</a>:
 <ul>
 <li>It now uses the new custom end time system rather than needing a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> subclass with its own <code>PlayDuration</code> field.</li>
 <li>Added assertions for reliability.</li>
 </ul>
 </li>
-<li>Added an introduction sequence to <a href="../../state-machines/platformer">Platformer</a> using <a href="#timeline">Timeline</a>.</li>
-<li>Improved <a href="../../locomotion/root-motion">RootMotion</a>:
+<li>Improved <a href="../../examples/fine-control/spider-bot">Spider Bot</a> and <a href="../../examples/locomotion/directional-blending">Directional Blending</a>:
+<ul>
+<li>They now use a shared <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> base class and demonstrate polymorphism.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> now follows the mouse cursor so it can truly move in any direction rather than being limited to 8 directions with WASD.</li>
+<li>Cleaned up the animation names to match the same convention as others.</li>
+</ul>
+</li>
+<li>Improved <a href="../../examples/locomotion/root-motion">RootMotion</a>:
 <ul>
 <li>It now overrides <code>Transition.Apply</code> to set the root motion flag so the caller doesn't need to do it.</li>
 <li>It now has some extra fields to specify another object to apply the root motion to.</li>
 </ul>
 </li>
-<li>Added <a href="../../examples/basics/hybrid-system">Hybrid System</a> to demonstrate the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> in a simple situation without the complexity of a full state machine in <a href="../../examples/animator-controllers/hybrid">Hybrid</a>.</li>
-<li>Cleaned up <a href="../../fine-control/spider-bot">Spider Bot</a> animation names to match the same convention as others.</li>
+<li><a href="../../examples/locomotion/linear-blending">Linear Blending</a> now uses <a href="#transition-assets">Transition Assets</a>.</li>
+<li>Added an introduction sequence to <a href="../../examples/state-machines/platformer">Platformer</a> using <a href="#timeline">Timeline</a>.</li>
 <li>Improved <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> to account for the foot rotation when calculating the raycast diration.</li>
 <li>Added <code>[DefaultExecutionOrder]</code> attributes to all <code>Creature</code> examples as well as comments in <code>Awake</code> to reinforce its importance.</li>
 </ul>

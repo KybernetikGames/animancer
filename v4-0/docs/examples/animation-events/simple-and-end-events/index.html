@@ -126,7 +126,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -340,7 +340,7 @@
 <li><a href="../../../manual/animation-events#simple-events">Simple Events</a>: the <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> allows you to register callbacks that will be triggered by events with the function name <code>"Event"</code>.</li>
 <li><a href="../../../manual/animation-events#end-events">End Events</a>: events with the function name <code>"End"</code> will trigger the standard <code>OnEnd</code> callback early rather than waiting for it to actually finish, allowing you to adjust the timing of your transitions.</li>
 </ol>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../manual/blending/fading">Fading with a non-default duration.</a> Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../manual/blending/fading">Fading with a non-default duration.</a> Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="simple-and-end-events.gif" class="img-responsive"></p>
 <p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimationEvents/GolfHitController">GolfHitController</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -391,7 +391,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimationEve
     {
         _State = State.Swing;
 
-        var state = _Animancer.CrossFadeFromStart(_Swing);
+        var state = _Animancer.Play(_Swing, 0.25f, FadeMode.FromStart);
         state.OnEnd = OnSwingEnd;
 
         _EventReceiver.onEvent.Set(state, (animationEvent) =&gt;
@@ -408,7 +408,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimationEve
         if (_Ball.isKinematic)
         {
             _State = State.Ready;
-            _Animancer.CrossFade(_Ready);
+            _Animancer.Play(_Ready, 0.25f);
         }
     }
 
@@ -417,7 +417,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimationEve
         _State = State.Idle;
 
         var fadeDuration = AnimancerPlayable.GetFadeOutDuration();
-        _Animancer.CrossFade(_Idle, fadeDuration);
+        _Animancer.Play(_Idle, fadeDuration);
     }
 
     private void ReturnToReady()
@@ -427,7 +427,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimationEve
         _Ball.isKinematic = true;
         _Ball.position = _BallStartPosition;
 
-        _Animancer.CrossFade(_Ready);
+        _Animancer.Play(_Ready, 0.25f);
     }
 }
 </code></pre>
@@ -445,7 +445,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimationEve
 </ol>
 <h1 id="simple-event">Simple Event</h1>
 <p><img src="../../../manual/animation-events/simple-event.png" class="img-responsive img-right"> In order to have the character hit the ball at a specific time during the swing, we have added an <a href="../../../manual/animation-events">Animation Event</a> on frame 33 with the function name <code>"Event"</code>. Then to receive that event in our script we are using a <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> attached to the same object as the <code>Animator</code> and registering our callback in the <code>StartSwing</code> method right after starting the cross fade:</p>
-<pre><code class="language-cs">var state = _Animancer.CrossFadeFromStart(_Swing);
+<pre><code class="language-cs">var state = _Animancer.Play(_Swing, 0.25f, FadeMode.FromStart);
 state.OnEnd = OnSwingEnd;
 
 _EventReceiver.onEvent.Set(state, (animationEvent) =&gt;
@@ -477,12 +477,12 @@ _EventReceiver.onEvent.Set(state, (animationEvent) =&gt;
     _State = State.Idle;
 
     var fadeDuration = AnimancerPlayable.GetFadeOutDuration();
-    _Animancer.CrossFade(_Idle, fadeDuration);
+    _Animancer.Play(_Idle, fadeDuration);
 }
 </code></pre>
 <p>We want to transition to <em>Idle</em>, but our script doesn't (and shouldn't) know how long is left in the animation, so instead of hard coding a value or calculating it ourselves we use <code>AnimancerPlayable.GetFadeOutDuration</code> to get the duration specified by the <code>Float</code> parameter of the triggering event. We could have used a positive value to give a specific duration, but since we left it at 0 that method will return the full remaining duration of the animation.</p>
-<p><em>Note that using a custom fade duration is a <a href="/animancer/pro"><strong>Pro-Only</strong></a> feature. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
-<p>Since we called <code>CrossFade</code>, the <code>OnEnd</code> callback gets cleared immediately so it won't be called again if the animation happens to reach the end normally before it finishes fading out.</p>
+<p><em>Note that using a custom fade duration is a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<p>Since we called <code>Play</code>, the <code>OnEnd</code> callback gets cleared immediately so it won't be called again if the animation happens to reach the end normally before it finishes fading out.</p>
 <p>If you watch the <code>Weight</code> of the animations, you can see that normally it only starts fading once the animation is fully complete, but with the early end it starts fading much earlier and finishes fading when the animation is fully complete.</p>
 
 	</section>

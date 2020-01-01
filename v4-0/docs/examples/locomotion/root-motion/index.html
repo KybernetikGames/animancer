@@ -78,6 +78,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#animation-metadata">Animation Metadata</a></p>
 <p><a href="#transitions">Transitions</a></p>
+<p><a href="#redirecting-root-motion">Redirecting Root Motion</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -125,7 +126,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -334,9 +335,9 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/03 Locomotion/02 Root Motion</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Locomotion"><code>Animancer.Examples.Locomotion</code></a></p>
 </blockquote>
-<p>This example demonstrates how you can use a custom <a href="../../../manual/transitions">Transition class</a> to determine whether each animation should use <a href="https://docs.unity3d.com/Manual/RootMotion.html">Root Motion</a> or not.</p>
+<p>This example demonstrates how you can use a custom <a href="../../../manual/transitions">Transition class</a> to determine whether each animation should use <a href="https://docs.unity3d.com/Manual/RootMotion.html">Root Motion</a> or not and redirect the Root Motion to a different object if you want to.</p>
 <p><img src="root-motion.gif" class="img-responsive"></p>
-<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> script looks like this (with the comments removed since we are about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System;
 using UnityEngine;
@@ -344,21 +345,21 @@ using UnityEngine;
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> : MonoBehaviour
 {
     [Serializable]
-    public class MotionClip : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
+    public class MotionTransition : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
     {
-        [SerializeField, Tooltip("Determines if root motion should be enabled when this animation plays")]
+        [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
         private bool _ApplyRootMotion;
 
-        public bool ApplyRootMotion
+        public override void Apply(AnimancerState state)
         {
-            get { return _ApplyRootMotion; }
-            set { _ApplyRootMotion = value; }
+            base.Apply(state);
+            state.Root.Component.Animator.applyRootMotion = _ApplyRootMotion;
         }
     }
 
     [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private float _MaxDistance;
-    [SerializeField] private MotionClip[] _Animations;
+    [SerializeField] private MotionTransition[] _Animations;
 
     private Vector3 _Start;
 
@@ -370,19 +371,43 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/R
 
     public void Play(int index)
     {
-        Play(_Animations[index]);
-    }
-
-    public void Play(MotionClip motion)
-    {
-        _Animancer.Transition(motion);
-        _Animancer.Animator.applyRootMotion = motion.ApplyRootMotion;
+        _Animancer.Play(_Animations[index]);
     }
 
     private void FixedUpdate()
     {
         if (Vector3.Distance(_Start, transform.position) &gt; _MaxDistance)
             transform.position = _Start;
+    }
+
+    [SerializeField] private Transform _MotionTransform;
+    [SerializeField] private Rigidbody _MotionRigidbody;
+    [SerializeField] private CharacterController _MotionCharacterController;
+
+    private void OnAnimatorMove()
+    {
+        if (!_Animancer.Animator.applyRootMotion)
+            return;
+
+        if (_MotionTransform != null)
+        {
+            _MotionTransform.position += _Animancer.Animator.deltaPosition;
+            _MotionTransform.rotation *= _Animancer.Animator.deltaRotation;
+        }
+        else if (_MotionRigidbody != null)
+        {
+            _MotionRigidbody.MovePosition(_MotionRigidbody.position + _Animancer.Animator.deltaPosition);
+            _MotionRigidbody.MoveRotation(_MotionRigidbody.rotation * _Animancer.Animator.deltaRotation);
+        }
+        else if (_MotionCharacterController != null)
+        {
+            _MotionCharacterController.Move(_Animancer.Animator.deltaPosition);
+            _MotionCharacterController.transform.rotation *= _Animancer.Animator.deltaRotation;
+        }
+        else
+        {
+            _Animancer.Animator.ApplyBuiltinRootMotion();
+        }
     }
 }
 </code></pre>
@@ -394,9 +419,9 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/R
 [SerializeField] private bool _IdleRootMotion;
 [SerializeField] private AnimationClip _Walk;
 [SerializeField] private bool _WalkRootMotion;
-
-// Or with arrays:
-[SerializeField] private AnimationClip[] _Animations;
+</code></pre>
+<p>Or with arrays:</p>
+<pre><code class="language-cs">[SerializeField] private AnimationClip[] _Animations;
 [SerializeField] private bool[] _AnimationsApplyRootMotion;
 </code></pre>
 <p>But that's messy and requires extra effort every time it's used.</p>
@@ -419,7 +444,7 @@ public void Play(MotionClip motion)
 }
 </code></pre>
 <p>Now we can just call <code>Play(_Idle)</code> or <code>Play(_Walk)</code> and we could use a <code>MotionClip</code> in any script without manually adding a <code>bool</code> alongside every <code>AnimationClip</code>.</p>
-<p>Since we want to control this particular example with UI buttons, we instead use an array of <code>MotionClip</code>s so we can add a <code>Play</code> method that just takes an <code>int</code> parameter:</p>
+<p>Since we want to control this particular example with UI buttons, we instead use an array of <code>MotionTransition</code>s so we can add a <code>Play</code> method that just takes an <code>int</code> parameter:</p>
 <pre><code class="language-cs">[SerializeField] private MotionClip[] _Animations;
 
 public void Play(int index)
@@ -428,24 +453,63 @@ public void Play(int index)
 }
 </code></pre>
 <p>That gives us a simple grouping in the Inspector (and in code) where the metadata is managed alongside the <code>AnimationClip</code> reference:</p>
-<p><img src="regular-transitions.png" class="img-responsive"></p>
+<p><img src="serializables.png" class="img-responsive"></p>
 <h1 id="transitions">Transitions</h1>
 <p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../manual/inverse-kinematics">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can inherit from so you don't have to do it all yourself:</p>
 <pre><code class="language-cs">[Serializable]
-public class MotionClip : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
+public class MotionTransition : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
 {
-    public bool applyRootMotion;
-}
+    [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
+    private bool _ApplyRootMotion;
 </code></pre>
-<p><code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> already has the <code>AnimationClip</code>, transition duration, optional start time, and speed, so all we need to add is the root motion <code>bool</code>. Then instead of <code>_Animancer.Play</code> we use <code>_Animancer.Transition</code> which applies those details for us:</p>
-<pre><code class="language-cs">public void Play(MotionClip motion)
-{
-    _Animancer.Transition(motion);
-    _Animancer.Animator.applyRootMotion = motion.applyRootMotion;
+<p><code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> already has the <code>AnimationClip</code>, transition duration, optional start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then override its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
+<pre><code class="language-cs">    public override void Apply(AnimancerState state)
+    {
+        base.Apply(state);
+        state.Root.Component.Animator.applyRootMotion = _ApplyRootMotion;
+    }
 }
 </code></pre>
 <p>Now we get all those extra details in the Inspector without much extra effort.</p>
 <p><img src="transitions.png" class="img-responsive"></p>
+<h1 id="redirecting-root-motion">Redirecting Root Motion</h1>
+<p>It is often useful to have your character's model as a separate object from their other aspects (such as a <code>Rigidbody</code> and their other scripts), in which case you will need to redirect the Root Motion to another object. This is very easy to do, though it is slightly different depending on what system you normally use to move the character.</p>
+<p>First we need a reference to the object we want to apply the Root Motion to. This example shows each of the common movement systems, but in a real game you would only use one of the following:</p>
+<pre><code class="language-cs">[SerializeField] private Transform _MotionTransform;
+[SerializeField] private Rigidbody _MotionRigidbody;
+[SerializeField] private CharacterController _MotionCharacterController;
+</code></pre>
+<p><img src="redirect-inspector.png" class="img-responsive"></p>
+<p>Then you can just implement a method called <code>OnAnimatorMove</code> which Unity will call when it would normally apply Root Motion:</p>
+<pre><code class="language-cs">private void OnAnimatorMove()
+{
+    if (!_Animancer.Animator.applyRootMotion)
+        return;
+
+    if (_MotionTransform != null)
+    {
+        _MotionTransform.position += _Animancer.Animator.deltaPosition;
+        _MotionTransform.rotation *= _Animancer.Animator.deltaRotation;
+    }
+    else if (_MotionRigidbody != null)
+    {
+        _MotionRigidbody.MovePosition(_MotionRigidbody.position + _Animancer.Animator.deltaPosition);
+        _MotionRigidbody.MoveRotation(_MotionRigidbody.rotation * _Animancer.Animator.deltaRotation);
+    }
+    else if (_MotionCharacterController != null)
+    {
+        _MotionCharacterController.Move(_Animancer.Animator.deltaPosition);
+        _MotionCharacterController.transform.rotation *= _Animancer.Animator.deltaRotation;
+    }
+    else
+    {
+        // If we aren't retargeting, just let Unity apply the Root Motion normally.
+        _Animancer.Animator.ApplyBuiltinRootMotion();
+    }
+}
+</code></pre>
+<p>To demonstrate the concept, we can create a cube and assign it to the <code>_MotionTransform</code> field (though you would normally redirect Root Motion to a parent of the model so that they both move together):</p>
+<p><img src="redirect-cube.gif" class="img-responsive"></p>
 
 	</section>
                 

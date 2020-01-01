@@ -127,7 +127,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -337,10 +337,10 @@
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.FineControl"><code>Animancer.Examples.FineControl</code></a></p>
 </blockquote>
 <p>This example demonstrates how you can use a single animation and some simple scripting to create a system for doors that can be opened and closed, can start open, closed, or anywhere inbetween, and can show the starting state in Edit Mode.</p>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p>The video below shows several doors:</p>
 <ul>
-<li>They start in different states from left to right: closed, 60% open, and fully open.</li>
+<li>They start in different states: from left to right they are closed, 60% open, and fully open.</li>
 <li>Clicking on a door toggles its state.</li>
 <li>Since the middle door starts closer to fully open than closed, the first interaction closes it.</li>
 <li>On the last door we also see that it can be interrupted at any time to change direction.</li>
@@ -450,7 +450,7 @@ public sealed class ClickMe : MonoBehaviour, <a href="/animancer/v4-0/api/Animan
 }
 </code></pre>
 <p></p></details><p></p>
-<p>A more complex interaction system might give the <code>Interact</code> method a parameter for details about the triggering object. For example, in addition to the animation it uses on itself, a <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/Door">Door</a></code> could have a <em>HumanoidOpenDoor</em> animation which it plays on the person who interacts with it. A <code>Lever</code> might do something similar to allow people to pull it. And so on, all without the people needing to hold interaction animations for every possible object. Or the responsibility could be reversed: still give the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/Door">Door</a></code> or <code>Lever</code> its corresponding humanoid animation, but simply expose it as an <code>InteractionAnimation</code> property in the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface so that when a person triggers the interaction they can also check if there's an animation they need to play.</p>
+<p>A more complex interaction system might give the <code>Interact</code> method a parameter for details about the triggering object. For example, in addition to the animation it uses on itself, a <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/Door">Door</a></code> could have a <em>Humanoid-OpenDoor</em> animation which it plays on the character who interacts with it. A <code>Lever</code> might do something similar to allow people to pull it. And so on, all without the character needing to hold interaction animations for every possible object. Or the responsibility could be reversed: still give the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/Door">Door</a></code> or <code>Lever</code> its corresponding humanoid animation, but simply expose it as an <code>InteractionAnimation</code> property in the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface so that when a character triggers the interaction they can also check if there's an animation they need to play.</p>
 <h1 id="basic-door">Basic Door</h1>
 <p>The <em>OpenDoor</em> animation rotates the door from closed to open and we don't have a second animation to close it again. So to create a system that can both open and close we just need to manipulate the animation's <code>Speed</code> to play forwards or backwards.</p>
 <p>First we need a new script to implement the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface and reference the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the <code>AnimationClip</code>:</p>
@@ -527,9 +527,23 @@ public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/A
 <h1 id="openness">Openness</h1>
 <p>What we've got so far is quite functional and would get the job done if we were happy with all doors starting closed when the scene loads, but we can still improve upon that. We could make the <code>_IsOpen</code> field serialized to be able to start some doors open, but we can do even better than that. Instead, let's make it so that doors can start anywhere between as well.</p>
 <p>First we want a <code>float</code> with a value between 0 and 1. Instead of a regular <code>float</code> field where you can type in any value, the <code>Range</code> attribute tells Unity to draw it using a slider that can only go between the specified values.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
 <pre><code class="language-cs">[SerializeField, Range(0, 1)]
 private float _Openness;
 </code></pre>
+<p>Note that the <code>[Range]</code> attribute only affects the Inspector. It will not prevent your code from setting the value to anything you want.</p>
+</td>
+      <td><img src="inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
 <p>Then we need to apply that value on startup:</p>
 <pre><code class="language-cs">private void Awake()
 {
@@ -591,7 +605,6 @@ public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/A
     {
         var state = _Animancer.Play(_Open);
         state.NormalizedTime = _Openness;
-
         _Animancer.Evaluate();
         _Animancer.Playable.PauseGraph();
 
@@ -621,15 +634,15 @@ public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/A
 <p>Now we can use the slider to choose how open the door is when the scene loads.</p>
 <p><img src="openness.gif" class="img-responsive"></p>
 <h1 id="edit-mode">Edit Mode</h1>
-<p>That works great at runtime, but it would be annoying to have to go into Play Mode every time we want to see exactly how open a door will be. Fortunately, Animancer allows you to play animations in Edit Mode without much trouble.</p>
+<p>That works great at runtime, but it would be annoying to have to go into Play Mode every time we want to see exactly how open a door will be. Fortunately, Animancer allows you to play animations in <a href="../../../manual/playing#edit-mode">Edit Mode</a> without much trouble.</p>
 <p>The <code>OnValidate</code> method is called by Unity in Edit Mode whenever an instance of this script is loaded or a value is changed in the Inspector, so we can use it to apply the initial state we want on the door.</p>
-<p>Unfortunately, <code>OnValidate</code> is called right after Unity reloads scripts but before it is actually ready to play an animation properly so it gives an error if we try to do so. We can avoid that by using <code>EditorApplication.delayCall</code> to delay the call for a frame. This in turn means that the delayed call might occur after the script itself is destroyed so we need to check if <code>this == null</code> in addition to making sure the serialized fields have references. We could check those in <code>Awake</code>, but we actually want it to give an exception if that happens at runtime because that would mean the door will not work.</p>
+<p>Unfortunately, <code>OnValidate</code> is called right after Unity reloads scripts but before it is actually ready to play an animation properly so it gives an error if we try to do so. We can avoid that by using <code>EditorApplication.delayCall</code> to delay the call for a frame. We could check those in <code>Awake</code>, but we actually want it to give an exception if that happens at runtime because that would mean the door will not work.</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
 private void OnValidate()
 {
     UnityEditor.EditorApplication.delayCall += () =&gt;
     {
-        if (_Animancer == null || _Open == null || this == null)
+        if (_Animancer == null || _Open == null)
             return;
 
         Awake();

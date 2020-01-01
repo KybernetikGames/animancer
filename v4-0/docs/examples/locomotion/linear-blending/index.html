@@ -77,7 +77,10 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#blend-tree">Blend Tree</a></p>
+<p><a href="#parameter-controller">Parameter Controller</a></p>
+<p><a href="#transition-asset">Transition Asset</a></p>
 <p><a href="#mixer-state">Mixer State</a></p>
+<p><a href="#time-synchronisation">Time Synchronisation</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -125,7 +128,7 @@
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid-system">05 Hybrid System</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -330,71 +333,163 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p><strong>Difficulty</strong>: <a href="../../../introduction/glossary#example-difficulty">Beginner</a></p>
+<p><strong>Difficulty</strong>: <a href="../../../introduction/glossary#example-difficulty">Intermediate</a></p>
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/03 Locomotion/03 Linear Blending</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Locomotion"><code>Animancer.Examples.Locomotion</code></a></p>
 </blockquote>
-<p>This example demonstrates how you can blend between Idle, Walk, and Run animations based on an arbitrary parameter to move the character at any desired speed using either a <a href="../../../manual/animator-controllers">Blend Tree in a Controller State</a> or a <a href="../../../manual/blending/mixers">Mixer State</a>.</p>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a> features are used in this example: <a href="../../../manual/animator-controllers">Controller States</a> and <a href="../../../manual/blending/mixers">Mixer States</a>. Animancer Lite allows you to try try out these features in the Unity Editor, but they are not available in runtime builds. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
+<p>This example demonstrates how you can blend between Idle, Walk, and Run animations based on an arbitrary parameter to move the character at any desired speed using either a <a href="../../../manual/animator-controllers">Blend Tree in a Controller State</a> or a <a href="../../../manual/blending/mixers">Mixer State</a> as well as how <a href="../../../manual/transitions/types#transition-assets">Transition Assets</a> allow you to share animation details throughout your project.</p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/animator-controllers">Controller States</a> and <a href="../../../manual/blending/mixers">Mixer States</a>. Animancer Lite allows you to try try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="linear-blending.gif" class="img-responsive"></p>
 <h1 id="blend-tree">Blend Tree</h1>
-<p><code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>s are used to play <code>AnimatorController</code>s inside Animancer.</p>
-<p>In this case, the controller contains only a Blend Tree controlled by a <code>float</code> parameter so we use a <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> to give us easy access to that parameter.</p>
-<p></p><details><summary>The script looks like this:</summary><p>
+<p>This example uses an Animator Controller containing a Blend Tree which blends between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations:</p>
+<p><img src="blend-tree.png" class="img-responsive"></p>
+<p><a href="../../../manual/animator-controllers">Controller States</a> are used to play Animator Controllers inside Animancer. Rather than using a <code>RuntimeAnimatorController</code> field to assign the Animator Controller and then creating a <code>new <a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> manually, we can just use a <a href="../../../manual/transitions">Transition</a> (specifically a <code><a href="/animancer/v4-0/api/Animancer/Transition">ControllerState.Transition</a></code>) which will handle that all for us:</p>
+<pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">ControllerState.Transition</a> _Controller;
+    
+    private void OnEnable()
+    {
+        _Animancer.Play(_Controller);
+    }
+}
+</code></pre>
+<p><img src="controller-transition.png" class="img-responsive"></p>
+<h1 id="parameter-controller">Parameter Controller</h1>
+<p>In this case, the only thing in the Animator Controller is a Blend Tree controlled by a <code>float</code> parameter, so rather than hard coding the script to use <code>...SetFloat("Speed", value)</code> to control it we can instead use a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a></code> to wrap that parameter for us:</p>
+<p><img src="float-controller-transition.png" class="img-responsive"></p>
+<p>Note the new <code>Parameter Name</code> field which gives us a dropdown menu to select the name of any float parameter in the assigned <code>Controller</code>. This allows us to get and set that parameter using <code>_Controller.State.Parameter</code>. For this example, we want to control it using a UI Slider so we need a public property (or method) for it:</p>
+<pre><code class="language-cs">public float Speed
+{
+    get { return _Controller.State.Parameter; }
+    set { _Controller.State.Parameter = value; }
+}
+</code></pre>
+<p>This gives us a character who can move at any speed:</p>
+<p><img src="blend-tree-play.gif" class="img-responsive"></p>
+<p>You may notice that while blending between <em>Walk</em> and <em>Run</em> works well, the blending between <em>Idle</em> and <em>Walk</em> gives a much slower result than you might expect (the character barely moves at all when under 50% speed). This is due to the way Blend Trees synchronise the timing of all their states which is useful for cases like <em>Walk</em> and <em>Run</em> where you want both animations to always be at the same point in their walk cycle to get a good result, however it is detrimental in cases where it does not make sense for timings to be synchronised such as between <em>Idle</em> and <em>Walk</em> where there is no correspondance between their cycles and therefore no point in synchronising them. Unfortunately, Blend Trees do not allow you to control or disable this feature, however Animancer's <a href="../../../manual/blending/mixers">Mixer States</a> serve a similar purpose to Blend Trees and allow you to determine which of their states are synchronised.</p>
+<h1 id="transition-asset">Transition Asset</h1>
+<p>Since we want to have multiple characters using the exact same setup we can give them all references to the same <a href="../../../manual/transitions/types#transition-assets">Transition Asset</a> rather than each one having its own transition. This requires a few modifications to the script.</p>
+<p>First we change the <code>_Controller</code> field type:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/Float1ControllerTransition">Float1ControllerTransition</a> _Controller;
+</code></pre>
+<p>The <code>State</code> property will only hold the state that was most recently played from that transition. Previously each object had its own transition so it was not a problem, but now that they are all sharing the same one we cannot rely on that property anymore. Instead, we can just store the state in another field right after it is played:</p>
+<pre><code class="language-cs">private <a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a> _State;
+
+private void OnEnable()
+{
+    _Animancer.Play(_Controller);
+    _State = _Controller.Transition.State;
+}
+
+public float Speed
+{
+    get { return _State.Parameter; }
+    set { _State.Parameter = value; }
+}
+</code></pre>
+<p>Note that a <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> is just a <code>ScriptableObject</code> with a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a></code> field, so we now need to use <code>_Controller.Transition.State</code> rather than just <code>_Controller.State</code>.</p>
+<p></p><details><summary>The final script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a> : MonoBehaviour
 {
     [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a> _Controller;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Float1ControllerTransition">Float1ControllerTransition</a> _Controller;
+
+    private <a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a> _State;
 
     private void OnEnable()
     {
-        _Animancer.Transition(_Controller);
+        _Animancer.Play(_Controller);
+        _State = _Controller.Transition.State;
     }
 
-    // Expose the parameter so it can be set directly by the Slider in the scene.
     public float Speed
     {
-        get { return _Controller.State.Parameter; }
-        set { _Controller.State.Parameter = value; }
+        get { return _State.Parameter; }
+        set { _State.Parameter = value; }
     }
 }
 </code></pre>
 <p></p></details><p></p>
-<p><img src="blend-tree-inspector.png" class="img-responsive"></p>
-<p>Note that it isn't actually using a <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> directly, it's using a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a></code> which gives us a convenient Inspector interface and constructs the state for us when we pass it into the <code>Transition</code> method. See the <a href="../../../manual/transitions">Transitions</a> page for more information.</p>
-<p>We could have constructed the state ourselves by making a <code>new Float1ControllerState(_Animancer, _Controller, "Speed");</code>, but then we would need both a serialized <code>RuntimeAnimatorController</code> field to assign the controller in the Inspector and a non-serialized <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> field to store the state so we can access its parameter. That would also hard code the script to only work with a parameter called <code>"Speed"</code> so we might also want a serialized <code>string</code> field for the parameter name, but then we still have to manually type in the name instead of getting a dropdown menu that only lists parameters in the assigned controller.</p>
-<p>See the <a href="../../../manual/animator-controllers">Animator Controllers</a> page for more information about <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>s.</p>
+<p>Now we can set up the actual <a href="../../../manual/transitions/types#transition-assets">Transition Asset</a> itself:</p>
+<ol>
+<li>Right Click in the Project window and use <code>Create -&gt; Animancer -&gt; Controller Transition -&gt; Float 1</code>.</li>
+<li>Assign the desired Animator Controller to the newly created asset and select the <code>Parameter Name</code> you want it to wrap.</li>
+<li>Assign that asset to the <code>Controller</code> field in the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a></code> script.</li>
+</ol>
+<p>This means that the character's Inspector now only has a single field to reference the asset while the asset itself contains the details that will be used to create a state at runtime:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Character Inspector</th>
+    <th style="width:50%">Transition Asset</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="shared-controller-inspector.png" class="img-responsive"><p></p><details><summary>If you have <a href="https://kybernetikgames.github.io/inspector-gadgets/pro">Inspector Gadgets Pro</a>, you can use its <a href="https://kybernetikgames.github.io/inspector-gadgets/docs/script-inspector/object-reference-fields">Nested Object Drawers</a> feature (by clicking on the foldout arrows) to see and modify the details of the referenced asset without needing to actually go and select that asset:</summary><p>
+<img src="nested-object-drawer.gif" class="img-responsive">
+</p></details><p></p></td>
+      <td><img src="controller-asset-inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
 <h1 id="mixer-state">Mixer State</h1>
-<p><code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code>s are essentially Blend Trees which are constructed using code at runtime instead of being configured in the Unity Editor as part of an Animator Controller. See the next section for a comparison of their differences.</p>
-<p></p><details><summary>They are so similar that the script to use a mixer looks almost identical to the one using a controller:</summary><p>
-</p><p>The only real differences are the class name and the change from <code><a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a> _Controller</code> to <code><a href="/animancer/v4-0/api/Animancer/Transition">LinearMixerState.Transition</a> _Mixer</code>.</p>
+<p><a href="../../../manual/blending/mixers">Mixer States</a> are essentially just Blend Trees which are constructed using code at runtime instead of being configured in the Unity Editor as part of an Animator Controller. Specifically, they <em>can</em> be constructed using code and you <em>can</em> access their internal details even though in this example we are just using a <a href="../../../manual/transitions">Transition</a>.</p>
+<p></p><details><summary>They are so similar that the script to use a mixer looks almost identical to the one using an Animator Controller:</summary><p>
+</p><p>The only differences are the class name and the change from <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerTransition">Float1ControllerTransition</a> _Controller</code> to <code><a href="/animancer/v4-0/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer</code>.</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/LinearMixerLocomotion">LinearMixerLocomotion</a> : MonoBehaviour
 {
     [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">LinearMixerState.Transition</a> _Mixer;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
+
+    private <a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a> _State;
 
     private void OnEnable()
     {
-        _Animancer.Transition(_Mixer);
+        _Animancer.Play(_Mixer);
+        _State = _Mixer.Transition.State;
     }
 
     public float Speed
     {
-        get { return _Mixer.State.Parameter; }
-        set { _Mixer.State.Parameter = value; }
+        get { return _State.Parameter; }
+        set { _State.Parameter = value; }
     }
 }
 </code></pre>
 <p></p></details><p></p>
+<p>The Inspector configuration is also very similar to the Blend Tree:</p>
 <p><img src="mixer-inspector.png" class="img-responsive"></p>
-<p>We could also construct the mixer ourselves, but we would need fields for all the <code>AnimationClip</code>s and value thresholds, the initialisation would be more complex, and we would miss out on the convenient Inspector interface we get for using a transition.</p>
-<p>See the <a href="../../../manual/blending/mixers#blend-trees-vs.mixers">Mixer States</a> page for an explanation of the differences between Blend Trees and Mixer States.</p>
+<h1 id="time-synchronisation">Time Synchronisation</h1>
+<p>Unlike Blend Trees, <a href="../../../manual/blending/mixers">Mixers</a> give you full access to all the details of their child states if necessary, however the real advantage in this situation is the ability to choose which states have their time synchronised. Synchronising the timings of the <em>Walk</em> and <em>Run</em> animations is necessary to blend them effectively, but they do not also need to be synchronised with the <em>Idle</em> animation because it does not correspond to any particular part of the walk cycle.</p>
+<p>The importance of time synchronisation can be demonstrated by turning it off and examining the blending between <em>Walk</em> and <em>Run</em>. It would not be necessary if those animations had the same length and speed, but since they are different they would each be at a different point in their walk cycle at any given time which causes a very unnatural "shuffle" every couple of steps:</p>
+<p><img src="mixer-play.gif" class="img-responsive"></p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">No Synchronisation</th>
+    <th style="width:50%">Synchronise Walk and Run</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>All animations play independently.</td>
+      <td><em>Walk</em> and <em>Run</em> stay at the same <code>NormalizedTime</code>.</td>
+    </tr>
+    <tr>
+      <td><img src="unsynced-inspector.gif" class="img-responsive"></td>
+      <td><img src="synced-inspector.gif" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<p>Enabling time synchronisation for all states would give a similar result to the Blend Tree.</p>
 
 	</section>
                 
