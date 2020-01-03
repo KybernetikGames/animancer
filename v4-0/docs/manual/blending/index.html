@@ -275,7 +275,6 @@
                 <li><a href="/animancer/v4-0/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/resetting-animated-values">Resetting Animated Values</a></li>
-                <li><a href="/animancer/v4-0/docs/bugs/root-motion-interpolation">Root Motion Interpolation</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/unused-graph-destroy-warning">Unused Graph Destroy Warning</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/update-modes">Update Modes</a></li>
 
@@ -330,14 +329,14 @@
 <p>Animations in general can be thought of like a <a href="../finite-state-machines">Finite State Machine</a> where the animated object will be in one specific state at any given time, but that is not technically true when <em>blending</em> is taken into account. <em>Blending</em> is the process of interpolating between multiple animations to combine them into a single output. There are several different kinds of blending in Animancer:</p>
 
 <ul>
-  <li>If you have an animation which does not start the character in exactly the same pose where the previous one ended, you can use <a href="fading">Fading</a> to smoothly transition between those animations instead of instantly snapping to the new pose.</li>
-  <li>If you want to play multiple separate animations at once, you can use <a href="layers">Layers</a> to keep each group separate and control which body parts they affect.</li>
-  <li>If you have <em>Walk</em> and <em>Run</em> animations, you can use <a href="mixers">Mixers</a> or <a href="../animator-controllers">Blend Trees</a> to play a combination of both at once so that the character can move at any speed instead of only at those two specific speeds.</li>
+  <li>If you have an animation which does not start the character in exactly the same pose where the previous one ended, you can use <a href="fading">Fading</a> to smoothly transition between those animations over time instead of instantly snapping to the new pose.</li>
+  <li>If you want to play multiple separate animations at once such as <em>Walk</em> and <em>Wave</em>, you can use <a href="layers">Layers</a> to keep each group separate and control which body parts they affect.</li>
+  <li>If you have <em>Walk</em> and <em>Run</em> animations, you can use <a href="mixers">Mixers</a> to play a combination of both at once so that the character can move at any speed instead of only at those two specific speeds.</li>
 </ul>
 
-<p>All states and layers in Animancer have an <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> which is a value between 0 and 1 that determines how much they effect the blended result. For example, if two animations are at 0.5 weight each, then the output will be exactly 50% of the way between them.</p>
+<p>All animations and layers have an <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> which is a value between 0 and 1 that determines how much they effect the blended result. For example, if two animations are at 0.5 weight each, then the output will be exactly 50% of the way between them.</p>
 
-<p>So rather than being explicitly in either a <em>Walking</em> and <em>Running</em> state, a character could be mixing a combination of both while <em>Waving</em> with their upper body on a second layer and fading towards a <em>Standing</em> animation, all at once.</p>
+<p>So rather than being explicitly in either a <em>Walking</em> or <em>Running</em> state, a character could be mixing a combination of both while <em>Waving</em> with their upper body on a second layer and fading towards a <em>Standing</em> animation, all at once.</p>
 
 			<div class="box">
 				<div class="box-body no-padding">
@@ -347,17 +346,17 @@
 								<tr>
 									<td><strong><a href="/animancer/v4-0/docs/manual/blending/fading">Fading</a></strong></td>
 									<td>
-Instead of using Play() to immediately snap to the specified animation, you can use CrossFade() to smoothly transition to it over time.									</td>
+Smoothly transition between animations over time instead of immediately snapping between them.									</td>
 								</tr>
 								<tr>
 									<td><strong><a href="/animancer/v4-0/docs/manual/blending/layers">Layers</a></strong></td>
 									<td>
-Play multiple separate animations at the same time using layers, allowing you to animate different body parts independently and add animations on top of each other.									</td>
+Play multiple separate animations at the same time, allowing you to animate different body parts independently and add animations on top of each other.									</td>
 								</tr>
 								<tr>
 									<td><strong><a href="/animancer/v4-0/docs/manual/blending/mixers">Mixers</a></strong></td>
 									<td>
-How to use MixerStates to interpolate between multiple animations based on a parameter.									</td>
+Interpolate between multiple animations based on arbitrary parameters you control.									</td>
 								</tr>
 						</tbody>				
 					</table>

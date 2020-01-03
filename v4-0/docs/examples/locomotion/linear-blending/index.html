@@ -80,7 +80,6 @@
 <p><a href="#parameter-controller">Parameter Controller</a></p>
 <p><a href="#transition-asset">Transition Asset</a></p>
 <p><a href="#mixer-state">Mixer State</a></p>
-<p><a href="#time-synchronisation">Time Synchronisation</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -281,7 +280,6 @@
                 <li><a href="/animancer/v4-0/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/resetting-animated-values">Resetting Animated Values</a></li>
-                <li><a href="/animancer/v4-0/docs/bugs/root-motion-interpolation">Root Motion Interpolation</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/unused-graph-destroy-warning">Unused Graph Destroy Warning</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/update-modes">Update Modes</a></li>
 
@@ -467,29 +465,8 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/L
 }
 </code></pre>
 <p></p></details><p></p>
-<p>The Inspector configuration is also very similar to the Blend Tree:</p>
+<p>The Inspector configuration is also very similar to the Blend Tree (except that <a href="../../../manual/blending/mixers#synchronisation">Time Synchronisation</a> is disabled for the <em>Idle</em> animation):</p>
 <p><img src="mixer-inspector.png" class="img-responsive"></p>
-<h1 id="time-synchronisation">Time Synchronisation</h1>
-<p>Unlike Blend Trees, <a href="../../../manual/blending/mixers">Mixers</a> give you full access to all the details of their child states if necessary, however the real advantage in this situation is the ability to choose which states have their time synchronised. Synchronising the timings of the <em>Walk</em> and <em>Run</em> animations is necessary to blend them effectively, but they do not also need to be synchronised with the <em>Idle</em> animation because it does not correspond to any particular part of the walk cycle.</p>
-<p>The importance of time synchronisation can be demonstrated by turning it off and examining the blending between <em>Walk</em> and <em>Run</em>. It would not be necessary if those animations had the same length and speed, but since they are different they would each be at a different point in their walk cycle at any given time which causes a very unnatural "shuffle" every couple of steps:</p>
-<p><img src="mixer-play.gif" class="img-responsive"></p>
-<table class="table">
-  <thead>
-    <tr><th style="width:50%">No Synchronisation</th>
-    <th style="width:50%">Synchronise Walk and Run</th>
-  </tr></thead>
-  <tbody>
-    <tr>
-      <td>All animations play independently.</td>
-      <td><em>Walk</em> and <em>Run</em> stay at the same <code>NormalizedTime</code>.</td>
-    </tr>
-    <tr>
-      <td><img src="unsynced-inspector.gif" class="img-responsive"></td>
-      <td><img src="synced-inspector.gif" class="img-responsive"></td>
-    </tr>
-  </tbody>
-</table>
-<p>Enabling time synchronisation for all states would give a similar result to the Blend Tree.</p>
 
 	</section>
                 

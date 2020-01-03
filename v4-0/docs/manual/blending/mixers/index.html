@@ -79,6 +79,7 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#choosing-a-mixer">Choosing a Mixer</a></p>
 <p><a href="#manual-creation">Manual Creation</a></p>
 <p><a href="#blend-trees-vs.mixers">Blend Trees vs. Mixers</a></p>
+<p><a href="#synchronisation">Synchronisation</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -279,7 +280,6 @@
                 <li><a href="/animancer/v4-0/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/resetting-animated-values">Resetting Animated Values</a></li>
-                <li><a href="/animancer/v4-0/docs/bugs/root-motion-interpolation">Root Motion Interpolation</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/unused-graph-destroy-warning">Unused Graph Destroy Warning</a></li>
                 <li><a href="/animancer/v4-0/docs/bugs/update-modes">Update Modes</a></li>
 
@@ -330,14 +330,11 @@
 			<h1>Mixers</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p>This page needs to be updated for Animancer v4.0.</p>
-</blockquote>
-<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase Animancer Pro. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
-<p><code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code>s serve the same purpose as Mecanim Blend Trees; they allow you to blend multiple animations based on a parameter. For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
+		<p><em><a href="../../introduction/features"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<p>Mixers serve the same purpose as Mecanim <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a>; they allow you to blend multiple animations based on a parameter (<a href="#blend-trees-vs.mixers">see below for their differences</a>). For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
 <p>The <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example demonstrates how to use Mixers and Blend Trees.</p>
 <p><img src="../../../examples/locomotion/linear-blending/linear-blending.gif" class="img-responsive"></p>
-<p>Mixers are usually set up in the Inspector using <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
+<p>Mixers are usually set up in the Inspector using <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a>, but they can also be <a href="#manual-creation">Created Manually</a>.</p>
 <p><img src="../../../examples/locomotion/linear-blending/mixer-inspector.png" class="img-responsive"></p>
 <h1 id="choosing-a-mixer">Choosing a Mixer</h1>
 <p>There are several different mixer types and you can create your own by inheriting from any of them:</p>
@@ -378,13 +375,12 @@
 </tbody>
 </table>
 <p><code><a href="/animancer/v4-0/api/Animancer/ManualMixerState">ManualMixerState</a></code>s allow you to simply control the <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> of each state manually without any automated calculations. This is often useful for additive animations and blend shapes for things like facial expressions.</p>
-<p>Other mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you. When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight, while <code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used. You can either specify the thresholds manually or calculate them using <code>MixerState&lt;T&gt;.CalculateThresholds</code>. The <code><a href="/animancer/v4-0/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code> class also provides <code>CalculateThresholdsFromAverageVelocityXZ</code> as an extension method for <code>Vector2</code> based mixers (Cartesian and Directional) to calculate the thresholds based on the average root motion velocity of each state on the X and Z axes. Note that this method needs the “<em>Bake Into Pose</em>” toggle to be disabled for “<em>Root Transform Position (XZ)</em>” in the Import Settings of each <code>AnimationClip</code> in the mixer.</p>
+<p>Other mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you. When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight, while <code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used. You can either specify the thresholds manually or calculate them using <code>MixerState&lt;T&gt;.CalculateThresholds</code>. The <code><a href="/animancer/v4-0/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code> class also provides <code>CalculateThresholdsFromAverageVelocityXZ</code> as an extension method for <code>Vector2</code> based mixers (Cartesian and Directional) to calculate the thresholds based on the average root motion velocity of each state on the X and Z axes. Note that this method needs the “<em>Root Transform Position (XZ) -&gt; Bake Into Pose</em>” toggle to be disabled in the Import Settings of each <code>AnimationClip</code> in the mixer.</p>
 <p>When selecting a 2D mixer, Directional generally offers better interpolation than Cartesian for animations that represent direction such as move forward/back/left/right. Also note that in areas with 180 degrees or more between states the interpolation is ill-defined and will likely have undesirable results; I.E. if you have clips for <em>forward</em>, <em>back</em>, and <em>left</em>, but no <em>right</em>, then you will get odd results if you set the parameter to the right.</p>
 <p><code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code>s are a type of <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> with several other differences from regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code>s:</p>
 <ul>
 <li>The <code>Clip</code> property will always return null.</li>
 <li>States inside an <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> are not generally registered in the internal <a href="../../playing/states#keys">Dictionary</a>. If you need to access these states directly you must do so via their index in the mixer itself. All inbuilt mixers expose their <code>States</code> as an array.</li>
-<li>Since mixers don’t have a duration or time of their own, they don’t actually have an <code>OnEnd</code> callback but will instead pass on anything they are given to all of their child states.</li>
 </ul>
 <h1 id="manual-creation">Manual Creation</h1>
 <p>If you don't want to use a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, you can create one yourself using code:</p>
@@ -400,8 +396,8 @@
 <li>Make sure all states have been assigned thresholds to determine the parameter values where they will be used and how they will blend in relation to other states. This can be done using optional parameters in the <code>Initialise</code> and <code>CreateState</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
 <li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
 </ol>
-<p>The following example script uses a <code><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</p>
-<pre><code class="language-cs">using Animancer;
+<p></p><details><summary>The following example script uses a <code><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class LinearMixerExample : MonoBehaviour
@@ -449,27 +445,132 @@ public sealed class LinearMixerExample : MonoBehaviour
 }
 </code></pre>
 <div style="display:inline-block"><img src="linear-mixer-inspector.png" class="img-responsive img-right">
-<p>This screenshot shows the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for the example script in Play Mode. Unlike a regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code> that plays a single animation, the <code><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></code> shows its child states with the ability to expand the details of both the mixer and child states.</p></div><p></p>
+<p>This screenshot shows the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for the example script in Play Mode. Unlike a regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code> that plays a single animation, the <code><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></code> shows its child states with the ability to expand the details of both the mixer and child states.</p>
+</div>
+<p></p></details><p></p>
+<h2 id="nesting">Nesting</h2>
+<p>Mixers can have any type of <a href="../../playing/states">State</a> as their children, including other mixers:</p>
+<ol>
+<li>Use <code>mixer.Initialise(portCount)</code> to specify the number of states you want.</li>
+<li>Put the mixers you want to nest into the <code>mixer.States</code> array.</li>
+<li>Use <code>mixer.SetThreshold</code> (or any of the other threshold methods) to specify the parameter values you want them to blend at.</li>
+</ol>
+<p></p><details><summary>For example, if you have mixers for movement in any direction for both regular movement and for moving while injured, you could put both of those in another mixer to allow you to blend the injury level as well:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class NestedMixerExample : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _RegularMovement;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _InjuredMovement;
+
+    [SerializeField, Range(0, 1)]
+    private float _InjuryLevel;
+
+    [SerializeField, Range(-1, 1)]
+    private float _MovementX;
+
+    [SerializeField, Range(-1, 1)]
+    private float _MovementY;
+
+    private <a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a> _MovementMixer;
+
+    private void Awake()
+    {
+        _MovementMixer = new LinearMixerState(_Animancer);
+
+        // Allocate 2 states and assign the mixers to them.
+        _MovementMixer.Initialise(2);
+        _MovementMixer.States[0] = _Animancer.States.GetOrCreate(_RegularMovement);
+        _MovementMixer.States[1] = _Animancer.States.GetOrCreate(_InjuredMovement);
+
+        // Set Thresholds[0] = 0 and Thresholds[1] = 1.
+        // So _MovementMixer.Parameter = 0 will use _RegularMovement.
+        // And _MovementMixer.Parameter = 1 will use _InjuredMovement.
+        // And values inbetween will blend accordingly.
+        _MovementMixer.SetThreshold(0, 0);
+        _MovementMixer.SetThreshold(1, 1);
+        //_MovementMixer.AssignLinearThresholds();// This would do the same thing.
+
+        _Animancer.Play(_MovementMixer);
+    }
+
+    private void Update()
+    {
+        _MovementMixer.Parameter = _InjuryLevel;
+
+        var movement = new Vector2(_MovementX, _MovementY);
+        _RegularMovement.State.Parameter = movement;
+        _InjuredMovement.State.Parameter = movement;
+    }
+}
+</code></pre>
+<p></p></details><p></p>
 <h1 id="blend-trees-vs.mixers">Blend Trees vs. Mixers</h1>
-<ul>
-<li>Mixers are created dynamically at runtime. This means they are more flexible in how they can be used. You can directly access the details of individual states and you can create your own mixer types that inherit from any of the existing ones to implement custom blending algorithms or add other features.</li>
-<li>Blend Trees are created manually in the Unity Editor. They have a user-friendly interface for setting up their structure and previewing the animations, however their structure cannot be changed at runtime and they are much harder to debug since you have no access to their internals. You can play and control Blend Trees in Animancer using <a href="../../animator-controllers#parameter-controller-states">Parameter Controller States</a>.</li>
-</ul>
-<h2 id="foot-phase-synchronization">Foot Phase Synchronization</h2>
-<p>When mixing animations of different lengths, they will get out of sync if left to play normally. For example, it could end up with a <em>Walk</em> animation having the left foot on the ground while the <em>Run</em> animation has the right foot on the ground, which would not give a realistic result. This causes obvious issues as you can see below where the character is walking fine about half the time while the cycles are close to each other but every few steps he does a strange shuffle that looks very unnatural.</p>
-<p><img src="mixer-state.gif" class="img-responsive"></p>
-<p>Blend Trees solve this issue using a technique known as Foot Phase Synchronization which is described in the following video at 17:10.</p>
+<p>Animancer's Mixers and Mecanim's <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> (which can be played using using <a href="../../animator-controllers#parameter-controller-states">Parameter Controller States</a>) serve the same general purpose, however they have significant differences in their implementation:</p>
+<table class="table">
+<thead>
+<tr>
+<th></th>
+<th>Mixers</th>
+<th>Blend Trees</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Creation</td>
+<td>Dynamic at runtime.</td>
+<td>Manual in the Unity Editor.</td>
+</tr>
+<tr>
+<td>Modification</td>
+<td>Can be modified freely after creation.</td>
+<td>Cannot be modified at runtime.</td>
+</tr>
+<tr>
+<td>Details</td>
+<td>You can directly access the details of individual states.</td>
+<td>You have no access to any of the internal details.</td>
+</tr>
+<tr>
+<td><a href="#synchronisation">Synchronisation</a></td>
+<td>Time synchronisation only and you control which states are synchronised.</td>
+<td>Time and <a href="#foot-phase-synchronisation">Foot Phase Synchronisation</a>, but it is always on for all states.</td>
+</tr>
+<tr>
+<td>Customisation</td>
+<td>You can create your own mixer types that inherit from any of the existing ones to implement custom blending algorithms or add other features.</td>
+<td>None.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="synchronisation">Synchronisation</h1>
+<p>When mixing animations of different lengths, they will get out of sync if left to play normally. For example, it could end up with a <em>Walk</em> animation having the left foot on the ground while the <em>Run</em> animation has the right foot on the ground, which would not give a realistic result when simply interpolating between them. This causes obvious issues as you can see in the video below (adapted from the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example) when the speed slider is about 75% to the right and the character is walking fine about half the time while the cycles are close to each other but every few steps he does a strange shuffle that looks very unnatural. The solution to this problem is to synchronise the times of each of the states so that they are always at equivalent poses.</p>
+<p><img src="synchronisation.gif" class="img-responsive"></p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">No Synchronisation</th>
+    <th style="width:50%">Synchronise Walk and Run</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>All animations play independently.</td>
+      <td><em>Walk</em> and <em>Run</em> stay at the same <code>NormalizedTime</code>.</td>
+    </tr>
+    <tr>
+      <td><img src="unsynced-inspector.gif" class="img-responsive"></td>
+      <td><img src="synced-inspector.gif" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<p>Enabling time synchronisation for all states would give a similar result to the Blend Tree.</p>
+<h2 id="optional">Optional</h2>
+<p>Blend Trees always synchronise their states, however this is not always ideal so Mixers allow you to choose which states are synchronised using the <code><a href="/animancer/v4-0/api/Animancer/MixerState/76784F91">MixerState.SynchroniseChildren</a></code> array (or the <code>Sync</code> toggle in the Inspector when using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>). The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronise the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
+<h2 id="foot-phase-synchronisation">Foot Phase Synchronisation</h2>
+<p>Blend Trees also use a more complex synchronisation technique for Humanoid animations known as Foot Phase Synchronisation which is described in the following video at 17:10. Essentially, each animation is broken down into phases (right foot down, right foot up, etc.) so that it can properly support animations with irregular walk cycles such as a character with a limp and animations that contain different numbers of walk cycles.</p>
 <iframe width="480" height="270" src="https://www.youtube.com/embed/3lO1q8mQrrg?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-<p>Foot Phase Synchronization occurs automatically as part of the Blend Tree. You can't disable it or even tweak its settings at all, but most of the time there is no need to do so because it works quite reliably.</p>
 <p>It would be possible to implement Foot Phase Synchronisation in Mixers (and you could do it yourself by inheriting from any of the existing mixer types), but Unity's implementation is not exposed publically so it would need to be entirely re-implemented from scratch. It would need the <code>AnimationClip</code>s to be analysed to determine their phases in the Unity Editor since their curves can't be accessed at runtime and then it would need additional logic to adjust speeds at runtime based on that analysis. This could potentially be added to Animancer in the future, but for now it has been deemed to require far too much effort to achieve something that can already be done using a Blend Tree.</p>
-<h2 id="linear-root-motion-interpolation">Linear Root Motion Interpolation</h2>
-<p>Blend Trees and Mixer States also have a distinct difference in the weights they calculate for their individual states. The video below shows the parameter slider at 0.25, which is exactly halfway between the thresholds of <em>Idle</em> (0) and <em>Walk</em> (0.5).</p>
-<ul>
-<li>In the <code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code> this means both animations are given 0.5 <code>Weight</code> each, causing the character to walk at half speed as you would expect. You can see this most clearly by measuring the distance the character travels before the video loops.</li>
-<li>But in the Blend Tree the result is much slower. We have no way of seeing the actual <code>Weight</code>s it is using, though judging by how far the hands move it appears to be very close to the expected 0.5. However, the <code>Speed</code> is clearly much slower and the Root Motion it applies is even slower than that to the extent that you can't actually see the character moving in this video (it's moving less than 0.001 meters per second). This is not caused by Animancer or the Playables API, the exact same thing occurs when using an Animator Controller normally.</li>
-</ul>
-<p><img src="linear-interpolation.gif" class="img-responsive"></p>
-<p>The difference in <code>Speed</code> is likely a direct result of the Foot Phase Synchronization system, however the reason for the Root Motion to be even slower than that is unknown. <a href="../../../bugs/root-motion-interpolation">This bug</a> has been acknowledged by Unity, however they are not willing to explain the cause and do not intend to fix it because people already expect it to work this way ...</p>
 
 	</section>
                 
