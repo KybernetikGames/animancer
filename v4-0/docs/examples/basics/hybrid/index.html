@@ -76,7 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#walking">Walking</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#creating-the-animator-controller">Creating the Animator Controller</a></p>
+<p><a href="#walking">Walking</a></p>
 <p><a href="#running">Running</a></p>
 <p><a href="#other-actions">Other Actions</a></p>
 <hr class="infobar-hidden">
@@ -110,6 +111,20 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li><a href="/animancer/v4-0/docs/introduction/glossary">Glossary</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/introduction/cs/overview">Scripting Overview</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/variables">Variables</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/methods">Methods</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/inheritance">Inheritance</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/vectors">Vectors</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/other">Other Topics</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -121,7 +136,7 @@
                     <a href="/animancer/v4-0/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/basics/basic-scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/quick-play">01 Quick Play</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
@@ -337,7 +352,7 @@
 <p>This example demonstrates how you can use the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to manage some animations inside an Animator Controller while also using other separate Animation Clips. The <a href="../../animator-controllers/hybrid">Hybrid</a> example extends this concept.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> and the ability to play Animator Controllers in Animancer. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="hybrid.gif" class="img-responsive"></p>
-<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Basics/SimpleHybrid">SimpleHybrid</a></code> script simply exposes some <code>public</code> methods for various UI buttons to call:</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Basics/SimpleHybrid">SimpleHybrid</a></code> script simply exposes some <code>public</code> methods for various UI Buttons to call:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System;
 using UnityEngine;
@@ -375,6 +390,16 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Basics/Simpl
 }
 </code></pre>
 <p></p></details><p></p>
+<h1 id="creating-the-animator-controller">Creating the Animator Controller</h1>
+<p>Creating the Animator Controller asset we need for this example is a relatively simple process:</p>
+<ol>
+<li><details><summary>Right Click in the Project window and use the <code>Create -&gt; Animator Controller</code> function. Give it a name (such as <code>Basic Locomotion</code>) and Double Click on it to open it in the Animator window:</summary><p><img src="create-animator-controller.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Right Click in the Animator window and use the <code>Create State -&gt; Empty</code> function three times to create three states. Name them <code>Idle</code>, <code>Walk</code>, and <code>Run</code> (note that the capitalisation must match what you use in your scripts when referring to these states):</summary><p><img src="create-states.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Assign the appropriate animation to the <code>Motion</code> field of each state (<em>Humanoid-Idle</em>, <em>Humanoid-Walk</em>, and <em>Humanoid-Run</em> respectively):</summary><p><img src="assign-animations.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Go to the <code>Parameters</code> tab in the left panel and create a <code>Bool</code> parameter named <code>IsWalking</code> (again, capitalisation is important):</summary><p><img src="create-parameter.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Right Click on the <code>Idle</code> state and use the <code>Make Transition</code> function then click on the <code>Walk</code> state to set the destination of the transition. Do the same thing again to create a transition from <code>Walk</code> back to <code>Idle</code>. Select the <code>Walk -&gt; Idle</code> transition, scroll down, and add a <code>Condition</code> so that it gets triggered when the <code>IsWalking</code> parameter is set to <code>false</code>. Do the same thing for <code>Idle -&gt; Walk</code> for when the parameter is <code>true</code>:</summary><p><img src="create-transitions.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Select the character in the scene then drag and drop the Animator Controller you just created into the <code>Controller</code> field of the <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> (not the <code>Controller</code> field of the <code>Animator</code> component):</summary><p><img src="assign-controller.gif" class="img-responsive"></p></details></li>
+</ol>
 <h1 id="walking">Walking</h1>
 <p><img src="walking.gif" class="img-responsive"></p>
 <p>The Animator Controller has an <code>IsWalking</code> parameter which controls the transitions between its <code>Idle</code> and <code>Walk</code> states. Normally, that parameter would be controlled via <code>Animator.SetBool</code>, but when using a <code><a href="/animancer/v4-0/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> it is controlled via that component instead:</p>
@@ -385,6 +410,24 @@ public void SetIsWalking(bool value)
     _Animancer.SetBool("IsWalking", value);
 }
 </code></pre>
+<p>The other methods in this example are set up to be called by <a href="../scene-setup#buttons">UI Buttons</a>, but this one is actually called by a <code>Toggle</code> which works slightly different. Instead of an <code>On Click</code> event like <code>Button</code>s have, it has an <code>On Value Changed</code> event with a <code>bool</code> parameter to indicate what value it was set to. This means that when selecting which method you want it to call the <code>SetIsWalking</code> method will appear twice:</p>
+<p><img src="toggle-menu.png" class="img-responsive"></p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Dynamic Bool</th>
+    <th style="width:50%">Static Parameters</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="toggle-dynamic.png" class="img-responsive"></td>
+      <td><img src="toggle-static.png" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td>This is the one we want because it will pass the value of the <code>Toggle</code> component into the method.</td>
+      <td>This one shows a toggle in the event itself and will pass that value into the method, regardless of the state of the <code>Toggle</code> component.</td>
+    </tr>
+  </tbody>
+</table>
 <p>Note that if the Animator Controller is not playing (in the above video that happens when we play the <em>Golf Swing</em> animation because it is one of the <a href="#other-animations">Other Animations</a>), then setting a parameter will not make it start playing. To do that, you need to call <code>HybridAnimancerComponent.PlayController</code> (which the bottom button does).</p>
 <pre><code class="language-cs">public void PlayController()
 {
@@ -400,6 +443,7 @@ public void SetIsWalking(bool value)
     _Animancer.Play("Run");
 }
 </code></pre>
+<p>Note that <code>"Run"</code> is the name of the state in the Animator Controller, not the <code>AnimationClip</code> played by the state (the clip is called <em>Humanoid-Run</em>). If you drag and drop an Animation Clip into an Animator Controller, it will create a state for that clip with the same name as it, but they can then be renamed independantly so you cannot rely on them having the same name.</p>
 <p>You could call <code>Play("Idle")</code> or set up a transition to stop running, but in this example the only way to do so is to play one of the other separate <code>AnimationClip</code>s so that it stops the Animator Controller and resets it to its default state (the orange highlighted <code>Idle</code> state). If you do not want it to reset like that, you can set the <code>Keep State On Stop</code> toggle to true in the Inspector (which sets the <code><a href="/animancer/v4-0/api/Animancer/ControllerState/597E23EC">ControllerState.KeepStateOnStop</a></code> property at runtime).</p>
 <h1 id="other-actions">Other Actions</h1>
 <p><img src="other-actions.gif" class="img-responsive"></p>

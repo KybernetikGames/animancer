@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/v4-0/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/v4-0/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - ClipState.ClipState.Transition Class</title>
+        <title>Animancer - API - LinearMixerState.LinearMixerState.Transition Class</title>
         <link href="/animancer/v4-0/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/v4-0/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/v4-0/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -80,7 +80,6 @@
 <p><a href="#Syntax">Syntax</a></p>
 <p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Attributes">Attributes</a></p>
-<p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -219,16 +218,16 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a>.</h3>
-	<h1>ClipState<wbr>.Transition <small>Class</small></h1>
+			<h3><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a>.</h3>
+	<h1>LinearMixerState<wbr>.Transition <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    A serializable <code class="cs">Animancer.IAnimancerTransition</code> which can create a <code class="cs">Animancer.ClipState</code> when passed
-    into <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.IAnimancerTransition)</code>.
+    A serializable <code class="cs">Animancer.IAnimancerTransition</code> which can create a <code class="cs">Animancer.LinearMixerState</code> when
+    passed into <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.IAnimancerTransition)</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -256,25 +255,22 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
-											<li><a href="/animancer/v4-0/api/Animancer/Transition_1">AnimancerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/v4-0/api/Animancer/Transition_1">AnimancerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/v4-0/api/Animancer/Transition_1">ManualMixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/v4-0/api/Animancer/Transition_2">MixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a>, <wbr>float&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
-								<dt>Derived Types</dt>
-								<dd>
-									<ul class="list-unstyled">
-											<li><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackClip">AttackState<wbr>.AttackClip</a></li>								
-											<li><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/MotionTransition">RootMotion<wbr>.MotionTransition</a></li>								
-									</ul>
-								</dd>			
 							
 						</dl>
 					</div>		
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["AnimancerState.Transition&lt;ClipState&gt;"]
-	Base0--&gt;Base1["Object"]
+	Type--&gt;Base0["MixerState.Transition&lt;LinearMixerState, float&gt;"]
+	Base0--&gt;Base1["ManualMixerState.Transition&lt;LinearMixerState&gt;"]
+	Base1--&gt;Base2["AnimancerState.Transition&lt;LinearMixerState&gt;"]
+	Base2--&gt;Base3["Object"]
 	Type-.-&gt;Interface0["IAnimancerTransitionDetailed"]
 	click Interface0 "/animancer/v4-0/api/Animancer/IAnimancerTransitionDetailed"
 	Type-.-&gt;Interface1["IAnimancerTransition"]
@@ -283,12 +279,8 @@
 	click Interface2 "/animancer/v4-0/api/Animancer/IHasKey"
 	Type-.-&gt;Interface3["IAnimationClipCollection"]
 	click Interface3 "/animancer/v4-0/api/Animancer/IAnimationClipCollection"
-	Type["ClipState.Transition"]
+	Type["LinearMixerState.Transition"]
 class Type type-node
-	Derived0["AttackState.AttackClip"]--&gt;Type
-	click Derived0 "/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackClip"
-	Derived1["RootMotion.MotionTransition"]--&gt;Type
-	click Derived1 "/animancer/v4-0/api/Animancer.Examples.Locomotion/MotionTransition"
 
 						</div>
 					</div>
@@ -298,7 +290,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[Serializable]
-public class ClipState.Transition : AnimancerState.Transition&lt;ClipState&gt;, 
+public class LinearMixerState.Transition : MixerState.Transition&lt;LinearMixerState, float&gt;, 
     IAnimancerTransitionDetailed, IAnimancerTransition, IHasKey, IAnimationClipCollection</code></pre>
 
 
@@ -332,85 +324,6 @@ public class ClipState.Transition : AnimancerState.Transition&lt;ClipState&gt;,
 
 
 
-			<h1 id="Properties">Properties</h1>
-			<div class="box">
-				<div class="box-body no-padding table-responsive">
-					<table class="table table-striped table-hover three-cols">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Value</th>
-								<th>Summary</th>
-							</tr>
-						</thead>
-							<tbody><tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/EB09CD27">Clip</a></td>
-								<td>AnimationClip</td>
-								<td>
-									<div>[<code class="cs">UnityEngine.SerializeField</code>] The animation to play.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/C36DA0DF">FadeMode</a></td>
-								<td><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></td>
-								<td>
-									<div>
-    If this transition will set the <code class="cs">Animancer.AnimancerState.NormalizedTime</code>, then it needs to use
-    <code class="cs">Animancer.FadeMode.FromStart</code>.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/3EF4DFE7">IsLooping</a></td>
-								<td>bool</td>
-								<td>
-									<div>[<code class="cs">Animancer.IAnimancerTransitionDetailed</code>] Returns <code class="cs">UnityEngine.Motion.isLooping</code>.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/B2CB4402">Key</a></td>
-								<td>Object</td>
-								<td>
-									<div>
-    The <code class="cs">Animancer.ClipState.Transition.Clip</code> will be used as the <code class="cs">Animancer.AnimancerState.Key</code> for the created state to be
-    registered with.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/663F13B7">MaximumDuration</a></td>
-								<td>float</td>
-								<td>
-									<div>[<code class="cs">Animancer.IAnimancerTransitionDetailed</code>]
-    The maximum amount of time the animation is expected to take (in seconds).
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/3FB59604">NormalizedStartTime</a></td>
-								<td>float</td>
-								<td>
-									<div>[<code class="cs">UnityEngine.SerializeField</code>]
-    Determines what <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to start the animation at.
-    <p></p>
-    The default value is <code class="cs">System.Single.NaN</code> which indicates that this value is not used so the
-    animation will continue from its current time.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/E0DCA2EB">Speed</a></td>
-								<td>float</td>
-								<td>
-									<div>[<code class="cs">UnityEngine.SerializeField</code>]
-    Determines how fast the animation plays (1x = normal speed, 2x = double speed).
-    </div>
-								</td>
-							</tr>
-					</tbody></table>
-				</div>
-			</div>
-		
 
 			<h1 id="Methods">Methods</h1>
 			<div class="box">
@@ -424,21 +337,18 @@ public class ClipState.Transition : AnimancerState.Transition&lt;ClipState&gt;,
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/4F147608">Apply<wbr>(AnimancerState)<wbr></a></td>
+								<td><a href="/animancer/v4-0/api/Animancer/Transition/5AEB8742">Add<wbr>Items<wbr>To<wbr>Context<wbr>Menu<wbr>(GenericMenu, <wbr>SerializedProperty, <wbr>Serialization<wbr>.PropertyAccessor)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>
-    Called by <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.IAnimancerTransition)</code> to apply the <code class="cs">Animancer.ClipState.Transition.Speed</code>
-    and <code class="cs">Animancer.ClipState.Transition.NormalizedStartTime</code>.
-    </div>
+									<div>[Editor-Only] Adds context menu functions for this transition.</div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/v4-0/api/Animancer/Transition/D60260E3">CreateState<wbr>(AnimancerLayer)<wbr></a></td>
-								<td><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></td>
+								<td><a href="/animancer/v4-0/api/Animancer/Transition/2DA94428">CreateState<wbr>(AnimancerLayer)<wbr></a></td>
+								<td><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></td>
 								<td>
 									<div>
-    Creates and returns a new <code class="cs">Animancer.ClipState</code> connected to the `layer`.
+    Creates and returns a new <code class="cs">Animancer.LinearMixerState</code> connected to the `layer`.
     <p></p>
     This method also assigns it as the <code class="cs">Animancer.AnimancerState.Transition`1.State</code>.
     </div>

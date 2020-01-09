@@ -116,6 +116,20 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li><a href="/animancer/v4-0/docs/introduction/glossary">Glossary</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/introduction/cs/overview">Scripting Overview</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/variables">Variables</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/methods">Methods</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/inheritance">Inheritance</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/vectors">Vectors</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/other">Other Topics</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -127,7 +141,7 @@
                     <a href="/animancer/v4-0/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/basics/basic-scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/quick-play">01 Quick Play</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
@@ -391,7 +405,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <p>And this that it looks like in the Inspector:</p>
 <p><img src="transitions.png" class="img-responsive"></p>
 <p></p></details><p></p>
-<p>Start by following the <a href="../basic-scene-setup">Basic Scene Setup</a> instructions to create a new scene with the character in it.</p>
+<p>Start by following the <a href="../scene-setup">Basic Scene Setup</a> instructions to create a new scene with the character in it.</p>
 <h1 id="basic-script">Basic Script</h1>
 <ol>
 <li>Create a new script called <code>SequenceCoroutineTutorial</code> and open it up.</li>
@@ -500,7 +514,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 </p><p>Unfortunately, due to limitations in Unity's GUI system, when this feature is used on the elements of an array the object's Inspector will be drawn below the entire array rather than directly below the object's field.</p>
 <p><img src="nested-object-drawer.gif" class="img-responsive"></p>
 <p></p></details><p></p>
-<p>Now we need a UI <code>Button</code> to call our <code>PlaySequence</code> method:</p>
+<p>Now we need a <a href="../scene-setup#buttons">UI Button</a> to call our <code>PlaySequence</code> method:</p>
 <ol>
 <li>Right click in the Hierarchy window and create a new <em>UI/Button</em>. This creates a <em>Canvas</em> with a <em>Button</em> as its child and an <em>Event System</em>.</li>
 <li>Click on the <code>Anchor Presets</code> button in the top left of the <em>Button</em>'s <code>RectTransform</code> component.</li>
@@ -513,7 +527,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <p><img src="button-setup.gif" class="img-responsive"></p>
 <p>Now if we enter Play Mode we can see the sequence in action.</p>
 <p><img src="basic-sequence-play.gif" class="img-responsive"></p>
-<p>Don't forget to exit Play Mode once you are done looking.</p>
+<p>Remember to exit Play Mode after you are done looking.</p>
 <h1 id="animation-names">Animation Names</h1>
 <p>That's not the best sequence ever, but before we start fixing it up it would be nice to have a clear indication of which animation is playing, so let's add some text to show the name of the current animation.</p>
 <p>Add a <code>TextMesh</code> field:</p>
@@ -589,7 +603,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 </ol>
 <p>Now in Play Mode we will be able to see the name of the animation being played.</p>
 <p><img src="create-text.gif" class="img-responsive"></p>
-<p>Don't forget to exit Play Mode once you are done looking.</p>
+<p>Remember to exit Play Mode after you are done looking.</p>
 <h1 id="animation-durations">Animation Durations</h1>
 <p>Giving every animation the same arbitrary duration is clearly not the best way to do things because each animation can have a different length. Fortunately, since we have the <code>AnimationClip</code>s, we have direct access to their <code>length</code>s so we could change the <code>WaitForSeconds</code> instruction to use that instead of a constant 1:</p>
 <pre><code class="language-cs">Play(i);
@@ -654,7 +668,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <p></p></details><p></p>
 <p>And if we try it in Play Mode, this time it will play through each animation fully.</p>
 <p><img src="sequence-with-basic-time.gif" class="img-responsive"></p>
-<p>Don't forget to exit Play Mode once you are done looking.</p>
+<p>Remember to exit Play Mode after you are done looking.</p>
 <h1 id="alternate-loop-duration">Alternate Loop Duration</h1>
 <p>Playing through each animation once works well for non-looping animations like <em>GolfSwing</em>, but not so well for looping ones. <em>Walk</em> and <em>Run</em> only play one step with each foot and <em>GolfSwingReady</em> only shows for a brief moment since it is not much more than a stationary pose.</p>
 <p>So let's add another field to specify the duration to show looping animations.</p>
@@ -718,7 +732,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <p></p></details><p></p>
 <p>And if we try it in Play Mode, we get to see the looping animations for 3 seconds each while the <em>GolfSwing</em> just plays its full length once.</p>
 <p><img src="sequence-with-loop-time.gif" class="img-responsive"></p>
-<p>Don't forget to exit Play Mode once you are done looking.</p>
+<p>Remember to exit Play Mode after you are done looking.</p>
 <h1 id="transitions">Transitions</h1>
 <p>What we have made so far works pretty well, but doesn't give us any convenient way to adjust the details of the individual animations. For example, the <em>GolfSwingReady</em> animation is just a stationary pose so it really doesn't need the same 3 seconds that we give <em>Walk</em> and <em>Run</em>.</p>
 <p>We could turn <code>_LoopDuration</code> into a <code>float[]</code> with each value corresponding to one of the <code>_Animations</code>, but that wouldn't be particularly convenient to work with in the Inspector and would rely on the user to always make sure both arrays have the same size. This would be even worse if we wanted to specify transition durations and play speeds as well.</p>

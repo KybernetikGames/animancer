@@ -110,6 +110,20 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li><a href="/animancer/v4-0/docs/introduction/glossary">Glossary</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/introduction/cs/overview">Scripting Overview</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/variables">Variables</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/methods">Methods</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/inheritance">Inheritance</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/vectors">Vectors</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/other">Other Topics</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -121,7 +135,7 @@
                     <a href="/animancer/v4-0/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/basics/basic-scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/quick-play">01 Quick Play</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
@@ -337,7 +351,7 @@
 <p>These paths may differ if you are using Unity Hub or chose a different path when installing Unity.</p>
 <p>The template for a new C# Script is <code>81-C# Script-NewBehaviourScript.cs.txt</code>.</p>
 <p>If you make changes to any of the templates, you should keep a copy of your changed file somewhere else so that you don't lose it if you uninstall Unity and can easily apply it when you install a new version of Unity.</p>
-<p>It is recommended that you remove the default <code>Start</code> and <code>Update</code> methods because they have a performance cost just for existing, even if they are empty. Adding them back in when you actually need them only takes a few seconds and this helps encourage you to keep your scripts clean. At the very least, you should remove their comments which are absolutely useless to the extent that lazy people who leave them in often don't even bother changing them when they rename the method, meaning the comments become worse than useless because they aren't even correct about what the method does anymore.</p>
+<p>It is recommended that you remove the default <code>Start</code> and <code>Update</code> methods because they have a performance cost just for existing, even if they are empty. Adding them back in when you actually need them only takes a few seconds and this helps encourage you to keep your scripts clean. At the very least, you should remove their comments which are absolutely useless to the extent that lazy people who leave them in often do not even bother changing them when they rename the method, meaning the comments become worse than useless because they are not even correct about what the method does anymore.</p>
 <p>Any other modifications are up to you. The template used by Kybernetik looks like this:</p>
 <pre><code class="language-cs">using System;
 using System.Collections;
@@ -358,15 +372,15 @@ public sealed class #SCRIPTNAME# : MonoBehaviour
 <li>In C#, every type (class, struct, interface, etc.) inherits from <code>System.Object</code>.</li>
 <li>Unity also has a <code>UnityEngine.Object</code> class which many things inherit from, including components, game objects, and all asset types.</li>
 <li>Since both classes are called <code>Object</code>, a script containing both <code>using System;</code> and <code>using UnityEngine;</code> must always specify the namespace when using an <code>Object</code> variable.</li>
-<li>The <code>using Object = UnityEngine.Object;</code> statement is essentially saying "unless specified otherwise, an <code>Object</code> is always a <code>UnityEngine.Object</code>" since that type is used much more commonly in Unity scripts.</li>
-<li>If we do want to use the <code>System.Object</code> type, we can always use the <code>object</code> keyword (lowercase <code>o</code>) which is built into the C# language just like the <code>int</code> keyword is simply an alias for <code>System.Int32</code>.</li>
+<li>The <code>using Object = UnityEngine.Object;</code> statement is essentially saying "unless specified otherwise, an <code>Object</code> is always a <code>UnityEngine.Object</code>" since that type is used much more commonly in Unity scripts. This is known as an <em>alias</em>.</li>
+<li>If we do want to use the <code>System.Object</code> type, we can always use the <code>object</code> keyword (lowercase <code>o</code>) which is built into the C# language just like the <code>int</code> keyword is simply an <em>alias</em> for <code>System.Int32</code>.</li>
 </ul>
 <h1 id="why-sealed">Why <code>sealed</code>?</h1>
 <ul>
-<li>By default, any class in C# can be inherited.</li>
-<li>This is often problematic since a class that was not designed to be inherited may behave unexpectedly.</li>
-<li>The <code>sealed</code> keyword indicates that the class cannot be inherited.</li>
-<li>Having everything <code>sealed</code> by default is much safer. If you want to inherit from a <code>sealed</code> class, you can simply remove that keyword. When doing so, it is worth having a quick look over the class to see if there is anything that should be made <code>protected</code> and/or <code>virtual</code>.
+<li>By default, any class in C# can be <a href="../introduction/cs/inheritance">Inherited</a>.</li>
+<li>This is often problematic since a class that was not designed to be <a href="../introduction/cs/inheritance">Inherited</a> may behave unexpectedly.</li>
+<li>The <code>sealed</code> keyword indicates that the class cannot be <a href="../introduction/cs/inheritance">Inherited</a>.</li>
+<li>Having everything <code>sealed</code> by default is much safer. If you want to <a href="../introduction/cs/inheritance">Inherit</a> from a <code>sealed</code> class, you can simply remove that keyword. When doing so, it is worth having a quick look over the class to see if there is anything that should be made <code>protected</code> and/or <code>virtual</code>.
 <ul>
 <li>In particular, <code>MonoBehaviour</code> event methods like <code>Awake</code>, <code>OnEnable</code>, etc. should generally have both of those keywords in a class that can be inherited. They do not need to be <code>public</code> for Unity to call them and your other scripts don't generally need to call them either. But if you have a <code>private</code> method in the base class, you can put another method with the same name in the child class without ever noticing and Unity will only call the child method, which often results in a bug. So by changing them to <code>protected virtual</code> when you remove the <code>sealed</code> keyword you ensure that you get compiler warnings immediately if the child class tries to use the same method without overriding it correctly.</li>
 </ul>

@@ -111,6 +111,20 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li><a href="/animancer/v4-0/docs/introduction/glossary">Glossary</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v4-0/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v4-0/docs/introduction/cs/overview">Scripting Overview</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/variables">Variables</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/methods">Methods</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/inheritance">Inheritance</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/vectors">Vectors</a></li>
+                <li><a href="/animancer/v4-0/docs/introduction/cs/other">Other Topics</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -122,7 +136,7 @@
                     <a href="/animancer/v4-0/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/basics/basic-scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/quick-play">01 Quick Play</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
@@ -397,7 +411,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/
         _Animancer.Evaluate();
         _Animancer.Playable.PauseGraph();
 
-        state.OnEnd = _Animancer.Playable.PauseGraph;
+        state.Events.OnEnd = _Animancer.Playable.PauseGraph;
     }
 
     public void Interact()
@@ -440,11 +454,14 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/
 <p></p><details><summary>We could test this system by writing a very simple script that implements the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface to log a message and putting it on a cube in the scene (or any object with a <code>Collider</code>):</summary><p>
 </p><pre><code class="language-cs">using UnityEngine;
 
-public sealed class ClickMe : MonoBehaviour, <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a>
+namespace Animancer.Examples.FineControl
 {
-    public void Interact()
+    public sealed class ClickMe : MonoBehaviour, <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a>
     {
-        Debug.Log("You interacted with " + name);
+        public void Interact()
+        {
+            Debug.Log("You interacted with " + name);
+        }
     }
 }
 </code></pre>
@@ -456,10 +473,13 @@ public sealed class ClickMe : MonoBehaviour, <a href="/animancer/v4-0/api/Animan
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a>
+namespace Animancer.Examples.FineControl
 {
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private AnimationClip _Open;
+    public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a>
+    {
+        [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+        [SerializeField] private AnimationClip _Open;
+    }
 }
 </code></pre>
 <p>Then we need to keep track of whether it is open or not and implement the <code>Interact</code> method to toggle the state and play the animation with the appropriate speed:</p>
@@ -489,7 +509,7 @@ public void Interact()
     _Animancer.Playable.UnpauseGraph();
 
     // Pause when done.
-    state.OnEnd = _Animancer.Playable.PauseGraph;
+    state.Events.OnEnd = _Animancer.Playable.PauseGraph;
 }
 </code></pre>
 <p></p><details><summary>The full script now looks like this:</summary><p>
@@ -516,7 +536,7 @@ public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/A
 
         _Animancer.Playable.UnpauseGraph();
 
-        state.OnEnd = _Animancer.Playable.PauseGraph;
+        state.Events.OnEnd = _Animancer.Playable.PauseGraph;
     }
 }
 </code></pre>
@@ -559,10 +579,10 @@ private float _Openness;
     _Animancer.Playable.PauseGraph();
 
     // We still need to pause it whenever it finishes.
-    state.OnEnd = _Animancer.Playable.PauseGraph;
+    state.Events.OnEnd = _Animancer.Playable.PauseGraph;
 }
 </code></pre>
-<p>Normally the <code>AnimancerState.OnEnd</code> event would be cleared whenever we play a new animation, but since there is only one animation we just leave it playing and pause/unpause the graph instead.</p>
+<p>All the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/11AD60E8">AnimancerState.Events</a></code> would normally be cleared whenever we play a new animation, but since there is only one animation we just leave it playing and pause/unpause the graph instead.</p>
 <p>Finally, we need to make a few adjustments to the <code>Interact</code> method:</p>
 <pre><code class="language-cs">public void Interact()
 {
@@ -607,12 +627,12 @@ public sealed class DoorTutorial : MonoBehaviour, <a href="/animancer/v4-0/api/A
         _Animancer.Evaluate();
         _Animancer.Playable.PauseGraph();
 
-        state.OnEnd = _Animancer.Playable.PauseGraph;
+        state.Events.OnEnd = _Animancer.Playable.PauseGraph;
     }
 
     public void Interact()
     {
-        var state = _Animancer.GetState(_Open);
+        var state = _Animancer.States[_Open];
 
         if (_Openness &lt; 0.5f)
         {
