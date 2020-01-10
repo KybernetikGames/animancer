@@ -351,7 +351,7 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/04 Directional Sprites/01 Basic Movement</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.DirectionalSprites"><code>Animancer.Examples.DirectionalSprites</code></a></p>
 </blockquote>
-<p>This example demonstrates how you can use <a href="../../../playing/directional-sets">Directional Animation Sets</a> to organise animations in groups of up/right/down/left, using the exact same structure for both <em>Idle</em> and <em>Walk</em> animations across various different characters. The <a href="../character-controller">Character Controller</a> example extends this concept into a more complex character and shows an alternate character that uses <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>s to allow diagonal movement.</p>
+<p>This example demonstrates how you can use <a href="../../playing/directional-sets">Directional Animation Sets</a> to organise animations in groups of up/right/down/left, using the exact same structure for both <em>Idle</em> and <em>Walk</em> animations across various different characters. The <a href="../character-controller">Character Controller</a> example extends this concept into a more complex character and shows an alternate character that uses <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>s to allow diagonal movement.</p>
 <p></p><figure>
     <img src="mage.gif" class="img-responsive">
     <figcaption><a href="https://opengameart.org/content/16x16-mage">16x16 Mage</a> created by saint11 - CC0 Licence.</figcaption>
@@ -408,9 +408,9 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.DirectionalS
 }
 </code></pre>
 <p></p></details><p></p>
-<p>The general structure is very similar to previous examples, except that instead of referencing a single <code>AnimationClip _Idle</code> and <code>_Walk</code>, we are using <a href="../../../playing/directional-sets">Directional Animation Sets</a>.</p>
+<p>The general structure is very similar to previous examples, except that instead of referencing a single <code>AnimationClip _Idle</code> and <code>_Walk</code>, we are using <a href="../../playing/directional-sets">Directional Animation Sets</a>.</p>
 <h1 id="fields">Fields</h1>
-<p>Where the other examples directly reference individual <code>AnimationClip</code>s or use <a href="../../../manual/transitions">Transitions</a>, this time we are using <a href="../../../playing/directional-sets">Directional Animation Sets</a> which are <a href="../../../introduction/cs/inheritance#scriptable-objects"><code>ScriptableObject</code></a> assets that contain references to multiple <code>AnimationClip</code>s.</p>
+<p>Where the other examples directly reference individual <code>AnimationClip</code>s or use <a href="../../../manual/transitions">Transitions</a>, this time we are using <a href="../../playing/directional-sets">Directional Animation Sets</a> which are <a href="../../../introduction/cs/inheritance#scriptable-objects"><code>ScriptableObject</code></a> assets that contain references to multiple <code>AnimationClip</code>s.</p>
 <p>We also need to store the direction the character is facing when they move so that when they stop they can still play the correct <em>Idle</em> animation to continue facing in that direction. Having this as a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> allows us to determine which direction the character will be facing on startup as well as in <a href="#edit-mode">Edit Mode</a>.</p>
 <table class="table">
   <thead>
@@ -482,7 +482,7 @@ private Vector2 _Facing = Vector2.down;
     }
 }
 </code></pre>
-<p>This example does not actually move the character around since is just demonstrating the basics of <a href="../../../playing/directional-sets">Directional Animation Sets</a>, but the <a href="../character-controller">Character Controller</a> example does demonstrate movement.</p>
+<p>This example does not actually move the character around since is just demonstrating the basics of <a href="../../playing/directional-sets">Directional Animation Sets</a>, but the <a href="../character-controller">Character Controller</a> example does demonstrate movement.</p>
 <h1 id="edit-mode">Edit Mode</h1>
 <p>If we were to make another character with some different <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s, it would use those animations at runtime but it would not actually show the correct sprite until then. Fortunately, Animancer allows you to easily play animations in <a href="../../../manual/playing#edit-mode">Edit Mode</a>. All we need to do it use <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnValidate"><code>MonoBehaviour.OnValidate</code></a> to call <code>AnimancerUtilities.EditModePlay</code>:</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
