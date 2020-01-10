@@ -361,7 +361,7 @@ using UnityEngine;
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a> : <a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
 {
     [SerializeField] private Rigidbody _Body;
-    [SerializeField] private float _TurnSpeed = 60;
+    [SerializeField] private float _TurnSpeed = 90;
     [SerializeField] private float _MovementSpeed = 1.5f;
     [SerializeField] private float _SprintMultiplier = 2;
 
@@ -424,7 +424,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/S
         direction.y = 0;
 
         var distance = direction.magnitude;
-        if (distance &lt; _MovementSpeed * Time.fixedDeltaTime)
+        if (distance &lt; _Move.State.Speed * _MovementSpeed * Time.fixedDeltaTime)
         {
             return Vector3.zero;
         }
@@ -456,7 +456,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/S
     private Rigidbody _Body;
 
     [SerializeField]
-    private float _TurnSpeed = 60;
+    private float _TurnSpeed = 90;
 
     [SerializeField]
     private float _MovementSpeed = 1.5f;
@@ -468,14 +468,14 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/S
     private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
 }
 </code></pre>
-<p>Inheriting from <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more. Notably, instead of a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> like <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> used to play a single <code>AnimationClip</code>, this time we are using a <code><a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a></code> to allow blending between multiple animations on two axes (forward/back and left/right). See <a href="../../../manual/blending/mixers#choosing-a-mixer">Mixers</a> for more information about their different types.</p>
+<p><a href="../../../introduction/cs/inheritance">Inheriting</a> from <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more. Notably, instead of a <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> like <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> used to play a single <code>AnimationClip</code>, this time we are using a <code><a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a></code> to allow blending between multiple animations on two axes (forward/back and left/right). See <a href="../../../manual/blending/mixers#choosing-a-mixer">Mixers</a> for more information about their different types.</p>
 </td>
       <td><img src="inspector.png" class="img-responsive"></td>
     </tr>
   </tbody>
 </table>
 <h1 id="abstractions">Abstractions</h1>
-<p>This time we <code>override</code> the <code>MovementAnimation</code> to return the <code><a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a></code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
+<p>This time we <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> the <code>MovementAnimation</code> to return the <code><a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a></code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
 <pre><code class="language-cs">[SerializeField]
 private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
 
@@ -499,9 +499,9 @@ protected override bool IsMoving
     Animancer.States.GetOrCreate(_Move);
 }
 </code></pre>
-<p>Note that the base <code>SpiderBot.Awake</code> method is <code>virtual</code> and has its own implementation which we still want to use, so we call <code>base.Awake()</code> in our <code>override</code>.</p>
+<p>Note that the base <code>SpiderBot.Awake</code> method is <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> and has its own implementation which we still want to use, so we call <code>base.Awake()</code> in our <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a>.</p>
 <h1 id="input">Input</h1>
-<p>Rather than using keyboard input to control the bot, we are having it follow the mouse cursor to demonstrate movement in any direction.</p>
+<p>Rather than using keyboard input to control the bot (which would be limited to 8 directions), we are having it follow the mouse cursor to demonstrate movement in any direction. Using some <a href="../../../introduction/cs/vectors">Vector Math</a> and <a href="../../../introduction/cs/vectors#raycasting">Raycasting</a>.</p>
 <ol>
 <li>Get a ray from the main camera in the direction of the mouse cursor:</li>
 </ol>
@@ -510,40 +510,40 @@ protected override bool IsMoving
     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 </code></pre>
 <ol start="2">
-<li>Do a raycast with it and stop trying to move if the ray does not hit anything. Note that the bot is set to the Ignore Raycast layer so that the raycast will not hit it:</li>
+<li>Do a raycast with it. The <code>Raycast</code> method will return <code>true</code> if it hits something, so if it does not then we want to stop trying to move. Note that the <a href="https://docs.unity3d.com/Manual/Layers">Physics Layer</a> of the bot in the scene is set to <code>Ignore Raycast</code> so that the raycast will not hit it:</li>
 </ol>
 <pre><code class="language-cs">    RaycastHit raycastHit;
-    if (!Physics.Raycast(ray, out raycastHit))
+    if (!Physics.Raycast(ray, out raycastHit))// Note the exclamation mark !
         return Vector3.zero;
 </code></pre>
 <ol start="3">
-<li>If the ray did hit something, calculate the horizontal direction from the bot to that point:</li>
+<li>If the ray did hit something, the <code>out raycastHit</code> parameter will contain the details of the hit so we can calculate the horizontal direction from the bot to that point using simple <a href="../../../introduction/cs/vectors#difference">Vector Subtraction</a> then zeroing the <code>y</code> (vertical) value:</li>
 </ol>
 <pre><code class="language-cs">    var direction = raycastHit.point - transform.position;
     direction.y = 0;
 </code></pre>
 <ol start="4">
-<li>If it is already close to the destination, stop moving. Note that <code>Time.deltaTime</code> is the same as <code>Time.fixedDeltaTime</code> during a <code>FixedUpdate</code>, but since this method is called by <code>Update</code> we want to make sure that it compares against the distance it would move during the next physics update rather than during this rendered frame:</li>
+<li>When it reaches the destination, we want to stop moving. It is very unlikely that it will exactly reach the target point so we need to stop when it gets close and rather than using an arbitrary small threshold like 0.1, we can calculate the distance it will move in a single frame to determine if it would arrive or pass the destination next frame. Note that <code>Time.deltaTime</code> is the same as <code>Time.fixedDeltaTime</code> during a <code>FixedUpdate</code>, but since this method is called by <code>Update</code> we want to make sure that it compares against the distance it would move during the next physics update (because it is being moved by a <code>Rigidbody</code>) rather than during this rendered frame:</li>
 </ol>
 <pre><code class="language-cs">    var distance = direction.magnitude;
-    if (distance &lt; _MovementSpeed * Time.fixedDeltaTime)
+    if (distance &lt; _Move.State.Speed * _MovementSpeed * Time.fixedDeltaTime)
     {
         return Vector3.zero;
     }
 </code></pre>
 <ol start="5">
-<li>Otherwise normalize the direction so that we do not change speed based on distance. Calling <code>direction.Normalize()</code> would do the same thing, but that would need to calculate the magnitude again so this is simply more efficient:</li>
+<li>Otherwise if it is not close to the destination, <a href="../../../introduction/cs/vectors#normalization">Normalize</a> the direction so that we do not change speed based on distance. Calling <code>direction.Normalize()</code> would do the same thing, but that would need to calculate the magnitude again so this is simply more efficient:</li>
 </ol>
 <pre><code class="language-cs">    else
     {
-        return direction = distance;
+        return direction / distance;
     }
 }
 </code></pre>
 <h1 id="update">Update</h1>
-<p>Like with <code>Awake</code>, we want to <code>override</code> the base <code>SpiderBot.Update</code> method to add some additional code.</p>
+<p>Like with <code>Awake</code>, we want to <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> the base <code>SpiderBot.Update</code> method to add some additional code.</p>
 <ol>
-<li>Determine the direction we want to move and store it in the <code>_MovementDirection</code> field so that <code>IsMoving</code> can also check it:</li>
+<li>Determine the direction we want to move using the method we just made and store it in the <code>_MovementDirection</code> field so that the <code>IsMoving</code> property can also check it:</li>
 </ol>
 <pre><code class="language-cs">protected override void Update()
 {
@@ -561,7 +561,7 @@ protected override bool IsMoving
     {
 </code></pre>
 <ol start="4">
-<li>Rotate towards the same Y angle as the camera:</li>
+<li>Rotate towards the same Y angle as the camera. <code>transform.eulerAngles</code> represents the rotation of an object around each axis, so the <code>y</code> value is the rotation around the vertical axis. You can Right Click and drag to rotate the camera using the <a href="../../basics/scene-setup#orbit-controls">Orbit Controls</a> script:</li>
 </ol>
 <pre><code class="language-cs">        var eulerAngles = transform.eulerAngles;
         var targetEulerY = Camera.main.transform.eulerAngles.y;
@@ -569,17 +569,24 @@ protected override bool IsMoving
         transform.eulerAngles = eulerAngles;
 </code></pre>
 <ol start="5">
-<li>The movement direction is in world space, so we need to convert it to local space to be appropriate for the current rotation by using dot-products to determine how much of that direction lies along each axis (this would be unnecessary if we did not rotate at all):</li>
+<li>The movement direction is in world space, so we need to convert it to local space to be appropriate for the current rotation. There are various different ways this calculation could be performed, but a simple one is to use <a href="../../../introduction/cs/vectors#dot-product">Dot Products</a> to determine how much of the <code>_MovementDirection</code> lies along each of the bot's local axes (<code>transform.right</code> and <code>transform.forward</code>). Then we can just apply that value to the Mixer's <code>Parameter</code>:</li>
 </ol>
 <pre><code class="language-cs">        _Move.State.Parameter = new Vector2(
             Vector3.Dot(transform.right, _MovementDirection),
             Vector3.Dot(transform.forward, _MovementDirection));
 </code></pre>
 <ol start="6">
-<li>Set its speed depending on whether you are sprinting or not:</li>
+<li>Set its <code>Speed</code> to sprint if you are holding Mouse Button 0 (Left Click):</li>
 </ol>
-<pre><code class="language-cs">        var isSprinting = Input.GetMouseButton(0);
+<pre><code language="cs">        var isSprinting = Input.GetMouseButton(0);
         _Move.State.Speed = isSprinting ? _SprintMultiplier : 1;
+
+        // The ? operator is a shorthand "if" statement which could otherwise look like this:
+        // if (isSprinting)
+        //     _Move.State.Speed = _SprintMultiplier;
+        // else
+        //     _Move.State.Speed = 1;
+        // This is called the <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator">Conditional Operator</a>.
     }
 </code></pre>
 <ol start="7">
@@ -599,7 +606,8 @@ protected override bool IsMoving
     _Body.velocity = _MovementDirection * _Move.State.Speed * _MovementSpeed;
 }
 </code></pre>
-<p>This all combines to give us a bot that can chase the mouse cursor around the scene as long as it is pointing at an object with a collider for the raycast to hit (the ground plane):</p>
+<p>The <code>Rigidbody.velocity</code> is the direction the object is moving with the <a href="../../../introduction/cs/vectors#magnitude">Magnitude</a> of the vector determining its speed (distance moved per second).</p>
+<p>This all combines to give us a bot that can chase the mouse cursor around the scene as long as it is pointing at an object with a collider for the raycast to hit (the ground plane) and will rotate itself to match the camera (Right Click and drag to rotate the camera using the <a href="../../basics/scene-setup#orbit-controls">Orbit Controls</a> script):</p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
 
 	</section>

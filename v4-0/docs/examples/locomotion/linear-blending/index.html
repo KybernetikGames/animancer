@@ -80,6 +80,7 @@
 <p><a href="#parameter-controller">Parameter Controller</a></p>
 <p><a href="#transition-asset">Transition Asset</a></p>
 <p><a href="#mixer-state">Mixer State</a></p>
+<p><a href="#slider">Slider</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -374,7 +375,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/L
 <h1 id="parameter-controller">Parameter Controller</h1>
 <p>In this case, the only thing in the Animator Controller is a Blend Tree controlled by a <code>float</code> parameter, so rather than hard coding the script to use <code>...SetFloat("Speed", value)</code> to control it we can instead use a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a></code> to wrap that parameter for us:</p>
 <p><img src="float-controller-transition.png" class="img-responsive"></p>
-<p>Note the new <code>Parameter Name</code> field which gives us a dropdown menu to select the name of any float parameter in the assigned <code>Controller</code>. This allows us to get and set that parameter using <code>_Controller.State.Parameter</code>. For this example, we want to control it using a UI Slider so we need a public property (or method) for it:</p>
+<p>Note the new <code>Parameter Name</code> field which gives us a dropdown menu to select the name of any float parameter in the assigned <code>Controller</code>. This allows us to get and set that parameter using <code>_Controller.State.Parameter</code>. For this example, we want to control it using a <a href="#slider">UI Slider</a> so we need a public property (or method) for it:</p>
 <pre><code class="language-cs">public float Speed
 {
     get { return _Controller.State.Parameter; }
@@ -481,6 +482,25 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/L
 <p></p></details><p></p>
 <p>The Inspector configuration is also very similar to the Blend Tree (except that <a href="../../../manual/blending/mixers#synchronisation">Time Synchronisation</a> is disabled for the <em>Idle</em> animation):</p>
 <p><img src="mixer-inspector.png" class="img-responsive"></p>
+<h1 id="slider">Slider</h1>
+<p>The blending parameters in this example are controlled by a UI <code>Slider</code> which works like a <a href="../../basics/scene-setup#buttons">UI Button</a> except that instead of an <code>On Click</code> event like <code>Button</code>s have, it has an <code>On Value Changed</code> event with a <code>float</code> parameter to indicate what value it was set to. This means that when selecting what you want it to call, the <code>Speed</code> property will appear twice:</p>
+<p><img src="slider-menu.png" class="img-responsive"></p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Dynamic Float</th>
+    <th style="width:50%">Static Parameters</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="slider-dynamic.png" class="img-responsive"></td>
+      <td><img src="slider-static.png" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td>This is the one we want because it will pass the value of the <code>Slider</code> component into the property.</td>
+      <td>This one shows a <code>float</code> field in the event itself and will pass that value into the method, regardless of the state of the <code>Slider</code> component.</td>
+    </tr>
+  </tbody>
+</table>
 
 	</section>
                 

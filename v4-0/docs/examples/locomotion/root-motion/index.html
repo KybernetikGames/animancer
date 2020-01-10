@@ -76,7 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#animation-metadata">Animation Metadata</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#teleporting">Teleporting</a></p>
+<p><a href="#animation-metadata">Animation Metadata</a></p>
 <p><a href="#transitions">Transitions</a></p>
 <p><a href="#redirecting-root-motion">Redirecting Root Motion</a></p>
 <hr class="infobar-hidden">
@@ -425,6 +426,29 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/R
 }
 </code></pre>
 <p></p></details><p></p>
+<h1 id="teleporting">Teleporting</h1>
+<p>Since the character will be moving, we want to make them teleport back to the start whenever they move too far away.</p>
+<p>First we need to store the start position. We could use a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> to specify the position in the Inspector, but instead it will be more convenient if we just use whatever position the character is at when the scene starts. So we need a serialized field to specify how far away they can get, a non-serialized field to store the position, and an <code>OnEnable</code> method to set that value on startup:</p>
+<pre><code class="language-cs">[SerializeField] private float _MaxDistance;
+
+private Vector3 _Start;
+
+private void OnEnable()
+{
+    // "transform" is the Transform component of the GameObject this script is attached to.
+    _Start = transform.position;
+}
+</code></pre>
+<p>Then we can use <a href="https://docs.unity3d.com/ScriptReference/Vector3.Distance"><code>Vector3.Distance</code></a> each frame to check how far the character has gotten from the start and set their position back there if necessary:</p>
+<pre><code class="language-cs">private void FixedUpdate()
+{
+    if (Vector3.Distance(_Start, transform.position) &gt; _MaxDistance)
+        transform.position = _Start;
+}
+</code></pre>
+<p>Since movement relates to physics which should be independant of the rendering frame rate, the character's animation Update Mode set to <code>Animate Physics</code>:</p>
+<p><img src="update-mode.png" class="img-responsive"></p>
+<p>And since that means it will only be moved by physics updates, we want to do this distance check in <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.FixedUpdate"><code>FixedUpdate</code></a> rather than <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.Update"><code>Update</code></a>.</p>
 <h1 id="animation-metadata">Animation Metadata</h1>
 <p>It is often necessary to associate some additional data with an <code>AnimationClip</code> reference. In this case, we just want a <code>bool</code> to indicate whether the <code>Animator.applyRootMotion</code> should be enabled when playing that animation or not.</p>
 <p>This could be done by simply having an extra field next to each reference like so:</p>
@@ -437,8 +461,8 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/R
 <pre><code class="language-cs">[SerializeField] private AnimationClip[] _Animations;
 [SerializeField] private bool[] _AnimationsApplyRootMotion;
 </code></pre>
-<p>But that's messy and requires extra effort every time it's used.</p>
-<p>Instead, we can make a <code>[Serializable]</code> class to hold both fields next to each other:</p>
+<p>But those approaches are messy and require extra effort every time they are used.</p>
+<p>Instead, we can make a class with a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute"><code>System.Serializable</code></a> attribute so that it can be used as a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> to hold both fields next to each other:</p>
 <pre><code class="language-cs">[Serializable]
 public class MotionClip
 {
@@ -457,7 +481,7 @@ public void Play(MotionClip motion)
 }
 </code></pre>
 <p>Now we can just call <code>Play(_Idle)</code> or <code>Play(_Walk)</code> and we could use a <code>MotionClip</code> in any script without manually adding a <code>bool</code> alongside every <code>AnimationClip</code>.</p>
-<p>Since we want to control this particular example with UI buttons, we instead use an array of <code>MotionTransition</code>s so we can add a <code>Play</code> method that just takes an <code>int</code> parameter:</p>
+<p>Since we want to control this particular example with <a href="../../basics/scene-setup#buttons">UI Buttons</a>, we instead use an array of <code>MotionClip</code>s so we can add an <a href="../../../introduction/cs/methods#overloads">Overload</a> of the <code>Play</code> method which just takes an <code>int</code> parameter:</p>
 <pre><code class="language-cs">[SerializeField] private MotionClip[] _Animations;
 
 public void Play(int index)
@@ -468,22 +492,26 @@ public void Play(int index)
 <p>That gives us a simple grouping in the Inspector (and in code) where the metadata is managed alongside the <code>AnimationClip</code> reference:</p>
 <p><img src="serializables.png" class="img-responsive"></p>
 <h1 id="transitions">Transitions</h1>
-<p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../manual/inverse-kinematics">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can inherit from so you don't have to do it all yourself:</p>
-<pre><code class="language-cs">[Serializable]
+<p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../manual/inverse-kinematics">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can <a href="../../../introduction/cs/inheritance">Inherit</a> from so you do not have to do it all yourself:</p>
+<pre><code class="language-cs">// Replace the old MotionClip class with this.
+[Serializable]
 public class MotionTransition : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
 {
     [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
     private bool _ApplyRootMotion;
 </code></pre>
-<p><code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> already has the <code>AnimationClip</code>, transition duration, optional start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then override its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
+<p><code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="../../../introduction/cs/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
 <pre><code class="language-cs">    public override void Apply(AnimancerState state)
     {
         base.Apply(state);
         state.Root.Component.Animator.applyRootMotion = _ApplyRootMotion;
     }
 }
+
+// And change the type of the _Animations field.
+[SerializeField] private MotionTransition[] _Animations;
 </code></pre>
-<p>Now we get all those extra details in the Inspector without much extra effort.</p>
+<p>This way we get all those extra details in the Inspector without much extra effort (obviously we already got it working the other way, but doing it this way from the start would be just as easy).</p>
 <p><img src="transitions.png" class="img-responsive"></p>
 <h1 id="redirecting-root-motion">Redirecting Root Motion</h1>
 <p>It is often useful to have your character's model as a separate object from their other aspects (such as a <code>Rigidbody</code> and their other scripts), in which case you will need to redirect the Root Motion to another object. This is very easy to do, though it is slightly different depending on what system you normally use to move the character.</p>
