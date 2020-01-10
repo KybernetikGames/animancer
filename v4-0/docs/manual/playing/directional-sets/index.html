@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/v4-0/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/v4-0/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Events</title>
+        <title>Animancer - Directional Animation Sets</title>
         <link href="/animancer/v4-0/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/v4-0/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/v4-0/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -76,7 +76,11 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"></div>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#creation">Creation</a></p>
+<p><a href="#usage">Usage</a></p>
+<p><a href="#snapping">Snapping</a></p>
+<hr class="infobar-hidden">
+</div>
 
                 </section>
                 <section class="sidebar">    
@@ -238,14 +242,14 @@
                     <a href="/animancer/v4-0/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/v4-0/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v4-0/docs/manual/playing/states">States</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/playing/component-types">Component Types</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+                <li class="selected"><a href="/animancer/v4-0/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
 
                     </ul>
                 </li>
@@ -267,7 +271,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active selected">
+                <li class="treeview">
                     <a href="/animancer/v4-0/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -337,118 +341,98 @@
 
 
 		<section class="content-header">
-			<h1>Events</h1>
+			<h1>Directional Animation Sets</h1>
 		</section>
 	<section class="content">
-		
-<p>You will often have the need to do things at a certain time during an animation such as <a href="../../examples/animation-events/simple-and-end-events">hitting a golf ball when your swing passes a certain point</a> or <a href="../../examples/animation-events/other-events">playing a footstep sound each time a foot touches the ground during a walk cycle</a>. You could script these things using coroutines or other timers, but using <a href="animancer">Animancer Events</a> or Unity's inbuilt <a href="animation">Animation Events</a> allows you to preview the animation while configuring events so you can easily configure the exact timing you want.</p>
+		<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> class contains quite a bit of functionality, but at its core it's just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="../../../introduction/cs/vectors">Vector</a>:</summary><p>
+</p><pre><code class="language-cs">public class <a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> : ScriptableObject
+{
+    [SerializeField] private AnimationClip _Up;
+    [SerializeField] private AnimationClip _Right;
+    [SerializeField] private AnimationClip _Down;
+    [SerializeField] private AnimationClip _Left;
 
-			<div class="box">
-				<div class="box-body no-padding">
-					<table class="table table-striped table-hover two-cols-alt table-responsive">
-						
-						<tbody>
-								<tr>
-									<td><strong><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></strong></td>
-									<td>
-Unity's inbuilt Animation Event system.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></strong></td>
-									<td>
-Animancer's custom event system.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></strong></td>
-									<td>
-After you start an animation, you will often want to wait for it to finish before doing something else so Animancer has several different ways to do that.									</td>
-								</tr>
-						</tbody>				
-					</table>
-				</div>
-			</div> 
-
-
+    public virtual AnimationClip GetClip(Vector2 direction)
+    {
+        if (direction.x &gt;= 0)
+        {
+            if (direction.y &gt;= 0)
+                return direction.x &gt; direction.y ? _Right : _Up;
+            else
+                return direction.x &gt; -direction.y ? _Right : _Down;
+        }
+        else
+        {
+            if (direction.y &gt;= 0)
+                return direction.x &lt; -direction.y ? _Left : _Up;
+            else
+                return direction.x &lt; direction.y ? _Left : _Down;
+        }
+    }
+}
+</code></pre>
+<p>The full script is included in <a href="/animancer/lite">Animancer Lite</a> so you can modify it or make your own variations if you want to.</p>
+<p></p></details><p></p>
+<p><code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> so it has the same fields as well as another 4 for the diagonals and it <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a>s the <code>GetClip</code> method to choose from all 8 of its animations.</p>
+<p>The <a href="../../../examples/directional-sprites">Directional Sprites</a> examples demonstrate how to use them.</p>
+<h1 id="creation">Creation</h1>
+<p><code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code>ScriptableObject</code>, meaning that you create them as assets for your scripts to reference. In this case, you can create them by Right Clicking in the Project window and using the <code>Create/Animancer/Directional Animation Set/...</code> menu functions:</p>
 <table class="table">
-  <thead><tr>
-    <th style="width:50%">Animation Events</th>
-    <th style="width:50%">Animancer Events</th>
-  </tr></thead>
-
-  <tbody>
-
-  <tr>
-    <td>Built into Unity. They work the same with Animancer as without it.</td>
-    <td><em><a href="../events/end#events">End Events</a> are included in <a href="/animancer/lite">Animancer Lite</a>, but the ability to set a custom end time and use other events is only available in the Unity Editor unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></td>
-  </tr>
-
-  <tr>
-    <td>Events are defined as part of an <code>AnimationClip</code> so every state using that clip will have the same events.</td>
-    <td>Events are defined as part of an <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> so they can each have different events regardless of which clip they use. If you want to share a set of events, you can simply define them in a shared location such as using an <code><a href="/animancer/v4-0/api/Animancer/AnimancerTransition">AnimancerTransition</a></code> asset (see <a href="../transitions">Transitions</a> for more details).</td>
-  </tr>
-
-  <tr>
-    <td>Each event calls one method which must be located in a component on the same <code>GameObject</code> as the <code>Animator</code>.</td>
-    <td>By default, <a href="https://docs.unity3d.com/Manual/UnityEvents.html"><code>UnityEvents</code></a> are used to configure events in the Inspector so they can call methods on any object they can reference and each event can call as many methods as you want.</td>
-  </tr>
-
-  <tr>
-    <td>The method can be private if you don't want other scripts to call it manually.</td>
-    <td><a href="https://docs.unity3d.com/Manual/UnityEvents.html"><code>UnityEvents</code></a> can only call public methods. But the system can be set to use <a href="animancer#ultevents"><code>UltEvents</code></a> instead, which supports private and even static methods.</td>
-  </tr>
-
-  <tr>
-    <td>The method can have at most <strong>one parameter</strong> of any of the following types: <code>float</code>, <code>int</code>, <code>string</code>, anything derived from <code>UnityEngine.Object</code>, or <code>AnimationEvent</code> which contains one of each of the other types as well as several other details.</td>
-    <td>
-      <p><a href="https://docs.unity3d.com/Manual/UnityEvents.html"><code>UnityEvents</code></a> can call methods with at most <strong>one parameter</strong> of any of the following types: <code>bool</code>, <code>float</code>, <code>int</code>, <code>string</code>, or anything derived from <code>UnityEngine.Object</code>.</p>
-      <a href="animancer#ultevents"><code>UltEvents</code></a> can call methods with <strong>any number of parameters</strong> of all the above types as well as: <code>Enum</code> (regular and flags), <code>Vector</code> (2, 3, 4), <code>Quaternion</code>, <code>Rect</code>, <code>Color</code>, and <code>Color32</code>. They can also call one method and use its return value as a parameter for another method.
-    </td>
-  </tr>
-
-  <tr>
-    <td>Events are not very efficient because they use a mechanism similar to <code>GameObject.SendMessage</code> and if the event has a <code>string</code> or <code>AnimationEvent</code> parameter, it will create some garbage every time it is triggered which can potentially cause performance issues.</td>
-    <td>
-      <p>Events are much more efficient because they use C# delegates.</p>
-      Events configured in the Inspector using <a href="https://docs.unity3d.com/Manual/UnityEvents.html"><code>UnityEvents</code></a> do not allocate garbage. <a href="animancer#ultevents"><code>UltEvents</code></a> do not usually do so either, except in certain circumstances such as when a method returns a value type (<a href="https://docs.unity3d.com/Manual/UnityEvents.html"><code>UnityEvents</code></a> simply would not be able to call such a method though).</td>
-  </tr>
-
-  <tr>
-    <td>Events can be added using code, but they are still subject to all the above limitations. If you are using an Animator Controller, you don't even have access to the <code>AnimationClip</code> of a particular state until it is already playing.</td>
-    <td>Events can be added using delegates. For example: <code>state.Events.Add(0.5f, () =&gt; Debug.Log("Event Triggered"));</code>.</td>
-  </tr>
-
-  <tr>
-    <td>Methods are referenced using <a href="../../introduction/mecanim-vs-animancer/why-replace-mecanim#magic-strings">Magic Strings</a>. Newer Unity versions use a dropdown menu to select the method instead of a text field to enter the name manually, but once selected the name is still stored as a string so if the method is renamed the event will not be automatically updated to reference the new name.</td>
-    <td><a href="https://docs.unity3d.com/Manual/UnityEvents.html"><code>UnityEvents</code></a> and <a href="animancer#ultevents"><code>UltEvents</code></a> use strings just like Animation Events when you configure them in the Inspector, but when adding events using code there are no strings involved. It can even be useful to configure the event times in the Inspector so you can preview what the model looks like at that time, but leave the actual event blank and set it up using code.</td>
-  </tr>
-
-  </tbody>
+<thead>
+<tr>
+<th>Function</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>4&nbsp;Directions</code></td>
+<td>Create an empty <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>.</td>
+</tr>
+<tr>
+<td><code>8&nbsp;Directions</code></td>
+<td>Create an empty <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>.</td>
+</tr>
+<tr>
+<td><code>From&nbsp;Selection</code></td>
+<td>Select some <code>AnimationClip</code>s then use this function to create either a <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> or <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> which references those animations. This requires the animation names to be identical except for the words "<em>Up</em>", "<em>Right</em>", "<em>Down</em>", and "<em>Left</em>".</td>
+</tr>
+</tbody>
 </table>
+<p>Once you have created a set, you can assign animations to each of its fields manually or use its <code>Find Animations</code> context menu function to automatically assign animations with the same name (varying only by direction) in the same folder. For example, the video below shows a set called <em>Mage-Idle</em> which finds the animations called <em>Mage-IdleUp</em>, <em>Mage-IdleRight</em>, <em>Mage-IdleDown</em>, and <em>Mage-IdleLeft</em></p>
+<p><img src="find-animations.gif" class="img-responsive"></p>
+<p>Also note that <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s are not limited to only <code>Sprite</code> animations. For example, the <a href="../../../examples/locomotion/directional-blending">Directional Blending</a> example originally used a set to reference its movement animations before <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a> were implemented.</p>
+<h1 id="usage">Usage</h1>
+<p>Using <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s in your scripts is very easy:</p>
+<ol>
+<li>Declare a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a>:</li>
+</ol>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Idles;
+</code></pre>
+<p>That gives you an Inspector field where you can assign any <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> asset. Since <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, you can assign either type of set to such a field without changing the script.</p>
+<ol start="2">
+<li>Determine the direction you want from the set:</li>
+</ol>
+<pre><code class="language-cs">// Input Vector:
+var direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-			<div class="box">
-				<div class="box-body no-padding">
-					<table class="table table-striped table-hover two-cols-alt table-responsive">
-						
-						<tbody>
-								<tr>
-									<td><strong><a href="/animancer/v4-0/docs/manual/events/animation">Animation Events</a></strong></td>
-									<td>
-Unity's inbuilt Animation Event system.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/v4-0/docs/manual/events/animancer">Animancer Events</a></strong></td>
-									<td>
-Animancer's custom event system.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/v4-0/docs/manual/events/end">End Events</a></strong></td>
-									<td>
-After you start an animation, you will often want to wait for it to finish before doing something else so Animancer has several different ways to do that.									</td>
-								</tr>
-						</tbody>				
-					</table>
-				</div>
-			</div> 
+// Or Enum (4 Directions):
+var direction = DirectionalAnimationSet.Direction.Right;
+
+// Or Enum (8 Directions):
+var direction = DirectionalAnimationSet8.Direction.UpRight;
+</code></pre>
+<ol start="3">
+<li>Get the <code>AnimationClip</code> for that direction from the set and <code>Play</code> it normally:</li>
+</ol>
+<pre><code class="language-cs">// Assuming you also have a reference to an <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> somewhere:
+// [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+var clip = _Idles.GetClip(direction);
+_Animancer.Play(clip);
+</code></pre>
+<h1 id="snapping">Snapping</h1>
+<p>The <code>DirectionalAnimationSet.Snap</code> method returns a copy of a given <a href="../../../introduction/cs/vectors">Vector</a> pointing in the closest direction that set type has an animation for (4 or 8 directions depending on which type of set you are using). This is useful for clamping an input vector to the exact direction the animation is facing so that you can limit the character to only move in those directions.</p>
 
 	</section>
                 
