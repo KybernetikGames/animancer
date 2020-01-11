@@ -390,7 +390,7 @@
 </tbody>
 </table>
 <p><code><a href="/animancer/v4-0/api/Animancer/ManualMixerState">ManualMixerState</a></code>s allow you to simply control the <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> of each state manually without any automated calculations. This is often useful for additive animations and blend shapes for things like facial expressions.</p>
-<p>Other mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you. When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight, while <code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used. You can either specify the thresholds manually or calculate them using <code>MixerState&lt;T&gt;.CalculateThresholds</code>. The <code><a href="/animancer/v4-0/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code> class also provides <code>CalculateThresholdsFromAverageVelocityXZ</code> as an extension method for <code>Vector2</code> based mixers (Cartesian and Directional) to calculate the thresholds based on the average root motion velocity of each state on the X and Z axes. Note that this method needs the “<em>Root Transform Position (XZ) -&gt; Bake Into Pose</em>” toggle to be disabled in the Import Settings of each <code>AnimationClip</code> in the mixer.</p>
+<p>Other mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you. When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight, while <code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used. You can either specify the thresholds manually or provide a custom calculation <a href="../../../introduction/cs/methods#delegates">Delegate</a> to <code>MixerState&lt;T&gt;.CalculateThresholds</code>. For <code>Vector2</code> based mixers (Cartesian and Directional) you can also use the <a href="../../../../api/Animancer/AnimancerUtilities/61A260E4"><code>AnimancerUtilities.CalculateThresholdsFromAverageVelocityXZ</code></a> extension method.</p>
 <p>When selecting a 2D mixer, Directional generally offers better interpolation than Cartesian for animations that represent direction such as move forward/back/left/right. Also note that in areas with 180 degrees or more between states the interpolation is ill-defined and will likely have undesirable results; I.E. if you have clips for <em>forward</em>, <em>back</em>, and <em>left</em>, but no <em>right</em>, then you will get odd results if you set the parameter to the right.</p>
 <p><code><a href="/animancer/v4-0/api/Animancer/MixerState">MixerState</a></code>s are a type of <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> with several other differences from regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code>s:</p>
 <ul>
@@ -437,6 +437,11 @@ public sealed class LinearMixerExample : MonoBehaviour
         // Other overloads take 3 clips, or an array of any number of clips.
         _MovementMixer.Initialise(_Idle, _Run);
 
+        // Optionally disable Synchronisation for states that do not need it.
+        // In general, synchronisation is good for movement so you should disable it for Idle
+        // and since there is only one other state it will have nothing else to sync with anyway.
+        _MovementMixer.SynchroniseChildren = new bool[] { false, false };
+
         // Optionally register the mixer with a key so it
         // can be accessed from other scripts using that key.
 
@@ -459,9 +464,7 @@ public sealed class LinearMixerExample : MonoBehaviour
     }
 }
 </code></pre>
-<div style="display:inline-block"><img src="linear-mixer-inspector.png" class="img-responsive img-right">
-<p>This screenshot shows the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for the example script in Play Mode. Unlike a regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code> that plays a single animation, the <code><a href="/animancer/v4-0/api/Animancer/LinearMixerState">LinearMixerState</a></code> shows its child states with the ability to expand the details of both the mixer and child states.</p>
-</div>
+<p><img src="manual-mixer-example.gif" class="img-responsive"></p>
 <p></p></details><p></p>
 <h2 id="nesting">Nesting</h2>
 <p>Mixers can have any type of <a href="../../playing/states">State</a> as their children, including other mixers:</p>

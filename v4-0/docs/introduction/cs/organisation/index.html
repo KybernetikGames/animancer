@@ -404,8 +404,8 @@
 <a href="https://docs.unity3d.com/ScriptReference/Rect"><code>Rect</code></a>, and 
 <a href="https://docs.unity3d.com/ScriptReference/Color"><code>Color</code></a>.</li>
         <li><code>enum</code>s like 
-<a href="https://docs.unity3d.com/ScriptReference/FontStyle"><code>FontStyle</code></a> and 
-<a href="https://docs.unity3d.com/ScriptReference/TextAlignment"><code>TextAlignment</code></a>.</li>
+<a href="https://docs.unity3d.com/ScriptReference/FontStyle"><code>FontStyle</code></a>,
+<a href="https://docs.unity3d.com/ScriptReference/TextAlignment"><code>TextAlignment</code></a>, and Animancer's <code><a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a></code>.</li>
       </ul></td>
       <td><ul>
         <li><code>class</code>es like <code>string</code>, 
@@ -466,30 +466,88 @@ a.name = "Goodbye World";
 <p>Types can be divided into <a href="#namespaces">Namespaces</a> for organization and to prevent name conflicts. They can also be nested inside other types. For example, an <code><a href="/animancer/v4-0/api/Animancer/AnimancerEvent">AnimancerEvent</a></code> is a single time value paired with a <a href="../methods#delegates">Callback Delegate</a> and they are generally managed by a sequence class that holds multiple events, but rather than call the sequence class <code>AnimancerEventSequence</code> it is actually just called <code>Sequence</code> but is nested inside <code><a href="/animancer/v4-0/api/Animancer/AnimancerEvent">AnimancerEvent</a></code> so you can access it using <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>. This makes it clearer that the two types are connected to each other rather than just coincidentally having similar names.</p>
 <h2 id="members">Members</h2>
 <p>Types can contain <a href="../variables#fields">Fields</a>, <a href="../methods">Methods</a>, and <a href="../methods#properties">Properties</a> which are collectively referred to as <em>Members</em>. There are various other kinds of <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/members">Members</a>, but those are the main ones.</p>
-<h1 id="namespaces">Namespaces</h1>
-<p>Multiple classes cannot exist with the same name unless they are each different namespaces. This is not so important for something like <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> since it is unlikely that any other class will exist with that name, but for other classes with more common names like <code><a href="/animancer/v4-0/api/Animancer/ObjectPool">ObjectPool</a></code> it is very important so that importing Animancer does not cause compiler errors if the project already has a class with that name. Even within Animancer, several of the examples use their own <code>Creature</code> class so each of those examples has its own namespace.</p>
-<p>All of the scripts in Animancer are located in the <code>Animancer</code> namespace (or a sub-namespace such as <code>Animancer.Examples</code> for the example scripts), meaning that they are declared like this:</p>
-<pre><code class="language-cs">namespace Animancer
+<h2 id="generics">Generics</h2>
+<p><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/generics">Generics</a> allow types and methods to leave certain types up to the user's code. For example, <a href="../variables#lists">Lists</a> are a generic type which knows it will contain an array which it can add and remove items from but it does not specifically know which type of items it will contain so its declaration looks something like this:</p>
+<pre><code class="language-cs">public class List&lt;T&gt;
+{
+    // An array of whatever T happens to be.
+    private T[] _Array;
+
+    public void Add(T item)
+    {
+        ...
+    }
+}
+
+// In some other method:
+var myFloats = new List&lt;float&gt;();// The list has an array of floats.
+myFloats.Add(0.5f);// And we can add floats to it.
+myFloats.Add("Some String");// But we get an error if we try to add a string to it.
+</code></pre>
+<p>Individual methods can also be generic such as Unity's <a href="https://docs.unity3d.com/ScriptReference/GameObject.AddComponent"><code>GameObject.AddComponent</code></a> which has three <a href="../methods#overloads">Overloads</a>:</p>
+<table class="table">
+  <thead>
+    <tr><th>Method</th>
+    <th>Description</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">// Declaration:
+Component AddComponent(string className)
+
+// Usage:
+gameObject.AddComponent("Rigidbody");
+</code></pre>
+</td>
+      <td>This method is <a href="https://docs.microsoft.com/en-us/dotnet/api/system.obsoleteattribute">Obsolete</a> because it requires a <a href="../../mecanim-vs-animancer/why-replace-mecanim#magic-strings">Magic String</a> to specify the type of component to add, meaning the developers of Unity have decided that it should no longer be used and will be removed in some future version.</td>
+    </tr>
+      <tr><td>
+<pre><code class="language-cs">// Declaration:
+Component AddComponent(Type componentType)
+
+// Usage:
+gameObject.AddComponent(typeof(Rigidbody));
+</code></pre>
+</td>
+      <td>This is much better than the <code>string</code> method because the <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/type-testing-and-cast"><code>typeof</code></a> operator is type-safe, meaning that it will immediately give you a compiler error if you misspell <code>Rigidbody</code> instead of pretending the <code>string</code> is fine until you run the game and that method actually gets called.</td>
+    </tr>
+      <tr><td>
+<pre><code class="language-cs">// Declaration:
+T AddComponent&lt;T&gt;()
+
+// Usage:
+gameObject.AddComponent&lt;Rigidbody&gt;();
+</code></pre>
+</td>
+      <td>This is better than both other methods (in most cases) because the usage is shorter and it actually returns a <code>Rigidbody</code> instead of a <code>Component</code> (even though the <code>Component</code> will actually be a <code>Rigidbody</code>, the compiler does not know that fact).</td>
+    </tr>
+  </tbody>
+</table><h1 id="namespaces">Namespaces</h1><p>Multiple classes cannot exist with the same name unless they are each different namespaces. This is not so important for something like <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> since it is unlikely that any other class will exist with that name, but for other classes with more common names like <code><a href="/animancer/v4-0/api/Animancer/ObjectPool">ObjectPool</a></code> it is very important so that importing Animancer does not cause compiler errors if the project already has a class with that name. Even within Animancer, several of the examples use their own <code>Creature</code> class so each of those examples has its own namespace.</p><p>All of the scripts in Animancer are located in the <code>Animancer</code> namespace (or a sub-namespace such as <code>Animancer.Examples</code> for the example scripts), meaning that they are declared like this:</p><pre><code class="language-cs">namespace Animancer
 {
     public class <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> : MonoBehaviour
     {
         // Lots of cool stuff goes here.
     }
 }
-</code></pre>
-<p>This means that in order to refer to <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in another script, you need to do one of the following:</p>
-<ul>
+</code></pre><p>This means that in order to refer to <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in another script, you need to do one of the following:</p><ul>
 <li>Put <code>using Animancer;</code> at the top of the script.</li>
 <li>Use the full name of the class which includes its namespace: <code>Animancer.AnimancerComponent</code> whenever you refer to it.</li>
 <li>Put your class in the <code>Animancer</code> namespace as well. You would not generally do this unless you intend for your script to be part of Animancer (rather than simply using it).</li>
-</ul>
-<p>Note that if you type <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in a script without doing any of the above, Visual Studio will highlight it as a compiler error (meaning the script cannot be compiled until you fix it). You can select it and press <code>Ctrl + .</code> and it will give you the option to quickly do either of the first two options. Other IDEs will likely have similar features.</p>
-<p><img src="namespaces.gif" class="img-responsive"></p>
-<h1 id="access-modifiers">Access Modifiers</h1>
-<p>Access modifiers allow you to control which parts of the program can access each other, often referred to as encapsulation. This is particularly important for preventing bugs and ensuring proper use of a system.</p>
-<p>To give a practical example, the <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> class contains an <a href="../variables#arrays">Array</a> of <code><a href="/animancer/v4-0/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>s. It automatically keeps all of the events sorted by their time value so that when checking which events need to be triggered, if it sees that it is not yet time for the next event it knows that none of the others will need to be triggered either because they all come later, which allows it to save some processing time. That array cannot be accessed from other types because if it allowed other scripts to modify it directly then it could not be sure that the events are still sorted so it would need to waste processing time checking and re-sorting all the time. Instead, it keeps the array <code>private</code> and has <code>public</code> methods and properties for accessing it in specific ways that allow it to enforce its required sorting.</p>
-<p>There are six different access modifiers in C#:</p>
-<table class="table">
+</ul><p>Note that if you type <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in a script without doing any of the above, Visual Studio will highlight it as a compiler error (meaning the script cannot be compiled until you fix it). You can select it and press <code>Ctrl + .</code> and it will give you the option to quickly do either of the first two options. Other IDEs will likely have similar features.</p><p><img src="namespaces.gif" class="img-responsive"></p><h1 id="access-modifiers">Access Modifiers</h1><p>Access modifiers allow you to control which parts of the program can access each other, often referred to as encapsulation. This is particularly important for preventing bugs and ensuring proper use of a system.</p><p>To give a practical example, the <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> class contains an <a href="../variables#arrays">Array</a> of <code><a href="/animancer/v4-0/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>s. It automatically keeps all of the events sorted by their time value so that when checking which events need to be triggered, if it sees that it is not yet time for the next event it knows that none of the others will need to be triggered either because they all come later, which allows it to save some processing time. That array cannot be accessed from other types because if it allowed other scripts to modify it directly then it could not be sure that the events are still sorted so it would need to waste processing time checking and re-sorting all the time. Instead, it keeps the array <code>private</code> and has <code>public</code> methods and properties for accessing it in specific ways that allow it to enforce its required sorting.</p><p>There are six different access modifiers in C#:</p><table>
+
+
+
+
+
+
+
+
+
+
+
+
+</table><table class="table">
 <thead>
 <tr>
 <th>Modifier</th>

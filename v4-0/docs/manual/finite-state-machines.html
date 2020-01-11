@@ -343,31 +343,84 @@
 			<h1>Finite State Machines</h1>
 		</section>
 	<section class="content">
-		<p>A Finite State Machine (often abbreviated FSM) is a system which manages the current state of an object and the other states it can be in. For example, a treasure chest can either be open or closed; that's two states, though you wouldn't necessarily set up a full FSM for something that simple. A character on the other hand has many states such as idle, walk, run, attack, and so on, therefore a FSM will often be a good choice for managing that behaviour.</p>
+		<p>A Finite State Machine (often abbreviated as "<em>State Machine</em>" or "<em>FSM</em>") is a system which manages the current state of an object and the other states it can be in. For example, a treasure chest can either be open or closed; that is two states, though you might not necessarily set up a full FSM for something that simple. A character on the other hand often has many states such as <em>idle</em>, <em>walk</em>, <em>run</em>, <em>attack</em>, and so on, therefore a FSM will often be a good choice for managing that behaviour.</p>
 <p>Animancer is not tied to a specific FSM implementation, meaning you can use any system you like. Instead of trying to squeeze a restrictive FSM into the animation system like Mecanim, you manage the states yourself and Animancer simply does what it is told. That said, Animancer does include a general purpose FSM system which is entirely separate from the animation system and is flexible enough for most needs. The <a href="../examples/state-machines">State Machines</a> examples demonstrate how to use it and the <a href="../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example demonstrates how to convert an Animator Controller based character to use this system instead.</p>
 <p>The system is located in the <a href="../../api/Animancer.FSM"><code>Animancer.FSM</code></a> namespace with its source scripts in the <em>Assets/Plugins/Animancer/Utilities/State Machine</em> folder (the full source code of the system is included in Animancer Lite). It was designed with the following goals in mind:</p>
 <ul>
 <li><strong>Flexible</strong>: states can be <code>MonoBehaviour</code> components, <code>ScriptableObject</code>s, or regular C# classes.</li>
-<li><strong>Generic</strong>: you define your own base state type to suit your needs. It doesn't automatically give every state an <code>Update</code> function, but if you put one in your base state type you will be able to call <code>stateMachine.CurrentState.Update()</code> as necessary.</li>
+<li><a href="../introduction/cs/organisation#generics"><strong>Generic</strong></a>: you define your own base state type to suit your needs. For example, it does not automatically give every state an <code>Update</code> function, but if you put one in your base state type you will be able to call <code>stateMachine.CurrentState.Update()</code> as necessary. Or if you use <a href="#state-behaviours">State Behaviours</a> you can use the regular <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour Messages</a> like <code>Update</code> or <code>FixedUpdate</code>.</li>
 <li><strong>Simple</strong>: much like Animancer itself, you don't need to configure the state machine structure upfront. The base <code><a href="/animancer/v4-0/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> class is just a single <code>CurrentState</code> property with some rules about when it is allowed to be changed. If you do want to configure states upfront, the <code><a href="/animancer/v4-0/api/Animancer.FSM/StateMachine_2">StateMachine&lt;TKey, TState&gt;</a></code> class adds a <code>Dictionary</code> to allow states to be registered and accessed using a chosen type of key, such as an <code>enum</code>.</li>
 </ul>
-<p>There are plenty of other FSM systems available online (including on the <a href="https://assetstore.unity.com/search?q=state&amp;q=machine&amp;k=state%20machine">Unity Asset Store</a>), or if you’re interested in implementing your own system Unity has a tutorial series about building a <a href="https://unity3d.com/learn/tutorials/topics/navigation/finite-state-ai-delegate-pattern">Finite State AI</a> which could easily be adapted for other purposes.</p>
+<p>There are plenty of other FSM systems available online (including on the <a href="https://assetstore.unity.com/?q=state%20machine">Unity Asset Store</a>), or if you’re interested in implementing your own system Unity has a tutorial series about building a <a href="https://unity3d.com/learn/tutorials/topics/navigation/finite-state-ai-delegate-pattern">Pluggable AI With Scriptable Objects</a> which could easily be adapted for other purposes.</p>
 <p>While Animancer itself cannot be used as a fully fledged FSM system, it is possible to give it extra code to execute whenever it updates by implementing the <code><a href="/animancer/v4-0/api/Animancer/IAnimancerUpdatable">IAnimancerUpdatable</a></code> interface.</p>
 <h1 id="base-state-types">Base State Types</h1>
-<p>The base type for all states is the <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code> interface which defines two pairs of methods, first to check if a state is allowed to be entered/exited at the moment and then to indicate when it is actually entered/exited. When you call <code>StateMachine.TrySetState</code>, it checks to make sure the current state can be exited and the new state can be entered, then notifies them both of the change. Or you can use <code>StateMachine.ForceSetState</code> to skip the check and force the change.</p>
+<p>The base type for all states is the <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code> <a href="../../introduction/cs/inheritance#interfaces">Interface</a> which defines two pairs of methods:</p>
+<ul>
+<li><code>CanEnterState</code> and <code>CanExitState</code> allow the state to determine if it is allowed to be entered/exited at the moment.</li>
+<li><code>OnEnterState</code> and <code>OnExitState</code> notify the state when it is actually entered/exited.</li>
+</ul>
+<p>When you call <code>StateMachine.TrySetState</code>, it checks <code>oldState.CanExitState</code> and <code>newState.CanEnterState</code>, then if both returned <code>true</code> it calls <code>oldState.OnExitState</code> and <code>newState.OnEnterState</code>. You can also use <code>StateMachine.ForceSetState</code> to skip the <code>Can...</code> checks and force the change.</p>
 <p>Some examples:</p>
 <ul>
-<li>You cannot <code>Jump</code> if you aren't on the ground so <code>Jump.CanEnterState</code> checks whether the <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a></code> says it is on the ground.</li>
+<li>You cannot <code>Jump</code> if you are not on the ground so <code>Jump.CanEnterState</code> checks whether the <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a></code> says the character is on the ground.</li>
 <li>You cannot perform other actions during an <code>Attack</code> so <code>Attack.CanExitState</code> returns false.</li>
 <li><code>Attack</code>s can be interrupted if you get hit or even killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code>nextState</code> (provided as a parameter) is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some creatures but not others) yet they all use the same <code>CreatureAction.Attack</code> value to indicate their type.</li>
 <li>Once the <code>Attack</code> animation finishes, it needs to be able to return to <code>Idle</code>. This could be done by having <code>Attack.CanExitState</code> check the current animation time as well, but since the <code>Attack</code> state already knows it is ending and <code>Idle</code> is unlikely to impose any constraints on when it can be entered we can simply use <code>ForceSetState</code> to skip the check.</li>
 </ul>
+<p>There are also several other more specialised base types that <a href="../../introduction/cs/inheritance">Inherit</a> from <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code> which are listed below:</p>
 <h2 id="owned-states">Owned States</h2>
-<p>By default, states do not need a reference to the <code>StateMachine</code> they are used in, however this means you can't do things like check if a state is currently active with just the state (you need to check <code>if (StateMachine.CurrentState == state)</code>). But if your state type implements <code><a href="/animancer/v4-0/api/Animancer.FSM/IOwnedState_1">IOwnedState&lt;TState&gt;</a></code> (which inherits from <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code>) then it also gets an <code>OwnerStateMachine</code> property to reference the <code>StateMachine</code> that owns it. This allows the extension methods in the <code><a href="/animancer/v4-0/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class to be used on those states.</p>
+<p>By default, states do not need a reference to the <code>StateMachine</code> they are used in, however this makes them slightly less convenient to use so if your state type implements <code><a href="/animancer/v4-0/api/Animancer.FSM/IOwnedState_1">IOwnedState&lt;TState&gt;</a></code> (which inherits from <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code>) then you can use several <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> in the <code><a href="/animancer/v4-0/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class with your states. For example:</p>
+<pre><code class="language-cs">public sealed class Creature : MonoBehaviour
+{
+    [SerializeField]
+    private CreatureState _Idle;
+    public CreatureState Idle { get { return _Idle; } }
+
+    [SerializeField]
+    private CreatureState _Walk;
+    public CreatureState Walk { get { return _Walk; } }
+
+    public StateMachine&lt;CreatureState&gt; StateMachine { get; private set; }
+
+    private void Awake()
+    {
+        // Initialise the FSM to start in the Idle state.
+        StateMachine = new StateMachine&lt;CreatureState&gt;(_Idle);
+    }
+}
+
+public sealed class CreatureBrain : MonoBehaviour
+{
+    [SerializeField]
+    private Creature _Creature;
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            // If CreatureState implements IState&lt;CreatureState&gt;:
+            _Creature.StateMachine.TrySetState(_Creature.Walk);
+
+            // If CreatureState implements IOwnedState&lt;CreatureState&gt; we can use the above or:
+            _Creature.Walk.TryEnterState();
+        }
+    }
+
+    private bool IsWalking()
+    {
+        // If CreatureState implements IState&lt;CreatureState&gt;:
+        return _Creature.StateMachine.CurrentState == _Creature.Walk;
+
+        // If CreatureState implements IOwnedState&lt;CreatureState&gt; we can use the above or:
+        return _Creature.Walk.IsCurrentState();
+    }
+}
+</code></pre>
 <h2 id="state-behaviours">State Behaviours</h2>
-<p>The <code><a href="/animancer/v4-0/api/Animancer.FSM/StateBehaviour_1">StateBehaviour&lt;TState&gt;</a></code> class inherits from <code>MonoBehaviour</code> and implements <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code> to act as the base class for states that are attached as components to <code>GameObject</code>s. It implements the <code>OnEnterState</code> and <code>OnExitState</code> methods to enable and disable itself respectively, allowing you to use the regular event messages like <code>OnEnable</code> and <code>OnDisable</code> to implement your state transition logic, as well as other messages like <code>Update</code> or <code>FixedUpdate</code> depending on the needs of each individual state.</p>
+<p>The <code><a href="/animancer/v4-0/api/Animancer.FSM/StateBehaviour_1">StateBehaviour&lt;TState&gt;</a></code> class <a href="../../introduction/cs/inheritance">Inherits</a> from <code>MonoBehaviour</code> and implements <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code> to act as the base class for states that are attached as components on <code>GameObject</code>s. It implements the <code>OnEnterState</code> and <code>OnExitState</code> methods to enable and disable itself respectively, allowing you to use the regular <a href="../../introduction/cs/inheritance#monobehaviours">MonoBehaviour Messages</a> like <code>OnEnable</code> and <code>OnDisable</code> to implement your state transition logic, as well as other messages like <code>Update</code> or <code>FixedUpdate</code> depending on the needs of each individual state.</p>
+<p>Most of the <a href="../examples/state-machines">State Machines</a> examples use State Behaviours.</p>
 <h2 id="delegate-states">Delegate States</h2>
-<p>The <code><a href="/animancer/v4-0/api/Animancer.FSM/DelegateState_1">DelegateState&lt;TState&gt;</a></code> class also implements <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code>, but rather than defining its own logic it simply has a delegate for each of the methods in the interface so you can assign them when creating the state.</p>
+<p>The <code><a href="/animancer/v4-0/api/Animancer.FSM/DelegateState_1">DelegateState&lt;TState&gt;</a></code> class also implements <code><a href="/animancer/v4-0/api/Animancer.FSM/IState_1">IState&lt;TState&gt;</a></code>, but rather than defining its own logic it simply has a <a href="../introduction/cs/methods#delegates">Delegate</a> for each of the methods in the interface so you can assign them when creating the state.</p>
 <h1 id="input-buffers">Input Buffers</h1>
 <p>Rather than simply attempting a state change and giving up if it isn't allowed, it is often desirable to keep trying for a short time. For example, if the player is attacking and they press the attack button again, you probably want the current animation to finish first and then start the next attack in a combo as long as the input didn't occur too long ago. Note that "input" in this case does not only mean "button presses from the player", it can be used for any sort of events that might try to control a state machine (such as AI).</p>
 <p>The <code><a href="/animancer/v4-0/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> class (and the corresponding class in <code><a href="/animancer/v4-0/api/Animancer.FSM/StateMachine_2">StateMachine&lt;TKey, TState&gt;</a></code>) allows you to easily implement this sort of buffering:</p>
