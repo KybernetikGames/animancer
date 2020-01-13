@@ -175,11 +175,11 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/animation-events">05 Animation Events</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animation-events/simple-and-end-events">01 Simple and End Events</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/animation-events/other-events">02 Other Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/footstep-events">01 Footstep Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/golf-events">02 Golf Events</a></li>
 
                     </ul>
                 </li>
@@ -209,7 +209,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/hybrid">01 Hybrid</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -367,10 +367,16 @@ void OnAnimationEnd()
 }
 </code></pre>
 <ul>
+<li>End Events are the same as <a href="animancer">Animancer Events</a> in some ways:
+<ul>
+<li>It is often convenient to configure them in the Inspector by using <a href="../transitions">Transitions</a>.</li>
+<li>End Events are <a href="animancer#auto-clear">cleared whenever you play another animation</a>.</li>
+</ul>
+</li>
 <li>Where other events are only triggered once when the specified time passes, End Events are triggered every frame after that point. This ensures that even if the animation has already passed the end when you register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</li>
 <li>The default End Event time is <code>NaN</code>, which means that it automatically determines which time to actually use based on the play speed: positive speed plays forwards and ends at normalized time 1 while negative speed plays backwards and ends at 0).</li>
 <li>Despite the name, End Events do not inherently do anything to end the animation. You can do anything you want using the callback.</li>
-<li>End Events are <a href="animancer#auto-clear">cleared whenever you play another animation</a>, just like other events.</li>
+<li>You can also use <a href="../animation#end-animation-events">End Animation Events</a> to trigger whatever <code>OnEnd</code> callback you register, but that is generally much less convenient.</li>
 </ul>
 <h1 id="coroutines">Coroutines</h1>
 <p>In coroutines you can <code>yield return</code> any <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> to wait until it finishes. Specifically, it will wait until the state either stops playing or passes its end time (set using code or <a href="../transitions">Transitions</a> as described above). The <a href="../../examples/basics/sequence-coroutine">Sequence Coroutine</a> example uses this approach.</p>
@@ -393,7 +399,7 @@ IEnumerator CoroutinePlayAnimation()
 }
 </code></pre>
 <p>You can also yield an entire <a href="../blending/layers">Layer</a> or <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to wait for all their states to finish.</p>
-<p>Note that yielding a state does not create garbage, but starting a coroutine does.</p>
+<p>Note that yielding a state does not create <a href="../../../introduction/cs/other#garbage-collection">Garbage</a>, but starting a coroutine does.</p>
 <h1 id="manual">Manual</h1>
 <p>You can keep a reference to the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> returned by any of the <code>AnimancerComponent.Play</code> methods and check its <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> every update (once the value reaches 1 the animation is finished):</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;

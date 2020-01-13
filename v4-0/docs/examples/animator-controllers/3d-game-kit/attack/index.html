@@ -180,11 +180,11 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/animation-events">05 Animation Events</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animation-events/simple-and-end-events">01 Simple and End Events</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/animation-events/other-events">02 Other Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/footstep-events">01 Footstep Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/golf-events">02 Golf Events</a></li>
 
                     </ul>
                 </li>
@@ -214,7 +214,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/hybrid">01 Hybrid</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
                 <li class="treeview active">
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -365,7 +365,7 @@
 <li><code>FixedUpdate</code> also gets the normalized time of the current state from the Animator Controller and sends it back into the <code>StateTime</code> parameter.</li>
 <li>The Animator Controller uses the <code>MeleeAttack</code> trigger to transition into the <code>MeleeCombatSM</code> sub state machine and play the first attack animation (<code>EllenCombo1</code>).</li>
 <li><code>FixedUpdate</code> also calls <code>SetTargetRotation</code> which checks <code>if (m_InAttack)</code> in order to turn the player towards a nearby enemy if there is one.</li>
-<li>Searching for references to <code>m_InAttack</code> finds that the only place it gets set to true is the <code>MeleeAttackStart</code> method which has a comment explaining that it is called by an <a href="../../../../manual/animation-events">Animation Event</a>.</li>
+<li>Searching for references to <code>m_InAttack</code> finds that the only place it gets set to true is the <code>MeleeAttackStart</code> method which has a comment explaining that it is called by an <a href="../../../../manual/events/animation">Animation Event</a>.</li>
 <li><code>FixedUpdate</code> also calls <code>PlayAudio</code> which plays a sound if one of the attack states was just entered. This is another dirty hack because it does so by checking each of the individual state names (<code>EllenCombo1</code>, <code>EllenCombo2</code>, etc.).</li>
 <li>Each of the <code>EllenCombo</code> states has a <code>StateMachineBehaviour</code> called <code>EllenStaffEffect</code> with an <code>int effectIndex</code> which is set in the Inspector. When a state is entered its <code>OnStateEnter</code> method gets the <code>PlayerController</code> and accesses the effect of their weapon at the specified index in order to call <code>TimeEffect.Activate</code> on it.</li>
 <li>That method activates an animated weapon trail and a <code>Light</code>, then uses a coroutine to wait until the animation finishes to deactivate it.</li>

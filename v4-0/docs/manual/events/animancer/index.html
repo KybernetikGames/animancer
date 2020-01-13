@@ -179,11 +179,11 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/animation-events">05 Animation Events</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animation-events/simple-and-end-events">01 Simple and End Events</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/animation-events/other-events">02 Other Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/footstep-events">01 Footstep Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/golf-events">02 Golf Events</a></li>
 
                     </ul>
                 </li>
@@ -213,7 +213,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/hybrid">01 Hybrid</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -359,6 +359,7 @@
 <li>You can Double Click in the timeline to add an event at that time.</li>
 <li>A transition defines how it fades in but not how it fades out (because that gets determined by the next transition), so the Inspector timeline display simply uses a default value. If the end time is less than the animation length, it shows the fade out ending at the end of the animation. Or if the end time is greater than the length, it shows the default 0.25 second fade.</li>
 <li>Event <a href="../../transitions#time-fields">Time Fields</a> are always serialized as normalized time, regardless of which field you use to enter the value.</li>
+<li>Every script using a <a href="../../transitions">Transition</a> to play a particular animation will have its own sequence of events for that animation, but you can also use <a href="../../transitions/types#transition-assets">Transition Assets</a> so that any number of things can use the same asset and therefore the same events.</li>
 </ul>
 <h1 id="events-in-code">Events in Code</h1>
 <p>Animancer Events can also be configured using code like so:</p>
@@ -442,8 +443,7 @@ public void Attack()
 <p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, it will not want that animation to still have the old <a href="../../events/end#events">End Event</a> that returns to <em>Idle</em>.</p>
 <p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so it is covered in the <a href="../../../examples/state-machines/interrupt-management">Interrupt Management</a> example.</p>
 <h1 id="garbage">Garbage</h1>
-<p>Memory allocation and <a href="https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals">Garbage Collection</a> are fairly complex topics which are not directly relevant here except for their performance implications. In simple terms, allocating memory takes time and de-allocating memory so it can be reused also takes time. Unity uses a system known as a "Garbage Collector" in which objects that are no longer being used are automatically cleaned up periodically without the developer needing to specifically indicate when each object can be de-allocated. Unfortunately, this clean up process can take long enough that it causes a noticeable lag from one frame to the next which is obviously bad for the user experience. Note that this performance cost is often insignificant and many people advise against trying to optimise things like this unless you actually find a problem occuring.</p>
-<p>Animancer Events use <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates">Delegates</a> as a very convenient way to determine what each event actually does, however they also have the downside of needing to be garbage collected when they are no longer being used which happens quite often since events are <a href="#auto-clear">Automatically Cleared</a> whenever a new animation is played.</p>
+<p>Animancer Events use <a href="../../../introduction/cs/methods#delegates">Delegates</a> as a very convenient way to determine what each event actually does, however they also have the downside of needing to be <a href="../../../introduction/cs/other#garbage-collection">Garbage Collected</a> when they are no longer being used which happens quite often since events are <a href="#auto-clear">Automatically Cleared</a> whenever a new animation is played.</p>
 <p></p><details><summary>Garbage Collection can be avoided by "<em>caching</em>" your variables, which in this case means you simply create your delegates once (usually on startup) and reuse the same ones every time:</summary><p>
 </p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Animation;
