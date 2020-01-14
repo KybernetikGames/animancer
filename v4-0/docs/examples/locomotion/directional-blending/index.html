@@ -425,7 +425,7 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/S
         direction.y = 0;
 
         var distance = direction.magnitude;
-        if (distance &lt; _Move.State.Speed * _MovementSpeed * Time.fixedDeltaTime)
+        if (distance &lt; _MovementSpeed * _SprintMultiplier * Time.fixedDeltaTime)
         {
             return Vector3.zero;
         }
@@ -524,10 +524,10 @@ protected override bool IsMoving
     direction.y = 0;
 </code></pre>
 <ol start="4">
-<li>When it reaches the destination, we want to stop moving. It is very unlikely that it will exactly reach the target point so we need to stop when it gets close and rather than using an arbitrary small threshold like 0.1, we can calculate the distance it will move in a single frame to determine if it would arrive or pass the destination next frame. Note that <code>Time.deltaTime</code> is the same as <code>Time.fixedDeltaTime</code> during a <code>FixedUpdate</code>, but since this method is called by <code>Update</code> we want to make sure that it compares against the distance it would move during the next physics update (because it is being moved by a <code>Rigidbody</code>) rather than during this rendered frame:</li>
+<li>When it reaches the destination, we want to stop moving. It is very unlikely that it will exactly reach the target point so we need to stop when it gets close and rather than using an arbitrary small threshold like 0.1, we can calculate the distance it would move in a single frame at top speed to determine if it would arrive or pass the destination next frame. Note that <code>Time.deltaTime</code> is the same as <code>Time.fixedDeltaTime</code> during a <code>FixedUpdate</code>, but since this method is called by <code>Update</code> we want to make sure that it compares against the distance it would move during the next physics update (because it is being moved by a <code>Rigidbody</code>) rather than during this rendered frame:</li>
 </ol>
 <pre><code class="language-cs">    var distance = direction.magnitude;
-    if (distance &lt; _Move.State.Speed * _MovementSpeed * Time.fixedDeltaTime)
+    if (distance &lt; _MovementSpeed * _SprintMultiplier * Time.fixedDeltaTime)
     {
         return Vector3.zero;
     }

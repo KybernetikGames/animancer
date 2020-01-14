@@ -76,8 +76,11 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#creating-the-events">Creating the Events</a></p>
-<p><a href="#receiving-the-events">Receiving the Events</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#fields">Fields</a></p>
+<p><a href="#logic">Logic</a></p>
+<p><a href="#animancer-events">Animancer Events</a></p>
+<p><a href="#animation-events">Animation Events</a></p>
+<p><a href="#conclusion">Conclusion</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -348,45 +351,168 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/05 Events/01 Footstep Events</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Events"><code>Animancer.Examples.Events</code></a></p>
 </blockquote>
-<p>This example demonstrates how you can use <a href="../../../manual/events">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle.</p>
-<p><img src="walk.gif" class="img-responsive"></p>
-<p>Well ... that's easily the most useless video in the entire documentation since the only purpose of this example is to trigger sounds.</p>
-<h1 id="creating-the-events">Creating the Events</h1>
-<p>Adding <a href="../../../manual/events">Animation Events</a> to an <code>AnimationClip</code> asset modifies it, so we start by creating a copy of the <em>Humanoid-Walk</em> animation (<code>Ctrl + D</code>) and calling it <em>Humanoid-Walk-Footsteps</em>. Then we can follow the same steps outlined in <a href="../golf-events#animation-events">Golf Events</a> to add the events. This time we want to use the function name <code>"Footstep"</code> to trigger a function we will define in the script below.</p>
-<ol>
-<li>Put the first event on frame 1, just as the left foot touches down.</li>
-<li>Put the second event on frame 13, just as the right foot touches down.</li>
-<li>Use the <code>Int</code> parameter of each event to indicate which foot it is for. 0 for the left and 1 for the right.</li>
-</ol>
-<h1 id="receiving-the-events">Receiving the Events</h1>
-<p>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script looks like this (with the comments removed since we are about to explain how it works):</p>
-<pre><code class="language-cs">using Animancer;
+<p><img src="footstep-events.gif" class="img-responsive img-right"> This example demonstrates how you can use <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/events/animation">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle. The <a href="../../../manual/events">Events</a> page summarises the differences between the two systems which are further demonstrated by the <a href="../golf-events">Golf Events</a> example.</p>
+<p>The actual example scene demonstrates both systems with one character each, playing a sound every time one of their feet touches the ground. But since the video does not have sound, it instead shows a sphere around the foot in question for a short time after each event occurs.</p>
+<p>The <a href="../../animator-controllers-3d-game-kit">3D Game Kit</a> example uses a similar system which also has different footstep sounds depending on the surface being stepped on. An even more complex system might not even use <a href="../../../manual/events">Events</a> at all, but could instead use <a href="../../../introduction/cs/vectors#raycasting">Raycasts</a> to determine when a character's feet touch down so it would work for all animations without manually adding events to them all and could even calculate the desired volume based on the velocity of the foot while properly accounting for any blending.</p>
+<p></p><details><summary>The base <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script is used to demonstrate <a href="../../../manual/events/animancer">Animancer Events</a> and looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+</p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> : MonoBehaviour
+public class <a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> : MonoBehaviour
 {
-    [SerializeField] private AudioSource[] _FootSources;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Walk;
     [SerializeField] private AudioClip[] _Sounds;
 
-    private void Footstep(int foot)
+    protected void OnEnable()
     {
-        var source = _FootSources[foot];
+        _Animancer.Play(_Walk);
+    }
+
+    public void PlaySound(AudioSource source)
+    {
         source.clip = _Sounds[Random.Range(0, _Sounds.Length)];
         source.Play();
     }
 }
 </code></pre>
-<p>First we have an <code>AudioSource</code> array which we fill by adding an <code>AudioSource</code> component to each of the character's foot bones then dragging that object into the array in the Inspector. Make sure the left foot is <em>Element 0</em> and the right is <em>Element 1</em> to correspond to the <code>Int</code> parameters we set in the events.</p>
-<p>Then we have an <code>AudioClip</code> array which we fill with all the sounds in the <em>Footsteps On Concrete</em> folder.</p>
-<p>And finally, our method to receive the event.</p>
+<p></p></details><p></p>
+<p></p><details><summary>The <code>FootstepEventsAnimation</code> script inherits from <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> to demonstrate <a href="../../../manual/events/animation">Animation Events</a> instead and looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class FootstepEventsAnimation : <a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a>
+{
+    [SerializeField] private AudioSource[] _FootSources;
+
+    private void Footstep(int foot)
+    {
+        PlaySound(_FootSources[foot]);
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<h1 id="fields">Fields</h1>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Walk;
+
+[SerializeField]
+private AudioClip[] _Sounds;
+</code></pre>
+<p>The <code>_Sounds</code> array is filled with all the sounds in the <em>Footsteps On Concrete</em> folder.</p>
+</td>
+      <td><img src="animancer-inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="logic">Logic</h1>
+<p>On startup, we simply play the assigned animation:</p>
+<pre><code class="language-cs">protected void OnEnable()
+{
+    _Animancer.Play(_Walk);
+}
+</code></pre>
+<p>And then a <code>PlaySound</code> method which we will be calling using <a href="#animancer-events">Animancer Events</a>:</p>
+<pre><code class="language-cs">public void PlaySound(AudioSource source)
+{
+    source.clip = _Sounds[Random.Range(0, _Sounds.Length)];
+    source.Play();
+}
+</code></pre>
 <ul>
-<li>When an event occurs Unity searches through all scripts attached to the same object as the <code>Animator</code> to call any methods it finds with the specified function name, which is <code>Footstep</code> in this case.</li>
-<li>We gave the method an <code>int</code> parameter, so Unity will pass in the <code>Int</code> value we set on the event. You can also use <code>float</code>, <code>string</code>, any type derived from <code>UnityEngine.Object</code> (including any <code>MonoBehaviour</code>, <code>ScriptableObject</code>, or <code>GameObject</code>), or if you want more than one of those (plus some additional details) you can use an <code>AnimationEvent</code> parameter.</li>
-<li>So the method simple gets the <code>AudioSource</code> of the specified foot, picks a random <code>AudioClip</code> from the array, and plays it.</li>
-<li>Note that the minimum value in <code>Random.Range</code> is <em>inclusive</em> (so it can pick 0) while the maximum value is <em>exclusive</em> (so it can not pick <code>_Sounds.Length</code>), which is perfect for picking a random element from a collection because the last element is <code>_Sounds.Length - 1</code>.</li>
+<li>It takes an <code>AudioSource</code> as a parameter so that each foot can play its sound from a different location.</li>
+<li>Using only a single footstep sound every time feels repetitive for players, so instead we have a bunch of similar ones and pick a random one each time.</li>
+<li>Note that the minimum value in <code>Random.Range</code> is <em>inclusive</em> (so it can pick 0) while the maximum value is <em>exclusive</em> (so it can not pick <code>_Sounds.Length</code>), which is perfect for picking a random element from an array.</li>
 </ul>
-<p>Note that this script isn't actually playing the animation, the scene is using a <code><a href="/animancer/v4-0/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> with the animation assigned as the <code>Default Animation</code> in the Inspector and <code>Play Automatically</code> enabled. It doesn't matter what tells the animation to play, its events simply look through all components on the same object as the <code>Animator</code> for methods with the appropriate name.</p>
-<p>A more complex system could have different footstep sounds depending on the surface being stepped on. This could be done by raycasting down from the feet and determining which sound to use based on the <code>sharedMaterial</code> of the ground's <code>Renderer</code> or even a simple script that holds an <code>enum</code> indicating the type. Such a system might not even use <a href="../../../manual/events">Animation Events</a> at all. It could use the raycasts to determine when a character's feet touch down so it would work for all animations without manually adding events to them all and could even calculate the desired volume based on the velocity of the foot (though events could also use their <code>Float</code> parameter to specify the volume).</p>
+<h1 id="animancer-events">Animancer Events</h1>
+<p>Using a <a href="../../../manual/transitions">Transition</a> field gives us various additional controls in the Inspector which we would not have if we used a simple <code>AnimationClip</code> reference. In this case, we are interested in the preview button on the right so that we can see what the character will look like throughout the animation while we set up the <a href="../../../manual/events/animancer">Animancer Events</a>:</p>
+<ol>
+<li>Click the "Preview" button to open the <a href="../../../manual/transitions#previews">Preview Window</a>.</li>
+<li>Click the "Add Event" button and adjust the time of the event. The <em>Humanoid-Walk</em> animation touches down at about 0.04x (normalized time).</li>
+<li>Add a function to the callback.</li>
+<li>Assign the <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script as the target object.</li>
+<li>Select its <code>PlaySound</code> method.</li>
+<li>Since this is the event for the left foot, find the character's <em>Foot.L</em> object in the Hierarchy.</li>
+<li>Add an <code>AudioSource</code> component to the <em>Foot.L</em>.</li>
+<li>Drag that <code>AudioSource</code> into the parameter field for the <code>PlaySound</code> method.</li>
+<li>Repeat steps 2-8 for the right foot which touches down at about 0.54x.</li>
+</ol>
+<p><img src="animancer-events.gif" class="img-responsive"></p>
+<p>If we wanted to share these events in multiple places throughout the project, we could use a <a href="../../../manual/transitions/types#transition-assets">Transition Asset</a> instead of a regular <a href="../../../manual/transitions">Transition</a>.</p>
+<h1 id="animation-events">Animation Events</h1>
+<p>Unity's <a href="../../../manual/events/animation">Animation Events</a> are built into <code>AnimationClip</code> assets rather than being added to a scene object in the Inspector. This affects several parts of the setup process which will be explained as we get to them.</p>
+<p>Note that this setup process is exactly the same as it would be without Animancer.</p>
+<h2 id="duplicate-animation">Duplicate Animation</h2>
+<p>The first difference is the fact that we need to make a copy of the original <em>Humanoid-Walk</em> animation to add the events since we do not want them in any of the other examples which use that animation. This may not be a real problem in a proper project since you will likely use each animation for only one general purpose.</p>
+<p></p><details><summary>If your animation is imported as part of a model file (such as an *.FBX*), you can add animations using the Animations tab in its import settings as shown here:</summary><p>
+</p><p>One thing to note in this video is that the <code>Average Velocity</code> of the imported animation has some movement on the <code>X</code> axis even though we only want it to go straight forwards, so we can adjust the <code>Root Transform Rotation Offset</code> to straighten it out.</p>
+<img src="fbx-add-animation.gif" class="img-responsive">
+<p></p></details><p></p>
+<p>Otherwise if you have a separate <em>.anim</em> file you can simply select the original <code>AnimationClip</code> and use the <code>Edit/Duplicate</code> function (<code>Ctrl + D</code>) to make a copy of it then rename it as necessary.</p>
+<h2 id="audio-source">Audio Source</h2>
+<p>Another difference is that since the <code>AnimationClip</code> is an asset, it cannot reference scene objects because an asset can be used in any scene so those particular objects may not exist. This means the event cannot directly reference the <code>AudioSource</code>s that will be used to play each sound so we need to set it up differently:</p>
+<ol>
+<li>Create another script that <a href="../../../introduction/cs/inheritance">Inherits</a> from the <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script.</li>
+</ol>
+<pre><code class="language-cs">public sealed class FootstepEventsAnimation : <a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a>
+{
+</code></pre>
+<ol start="2">
+<li>Use an array to hold the <code>AudioSource</code>s:</li>
+</ol>
+<pre><code class="language-cs">    // Element 0 will be the Left Foot.
+    // Element 1 will be the Right Foot.
+    [SerializeField] private AudioSource[] _FootSources;
+</code></pre>
+<p><img src="footstep-events-animation.png" class="img-responsive"></p>
+<ol start="3">
+<li>Add a method which takes an <code>int</code> parameter to specify which foot and passes the associated <code>AudioSource</code> into the <code>PlaySound</code> method we <a href="../../../introduction/cs/inheritance">Inherited</a> from <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code>:</li>
+</ol>
+<pre><code class="language-cs">    private void Footstep(int foot)
+    {
+        PlaySound(_FootSources[foot]);
+    }
+}
+</code></pre>
+<p>This will be the method that the events call, using their Int Parameter to specify the associated foot since they cannot directly reference it.</p>
+<h2 id="adding-events">Adding Events</h2>
+<p>If your animation is imported as part of a model file (such as an FBX), you can add animation events using the Events foldout in the Animations tab in its import settings:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Left Foot</th>
+    <th style="width:50%">Right Foot</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Put the first event just as the left foot touches down. Leave its Int Parameter at 0.</td>
+      <td>Put the second event just as the right foot touches down. Set its Int Parameter to 1.</td>
+    </tr>
+    <tr>
+      <td><img src="fbx-event-left.png" class="img-responsive"></td>
+      <td><img src="fbx-event-right.png" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td colspan="2">Note that the frame numbers shown above are relative to the file rather than the start of the animation. It starts at frame 30, so 31 is actually the second frame.</td>
+    </tr>
+  </tbody>
+</table>
+<p></p><details><summary>Otherwise if you have a separate <em>.anim</em> file the process is much less convenient because you need to add events using the Animation window which is not automatically synchronised with the Inspector preview so you need to manually match the frame numbers:</summary><p>
+<img src="anim-add-events.gif" class="img-responsive">
+</p></details><p></p>
+<p>When an <a href="../../../manual/events/animation">Animation Event</a> occurs, Unity searches through all scripts attached to the same object as the <code>Animator</code> to call any methods it finds with the specified function name, which is <code>Footstep</code> in this case. In the script we gave the method an <code>int</code> parameter, so Unity will pass in the <code>Int</code> value we set on the event (0 or 1 to indicate left or right).</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The <a href="../../../manual/events/animancer">Animancer Events</a> system is clearly superior for this particular example because it could be set up directly where we needed the events so they could directly reference the objects they interact with and did not require a duplicate of the <code>AnimationClip</code>, but that will not always be the case. You may encounter situations where <a href="../../../manual/events/animation">Animation Events</a> are more useful so it is important to understand all the tools you have available.</p>
 
 	</section>
                 
