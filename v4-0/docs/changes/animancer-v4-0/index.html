@@ -762,6 +762,7 @@ public void Attack()
 </ul>
 </li>
 <li>Added <code>AnimancerStateDictionary.Destroy</code> methods for collections and <code><a href="/animancer/v4-0/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code>.</li>
+<li>The <code>Find Animations</code> context menu function for <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s now properly supports undo commands.</li>
 <li>Added <code>AnimancerUtilities.Wrap01</code> extension method as a more efficient implementation of <code>Mathf.Repeat(value, 1)</code>.</li>
 <li>Reorganised the Inspector context menus.</li>
 <li>Removed <code>AnimancerState.HasLength</code>. All states must now return a valid <code>Length</code> (even if it is 0).
@@ -804,6 +805,7 @@ public void Attack()
 <li><code><a href="/animancer/v4-0/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> now returns <code>PositiveInfinity</code> from the getter if <code>Speed</code> is 0 and throws an <code>ArgumentException</code> is setting the value to 0.</li>
 <li><code><a href="/animancer/v4-0/api/Animancer/AnimancerState/87E41C92">AnimancerState.RemainingDuration</a></code> now respects looping/not and custom end times.</li>
 <li>Fixed the 2D mixer states to round children with <code>weight &lt; 0.01f</code> to 0. Otherwise they often get very small weights and still trigger Animation Events.</li>
+<li><code>PlayableGraph</code>s created in Edit Mode are now destroyed properly if the target Animator is destroyed.</li>
 <li>Added comments explaining that when <code>OnAnimatorIK</code> is called the layer index parameter will always be zero (a limitation of the Playables API).</li>
 <li>Replaced all usage of <code>EditorStyles.label</code> with <code>GUI.skin.label</code> since they are slightly different in some Unity versions and the latter is the default used by <code>GUI.Label</code>.</li>
 <li>Fixed <code>AnimancerEvent.Sequence.AssertNormalizedTimes</code> to properly account for <code>NaN</code>s.</li>
@@ -840,6 +842,10 @@ public void Attack()
 </ul>
 </li>
 <li><a href="../../examples/locomotion/linear-blending">Linear Blending</a> now uses <a href="#transition-assets">Transition Assets</a>.</li>
+<li><a href="../../examples/directional-sprited/basic-movement">Basic Movement</a> now uses a serialized field so its initial facing directioncan be set in Edit Mode and it now has a dedicated Play method which takes a <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> instead of calling<code>GetClip</code> in each location it wants to play something.</li>
+<li>Renamed the "Animation Events" group to <a href="../../examples/events">Events</a> (since they now demonstrate Animancer Events as well).</li>
+<li>Renamed "Simple and End Events" to <a href="../../examples/events/golf-events">Golf Events</a> and updated it to demonstrate regularAnimation Events, a <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code>, Animancer Events defined in the Inspector, and Animancer Events with their times se in the Inspector and callbacks set in code.</li>
+<li>Renamed "Other Events" to <a href="../../examples/events/footstep-events">Footstep Events</a> and reordered it to come before "Golf Events".</li>
 <li>Added an introduction sequence to <a href="../../examples/state-machines/platformer">Platformer</a> using <a href="#timeline">Timeline</a>.</li>
 <li>Improved <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> to account for the foot rotation when calculating the raycast diration.</li>
 <li>Added <code>[DefaultExecutionOrder]</code> attributes to all <code>Creature</code> examples as well as comments in <code>Awake</code> to reinforce its importance.</li>
