@@ -190,14 +190,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -287,7 +287,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -470,7 +470,7 @@
 <ul>
 <li>Many coding standards would recommend using brackets around the conditions to clarify their evaluation order. Newer programmers in particular may not realise that <code>&amp;&amp;</code> takes priority so it will evaluate as <code>(is not transitioning &amp;&amp; current state is target) || next state is target</code> rather than <code>is not transitioning &amp;&amp; (current state is target || next state is target)</code>.</li>
 <li>Instead of repeating the same line 3 times, that condition should be separated into another method so it can just call <code>IsInState(m_HashLocomotion) || IsInState(m_HashAirborne) ...</code>.</li>
-<li>All those conditions should be part of the <code>return</code> statement (using multiple lines so they don't get too long) instead of being evaluated beforehand. That way as soon as any of the conditions is met it can return without continuing to check the rest of them. In this case the performance improvement would be negligible, but it would have also been faster to write without needing to declare any local variables.</li>
+<li>All those conditions should be part of the <code>return</code> statement (using multiple lines so they do not get too long) instead of being evaluated beforehand. That way as soon as any of the conditions is met it can return without continuing to check the rest of them. In this case the performance improvement would be negligible, but it would have also been faster to write without needing to declare any local variables.</li>
 </ul>
 <pre><code class="language-cs">protected bool IsMoveInput
 {
@@ -533,7 +533,7 @@
     _QuickTurnLeft.OnEnd = _QuickTurnRight.OnEnd = () =&gt; Animancer.Transition(_LocomotionBlendTree);
 }
 </code></pre>
-<p>Every <code>FixedUpdate</code> in this state calls <code>UpdateRotation</code> which returns early if the <code>_LocomotionBlendTree</code> is not active (at full <code>Weight</code> or currently fading in) because that means the character must already be performing a quick turn, so we don't do any scripted turning and just let the <code>Creature.OnAnimatorMove</code> apply the root motion rotation from that animation.</p>
+<p>Every <code>FixedUpdate</code> in this state calls <code>UpdateRotation</code> which returns early if the <code>_LocomotionBlendTree</code> is not active (at full <code>Weight</code> or currently fading in) because that means the character must already be performing a quick turn, so we do not do any scripted turning and just let the <code>Creature.OnAnimatorMove</code> apply the root motion rotation from that animation.</p>
 <pre><code class="language-cs">private void UpdateRotation()
 {
     if (!_LocomotionBlendTree.State.IsActive)
@@ -579,12 +579,12 @@ public bool GetTurnAngles(Vector3 direction, out float currentAngle, out float t
             // Determine which way we are turning.
             var turn = deltaAngle &lt; 0 ? _QuickTurnLeft : _QuickTurnRight;
     
-            // Make sure the desired turn isn't already active so we don't keep using it repeatedly.
+            // Make sure the desired turn isn't already active so we do not keep using it repeatedly.
             if (turn.State == null || turn.State.Weight == 0)
             {
                 Animancer.Transition(turn);
 
-                // Now that we are quick turning, we don't want to apply the scripted turning below.
+                // Now that we are quick turning, we do not want to apply the scripted turning below.
                 return;
             }
         }
@@ -604,7 +604,7 @@ public void TurnTowards(float currentAngle, float targetAngle, float speed)
     transform.eulerAngles = new Vector3(0, currentAngle, 0);
 }
 </code></pre>
-<p>Note that other states such as <em>Airborne</em> and <em>Attack</em> want to use the same logic for turning but don't have quick turn animations so there's a second <code>TurnTowards</code> method which calls both <code>GetTurnAngles</code> and <code>TurnTowards</code> in one go for convenience.</p>
+<p>Note that other states such as <em>Airborne</em> and <em>Attack</em> want to use the same logic for turning but do not have quick turn animations so there's a second <code>TurnTowards</code> method which calls both <code>GetTurnAngles</code> and <code>TurnTowards</code> in one go for convenience.</p>
 <p>One thing which this example does not replicate from the original is the automatic turning towards nearby enemies while attacking in <code>PlayerController.SetTargetRotation</code> because this example doesn't include enemies. But if it did, that logic would be located in the <code>AttackState</code> class instead of being mixed in with the general turning logic.</p>
 
 	</section>

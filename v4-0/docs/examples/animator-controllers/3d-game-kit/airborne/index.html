@@ -186,14 +186,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -283,7 +283,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -587,16 +587,16 @@ private void ApplyVerticalSpeed()
 <p>This gives us several advantages over the manual approaches above:</p>
 <ul>
 <li>We only need a single field.</li>
-<li>We call <code>AnimancerComponent.Transition</code> instead of <code>CrossFade</code> which automatically creates the <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> so we don't need the <code>Awake</code> method either.</li>
+<li>We call <code>AnimancerComponent.Transition</code> instead of <code>CrossFade</code> which automatically creates the <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> so we do not need the <code>Awake</code> method either.</li>
 <li><code>CrossFade</code> takes a <code>fadeDuration</code> parameter which is hard coded to 0.25 seconds by default, but the transition has an Inspector field to allow it to be tweaked by non-programmers.</li>
-<li>The parameter name is handled by a dropdown menu in the Inspector so it's not hard coded and you get a clear list of all available parameters. This means the code isn't tied to a specific parameter name and you don't have the chance to misspell it.</li>
+<li>The parameter name is handled by a dropdown menu in the Inspector so it's not hard coded and you get a clear list of all available parameters. This means the code isn't tied to a specific parameter name and you do not have the chance to misspell it.</li>
 </ul>
 <p><img src="airborne-transition.png" class="img-responsive"></p>
 <h1 id="updates">Updates</h1>
 <p>There are several aspects to this state every update.</p>
 <p>Firstly, we override the <code>StickToGround</code> property to always be false and the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> property to go whichever direction the <code>Creature.Brain</code> is trying to move as explained on the <a href="../locomotion/movement#on-animator-move-1">Movement</a> page.</p>
 <p>Then the <code>FixedUpdate</code> method executes the main logic of this state.</p>
-<p>It starts by making sure that when you jump, don't start checking if you have landed until you stop going up:</p>
+<p>It starts by making sure that when you jump, do not start checking if you have landed until you stop going up:</p>
 <pre><code class="language-cs">private void FixedUpdate()
 {
     if (_IsJumping)
@@ -605,7 +605,7 @@ private void ApplyVerticalSpeed()
             _IsJumping = false;
     }
 </code></pre>
-<p>Otherwise, if there is a <a href="../landing">Landing</a> state we try to enter it, which that script won't allow until the <code>CharacterController</code> is grounded. Or if we don't have a specific state for landing, just check the default transitions to Idle or Locomotion.</p>
+<p>Otherwise, if there is a <a href="../landing">Landing</a> state we try to enter it, which that script won't allow until the <code>CharacterController</code> is grounded. Or if we do not have a specific state for landing, just check the default transitions to Idle or Locomotion.</p>
 <pre><code class="language-cs">    else
     {
         if (_LandingState != null)
@@ -625,7 +625,7 @@ private void ApplyVerticalSpeed()
             <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> -= _JumpAbortSpeed * Time.deltaTime;
     }
 </code></pre>
-<p>Lastly, we send the vertical speed to the Animator Controller for the Blend Tree to use and update the <code>Creature</code>'s speed and turning. Since we don't have quick turn animations like the LocomotionState, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
+<p>Lastly, we send the vertical speed to the Animator Controller for the Blend Tree to use and update the <code>Creature</code>'s speed and turning. Since we do not have quick turn animations like the LocomotionState, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
 <pre><code class="language-cs">    ApplyVerticalSpeed();
 
     Creature.UpdateSpeedControl();

@@ -189,14 +189,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -286,7 +286,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -360,7 +360,7 @@
 <p>The default state has a <code>StateMachineBehaviour</code> to handle the countdown to play the other states:</p>
 <p><img src="idle-random-state.png" class="img-responsive"></p>
 <p>At first glance, that seems like it should be everything we need for the desired behaviour, but according to the Inspector the minimum wait time is set to 0 which seems odd. That would mean there's a chance for the character to become bored as soon as they stop walking or finish an attack.</p>
-<p>Upon further investigation, it turns out that most other states don't actually have a direct transition back to <code>IdleSM</code>. Instead, there is actually another <code>Idle</code> state inside the <code>LocomotionSM</code> sub state machine:</p>
+<p>Upon further investigation, it turns out that most other states do not actually have a direct transition back to <code>IdleSM</code>. Instead, there is actually another <code>Idle</code> state inside the <code>LocomotionSM</code> sub state machine:</p>
 <p><img src="locomotion-state-machine.png" class="img-responsive"></p>
 <p>So most states return to <code>LocomotionSM.Idle</code> which has a transition to the real <code>IdleSM.Idle</code> state (both of which use the same <code>AnimationClip</code>) based on the <code>TimeoutToIdle</code> trigger parameter.</p>
 <p>Looking at the Animator Controller gives us no indication of where or how that parameter is used, but if we search through the code for its name we find it being used for a hash code:</p>

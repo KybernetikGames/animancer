@@ -186,14 +186,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -283,7 +283,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -353,7 +353,7 @@
 <li>Animator Controllers cause ineffective <a href="#separation-of-concerns">Separation of Concerns</a> where you arbitrarily define some parts of your character's behaviour in the Animator Controller and other parts in your scripts. This makes debugging much harder because any bug could come from your script or the Animator Controller or a combination of the two and any change to one might break the other. It also makes it harder to ask for help online because you need to post your script as well as several pictures of various parts of the Animator Controller which you think are relevant.</li>
 <li>Animator Controllers naively brute-force all <a href="#responsibilities">Responsibilities</a> into one place which prevents you from properly encapsulating individual aspects of a character as easily manageable or reusable groups.</li>
 <li>Animator Controllers greatly limit your <a href="#runtime-control">Runtime Control</a> since everything needs to be manually configured in the Unity Editor and cannot be dynamically changed by scripts.</li>
-<li>Animator Controller states don't even align with the background grid.</li>
+<li>Animator Controller states do not even align with the background grid.</li>
 </ul>
 <p><img src="nightmare-controller.png" class="img-responsive"></p>
 <p>This monstrosity was taken from an official Unity Blog post ironically titled "<a href="https://blogs.unity3d.com/2016/10/11/building-for-reuse-mecanim-on-recore/">Building for Reuse</a>". The sheer number of states and parameters turns it from a meaningful visualisation of a complex system into a convoluted mess that would be extremely difficult to work with. Programming patterns and other techniques that could normally be used to effectively develop something that complex simply cannot be used when everything is constrained by Animator Controllers.</p>
@@ -447,7 +447,7 @@ public void PlayAttack()
 <li>In this case there are no other animations to choose from because we only have one <code>AnimationClip</code> field. But if for example you set up a <code>Weapon</code> class with various fields for all of the animations it can have, then your IDE would be able to give you a list of those fields to choose from and you could probably jump to that class with a single keypress if necessary (<code>F12</code> in Visual Studio).</li>
 <li>It will call the <code>OnAttackEnd</code> method.</li>
 <li>If you make a spelling mistake it will cause a compile error which points to the problem so you can fix it immediately.</li>
-<li>You don't need to modify anything else, your IDE can rename all references to that field automatically. Though you could use a <a href="https://docs.unity3d.com/ScriptReference/Serialization.FormerlySerializedAsAttribute.html"><code>[FormerlySerializedAs]</code></a> attribute to ensure that any references previously assigned to the old field name will be kept by the new one.</li>
+<li>You do not need to modify anything else, your IDE can rename all references to that field automatically. Though you could use a <a href="https://docs.unity3d.com/ScriptReference/Serialization.FormerlySerializedAsAttribute.html"><code>[FormerlySerializedAs]</code></a> attribute to ensure that any references previously assigned to the old field name will be kept by the new one.</li>
 <li>Irrelevant. This script defines its own behaviour instead of needing to fit in with the way Animator Controllers have been set up.</li>
 </ol>
 <h1 id="separation-of-concerns">Separation of Concerns</h1>
@@ -482,7 +482,7 @@ public void PlayAttack()
 <p>Animancer gives you the freedom to define individual aspects of a character wherever they make the most sense, which often means creating your own logical groupings and wrappers for them so that multiple characters can share the same structure.</p>
 <p>These groupings can be defined using a different approach depending on the circumstances:</p>
 <ul>
-<li><code>MonoBehaviour</code>s are attached to a specific <code>GameObject</code> in a scene or a prefab. This is useful if each group will generally be associated with one specific prefab or scene object so that you don't need a separate asset for each of them.</li>
+<li><code>MonoBehaviour</code>s are attached to a specific <code>GameObject</code> in a scene or a prefab. This is useful if each group will generally be associated with one specific prefab or scene object so that you do not need a separate asset for each of them.</li>
 <li><code>ScriptableObject</code>s are generally saved as isolated assets inside the project. This is useful for sharing animation groups among multiple prefabs and scene objects.
 <ul>
 <li>The <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s used in the <a href="../../../examples/directional-sprites">Directional Sprites</a> examples are an example of such a grouping.</li>

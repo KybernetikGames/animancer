@@ -184,14 +184,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -281,7 +281,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -361,8 +361,8 @@
 <p>There are only a few scripts in this example because it is similar enough to other examples that it can reuse some of their scripts:</p>
 <ul>
 <li>The <code><a href="/animancer/v4-0/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script comes from the <a href="../../events/golf-events">Golf Events</a> example. The mini game is essentially just that example.</li>
-<li>The core <code>Creature</code> script and base <code>CreatureState</code> script come from the <a href="../../state-machines/brains">Brains</a> example.</li>
-<li><details><summary>The <code>LocomotionState</code> script is mostly identical to the same script from the <a href="../../state-machines/brains">Brains</a> example except for the <code>UpdateAnimation</code> method which controls the <em>Locomotion</em> Blend Tree in the Animator Controller instead of directly referencing <code>AnimationClip</code>s. This Blend Tree also includes the <em>Idle</em> animation where the other example had a separate <code>IdleState</code> script.</summary><p>
+<li>The core <code>Creature</code> script and base <code>CreatureState</code> script come from the <a href="../../fsm/brains">Brains</a> example.</li>
+<li><details><summary>The <code>LocomotionState</code> script is mostly identical to the same script from the <a href="../../fsm/brains">Brains</a> example except for the <code>UpdateAnimation</code> method which controls the <em>Locomotion</em> Blend Tree in the Animator Controller instead of directly referencing <code>AnimationClip</code>s. This Blend Tree also includes the <em>Idle</em> animation where the other example had a separate <code>IdleState</code> script.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Examples.StateMachines.Brains;
 using UnityEngine;
@@ -482,14 +482,14 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
         }
     }
 </code></pre>
-<p>We don't have any real <a href="../../state-machines/interrupt-management">Interrupt Management</a> in this example because there aren't many states, so we can simply override <code>CanExitState</code> to ensure that the <code>LocomotionState</code> won't interrupt it while still allowing it to interrupt itself. Note that <code>FixedUpdate</code> uses <code>ForceEnterState</code> to return to <code>Idle</code> which skips the <code>CanExitState</code> and <code>CanEnterState</code> checks.</p>
+<p>We do not have any real <a href="../../fsm/interrupt-management">Interrupt Management</a> in this example because there aren't many states, so we can simply override <code>CanExitState</code> to ensure that the <code>LocomotionState</code> won't interrupt it while still allowing it to interrupt itself. Note that <code>FixedUpdate</code> uses <code>ForceEnterState</code> to return to <code>Idle</code> which skips the <code>CanExitState</code> and <code>CanEnterState</code> checks.</p>
 <pre><code class="language-cs">    // The only thing that can interrupt a flinch is another flinch.
     public override bool CanExitState(CreatureState nextState)
     {
         return nextState == this;
     }
 </code></pre>
-<p>Normally a state like this would use its <code>Awake</code> method to register a callback to an <code>OnHitReceived</code> event of some sort in order to trigger itself, similar to the way <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> in the <a href="../../state-machines/platformer">Platformer</a> example checks if the creature needs to die whenever damage is taken. That way, a creature without a <em>Flinch</em>/<em>Die</em> state won't bother checking a condition it doesn't care about (such as if an NPC can't be attacked). But for this example we just expose a public method so it can be called by a UI Button:</p>
+<p>Normally a state like this would use its <code>Awake</code> method to register a callback to an <code>OnHitReceived</code> event of some sort in order to trigger itself, similar to the way <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> in the <a href="../../fsm/platformer">Platformer</a> example checks if the creature needs to die whenever damage is taken. That way, a creature without a <em>Flinch</em>/<em>Die</em> state won't bother checking a condition it doesn't care about (such as if an NPC can't be attacked). But for this example we just expose a public method so it can be called by a UI Button:</p>
 <pre><code class="language-cs">    public void OnTakeDamage()
     {
         Creature.StateMachine.TrySetState(this);

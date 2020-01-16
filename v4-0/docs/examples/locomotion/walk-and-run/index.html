@@ -186,14 +186,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -283,7 +283,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -462,7 +462,7 @@ public sealed class IdleAndWalkTutorial : MonoBehaviour
 <h1 id="adding-run">Adding Run</h1>
 <p>The <code>IdleAndWalkTutorial</code> script is not very extensible yet, but with a few changes we can easily allow another script to <a href="../../../introduction/cs/inheritance">Inherit</a> from it to add a <em>Run</em> animation.</p>
 <p>First we need to remove the <a href="../../../introduction/cs/inheritance#keywords"><code>sealed</code></a> keyword from the class and change the <code>Update</code> method to <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>. The <a href="../../../source/default-script-template#why-sealed">Default Script Template</a> page explains why we made it <a href="../../../introduction/cs/inheritance#keywords"><code>sealed</code></a> by default.</p>
-<p>The derived class will need access to the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code>_Walk</code> animation so let's add <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> read-only <a href="../../../introduction/cs/methods#properties">Properties</a> for them (we could make the fields <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>, but we do not particularly want the derived class to be able to change their values). For the sake of completeness we might as well add one for the <code>_Idle</code> animation as well even though we don't intend to use it.</p>
+<p>The derived class will need access to the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code>_Walk</code> animation so let's add <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> read-only <a href="../../../introduction/cs/methods#properties">Properties</a> for them (we could make the fields <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>, but we do not particularly want the derived class to be able to change their values). For the sake of completeness we might as well add one for the <code>_Idle</code> animation as well even though we do not intend to use it.</p>
 <pre><code class="language-cs">// These properties are read-only because they have "get" but not "set".
 public <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
 public AnimationClip Idle { get { return _Idle; } }

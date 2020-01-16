@@ -188,14 +188,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -285,7 +285,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -476,7 +476,7 @@ summary
     <td><details><summary>Well documented source code included</summary>
       <p>Animancer Pro includes the full source code so that you can look through it, debug problems, and make any necessary modifications without being dependant on the author for help.</p>
       <p>The DLLs shown in the Pro package preview are empty dummies to ensure seamless upgrades from Lite to Pro. They contain no code and are not included in builds.</p>
-      Animancer Lite only includes the source code for <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the scripts in the <em>Assets/Plugins/Animancer/Utilities</em> folder which includes <code>Animancer.FSM</code> (the entire <a href="../manual/finite-state-machines">State Machine</a> system), <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, and <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code>, as well as several others (and of course the full source code of all the <a href="../examples/">example scenes</a>).</details></td>
+      Animancer Lite only includes the source code for <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the scripts in the <em>Assets/Plugins/Animancer/Utilities</em> folder which includes <code>Animancer.FSM</code> (the entire <a href="../manual/fsm">State Machine</a> system), <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, and <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code>, as well as several others (and of course the full source code of all the <a href="../examples/">example scenes</a>).</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -719,7 +719,7 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>General purpose Finite State Machine</summary>
       <p>Animator Controllers can be used to manage the gameplay state of an object as part of its animation state.</p>
-      <p>Animancer is not tied to a specific state machine implementation, but it does include a general purpose <a href="../manual/finite-state-machine">Finite State Machine</a> system in the <code>Animancer.FSM</code> namespace which is entirely separate from the animation system and is flexible enough for most needs. They work well together, but you can very easily modify it or use any other system you prefer.</p>
+      <p>Animancer is not tied to a specific state machine implementation, but it does include a general purpose <a href="../manual/fsm">Finite State Machine</a> system in the <code>Animancer.FSM</code> namespace which is entirely separate from the animation system and is flexible enough for most needs. They work well together, but you can very easily modify it or use any other system you prefer.</p>
       Like Animancer itself, controlling the <code>Animancer.FSM</code> is immediate and reliable. It doesn't need to wait for the next update to respond to your commands. It doesn't actually have an update loop of its own, but you can easily give your states an update method (or methods) for whatever rate you need (<code>Update</code>, <code>FixedUpdate</code>, <code>LateUpdate</code>, etc.)</details></td>
     <td class="y">
     </td><td class="n">
@@ -822,7 +822,7 @@ animancer.Play("Attack");
 <li>Any <code>AnimationClip</code> that can be played in an Animator Controller can also be played in Animancer so anything that creates or modifies <code>AnimationClip</code>s will be fully compatible (except Legacy animations as noted in the above table). For example, animation editor plugins like <a href="https://assetstore.unity.com/packages/tools/animation/umotion-pro-animation-editor-95991?aid=1100l8ah5">UMotion Pro</a> or <a href="https://assetstore.unity.com/packages/tools/animation/very-animation-96826?aid=1100l8ah5">Very Animation</a>.</li>
 <li>Anything that uses <code>LateUpdate</code> to modify the model after the animations are updated will work exactly the same as usual.</li>
 <li>Anything that uses <code>OnAnimatorIK</code> simply needs IK to be turned on by setting <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a> = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. This requires Unity 2018.3 to work properly as mentioned above. See <a href="../manual/inverse-kinematics">Inverse Kinematics</a> for more details.</li>
-<li>Anything that uses <code>StateMachineBehaviour</code>s will not work directly with Animancer unless you use a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an actual Animator Controller. See <a href="../manual/finite-state-machines">Finite State Machines</a> for details about the state machine system included with Animancer and the <a href="../examples/animator-controllers">Animator Controllers</a> examples for details about playing or deconstructing them.</li>
+<li>Anything that uses <code>StateMachineBehaviour</code>s will not work directly with Animancer unless you use a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an actual Animator Controller. See <a href="../manual/fsm">Finite State Machines</a> for details about the state machine system included with Animancer and the <a href="../examples/animator-controllers">Animator Controllers</a> examples for details about playing or deconstructing them.</li>
 <li>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/inverse-kinematics#exposed-curves">Exposed Curves</a> section for more details.</li>
 </ul>
 

@@ -188,14 +188,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -285,7 +285,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -433,7 +433,7 @@ public void Attack()
 </code></pre>
 <p></p></details><p></p>
 <h1 id="auto-clear">Auto Clear</h1>
-<p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states to ensure that you don't have to worry about other scripts that might have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
+<p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states to ensure that you do not have to worry about other scripts that might have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
 <p>This usually means that only one state on each object will actually have events at any given time so <code><a href="/animancer/v4-0/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>s are recycled in an <code><a href="/animancer/v4-0/api/Animancer/ObjectPool">ObjectPool</a></code>:</p>
 <ul>
 <li>Accessing the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState/11AD60E8">AnimancerState.Events</a></code> property will get an event sequence from the pool if it does not already have one.</li>
@@ -441,7 +441,7 @@ public void Attack()
 <li><a href="../../transitions">Transitions</a> each have their own sequence which they assign whenever they are played.</li>
 </ul>
 <p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, it will not want that animation to still have the old <a href="../../events/end#events">End Event</a> that returns to <em>Idle</em>.</p>
-<p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so it is covered in the <a href="../../../examples/state-machines/interrupt-management">Interrupt Management</a> example.</p>
+<p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so it is covered in the <a href="../../../examples/fsm/interrupt-management">Interrupt Management</a> example.</p>
 <h1 id="garbage">Garbage</h1>
 <p>Animancer Events use <a href="../../../introduction/cs/methods#delegates">Delegates</a> as a very convenient way to determine what each event actually does, however they also have the downside of needing to be <a href="../../../introduction/cs/other#garbage-collection">Garbage Collected</a> when they are no longer being used which happens quite often since events are <a href="#auto-clear">Automatically Cleared</a> whenever a new animation is played.</p>
 <p></p><details><summary>Garbage Collection can be avoided by "<em>caching</em>" your variables, which in this case means you simply create your delegates once (usually on startup) and reuse the same ones every time:</summary><p>

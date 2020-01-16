@@ -186,14 +186,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -283,7 +283,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -516,7 +516,7 @@ private void Play(DirectionalAnimationSet animations)
 </ul>
 <p>This way we avoid putting too many responsibilities in a single method.</p>
 <h2 id="push">Push</h2>
-<p>When moving, <em>Push</em> logically takes priority over the other two if you are moving against a solid object so start by detecting if that is currently happening. We need to know what the character is touching so we want to use <code>_Collider.GetContacts</code> to get the current contact details. Unity 2019.1 added an <a href="../../../introduction/cs/methods#overloads">Overload</a> of the <code>GetContacts</code> method which takes a <a href="../../../introduction/cs/variables#lists">List</a> parameter that it can automatically resize as necessary for the current number of contact points, but since Animancer still supports older Unity versions we still need to use the <a href="../../../introduction/cs/variables#arrays">Array</a> based methods. In order to avoid creating <a href="../../../introduction/cs/other#garbage-collection">Garbage</a>, we want to pre-allocate an array large enough to fit all the contact points we might have. 4 contacts is plenty for this example, but even a large number like 64 would be fine as long as we avoid making a new array every time we need to get the contacts.</p>
+<p>When moving, <em>Push</em> logically takes priority over the other two if you are moving against a solid object so start by detecting if that is currently happening. We need to know what the character is touching so we want to use <code>_Collider.GetContacts</code> to get the current contact details. Unity 2019.1 added an <a href="../../../introduction/cs/methods#overloads">Overload</a> of the <code>GetContacts</code> method which takes a <a href="../../../introduction/cs/variables#lists">List</a> parameter that it can automatically resize as necessary for the current number of contact points, but since Animancer still supports older Unity versions we still need to use the <a href="../../../introduction/cs/variables#arrays">Array</a> based methods. In order to avoid creating <a href="../../../introduction/cs/other#garbage-collection">Garbage</a>, we want to pre-allocate an array large enough to fit all the contact points we might have. 4 contacts is plenty for this example, but even a large number like 64 would be fine as long as we avoid making a new array every time we need to get the contacts. The <a href="../../fsm/platformer#ground-detector">Platformer</a> example even implements its own expanding array that works like a list.</p>
 <pre><code class="language-cs">private static readonly ContactPoint2D[] Contacts = new ContactPoint2D[4];
 
 private void UpdateMovementState()

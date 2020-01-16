@@ -184,14 +184,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -281,7 +281,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -491,7 +491,7 @@ public static void EditModePlay(AnimancerComponent animancer, AnimationClip clip
   <li>The <code>[Conditional]</code> attribute causes the compiler to remove any calls to that method from runtime builds (when <code>UNITY_EDITOR</code> isn't defined), which allows us to support convenient features like this during development without impacting runtime performance at all.</li>
   <li>It checks <code>EditorApplication.isPlayingOrWillChangePlaymode</code> to avoid doing anything in Play Mode. Otherwise changing anything in the script's Inspector in Play Mode would play the specified <em>Idle</em> animation and pause the graph in the middle of gameplay, which the rest of the script isn't expecting to happen.</li>
   <li>Unity will actually give errors if we try to play an animation directly inside <code>OnValidate</code>, so it also uses <code>EditorApplication.delayCall</code> to wait for one frame.</li>
-  <li>Passing <code>true</code> as the <code>pauseImmediately</code> parameter causes it to simply show the first frame of the animation and then stop while <code>false</code> would allow the animation to play normally. The default value is <code>true</code> because most people don't want things animating and moving around while they're trying to edit a scene, but it is mostly a matter of personal preference so feel free to try either way.</li>
+  <li>Passing <code>true</code> as the <code>pauseImmediately</code> parameter causes it to simply show the first frame of the animation and then stop while <code>false</code> would allow the animation to play normally. The default value is <code>true</code> because most people do not want things animating and moving around while they're trying to edit a scene, but it is mostly a matter of personal preference so feel free to try either way.</li>
   <li>Also note that animations in Edit Mode <em>do not</em> count as modifications to the scene that will flag it as dirty (to tell Unity that it needs to be saved). This generally doesn't matter since any time the scene is opened the animation will simply be played again. However, when the scene does get saved it could be at any point in the animation and save whatever values it currently has, which would show up as modifications in a version control system.</li>
 </ul>
 <p></p></details><p></p>

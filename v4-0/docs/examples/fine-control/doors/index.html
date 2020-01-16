@@ -185,14 +185,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -282,7 +282,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -470,7 +470,7 @@ namespace Animancer.Examples.FineControl
 <p></p></details><p></p>
 <p>A more complex interaction system might give the <code>Interact</code> method a parameter for details about the triggering object. For example, in addition to the animation it uses on itself, a <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/Door">Door</a></code> could have a <em>Humanoid-OpenDoor</em> animation which it plays on the character who interacts with it. A <code>Lever</code> might do something similar to allow people to pull it. And so on, all without the character needing to hold interaction animations for every possible object. Or the responsibility could be reversed: still give the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/Door">Door</a></code> or <code>Lever</code> its corresponding humanoid animation, but simply expose it as an <code>InteractionAnimation</code> property in the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> so that when a character triggers the interaction they can also check if there's an animation they need to play.</p>
 <h1 id="basic-door">Basic Door</h1>
-<p>The <em>OpenDoor</em> animation rotates the door from closed to open and we don't have a second animation to close it again. So to create a system that can both open and close we just need to manipulate the animation's <code>Speed</code> to play forwards or backwards.</p>
+<p>The <em>OpenDoor</em> animation rotates the door from closed to open and we do not have a second animation to close it again. So to create a system that can both open and close we just need to manipulate the animation's <code>Speed</code> to play forwards or backwards.</p>
 <p>First we need a new script to implement the <code><a href="/animancer/v4-0/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface and reference the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the <code>AnimationClip</code>:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -576,7 +576,7 @@ private float _Openness;
     // This is why the 0 to 1 range is important.
     state.NormalizedTime = _Openness;
 
-    // We don't actually want the animation to play though,
+    // We do not actually want the animation to play though,
     // we just want to apply its value at the time we just set.
     _Animancer.Evaluate();
     _Animancer.Playable.PauseGraph();

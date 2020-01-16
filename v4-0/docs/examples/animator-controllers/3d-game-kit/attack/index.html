@@ -189,14 +189,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -286,7 +286,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -466,7 +466,7 @@ public sealed class AttackState : CreatureState
 <li>You can't view more than one at a time and it takes two clicks to swap between them.</li>
 <li>Since the <code>StateTime</code> parameter is actually set using the state's normalized time, it's hard to judge how much time a particular value actually represents.</li>
 </ul>
-<p>Instead of trying to replicate that setup, the Animancer character instead uses a concept known as <em>input buffering</em> which simply means that if a button press fails to trigger the desired action, it will still be able to do so for a short time afterwards. Fortunately, Animancer's <a href="../../../manual/finite-state-machines#input-buffers">Finite State Machine</a> system has an <code>InputBuffer</code> class which is very easy to use. So we make a time out field to determine how long the buffer will last and initialise it with the <code>StateMachine</code> it will be buffering:</p>
+<p>Instead of trying to replicate that setup, the Animancer character instead uses a concept known as <em>input buffering</em> which simply means that if a button press fails to trigger the desired action, it will still be able to do so for a short time afterwards. Fortunately, Animancer's <a href="../../../manual/fsm#input-buffers">Finite State Machine</a> system has an <code>InputBuffer</code> class which is very easy to use. So we make a time out field to determine how long the buffer will last and initialise it with the <code>StateMachine</code> it will be buffering:</p>
 <pre><code>[SerializeField] private float _AttackInputTimeOut = 0.5f;
 
 private StateMachine&lt;CreatureState&gt;.InputBuffer _InputBuffer;
@@ -624,7 +624,7 @@ private AttackClip _Attack;
 }
 </code></pre>
 <p>This means that once the specified time passes, the next <code>FixedUpdate</code> will change to one of the standard states (and that state will be responsible for fading in its own animation). If the <a href="#input-buffer">Input Buffer</a> is attempting to attack again, it will then do so next time it is updated, which will enter this state again. Since the attack animation that just ended would still be fading out at that point, the <code>OnEnable</code> method would then move it onto the next attack in the sequence.</p>
-<p>If we had states like <em>Hurt</em> and <em>Dead</em>, we could use the ideas covered in the <a href="../../../state-machines/interrupt-management">Interrupt Management</a> example to allow them to interrupt this state regardless of the time.</p>
+<p>If we had states like <em>Hurt</em> and <em>Dead</em>, we could use the ideas covered in the <a href="../../../fsm/interrupt-management">Interrupt Management</a> example to allow them to interrupt this state regardless of the time.</p>
 <h1 id="adding-more-attacks">Adding More Attacks</h1>
 <p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this state to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time.</p>
 

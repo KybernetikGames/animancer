@@ -185,14 +185,14 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/state-machines">06 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/creatures">01 Creatures</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/interrupt-management">02 Interrupt Management</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/brains">03 Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/more-brains">04 More Brains</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/state-machines/platformer">05 Platformer</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/interrupt-management">02 Interrupt Management</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/fsm/platformer">05 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -282,7 +282,7 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/manual/finite-state-machines">Finite State Machines</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
 
@@ -378,7 +378,7 @@ public void RespawnFinished()
 <p>This means that the logic for respawning is scattered all over the place:</p>
 <ul>
 <li>You need to check the transition to determine what causes it.</li>
-<li>You need to check if the state has any <code>StateMachineBehaviour</code>s attached (most other states don't) and read the <code>EllenSetTargetableSMB</code> script to find out what it actually does. Even more so since it has a vaguely misleading name. Something like <code>OnRespawnFinished</code> would have been a much better name.</li>
+<li>You need to check if the state has any <code>StateMachineBehaviour</code>s attached (most other states do not) and read the <code>EllenSetTargetableSMB</code> script to find out what it actually does. Even more so since it has a vaguely misleading name. Something like <code>OnRespawnFinished</code> would have been a much better name.</li>
 <li>Then you need to check the <code>PlayerController</code> script to find out what the <code>RespawnFinished</code> method actually does.</li>
 </ul>
 <p>So in the end this approach uses a new script for the <em>Respawn</em> state, but all it does is call a function somewhere else. It tries to use the Animator Controller as a state machine, but the limitations of that system prevent it from doing everything that is needed so the remaining responsibilities fall back onto scripts anyway.</p>
