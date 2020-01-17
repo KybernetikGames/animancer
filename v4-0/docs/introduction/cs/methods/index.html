@@ -100,6 +100,7 @@
                     <a href="/animancer/v4-0/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -113,7 +114,6 @@
 
                     </ul>
                 </li>
-                <li><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li><a href="/animancer/v4-0/docs/introduction/glossary">Glossary</a></li>
                 <li class="treeview active">
                     <a href="/animancer/v4-0/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
@@ -202,11 +202,11 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/examples/layers">07 Layers</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/inverse-kinematics">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/inverse-kinematics/puppet">01 Puppet</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/inverse-kinematics/uneven-ground">02 Uneven Ground</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/ik/puppet">01 Puppet</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/ik/uneven-ground">02 Uneven Ground</a></li>
 
                     </ul>
                 </li>
@@ -288,7 +288,7 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/ik">Inverse Kinematics</a></li>
 
                     </ul>
                 </li>
@@ -354,7 +354,7 @@
 <p>The description in the above link is slightly misleading because while the Unity Engine itself does presumably use a <code>Main</code> method internally as the main entry point for the application as described in the above link, your scripts will instead use various <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour Messages</a> which are methods you can define that Unity will execute in response to certain events.</p>
 <p>Also note that the first two sentences on the <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour"><code>MonoBehaviour</code></a> page as of this writing are <strong>false</strong> ("<em>MonoBehaviour is the base class from which <strong>every</strong> Unity script derives. When you use C#, you <strong>must</strong> explicitly derive from MonoBehaviour.</em>"). Scripts that you want to attach to a <code>GameObject</code> in the scene do need to <a href="inheritance">Inherit</a> from <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour"><code>MonoBehaviour</code></a>, but there are lots of situations where you do not need to do so. Animancer for example has around 80 scripts (excluding the examples) but only 8 of them inherit from <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour"><code>MonoBehaviour</code></a>.</p>
 <p>Methods are executed sequentially from the top down one step at a time. Calling another method will execute it entirely before continuing to execute the calling method. For example:</p>
-<pre><code language="cs"><a href="organisation#namespaces">using UnityEngine;</a>
+<pre><code class="language-cs"><a href="organisation#namespaces">using UnityEngine;</a>
 
 public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour</a>
 {
@@ -388,7 +388,7 @@ public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBeh
 </code></pre>
 <h1 id="parameters">Parameters</h1>
 <p><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/passing-parameters">Parameters</a> allow values to be passed into a method by the caller. For example:</p>
-<pre><code language="cs"><a href="organisation#namespaces">using UnityEngine;</a>
+<pre><code class="language-cs"><a href="organisation#namespaces">using UnityEngine;</a>
 
 public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour</a>
 {
@@ -411,7 +411,7 @@ public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBeh
 </code></pre>
 <h1 id="overloads">Overloads</h1>
 <p>In general, everything in C# needs a unique name (types, fields, etc.). However, methods can be <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/member-overloading">Overloaded</a> by declaring multiple methods with the same name and different parameters. Take Unity's <a href="https://docs.unity3d.com/ScriptReference/Mathf.Clamp"><code>Mathf.Clamp</code></a> method for example:</p>
-<pre><code language="cs">public struct Mathf// No idea why Mathf is not a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-classes-and-static-class-members">static class</a> since all its members are static.
+<pre><code class="language-cs">public struct Mathf// No idea why Mathf is not a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-classes-and-static-class-members">static class</a> since all its members are static.
 {
     public static float Clamp(float value, float min, float max)
     {
@@ -439,7 +439,7 @@ public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBeh
 <p>Both of the above methods do the same thing so they can be reasonably given the same name and when you call it the parameters you use will determine which overload actually gets called. Another example can be seen in Animancer itself where the <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class has multiple <a href="../../../manual/playing#play-methods">Play Methods</a> to give different options for how you want to determine which animation to play and whether you want it to fade in over time or not.</p>
 <h1 id="return-values">Return Values</h1>
 <p>Similar to how <a href="#parameters">Parameters</a> allow the caller to pass values into a method, <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods#return-values">Return Values</a> allow the method to return a value back to the caller. For example:</p>
-<pre><code language="cs"><a href="organisation#namespaces">using UnityEngine;</a>
+<pre><code class="language-cs"><a href="organisation#namespaces">using UnityEngine;</a>
 
 public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour</a>
 {
@@ -616,7 +616,7 @@ public int Number { get; private set; }
 <p>The <a href="../organisation#static">Static</a> section contains an example that makes use of read-only auto-properties.</p>
 <h1 id="constructors">Constructors</h1>
 <p><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constructors">Constructors</a> are a special type of method which can be used to define how instances of a particular <code>class</code> or <code>struct</code> can be created and initialise their default values. A constructor has no return type and its name matches the declaring type like so:</p>
-<pre><code language="cs">public class Person
+<pre><code class="language-cs">public class Person
 {
    public <a href="#readonly-fields">readonly</a> string FirstName;
    public <a href="#readonly-fields">readonly</a> string LastName;
@@ -651,7 +651,7 @@ var jim = new Person("Jim", john.LastName);
 <pre><code class="language-cs">public delegate int PerformCalculation(int x, int y);
 </code></pre>
 <p>Delegates can be used as a type of <a href="../variables">Variable</a> just like any other, except that you assign methods to them and can call them like methods (calling a delegate is referred to as "invoking" it):</p>
-<pre><code language="cs">using System;// For System.Action.
+<pre><code class="language-cs">using System;// For System.Action.
 using UnityEngine;// For UnityEngine.MonoBehaviour.
 
 public class <a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> : MonoBehaviour
@@ -710,7 +710,7 @@ public class Creature : MonoBehaviour
 </ul>
 <h2 id="inline-delegates">Inline Delegates</h2>
 <p>If you do not already have a method you want a delegate to point to, you can use an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/delegate-operator">Anonymous Method</a> or <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions">Lambda Expression</a> to define the target method in the same place where you assign it:</p>
-<pre><code language="cs">// Using the <a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> class from the above example.
+<pre><code class="language-cs">// Using the <a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> class from the above example.
 
 public class Creature : MonoBehaviour
 {

@@ -99,6 +99,7 @@
                     <a href="/animancer/v4-0/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="selected"><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -112,7 +113,6 @@
 
                     </ul>
                 </li>
-                <li class="selected"><a href="/animancer/v4-0/docs/introduction/features">Features</a></li>
                 <li><a href="/animancer/v4-0/docs/introduction/glossary">Glossary</a></li>
                 <li class="treeview">
                     <a href="/animancer/v4-0/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
@@ -201,11 +201,11 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/examples/layers">07 Layers</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v4-0/docs/examples/inverse-kinematics">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v4-0/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/inverse-kinematics/puppet">01 Puppet</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/inverse-kinematics/uneven-ground">02 Uneven Ground</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/ik/puppet">01 Puppet</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/ik/uneven-ground">02 Uneven Ground</a></li>
 
                     </ul>
                 </li>
@@ -287,7 +287,7 @@
                 </li>
                 <li><a href="/animancer/v4-0/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/v4-0/docs/manual/animator-controllers">Animator Controllers</a></li>
-                <li><a href="/animancer/v4-0/docs/manual/inverse-kinematics">Inverse Kinematics</a></li>
+                <li><a href="/animancer/v4-0/docs/manual/ik">Inverse Kinematics</a></li>
 
                     </ul>
                 </li>
@@ -464,7 +464,7 @@ summary
     <td><details><summary>Use Animation Curves to control custom parameters</summary>
       <p>If a parameter in an Animator Controller has the same name as a curve in any of the animations it is playing, Mecanim will automatically update that parameter every frame with the value of the curve at the current animation time. If it is blending between multiple animations with the same curve, the value of the parameter will also be blended between them.</p>
       <p>Unfortunately, the Playables API (and thus the other animation systems) does not allow any similar access to the curves inside an <code>AnimationClip</code> at runtime.</p>
-      Animancer partially works around this problem using <a href="../manual/inverse-kinematics#exposed-curves">Exposed Curves</a> which extract a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed at runtime. However, this approach is much less convenient and does not have the same inherent blending that Mecanim does. The <a href="../examples/inverse-kinematics/uneven-ground">Uneven Ground</a> example demonstrates how to use them.</details></td>
+      Animancer partially works around this problem using <a href="../manual/ik#exposed-curves">Exposed Curves</a> which extract a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed at runtime. However, this approach is much less convenient and does not have the same inherent blending that Mecanim does. The <a href="../examples/ik/uneven-ground">Uneven Ground</a> example demonstrates how to use them.</details></td>
     <td class="y">
     </td><td class="n">
     </td><td class="n">
@@ -499,14 +499,14 @@ summary
   <tr>
     <td><details><summary>Control is immediate and reliable</summary>
       <p>When you command an Animator Controller (such as changing its state), it will not actually respond until the next time it gets updated and it might not even do what you want. For example, if you call <code>Play</code> then check which state is currently playing it will still return the previous state until the next frame and if you call <code>Play</code> again during the same frame it will ignore each call after the first instead of ending up in the last state you told it to play.</p>
-<pre><code class="cs">// Currently Playing Idle.
+<pre><code class="language-cs">// Currently Playing Idle.
 animator.Play("Jump");
 // Still playing Idle. Will only be playing Jump next frame.
 animator.Play("Attack");
 // Will still play Jump next frame. Not going to play Attack at all.
 </code></pre>
       <p>The other systems will respond to commands immediately and can properly handle multiple commands in the same frame.</p>
-<pre><code class="cs">// Currently Playing Idle.
+<pre><code class="language-cs">// Currently Playing Idle.
 animancer.Play("Jump");
 // Now Playing Jump.
 animancer.Play("Attack");
@@ -804,11 +804,11 @@ animancer.Play("Attack");
 </tr>
 <tr>
 <td>2018.1</td>
-<td><p>Fixed the <a href="../bugs/inconsistent-timing#first-frame-delay">First Frame Delay</a> bug.</p>Added support for <a href="../manual/inverse-kinematics">Inverse Kinematics</a>.</td>
+<td><p>Fixed the <a href="../bugs/inconsistent-timing#first-frame-delay">First Frame Delay</a> bug.</p>Added support for <a href="../manual/ik">Inverse Kinematics</a>.</td>
 </tr>
 <tr>
 <td>2018.3</td>
-<td><p>Added the <code><a href="/animancer/v4-0/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> interface which allows the Animation Window to access animations from custom components (specifically, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>s) rather than only from an <code>AnimatorController</code>.</p><p>Fixed the bug that prevented the <a href="../manual/inverse-kinematics">IK Pass</a> from working while fading between animations.</p>Fixed animations played in <a href="../manual/playing#edit-mode">Edit Mode</a> to work properly.</td>
+<td><p>Added the <code><a href="/animancer/v4-0/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> interface which allows the Animation Window to access animations from custom components (specifically, <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>s) rather than only from an <code>AnimatorController</code>.</p><p>Fixed the bug that prevented the <a href="../manual/ik">IK Pass</a> from working while fading between animations.</p>Fixed animations played in <a href="../manual/playing#edit-mode">Edit Mode</a> to work properly.</td>
 </tr>
 <tr>
 <td>2019.3</td>
@@ -821,9 +821,9 @@ animancer.Play("Attack");
 <ul>
 <li>Any <code>AnimationClip</code> that can be played in an Animator Controller can also be played in Animancer so anything that creates or modifies <code>AnimationClip</code>s will be fully compatible (except Legacy animations as noted in the above table). For example, animation editor plugins like <a href="https://assetstore.unity.com/packages/tools/animation/umotion-pro-animation-editor-95991?aid=1100l8ah5">UMotion Pro</a> or <a href="https://assetstore.unity.com/packages/tools/animation/very-animation-96826?aid=1100l8ah5">Very Animation</a>.</li>
 <li>Anything that uses <code>LateUpdate</code> to modify the model after the animations are updated will work exactly the same as usual.</li>
-<li>Anything that uses <code>OnAnimatorIK</code> simply needs IK to be turned on by setting <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a> = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. This requires Unity 2018.3 to work properly as mentioned above. See <a href="../manual/inverse-kinematics">Inverse Kinematics</a> for more details.</li>
+<li>Anything that uses <code>OnAnimatorIK</code> simply needs IK to be turned on by setting <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a> = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. This requires Unity 2018.3 to work properly as mentioned above. See <a href="../manual/ik">Inverse Kinematics</a> for more details.</li>
 <li>Anything that uses <code>StateMachineBehaviour</code>s will not work directly with Animancer unless you use a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an actual Animator Controller. See <a href="../manual/fsm">Finite State Machines</a> for details about the state machine system included with Animancer and the <a href="../examples/animator-controllers">Animator Controllers</a> examples for details about playing or deconstructing them.</li>
-<li>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/inverse-kinematics#exposed-curves">Exposed Curves</a> section for more details.</li>
+<li>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/ik#exposed-curves">Exposed Curves</a> section for more details.</li>
 </ul>
 
 	</section>
