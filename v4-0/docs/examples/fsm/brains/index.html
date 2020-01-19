@@ -183,8 +183,8 @@
                     <a href="/animancer/v4-0/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/events/footstep-events">01 Footstep Events</a></li>
-                <li><a href="/animancer/v4-0/docs/examples/events/golf-events">02 Golf Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/footsteps">01 Footstep Events</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/events/golf">02 Golf Events</a></li>
 
                     </ul>
                 </li>
@@ -423,7 +423,20 @@ public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
 <p>We need a <code>public Creature Creature</code> property to allow other scripts to access the <code>private</code> serialized <code>_Creature</code>. We could make it <code>protected</code> to only allow inheriting scripts to access it, but that would also allow those scripts to set it accidentally and there is no reason why other scripts should not be able to check which creature owns a state:</p>
 <pre><code class="language-cs">    [SerializeField]
     private Creature _Creature;
-    public Creature Creature { get { return _Creature; } }
+    public Creature Creature
+    {
+        get { return _Creature; }
+</code></pre>
+<p>We will not be changing the <code>Creature</code> of any states at runtime in these examples, but sometimes you might have states that get created separately and need to have their <code>Creature</code> assigned. Since we are using a property rather than a simple <code>public</code> field, we can ensure that any time the <code>Creature</code> is changed the state is not left as the active state on the previous <code>Creature</code>:</p>
+<pre><code class="language-cs">        set
+        {
+            if (_Creature != null &amp;&amp;
+                _Creature.StateMachine.CurrentState == this)
+                _Creature.Idle.ForceEnterState();
+
+            _Creature = value;
+        }
+    }
 </code></pre>
 <p>To save a bit of effort when adding new states to an object, we use the <code>Reset</code> method to look for a reference to a creature in any parent or child of the current <code>GameObject</code>. Unity calls <code>Reset</code> when you first add a component to an object in Edit Mode so this will usually save us from needing to assign the <code>Creature</code> manually in the Inspector:</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
@@ -448,7 +461,18 @@ public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
 {
     [SerializeField]
     private Creature _Creature;
-    public Creature Creature { get { return _Creature; } }
+    public Creature Creature
+    {
+        get { return _Creature; }
+        set
+        {
+            if (_Creature != null &amp;&amp;
+                _Creature.StateMachine.CurrentState == this)
+                _Creature.Idle.ForceEnterState();
+
+            _Creature = value;
+        }
+    }
 
 #if UNITY_EDITOR
     protected override void Reset()
@@ -558,11 +582,8 @@ using UnityEngine;
 
 public sealed class LocomotionState : CreatureState
 {
-    [SerializeField]
-    private AnimationClip _Walk;
-
-    [SerializeField]
-    private AnimationClip _Run;
+    [SerializeField] private AnimationClip _Walk;
+    [SerializeField] private AnimationClip _Run;
 }
 </code></pre>
 <p>Then in <code>Update</code> we want to play those animations and keep them synchronised exactly like the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a></code> script in the <a href="../../locomotion/walk-and-run#synchronising-the-transition">Walk and Run</a> example, with two changes:</p>
@@ -657,11 +678,8 @@ using UnityEngine;
 
 public sealed class LocomotionState : CreatureState
 {
-    [SerializeField]
-    private AnimationClip _Walk;
-
-    [SerializeField]
-    private AnimationClip _Run;
+    [SerializeField] private AnimationClip _Walk;
+    [SerializeField] private AnimationClip _Run;
 
     private void Update()
     {
