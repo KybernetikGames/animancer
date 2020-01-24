@@ -76,8 +76,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#original">Original</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
 <p><a href="#animancer">Animancer</a></p>
+<p><a href="#fields">Fields</a></p>
 <p><a href="#state-entry">State Entry</a></p>
 <p><a href="#updates">Updates</a></p>
 <hr class="infobar-hidden">
@@ -215,7 +216,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -230,6 +231,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -349,12 +352,24 @@
 <p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
 </blockquote>
 <p>The character has several different animations to play when you land on the ground which it blends between based on your horizontal and vertical speeds.</p>
-<p>The vertical speed difference essentially determines how long the landing animation takes:</p>
-<p><img src="stop-landing.gif" class="img-responsive"></p>
-<p>While the horizontal speed difference affects the movement of the hands and when both speeds are fast enough it uses an entirely different animation to have the character roll instead:</p>
-<p><img src="move-landing.gif" class="img-responsive"></p>
-<h1 id="original">Original</h1>
-<p>The original character's <code>LandingSM</code> state is a <a href="https://docs.unity3d.com/Manual/NestedStateMachines.html">Sub State Machine</a>:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Standing</th>
+    <th style="width:50%">Running</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="stop-landing.gif" class="img-responsive"></td>
+      <td><img src="move-landing.gif" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td>The vertical speed difference essentially determines how long the landing animation takes.</td>
+      <td>The horizontal speed difference affects the movement of the hands and when both speeds are fast enough it uses an entirely different animation to have the character roll instead.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="mecanim">Mecanim</h1>
+<p>The Mecanim character's <code>LandingSM</code> state is a <a href="https://docs.unity3d.com/Manual/NestedStateMachines.html">Sub State Machine</a>:</p>
 <p><img src="landing-sub-state.png" class="img-responsive"></p>
 <p><code>EllenRunForwardLandingFast</code> is a regular state which plays the <em>Roll</em> animation when the speeds are fast enough while the <code>Landing</code> state is a Blend Tree:</p>
 <p><img src="landing-blend-tree.png" class="img-responsive"></p>
@@ -362,26 +377,30 @@
 <ul>
 <li><code>IsOrientationUpdated</code> checks if the Animator Controller is in the <code>Landing</code> state to allow scripted turning. This means that simply looking at the Animator Controller will not tell you that the player is able to turn normally during the <code>Landing</code> state but not during the <code>EllenRunForwardLandingFast</code> state.</li>
 <li><code>PlayAudio</code> checks if the character just landed in order to play sounds.</li>
-<li><code>OnAnimatorMove</code> makes sure the character isn't grounded before telling the Animator Controller the new vertical speed so it can blend correctly based on the impact speed. Otherwise the actual vertical speed while grounded is always a constant value which the Blend Tree doesn't need to know about.</li>
+<li><code>OnAnimatorMove</code> makes sure the character is not on the ground before telling the Animator Controller the new vertical speed so it can blend correctly based on the impact speed. Otherwise the actual vertical speed while grounded is always a constant value which the Blend Tree does not need to know about.</li>
 </ul>
 <h1 id="animancer">Animancer</h1>
 <p></p><details><summary>With Animancer, all the above logic is defined by the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> script. As usual, this means less configuration in the Unity Editor in exchange for more code and it is significantly easier to understand the logic:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
-using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a> : CreatureState
 {
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">Float2ControllerState.Transition</a> _SoftLanding;
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _SoftLanding;
     [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _HardLanding;
     [SerializeField] private float _HardLandingForwardSpeed = 5;
     [SerializeField] private float _HardLandingVerticalSpeed = -10;
-    [SerializeField] private float _ExitNormalizedTime = 0.75f;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _ImpactAudio;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteAudio;
+    [SerializeField] private UnityEvent _PlayAudio;
 
-    private bool _IsHardLanding;
+    private bool _IsSoftLanding;
+
+    private void Awake()
+    {
+        _SoftLanding.Events.Sequence.OnEnd =
+            _HardLanding.Events.Sequence.OnEnd =
+            () =&gt; Creature.CheckMotionState();
+    }
 
     public override bool CanEnterState(CreatureState previousState)
     {
@@ -395,21 +414,20 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
         if (Creature.VerticalSpeed &lt;= _HardLandingVerticalSpeed &amp;&amp;
             <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> &gt;= _HardLandingForwardSpeed)
         {
-            _IsHardLanding = true;
-            Animancer.Transition(_HardLanding);
+            _IsSoftLanding = false;
+            Creature.Animancer.Play(_HardLanding);
         }
         else
         {
-            _IsHardLanding = false;
-            Animancer.Transition(_SoftLanding);
+            _IsSoftLanding = true;
+            Creature.Animancer.Play(_SoftLanding);
             _SoftLanding.State.Parameter = new Vector2(Creature.ForwardSpeed, Creature.VerticalSpeed);
         }
 
-        _ImpactAudio.PlayRandomClip(Creature.GroundMaterial, bankId: <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> &lt; 4 ? 0 : 1);
-        _EmoteAudio.PlayRandomClip();
+        _PlayAudio.Invoke();
     }
 
-    public override bool FullMovementControl { get { return !_IsHardLanding; } }
+    public override bool FullMovementControl { get { return _IsSoftLanding; } }
 
     private void FixedUpdate()
     {
@@ -419,76 +437,98 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
 
         Creature.UpdateSpeedControl();
 
-        float normalizedTime;
-        if (_IsHardLanding)
+        if (_IsSoftLanding)
         {
-            normalizedTime = _HardLanding.State.NormalizedTime;
-        }
-        else
-        {
-            normalizedTime = _SoftLanding.State.Playable.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            _SoftLanding.State.ParameterX = Creature.ForwardSpeed;
+            var parameter = _SoftLanding.State.Parameter;
+            parameter.x = Creature.ForwardSpeed;
+            _SoftLanding.State.Parameter = parameter;
         }
 
-        if (normalizedTime &gt;= _ExitNormalizedTime)
+        var state = Creature.Animancer.States.Current;
+        if (state.NormalizedTime &gt;= state.Events.NormalizedEndTime)
             Creature.CheckMotionState();
     }
 }
 </code></pre>
 <p></p></details><p></p>
-<p>We start with some serialized fields to show in the Inspector:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">Float2ControllerState.Transition</a> _SoftLanding;
-[SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _HardLanding;
-[SerializeField] private float _HardLandingForwardSpeed = 5;
-[SerializeField] private float _HardLandingVerticalSpeed = -10;
-[SerializeField] private float _LandingExitNormalizedTime = 0.75f;
-[SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _ImpactAudio;
-[SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteAudio;
+<h1 id="fields">Fields</h1>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<p>We start with some <a href="../../../../introduction/cs/veriables#serialized-fields">Serialized Fields</a> to show in the Inspector:</p>
+<pre><code class="language-cs">[SerializeField]
+private <a href="/animancer/v4-0/api/Animancer/Transition2D">MixerState.Transition2D</a> _SoftLanding;
 
-private bool _IsHardLanding;
+[SerializeField]
+private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _HardLanding;
+
+[SerializeField]
+private float _HardLandingForwardSpeed = 5;
+
+[SerializeField]
+private float _HardLandingVerticalSpeed = -10;
+
+[SerializeField]
+private UnityEvent _PlayAudio;
+
+private bool _IsSoftLanding;
 </code></pre>
-<p>Much like the <a href="../locomotion">Locomotion</a> state, we are using a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an Animator Controller containing the same Blend Tree the original character used, except that this time we are using a <code><a href="/animancer/v4-0/api/Animancer/Float2ControllerState">Float2ControllerState</a></code> instead of a <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> because we have two parameters to control (horizontal and vertical speed).</p>
+<p>Where the <a href="../locomotion">Locomotion</a> state used a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an Animator Controller containing the same Blend Tree the Mecanim character used, this time we are using a <a href="../../../../manual/blending/mixers">Mixer</a> so that we can set it up in the Inspector instead of needing to create another Animator Controller asset just for that Blend Tree.</p>
+<p>When either of the animations ends we want to return to check the regular transitions to <em>Idle</em> or <em>Locomotion</em> as explained on the <a href="../idle#check-motion-state">Idle</a> page so on startup we register that method as the <a href="../../../../manual/events/end">End Event</a> for both transitions:</p>
+<pre><code class="language-cs">private void Awake()
+{
+    _SoftLanding.Events.Sequence.OnEnd =
+        _HardLanding.Events.Sequence.OnEnd =
+        () =&gt; Creature.CheckMotionState();
+}
+</code></pre>
+<p>Note how the <code>End Time</code> of both states is set to <code>0.75x</code> in the Inspector, meaning the registered event will be triggered 75% of the way through the animation so that it can begin <a href="../../../../manual/blending/fading">Fading</a> to the next animation while the landing animation approaches its end rather than waiting for it to fully end first.</p>
+</td>
+      <td><img src="inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="state-entry">State Entry</h1>
 <p>As was explained in the <a href="../airborne#update">Airborne</a> state, we override this state's <code>CanEnterState</code> to only allow it to be entered when the <code>CharacterController</code> is on the ground:</p>
 <pre><code class="language-cs">public override bool CanEnterState(CreatureState previousState)
 {
     return Creature.CharacterController.isGrounded;
 }
 </code></pre>
-<h1 id="state-entry">State Entry</h1>
-<p>The original character was implemented such that if you were <em>Airborne</em> at full speed and tried to stop moving right before landing then you would still move forward a bit after touching the ground, which made it harder to control precisely. So instead, the first thing we do when entering this state is snap the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a></code> to be exactly the speed you are trying to move:</p>
+<p>The Mecanim character was implemented such that if you were <em>Airborne</em> at full speed and tried to stop moving right before landing then you would still move forward a bit after touching the ground, which made it harder to control precisely. So instead, the first thing we do when entering this state is snap the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a></code> to be exactly the speed the player is trying to move:</p>
 <pre><code class="language-cs">private void OnEnable()
 {
     <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = Creature.DesiredForwardSpeed;
 </code></pre>
-<p>Then we check the speeds to determine whether to use the <code>_HardLanding</code> animation or the <code>_SoftLanding</code> Blend Tree. Note that the <code>VerticalSpeed</code> uses <code>&lt;=</code> because we are dealing with downward speeds so a more negative value means falling faster:</p>
+<p>Then we check the speeds to determine whether to use the <code>_HardLanding</code> animation or the <code>_SoftLanding</code> <a href="../../../../manual/blending/mixers">Mixer</a>. Note that the <code>VerticalSpeed</code> uses <code>&lt;=</code> because we are dealing with downward speeds so a more negative value means falling faster:</p>
 <pre><code class="language-cs">    if (Creature.VerticalSpeed &lt;= _HardLandingVerticalSpeed &amp;&amp;
         <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> &gt;= _HardLandingForwardSpeed)
     {
-        _IsHardLanding = true;
-        Animancer.Transition(_HardLanding);
+        _IsSoftLanding = false;
+        Creature.Animancer.Play(_HardLanding);
     }
     else
     {
-        _IsHardLanding = false;
-        Animancer.Transition(_SoftLanding);
+        _IsSoftLanding = true;
+        Creature.Animancer.Play(_SoftLanding);
 </code></pre>
-<p>When using the <code>_SoftLanding</code>, we also set the Blend Tree parameters:</p>
+<p>When using the <code>_SoftLanding</code>, we also set the mixer parameters:</p>
 <pre><code class="language-cs">        _SoftLanding.State.Parameter = new Vector2(Creature.ForwardSpeed, Creature.VerticalSpeed);
     }
 </code></pre>
-<p>And finally, we play some sounds:</p>
-<ul>
-<li><code>_ImpactAudio</code> is the physical impact with the ground which is based on the material of the ground and also has different sounds when moving quickly.</li>
-<li><code>_EmoteAudio</code> is the character's vocal grunt.</li>
-<li>The forward speed threshold should really be an Inspector field somewhere, but audio is not a focus of this example so we just used the same line as the original character.</li>
-</ul>
-<pre><code class="language-cs">    _ImpactAudio.PlayRandomClip(Creature.GroundMaterial, bankId: <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> &lt; 4 ? 0 : 1);
-    _EmoteAudio.PlayRandomClip();
+<p>And finally, we play a sound (using a <code>UnityEvent</code> due to the <a href="../problems#script-referencing">Script Referencing</a> issue):</p>
+<pre><code class="language-cs">    _PlayAudio.Invoke();
 }
 </code></pre>
+<p>In this case, the event actually plays two sounds; a grunt from the character and an impact sound based on the type of ground they are landing on (though the 3D Game Kit Lite only has one type of ground so that mechanic does not actually achieve anything here).</p>
 <h1 id="updates">Updates</h1>
 <p>We override the <code>FullMovementControl</code> property so that the soft landing will give the player full control over their movements while the hard landing will use the raw root motion from the <em>Roll</em> animation instead. See the <a href="../locomotion#full-movement-control">Locomotion</a> page for more details.</p>
-<pre><code class="language-cs">public override bool FullMovementControl { get { return !_IsHardLanding; } }
+<pre><code class="language-cs">public override bool FullMovementControl { get { return _IsSoftLanding; } }
 </code></pre>
 <p>In the <code>FixedUpdate</code> method we start by checking if the character has left the ground, in which case it needs to be <a href="../airborne">Airborne</a> again:</p>
 <pre><code class="language-cs">private void FixedUpdate()
@@ -500,28 +540,16 @@ private bool _IsHardLanding;
 <p>Then we update the <code>Creature</code>'s control over its speed as explained on the <a href="../idle#update-speed-control">Idle</a> page:</p>
 <pre><code class="language-cs">    Creature.UpdateSpeedControl();
 </code></pre>
-<p>We want to exit this state and start transitioning to the next animation before the <em>Landing</em> animation actually finishes, so we have a <code>_ExitNormalizedTime</code> field in the Inspector which we check against the <code>normalizedTime</code> of the current animation every frame.</p>
-<p>Since the hard landing uses a single animation, we can get its time directly from the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code>:</p>
-<pre><code class="language-cs">    float normalizedTime;
-    if (_IsHardLanding)
+<p>If we are using a soft landing, we need to inform the <a href="../../../../manual/blending/mixers">Mixer</a> about the character's new forward speed. Like with Mecanim, we do not want to inform it of any changes to the vertical speed because we want it to continue based on the vertical speed it had on impact when first entering this state:</p>
+<pre><code class="language-cs">    if (_IsSoftLanding)
     {
-        normalizedTime = _HardLanding.State.NormalizedTime;
+        var parameter = _SoftLanding.State.Parameter;
+        parameter.x = Creature.ForwardSpeed;
+        _SoftLanding.State.Parameter = parameter;
     }
-</code></pre>
-<p>But since the soft landing uses an Animator Controller, we need to get the time from its internal state:</p>
-<pre><code class="language-cs">    else
-    {
-        normalizedTime = _SoftLanding.State.Playable.GetCurrentAnimatorStateInfo(0).normalizedTime;
-</code></pre>
-<p>We can also take this opportunity to let the Animator Controller know about the character's new forward speed. Like with the original, we do not want to inform it of any changes to the vertical speed because we want it to continue based on the vertical speed it had on impact when first entering this state:</p>
-<pre><code class="language-cs">        _SoftLanding.State.ParameterX = Creature.ForwardSpeed;
-    }
-</code></pre>
-<p>And now that we have the <code>normalizedTime</code> of the current state, we can check if it has passed the <code>_ExitNormalizedTime</code> in order to check the regular transitions as explained on the <a href="../idle#check-motion-state">Idle</a> page, which will go to either <em>Idle</em> or <em>Locomotion</em>, but not <em>Airborne</em> (because we already checked that at the start of <code>FixedUpdate</code>):</p>
-<pre><code class="language-cs">    if (normalizedTime &gt;= _ExitNormalizedTime)
-        Creature.CheckMotionState();
 }
 </code></pre>
+<p>When the animation ends, it will transition to either <em>Idle</em> or <em>Locomotion</em> thanks to the <a href="../../../../manual/events/end">End Event</a> we assigned in <code>Awake</code>.</p>
 
 	</section>
                 

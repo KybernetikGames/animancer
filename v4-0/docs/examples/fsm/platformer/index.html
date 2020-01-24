@@ -218,7 +218,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -233,6 +233,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -767,7 +769,7 @@ private void Update()
 <p>This script does not need to specifically know what will happen when the health value is changed. Something probably happens when it reaches 0 and the player might want to display their health somwhere, but other objects might not need to do anything in response to most health changes. So instead of hard coding a response into this script, we can give it a <a href="../../../introduction/cs/methods#delegates">Delegate</a> which other scripts can assign the appropriate callback method to:</p>
 <pre><code class="language-cs">    public event Action OnHealthChanged;
 </code></pre>
-<p><code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> uses that event below.</p>
+<p><code>DieState</code> uses that event below.</p>
 <p>We need to store the current health in a field, but we do not want other scripts to modify it directly so we make it <a href="../../../introduction/cs/organisation#access-modifiers"><code>private</code></a> and use a <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> <a href="../../../introduction/cs/methods#properties">Property</a> to access it:</p>
 <pre><code class="language-cs">    private int _CurrentHealth;
     public int CurrentHealth
@@ -795,8 +797,8 @@ private void Update()
 }
 </code></pre>
 <h1 id="death">Death</h1>
-<p>With the <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a></code> script in place, we can implement our <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> which will not be activated by the brain like most other states but will instead register its own callback to the <code>OnHealthChanged</code> event to have the creature set it as the active state at 0 health:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a> : CreatureState
+<p>With the <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a></code> script in place, we can implement our <code>DieState</code> which will not be activated by the brain like most other states but will instead register its own callback to the <code>OnHealthChanged</code> event to have the creature set it as the active state at 0 health:</p>
+<pre><code class="language-cs">public sealed class DieState : CreatureState
 {
     [SerializeField] private AnimationClip _Animation;
 
@@ -827,7 +829,7 @@ private void Update()
 <p>This is demonstrated by a <a href="../../basics/scene-setup#buttons">UI Button</a> in the scene which sets the <code>CurrentHealth</code> value to 0.</p>
 <h2 id="revival">Revival</h2>
 <p>In order to allow you to continue playing around with this example scene without needing to exit Play Mode after clicking the "Die" button, we also have the ability to revive the character by playing the same animation in reverse.</p>
-<p>So if the <code>CurrentHealth</code> is changed to 0, we enter the <code><a href="/animancer/v4-0/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></code> as above and make sure the animation is playing forwards:</p>
+<p>So if the <code>CurrentHealth</code> is changed to 0, we enter the <code>DieState</code> as above and make sure the animation is playing forwards:</p>
 <pre><code class="language-cs">Creature.Health.OnHealthChanged += () =&gt;
 {
     if (Creature.Health.CurrentHealth &lt;= 0)

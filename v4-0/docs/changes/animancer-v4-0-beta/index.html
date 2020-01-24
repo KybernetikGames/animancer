@@ -76,7 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#beta-6">Beta 6</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#release-candidate-1">Release Candidate 1</a></p>
+<p><a href="#beta-6">Beta 6</a></p>
 <p><a href="#beta-5">Beta 5</a></p>
 <p><a href="#beta-4">Beta 4</a></p>
 <p><a href="#beta-3">Beta 3</a></p>
@@ -218,7 +219,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -233,6 +234,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -349,26 +352,74 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p>Beta 6 Released 2020-01-14</p>
-<p>Planned Full Release 2020-01-??</p>
+<p>Release Candidate 1 - 2020-01-25</p>
+<p>Planned Release 2020-01-??</p>
 </blockquote>
 <ul>
-<li>Animancer v4.0 is currently in development and has reached the Beta phase (feature complete, but the examples and documentation are not ready yet).</li>
+<li>Animancer v4.0 is currently in development and has reached the Beta phase (feature complete, but documentation is not fully updated yet).</li>
 <li><strong>Upgrading from earlier versions will be free as always</strong>.</li>
 <li>Check out the <a href="../animancer-v4-0">Change Log</a> for the full list of changes.</li>
 <li>If you would like to test Animancer Lite, you can download it directly from here:
 <ul>
-<li><a href="animancer-lite-v4-0b6-unity-2017-1.unitypackage">Unity 2017.1+</a></li>
-<li><a href="animancer-lite-v4-0b6-unity-2017-3.unitypackage">Unity 2017.3+</a></li>
-<li><a href="animancer-lite-v4-0b6-unity-2018-1.unitypackage">Unity 2018.1+</a></li>
-<li><a href="animancer-lite-v4-0b6-unity-2018-3.unitypackage">Unity 2018.3+</a></li>
-<li><a href="animancer-lite-v4-0b6-unity-2019-3.unitypackage">Unity 2019.3+</a></li>
+<li><a href="animancer-lite-v4-0f1-unity-2017-1.unitypackage">Unity 2017.1+</a></li>
+<li><a href="animancer-lite-v4-0f1-unity-2017-3.unitypackage">Unity 2017.3+</a></li>
+<li><a href="animancer-lite-v4-0f1-unity-2018-1.unitypackage">Unity 2018.1+</a></li>
+<li><a href="animancer-lite-v4-0f1-unity-2018-3.unitypackage">Unity 2018.3+</a></li>
+<li><a href="animancer-lite-v4-0f1-unity-2019-3.unitypackage">Unity 2019.3+</a></li>
 </ul>
 </li>
 <li>If you would like to test Animancer Pro, simply email the Invoice Number from your Asset Store purchase to <a href="mailto:animancer@kybernetik.com.au?Subject=Animancer">animancer@kybernetik.com.au</a>.</li>
 <li><strong>Feedback</strong>: I've posted a <a href="https://forum.unity.com/threads/790868">thread in Unity's "Work in Progress" Forum</a> which explains a few areas I'm particularly interested in getting feedback on so please leave any comments there.</li>
 <li><strong><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></strong>: please create an issue if you have any questions, bug reports, feature suggestions, etc. This will probably become the main discussion location since every topic can have its own thread instead of having everything in a single large thread like the Unity Forum.</li>
 <li><strong>To Do</strong>: now tracked by a <a href="https://github.com/KybernetikGames/animancer/issues/3">Github Issue</a>.</li>
+</ul>
+<h1 id="release-candidate-1">Release Candidate 1</h1>
+<blockquote class="blockquote">
+<p>Released 2020-01-25</p>
+</blockquote>
+<p>This should be identical to the final release except for any new examples or unforseen bugs.</p>
+<ul>
+<li><code>StateMachine.CanSetState</code> now returns true if the parameter is <code>null</code> since the other methods support nulls.</li>
+<li>Fixed the <code><a href="/animancer/v4-0/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> to work properly when the previous or next animation is the same as the one being previewed.</li>
+<li>The <code><a href="/animancer/v4-0/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> now uses a topological sort to ensure that the unnecessary components it removes from the preview instance do not cause errors due to <code>[RequireComponent]</code> attributes.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> now clamps event icons to display within the bounds of the area.</li>
+<li>Fixed <code><a href="/animancer/v4-0/api/Animancer/Float3ControllerState">Float3ControllerState</a></code> to show all of its parameters in the Inspector rather than only the first two.</li>
+<li>The <code><a href="/animancer/v4-0/api/Animancer.Editor/ReadMe">ReadMe</a></code> now includes the Animancer Version in its name to better detect if the user did not delete a previous version before updating (since Unity's package importer will overwrite old files but not rename them).</li>
+<li>Improved reliability and performance of <code><a href="/animancer/v4-0/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code>.</li>
+<li>Improved the examples:
+<ul>
+<li>Fixed the Directional Blending example to go back to sleep properly.</li>
+<li>Rewrote the Footstep Events example to include Animancer Events and much more detail about how to set everything up.</li>
+<li>The More Brains example now enables and disables the brains in code when swapping them instead of using the <code>UnityEvent</code>s on the   UI Buttons.</li>
+<li>Improved the Platformer example:
+<ul>
+<li>Jumping now uses a specific target height rather than an arbitrary amount of force.</li>
+<li>It now allows the player to jump higher by holding the button longer.</li>
+<li>Reviving the character now plays the death animation backwards.</li>
+</ul>
+</li>
+<li>Improved the IK examples.
+<ul>
+<li>Changed <code>StartingPositions</code> to <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/TransformResetter">TransformResetter</a></code> and it now resets rotations as well.</li>
+</ul>
+</li>
+<li>The Hybrid Mini Game example now has the character walk into and out of the mini game rather than teleporting.</li>
+<li>Cleaned up the Hybrid Mini Game example.</li>
+<li>Improved the 3D Game Kit example:
+<ul>
+<li>It is now based on the 3D Game Kit Lite since the full version is a massive pain to download and import.</li>
+<li>It now shows which system (Animancer or Mecanim) is active and lets you swap between them with keyboard controls instead of UI   Buttons.</li>
+<li>It now uses custom end times as part of each transition rather than End Animation Events or separate end time fields.</li>
+<li>The root object is now separate from the model with <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RootMotionRedirect">RootMotionRedirect</a></code> passing on the root motion.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> and <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> now use Mixers instead of Blend Trees since they are more convenient to use and can give  the  same result now that time synchronisation has been implemented.</li>
+<li>Added <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/FlinchState">FlinchState</a></code> and <code>DieState</code>.</li>
+<li>Attacks can how kill enemies and destroy objects and do not use a custom transition class.</li>
+<li>Removed the copy of <code>RandomAudioPlayer</code> and used <code>UnityEvent</code>s to access the existing script.</li>
+<li>Removed the copy of <code>AttackTrail</code> and used <code>UnityEvent</code>s to access the existing <code>TimeEffect</code> script.</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h1 id="beta-6">Beta 6</h1>
 <blockquote class="blockquote">

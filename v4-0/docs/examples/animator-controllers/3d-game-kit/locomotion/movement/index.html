@@ -76,7 +76,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#original">Original</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
 <p><a href="#forward-movement">1. Forward Movement</a></p>
 <p><a href="#blend-tree">2. Blend Tree</a></p>
 <p><a href="#on-animator-move">3. On Animator Move</a></p>
@@ -221,7 +221,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview active">
@@ -236,6 +236,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -354,7 +356,7 @@
 		<blockquote class="blockquote">
 <p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
 </blockquote>
-<h1 id="original">Original</h1>
+<h1 id="mecanim">Mecanim</h1>
 <p>Movement is handled in several steps every frame:</p>
 <ol>
 <li><a href="#forward-movement">Forward Movement</a></li>
@@ -451,23 +453,22 @@
 <li><a href="#on-animator-move-1">On Animator Move</a></li>
 </ol>
 <h1 id="setup-blend-tree">1. Setup Blend Tree</h1>
-<p>We start with a <code><a href="/animancer/v4-0/api/Animancer/Float2ControllerState">Float2ControllerState</a></code>, which is a <a href="../../../../../manual/animator-controllers">Controller State</a> that will play an Animator Controller with the addition of properties to easily allow access to two of its float parameters:</p>
+<p>The Animancer character uses an identical Blend Tree for <em>Locomotion</em>, except that it is contained in its own Animator Controller without any other unrelated states or parameters. We start with a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float2ControllerState.Transition</a></code>, which will create a <a href="../../../../../manual/animator-controllers">Controller State</a> at runtime to play the Animator Controller and wrap its two parameters with C# properties:</p>
 <ul>
 <li><code>ParameterX</code> is the <code>Speed</code> parameter which we set to control the Blend Tree.</li>
 <li><code>ParameterY</code> is <code>FootFall</code> parameter which gets automatically updated by a curve built into each of the animations (and blended by the Blend Tree) so that we can read from it to determine when to play the footstep sounds.</li>
 </ul>
-<p>More accurately, we are using a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float2ControllerState.Transition</a></code> which will give us the fields we need in the Inspector to so that it can create an actual <code><a href="/animancer/v4-0/api/Animancer/Float2ControllerState">Float2ControllerState</a></code> when we pass it into <code>AnimatorController.Transition</code>.</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">Float2ControllerState.Transition</a> _LocomotionBlendTree;
 
 private void OnEnable()
 {
-    Animancer.Transition(_LocomotionBlendTree);
+    Animancer.Play(_LocomotionBlendTree);
 }
 </code></pre>
 <p><img src="locomotion-transition.png" class="img-responsive"></p>
-<p>The <code>Locomotion Blend Tree</code> asset is an Animator Controller containing only one state - a Blend Tree identical to the one in the original Animator Controller (pictured in <a href="#blend-tree">2. Blend Tree</a> above) except that where the original needed parameters for both <code>ForwardSpeed</code> and <code>VerticalSpeed</code>, this one only has one purpose so its main parameter is just called <code>Speed</code>.</p>
+<p>The <code>Locomotion Blend Tree</code> asset is an Animator Controller containing only one state - a Blend Tree identical to the one in the Mecanim Animator Controller (pictured in <a href="#blend-tree">2. Blend Tree</a> above) except that where Mecanim needed parameters for both <code>ForwardSpeed</code> and <code>VerticalSpeed</code>, this one only has a single purpose so its main parameter is just called <code>Speed</code>.</p>
 <h1 id="fixed-update">2. Fixed Update</h1>
-<p>We also have a <code>FixedUpdate</code> method like the original, but instead of one massive method that does lots of different things depending on your state this one only gets called while the character is in this state so its logic is much easier to understand:</p>
+<p>We also have a <code>FixedUpdate</code> method like the Mecanim character, but instead of one massive method that does lots of different things depending on your state this one only gets called while the character is in this state so its logic is much easier to understand:</p>
 <p>It starts with the same calls to <code>Creature.CheckMotionState</code> and <code>UpdateSpeedControl</code> that the <a href="../../idle#check-motion-state">Idle</a> state used:</p>
 <pre><code class="language-cs">private void FixedUpdate()
 {
@@ -484,8 +485,20 @@ private void OnEnable()
 </code></pre>
 <p>The rest of the <code>FixedUpdate</code> method concerns <a href="../turning">Turning</a> and audio.</p>
 <h1 id="on-animator-move-1">3. On Animator Move</h1>
-<p>And the <code>Creature</code> class also has an <code>OnAnimatorMove</code> to intercept any Root Motion from the animations in much the same way as the original. The <code>OnAnimatorMove</code> method itself has been split into several methods to be much easier to understand:</p>
-<pre><code class="language-cs">private void OnAnimatorMove()
+<p>We want to modify the way <a href="https://docs.unity3d.com/Manual/RootMotion">Root Motion</a> controls the character so we need a script with an <code>OnAnimatorMove</code> method attached to the same <code>GameObject</code> as the <code>Animator</code> component. But having all our main scripts on the character model itself would mean there are lots of scripts on that object and if we wanted to change the model to something else we would not be able to simply swap something else in without manually copying all the components over. So we use a simple script to redirect the root motion from the model to our <code>Creature</code> script on another object (the <a href="../../../locomotion/root-motion">Root Motion</a> example goes into more detail about this topic):</p>
+<pre><code class="language-cs">public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RootMotionRedirect">RootMotionRedirect</a> : MonoBehaviour
+{
+    [SerializeField]
+    private Creature _Creature;
+
+    private void OnAnimatorMove()
+    {
+        _Creature.OnAnimatorMove();
+    }
+}
+</code></pre>
+<p>The <code>Creature.OnAnimatorMove</code> method is fairly similar to the Mecanim one in <a href="#on-animator-move">step #3</a> above, except that it has been split into several methods to be much easier to understand:</p>
+<pre><code class="language-cs">public void OnAnimatorMove()
 {
     var movement = GetRootMotion();
     CheckGround(ref movement);
@@ -496,8 +509,8 @@ private void OnEnable()
 }
 </code></pre>
 <h2 id="get-root-motion">Get Root Motion</h2>
-<p>The original <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
-<p>But since each of our states is a separate class, we can use the power of polymorphism, i.e. give the base <code>CreatureState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
+<p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
+<p>But since each of our states is a separate class, we can use the power of <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> to give the base <code>CreatureState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
 <pre><code class="language-cs">// In CreatureState:
 public virtual Vector3 <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> { get { return Animancer.Animator.deltaPosition; } }
 </code></pre>
@@ -517,9 +530,9 @@ public override Vector3 <a href="/animancer/v4-0/api/Animancer.Examples.Locomoti
     return StateMachine.CurrentState.RootMotion;
 }
 </code></pre>
-<p>Note that there's actually more to the <code>GetRootMotion</code> method. See <a href="#full-movement-control">Full Movement Control</a> below.</p>
+<p>Note that there is actually more to the <code>GetRootMotion</code> method than just that. See <a href="#full-movement-control">Full Movement Control</a> below.</p>
 <h2 id="check-ground">Check Ground</h2>
-<p>Once we have the desired movement, we use a raycast to determine the orientation of the ground and rotate the movement onto that plane so we can move at a consistent speed up and down hills. We also get the <code>Material</code> of the ground for other scripts to use when determining what type of sounds to play (specifically, <code>LocomotionState</code> and <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code>). This method is essentially the same as the first part of the original <code>PlayerController.OnAnimatorMove</code> method.</p>
+<p>Once we have the desired movement, we use a raycast to determine the orientation of the ground and rotate the movement onto that plane so we can move at a consistent speed up and down hills. This method is essentially the same as the first part of the Mecanim <code>PlayerController.OnAnimatorMove</code> method.</p>
 <pre><code class="language-cs">private void CheckGround(ref Vector3 movement)
 {
     if (!CharacterController.isGrounded)
@@ -544,9 +557,10 @@ public override Vector3 <a href="/animancer/v4-0/api/Animancer.Examples.Locomoti
     }
 }
 </code></pre>
+<p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code>LocomotionState</code> and <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
 <h2 id="update-gravity">Update Gravity</h2>
-<p>The original <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
-<p>Instead, we are using polymorphism again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>
+<p>The Mecanim <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
+<p>Instead, we are using <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>
 <pre><code class="language-cs">// CreatureState.cs:
 public virtual bool StickToGround { get { return true; } }
 
@@ -566,22 +580,22 @@ public override bool StickToGround { get { return false; } }
 </code></pre>
 <p>Note how the grounded speed is constantly set using <code>=</code> while the airborne speed accelerates downwards every frame using <code>-=</code>.</p>
 <h1 id="full-movement-control">Full Movement Control</h1>
-<p>The original character continues playing the forward movement animations while turning (not quick turning), meaning that their root motion moves the character around in an arc towards the direction the player actually wants to go. This means that not only do you move in a direction you do not want to go during the turn, but also that you can't reliably predict which direction that will actually be because it could choose to turn either way, which is especially bad when changing direction repeatedly. The resulting movement is very frustrating for the player because it imposes an arbitrary lack of control on the character. This is the largest <a href="../../problems#locomotion">problem with the original</a>.</p>
+<p>The Mecanim character continues playing the forward movement animations while turning (not quick turning), meaning that their root motion moves the character around in an arc towards the direction the player actually wants to go. This means that not only do you move in a direction you do not want to go during the turn, but also that you can't reliably predict which direction that will actually be because it could choose to turn either way, which is especially bad when changing direction repeatedly. The resulting movement is very frustrating for the player because it imposes an arbitrary lack of control on the character. This is the largest <a href="../../problems#locomotion">problem with the Mecanim Character</a>.</p>
 <table class="table">
   <thead>
-    <tr><th style="width:50%">Original (raw root motion)</th>
+    <tr><th style="width:50%">Mecanim (raw root motion)</th>
     <th style="width:50%">Animancer (full movement control)</th>
   </tr></thead>
   <tbody>
     <tr>
-      <td colspan="2">The following videos were recorded using the exact same inputs scripted to move left and right repeatedly, swapping every 0.5 seconds and not using any forward or backward input at all. The original character clearly moves forward with each cycle while the Animancer character simply moves back and forth along the starting line. Note that the same phenomenon also occurs when the character is <em>Airborne</em> due to the way the original implemented movement even though it is entirely scripted.</td>
+      <td colspan="2">The following videos were recorded using the exact same inputs scripted to move left and right repeatedly, swapping every 0.5 seconds and not using any forward or backward input at all. The Mecanim character clearly moves forward with each cycle while the Animancer character simply moves back and forth along the starting line. Note that the same phenomenon also occurs when the character is <em>Airborne</em> due to the way they implemented movement even though it is entirely scripted.</td>
     </tr>
     <tr>
       <td><img src="no-movement-control.gif" class="img-responsive"></td>
       <td><img src="full-movement-control.gif" class="img-responsive"></td>
     </tr>
     <tr>
-      <td colspan="2">In the worst case with the right input timing you can run almost entirely perpendicular to the direction you want to go because each change is within about 90 degrees of the target direction so it doesn't cross the ~145 degree threshold required for a <a href="../turning#quick-turns">quick turn</a> animation. Again, this is simulating only left and right input with no forward input.</td>
+      <td colspan="2">In the worst case with the right input timing the character might run almost entirely perpendicular to the direction you want to go because each change is within about 90 degrees of the target direction so it does not cross the ~145 degree threshold required to trigger a <a href="../turning#quick-turns">Quick Turn</a> animation. Again, this is simulating only left and right input with no forward input.</td>
     </tr>
     <tr>
       <td><img src="no-movement-control-worst.gif" class="img-responsive"></td>
@@ -589,7 +603,7 @@ public override bool StickToGround { get { return false; } }
     </tr>
   </tbody>
 </table>
-<p>The Animancer character solves this issue in the <code>Creature.GetRootMotion</code> method by making it so that most states will only apply root motion in the exact direction the <code>Creature.Brain</code> is actually trying to go and ignore any portion of the movement which is perpendicular to that direction. The result is a far more responsive character, but in exchange the root motion is not exactly what the animations would normally apply so it's trading visual realism for smoother controls.</p>
+<p>The Animancer character solves this issue in the <code>Creature.GetRootMotion</code> method by making it so that most states will only apply root motion in the exact direction the <code>Creature.Brain</code> is actually trying to go and ignore any portion of the movement which is perpendicular to that direction. The result is a far more responsive character, but in exchange the root motion is not exactly what the animations would normally apply so it is trading visual realism for smoother controls.</p>
 <pre><code class="language-cs">private Vector3 GetRootMotion()
 {
     var movement = StateMachine.CurrentState.RootMotion;
@@ -616,7 +630,7 @@ public override bool StickToGround { get { return false; } }
 }
 </code></pre>
 <h1 id="acceleration">Acceleration</h1>
-<p>The way acceleration is handled by the original character is somewhat strange and this example simply relicates that aspect of its behaviour to avoid diverging too much from it.</p>
+<p>The way acceleration is handled by the Mecanim character is somewhat strange and this example simply replicates that aspect of its behaviour to avoid diverging too much from it.</p>
 <ul>
 <li>One of the main reasons people use a <code>CharacterController</code> instead of a <code>Rigidbody</code> is to give the player perfect control over their character, allowing them to start and stop moving immediately instead of using forces to accelerate gradually. But then the <code>PlayerController</code> script implements its own acceleration anyway in the <code>CalculateForwardMovement</code> method.</li>
 <li>The forward speed only gets used in the <em>Locomotion</em> and <em>Airborne</em> states, but since <code>CalculateForwardMovement</code> runs every <code>FixedUpdate</code> regardless of what state the Animator Controller is actually in, the speed keeps getting updated behind the scenes when it isn't being used. So if you are <em>Idle</em> and you start moving, it will transition to the <em>Locomotion</em> Blend Tree and at the same time it will gradually increase the <code>ForwardSpeed</code> parameter towards the desired speed. But if you are moving at full speed and perform an <em>Attack</em>, the <code>ForwardSpeed</code> parameter will still stay at the desired speed (and accelerate towards a new value if it changes) during the attack animation so that when it ends and transitions back to <em>Locomotion</em> you are already at that speed even though you weren't really moving during the attack. The gradual transition between animations in both cases makes this effect a bit hard to spot, but it means that visually, accelerating from <em>Idle</em> happens slower than accelerating from an <em>Attack</em> (or any other action).</li>

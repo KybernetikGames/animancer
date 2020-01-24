@@ -76,7 +76,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#original">Original</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
 <p><a href="#animancer">Animancer</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -213,7 +213,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview active selected">
@@ -228,6 +228,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -356,9 +358,9 @@
 
 
 
-<h1 id="original">Original</h1>
+<h1 id="mecanim">Mecanim</h1>
 
-<p>The original character's <code>LocomotionSM</code> state is a <a href="https://docs.unity3d.com/Manual/NestedStateMachines.html">Sub State Machine</a> containing a main <code>Locomotion</code> <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a> to allow for movement at any speed, two quick turn animations, and the <code>Idle</code> state mentioned on the <a href="../idle">Idle</a> page:</p>
+<p>The Mecanim character's <code>LocomotionSM</code> state is a <a href="https://docs.unity3d.com/Manual/NestedStateMachines.html">Sub State Machine</a> containing a main <code>Locomotion</code> <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a> to allow for movement at any speed, left and right quick turn animations, and the <code>Idle</code> state mentioned on the <a href="../idle">Idle</a> page:</p>
 
 <p><img src="locomotion-state-machine.png" class="img-responsive"></p>
 
@@ -368,7 +370,7 @@
 
 <h1 id="animancer">Animancer</h1>
 
-<p></p><details><summary>With Animancer, all the state logic is defined in the <code>LocomotionState</code> script which handles all the logic which applies while the character is moving along the ground except for any that also applies in other states as well (such as the <code>Creature.OnAnimatorMove</code> method described on the <a href="movement">Movement</a> page):</summary><p>
+<p></p><details><summary>With Animancer, all the state logic is defined in the <code>LocomotionState</code> script which handles everything that applies while the character is moving along the ground except for things that also apply in other states as well (such as the <code>Creature.OnAnimatorMove</code> method described on the <a href="movement">Movement</a> page):</summary><p>
 
 </p><pre><code class="language-cs">using Animancer;
 using System;
@@ -384,7 +386,9 @@ public sealed class LocomotionState : CreatureState
 
     private void Awake()
     {
-        _QuickTurnLeft.OnEnd = _QuickTurnRight.OnEnd = () =&gt; Animancer.Transition(_LocomotionBlendTree);
+        _QuickTurnLeft.Events.Sequence.OnEnd =
+            _QuickTurnRight.Events.Sequence.OnEnd =
+            () =&gt; Creature.Animancer.Play(_LocomotionBlendTree);
     }
 
     public override bool CanEnterState(CreatureState previousState)
@@ -394,7 +398,7 @@ public sealed class LocomotionState : CreatureState
 
     private void OnEnable()
     {
-        Animancer.Transition(_LocomotionBlendTree);
+        Creature.Animancer.Play(_LocomotionBlendTree);
     }
 
     private void FixedUpdate()
@@ -424,9 +428,10 @@ public sealed class LocomotionState : CreatureState
             if (Mathf.Abs(deltaAngle) &gt; _QuickTurnAngle)
             {
                 var turn = deltaAngle &lt; 0 ? _QuickTurnLeft : _QuickTurnRight;
+
                 if (turn.State == null || turn.State.Weight == 0)
                 {
-                    Animancer.Transition(turn);
+                    Creature.Animancer.Play(turn);
                     return;
                 }
             }
@@ -435,19 +440,19 @@ public sealed class LocomotionState : CreatureState
         Creature.TurnTowards(currentAngle, targetAngle, Creature.CurrentTurnSpeed);
     }
 
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _FootstepAudio;
+    [SerializeField] private UnityEvent _PlayFootstepAudio;
     private bool _CanPlayAudio;
     private bool _IsPlayingAudio;
 
     private void UpdateAudio()
     {
-        float footFallCurve = _LocomotionBlendTree.State.ParameterY;
+        var footFallCurve = _LocomotionBlendTree.State.ParameterY;
 
         if (footFallCurve &gt; 0.01f &amp;&amp; !_IsPlayingAudio &amp;&amp; _CanPlayAudio)
         {
             _IsPlayingAudio = true;
             _CanPlayAudio = false;
-            _FootstepAudio.PlayRandomClip(Creature.GroundMaterial, <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> &lt; 4 ? 0 : 1);
+            _PlayFootstepAudio.Invoke();
         }
         else if (_IsPlayingAudio)
         {

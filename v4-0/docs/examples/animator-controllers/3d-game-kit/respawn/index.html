@@ -76,8 +76,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#original">Original</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
 <p><a href="#animancer">Animancer</a></p>
+<p><a href="#particle-effects">Particle Effects</a></p>
 <p><a href="#ai-chasing">AI Chasing</a></p>
 <p><a href="#modularity">Modularity</a></p>
 <hr class="infobar-hidden">
@@ -215,7 +216,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -230,6 +231,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -348,12 +351,12 @@
 		<blockquote class="blockquote">
 <p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
 </blockquote>
-<p>When the game starts or after the character dies and is moved back to their last checkpoint, they play a <em>Respawn</em> animation where they stand up from a crouch.</p>
+<p>When the game starts or after the character dies and is moved back to their last checkpoint, they play a <em>Respawn</em> animation where they stand up from a crouch along with some glowing particle effects:</p>
 <p><img src="respawn.gif" class="img-responsive"></p>
-<h1 id="original">Original</h1>
-<p>The original character has a <em>Respawn</em> state which plays an animation then transitions to <em>Idle</em> when it's done. Seems simple right?</p>
+<h1 id="mecanim">Mecanim</h1>
+<p>The Mecanim character has a <em>Respawn</em> state which plays an animation then transitions to <em>Idle</em> when it's done. Seems simple right?</p>
 <p><img src="mecanim-respawn.png" class="img-responsive"></p>
-<p>Unfortunately it's not quite that easy. Several other scripts need to know when the player is respawning (for AI behaviour) and invulnerable (you can't take damage while respawning). So that state actually has a <code>StateMachineBehaviour</code> attached to notify the <code>PlayerController</code> when it is done:</p>
+<p>Unfortunately it is not quite that easy. Several other scripts need to know when the player is respawning (for AI behaviour) and invulnerable (you cannot take damage while respawning). So that state actually has a <code>StateMachineBehaviour</code> attached to notify the <code>PlayerController</code> when it is done:</p>
 <pre><code class="language-cs">public class EllenSetTargetableSMB : StateMachineBehaviour
 {
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -381,7 +384,7 @@ public void RespawnFinished()
 <li>You need to check if the state has any <code>StateMachineBehaviour</code>s attached (most other states do not) and read the <code>EllenSetTargetableSMB</code> script to find out what it actually does. Even more so since it has a vaguely misleading name. Something like <code>OnRespawnFinished</code> would have been a much better name.</li>
 <li>Then you need to check the <code>PlayerController</code> script to find out what the <code>RespawnFinished</code> method actually does.</li>
 </ul>
-<p>So in the end this approach uses a new script for the <em>Respawn</em> state, but all it does is call a function somewhere else. It tries to use the Animator Controller as a state machine, but the limitations of that system prevent it from doing everything that is needed so the remaining responsibilities fall back onto scripts anyway.</p>
+<p>So in the end this approach uses a new script for the <em>Respawn</em> state, but all it does is call a function somewhere else. It tries to use the Animator Controller as a state machine, but the limitations of that system prevent it from doing everything that is needed so the remaining responsibilities fall back onto scripts anyway, resulting in far more overall complexity than if it was all handled by scripts.</p>
 <h1 id="animancer">Animancer</h1>
 <p>The Animancer implementation is much simpler. The <code>Creature</code> has a reference to the <em>Respawn</em> state which it uses as the default when creating the state machine:</p>
 <pre><code class="language-cs">[SerializeField] private CreatureState _Respawn;
@@ -391,21 +394,55 @@ private void Awake()
     StateMachine = new StateMachine&lt;CreatureState&gt;(_Respawn);
 }
 </code></pre>
-<p>The actual state implementation just plays an animation (using a <a href="../../../manual/transitions">Transition</a>) and returns to <em>Idle</em> when it's done:</p>
+<p>The actual state implementation is also very straightforward:</p>
+<p>In <code>Awake</code> (called once on startup) it sets the animation's <a href="../../../../manual/events/end">End Event</a> to return to the <em>Idle</em> state and stores the starting position:</p>
 <pre><code class="language-cs">using System;
 using UnityEngine;
 
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a> : CreatureState
 {
     [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Animation;
+    [SerializeField] private UnityEvent _OnEnterState;
+    [SerializeField] private UnityEvent _OnExitState;
 
-    private void OnEnable()
+    private Vector3 _StartingPosition;
+
+    private void Awake()
     {
-        Creature.Animancer.Transition(_Animation)
-            .OnEnd = Creature.ForceEnterIdleState;
+        _Animation.Events.Sequence.OnEnd = Creature.ForceEnterIdleState;
+        _StartingPosition = transform.position;
     }
 </code></pre>
-<p>And prevents any other state from interrupting it (the <code>ForceEnterIdleState</code> above will skip this check):</p>
+<p>Then in <code>OnEnable</code> (called every time this state is entered) it teleports the creature back to the starting position and plays the animation:</p>
+<pre><code class="language-cs">    private void OnEnable()
+    {
+        Creature.Animancer.Play(_Animation);
+        Creature.transform.position = _StartingPosition;
+</code></pre>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<p>It needs to make the <code>Damageable</code> component recover to full health and activate invulnerability during this state, but due to the <a href="../problems#script-referencing">Script Referencing</a> issue it needs to use <a href="../../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a>s rather than controlling that component directly:</p>
+<pre><code class="language-cs">        // In OnEnable.
+        _OnEnterState.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        _OnExitState.Invoke();
+    }
+</code></pre>
+</td>
+      <td><img src="respawn-events.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<p>And it also prevents any other state from interrupting it (the <code>ForceEnterIdleState</code> above will skip this check):</p>
 <pre><code class="language-cs">    public override bool CanExitState(CreatureState nextState)
     {
         return false;
@@ -414,10 +451,16 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
 </code></pre>
 <p>This gives us a simple component that we can set up in the Inspector:</p>
 <p><img src="animancer-respawn.png" class="img-responsive"></p>
+<h1 id="particle-effects">Particle Effects</h1>
+<p>We also need to activate the blue particle effect when the animation starts. As with the <code>Damageable</code> component, the <a href="../problems#script/referencing">Script Referencing</a> issue prevents us from calling the <code>EllenSpawn.StartEffect</code> method directly. But since the <code>Creature</code> enters this state before any other scripts get a chance to initialise (thanks to its <code>[DefaultExecutionOrder]</code> attribute), the <code>EllenSpawn</code> script will not be initialised yet so instead of adding more methods to <code>_OnEnterState</code> we can create an <a href="../../../../manual/events/animancer">Animancer Event</a> at time 0 which will get called the first time the animation updates:</p>
+<p><img src="start-effect-event.png" class="img-responsive"></p>
 <h1 id="ai-chasing">AI Chasing</h1>
-<p>Since enemies and AI are outside the scope of this example, the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> script doesn't do anything equivalent to the original <code>PlayerController.RespawnFinished</code> method, but adding such behaviour would be straightforward.</p>
-<p>Doing something when the <em>Respawn</em> state is exited would be as simple as adding an <code>OnDisable</code> method.</p>
-<p>If an AI script needs to check whether a creature is currently respawning, it can check <code>if (creature.StateMachine.CurrentState is RespawnState)</code>. That's a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI didn't specifically depend on the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> class or even particularly care <em>why</em> they aren't allowed to chase the player at that time so it might be better something like this:</p>
+<p>Unfortunately, the enemy AI in the 3D Game Kit Lite is too tightly coupled to the <code>PlayerController</code> script we are replacing for us to get it to work with the Animancer character.</p>
+<p>If an AI script needs to check whether a creature is currently respawning specifically, it could easily do so with either of the following:</p>
+<pre><code class="language-cs">if (creature.StateMachine.CurrentState is RespawnState)
+if (creature.StateMachine.CurrentState == creature.Respawn)
+</code></pre>
+<p>That is a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI did not specifically depend on the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> class or even particularly care <em>why</em> they are not allowed to chase the player at that time so it might be better to use <a href="../../../../introduction/cs/inheritance">Inheritance</a>:</p>
 <pre><code class="language-cs">// Set the default in the base CreatureState:
 public virtual bool CanBeChased { get { return true; } }
 
@@ -429,18 +472,18 @@ if (creature.StateMachine.CurrentState.CanBeChased)
 </code></pre>
 <p>This would allow the <code>DeathState</code> to also stop enemies from chasing it without any modification to the AI code.</p>
 <h1 id="modularity">Modularity</h1>
-<p>Another thing to consider is the effort that would be involved if you wanted to add or remove a particular state when modifying the player or creating a new creature. To make the player just appear immediately without a respawning animation in the original setup you would need to do the following:</p>
+<p>Another thing to consider is the effort that would be involved if you wanted to add or remove a particular state when modifying the player or creating a new creature. To make the player just appear immediately without a respawning animation in the Mecanim setup you would need to do the following:</p>
 <ol>
 <li>Remove the <code>Respawning</code> state from the Animator Controller.</li>
 <li>Set <code>IdleSM</code> as the default state.</li>
-<li>Edit the <code>PlayerController</code> script so it doesn't rely on something else calling <code>RespawnFinished</code>.</li>
+<li>Edit the <code>PlayerController</code> script so it does not rely on something else calling <code>RespawnFinished</code>.</li>
 </ol>
 <p>But to do the same with Animancer you could basically do the same thing without the last step:</p>
 <ol>
 <li>Remove the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> component.</li>
 <li>Assign the <code>IdleState</code> component to the <code>Creature._Respawn</code> field in the Inspector (so the same state is assigned to both <em>Respawn</em> and <em>Idle</em>).</li>
 </ol>
-<p>We didn't intentionally plan the Animancer setup to support creatures without a respawn animation, but we have the ability to do so anyway since we structured the code properly. Being able to try out ideas and adapt to changing requirements like this is extremely valuable in software development.</p>
+<p>We did not intentionally plan the Animancer setup to support creatures without a respawn animation, but we have the ability to do so anyway since we structured the code properly. Being able to try out ideas and adapt to changing requirements like this is extremely valuable in software development.</p>
 
 	</section>
                 

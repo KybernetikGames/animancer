@@ -213,7 +213,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -228,6 +228,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -343,8 +345,9 @@
 			<h1>Weapon Animations</h1>
 		</section>
 	<section class="content">
-		<p>How to set up a system where each weapon has its own attack animations.</p>
+		<p>Many games involve combat with various different types of weapons where each type has its own animations for attacking, blocking, and other common actions.</p>
 <h1 id="mecanim">Mecanim</h1>
+<p>Setting up such a system in Mecanim is generally done by creating a base Animator Controller to define states, parameters, and transitions then creating an <a href="https://docs.unity3d.com/ScriptReference/AnimatorOverrideController">Animator Override Controller</a> to replace specific Animation Clips inside it.</p>
 <ol>
 <li>Create an <code>AnimatorController</code> asset somewhere in your project and open it.</li>
 <li>Assign the asset to the <code>Controller</code> field of the <code>Animator</code> component on your model.</li>
@@ -367,6 +370,7 @@
 <li>Repeat for each clip to override.</li>
 </ul>
 <h1 id="animancer">Animancer</h1>
+<p>A similar result can be achieved much more easily in Animancer because you can simply play the animations of any weapon on demand without worrying about keeping an Animator Controller and Animator Override Controller in sync with your code whenever you need to change anything or track down a bug.</p>
 <ol>
 <li>Add an <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to your model.</li>
 <li>Give your script a <code>public <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer</code> field and assign it in the Inspector.</li>

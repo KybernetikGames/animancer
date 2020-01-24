@@ -76,14 +76,13 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#original">Original</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
 <p><a href="#animancer">Animancer</a></p>
 <p><a href="#buffered-input">Buffered Input</a></p>
-<p><a href="#attack-details">Attack Details</a></p>
 <p><a href="#fields">Fields</a></p>
+<p><a href="#animations">Animations</a></p>
 <p><a href="#state-entry">State Entry</a></p>
 <p><a href="#updates">Updates</a></p>
-<p><a href="#adding-more-attacks">Adding More Attacks</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -219,7 +218,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -234,6 +233,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li class="selected"><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -354,10 +355,10 @@
 </blockquote>
 <p>Most combat games feature attack combos where performing multiple attacks in quick succession will use various different animations in a sequence which resets to the beginning if you stop attacking or reach the end, which is what we have here:</p>
 <p><img src="combo.gif" class="img-responsive"></p>
-<h1 id="original">Original</h1>
-<p>The original character's <code>MeleeCombatSM</code> state is a <a href="https://docs.unity3d.com/Manual/NestedStateMachines.html">Sub State Machine</a> containing several <em>Attack</em> animations:</p>
+<h1 id="mecanim">Mecanim</h1>
+<p>The Mecanim character's <code>MeleeCombatSM</code> state is a <a href="https://docs.unity3d.com/Manual/NestedStateMachines.html">Sub State Machine</a> containing several <em>Attack</em> animations:</p>
 <p><img src="attack-sub-state.png" class="img-responsive"></p>
-<p>At first glance, the general concept is easy to understand - it will start with the first <em>Attack</em> animation (<code>EllenCombo1</code>) and continue to each of the others in order if you keep trying to attack - but as usual, the specific implementation of that logic is scattered all over the place:</p>
+<p><img src="attack-transition.png" class="img-responsive img-right"> At first glance, the general concept is easy to understand - it will start with the first <em>Attack</em> animation (<code>EllenCombo1</code>) and continue to each of the others in order if you keep trying to attack - but as usual, the specific implementation of that logic is scattered all over the place:</p>
 <ol>
 <li><code>PlayerInput.Update</code> checks for the attack input in order to start the <code>AttackWait</code> coroutine.</li>
 <li><code>AttackWait</code> sets <code>m_Attack = true;</code> then waits for 0.03 seconds, then sets it back to <code>false</code>. This is a dirty hack to ensure that the input doesn't get missed in case there are multiple <code>Update</code>s in a row without a <code>FixedUpdate</code> between them, but otherwise it's an arbitrary amount of time which is too small to have any other use.</li>
@@ -371,47 +372,29 @@
 <li>That method activates an animated weapon trail and a <code>Light</code>, then uses a coroutine to wait until the animation finishes to deactivate it.</li>
 <li>Each of the <code>EllenCombo</code> states has various transitions, including one which leads to the next state in the sequence on the conditions that <code>MeleeAttack</code> is true (meaning the player is trying to attack) and the <code>StateTime</code> (from step #4) is within a certain range.</li>
 </ol>
-<p><img src="attack-transition.png" class="img-responsive"></p>
-<p>Note how several of those steps so not directly lead into the next. <code>PlayerInput</code> doesn't just call a method which you can read to in order to find out what it does, instead it sets a value and you need to check everywhere that references that value to find out what effect it will have. This is a big part of what makes the setup so convoluted.</p>
+<p>Note how several of those steps so not directly lead into the next. <code>PlayerInput</code> does not just call a method which you can read to in order to find out what it does, instead it sets a value and you need to check everywhere that references that value to find out what effect it will have. This is a big part of what makes the setup so convoluted.</p>
 <h1 id="animancer">Animancer</h1>
 <p></p><details><summary>The Animancer character handles all the above logic in the <code>AttackState</code> script which makes the flow of logic far easier to understand:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public sealed class AttackState : CreatureState
 {
-    [Serializable]
-    public class AttackClip : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
-    {
-        [SerializeField]
-        [Tooltip("The normalized time when this attack will begin transitioning back to idle")]
-        [Range(0, 1)]
-        private float _EndNormalizedTime = 0.75f;
-
-        public float EndNormalizedTime
-        {
-            get { return _EndNormalizedTime; }
-        }
-
-        [SerializeField]
-        private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a> _Trail;
-
-        public override void Apply(AnimancerState state)
-        {
-            base.Apply(state);
-            _Trail.Activate();
-        }
-    }
-
     [SerializeField] private float _TurnSpeed = 400;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _WeaponAudio;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteAudio;
-    [SerializeField] private AttackClip[] _Animations;
+    [SerializeField] private UnityEvent _SetWeaponOwner;
+    [SerializeField] private UnityEvent _OnStart;
+    [SerializeField] private UnityEvent _OnEnd;
+    [SerializeField] private ClipState.Transition[] _Animations;
 
     private int _AttackIndex = int.MaxValue;
-    private AttackClip _Attack;
+    private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Attack;
+
+    private void Awake()
+    {
+        _SetWeaponOwner.Invoke();
+    }
 
     public override bool CanEnterState(CreatureState previousState)
     {
@@ -431,10 +414,14 @@ public sealed class AttackState : CreatureState
         }
 
         _Attack = _Animations[_AttackIndex];
-        Animancer.Transition(_Attack);
-        _WeaponAudio.PlayRandomClip();
-        _EmoteAudio.PlayRandomClip();
+        Creature.Animancer.Play(_Attack);
         <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
+        _OnStart.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        _OnEnd.Invoke();
     }
 
     public override bool FullMovementControl { get { return false; } }
@@ -449,7 +436,7 @@ public sealed class AttackState : CreatureState
 
     public override bool CanExitState(CreatureState nextState)
     {
-        return _Attack.State.NormalizedTime &gt;= _Attack.EndNormalizedTime;
+        return _Attack.State.NormalizedTime &gt;= _Attack.State.Events.NormalizedEndTime;
     }
 }
 </code></pre>
@@ -461,12 +448,12 @@ public sealed class AttackState : CreatureState
 <pre><code class="language-cs">[SerializeField] private CreatureState _Attack;
 </code></pre>
 <p>Note that this is the only place where the <em>Attack</em> state is actually referenced. The <code>Creature</code> script has references to the core states - <em>Respawn</em>, <em>Idle</em>, <em>Locomotion</em>, and <em>Airborne</em> - but none of them know anything about the ability to attack.</p>
-<p>In the original character (step #11 above), each attack had a window of time during which you could press the attack button to perform the next attack in the combo. These windows were defined in the transition conditions which made them tricky to work with for two main reasons:</p>
+<p>In the Mecanim character, each attack has a window of time during which you could press the attack button to perform the next attack in the combo (step #11 above). These windows were defined in the transition conditions which made them tricky to work with for two main reasons:</p>
 <ul>
-<li>You can't view more than one at a time and it takes two clicks to swap between them.</li>
-<li>Since the <code>StateTime</code> parameter is actually set using the state's normalized time, it's hard to judge how much time a particular value actually represents.</li>
+<li>You cannot view more than one at a time and it takes two clicks to swap between them.</li>
+<li>Since the <code>StateTime</code> parameter is actually set using the state's normalized time, it is hard to judge how much time a particular value actually represents.</li>
 </ul>
-<p>Instead of trying to replicate that setup, the Animancer character instead uses a concept known as <em>input buffering</em> which simply means that if a button press fails to trigger the desired action, it will still be able to do so for a short time afterwards. Fortunately, Animancer's <a href="../../../manual/fsm#input-buffers">Finite State Machine</a> system has an <code>InputBuffer</code> class which is very easy to use. So we make a time out field to determine how long the buffer will last and initialise it with the <code>StateMachine</code> it will be buffering:</p>
+<p>Instead of trying to replicate that setup, the Animancer character instead uses a concept known as <em>input buffering</em> which simply means that if a button press fails to trigger the desired action, it will still be able to do so for a short time afterwards. Fortunately, Animancer's <a href="../../../manual/fsm#input-buffers">Finite State Machine</a> system has an <code>InputBuffer</code> class which is very easy to use. So we make a "time out" field to determine how long the buffer will last and initialise it with the <code>StateMachine</code> it will be buffering:</p>
 <pre><code>[SerializeField] private float _AttackInputTimeOut = 0.5f;
 
 private StateMachine&lt;CreatureState&gt;.InputBuffer _InputBuffer;
@@ -486,7 +473,7 @@ private void Awake()
         _InputBuffer.TrySetState(_Attack, _AttackInputTimeOut);
     }
 </code></pre>
-<p>And on any <code>Update</code> where we didn't just attempt a new action, we update the buffer to give it another chance to retry a previously buffered action and check if it has timed out:</p>
+<p>And on any <code>Update</code> where we did not just attempt a new action, we update the buffer to give it another chance to retry a previously buffered action and check if it has timed out:</p>
 <pre><code class="language-cs">    else
     {
         _InputBuffer.Update();
@@ -494,95 +481,66 @@ private void Awake()
 }
 </code></pre>
 <p>Using the same 0.5 second window for every attack gives much more consistent gameplay where the player can get a feel for when they will need to press the button rather than arbitrarily varying it for every attack.</p>
-<h1 id="attack-details">Attack Details</h1>
-<p>Now that we've taken care of getting into the <code>AttackState</code>, we want to make an array of <code>AnimationClip</code>s with some additional details such as transition timings. This is what <a href="../../../../manual/transitions">Transitions</a> like <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code> are good for, but we want a few more details so we declare a class that inherits from it:</p>
-<pre><code class="language-cs">[Serializable]
-public class AttackClip : <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a>
-{
-</code></pre>
-<p>The first thing we want is a value to determine when we want the animation to end:</p>
-<pre><code class="language-cs">    [SerializeField]
-    [Tooltip("The normalized time when this attack will begin transitioning back to idle")]
-    [Range(0, 1)]
-    private float _EndNormalizedTime = 0.75f;
-
-    public float EndNormalizedTime
-    {
-        get { return _EndNormalizedTime; }
-    }
-</code></pre>
-<p>We also want an <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a></code>, which is the visual light trail effect that appears when swinging the weapon</p>
-<pre><code class="language-cs">    [SerializeField]
-    private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a> _Trail;
-</code></pre>
-<p>Rather than exposing it publicly for the <code>AttackState</code> to activate when it plays this attack, we can override the <code>Apply</code> method to handle that responsibility internally:</p>
-<pre><code class="language-cs">    public override void Apply(AnimancerState state)
-    {
-        base.Apply(state);
-        _Trail.Activate();
-    }
-}
-</code></pre>
-<p>If we wanted the ability to tweak the speed of the attack animation, we would also need to pass that speed onto the trail so it gets shown correctly in relation to the character.</p>
-<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a></code> script is a cleaned up copy of the <code>TimeEffect</code> script used by the original character (renamed because the original name was misleading, though there might still be a better possibility):</summary><p>
-</p><pre><code class="language-cs">using System.Collections;
-using UnityEngine;
-
-public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AttackTrail">AttackTrail</a> : MonoBehaviour
-{
-    [SerializeField] private Light _Light;
-    [SerializeField] private Animation _Animation;
-
-#if UNITY_EDITOR
-    private void Reset()
-    {
-        _Light = Editor.AnimancerEditorUtilities.GetComponentInHierarchy&lt;Light&gt;(gameObject);
-        _Animation = Editor.AnimancerEditorUtilities.GetComponentInHierarchy&lt;Animation&gt;(gameObject);
-        gameObject.SetActive(false);
-    }
-#endif
-
-    public void Activate()
-    {
-        gameObject.SetActive(true);
-        _Light.enabled = true;
-
-        _Animation.Play();
-
-        StartCoroutine(DisableAtEndOfAnimation());
-    }
-
-    private IEnumerator DisableAtEndOfAnimation()
-    {
-        yield return new WaitForSeconds(_Animation.clip.length);
-
-        gameObject.SetActive(false);
-        _Light.enabled = false;
-    }
-}
-</code></pre>
-<p></p></details><p></p>
 <h1 id="fields">Fields</h1>
-<p>Now that we have made the <code>AttackClip</code> class to encapsulate the details we want, we can make some serialized fields to show in the Inspector:</p>
-<pre><code class="language-cs">[SerializeField] private float _TurnSpeed = 400;
-[SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _WeaponAudio;
-[SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteAudio;
-[SerializeField] private AttackClip[] _Animations;
+<p>Now that we have taken care of getting the character into the <code>AttackState</code>, we can make some <a href="../../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> to show in the Inspector:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private float _TurnSpeed = 400;
+
+[SerializeField]
+private UnityEvent _SetWeaponOwner;
+
+[SerializeField]
+private UnityEvent _OnStart;
+
+[SerializeField]
+private UnityEvent _OnEnd;
+
+[SerializeField]
+private ClipState.Transition[] _Animations;
 </code></pre>
-<p>Logically, the <code>_Animations</code> array should probably be first because it gets used first and is most important, however putting the unique fields first instead makes the Inspector a bit easier to read.</p>
+<p>In order to interact with the existing systems in the 3D Game Kit Lite (such as killing enemies and breaking destructible boxes) we need to call several methods on its scripts, but the <a href="../problems#script-referencing">Script Referencing</a> issue prevents us from calling them directly so we use <code>UnityEvents</code> instead:</p>
+<ul>
+<li><code>_SetWeaponOwner</code> is used in <code>Awake</code> to call <code>MeleeWeapon.SetOwner</code> so that when the weapon hits an enemy it can pass the relevant information about the character wielding it to the enemy being hit.</li>
+<li><code>_OnStart</code> activates the weapon (most games have the weapon always visible, but the Mecanim character only shows it when attacking so we just do the same here) and calls <code>MeleeWeapon.BeginAttack</code> so that it will start checking for objects to hit.</li>
+<li><code>_OnEnd</code> cancels out what <code>_OnStart</code> did.</li>
+</ul>
+</td>
+      <td><img src="inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
 <p>We also need some non-serialized fields to remember the index of the current attack (to play the next one in the sequence when the player attacks repeatedly) and keep a direct reference to that attack for use later on:</p>
 <pre><code class="language-cs">private int _AttackIndex = int.MaxValue;
-private AttackClip _Attack;
+private <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Attack;
 </code></pre>
+<h1 id="animations">Animations</h1>
+<img src="inspector-animations.png" class="img-responsive img-right">
+<p>Expanding the foldout arrow next to each of the <a href="../../../../manual/transitions">Transitions</a> allows us to customise the <code>Fade Duration</code> and <code>End Time</code> of each attack.</p>
+<h2 id="weapon-trails">Weapon Trails</h2>
+<p>Whenever we play one of the attack animations, we also want to show a trail of blue light behind the weapon swing. This is handled by the <code>TimeEffect</code> script from the 3D Game Kit Lite which the <a href="../problems#script-referencing">Script Referencing</a> issue prevents us from using directly. But rather than adding a <code>UnityEvent</code> field as we have in other cases, we can make use of the fact that <a href="../../../../manual/transitions">Transitions</a> already have built in <a href="../../../../manual/events/animancer">Animancer Events</a> by simply creating an event at time 0 and using its <a href="../../../../introduction/cs/methods#unity-events">Unity Event</a> to call the <code>TimeEffect.Activate</code>.</p>
+<p>In this case the trails are separately animated meshes so if we wanted the ability to tweak the <code>Speed</code> of the attack animation, we would also need to pass that speed onto the trail so it gets shown correctly in relation to the character.</p>
+<p>Rather than using a separately animated mesh for the trails, most games generally use Unity's <a href="https://docs.unity3d.com/Manual/class-TrailRenderer">Trail Renderer</a> component (or a custom script that works similarly) to have the trail dynamically follow wherever the weapon goes. This would avoid the speed issue and require less effort to develop, but it does somewhat limit your creative control over the exact appearance of the effect.</p>
+<h2 id="attack-details">Attack Details</h2>
+<p>The 3D Game Kit Lite uses a very basic damage system where the player kills enemies and destroys objects in one hit and enemies cause the player to lose 1 health on contact. But many games allow different weapons to deal different amounts of damage, knock enemies away, and even cause them to <a href="../flinch">Flinch</a> for different amounts of time. Some games even allow individual attacks with the same weapon to use different stats such as having a sword deal <em>Slashing</em> damage with one attack then <em>Piercing</em> damage with the next or having a weak bash attack followed by a powerful overhead strike.</p>
+<p>Associating additional details like that with each animation can be done by creating a class that <a href="../../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
+<h2 id="adding-more-attacks">Adding More Attacks</h2>
+<p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this script to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time as you would when using Mecanim.</p>
 <h1 id="state-entry">State Entry</h1>
-<p>Note how we initialise the index to start at <code>int.MaxValue</code> so that the first condition checked by <code>OnEnable</code> is true the first time it is used (see below).</p>
 <p>In this example, we only allow attacking while grounded:</p>
 <pre><code class="language-cs">public override bool CanEnterState(CreatureState previousState)
 {
     return Creature.CharacterController.isGrounded;
 }
 </code></pre>
-<p>Plenty of other games have airborne attacks as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it is for ground or air attacks, or by giving it a second array of <code>AttackClip</code>s to use when airborne.</p>
+<p>Games often have different attacks they can use while <a href="../airborne">Airborne</a> as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it is for ground or air attacks and attaching two of them to the same <code>Creature</code>, or by giving it a second array of <code><a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a></code>s to use when airborne.</p>
 <p>When entering this state, we start by determining which attack in the sequence we are up to. If the previous attack was the last one or it has already fully faded out, we want the first attack, but otherwise we can go to the next one in line:</p>
 <pre><code class="language-cs">private void OnEnable()
 {
@@ -596,19 +554,19 @@ private AttackClip _Attack;
         _AttackIndex++;
     }
 </code></pre>
-<p>Now that the attack has been chosen, we can play it along with some sounds (<code>_WeaponAudio</code> is the physical sword swing while <code>_EmoteAudio</code> is the vocal grunt) and cancel out the character's forward speed:</p>
+<p>Note how we initialised the index to start at <code>int.MaxValue</code> when declaring the field so that the first condition checked by <code>OnEnable</code> is true the first time it is used.</p>
+<p>Now that we know which attack is starting, we can play it:</p>
 <pre><code class="language-cs">    _Attack = _Animations[_AttackIndex];
-    Animancer.Transition(_Attack);
-    _WeaponAudio.PlayRandomClip();
-    _EmoteAudio.PlayRandomClip();
+    Animancer.Play(_Attack);
     <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
+    _OnStart.Invoke();
 }
 </code></pre>
 <h1 id="updates">Updates</h1>
 <p>While this state is active, we want to apply the raw root motion from the attack animations so we disable <code>FullMovementControl</code>:</p>
 <pre><code class="language-cs">public override bool FullMovementControl { get { return false; } }
 </code></pre>
-<p>This <code>FixedUpdate</code> method is the simplest of any state, we just <a href="../idle#check-motion-state">Check the standard transitions</a> (<em>Idle</em>, <em>Locomotion</em>, or <em>Airborne</em> as appropriate) and turn in the direction the <code>Creature.Brain</code> wants to go:</p>
+<p>This <code>FixedUpdate</code> method is the simplest of any state, we just <a href="../idle#check-motion-state">check the standard transitions</a> (<em>Idle</em>, <em>Locomotion</em>, or <em>Airborne</em> as appropriate) and turn in the direction the <code>Creature.Brain</code> wants to go:</p>
 <pre><code class="language-cs">private void FixedUpdate()
 {
     if (Creature.CheckMotionState())
@@ -624,9 +582,11 @@ private AttackClip _Attack;
 }
 </code></pre>
 <p>This means that once the specified time passes, the next <code>FixedUpdate</code> will change to one of the standard states (and that state will be responsible for fading in its own animation). If the <a href="#input-buffer">Input Buffer</a> is attempting to attack again, it will then do so next time it is updated, which will enter this state again. Since the attack animation that just ended would still be fading out at that point, the <code>OnEnable</code> method would then move it onto the next attack in the sequence.</p>
-<p>If we had states like <em>Hurt</em> and <em>Dead</em>, we could use the ideas covered in the <a href="../../../fsm/interrupt-management">Interrupt Management</a> example to allow them to interrupt this state regardless of the time.</p>
-<h1 id="adding-more-attacks">Adding More Attacks</h1>
-<p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this state to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time.</p>
+<p>We are using the <a href="../../../../manual/events/end">End Event</a> time to determine when this state is alowed to exit which makes it seem like we could just use an actual event instead of calling <code>Creature.CheckMotionState</code> every frame, but that would not work because:</p>
+<ul>
+<li>If <code>CanExitState</code> always returns false, <code>Creature.CheckMotionState</code> will not work because it uses <code>TrySetState</code> instead of <code>ForceSetState</code>.</li>
+<li>If <code>CanExitState</code> always returns true, it would allow other actions like jumping in the middle of an attack.</li>
+</ul>
 
 	</section>
                 

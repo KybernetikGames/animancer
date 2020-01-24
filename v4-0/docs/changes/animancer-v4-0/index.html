@@ -219,7 +219,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -234,6 +234,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -777,6 +779,8 @@ public void Attack()
 </ul>
 </li>
 <li>Added <code>[&lt;see cref="SerializeField"/&gt;]</code> tags to the start of comments for all properties that directly wrap serialized fields.</li>
+<li><code>StateMachine.CanSetState</code> now returns true if the parameter is <code>null</code> since the other methods support nulls.</li>
+<li>The <code><a href="/animancer/v4-0/api/Animancer.Editor/ReadMe">ReadMe</a></code> now includes the Animancer Version in its name to better detect if the user did not delete a previous version before updating (since Unity's package importer will overwrite old files but not rename them).</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
@@ -811,6 +815,7 @@ public void Attack()
 <li>Fixed <code>AnimancerEvent.Sequence.AssertNormalizedTimes</code> to properly account for <code>NaN</code>s.</li>
 <li>Fixed the <code>End Event/Clear</code> context menu function to be disabled when the time is not set.</li>
 <li><code>Ctrl + Click</code> on a state in the Inspector now unpauses the graph as well as fading to that state.</li>
+<li>Fixed <code><a href="/animancer/v4-0/api/Animancer/Float3ControllerState">Float3ControllerState</a></code> to show all of its parameters in the Inspector rather than only the first two.</li>
 </ul>
 <h1 id="examples">Examples</h1>
 <ul>
@@ -845,14 +850,45 @@ public void Attack()
 <li><a href="../../examples/directional-sprited/basic-movement">Basic Movement</a> now uses a serialized field so its initial facing directioncan be set in Edit Mode and it now has a dedicated Play method which takes a <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> instead of calling<code>GetClip</code> in each location it wants to play something.</li>
 <li>Renamed the "Animation Events" group to <a href="../../examples/events">Events</a> (since they now demonstrate Animancer Events as well).</li>
 <li>Renamed "Simple and End Events" to <a href="../../examples/events/golf">Golf Events</a> and updated it to demonstrate regularAnimation Events, a <code><a href="/animancer/v4-0/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code>, Animancer Events defined in the Inspector, and Animancer Events with their times se in the Inspector and callbacks set in code.</li>
-<li>Renamed "Other Events" to <a href="../../examples/events/footsteps">Footstep Events</a> and reordered it to come before "Golf Events".</li>
-<li>Added an introduction sequence to <a href="../../examples/fsm/platformer">Platformer</a> using <a href="#timeline">Timeline</a>.</li>
+<li>Renamed "Other Events" to <a href="../../examples/events/footsteps">Footstep Events</a> and reordered it to come before "Golf Events".
+<ul>
+<li>It now includes Animancer Events and much more detail about how to set everything up.</li>
+</ul>
+</li>
+<li><a href="../../examples/fsm/more-brains">More Brains</a> now enables and disables the brains in code when swapping them instead of using the <code>UnityEvent</code>s on the   UI Buttons.</li>
+<li>Improved <a href="../../examples/fsm/platformer">Platformer</a>:
+<ul>
+<li>Added an introduction sequence using <a href="#timeline">Timeline</a>.</li>
+<li>Jumping now uses a specific target height rather than an arbitrary amount of force.</li>
+<li>It now allows the player to jump higher by holding the button longer.</li>
+<li>Reviving the character now plays the death animation backwards.</li>
+</ul>
+</li>
+<li>Improved the <a href="../../examples/ik">Inverse Kinematics</a> examples:
+<ul>
+<li>Changed <code>StartingPositions</code> to <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/TransformResetter">TransformResetter</a></code> and it now resets rotations as well.</li>
 <li>Improved <code><a href="/animancer/v4-0/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> to account for the foot rotation when calculating the raycast diration.</li>
+</ul>
+</li>
+<li><a href="../../examples/animator-controllers/hybrid">Hybrid Mini Game</a> now has the character walk into and out of the mini game rather than teleporting.</li>
+<li>Improved <a href="../../examples/animator-controllers/3d-game-kit">3D Game Kit</a>:
+<ul>
+<li>It is now based on the 3D Game Kit Lite since the full version is a massive pain to download and import.</li>
+<li>It now shows which system (Animancer or Mecanim) is active and lets you swap between them with keyboard controls instead of UI  Buttons.</li>
+<li>It now uses custom end times as part of each transition rather than End Animation Events or separate end time fields.</li>
+<li>The root object is now separate from the model with <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RootMotionRedirect">RootMotionRedirect</a></code> passing on the root motion.</li>
+<li><code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> and <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> now use Mixers instead of Blend Trees since they are more convenient to use and can give the  same result now that time synchronisation has been implemented.</li>
+<li>Added <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/FlinchState">FlinchState</a></code> and <code>DieState</code>.</li>
+<li>Attacks can how kill enemies and destroy objects and do not use a custom transition class.</li>
+<li>Removed the copy of <code>RandomAudioPlayer</code> and used <code>UnityEvent</code>s to access the existing script.</li>
+<li>Removed the copy of <code>AttackTrail</code> and used <code>UnityEvent</code>s to access the existing <code>TimeEffect</code> script.</li>
+</ul>
+</li>
 <li>Added <code>[DefaultExecutionOrder]</code> attributes to all <code>Creature</code> examples as well as comments in <code>Awake</code> to reinforce its importance.</li>
 </ul>
 <h1 id="internal">Internal</h1>
 <ul>
-<li>Added 150+ unit tests using the <a href="https://docs.unity3d.com/Packages/com.unity.test-framework@1.1/manual/index.html">Unity Test Framework</a>. The tests are not planned for release so they will not directly matter to users, but they will help reduce the possibility of bugs making it to release.</li>
+<li>Added 150+ unit tests using the <a href="https://docs.unity3d.com/Packages/com.unity.test-framework@1.1/manual/index">Unity Test Framework</a>. The tests are not planned for release so they will not directly matter to users, but they will help reduce the possibility of bugs making it to release.</li>
 <li>Changed <code>AnimancerNode.Stop</code> from <code>abstract</code> to <code>virtual</code> so it can set <code>Weight = 0</code> by default since both <code><a href="/animancer/v4-0/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> and <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> did so.</li>
 <li>Moved the functionality to constantly repaint in Edit Mode from the manual update loop to <code>AnimancerPlayableEditor.RequiresConstantRepaint</code>.</li>
 <li>Split <code>AnimancerPlayableEditor</code> into <code><a href="/animancer/v4-0/api/Animancer.Editor/BaseAnimancerComponentEditor">BaseAnimancerComponentEditor</a></code> and <code><a href="/animancer/v4-0/api/Animancer.Editor/AnimancerPlayableDrawer">AnimancerPlayableDrawer</a></code> to the preview window can draw its <code><a href="/animancer/v4-0/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> without actually having an <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</li>

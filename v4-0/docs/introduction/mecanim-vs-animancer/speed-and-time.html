@@ -213,7 +213,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -228,6 +228,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -353,12 +355,15 @@
 <li>Select the animation's state in the Animator Controller.</li>
 <li>Set its <code>Speed</code> field.</li>
 </ol>
-<p>Note that this won't allow the speed to be modified at runtime (see below to set it up for that).
+<p>Note that this will not allow the speed to be modified at runtime (see below to set it up for that).
 </p></td>
 <td>
 You could either set it in code when you play the animation:<p></p>
-<pre><code class="language-cs">[SerializeField] <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] AnimationClip _Clip;
+<pre><code class="language-cs">[SerializeField]
+<a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+AnimationClip _Clip;
 
 void PlayAnimation()
 {
@@ -367,19 +372,22 @@ void PlayAnimation()
 }
 </code></pre>
 <p>Or use a <a href="../../manual/transitions">Transition</a> so it can be set in the Inspector alongside the <code>AnimationClip</code>:</p>
-<pre><code class="language-cs">[SerializeField] <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] <a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Animation;
+<pre><code class="language-cs">[SerializeField]
+<a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+<a href="/animancer/v4-0/api/Animancer/Transition">ClipState.Transition</a> _Animation;
 
 void PlayAnimation()
 {
     _Animancer.Play(_Animation);
 }
 </code></pre>
-<img src="../../manual/transitions/clipstate-transition.gif" class="img-responsive">
+<img src="../../manual/transitions/types/clip.png" class="img-responsive">
 </td>
   </tr>
 </tbody></table>
-<p>Sometimes you also need to modify the speed dynamically at runtime, such as to modify a character's attack speed in a fighting game. As usual, Animancer simply allows you to get straight to the point while Mecanim requires a bunch of additional setup steps:</p>
+<p>Sometimes you also need to modify the speed dynamically at runtime, such as to modify a character's attack speed in response to a buff. As usual, Animancer simply allows you to get straight to the point while Mecanim requires a bunch of additional setup steps:</p>
 <table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
   <tr>
     <td>
@@ -404,8 +412,11 @@ void LudicrousSpeed()
 <li>Literally the same as the first example above. Just get the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> method and modify its <code>Speed</code>.</li>
 </ol>
 <p>You can also keep a reference to the state if you need to be able to change the speed while it is playing.</p>
-<pre><code class="language-cs">[SerializeField] <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] AnimationClip _Clip;
+<pre><code class="language-cs">[SerializeField]
+<a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+AnimationClip _Clip;
 
 <a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a> _State;
 
@@ -436,7 +447,8 @@ void LudicrousSpeed()
   <tr>
     <td>
 <p>The <code>Animator.Play</code> and <code>CrossFade</code> methods have an optional <code>normalizedTime</code> parameter to specify where you want the animation to start.</p>
-<pre><code class="language-cs">[SerializeField] Animator _Animator;
+<pre><code class="language-cs">[SerializeField]
+Animator _Animator;
 
 void SkipToHalfTime()
 {
@@ -453,7 +465,8 @@ void SkipToHalfTime()
 <li>Select the parameter you just created from the dropdown menu.</li>
 <li>Now you can set the parameter by calling <code>Animator.SetFloat("ParameterName", value)</code> which will control the normalized time of the animation.</li>
 </ol>
-<pre><code class="language-cs">[SerializeField] Animator _Animator;
+<pre><code class="language-cs">[SerializeField]
+Animator _Animator;
 
 void SkipToHalfTime()
 {
@@ -465,8 +478,11 @@ void SkipToHalfTime()
 </td>
     <td>
 <p>Again, basically the same as the first example above. Just get the <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> method and modify its <code>Time</code> or <code>NormalizedTime</code>.</p>
-<pre><code class="language-cs">[SerializeField] <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] AnimationClip _Clip;
+<pre><code class="language-cs">[SerializeField]
+<a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+AnimationClip _Clip;
 
 void PlayAnimation()
 {

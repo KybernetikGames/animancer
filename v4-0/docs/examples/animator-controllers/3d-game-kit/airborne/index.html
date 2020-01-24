@@ -76,9 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#original">Original</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
 <p><a href="#animancer">Animancer</a></p>
-<p><a href="#controller-state">Controller State</a></p>
 <p><a href="#updates">Updates</a></p>
 <p><a href="#jumping">Jumping</a></p>
 <hr class="infobar-hidden">
@@ -216,7 +215,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -231,6 +230,8 @@
                 <li class="selected"><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -349,10 +350,10 @@
 		<blockquote class="blockquote">
 <p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
 </blockquote>
-<h1 id="original">Original</h1>
+<h1 id="mecanim">Mecanim</h1>
 <p>Rather than having individual states for <em>Jump</em> and <em>Fall</em> animations, the character only has one <em>Airborne</em> Blend Tree which uses the character's <code>AirborneVerticalSpeed</code> to control its blending. This is a useful setup because it means that you can tweak the physics details like gravity and jump speed and the animation will still be correct for any given point in the jump arc.</p>
 <p><img src="jump.gif" class="img-responsive"></p>
-<p>Note that it actually has two vertical speed parameters: <code>VerticalSpeed</code> and <code>AirborneVerticalSpeed</code>. The latter is used in the <em>Airborne</em> Blend Tree and various other places while the former isn't set by any script and <em>seems</em> to be unused, however there is no way to actually make sure without manually going through every transition in the Animator Controller.</p>
+<p>Note that it actually has two vertical speed parameters: <code>VerticalSpeed</code> and <code>AirborneVerticalSpeed</code>. The latter is used in the <em>Airborne</em> Blend Tree and various other places while the former is not set by any script and <em>seems</em> to be unused, however there is no way to actually make sure without manually going through every transition in the Animator Controller.</p>
 <p></p><details><summary>Every <code>PlayerController.FixedUpdate</code> calls <code>CalculateVerticalMovement</code> which is responsible for enforcing a constant downward speed while grounded to stick to the ground, checking if the <code>PlayerInput</code> wants to jump, applying gravity while airborne, and applying additional downward acceleration if the player jumps and releases the button before they reach the peak of the jump:</summary><p>
 </p><pre><code class="language-cs">void CalculateVerticalMovement()
 {
@@ -399,41 +400,25 @@
 <p></p></details><p></p>
 <p>After that method, <code>OnAnimatorMove</code> adds the <code>m_VerticalSpeed</code> to the movement it executes that frame and also sets it as the <code>AirborneVerticalSpeed</code> parameter in the Animator Controller to control the Blend Tree.</p>
 <h1 id="animancer">Animancer</h1>
-<p></p><details><summary>Animancer manages the above logic using the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> script which uses a Blend Tree in the same way, except that the Animator Controller contains only that Blend Tree and nothing else:</summary><p>
+<p></p><details><summary>Animancer manages the above logic in the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> script which uses a <a href="../../../../../manual/blending/mixers">Mixer</a> to achieve the same thing as that Blend Tree, allowing it to be set up in the Inspector instead of in an Animator Controller:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a> : CreatureState
 {
-    [SerializeField] private RuntimeAnimatorController _AirborneBlendTree;
-
-    private <a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a> _ControllerState;
-
-    private static readonly int VerticalSpeedParameter = Animator.StringToHash("VerticalSpeed");
-
-    private void Awake()
-    {
-        _ControllerState = new ControllerState(Animancer, _AirborneBlendTree);
-    }
-
-    private void ApplyVerticalSpeed()
-    {
-        _ControllerState.Playable.SetFloat(VerticalSpeedParameter, Creature.VerticalSpeed);
-    }
-
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">LinearMixerState.Transition</a> _Animations;
     [SerializeField] private float _JumpSpeed = 10;
     [SerializeField] private float _JumpAbortSpeed = 10;
     [SerializeField] private float _TurnSpeedProportion = 5.4f;
     [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a> _LandingState;
-    [SerializeField] private <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a> _EmoteJumpAudio;
+    [SerializeField] private UnityEvent _PlayAudio;
 
     private bool _IsJumping;
 
     private void OnEnable()
     {
         _IsJumping = false;
-        Animancer.CrossFade(_ControllerState);
-        ApplyVerticalSpeed();
+        Creature.Animancer.Play(_Animations);
     }
 
     public override bool StickToGround { get { return false; } }
@@ -460,15 +445,17 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
                 if (Creature.StateMachine.TrySetState(_LandingState))
                     return;
             }
-
-            if (Creature.CheckMotionState())
-                return;
+            else
+            {
+                if (Creature.CheckMotionState())
+                    return;
+            }
 
             if (Creature.VerticalSpeed &gt; 0)
                 <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> -= _JumpAbortSpeed * Time.deltaTime;
         }
 
-        ApplyVerticalSpeed();
+        _Animations.State.Parameter = Creature.VerticalSpeed;
 
         Creature.UpdateSpeedControl();
 
@@ -483,13 +470,14 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
 
     public bool TryJump()
     {
+
         if (Creature.CharacterController.isGrounded &amp;&amp;
             Creature.StateMachine.TryResetState(this))
         {
             _IsJumping = true;
             <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> = _JumpSpeed;
 
-            _EmoteJumpAudio.PlayRandomClip();
+            _PlayAudio.Invoke();
 
             return true;
         }
@@ -503,100 +491,23 @@ public sealed class <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorCont
     }
 }
 </code></pre>
-<p>Checking when the vertical speed is approximately 0 to set it to exactly 0 seems totally pointless because the threshold is so small that it will rarely happen and even if it does it will only be for a single frame and will not look notably different anyway.</p>
 <p></p></details><p></p>
-<h1 id="controller-state">Controller State</h1>
-<p>Since plenty of other examples demonstrate how to use <a href="../../../../manual/transitions">Transitions</a>, this one instead shows how to create a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> and access its parameters manually.</p>
-<p>Firstly we need several fields:</p>
-<table class="table">
-<thead>
-<tr>
-<th>Field</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>[SerializeField] private RuntimeAnimatorController _AirborneBlendTree;</code></td>
-<td>A reference to the Animator Controller containing the same Blend Tree used by the original character, but nothing else.</td>
-</tr>
-<tr>
-<td><code>private <a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a> _ControllerState;</code></td>
-<td>The <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> that will play the Animator Controller and provide access to its parameters.</td>
-</tr>
-<tr>
-<td><code>private static readonly int VerticalSpeedParameter = Animator.StringToHash("VerticalSpeed");</code></td>
-<td>The hash code of the <code>VerticalSpeed</code> parameter to allow us to access it more efficiently than using the name every time.</td>
-</tr>
-</tbody>
-</table>
-<p>On startup we create the <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> using the creature's <code><a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> which will implicitly attach the state to its default layer and also the <code>RuntimeAnimatorController</code> we want it to play:</p>
-<pre><code class="language-cs">private void Awake()
-{
-    _ControllerState = new ControllerState(Animancer, _AirborneBlendTree);
-}
-</code></pre>
-<p>Whenever this state is entered it passes the <code>_ControllerState</code> into the <code>AnimancerComponent.CrossFade</code> method to transition to it (over the default 0.25 second fade duration) just the same as we would if it were an <code>AnimationClip</code>:</p>
-<pre><code class="language-cs">private void OnEnable()
-{
-    Animancer.CrossFade(_ControllerState);
-}
-</code></pre>
-<p>Then every <code>FixedUpdate</code> we need to tell the Animator Controller what the vertical speed is:</p>
-<pre><code class="language-cs">private void ApplyVerticalSpeed()
-{
-    _ControllerState.Playable.SetFloat(VerticalSpeedParameter, Creature.VerticalSpeed);
-}
-</code></pre>
-<h2 id="float-controller-state">Float Controller State</h2>
-<p>Since the main purpose of that <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> is to provide access to a single float parameter, it would be more convenient to use a <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> which would replace all of the above with this:</p>
-<pre><code class="language-cs">[SerializeField] private RuntimeAnimatorController _AirborneBlendTree;
-
-private <a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a> _ControllerState;
-
-private void Awake()
-{
-    _ControllerState = new Float1ControllerState(Animancer, _AirborneBlendTree, "VerticalSpeed");
-}
-
-private void OnEnable()
-{
-    Animancer.CrossFade(_ControllerState);
-}
-
-private void ApplyVerticalSpeed()
-{
-    _ControllerState.Parameter = Creature.VerticalSpeed;
-}
-</code></pre>
-<p>Note how we no longer need the static <code>VerticalSpeedParameter</code> to cache the hash code because we pass the parameter name into the <code><a href="/animancer/v4-0/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> constructor and then we are able to get and set that parameter using <code>_ControllerState.Parameter = ...</code>.</p>
-<h2 id="transition">Transition</h2>
-<p><a href="../../../../manual/transitions">Transitions</a> (specifically, a <code><a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a></code>) can simplify this setup even further:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/Transition">Float1ControllerState.Transition</a> _AirborneBlendTree;
-
-private void OnEnable()
-{
-    Animancer.Transition(_AirborneBlendTree);
-}
-
-private void ApplyVerticalSpeed()
-{
-    _AirborneBlendTree.State.Parameter = Creature.VerticalSpeed;
-}
-</code></pre>
-<p>This gives us several advantages over the manual approaches above:</p>
-<ul>
-<li>We only need a single field.</li>
-<li>We call <code>AnimancerComponent.Transition</code> instead of <code>CrossFade</code> which automatically creates the <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> so we do not need the <code>Awake</code> method either.</li>
-<li><code>CrossFade</code> takes a <code>fadeDuration</code> parameter which is hard coded to 0.25 seconds by default, but the transition has an Inspector field to allow it to be tweaked by non-programmers.</li>
-<li>The parameter name is handled by a dropdown menu in the Inspector so it's not hard coded and you get a clear list of all available parameters. This means the code isn't tied to a specific parameter name and you do not have the chance to misspell it.</li>
-</ul>
-<p><img src="airborne-transition.png" class="img-responsive"></p>
+<p><img src="airborne-state.png" class="img-responsive"></p>
 <h1 id="updates">Updates</h1>
 <p>There are several aspects to this state every update.</p>
 <p>Firstly, we override the <code>StickToGround</code> property to always be false and the <code><a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> property to go whichever direction the <code>Creature.Brain</code> is trying to move as explained on the <a href="../locomotion/movement#on-animator-move-1">Movement</a> page.</p>
+<pre><code class="language-cs">public override bool StickToGround { get { return false; } }
+
+public override Vector3 <a href="/animancer/v4-0/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a>
+{
+    get
+    {
+        return Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
+    }
+}
+</code></pre>
 <p>Then the <code>FixedUpdate</code> method executes the main logic of this state.</p>
-<p>It starts by making sure that when you jump, do not start checking if you have landed until you stop going up:</p>
+<p>It starts by making sure that when you jump, it does not start checking if you have landed until you stop going up:</p>
 <pre><code class="language-cs">private void FixedUpdate()
 {
     if (_IsJumping)
@@ -605,7 +516,7 @@ private void ApplyVerticalSpeed()
             _IsJumping = false;
     }
 </code></pre>
-<p>Otherwise, if there is a <a href="../landing">Landing</a> state we try to enter it, which that script won't allow until the <code>CharacterController</code> is grounded. Or if we do not have a specific state for landing, just check the default transitions to Idle or Locomotion.</p>
+<p>Otherwise, if there is a <a href="../landing">Landing</a> state we try to enter it, which that script will not allow until the <code>CharacterController</code> is grounded. Or if we do not have a specific state for landing, just check the default transitions to Idle or Locomotion.</p>
 <pre><code class="language-cs">    else
     {
         if (_LandingState != null)
@@ -619,14 +530,14 @@ private void ApplyVerticalSpeed()
                 return;
         }
 </code></pre>
-<p>Note that the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> isn't referenced by any other scripts. It isn't a standard state that every <code>Creature</code> needs and nothing else needs to directly know about it.</p>
-<p>Here we also apply some additional downward acceleration (on top of the regular graivty applied in <code>Creature.OnAnimatorMove</code>) if the player releases the jump button early (this is still inside the block where <code>_IsJumping</code> is false, meaning the jump was cancelled):</p>
+<p>Note that the <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> isn't referenced by any other scripts. It is not a standard state that every <code>Creature</code> needs and nothing else needs to directly know about it.</p>
+<p>Here we also apply some additional downward acceleration (on top of the regular gravity applied in <code>Creature.OnAnimatorMove</code>) if the player releases the jump button early (this is still inside the block where <code>_IsJumping</code> is false, meaning the jump was cancelled):</p>
 <pre><code class="language-cs">        if (Creature.VerticalSpeed &gt; 0)
             <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> -= _JumpAbortSpeed * Time.deltaTime;
     }
 </code></pre>
-<p>Lastly, we send the vertical speed to the Animator Controller for the Blend Tree to use and update the <code>Creature</code>'s speed and turning. Since we do not have quick turn animations like the LocomotionState, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
-<pre><code class="language-cs">    ApplyVerticalSpeed();
+<p>Lastly, we send the vertical speed to the mixer parameter and update the <code>Creature</code>'s speed and turning. Since we do not have quick turn animations like the <code>LocomotionState</code>, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
+<pre><code class="language-cs">    _Animations.State.Parameter = Creature.VerticalSpeed;
 
     Creature.UpdateSpeedControl();
 
@@ -640,15 +551,15 @@ private void ApplyVerticalSpeed()
 }
 </code></pre>
 <h1 id="jumping">Jumping</h1>
-<p>The original character's implementation of jumping was extremely disorganised and hard to follow:</p>
+<p>The Mecanim character's implementation of jumping was extremely disorganised and hard to follow:</p>
 <ol>
 <li><code>PlayerInput.Update</code> checks for a button press to set a <code>bool</code> field with a public wrapper property.</li>
 <li>Searching for references to that property finds one in <code>PlayerController.CalculateVerticalMovement</code> which makes sure the button had been released at some point since the last jump (<code>PlayerInput</code> should have handled that).</li>
-<li>It also checks to make sure the character isn't attacking.</li>
+<li>It also checks to make sure the character is not attacking.</li>
 <li>Then it sets the <code>m_VerticalSpeed = jumpSpeed;</code> and <code>m_IsGrounded = false;</code>.</li>
 <li>If you search for the actual call to <code>CalculateVerticalMovement</code> you'll find it in the middle of <code>FixedUpdate</code>. Note that this means it can miss fast keypresses if they happen during one <code>Update</code> and another one occurs before the next <code>FixedUpdate</code>.</li>
-<li>That method doesn't actually tell the Animator Controller anything, but if you search for references to <code>m_IsGrounded</code> you can find that <code>OnAnimatorMove</code> (which is called separately after <code>FixedUpdate</code> is done) passes it on to the Animator Controller.</li>
-<li>If you look at the Animator Controller you can find that once the <code>IsGrounded</code> parameter is set, the Animator Controller will transition to the <em>Airborne</em> state ... <a href="../problems#locomotion">except that sometimes it doesn't</a>.</li>
+<li>That method does not actually tell the Animator Controller anything, but if you search for references to <code>m_IsGrounded</code> you can find that <code>OnAnimatorMove</code> (which is called separately after <code>FixedUpdate</code> is done) passes it on to the Animator Controller.</li>
+<li>If you look at the Animator Controller you can find that once the <code>IsGrounded</code> parameter is set, the Animator Controller will transition to the <em>Airborne</em> state ... <a href="../problems#locomotion">except that sometimes it does not</a>.</li>
 <li>At the end of the <code>FixedUpdate</code> it calls <code>PlayAudio</code> which checks <code>if (!m_IsGrounded &amp;&amp; m_PreviouslyGrounded &amp;&amp; m_VerticalSpeed &gt; 0f)</code> in order to play the jump sound.</li>
 </ol>
 <p>The Animancer implementation is much easier to follow:</p>
@@ -661,7 +572,7 @@ private void ApplyVerticalSpeed()
 {
     if (Creature.CharacterController.isGrounded &amp;&amp;
 </code></pre>
-<p>Then we try to enter this state. We didn't override <code>CanEnterState</code> to check if the <code>Creature</code> is grounded because this state is also used if you walk off a ledge, so instead we check that condition here when specifically attempting to jump. That means this state will always allow itself to be entered, so we are only depending on the previous state's <code>CanExitState</code> to return true. Unlike the original character, this method doesn't specifically care if the character is attacking, it simply lets the state machine ask if the previous state will allow the change. If you add some other ability or action that doesn't want to be interrupted, this method will continue working properly without needing to be modified.</p>
+<p>Then we try to enter this state. We did not override <code>CanEnterState</code> to check if the <code>Creature</code> is grounded because this state is also used if you walk off a ledge, so instead we only check that condition here when specifically attempting to jump. That means this state will always allow itself to be entered, so we are only depending on the previous state's <code>CanExitState</code> to return true. Unlike the Mecanim character, this method does not specifically care if the character is attacking, it simply lets the state machine ask if the previous state will allow the change. If you add some other ability or action that does not want to be interrupted, this method will continue working properly without needing to be modified.</p>
 <pre><code class="language-cs">        Creature.StateMachine.TryResetState(this))
 </code></pre>
 <p>If the state is changed, it will enable this script (because it inherits from <code>StateBehaviour</code>) which will call its <code>OnEnable</code> method.</p>
@@ -669,8 +580,7 @@ private void ApplyVerticalSpeed()
 <pre><code class="language-cs">    {
         _IsJumping = true;
         <a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> = _JumpSpeed;
-
-        _EmoteJumpAudio.PlayRandomClip();
+        _PlayAudio.Invoke();
 </code></pre>
 <p>And finally, use the return value to indicate whether the jump was successful:</p>
 <pre><code class="language-cs">        return true;

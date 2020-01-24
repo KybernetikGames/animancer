@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/v4-0/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/v4-0/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Problems with the Original</title>
+        <title>Animancer - Problems with the Mecanim Character</title>
         <link href="/animancer/v4-0/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/v4-0/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/v4-0/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -76,8 +76,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#locomotion">Locomotion</a></p>
-<p><a href="#groundedness">Groundedness</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#script-referencing">Script Referencing</a></p>
+<p><a href="#locomotion">Locomotion</a></p>
+<p><a href="#character-controller">Character Controller</a></p>
 <p><a href="#input">Input</a></p>
 <p><a href="#audio">Audio</a></p>
 <p><a href="#naming-conventions">Naming Conventions</a></p>
@@ -216,7 +217,7 @@
                     <a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li class="selected"><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Original</a></li>
+                <li class="selected"><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
                 <li class="treeview">
@@ -231,6 +232,8 @@
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v4-0/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -343,62 +346,97 @@
 
 
 		<section class="content-header">
-			<h1>Problems with the Original</h1>
+			<h1>Problems with the Mecanim Character</h1>
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
 <p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
 </blockquote>
-<p>The character implemented in this example is directly based on the player character from the 3D Game Kit, but it is not an exact copy because the original had several problems which we want to avoid.</p>
+<p>The character implemented in this example is directly based on the player character from the 3D Game Kit Lite, but it is not an exact copy because the Mecanim character had several problems which we want to avoid.</p>
+<h1 id="script-referencing">Script Referencing</h1>
+<p>In order to avoid causing errors when the 3D Game Kit Lite is not in your project, the scripts in this example cannot directly reference any of the scripts from the 3D Game Kit Lite. This is not a problem with the Game Kit itself, just a general logistical issue.</p>
+<p>So to avoid needing identical copies of all those scripts, this example uses <a href="../../../../introduction/cs/methods#unity-events">UnityEvents</a> where interaction between systems is required even though you would probably not want to set it up like that in a real project.</p>
+<p>This mostly applies to scripts that want to play sounds using the <code>RandomAudioPlayer</code> script, so instead of:</p>
+<pre><code class="language-cs">[SerializeField]
+private RandomAudioPlayer _SomeSound;
+
+_SomeSound.PlayRandomClip();
+</code></pre>
+<p>These scripts instead use a <code>UnityEvent</code> which can be configured to call the correct method in the Inspector without the script actually referencing <code>RandomAudioPlayer</code>:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private UnityEvent _SomeSound;
+
+_SomeSound.Invoke();
+</code></pre>
+</td>
+      <td><img src="some-sound.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
 <h1 id="locomotion">Locomotion</h1>
 <p>The character's <a href="../locomotion">Locomotion</a> has several issues that make it feel unresponsive:</p>
 <ul>
 <li>Lack of <a href="../locomotion/movement#full-movement-control">Full Movement Control</a> means the character will move in a direction the player doesn't want while turning towards the desired direction.</li>
-<li>The left and right quick turn animations have different import settings (one loops, the other doesn't) and different transition settings. It is unknown whether there is actually a good reason for this or if it was just an oversight.</li>
+<li>The left and right quick turn animations have different import settings (one loops and the other does not, among other things) and different transition settings. It is unknown whether there is actually a good reason for this or if it was just an oversight.</li>
 <li>You have limited <a href="../locomotion/movement#acceleration">Acceleration</a>. This isn't necessarily a "problem" as such, but the implementation is not physically consistent and it is unusual for a character using Unity's <code>CharacterController</code> component instead of a <code>Rigidbody</code>.</li>
-<li>Sometimes when you jump, the character stays in the <em>Idle</em> animation instead of entering the <em>Airborne</em> Blend Tree properly so it looks like they are just floating upwards for no reason (watch the legs):</li>
+<li>Sometimes when you jump, the character stays in the <em>Idle</em> animation instead of entering the <em>Airborne</em> Blend Tree properly so it looks like they are just floating upwards for no reason:</li>
 </ul>
 <p><img src="bad-jump.gif" class="img-responsive"></p>
-<h1 id="groundedness">Groundedness</h1>
-<p>The <code>CharacterController</code> component is a capsule shape and it is possible to get the edge of the bottom curve of your capsule on top of a corner, causing it to react as if you were properly on the ground even though the center of the character is actually standing in mid air. If you get close enough to the edge, it can even be far enough down the curve that you can't even move onto the platform because it is too steep, meaning it is treating that edge as both the ground and a wall at the same time.</p>
+<h1 id="character-controller">Character Controller</h1>
+<p>Unity's <code>CharacterController</code> component is an easy to use alternative to <code>Rigidbody</code> physics for characters, but it has several notable drawbacks which must be considered when deciding how to implement characters in your own game. Since these are purely physics problems, they are not addressed by this example.</p>
+<h2 id="groundedness">Groundedness</h2>
+<p>A <code>CharacterController</code> is a capsule shape and it is possible to get the edge of the bottom curve of your capsule on top of a corner, causing it to react as if you were properly on the ground even though the center of the character is actually standing in mid air. If you get close enough to the edge, it can even be far enough down the curve that you cannot even move onto the platform because it is too steep, meaning it is treating that edge as both the ground and a wall at the same time.</p>
 <p></p><div style="display:flex">
-  <div><img src="bad-grip.gif" class="img-responsive"></div>
+  <div><img src="bad-grip-corner.gif" class="img-responsive"></div>
   <div style="padding-left:1em"><img src="bad-grip-gizmo.png" class="img-responsive"></div>
 </div><p></p>
+<p>This problem also occurs on steep slopes:</p>
+<p><img src="bad-grip-slope.gif" class="img-responsive"></p>
 <p>Since this is a purely physics problem, it is not addressed by this example, but it is worth noting when considering how to implement a character for your own game.</p>
+<h2 id="rigidbody-interactions">Rigidbody Interactions</h2>
+<p><code>CharacterController</code>s also have inconsistent interactions with <code>Rigidbody</code> objects. The destructible boxes in the 3D Game Kit generally act as solid walls when the player runs into them, except that sometimes they do not so the player is able to push them around without any resistance as long as the box keeps moving:</p>
+<p><img src="moving-boxes.gif" class="img-responsive"></p>
 <h1 id="input">Input</h1>
 <p>There are several issues with the way player input is handled:</p>
 <ul>
 <li>The <code>PlayerController</code> only reacts to jump input in <code>FixedUpdate</code>, meaning that quick keypresses can be missed if multiple <code>Update</code>s occur between them (if a key is pressed on the first <code>Update</code>, then released on the second, the following <code>FixedUpdate</code> will not detect that keypress). This might seem obvious, but <strong>randomly ignoring legitimate player input is not good</strong>.</li>
-<li>You can't attack during the <a href="../locomotion/turning#quick-turns">quick turn</a> animations. This is another arbitrary lack of control. You can almost always attack when on the ground, except when you happen to turn sharp enough while moving quickly enough to trigger one of the quick turn animations, in which case you suddenly can't attack for a short time.</li>
-<li>You also can't attack during the exit transition of a previous attack. There's a very small window time right before that where pressing the button again will execute the next attack in the combo, but then the attack ends and any attack inputs are ignored until you finish returning to <em>Idle</em>.</li>
-<li>The logical flow from pressing a button to executing the desired action (such as <a href="../airborne#jumping">jumping</a> or <a href="../attack#original">attacking</a>) is extremely disorganised and hard to follow.</li>
+<li>You cannot <a href="../attacks">Attack</a> during the <a href="../locomotion/turning#quick-turns">Quick Turn</a> animations. This is another arbitrary lack of control. You can almost always attack when on the ground, except when you happen to turn sharp enough while moving quickly enough to trigger one of the quick turn animations, in which case you suddenly cannot attack for a short time.</li>
+<li>You also cannot <a href="../attacks">Attack</a> during the exit transition of a previous attack. There's a very small window time right before that where pressing the button again will execute the next attack in the combo, but then the attack ends and any attack inputs are ignored until you finish returning to <em>Idle</em>.</li>
+<li>The logical flow from pressing a button to executing the desired action (such as <a href="../airborne#jumping">Jumping</a> or <a href="../attack#mecanim">Attacking</a>) is extremely disorganised and hard to follow.</li>
 </ul>
 <p>Splitting <code>PlayerInput</code> away from the rest of the <code>PlayerController</code> is good for separation of concerns, however some of the concerns ended up in the wrong place:</p>
 <ul>
 <li>Converting the player's desired movement direction into world space should be done in <code>PlayerInput</code>. That way if a different input system is used - such as for example, recording events and then replaying them later on or using AI to control the character - then that system gets to decide exactly how it wants to move the player instead of having the player interpret everything it says to be relative to the camera.</li>
 <li>The <code>LocomotionSM</code> has an arbitrary input "dead zone" in the conditions of its transitions where any speed below 0.1 is treated as not moving. Again, this is something that should be handled as part of the input system so it can be easily customised, not hidden as a bunch of magic numbers in half a dozen different Animator Controller transitions.</li>
-<li>It contains a <code>public static PlayerInput Instance</code> singleton property that it assigns in its own <code>Awake</code> method so other scripts can access it through that property. But for some unknown reason, some scripts use <code>Object.FindObjectOfType</code> to find it themselves and the <code>PlayerController</code> uses <code>GetComponent</code> to find it. It's possible that there's a genuine reason for these differences, but it's unlikely and without comments there's no easy way to tell.</li>
+<li>It contains a <code>public static PlayerInput Instance</code> singleton property that it assigns in its own <code>Awake</code> method so other scripts can access it through that property. But for some unknown reason, some scripts use <code>Object.FindObjectOfType</code> to find it themselves and the <code>PlayerController</code> uses <code>GetComponent</code> to find it. It is possible that there's a genuine reason for these differences, but that seems unlikely and without comments there's no easy way to tell.</li>
 </ul>
 <h1 id="audio">Audio</h1>
-<p>The original character uses a <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a></code> script to take care of playing randomly selected sounds and also provide a different selection depending on the <code>Material</code> of the object the character is standing on. In particular, this is used to have footstep sounds that eash sound slightly different and have a different set of sounds for different surfaces (stone, grass, etc.).</p>
-<p>The concept was sound, but the implementation had one notable flaw which was corrected when copying it over to the Animancer character: the <code>playing</code> and <code>canPlay</code> fields:</p>
+<p>The <code>RandomAudioPlayer</code> script references multiple <code>AudioClip</code>s so that it can play a random one each time and also provides a different selection depending on the <code>Material</code> of the object the character is standing on. In particular, this is used to have footstep sounds that eash sound slightly different and have a different set of sounds for different surfaces (stone, grass, etc.).</p>
+<p>The concept is sound, but the implementation has one notable flaw: the <code>playing</code> and <code>canPlay</code> fields:</p>
 <pre><code class="language-cs">[HideInInspector]
 public bool playing;
 [HideInInspector]
 public bool canPlay;
 </code></pre>
 <ul>
-<li>The <code>[HideInInspector]</code> attribute does what it says: it prevents the field from showing up in the Inspector. But it does not actually prevent the value from being saved as part of the scene. This means a script could set the value in the Unity Editor and you would never know why it was in the wrong state on startup (and it would waste performance loading that value). Instead, the <code>[NonSerialized]</code> attribute should have been used to prevent them from being saved at all.
+<li>The <code>[HideInInspector]</code> attribute does what it says: it prevents the field from appearing in the Inspector. But it does not actually prevent the value from being saved as part of the scene. This means a script could set the value in the Unity Editor and you would never know why it was in the wrong state on startup (and it would waste performance loading that value). Instead, the <code>[NonSerialized]</code> attribute should have been used to prevent them from being saved at all.
 <ul>
-<li>Alternatively, they could have been auto-properties which do not get serialized anyway: <code>public bool Playing { get; set; }</code>.</li>
+<li>Alternatively, they could have been <a href="../../../../introduction/cs/methods#auto-properties">Auto-Properties</a> which do not get serialized anyway: <code>public bool Playing { get; set; }</code>.</li>
 </ul>
 </li>
-<li>But the real issue is that they should not even be in this class in the first place. The <code><a href="/animancer/v4-0/api/Animancer.Examples.AnimatorControllers.GameKit/RandomAudioPlayer">RandomAudioPlayer</a></code> class doesn't use them itself and of the several dozen places throughout the project that use it, the only place that actually uses these two fields is in the <code>PlayerController.PlayAudio</code> method for the footstep sounds so there is no reason for them not to be in that class instead.</li>
+<li>But the real issue is that they should not even be in this class in the first place. The <code>RandomAudioPlayer</code> class does not use them itself and of the several dozen places throughout the project that use it, the only place that actually uses these two fields is in the <code>PlayerController.PlayAudio</code> method for the footstep sounds so there is no reason for them not to be in that class instead.</li>
 </ul>
 <h1 id="naming-conventions">Naming Conventions</h1>
 <p>There are also a number of issues with the quality of the code and project structure in the 3D Game Kit. These barely even qualify as minor problems, but they are worth noting in a product that was made by Unity Technologies and should thus be held to a high standard.</p>
-<p>It doesn't matter so much whether you use <code>m_Name</code> for private fields or <code>camelCase</code> for properties or whatever specific naming convention you use. The most important things are to use a <strong>meaningful</strong> convention and to apply it <strong>consistently</strong>.</p>
+<p>It does not matter so much whether you use <code>m_Name</code> for private fields or <code>camelCase</code> for properties or whatever specific naming convention you use. The most important things are to use a <strong>meaningful</strong> convention and to apply it <strong>consistently</strong>.</p>
 <p>For a naming convention to be <strong>meaningful</strong>, it should provide or emphasize useful information that isn't already easily accessible:</p>
 <ul>
 <li>In the player's Animator Controller, the main sub state machines have an <code>SM</code> suffix which differentiates them from other states (<code>IdleSM</code>, <code>LocomotionSM</code>, etc.). This is totally unnecessary since sub state machines are already clearly differentiated by having a hexagon shape instead of being rectangular.
@@ -420,7 +458,7 @@ public bool canPlay;
 <li>The <code>MeleeWeapon.PARTICLE_COUNT</code> constant also deserves a mention because other constants use the <code>k_PascalCase</code> convention.</li>
 <li>There are plenty of places in the code and the Animator Controller that specifically mention the character's name (Ellen), which is silly because the name of the character has no bearing on their logic.
 <ul>
-<li><code>EllenRunForwardLandingFast</code> is fine as the name of an <code>AnimationClip</code> because it's specific to that character model and giving her a name makes it easier to remember than something like "Character 3". But it should not also be used for the name of the Animator Controller state that it is used in. That state should have a general name like "Hard Landing" to describe what it is actually used for.</li>
+<li><code>EllenRunForwardLandingFast</code> is fine as the name of an <code>AnimationClip</code> because it is specific to that character model and giving her a name makes it easier to remember than something like "Character 3". But it should not also be used for the name of the Animator Controller state that it is used in. That state should have a general name like "Hard Landing" to describe what it is actually used for.</li>
 </ul>
 </li>
 </ul>
