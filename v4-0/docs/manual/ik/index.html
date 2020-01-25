@@ -372,8 +372,8 @@
     // Can also be set per-state like above.
 }
 </code></pre>
-<p></p><details><summary>This is equivalent to the <code>IK Pass</code> toggle in an Animator Controller layer, except that due to limitations in the Playables API the <code>layerIndex</code> will always be zero:</summary><p>
-<img src="ik-pass.png" class="img-responsive">
+<p></p><details><summary>This is equivalent to the <code>IK Pass</code> toggle in an Animator Controller layer, except that due to limitations in the Playables API the <code>layerIndex</code> Unity passes into <code>OnAnimatorIK</code> will always be zero:</summary><p>
+<img src="ik-pass.gif" class="img-responsive">
 </p></details><p></p>
 <p>As outlined in the <a href="../../introduction/features#unity-versions">Unity Versions</a> section, using the <em>IK Pass</em> with Animancer requires Unity 2018.1 or newer. However, 2018.3 is recommended because a bug in earlier versions prevented the <code>OnAnimatorIK</code> method from being called while fading between animations (specifically, it would only be called while at least one animation had its <code><a href="/animancer/v4-0/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a> == 1</code>). This only applies to Unity's inbuilt <em>IK Pass</em> so other systems that do not use the <code>OnAnimatorIK</code> method will not have the same issue.</p>
 <h1 id="exposed-curves">Exposed Curves</h1>
@@ -383,9 +383,10 @@
 <li>Otherwise you can add custom curves using the Animation window.</li>
 </ul>
 <p>Normally to access a custom curve at runtime you would add a float parameter with the same name to your <code>AnimatorController</code> so that Unity will automatically update it and you can then read the value from that parameter to control the weight of the IK each frame. However, the Playables API has no such parameters, nor any similar method for evaluating an animation curve inside a clip (other than using a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to play an <a href="animator-controllers">Animator Controller</a>). You could simply store the <code>AnimationCurve</code> separately from the <code>AnimationClip</code>, but it is usually much easier to set up as part of the animation so that you can preview it as you configure the curve relative to the timing of the animation.</p>
+<img src="exposed-curve.png" class="img-responsive img-right">
 <p>Animancer uses <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code>s to solve this problem by extracting a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serializing it in the <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> so it can be evaluated at runtime:</p>
 <ol>
-<li><img src="extracted-curve.png" class="img-responsive img-right">Create an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> using <span class="text-nowrap"><em>Assets/Create/Animancer/Exposed Curve</em>.</span></li>
+<li>Create an <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> using <em>Assets/Create/Animancer/Exposed Curve</em>.</li>
 <li>Assign the <code>AnimationClip</code> containing the curve and enter the <code>Property Name</code> of the curve.</li>
 <li>Any future changes to the original curve in the <code>AnimationClip</code> will automatically be retrieved by the <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code>. Unfortunately it is not currently possible to edit the curve using the <code><a href="/animancer/v4-0/api/Animancer/ExposedCurve">ExposedCurve</a></code> Inspector. You need to edit the curve in the Animation window or the model import settings.</li>
 <li>Reference that asset in your script and evaluate it during <code>OnAnimatorIK</code> to determine how much weight to give the IK system during each frame. 0 means the limb will be fully controlled by the animation while 1 means the IK system will be fully in control.</li>

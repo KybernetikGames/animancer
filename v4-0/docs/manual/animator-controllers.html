@@ -349,17 +349,14 @@
 		<p><em>This is a <a href="../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p>Animancer does not require the use of Animator Controller assets, but it does support them via the <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> class (and its children). This means that instead of putting everything a character needs in one massive Animator Controller like you would in Mecanim, you have several other options for structuring your project which are demonstrated in various examples:</p>
 <ul>
-<li>The <a href="../examples/animator-controllers/hybrid">Hybrid</a> example demonstrates how you can use a main Animator Controller for some tasks and individual separate <code>AnimationClips</code> for others.</li>
-<li>The <a href="../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example demonstrates how you can utilise multiple single purpose Animator Controllers alongside <code>AnimationClip</code>s, simply choosing whichever is more appripriate for each given task.</li>
+<li>The <a href="../examples/basics/hybrid">Hybrid Basics</a> example demonstrates how you can use a main Animator Controller for some tasks and individual separate <code>AnimationClips</code> for others.</li>
+<li>The <a href="../examples/animator-controllers/hybrid">Hybrid Mini Game</a> example demonstrates a more complex form of the same thing.</li>
+<li>The <a href="../examples/locomotion/linear-blending">Linear Blending</a> example compares the use of a Blend Tree inside an Animator Controller with the use of a <a href="blending/mixers">Mixer</a>.</li>
+<li>The <a href="../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example demonstrates how you can utilise multiple single purpose Animator Controllers alongside separate <code>AnimationClip</code>s, simply choosing whichever is more appripriate for each given task.</li>
 </ul>
 <h1 id="usage">Usage</h1>
-<p><code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>s are a type of <code><a href="/animancer/v4-0/api/Animancer/AnimancerState">AnimancerState</a></code> with several differences from regular <code><a href="/animancer/v4-0/api/Animancer/ClipState">ClipState</a></code>s:</p>
-<ul>
-<li>The <code>Clip</code> property will always return null.</li>
-<li>Since they don’t have a specific duration or time of their own, they don’t actually have an <code>OnEnd</code> callback and will ignore any they are given.</li>
-</ul>
-<p>They are usually set up in the Inspector using <a href="transitions/types#controller-transitions">Controller Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
-<p><img src="../examples/locomotion/linear-blending/controller-transition.png" class="img-responsive"></p>
+<p><code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>s are usually set up in the Inspector using <a href="transitions/types#controller-transitions">Controller Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
+<p><img src="transitions/types/controller.png" class="img-responsive"></p>
 <p>Normally when using an Animator Controller, you would access it via various methods on the <code>Animator</code> component such as <code>Play</code>, <code>CrossFade</code>, <code>GetCurrentAnimatorStateInfo</code>, and get/set for all parameter types. But when using a <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>, you instead need to access it via the <code><a href="/animancer/v4-0/api/Animancer/ControllerState/199AFDE3">ControllerState.Playable</a></code>:</p>
 <pre><code class="language-cs">void ControllerStateExample(ControllerState state)
 {
@@ -376,15 +373,14 @@
     state.Playable.SetTrigger("Attack");
 }
 </code></pre>
-<p>If you are using a <code><a href="/animancer/v4-0/api/Animancer/Transition">ControllerState.Transition</a></code> you will need to first access its state, i.e. <code>transition.State.Playable...</code>. Note that the state will only be created the first time the transition is passed into the <code>AnimancerComponent.Transition</code> method, so you will get a <code>NullReferenceException</code> if you attempt to use it before that.</p>
+<p>If you are using a <code><a href="/animancer/v4-0/api/Animancer/Transition">ControllerState.Transition</a></code> you will need to first access its state, i.e. <code>transition.State.Playable...</code>. Note that the <code>State</code> will only be created the first time the transition is passed into the <code>AnimancerComponent.Play</code> method, so you will get a <code>NullReferenceException</code> if you attempt to use it before that.</p>
 <h1 id="manual-creation">Manual Creation</h1>
 <p>If you do not want to use a <a href="../transitions/types#controller-transitions">Controller Transition</a>, you can create one yourself using code:</p>
 <ol>
 <li>Create a <code>new <a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code>. All constructors require you to provide a <code>RuntimeAnimatorController</code> reference.</li>
-<li>Store a reference to that state in a field and/or set its <code><a href="/animancer/v4-0/api/Animancer/Key">Key</a></code> to register it in the internal <a href="playing/states#keys">Dictionary</a>. The <code>RuntimeAnimatorController</code> itself or its <code>name</code> would make an acceptable key.</li>
-<li>Play that state either by passing it into the <code>AnimancerComponent.Play</code> or <code>CrossFade</code> method if you have a reference to it or using the key you registered it with.</li>
+<li>Store a reference to that state in a field and/or set its <a href="playing/states#keys">Key</a> to register it in the internal dictionary. The <code>RuntimeAnimatorController</code> itself or its <code>name</code> would make an acceptable key.</li>
+<li>Play that state either by passing it into <code>AnimancerComponent.Play</code> if you have a reference to it or using the key you registered it with.</li>
 </ol>
-<p>The <a href="../examples/animator-controllers/3d-game-kit/airborne#controller-state">3D Game Kit/Airborne</a> example shows how this can be done (and explains how a transition would have been much more convenient).</p>
 <h1 id="parameter-controller-states">Parameter Controller States</h1>
 <p>Animancer includes several classes which inherit from <code><a href="/animancer/v4-0/api/Animancer/ControllerState">ControllerState</a></code> to wrap specific parameters of the <code>AnimatorController</code> in C# properties:</p>
 <ul>

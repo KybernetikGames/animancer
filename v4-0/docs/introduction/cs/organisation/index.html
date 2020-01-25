@@ -77,6 +77,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#types">Types</a></p>
+<p><a href="#values-and-references">Values and References</a></p>
 <p><a href="#namespaces">Namespaces</a></p>
 <p><a href="#access-modifiers">Access Modifiers</a></p>
 <p><a href="#static">Static</a></p>
@@ -391,6 +392,7 @@
 </tr>
 </tbody>
 </table>
+<h1 id="values-and-references">Values and References</h1>
 <p>There are two kinds of types in C# which each behave differently:</p>
 <table class="table">
   <thead>
@@ -430,19 +432,22 @@
     </tr>
     <tr>
       <td>
-<pre><code class="language-cs">int a = 7;
-int b = a;
+<pre><code class="language-cs">// Vector2 is a struct.
+Vector2 a = new Vector2(3, 7);
+Vector2 b = a;
 
-// a and b are now 7.
+// a and b are both (3, 7),
+// but they are not linked in any way.
 
-a = 3;
+a.x = 0;
 
-// a is now 3.
-// b is still 7.
+// a is now (0, 7).
+// b is still (3, 7).
 </code></pre>
 </td>
       <td>
-<pre><code class="language-cs">GameObject a = new GameObject();
+<pre><code class="language-cs">// GameObject is a class.
+GameObject a = new GameObject();
 a.name = "Hello World";
 
 GameObject b = a;
@@ -452,7 +457,7 @@ GameObject b = a;
 a.name = "Goodbye World";
 
 // a.name is now "Goodbye World".
-// b still refers to the same object
+// b still refers to the same object,
 // so b.name is also "Goodbye World" now.
 </code></pre>
 </td>

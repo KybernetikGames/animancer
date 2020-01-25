@@ -78,6 +78,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#example">Example</a></p>
 <p><a href="#play-methods">Play Methods</a></p>
+<p><a href="#pausing">Pausing</a></p>
 <p><a href="#edit-mode">Edit Mode</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -378,10 +379,10 @@ public sealed class PlayAnimation : MonoBehaviour
 
         // You can manipulate the animation using the returned AnimancerState:
         // var state = _Animancer.Play(_Clip);
-        // state.Speed = ...                  (see the <a href="../../examples/fine-control">Fine Control</a> examples).
-        // state.Time = ...                   (see the <a href="../../examples/fine-control">Fine Control</a> examples).
-        // state.NormalizedTime = ...         (see the <a href="../../examples/fine-control">Fine Control</a> examples).
-        // state.Events.OnEnd = ...           (see <a href="../events/end">End Events</a>).
+        // state.Speed = ...                  // See the <a href="../../examples/fine-control">Fine Control</a> examples.
+        // state.Time = ...                   // See the <a href="../../examples/fine-control">Fine Control</a> examples.
+        // state.NormalizedTime = ...         // See the <a href="../../examples/fine-control">Fine Control</a> examples.
+        // state.Events.OnEnd = ...           // See <a href="../events/end">End Events</a>.
 
         // If the animation was already playing, it will continue from the current time.
         // So to force it to play from the beginning you can just reset the Time:
@@ -441,7 +442,66 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)</code></pre>
 <pre><code class="language-cs">Play(IAnimancerTransition transition)
 Play(IAnimancerTransition transition, float fadeDuration, <a href="/animancer/v4-0/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
-These methods allow <a href="../transitions">Transitions</a> to apply all their details at once. This includes the <code>fadeDuration</code> (unless you use the second method to specify it yourself) as well as any other details defined in the <code>transition</code> such as <em>Speed</em>, <em>Start Time</em>, and <em>Events</em> which can all be configured in the Inspector when using the inbuilt transition types instead of hard coding those details into your script.
+These methods allow <a href="../transitions">Transitions</a> to apply all their details in a single call. This includes the <code>fadeDuration</code> (unless you use the second method to specify it yourself) as well as any other details defined in the <code>transition</code> such as <em>Speed</em>, <em>Start Time</em>, and any <a href="../events/animancer">Animancer Events</a> which can all be configured in the Inspector when using the inbuilt transition types instead of hard coding those details into your script.
+
+
+
+
+
+<h1 id="pausing">Pausing</h1>
+
+<p>There are several different ways you can pause and stop individual animations or all of them at once:</p>
+
+<pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class PausingExample : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimationClip _Clip;
+
+    // Freeze a single animation on its current frame:
+    public void PauseClip()
+    {
+        var state = _Animancer.States[_Clip];
+        state.IsPlaying = false;
+    }
+
+    // Freeze all animations on their current frame:
+    public void PauseAll()
+    {
+        _Animancer.Playable.PauseGraph();
+    }
+
+    // Stop a single animation from affecting the character and rewind it to the start:
+    public void StopClip()
+    {
+        _Animancer.Stop(_Clip);
+
+        // Or you can call it on the state directly:
+        var state = _Animancer.States[_Clip];
+        state.Stop();
+    }
+
+    // Stop all animations from affecting the character and rewind them to the start:
+    public void StopAll()
+    {
+        _Animancer.Stop();
+    }
+
+    // Stop all previous animations and play a new one:
+    public void Play()
+    {
+        _Animancer.Play(_Clip);
+    }
+
+    // Play an animation without affecting any others:
+    public void PlayIsolatedClip()
+    {
+        var state = _Animancer.States.GetOrCreate(_Clip);
+        state.Play();
+    }
+}</code></pre>
 
 
 
@@ -454,7 +514,6 @@ These methods allow <a href="../transitions">Transitions</a> to apply all their 
 
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/v4-0/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Idle;
-
 
 private void OnValidate()
 {

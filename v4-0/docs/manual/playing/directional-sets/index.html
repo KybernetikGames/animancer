@@ -346,7 +346,8 @@
 			<h1>Directional Animation Sets</h1>
 		</section>
 	<section class="content">
-		<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> class contains quite a bit of functionality, but at its core it's just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="../../../introduction/cs/vectors">Vector</a>:</summary><p>
+		<p>Directional Animation Sets are a convenient way of managing groups of <em>up/right/down/left</em> animations (including or excluding diagonals) with a standardised way of selecting which one you want.</p>
+<p></p><details><summary>The <code><a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> class contains quite a bit of functionality, but at its core it is just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="../../../introduction/cs/vectors">Vector</a>:</summary><p>
 </p><pre><code class="language-cs">public class <a href="/animancer/v4-0/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> : ScriptableObject
 {
     [SerializeField] private AnimationClip _Up;
@@ -433,6 +434,7 @@ var direction = DirectionalAnimationSet8.Direction.UpRight;
 var clip = _Idles.GetClip(direction);
 _Animancer.Play(clip);
 </code></pre>
+<p>The <a href="../../../examples/directional-sprites">Directional Sprites</a> examples demonstrate how to use them in more detail.</p>
 <h1 id="snapping">Snapping</h1>
 <p>The <code>DirectionalAnimationSet.Snap</code> method returns a copy of a given <a href="../../../introduction/cs/vectors">Vector</a> pointing in the closest direction that set type has an animation for (4 or 8 directions depending on which type of set you are using). This is useful for clamping an input vector to the exact direction the animation is facing so that you can limit the character to only move in those directions.</p>
 
