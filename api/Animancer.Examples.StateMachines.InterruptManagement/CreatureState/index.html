@@ -57,10 +57,8 @@
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
-        <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
-        <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
-        <li><a href="mailto:animancer@kybernetik.com.au?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -80,7 +78,6 @@
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
 <p><a href="#Attributes">Attributes</a></p>
-<p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -188,7 +185,6 @@
 								<dd>
 									<ul class="list-unstyled">
 											<li><a href="/animancer/api/Animancer.FSM/IState_1">IState</a><wbr>&lt;<a href="/animancer/api/Animancer.Examples.StateMachines.InterruptManagement/CreatureState">CreatureState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/IAnimancerClipSource">IAnimancerClipSource</a></li>								
 									</ul>
 								</dd>
 							
@@ -209,8 +205,6 @@
 	Type--&gt;Base0["StateBehaviour&lt;CreatureState&gt;"]
 	Base0--&gt;Base1["MonoBehaviour"]
 	Type-.-&gt;Interface0["IState&lt;CreatureState&gt;"]
-	Type-.-&gt;Interface1["IAnimancerClipSource"]
-	click Interface1 "/animancer/api/Animancer/IAnimancerClipSource"
 	Type["CreatureState"]
 class Type type-node
 
@@ -221,10 +215,9 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>[AddComponentMenu("Animancer/Examples/Interrupt Management - Creature State")]
+	<pre><code>[AddComponentMenu(Strings.MenuPrefix + "Examples/Interrupt Management - Creature State")]
 [HelpURL(Strings.APIDocumentationURL + ".Examples.StateMachines.InterruptManagement/CreatureState")]
-public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;, IState&lt;CreatureState&gt;, 
-    IAnimancerClipSource</code></pre>
+public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;, IState&lt;CreatureState&gt;</code></pre>
 
 
 
@@ -256,30 +249,6 @@ public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;, IState&
 
 
 
-			<h1 id="Properties">Properties</h1>
-			<div class="box">
-				<div class="box-body no-padding table-responsive">
-					<table class="table table-striped table-hover three-cols">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Value</th>
-								<th>Summary</th>
-							</tr>
-						</thead>
-							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.InterruptManagement/CreatureState/B67BC4F6">Animancer</a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></td>
-								<td>
-									<div>
-    The <code class="cs">Animancer.AnimancerComponent</code> which this object provides animations for.
-    </div>
-								</td>
-							</tr>
-					</tbody></table>
-				</div>
-			</div>
-		
 
 			<h1 id="Methods">Methods</h1>
 			<div class="box">
@@ -297,8 +266,7 @@ public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;, IState&
 								<td>bool</td>
 								<td>
 									<div>
-    Determines whether the <code class="cs">Animancer.FSM.StateMachine`1</code> can exit this state. Always returns true
-    unless overridden.
+    Only allows a new state to be entered if it has equal or higher <code class="cs">Animancer.Examples.StateMachines.InterruptManagement.CreatureState.Priority</code> to this state.
     </div>
 								</td>
 							</tr>

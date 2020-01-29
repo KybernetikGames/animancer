@@ -1,0 +1,957 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - 03 Brains</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
+        <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
+        <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
+ 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#creatures">Creatures</a></p>
+<p><a href="#base-state">Base State</a></p>
+<p><a href="#idle">Idle</a></p>
+<p><a href="#communication">Communication</a></p>
+<p><a href="#stats">Stats</a></p>
+<p><a href="#locomotion">Locomotion</a></p>
+<p><a href="#keyboard-brain">Keyboard Brain</a></p>
+<p><a href="#scene-setup">Scene Setup</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/docs/help">Help and FAQ</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
+                <li><a href="/animancer/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
+                <li><a href="/animancer/docs/introduction/cs/methods">Methods</a></li>
+                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
+                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
+                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/examples">Examples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/docs/examples/basics/quick-play">01 Quick Play</a></li>
+                <li><a href="/animancer/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
+                <li><a href="/animancer/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
+                <li><a href="/animancer/docs/examples/basics/named-animations">04 Named Animations</a></li>
+                <li><a href="/animancer/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/locomotion">03 Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/locomotion/walk-and-run">01 Walk and Run</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/root-motion">02 Root Motion</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/linear-blending">03 Linear Blending</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/directional-blending">04 Directional Blending</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/directional-sprites">04 Directional Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/directional-sprites/basic-movement">01 Basic Movement</a></li>
+                <li><a href="/animancer/docs/examples/directional-sprites/character-controller">02 Character Controller</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/events/footsteps">01 Footstep Events</a></li>
+                <li><a href="/animancer/docs/examples/events/golf">02 Golf Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/fsm/creatures">01 Creatures</a></li>
+                <li><a href="/animancer/docs/examples/fsm/interrupts">02 Interrupt Management</a></li>
+                <li class="selected"><a href="/animancer/docs/examples/fsm/brains">03 Brains</a></li>
+                <li><a href="/animancer/docs/examples/fsm/more-brains">04 More Brains</a></li>
+                <li><a href="/animancer/docs/examples/fsm/weapons">05 Weapons</a></li>
+                <li><a href="/animancer/docs/examples/fsm/platformer">06 Platformer</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/layers">07 Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/ik/puppet">01 Puppet</a></li>
+                <li><a href="/animancer/docs/examples/ik/uneven-ground">02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/docs/manual/getting/importing">Importing</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/fading">Fading</a></li>
+                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/docs/manual/events/end">End Events</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
+                <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
+                <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
+                <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/resetting-animated-values">Resetting Animated Values</a></li>
+                <li><a href="/animancer/docs/bugs/unused-graph-destroy-warning">Unused Graph Destroy Warning</a></li>
+                <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
+                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
+                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>03 Brains</h1>
+		</section>
+	<section class="content">
+		<blockquote class="blockquote">
+<p><strong>Difficulty</strong>: <a href="../../../introduction/glossary#example-difficulty">Intermediate</a></p>
+<p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/06 State Machines/03 Brains</em></p>
+<p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.StateMachines.Brains"><code>Animancer.Examples.StateMachines.Brains</code></a></p>
+</blockquote>
+<p>This example expands upon the <a href="../creatures">Creatures</a> example to demonstrate how you can control a creature with keyboard input, then the <a href="../more-brains">More Brains</a> example expands it further to demonstrate how each creature can be controlled differently even though they share the same scripts for actually performing actions.</p>
+<p><img src="keyboard-brain.gif" class="img-responsive"></p>
+<p>There are quite a few scripts in this example so it is not really worth trying to summarise them without a full explanation. They are all in the <code>Animancer.Examples.StateMachines.Brains</code>namespace to differentiate them from the other <a href="../">State Machine</a> examples. The term "Brain" was chosen because it accurately describes the purpose of this system, which is to control the behaviour of a <code>Creature</code>. There are many other common terms though, such as "Creature Controller" or "Creature Input", so feel free to use terminology that suits you.</p>
+<h1 id="creatures">Creatures</h1>
+<p>This <code>Creature</code> is very similar to the previous <code>Creatures.Creature</code>, but it also has a <code>Rigidbody</code> because this example will involve movement and a <code>Brain</code> to control its actions:</p>
+<pre><code class="language-cs">using Animancer;
+using Animancer.FSM;
+using System;
+using UnityEngine;
+
+public sealed class Creature : MonoBehaviour
+{
+    [SerializeField]
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+
+    [SerializeField]
+    private CreatureState _Idle;
+    public CreatureState Idle { get { return _Idle; } }
+
+    [SerializeField]
+    private Rigidbody _Rigidbody;
+    public Rigidbody Rigidbody { get { return _Rigidbody; } }
+
+    [SerializeField]
+    private CreatureBrain _Brain;
+    public CreatureBrain Brain { get { return _Brain; } }
+
+    public StateMachine&lt;CreatureState&gt; StateMachine { get; private set; }
+
+    public Action ForceEnterIdleState { get; private set; }
+
+    private void Awake()
+    {
+        ForceEnterIdleState = () =&gt; StateMachine.ForceSetState(_Idle);
+
+        StateMachine = new StateMachine&lt;CreatureState&gt;(_Idle);
+    }
+}
+</code></pre>
+<p>And the <code>CreatureBrain</code> is a simple <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> class to define what a brain needs to specify, i.e. the direction it wants to move and whether or not it wants to run:</p>
+<pre><code class="language-cs">using UnityEngine;
+
+public abstract class CreatureBrain : MonoBehaviour
+{
+    [SerializeField]
+    private Creature _Creature;
+    public Creature Creature { get { return _Creature; } }
+
+    public Vector3 MovementDirection { get; protected set; }
+
+    public bool IsRunning { get; protected set; }
+}
+</code></pre>
+<p>Note that the actual scripts have setters for <code>Creature.Brain</code> and <code>CreatureBrain.Creature</code> which are used by the <a href="../more-brains#live-brain-transplants">More Brains</a> example to change the assigned brain at runtime.</p>
+<h1 id="base-state">Base State</h1>
+<p>Now that we actually want to implement useful behaviour in the states, we need the base <code>CreatureState</code> to be a different from the previous <code>Creatures.CreatureState</code>.</p>
+<p>The class is now <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a>. It does not make sense to attach a <code>CreatureState</code> component to an object because it will not do anything. You should only be able to attach components that <a href="../../../introduction/cs/inheritance">Inherit</a> from it like <code>IdleState</code> or <code>LocomotionState</code>.</p>
+<pre><code class="language-cs">using Animancer;
+using Animancer.FSM;
+using UnityEngine;
+
+public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
+    IOwnedState&lt;CreatureState&gt;
+{
+</code></pre>
+<p>We need a <code>public Creature Creature</code> property to allow other scripts to access the <code>private</code> serialized <code>_Creature</code>. We could make it <code>protected</code> to only allow inheriting scripts to access it, but that would also allow those scripts to set it accidentally and there is no reason why other scripts should not be able to check which creature owns a state:</p>
+<pre><code class="language-cs">    [SerializeField]
+    private Creature _Creature;
+    public Creature Creature
+    {
+        get { return _Creature; }
+</code></pre>
+<p>We will not be changing the <code>Creature</code> of any states at runtime in these examples, but sometimes you might have states that get created separately and need to have their <code>Creature</code> assigned. Since we are using a property rather than a simple <code>public</code> field, we can ensure that any time the <code>Creature</code> is changed the state is not left as the active state on the previous <code>Creature</code>:</p>
+<pre><code class="language-cs">        set
+        {
+            if (_Creature != null &amp;&amp;
+                _Creature.StateMachine.CurrentState == this)
+                _Creature.Idle.ForceEnterState();
+
+            _Creature = value;
+        }
+    }
+</code></pre>
+<p>To save a bit of effort when adding new states to an object, we use the <code>Reset</code> method to look for a reference to a creature in any parent or child of the current <code>GameObject</code>. Unity calls <code>Reset</code> when you first add a component to an object in Edit Mode so this will usually save us from needing to assign the <code>Creature</code> manually in the Inspector:</p>
+<pre><code class="language-cs">#if UNITY_EDITOR
+    protected void Reset()
+    {
+        _Creature = Editor.AnimancerEditorUtilities.GetComponentInHierarchy&lt;Creature&gt;(gameObject);
+    }
+#endif
+</code></pre>
+<p>Since every state has a reference to the creature that owns it, we can implement the <code>IOwnedState&lt;CreatureState&gt;</code> interface and give it a property to get its <code>OwnerStateMachine</code> so that we can use the various extension methods in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class when working with these states. This means we will be able to call <code>Creature.Idle.TryEnterState()</code> instead of <code>Creature.StateMachine.TryEnterState(Creature.Idle)</code>. Both would do the same thing, but this is a bit shorter (see <a href="../../../manual/fsm#owned-states">Owned States</a> for more details).</p>
+<pre><code class="language-cs">    public StateMachine&lt;CreatureState&gt; OwnerStateMachine { get { return _Creature.StateMachine; } }
+}
+</code></pre>
+<p>The base state class no longer has an <code>AnimationClip</code> field so it is up to each child class to get the animation or animations it needs. In particular, the <code>Locomotion</code> state has <code>_Walk</code> and <code>_Run</code> animations rather than a single "standard" <code>_Animation</code>.</p>
+<p></p><details><summary>The full <code>CreatureState</code> script looks like this:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using Animancer.FSM;
+using UnityEngine;
+
+public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
+    IOwnedState&lt;CreatureState&gt;
+{
+    [SerializeField]
+    private Creature _Creature;
+    public Creature Creature
+    {
+        get { return _Creature; }
+        set
+        {
+            if (_Creature != null &amp;&amp;
+                _Creature.StateMachine.CurrentState == this)
+                _Creature.Idle.ForceEnterState();
+
+            _Creature = value;
+        }
+    }
+
+#if UNITY_EDITOR
+    protected override void Reset()
+    {
+        base.Reset();
+        _Creature = AnimancerUtilities.GetComponentInHierarchy&lt;Creature&gt;(gameObject);
+    }
+#endif
+
+    public StateMachine&lt;CreatureState&gt; OwnerStateMachine { get { return _Creature.StateMachine; } }
+}
+</code></pre>
+<p></p></details><p></p>
+<h1 id="idle">Idle</h1>
+<p>With that base class in place, we can create <code>IdleState</code> to <a href="../../../introduction/cs/inheritance">Inherit</a> from it. This state only needs to do two things:</p>
+<ol>
+<li>Play an animation when the state is entered, just like the <code>BasicCreatureState</code> from the <a href="../creatures">Creatures</a> example:</li>
+</ol>
+<pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class IdleState : CreatureState
+{
+    [SerializeField] private AnimationClip _Animation;
+
+    private void OnEnable()
+    {
+        Creature.Animancer.Play(_Animation, 0.25f);
+    }
+</code></pre>
+<ol start="2">
+<li>Constantly clear the <code>Rigidbody.velocity</code> to ensure that the creature doesn't slide or get pushed around too easily. It is generally recommended that you use <code>Rigidbody.AddForce</code> instead of setting the velocity directly, but for this example we just want something simple while we demonstrate the animation and state machine systems:</li>
+</ol>
+<pre><code class="language-cs">    private void FixedUpdate()
+    {
+        Creature.Rigidbody.velocity = Vector3.zero;
+    }
+}
+</code></pre>
+<h1 id="communication">Communication</h1>
+<p>Using separate scripts for decision making and actually acting on the decisions means those scripts need to communicate with each other somehow. There are two general approaches to achieve this:</p>
+<ul>
+<li><strong>Ask</strong>: other scripts check what the <code>Brain</code> wants to do.</li>
+<li><strong>Tell</strong>: the <code>Brain</code> issues commands to other scripts.</li>
+</ul>
+<p>Both approaches have their merits and can be better for certain tasks, so you will often end up using them both in the same game.</p>
+<p>For example, with the <strong>Ask</strong> approach you could have your base <code>Brain</code> class expose a <code>DesiredState</code> property which it can set as necessary, then have the <code>Creature</code> attempt to enter that state every <code>Update</code>. This is often not ideal because it makes it a bit harder to verify that the desired state has actually been entered, so the <strong>Tell</strong> approach may be better. Simply give the <code>Brain</code> access to the creature's <code>StateMachine</code> so it can call <code>TrySetState</code> whenever it wants to and check whether it returns <code>true</code> if it needs to make sure the state was entered.</p>
+<p>However, for something like a movement direction vector the other approach may be better. <strong>Tell</strong>ing the creature's current state which direction to move would mean that every state has its own movement vector even though only one will be used at a time and most states do not use it anyway. You could put the movement vector on the <code>Creature</code>, but if for whatever reason the <code>Brain</code> got destroyed, that would leave the movement vector at its current value (unless you also clear it). In this case, it would likely make more sense to just put the movement vector in the <code>Brain</code> class and have states like <code>Locomotion</code> <strong>Ask</strong> the brain which way to move each frame.</p>
+<h1 id="stats">Stats</h1>
+<p>To implement locomotion (the ability for the character to move around), we will need some <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> to specify the speeds we can move at: walking, running, and turning. There are generally two places that would be appropriate for those fields, each with different advantages:</p>
+<table class="table">
+  <thead><tr>
+    <th style="width:50%;">In the "Locomotion" state itself</th>
+    <th style="width:50%;">In a central "Stats" class</th>
+  </tr></thead>
+  
+  <tbody>
+  <tr>
+    <td><ul>
+      <li>Self-contained. Each state has the fields it needs.</li>
+      <li>If a creature has no locomotion state, then they have no speed stat. Otherwise they could potentially have a speed value despite not actually being able to use it.</li>
+      <li>Anything that needs to know how fast the creature can move needs a reference to the locomotion state. This could be done by simply giving the <code>Creature</code> that reference.</li>
+    </ul></td>
+    <td><ul>
+      <li>Everything can access the speed and other stats of the creature without getting access to the actual states. Anything might need to know how fast the creature can move, but only the brain actually needs to be able to tell it to move.</li>
+      <li>Brains can directly reference the states they use. If a brain does not use locomotion then it will not show a field for that state when you add it to a creature, making it clear that such a state will not be used.</li>
+      <li>All stats are in one place so they can be easily serialized if they need to be saved to a file or sent over a network.</li>
+    </ul></td>
+  </tr>
+  </tbody>
+</table>
+<p>Either approach could work fine, but for this example we are using a central class:</p>
+<pre><code class="language-cs">using System;
+using UnityEngine;
+
+[Serializable]
+public sealed class CreatureStats
+{
+    [SerializeField]
+    private float _WalkSpeed = 2;
+    public float WalkSpeed { get { return _WalkSpeed; } }
+
+    [SerializeField]
+    private float _RunSpeed = 4;
+    public float RunSpeed { get { return _RunSpeed; } }
+
+    public float GetMoveSpeed(bool isRunning)
+    {
+        return isRunning ? _RunSpeed : _WalkSpeed;
+    }
+
+    [SerializeField]
+    private float _TurnSpeed = 360;
+    public float TurnSpeed { get { return _TurnSpeed; } }
+}
+</code></pre>
+<p>Then we just need to give the <code>Creature</code> a new serialized field with an accessor property:</p>
+<pre><code class="language-cs">[SerializeField]
+private CreatureStats _Stats;
+public CreatureStats Stats { get { return _Stats; } }
+</code></pre>
+<h1 id="locomotion">Locomotion</h1>
+<p>Now that we have those stats, we can implement a <code>LocomotionState</code> class which inherits from <code>CreatureState</code> just like the <code>IdleState</code> we made earlier.</p>
+<p>First we need the <em>Walk</em> and <em>Run</em> animations:</p>
+<pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class LocomotionState : CreatureState
+{
+    [SerializeField] private AnimationClip _Walk;
+    [SerializeField] private AnimationClip _Run;
+}
+</code></pre>
+<p>Then in <code>Update</code> we want to play those animations and keep them synchronised exactly like the <code><a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a></code> script in the <a href="../../locomotion/walk-and-run#synchronising-the-transition">Walk and Run</a> example, with two changes:</p>
+<ul>
+<li>We now check the <code>Creature.Brain.IsRunning</code> instead of directly checking <code>Input.GetButton("Fire3")</code> so that this script does not actually care why it is running, it just does whatever the brain wants. The brain manages input and this script only manages locomotion.</li>
+<li>We can also slow down the animation if the brain wants to walk even slower by using the <code>Creature.Brain.MovementDirection.magnitude</code> to set the <code>AnimancerState.Speed</code> of both animations.</li>
+</ul>
+<pre><code class="language-cs">private void Update()
+{
+    AnimationClip playAnimation, otherAnimation;
+
+    if (Creature.Brain.IsRunning)
+    {
+        playAnimation = _Run;
+        otherAnimation = _Walk;
+    }
+    else
+    {
+        playAnimation = _Walk;
+        otherAnimation = _Run;
+    }
+
+    var playState = Animancer.Play(playAnimation, 0.25f);
+
+    var speed = Mathf.Min(Creature.Brain.MovementDirection.magnitude, 1);
+    playState.Speed = speed;
+
+    var otherState = Animancer.GetState(otherAnimation);
+    if (otherState != null &amp;&amp; otherState.IsPlaying)
+    {
+        playState.NormalizedTime = otherState.NormalizedTime;
+        otherState.Speed = speed;
+    }
+}
+</code></pre>
+<h2 id="turning">Turning</h2>
+<p>So far the state can <em>Walk</em> and <em>Run</em> in one direction but cannot turn. Some games use additional animations to make the turning look more natural (such as leaning over if you turn while running) or the <a href="../../animator-controllers/3d-game-kit/locomotion/turning">Quick Turn</a> animations used in the <a href="../../animator-controllers/3d-game-kit">3D Game Kit</a> example, but for this example we are just going to rotate the model around the Y axis. We also want to do this in <code>Update</code>, so first we should split out the method we just wrote to keep the script organised:</p>
+<pre><code class="language-cs">private void Update()
+{
+    UpdateAnimation();
+    UpdateTurning();
+}
+
+private void UpdateAnimation()
+{
+    // The method we just wrote above.
+}
+
+private void UpdateTurning()
+{
+    // TODO.
+}
+</code></pre>
+<p>We need to make sure we have a <code>Creature.Brain.MovementDirection</code>, because we do not want to turn even if we somehow end up in this state without the brain trying to move:</p>
+<pre><code class="language-cs">private void UpdateTurning()
+{
+    var movement = Creature.Brain.MovementDirection;
+    if (movement == Vector3.zero)
+        return;
+</code></pre>
+<p>Then we need to determine the angle we want to turn towards:</p>
+<pre><code class="language-cs">    var targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
+</code></pre>
+<p>Without going into the maths behind it, <code>Mathf.Atan2</code> gives us the angle of a vector in radians. So we just feed in the <code>x</code> and <code>z</code> values because we want an angle around the <code>y</code> axis, then convert the result to degrees because <code>Transform.eulerAngles</code> uses degrees.</p>
+<p>Then we calculate the amount we want to rotate this frame:</p>
+<pre><code class="language-cs">    var turnDelta = Creature.Stats.TurnSpeed * Time.deltaTime;
+</code></pre>
+<p>Then we get the <code>Transform.eulerAngles</code>, move the <code>y</code> value towards the target angle, and apply those angles back to the <code>Transform</code>:</p>
+<pre><code class="language-cs">    var transform = Creature.Animancer.transform;
+    var eulerAngles = transform.eulerAngles;
+    eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetAngle, turnDelta);
+    transform.eulerAngles = eulerAngles;
+}
+</code></pre>
+<h2 id="movement">Movement</h2>
+<p>The last thing the locomotion state needs is actual locomotion, so we simply get the desired speed depending on whether the brain wants to run or not and set it as the creature's velocity in whatever direction the brain wants to move. Since we do not want to allow flight we need to clear the <code>y</code> component of the direction just in case and we also need to make sure the magnitude is not greater than 1 so the brain cannot make the creature go faster by simply setting a longer vector (going slower is fine though):</p>
+<pre><code class="language-cs">private void FixedUpdate()
+{
+    var direction = Creature.Brain.MovementDirection;
+    direction.y = 0;
+    direction = Vector3.ClampMagnitude(direction, 1);
+
+    var speed = Creature.Stats.GetMoveSpeed(Creature.Brain.IsRunning);
+
+    Creature.Rigidbody.velocity = direction * speed;
+}
+</code></pre>
+<p>It is generally recommended that you use <code>Rigidbody.AddForce</code> instead of setting the <code>velocity</code> directly, but for this example we just want something simple while we demonstrate the animation and state machine systems.</p>
+<p></p><details><summary>The full <code>LocomotionState</code> script looks like this</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class LocomotionState : CreatureState
+{
+    [SerializeField] private AnimationClip _Walk;
+    [SerializeField] private AnimationClip _Run;
+
+    private void Update()
+    {
+        UpdateAnimation();
+        UpdateTurning();
+    }
+
+    private void UpdateAnimation()
+    {
+        AnimationClip playAnimation, otherAnimation;
+        
+        if (Creature.Brain.IsRunning)
+        {
+            playAnimation = _Run;
+            otherAnimation = _Walk;
+        }
+        else
+        {
+            playAnimation = _Walk;
+            otherAnimation = _Run;
+        }
+        
+        var playState = Animancer.Play(playAnimation, 0.25f);
+        
+        var speed = Mathf.Min(Creature.Brain.MovementDirection.magnitude, 1);
+        playState.Speed = speed;
+        
+        var otherState = Animancer.GetState(otherAnimation);
+        if (otherState != null &amp;&amp; otherState.IsPlaying)
+        {
+            playState.NormalizedTime = otherState.NormalizedTime;
+            otherState.Speed = speed;
+        }
+    }
+
+    private void UpdateTurning()
+    {
+        if (Creature.Brain.MovementDirection == Vector3.zero)
+            return;
+
+        var targetAngle = Mathf.Atan2(Creature.Brain.Movement.x, Creature.Brain.Movement.z) * Mathf.Rad2Deg;
+        var turnDelta = Creature.Stats.TurnSpeed * Time.deltaTime;
+
+        var transform = Creature.Animancer.transform;
+        var eulerAngles = transform.eulerAngles;
+        eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetAngle, turnDelta);
+        transform.eulerAngles = eulerAngles;
+    }
+
+    private void FixedUpdate()
+    {
+        var direction = Creature.Brain.MovementDirection;
+        direction.y = 0;
+        direction = Vector3.ClampMagnitude(direction, 1);
+        
+        var speed = Creature.Stats.GetMoveSpeed(Creature.Brain.IsRunning);
+        
+        Creature.Rigidbody.velocity = direction * speed;
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<h1 id="keyboard-brain">Keyboard Brain</h1>
+<p>We now have the components for a simple creature that can stand still and walk or run around, we just need a script to actually control it so it's time to implement a brain.</p>
+<p>The only standard state a <code>Creature</code> has is <code>Idle</code>. Since we want this brain to determine how it moves we start with a reference to the locomotion state:</p>
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a> : CreatureBrain
+{
+    [SerializeField] private CreatureState _Locomotion;
+</code></pre>
+<p>The rest of the script is the <code>Update</code> method which starts by checking for input to decide whether it wants to be in the <em>Idle</em> or <em>Locomotion</em> state:</p>
+<pre><code class="language-cs">private void Update()
+{
+    var input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    if (input != Vector2.zero)
+    {
+        _Locomotion.TryEnterState();
+    }
+    else
+    {
+        Creature.Idle.TryEnterState();
+    }
+}
+</code></pre>
+<p>When using the locomotion state, we also need to set the brain's <code>Movement</code> vector for the state to use. We cannot just use the <code>input</code> vector directly because we need it to be relative to whichever direction the camera is facing, so first we need to get the camera's forward and right vectors and flatten them onto the XZ plane:</p>
+<pre><code class="language-cs">var camera = Camera.main.transform;
+
+var forward = camera.forward;
+forward.y = 0;
+forward.Normalize();
+
+var right = camera.right;
+right.y = 0;
+right.Normalize();
+</code></pre>
+<p>Then we can simply build the <code>Movement</code> vector by multiplying the <code>input</code> by those axes:</p>
+<pre><code class="language-cs">Movement =
+    right * input.x +
+    forward * input.y;
+</code></pre>
+<p>We also need to determine if the player wants to run or not:</p>
+<pre><code class="language-cs">IsRunning = Input.GetButton("Fire3");//Left Shift by default.
+</code></pre>
+<p>And lastly, we should clear the <code>Movement</code> vector when we return to <em>Idle</em> using <code>Movement = Vector3.zero;</code>.</p>
+<p></p><details><summary>The full <code><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code> script looks like this</summary><p>
+</p><pre><code class="language-cs">using Animancer.FSM;
+using UnityEngine;
+
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a> : CreatureBrain
+{
+    [SerializeField] private CreatureState _Locomotion;
+
+    private void Update()
+    {
+        var input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (input != Vector2.zero)
+        {
+            var camera = Camera.main.transform;
+
+            var forward = camera.forward;
+            forward.y = 0;
+            forward.Normalize();
+
+            var right = camera.right;
+            right.y = 0;
+            right.Normalize();
+
+            Movement =
+                right * input.x +
+                forward * input.y;
+
+            IsRunning = Input.GetButton("Fire3");//Left Shift by default.
+
+            _Locomotion.TryEnterState();
+        }
+        else
+        {
+            Movement = Vector3.zero;
+
+            Creature.Idle.TryEnterState();
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<h1 id="scene-setup">Scene Setup</h1>
+<p>After all that scripting it's finally time to set up the scene to see things in action.</p>
+<p>Instead of starting the scene from scratch, it would be easier to just duplicate the scene (<code>Ctrl + D</code> on Windows) and delete the <em>Creature</em> we are about to rebuild.</p>
+<p><img src="empty-arena.png" class="img-responsive"></p>
+<ol>
+<li>Right Click in the Hierarchy and create an empty game object.</li>
+<li>Rename it to "Creature".</li>
+<li>Reset its position to <code>(0, 0, 0)</code> by Right Clicking on the <code>Transform</code> header and selecting the <code>Reset Position</code> function. Or if you have <a href="https://kybernetik.com.au/inspector-gadgets">Inspector Gadgets</a> you can Middle Click on any field to reset it (including the <em>Position</em> label to reset its X, Y, and Z fields) or use <code>Ctrl + Shift + Z</code> to reset the position, rotation, and scale all at once.</li>
+<li>Add a <code>CapsuleCollider</code> and set its <code>Center</code> to <code>(0, 1, 0)</code> and <code>Height</code> to <code>2</code>.</li>
+<li>Add a <code>Rigidbody</code> and set its <code>Constraints</code> to freeze the rotation on all axes because we are rotating the model in our script so we do not want physics to affect it.</li>
+</ol>
+<p><img src="physics-setup.gif" class="img-responsive"></p>
+<ol start="6">
+<li>Add a <code>Creature</code> and <code>IdleState</code> and assign their references (we do not have them all yet, but there is only one of each type so it should be fairly obvious what goes where). Note how the idle state automatically picks up the creature thanks to the <code>Reset</code> method we put in the <a href="#states">base state class</a>.</li>
+</ol>
+<p><img src="creature-setup.gif" class="img-responsive"></p>
+<ol start="7">
+<li>Drag the <em>LowPolyMan</em> model (from <em>Assets/Plugins/Animancer/Examples/Art/Low Poly Man</em>) into the Hierarchy as a child of the <em>Creature</em> and make sure its position is at <code>(0, 0, 0)</code>.</li>
+<li>Add an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to the model and disable <code>Apply Root Motion</code>.</li>
+<li>Create another empty game object as a child of the <em>Creature</em> and rename it to "Brain".</li>
+<li>Add a <code><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code> and <code>LocomotionState</code> and assign their references.</li>
+<li>Go back to the root <em>Creature</em> and assign the <code>Brain</code> and <code>Animancer</code> references.</li>
+</ol>
+<p><img src="brain-setup.gif" class="img-responsive"></p>
+<p>Now we can enter Play Mode to see the character moving around in response to keyboard input and thanks to the <code><a href="/animancer/api/Animancer.Examples/OrbitControls">OrbitControls</a></code> script on the camera we can Right Click and drag to rotate the camera to see that the controls always move the character relative to the camera:</p>
+<p><img src="keyboard-brain.gif" class="img-responsive"></p>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                Generated by <a href="https://wyam.io">Wyam</a>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>

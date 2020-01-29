@@ -57,10 +57,8 @@
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
-        <li><a href="/animancer/faq"><img src="/animancer/images/faq.png" height="20" style="position:relative; left:-4px; top:-1px;"> FAQ</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v3.1</a></li>
-        <li><a href="https://forum.unity.com/threads/566452"><img src="/animancer/images/forum.png" height="20" style="position:relative; left:-4px; top:-1px;"> Forum</a></li>
-        <li><a href="mailto:animancer@kybernetik.com.au?subject=Animancer"><img src="/animancer/images/contact.png" height="20" style="position:relative; left:-4px; top:-1px;"> Contact</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -81,6 +79,7 @@
 <p><a href="#ClassTypes">Class Types</a></p>
 <p><a href="#InterfaceTypes">Interface Types</a></p>
 <p><a href="#StructTypes">Struct Types</a></p>
+<p><a href="#EnumTypes">Enum Types</a></p>
 <p><a href="#Namespaces">Namespaces</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -150,14 +149,14 @@
 				<li class="treeview">
 				<a href="/animancer/api/Animancer.Examples">Animancer<wbr>.Examples</a> <a href="#" class="expand"></a>
 				<ul class="treeview-menu">
-						<li><a href="/animancer/api/Animancer.Examples.AnimationEvents">Animancer<wbr>.Examples<wbr>.AnimationEvents</a></li>
-
+			
 				<li class="treeview">
 				<a href="/animancer/api/Animancer.Examples.AnimatorControllers">Animancer<wbr>.Examples<wbr>.AnimatorControllers</a> <a href="#" class="expand"></a>
 				<ul class="treeview-menu">
 						<li><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit">Animancer<wbr>.Examples<wbr>.AnimatorControllers<wbr>.GameKit</a></li>
 </ul></li>			<li><a href="/animancer/api/Animancer.Examples.Basics">Animancer<wbr>.Examples<wbr>.Basics</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.DirectionalSprites">Animancer<wbr>.Examples<wbr>.DirectionalSprites</a></li>
+			<li><a href="/animancer/api/Animancer.Examples.Events">Animancer<wbr>.Examples<wbr>.Events</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.FineControl">Animancer<wbr>.Examples<wbr>.FineControl</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.InverseKinematics">Animancer<wbr>.Examples<wbr>.InverseKinematics</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.Layers">Animancer<wbr>.Examples<wbr>.Layers</a></li>
@@ -170,6 +169,7 @@
 			<li><a href="/animancer/api/Animancer.Examples.StateMachines.Creatures">Animancer<wbr>.Examples<wbr>.StateMachines<wbr>.Creatures</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.StateMachines.InterruptManagement">Animancer<wbr>.Examples<wbr>.StateMachines<wbr>.InterruptManagement</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer">Animancer<wbr>.Examples<wbr>.StateMachines<wbr>.Platformer</a></li>
+			<li><a href="/animancer/api/Animancer.Examples.StateMachines.Weapons">Animancer<wbr>.Examples<wbr>.StateMachines<wbr>.Weapons</a></li>
 </ul></li></ul></li>			<li><a href="/animancer/api/Animancer.FSM">Animancer<wbr>.FSM</a></li>
 </ul></li>      
 
@@ -192,7 +192,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    Everything in the Animancer plugin.
+    Everything in the Animancer plugin is located in this namespace.
     </div>
 
 
@@ -210,8 +210,8 @@
 							<tbody><tr>
 								<td><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></td>
 									<td>
-    A substitute for a <code class="cs">UnityEngine.RuntimeAnimatorController</code> which allows you to freely play animations on an
-    <code class="cs">UnityEngine.Animator</code> without using the standard Mecanim state machine system.
+    The main component through which other scripts can interact with <code class="cs">Animancer</code>. It allows you to play
+    animations on an <code class="cs">UnityEngine.Animator</code> without using a <code class="cs">UnityEngine.RuntimeAnimatorController</code>.
     <p></p>
     This class can be used as a custom yield instruction to wait until all animations finish playing.
     </td>
@@ -252,23 +252,14 @@
 							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerTransition">AnimancerTransition</a></td>
 									<td>
-    A <code class="cs">UnityEngine.ScriptableObject</code> which defines various details about how to play an animation so they can be
-    configured in the Unity Editor instead of hard coded.
-    <p></p>
-    To trigger a transition, simply pass it as a parameter into
-    <code class="cs">AnimancerComponent.Play(IAnimancerTransition, int)</code> or
-    <code class="cs">AnimancerComponent.CrossFade(IAnimancerTransition, int)</code>.
+    A <code class="cs">UnityEngine.ScriptableObject</code> based <code class="cs">Animancer.ITransition</code>s which can create a
+    <code class="cs">Animancer.ClipState</code> when passed into <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code>.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerTransition_2">AnimancerTransition</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerTransition_2#typeparam-TSerializable">TSerializable</a>, <wbr><a href="/animancer/api/Animancer/AnimancerTransition_2#typeparam-TState">TState</a>&gt;<wbr></td>
+								<td><a href="/animancer/api/Animancer/AnimancerTransition_1">AnimancerTransition</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerTransition_1#typeparam-T">T</a>&gt;<wbr></td>
 									<td>
-    A <code class="cs">UnityEngine.ScriptableObject</code> which defines various details about how to play an animation so they can be
-    configured in the Unity Editor instead of hard coded.
-    <p></p>
-    To trigger a transition, simply pass it as a parameter into
-    <code class="cs">AnimancerComponent.Play(IAnimancerTransition, int)</code> or
-    <code class="cs">AnimancerComponent.CrossFade(IAnimancerTransition, int)</code>.
+    An <code class="cs">Animancer.AnimancerTransition</code> which uses a generic field for its <code class="cs">Animancer.ITransition</code>.
     </td>
 							</tr>
 							<tr>
@@ -291,10 +282,22 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.ClipState.Transition</code>.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></td>
 									<td>[Pro-Only]
     An <code class="cs">Animancer.AnimancerState</code> which plays a <code class="cs">UnityEngine.RuntimeAnimatorController</code>.
     You can control this state very similarly to an <code class="cs">UnityEngine.Animator</code> via its <code class="cs">Animancer.ControllerState.Playable</code> field.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.ControllerState.Transition</code>.
     </td>
 							</tr>
 							<tr>
@@ -326,9 +329,46 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/FloatControllerState">FloatControllerState</a></td>
+								<td><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></td>
+									<td>
+    An <code class="cs">System.Collections.Generic.IEqualityComparer`1</code> which ignores overloaded equality operators so it is faster than
+    <code class="cs">System.Collections.Generic.EqualityComparer`1.Default</code> for types derived from <code class="cs">UnityEngine.Object</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></td>
 									<td>[Pro-Only]
-    An <code class="cs">Animancer.ControllerState</code> which manages a float parameter.
+    A <code class="cs">Animancer.ControllerState</code> which manages one float parameter.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Float1ControllerTransition">Float1<wbr>Controller<wbr>Transition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.Float1ControllerState.Transition</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Float2ControllerState">Float2<wbr>Controller<wbr>State</a></td>
+									<td>[Pro-Only]
+    A <code class="cs">Animancer.ControllerState</code> which manages two float parameters.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Float2ControllerTransition">Float2<wbr>Controller<wbr>Transition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.Float2ControllerState.Transition</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></td>
+									<td>[Pro-Only]
+    A <code class="cs">Animancer.ControllerState</code> which manages three float parameters.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Float3ControllerTransition">Float3<wbr>Controller<wbr>Transition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.Float3ControllerState.Transition</code>.
     </td>
 							</tr>
 							<tr>
@@ -336,6 +376,12 @@
 									<td>[Pro-Only]
     A <code class="cs">Animancer.NamedAnimancerComponent</code> which plays a main <code class="cs">UnityEngine.RuntimeAnimatorController</code> with the
     ability to play other individual <code class="cs">UnityEngine.AnimationClip</code>s separately.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Key">Key</a></td>
+									<td>
+    Stores the index of an object in a <code class="cs">Animancer.Key.KeyedList`1</code> to allow it to be efficiently removed.
     </td>
 							</tr>
 							<tr>
@@ -348,12 +394,24 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/LinearMixerTransition">Linear<wbr>Mixer<wbr>Transition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.LinearMixerState.Transition</code>.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></td>
 									<td>[Pro-Only]
     An <code class="cs">Animancer.AnimancerState</code> which blends multiple child states. Unlike other mixers, this class does not
     perform any automatic weight calculations, it simple allows you to control the weight of all states manually.
     <p></p>
     This mixer type is similar to the Direct Blend Type in Mecanim Blend Trees.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ManualMixerTransition">Manual<wbr>Mixer<wbr>Transition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.ManualMixerState.Transition</code>.
     </td>
 							</tr>
 							<tr>
@@ -370,6 +428,12 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.MixerState.Transition2D</code>.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></td>
 									<td>
     An <code class="cs">Animancer.AnimancerComponent</code> which uses the <code class="cs">UnityEngine.Object.name</code>s of <code class="cs">UnityEngine.AnimationClip</code>s
@@ -380,10 +444,30 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></td>
+									<td>Convenience methods for accessing <code class="cs">Animancer.ObjectPool`1</code>.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ObjectPool_1">ObjectPool</a><wbr>&lt;<a href="/animancer/api/Animancer/ObjectPool_1#typeparam-T">T</a>&gt;<wbr></td>
+									<td>A simple object pooling system.</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/PixelPerfectPositioning">Pixel<wbr>Perfect<wbr>Positioning</a></td>
 									<td>
     Adjusts the <code class="cs">UnityEngine.Transform.localPosition</code> every frame to keep this object aligned to a grid with a size
     determined by the <code class="cs">Animancer.PixelPerfectPositioning.Renderer</code> while wrapping the value to keep it as close to 0 as possible.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></td>
+									<td>[Pro-Only]
+    An <code class="cs">Animancer.AnimancerState</code> which plays a <code class="cs">UnityEngine.Playables.PlayableAsset</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></td>
+									<td>
+    A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.PlayableAssetState.Transition</code>.
     </td>
 							</tr>
 							<tr>
@@ -401,20 +485,13 @@
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/Strings">Strings</a></td>
+									<td>Various string constants used throughout Animancer.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Validate">Validate</a></td>
 									<td>
-    Various string constants used throughout <code class="cs">Animancer</code>.
-    </td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Vector2ControllerState">Vector2<wbr>Controller<wbr>State</a></td>
-									<td>[Pro-Only]
-    An <code class="cs">Animancer.ControllerState</code> which manages two float parameters.
-    </td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Vector3ControllerState">Vector3<wbr>Controller<wbr>State</a></td>
-									<td>[Pro-Only]
-    An <code class="cs">Animancer.ControllerState</code> which manages three float parameters.
+    Enforces various rules throughout the system, most of which are compiled out if UNITY_ASSERTIONS is not defined
+    (by default, it is defined in the Unity Editor and in Development Builds).
     </td>
 							</tr>
 					</tbody></table>
@@ -433,28 +510,20 @@
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/IAnimancerClipSource">IAnimancerClipSource</a></td>
-									<td>
-    Components that implement this interface can provide additional <code class="cs">UnityEngine.AnimationClip</code>s to the Animation
-    Window when a particular <code class="cs">Animancer.AnimancerComponent</code> is selected.
-    <p></p>
-    If <code class="cs">Animancer.IAnimationClipSource</code> is also implemented, <code class="cs">Animancer.IAnimationClipSource.GetAnimationClips(System.Collections.Generic.List{UnityEngine.AnimationClip})</code>
-    will be used to gather the clips. Otherwise reflection will be used to automatically gather clips from any
-    <code class="cs">UnityEngine.AnimationClip</code> fields and any fields which implement that interface.
-    <p></p>
-    This interface does nothing before Unity 2018.3.
-    </td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></td>
 									<td>
     Interface for components that manage an <code class="cs">Animancer.AnimancerPlayable</code>.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/IAnimancerTransition">IAnimancerTransition</a></td>
+								<td><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></td>
 									<td>
-    An object that can create an <code class="cs">Animancer.AnimancerState</code> and manage the details of how it should be played.
+    A variant of <code class="cs">Animancer.IAnimationClipSource</code> which uses a <code class="cs">System.Collections.Generic.ICollection`1</code> instead of a
+    <code class="cs">System.Collections.Generic.List`1</code> so that it can take a <code class="cs">System.Collections.Generic.HashSet`1</code> to efficiently avoid adding duplicates.
+    <code class="cs">Animancer.AnimancerUtilities</code> contains various extension methods for this purpose.
+    <p></p>
+    <code class="cs">Animancer.IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
+    interface is only used internally.
     </td>
 							</tr>
 							<tr>
@@ -465,9 +534,10 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/IEarlyUpdate">IEarlyUpdate</a></td>
+								<td><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></td>
 									<td>
-    Interface for objects that need to be updated earlier than others.
+    Interface for components to indicate which <code class="cs">UnityEngine.GameObject</code> is the root of a character when
+    <code class="cs">Animancer.Editor.AnimancerEditorUtilities.FindRoot(UnityEngine.GameObject)</code> is called.
     </td>
 							</tr>
 							<tr>
@@ -477,10 +547,39 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></td>
+									<td>
+    An object with a <code class="cs">Animancer.Key</code> so it can be used in a <code class="cs">Animancer.Key.KeyedList`1</code>.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></td>
 									<td>
     Interface for objects that manage a <code class="cs">UnityEngine.Playables.Playable</code>.
     </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ITransition">ITransition</a></td>
+									<td>
+    An object that can create an <code class="cs">Animancer.AnimancerState</code> and manage the details of how it should be played.
+    <p></p>
+    Transitions are generally used as arguments for <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ITransitionDetailed">ITransitionDetailed</a></td>
+									<td>
+    An <code class="cs">Animancer.ITransition</code> with some additional details for the Unity Editor GUI.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></td>
+									<td>
+     An object that can be updated during <code class="cs">UnityEngine.Playables.PlayableBehaviour.PrepareFrame(UnityEngine.Playables.Playable,UnityEngine.Playables.FrameData)</code>.
+     <p></p>
+     Register to receive updates using <code class="cs">Animancer.AnimancerPlayable.RequireUpdate(Animancer.IUpdatable)</code> and stop
+     receiving updates using <code class="cs">Animancer.AnimancerPlayable.CancelUpdate(Animancer.IUpdatable)</code>.
+     </td>
 							</tr>
 					</tbody></table>
 				</div>
@@ -498,9 +597,36 @@
 							</tr>
 						</thead>
 							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></td>
+									<td>
+    A <code class="cs">Animancer.AnimancerEvent.callback</code> delegate paired with a <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to determine when to invoke it.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></td>
 									<td>
     A callback to be invoked by Animation Events that have been triggered by a specific animation.
+    </td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+			<h1 id="EnumTypes">Enum Types</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover two-cols">
+						<thead>
+							<tr>
+								<th>Enum</th>
+									<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></td>
+									<td>
+    Determines how <code class="cs">Animancer.AnimancerLayer.Play(Animancer.AnimancerState,System.Single,Animancer.FadeMode)</code> works.
     </td>
 							</tr>
 					</tbody></table>
