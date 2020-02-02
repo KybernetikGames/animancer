@@ -75,8 +75,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#animation-end-delay">Animation End Delay</a></p>
-<p><a href="#first-frame-delay">First Frame Delay</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#set-time">Set Time</a></p>
+<p><a href="#animation-end">Animation End</a></p>
+<p><a href="#first-frame">First Frame</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -303,8 +304,6 @@
                         
                 <li class="selected"><a href="/animancer/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
-                <li><a href="/animancer/docs/bugs/resetting-animated-values">Resetting Animated Values</a></li>
-                <li><a href="/animancer/docs/bugs/unused-graph-destroy-warning">Unused Graph Destroy Warning</a></li>
                 <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
 
                     </ul>
@@ -360,13 +359,23 @@
 			<h1>Inconsistent Timing</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p>This page needs to be updated for Animancer v4.0.</p>
-</blockquote>
-<h1 id="animation-end-delay">Animation End Delay</h1>
+		<h1 id="set-time">Set Time</h1>
+<ul>
+<li>Whenever you set the current time of a <code>Playable</code> (such as by setting an <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code>), it will remain at that time after the following update.</li>
+<li>This behaviour is undesirable because it arbitrarily delays the animation just to ensure that the first frame is always shown.
+<ul>
+<li>It serves little purpose for sprite based animations since each sprite will likely be shown for multiple frames anyway.</li>
+<li>It also serves no purpose for bone based animations because they will generally be cross fading anyway so that frame will have very little weight.</li>
+<li>So it doesn't really achieve any benefit visually, but makes everything slightly less responsive by delaying every action by an extra frame.</li>
+</ul>
+</li>
+<li>It is also inconsistent because pausing then unpausing an animation will continue advancing its time immediately but setting the time before unpausing (such as to reset it to 0 when stopping the animation) causes it to stay on that time for a frame after it is unpaused.</li>
+<li>Bug Report Case Number: <a href="https://issuetracker.unity3d.com/product/unity/issues/guid/1196250">1196250</a></li>
+</ul>
+<h1 id="animation-end">Animation End</h1>
 <ul>
 <li>When commanded to play an animation, Mecanim and the Playables API both show the same pose (as expected).</li>
-<li>However, when using their respective end events (an <code>Exit Time</code> transition vs. checking the time of the playable) to play another animation, the Playables API will be <em>between</em> one and two frames behind.
+<li>However, when using their standard system for transitioning to another animation (an <code>Exit Time</code> transition vs. Animancer <a href="../manual/events/end">End Events</a>), the Playables API will be <em>between</em> one and two frames behind.
 <ul>
 <li>Note that the technique used by Animancer for checking the time of the playable is the same as the one used by Unity's own <a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki">Simple Animation</a> component.</li>
 </ul>
@@ -375,7 +384,7 @@
 <li>There is no known workaround for this issue.</li>
 <li>Bug Report Case Number: 1049025.</li>
 </ul>
-<h1 id="first-frame-delay">First Frame Delay</h1>
+<h1 id="first-frame">First Frame</h1>
 <ul>
 <li>Before Unity 2018.1, instantiating a model and using the Playables API to play an animation will leave it in its default pose for one frame, even if you call <code>PlayableGraph.Evaluate</code> immediately.</li>
 <li>The only known workaround for this issue is to upgrade to Unity 2018.1 or later.</li>
