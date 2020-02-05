@@ -359,6 +359,7 @@
 		</section>
 	<section class="content">
 		<p>When you play an <code>AnimationClip</code>, Animancer creates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to manage it and keep track of its progress. <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> is the most common type of <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>, but there are other types such as <a href="../animator-controllers">Controller States</a> and <a href="../blending/mixers">Mixer States</a> which manage multiple animations in a single state.</p>
+<p>The <code>AnimancerComponent.Play</code> method returns the state it plays:</p>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
     // Play the animation and control its state:
@@ -367,18 +368,33 @@
     state.NormalizedTime = ...
     state.Speed = ...
     state.OnEnd = ...
-
-    // Get the state or create a new one if it does not already exist:
-    // Play(clip) uses this method internally.
-    var state = animancer.States.GetOrCreate(clip);
-
-    // Get the state if it exists (otherwise null):
-    var state = animancer.States[clip];
-
-    // Create a new state even if one already existed for that animation:
-    var state = animancer.States.Create(clip);
 }
 </code></pre>
+<p>You can also access and create states on your own without immediately playing them:</p>
+<table class="table">
+  <thead>
+    <tr><th>Code</th>
+    <th>Description</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States.GetOrCreate(clip);</code></pre></td>
+      <td>Access a state without playing it (the <code>Play</code> method uses this internally).</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States[clip];</code></pre></td>
+      <td>Get the state if it exists (otherwise null).</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States.Create(key, clip);</code></pre></td>
+      <td>Create a new state even if one already existed for that animation. Note that you must provide a different <a href="#keys">Key</a> for each state.</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;new&nbsp;ClipState(animancer, clip);</code></pre></td>
+      <td>Create a new state without giving it a <a href="#keys">Key</a>. You can assign one using its <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> property.</td>
+    </tr>
+  </tbody>
+</table>
 <p>The <a href="../../examples/fine-control">Fine Control</a> examples demonstrate how you can manipulate animation states in more detail.</p>
 <h1 id="keys">Keys</h1>
 <p>Usually when a state gets created it gets registered in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using a particular key so that it can later be retrieved using that key and reused.</p>
