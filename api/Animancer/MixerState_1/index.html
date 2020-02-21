@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -163,7 +164,6 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerTransition">Float1<wbr>Controller<wbr>Transition</a></li>
@@ -227,8 +227,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Pro-Only]
-    Base class for <code class="cs">Animancer.MixerState</code>s which blend an array of <code class="cs">Animancer.ManualMixerState.States</code> together
-    based on a <code class="cs">Animancer.MixerState`1.Parameter</code>.
+    Base class for mixers which blend an array of child states together based on a <code class="cs">Animancer.MixerState`1.Parameter</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -268,9 +267,9 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>								
 											<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>								
 											<li><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>								
 									</ul>
 								</dd>			
 							
@@ -300,12 +299,12 @@
 	click Interface4 "/animancer/api/Animancer/IAnimationClipCollection"
 	Type["MixerState&lt;TParameter&gt;"]
 class Type type-node
-	Derived0["LinearMixerState"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/LinearMixerState"
-	Derived1["DirectionalMixerState"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/DirectionalMixerState"
-	Derived2["CartesianMixerState"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/CartesianMixerState"
+	Derived0["DirectionalMixerState"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/DirectionalMixerState"
+	Derived1["CartesianMixerState"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/CartesianMixerState"
+	Derived2["LinearMixerState"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/LinearMixerState"
 
 						</div>
 					</div>
@@ -450,18 +449,18 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/MixerState/FA31B927">ChildCount</a></td>
+								<td><a href="/animancer/api/Animancer/ManualMixerState/AF6A4DEE">ChildCount</a></td>
 								<td>int</td>
 								<td>
 									<div>The number of states using this mixer as their <code class="cs">Animancer.AnimancerState.Parent</code>.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerState">MixerState</a></em></small></div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/ManualMixerState/6E5D7CD4">ChildStates</a></td>
 								<td>IList<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></td>
 								<td>
-									<div>Returns the <code class="cs">Animancer.ManualMixerState.States</code> array.</div>
+									<div>Returns the <code class="cs">Animancer.ManualMixerState._States</code> array.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
 							</tr>
@@ -517,8 +516,18 @@ class Type type-node
 								<td>int</td>
 								<td>
 									<div>
-    The <code class="cs">Animancer.ObjectPool`1.Capacity</code> for <code class="cs">Animancer.AnimancerEvent.Sequence</code> and
-    <code class="cs">Animancer.AnimancerState.EventUpdatable</code>.
+    The capacity of the internal list in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventRunner</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/11BC5AD1">EventPoolCount</a></td>
+								<td>int</td>
+								<td>
+									<div>
+    The number of spare items in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventRunner</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 											<div><small><em>static</em></small></div>
@@ -580,6 +589,14 @@ class Type type-node
     <code class="cs">Animancer.AnimancerNode.Weight</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ManualMixerState/93F52726">IsInitialised</a></td>
+								<td>bool</td>
+								<td>
+									<div>Indicates whether the child states of this mixer have been initialised.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -678,17 +695,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/ManualMixerState/85F8DC3F">NewTime</a></td>
-								<td>float</td>
-								<td>
-									<div>
-    The weighted average <code class="cs">Animancer.AnimancerState.Time</code> of each child state according to their
-    <code class="cs">Animancer.AnimancerNode.Weight</code>.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/617EFC91">NormalizedTime</a></td>
 								<td>float</td>
 								<td>
@@ -713,7 +719,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/MixerState_1/4DCAB2E2">Parameter</a></td>
 								<td><a href="/animancer/api/Animancer/MixerState_1#typeparam-TParameter">TParameter</a></td>
 								<td>
-									<div>The value used to calculate the weights of the <code class="cs">Animancer.ManualMixerState.States</code>.</div>
+									<div>The value used to calculate the weights of the child states.</div>
 								</td>
 							</tr>
 							<tr>
@@ -733,10 +739,13 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/ManualMixerState/EB3B5585">PortCount</a></td>
-								<td>int</td>
+								<td><a href="/animancer/api/Animancer/ManualMixerState/294C3304">RawTime</a></td>
+								<td>float</td>
 								<td>
-									<div>The number of input ports in the <code class="cs">UnityEngine.Animations.AnimationMixerPlayable</code>.</div>
+									<div>
+    The weighted average <code class="cs">Animancer.AnimancerState.Time</code> of each child state according to their
+    <code class="cs">Animancer.AnimancerNode.Weight</code>.
+    </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
 							</tr>
@@ -769,14 +778,6 @@ class Type type-node
      Animancer Lite does not allow this value to be changed in a runtime build.
      </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/ManualMixerState/5EBBD99F">States</a></td>
-								<td>AnimancerState[]</td>
-								<td>
-									<div>The states managed by this mixer.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -896,7 +897,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Calls `calculate` for each of the <code class="cs">Animancer.ManualMixerState.States</code> and stores the returned value as
+    Calls `calculate` for each of the <code class="cs">Animancer.ManualMixerState._States</code> and stores the returned value as
     the threshold for that state.
     </div>
 								</td>
@@ -912,6 +913,17 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Sets the `currentObject` and calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code>. If the `currentObject` was
+    being used as the <code class="cs">Animancer.AnimancerState.Key</code> then it is changed as well.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/2BA3355C">ConnectToGraph<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -919,6 +931,14 @@ class Type type-node
     Connects the <code class="cs">Animancer.AnimancerNode._Playable</code> to the <code class="cs">Animancer.AnimancerNode.Parent</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/MixerState/C6DCB520">CreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Creates and assigns the <code class="cs">Animancer.AnimancerNode._Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerState">MixerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -948,7 +968,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Destroys the <code class="cs">UnityEngine.Playables.Playable</code> of this mixer and its <code class="cs">Animancer.ManualMixerState.States</code>.
+    Destroys the <code class="cs">UnityEngine.Playables.Playable</code> of this mixer and its <code class="cs">Animancer.ManualMixerState._States</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
@@ -958,7 +978,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Destroys all <code class="cs">Animancer.ManualMixerState.States</code> connected to this mixer. This operation cannot be undone.
+    Destroys all <code class="cs">Animancer.ManualMixerState._States</code> connected to this mixer. This operation cannot be undone.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
@@ -994,13 +1014,11 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/MixerState/BC04DC29">GetChild<wbr>(int)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/ManualMixerState/1D28BE18">GetChild<wbr>(int)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>
-    Returns the state connected to the specified `index` as a child of this mixer.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerState">MixerState</a></em></small></div>
+									<div>Returns the state connected to the specified `index` as a child of this mixer.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1032,7 +1050,7 @@ class Type type-node
 								<td>
 									<div>
     Returns the state at the specified `index` if it is not null, otherwise increments the index and checks
-    again. Returns null if no state is found by the end of the <code class="cs">Animancer.ManualMixerState.States</code> array.
+    again. Returns null if no state is found by the end of the <code class="cs">Animancer.ManualMixerState._States</code> array.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
 								</td>
@@ -1079,15 +1097,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/MixerState_1/CB36C4D1">HasThresholds<wbr>()<wbr></a></td>
-								<td>bool</td>
-								<td>
-									<div>
-    Returns true if the thresholds array is not null.
-    </div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/Key/EE93DB40">IndexOf<wbr>(Key)<wbr></a></td>
 								<td>int</td>
 								<td>
@@ -1111,7 +1120,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Initialises the <code class="cs">UnityEngine.Animations.AnimationMixerPlayable</code> and <code class="cs">Animancer.ManualMixerState.States</code> with one
+    Initialises the <code class="cs">UnityEngine.Animations.AnimationMixerPlayable</code> and <code class="cs">Animancer.ManualMixerState._States</code> with one
     state per clip and assigns the thresholds by calling `calculateThreshold` for each state.
     </div>
 								</td>
@@ -1121,7 +1130,7 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Initialises the <code class="cs">UnityEngine.Animations.AnimationMixerPlayable</code> and <code class="cs">Animancer.ManualMixerState.States</code> with one
+    Initialises the <code class="cs">UnityEngine.Animations.AnimationMixerPlayable</code> and <code class="cs">Animancer.ManualMixerState._States</code> with one
     state per clip and assigns the `thresholds`.
     <p></p>
     WARNING: if you keep a reference to the `thresholds` array, you must call
@@ -1211,6 +1220,30 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/531570FA">RecreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code> and creates a new one using <code class="cs">Animancer.AnimancerNode.CreatePlayable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/F6B6D11D">Recreate<wbr>Playable<wbr>Recursive<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code> on this node and all its children recursively.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ManualMixerState/5B7DD959">SetChild<wbr>(int, <wbr>AnimancerState)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Assigns the `state` as a child of this mixer.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/MixerState/093E870E">SetChildrenTime<wbr>(float, <wbr>bool)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -1218,6 +1251,18 @@ class Type type-node
     Sets <code class="cs">Animancer.AnimancerState.Time</code> for all <code class="cs">Animancer.MixerState.ChildStates</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerState">MixerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/953157FA">SetMinEventPoolCount<wbr>(int)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    If the <code class="cs">Animancer.AnimancerState.EventPoolCount</code> is less than the specified value, this method increases it to that
+    value by creating new objects.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1327,7 +1372,7 @@ class Type type-node
 								<td>
 									<div>
     If the <code class="cs">Animancer.MixerState`1._Thresholds</code> don't have the same <code class="cs">System.Array.Length</code> as the
-    <code class="cs">Animancer.ManualMixerState.States</code>, this method allocates and assigns a new array of that size.
+    <code class="cs">Animancer.ManualMixerState._States</code>, this method allocates and assigns a new array of that size.
     </div>
 								</td>
 							</tr>
@@ -1359,13 +1404,11 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D7CCC2A6">IsValid<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerUtilities/0618A072">IsValid<wbr>()<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Returns true if the `node` is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.
-    </div>
-										<div><small><em>From <a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></em></small></div>
+									<div>Returns true if the `node` is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.</div>
+										<div><small><em>From <a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></em></small></div>
 								</td>
 							</tr>
 					</tbody></table>

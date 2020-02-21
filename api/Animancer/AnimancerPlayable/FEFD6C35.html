@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -227,8 +228,14 @@
 	<div class="lead">
     Indicates whether child playables should stay connected to the graph at all times.
     <p></p>
-    By default, this value is false so that playables will be disconnected from the graph while they are at 0
-    weight which stops it from evaluating them every frame and is generally more efficient.
+    Humanoid Rigs default this value to <code class="cs">false</code> so that playables will be disconnected from the graph
+    while they are at 0 weight which stops it from evaluating them every frame and is generally more efficient.
+    <p></p>
+    Generic Rigs default this value to <code class="cs">true</code> because they do not always animate the same standard set of
+    values so every connection change has a higher performance cost than with Humanoid Rigs which is generally
+    more significant than the gains for having fewer playables connected at a time.
+    <p></p>
+    The default is set by <code class="cs">Animancer.AnimancerPlayable.SetOutput(UnityEngine.Animator,Animancer.IAnimancerComponent)</code>.
     </div>
 
 		<div class="panel panel-default">

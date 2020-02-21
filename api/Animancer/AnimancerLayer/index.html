@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -161,7 +162,6 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerTransition">Float1<wbr>Controller<wbr>Transition</a></li>
@@ -314,17 +314,6 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/AnimancerLayer/9ACB9BC4">maxStateDepth</a></td>
-								<td></td>
-								<td>
-									<div>[Editor-Only]
-    The maximum number of duplicate states that can be created by <code class="cs">Animancer.AnimancerLayer.GetOrCreateWeightlessState(Animancer.AnimancerState)</code> for
-    a single clip before it will start giving usage warnings. Default = 5.
-    </div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/C3A30F31">Root</a></td>
 								<td></td>
 								<td>
@@ -666,6 +655,13 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/AFF52D0F">CreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Creates and assigns the <code class="cs">Animancer.AnimancerNode._Playable</code>.</div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerLayer/D336F650">CreateState<wbr>(AnimationClip)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/ClipState">ClipState</a></td>
 								<td>
@@ -957,12 +953,36 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/531570FA">RecreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code> and creates a new one using <code class="cs">Animancer.AnimancerNode.CreatePlayable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/F6B6D11D">Recreate<wbr>Playable<wbr>Recursive<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code> on this node and all its children recursively.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerLayer/23B9C905">SetMask<wbr>(AvatarMask)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>[Pro-Only]
     Sets an <code class="cs">UnityEngine.AvatarMask</code> to determine which bones this layer will affect.
     </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/99707C10">SetMaxStateDepth<wbr>(int)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Conditional] Sets the <code class="cs">MaxStateDepth</code>.</div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1054,13 +1074,11 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D7CCC2A6">IsValid<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerUtilities/0618A072">IsValid<wbr>()<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Returns true if the `node` is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.
-    </div>
-										<div><small><em>From <a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></em></small></div>
+									<div>Returns true if the `node` is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.</div>
+										<div><small><em>From <a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></em></small></div>
 								</td>
 							</tr>
 					</tbody></table>

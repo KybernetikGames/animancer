@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -325,6 +326,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -437,8 +439,8 @@
 <table class="table">
 <thead>
 <tr>
-<th>Disconnected (default is false)</th>
-<th>Connected (set to true)</th>
+<th>Disconnected (default is false for Humanoid Rigs)</th>
+<th>Connected (default is true for Generic Rigs)</th>
 </tr>
 </thead>
 <tbody>
@@ -447,11 +449,12 @@
 <td>Avoid the performance cost of disconnecting and reconnecting things which can outweigh the benefits of having them disconnected.</td>
 </tr>
 <tr>
-<td>For <code>Humanoid</code> and <code>Generic</code> Rigs, the simple method of initialising animations on <strong>Demand</strong> and allowing it to <strong>Disconnect</strong> inactive ones tends to be the most efficient (and by far the most convenient).</td>
+<td>For <code>Humanoid</code> Rigs, the simple method of initialising animations on <strong>Demand</strong> and allowing it to <strong>Disconnect</strong> inactive ones tends to be the most efficient (and by far the most convenient).</td>
 <td>For <code>Sprite</code> animations, initialising them on <strong>Startup</strong> and keeping them always <strong>Connected</strong> seems to be slightly better (this is how Simple Animation works too).</td>
 </tr>
 </tbody>
 </table>
+<p><code>Generic</code> Rigs are also slightly more efficient with <code>KeepChildrenConnected</code> set to <code>false</code>, however <code>Sprite</code> animations gain a much larger benefit from setting it to <code>true</code> so that is the default for all <code>Generic</code> Rigs because it is not possible to automatically differentiate between <code>Sprite</code> animations and other <code>Generic</code> animations at runtime.</p>
 <p></p><details><summary>Click here to see the results using the full 0-300 range:</summary><p>
 </p><p><img src="sequence-humanoid-full.png" class="img-responsive"></p>
 <p><img src="sequence-generic-full.png" class="img-responsive"></p>

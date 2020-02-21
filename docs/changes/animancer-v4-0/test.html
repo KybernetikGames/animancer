@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -332,6 +333,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview active">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -388,7 +390,7 @@
 </blockquote>
 <p>Changes since Release Candidate 1 (see the <a href="../animancer-v4-0">v4.0 Change Log</a> for the full list of changes since v3.1):</p>
 <ul>
-<li>Fixed the assertions in <code>AnimancerState.EventUpdatable</code> to not allocate garbage if they pass.</li>
+<li>Fixed the assertions in <code>AnimancerState.EventUpdatable</code> to not allocate garbage if they pass. <a href="https://github.com/KybernetikGames/animancer/issues/22">#22</a></li>
 <li>Renamed <code>AnimancerState.EventUpdatablePoolCapacity</code> to <code>EventPoolCapacity</code>.</li>
 </ul>
 <h1 id="release-candidate-1">Release Candidate 1</h1>
@@ -401,7 +403,7 @@
 <li>Fixed the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> to work properly when the previous or next animation is the same as the one being previewed.</li>
 <li>The <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> now uses a topological sort to ensure that the unnecessary components it removes from the preview instance do not cause errors due to <code>[RequireComponent]</code> attributes.</li>
 <li><code><a href="/animancer/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> now clamps event icons to display within the bounds of the area.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/Float3ControllerState">Float3ControllerState</a></code> to show all of its parameters in the Inspector rather than only the first two.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer/Float3ControllerState">Float3ControllerState</a></code> to show all of its parameters in the Inspector rather than only the first two. <a href="https://github.com/KybernetikGames/animancer/issues/19">#19</a></li>
 <li>The <code><a href="/animancer/api/Animancer.Editor/ReadMe">ReadMe</a></code> now includes the Animancer Version in its name to better detect if the user did not delete a previous version before updating (since Unity's package importer will overwrite old files but not rename them).</li>
 <li>Improved reliability and performance of <code><a href="/animancer/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code>.</li>
 <li>Improved the examples:
@@ -448,8 +450,9 @@
 <li>Improved the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code>:
 <ul>
 <li>Added some ambient lighting.</li>
-<li>Added a ground grid.</li>
-<li>Fixed errors when you save the scene with it open (because saving the scene destroys all <code>PlayableGraph</code>s).</li>
+<li>Added a ground grid. <a href="https://github.com/KybernetikGames/animancer/issues/15">#15</a></li>
+<li>Added proper support for root motion. <a href="https://github.com/KybernetikGames/animancer/issues/15">#15</a></li>
+<li>Fixed errors when you save the scene with it open (because saving the scene destroys all <code>PlayableGraph</code>s for no real reason).</li>
 </ul>
 </li>
 <li>Added <code>AnimancerPlayable.StateDictionary.Create</code> to create states on layer 0 so you can call <code>animancer.State.Create(clip)</code> if you do not care about layers.</li>
@@ -458,7 +461,7 @@
 <li>Fixed <code><a href="/animancer/api/Animancer/Transition">LinearMixerState.Transition</a></code> to add the correct Context Menu Functions.</li>
 <li>Fixed Mixer Transitions to show their context menu when you Right Click on the header of the state list in the Inspector.</li>
 <li>Fixed Mixer Transitions to properly list all their Context Menu functions.</li>
-<li>The "Threshold" header in the Mixer Inspector is now a dropdown menu which lists all the threshold calculation functions.</li>
+<li>The "Threshold" header in the Mixer Inspector is now a dropdown menu which lists all the threshold calculation functions. <a href="https://github.com/KybernetikGames/animancer/issues/12">#12</a></li>
 </ul>
 </li>
 <li>The <code>Find Animations</code> context menu function for <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s now properly supports undo commands.</li>
@@ -482,7 +485,7 @@
 <li>Removed incorrect <code>[Obsolete]</code> attributes from the Transition Asset classes in Animancer Pro.</li>
 <li>Changed all <code>[Obsolete]</code> attributes to use fully qualified names to avoid issues where they are runtime-only in scripts without <code>using System;</code>.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> to initialise its always expanded mode properly.</li>
-<li>Fixed broken UI buttons in some of the example scenes: Creatures, Interrupt Management, and More Brains.</li>
+<li>Fixed broken UI buttons in some of the example scenes: Creatures, Interrupt Management, and More Brains. <a href="https://github.com/KybernetikGames/animancer/issues/5">#5</a></li>
 </ul>
 <h1 id="beta-4">Beta 4</h1>
 <blockquote class="blockquote">
@@ -516,7 +519,7 @@
 <li>States are no longer expanded by default.</li>
 <li>It now automatically recreates the transition state when it starts playing or sets the time to make sure it is up to date.</li>
 <li>Fixed exception in <code>PlayTransition</code> if the next animation is cleared after the current animation starts.</li>
-<li>Fixed exceptions when using the preview button inside the window to close it.</li>
+<li>Fixed exceptions when using the preview button inside the window to close it. <a href="https://github.com/KybernetikGames/animancer/issues/6">#6</a></li>
 <li>Setting the time after the fade out now resets the transition state's time properly.</li>
 <li>It now repaints immediately in response to undo commands (specifically, whenever the scene is modified).</li>
 </ul>
@@ -652,7 +655,7 @@
 <li>It's on by default and can be disabled for individual children using the <code>SynchroniseChildren</code> array.</li>
 <li>This advantage can be seen in the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example. Enabling synchronisation on all animations gives the same result as the Blend Tree, meaning that the blending between <em>Idle</em> and <em>Walk</em> gives a much slower shuffle than it should. But disabling synchronisation on the <em>Idle</em> gives a much better result because there's no need for consistency between the timing of those two animations.</li>
 <li>They now override <code>IsLooping</code> to return true if any child state is looping.</li>
-<li>Optimised <code><a href="/animancer/api/Animancer/ManualMixerState/85F8DC3F">ManualMixerState.NewTime</a></code>.</li>
+<li>Optimised <code>ManualMixerState.NewTime</code>.</li>
 </ul>
 </li>
 <li>Added Timeline support:

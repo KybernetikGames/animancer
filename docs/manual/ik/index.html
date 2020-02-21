@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -77,7 +78,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#foot-ik">Foot IK</a></p>
 <p><a href="#ik-pass">IK Pass</a></p>
-<p><a href="#exposed-curves">Exposed Curves</a></p>
+<p><a href="#animated-properties">Animated Properties</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -325,6 +326,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -389,34 +391,53 @@
 <img src="ik-pass.gif" class="img-responsive">
 </p></details><p></p>
 <p>As outlined in the <a href="../../introduction/features#unity-versions">Unity Versions</a> section, using the <em>IK Pass</em> with Animancer requires Unity 2018.1 or newer. However, 2018.3 is recommended because a bug in earlier versions prevented the <code>OnAnimatorIK</code> method from being called while fading between animations (specifically, it would only be called while at least one animation had its <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a> == 1</code>). This only applies to Unity's inbuilt <em>IK Pass</em> so other systems that do not use the <code>OnAnimatorIK</code> method will not have the same issue.</p>
-<h1 id="exposed-curves">Exposed Curves</h1>
-<p>It is quite common to use an <code>AnimationCurve</code> in an <code>AnimationClip</code> to control the weight of the IK.</p>
+<h1 id="animated-properties">Animated Properties</h1>
+<p>It is quite common to use an <code>AnimationCurve</code> in an <code>AnimationClip</code> to control the weight of the IK so that some parts of the animation use more IK than others. 0 means the limb will be fully controlled by the animation while 1 means the IK system will be fully in control, with anything inbetween giving a proportional amount of control.</p>
 <ul>
 <li>If the animation is imported as part of a model, you can add custom curves in the <span class="text-nowrap"><a href="https://docs.unity3d.com/Manual/AnimationCurvesOnImportedClips.html">Import Settings -&gt; Animation Tab -&gt; Curves (foldout near the bottom)</a>.</span></li>
 <li>Otherwise you can add custom curves using the Animation window.</li>
 </ul>
-<p>Normally to access a custom curve at runtime you would add a float parameter with the same name to your <code>AnimatorController</code> so that Unity will automatically update it and you can then read the value from that parameter to control the weight of the IK each frame. However, the Playables API has no such parameters, nor any similar method for evaluating an animation curve inside a clip (other than using a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> to play an <a href="animator-controllers">Animator Controller</a>). You could simply store the <code>AnimationCurve</code> separately from the <code>AnimationClip</code>, but it is usually much easier to set up as part of the animation so that you can preview it as you configure the curve relative to the timing of the animation.</p>
-<img src="exposed-curve.png" class="img-responsive img-right">
-<p>Animancer uses <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code>s to solve this problem by extracting a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serializing it in the <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code> so it can be evaluated at runtime:</p>
-<ol>
-<li>Create an <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code> using <em>Assets/Create/Animancer/Exposed Curve</em>.</li>
-<li>Assign the <code>AnimationClip</code> containing the curve and enter the <code>Property Name</code> of the curve.</li>
-<li>Any future changes to the original curve in the <code>AnimationClip</code> will automatically be retrieved by the <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code>. Unfortunately it is not currently possible to edit the curve using the <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code> Inspector. You need to edit the curve in the Animation window or the model import settings.</li>
-<li>Reference that asset in your script and evaluate it during <code>OnAnimatorIK</code> to determine how much weight to give the IK system during each frame. 0 means the limb will be fully controlled by the animation while 1 means the IK system will be fully in control.</li>
-</ol>
-<pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+<p>Normally to access a custom curve at runtime you would add a float parameter with the same name to your <a href="../animator-controllers">Animator Controller</a> so that Unity will automatically update it and you can then read the value from that parameter to control the weight of the IK each frame. In Animancer, this is done using an <code>AnimatedProperty</code> instead:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
-[SerializeField]
-private <a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a> _LeftFootWeight;
+// Requires Unity 2019.1+. See below for details.
+private AnimatedProperty _LeftFootWeight;
+
+private void Awake()
+{
+    _Animancer.Layers[0].ApplyAnimatorIK = true;
+
+    _LeftFootWeight = new AnimatedProperty(_Animancer, AnimatedProperty.Type.Float, "LeftFootIK");
+}
 
 private void OnAnimatorIK(int layerIndex)
 {
-    var weight = _LeftFootWeight.Evaluate(_Animancer);
-    _Animancer.Animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, weight);
+    float currentWeight = _LeftFootWeight.FloatValue;
+
+    ...
 }
 </code></pre>
 <p>The <a href="../../examples/ik/uneven-ground">Uneven Ground</a> example demonstrates the use of this feature in more detail.</p>
+<h2 id="exposed-curves">Exposed Curves</h2>
+<img src="exposed-curve.png" class="img-responsive img-right">
+<p>The <code>AnimatedProperty</code> class uses the Animation Job system introduced in Unity 2019.1 and there is no straightforward way of accessing custom curves at runtime in older versions of Unity. Previous versions of Animancer worked around this problem using an <code>ExposedCurve</code> class which can now be <a href="ExposedCurve.cs">downloaded from here</a>. That class avoids problem by extracting a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serializing it in the <code>ExposedCurve</code> so it can be evaluated at runtime:</p>
+<ol>
+<li>Create an <code>ExposedCurve</code> using <em>Assets/Create/Animancer/Exposed Curve</em>.</li>
+<li>Assign the <code>AnimationClip</code> containing the curve and enter the <code>Property Name</code> of the curve.</li>
+<li>Any future changes to the original curve in the <code>AnimationClip</code> will automatically be retrieved by the <code>ExposedCurve</code>. Unfortunately it is not currently possible to edit the curve using the <code>ExposedCurve</code> Inspector. You need to edit the curve in the Animation window or the model import settings.</li>
+<li>Reference that asset in your script and evaluate it during <code>OnAnimatorIK</code> to determine how much weight to give the IK system during each frame:</li>
+</ol>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private ExposedCurve _LeftFootWeight;
+
+private void OnAnimatorIK(int layerIndex)
+{
+    var currentWeight = _LeftFootWeight.Evaluate(_Animancer);
+
+    ...
+}
+</code></pre>
+<p>Note that an <code>ExposedCurve</code> can only evaluate the target curve from a single animation where an <code>AnimatedProperty</code> will automatically <a href="../blending">Blend</a> the value according to all the animations currently playing.</p>
 
 	</section>
                 

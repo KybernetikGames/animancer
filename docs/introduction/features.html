@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -329,6 +330,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -478,20 +480,19 @@ summary
   <tr>
     <td><details><summary>Use Animation Curves to control custom parameters</summary>
       <p>If a parameter in an Animator Controller has the same name as a curve in any of the animations it is playing, Mecanim will automatically update that parameter every frame with the value of the curve at the current animation time. If it is blending between multiple animations with the same curve, the value of the parameter will also be blended between them.</p>
-      <p>Unfortunately, the Playables API (and thus the other animation systems) does not allow any similar access to the curves inside an <code>AnimationClip</code> at runtime.</p>
-      Animancer partially works around this problem using <a href="../manual/ik#exposed-curves">Exposed Curves</a> which extract a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed at runtime. However, this approach is much less convenient and does not have the same inherent blending that Mecanim does. The <a href="../examples/ik/uneven-ground">Uneven Ground</a> example demonstrates how to use them.</details></td>
+      Animancer supports the same thing with <a href="../manual/ik#animated-properties">Animated Properties</a> as demonstrated in the <a href="../examples/ik/uneven-ground">Uneven Ground</a> example. They require Unity 2019.1+, though older versions can use <a href="../manual/ik#exposed-curves">Exposed Curves</a> which are a bit less convenient.</details></td>
     <td class="y">
     </td><td class="n">
     </td><td class="n">
-    </td><td class="n"><a href="#animator-controller">[2]</a></td>
-    <td class="n"><a href="#animator-controller">[2]</a></td>
-  </tr>
+    </td><td class="y">
+    </td><td class="y">
+  </td></tr>
   
   <tr>
     <td><details><summary>Well documented source code included</summary>
       <p>Animancer Pro includes the full source code so that you can look through it, debug problems, and make any necessary modifications without being dependant on the author for help.</p>
       <p>The <a href="../source/dlls"><em>Animancer.Lite.dll</em></a> files in the Pro package are empty dummies to ensure seamless upgrades from Lite to Pro. They contain no code and are not included in builds.</p>
-      Animancer Lite only includes the source code for <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the scripts in the <em>Assets/Plugins/Animancer/Utilities</em> folder which includes <code>Animancer.FSM</code> (the entire <a href="../manual/fsm">State Machine</a> system), <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, and <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code>, as well as several others (and of course the full source code of all the <a href="../examples/">example scenes</a>).</details></td>
+      Animancer Lite only includes the source code for <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the scripts in the <em>Assets/Plugins/Animancer/Utilities</em> folder which includes <code>Animancer.FSM</code> (the entire <a href="../manual/fsm">State Machine</a> system), <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, and <code>ExposedCurve</code>, as well as several others (and of course the full source code of all the <a href="../examples/">example scenes</a>).</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -865,7 +866,7 @@ animancer.Play("Attack");
 <tr>
 <td>Curve Driven Parameters</td>
 <td>No</td>
-<td>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/ik#exposed-curves">Exposed Curves</a> section for more details.</td>
+<td>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code>ExposedCurve</code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/ik#exposed-curves">Exposed Curves</a> section for more details.</td>
 </tr>
 <tr>
 <td><code>StateMachineBehaviour</code></td>

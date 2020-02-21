@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -330,6 +331,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview active selected">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -391,7 +393,7 @@
 <li>All transition types now have a corresponding <a href="#transition-assets">Transition Asset</a> type.</li>
 <li>Added support for Unity 2019.3 (most upgrades are fine, but that one broke a lot of things).</li>
 <li>Added <a href="../../examples/fsm/weapons">Weapons</a> example as well as instructions for downloading animations from <a href="../../manual/getting/mixamo">Mixamo</a> and configure their <a href="../../manual/getting/importing">Import</a> settings.</li>
-<li>Added a <a href="../../introduction/cs">C# in Unity</a> section to explain the fundamentals of programming in Unity for beginners.</li>
+<li>Added a <a href="../../introduction/cs">C# in Unity</a> section to explain the fundamentals of programming in Unity for beginners. <a href="https://github.com/KybernetikGames/animancer/issues/7">#7</a></li>
 </ul>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>The main public API has been significantly restructured in several ways which will affect all users, so this section will help you fix the errors you get when upgrading a project from an earlier version.</p>
@@ -707,7 +709,7 @@ public void Attack()
 <li>Changed <code>AnimancerState.IsPlayingAndNotEnding</code> to not try to look ahead one frame because it was only using the delta time from the previous frame so it was unreliable at best and wouldn't even be using the right type of delta time for <code>AnimatePhysics</code> or <code>UnscaledTime</code>. But it does now account for the new End Event time.</li>
 <li>Changed the Inspector display of <code>"Dirty Early Nodes"</code> to <code>"Updatables"</code>.</li>
 <li>Moved <code>AnimancerNode.IsPlaying</code> to <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> since layers do not need it.</li>
-<li>Added <code><a href="/animancer/api/Animancer/AnimancerState/11CDCE47">AnimancerState.NewTime</a></code> which only gets called when the <code>Time</code> is actually changed and is virtual.
+<li>Added <code>AnimancerState.NewTime</code> which only gets called when the <code>Time</code> is actually changed and is virtual.
 <ul>
 <li>Added a minor optimisation in the setter to only cast the value to <code>double</code> once.</li>
 <li>Moved time caching from <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to the base <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> so it can be used by all states.</li>
@@ -763,6 +765,7 @@ public void Attack()
 <li><code><a href="/animancer/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> now sets the speed to infinity if the value is set to 0.</li>
 <li>The <code><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">AnimancerNode.Speed</a></code> and <code>Weight</code> setters now assert that the value is not NaN.</li>
 <li>Added <code>Restore Bind Pose</code> context menu function to <code>Animator</code> components.</li>
+<li>The "Threshold" header in the Mixer Inspector is now a dropdown menu which lists all the threshold calculation functions. <a href="https://github.com/KybernetikGames/animancer/issues/12">#12</a></li>
 <li>Adding a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to an object with an <code>AnimatorController</code> assigned to its <code>Animator</code> will now assign that controller to the animancer instead of only clearing it.</li>
 <li>Removed unnecessary calls to <code>SetInputCount</code> and <code>SetInputWeight</code> during <code>AnimancerPlayable.OnPlayableCreate</code>.</li>
 <li>Minor optimisation in <code>AnimancerNode.ApplyWeight</code>.</li>
@@ -869,7 +872,7 @@ public void Attack()
 <li>It now includes Animancer Events and much more detail about how to set everything up.</li>
 </ul>
 </li>
-<li><a href="../../examples/fsm/more-brains">More Brains</a> now enables and disables the brains in code when swapping them instead of using the <code>UnityEvent</code>s on the   UI Buttons.</li>
+<li><a href="../../examples/fsm/more-brains">More Brains</a> now enables and disables the brains in code when swapping them instead of using the <code>UnityEvent</code>s on the UI Buttons. <a href="https://github.com/KybernetikGames/animancer/issues/10">#10</a></li>
 <li>Improved <a href="../../examples/fsm/platformer">Platformer</a>:
 <ul>
 <li>Added an introduction sequence using <a href="#timeline">Timeline</a>.</li>
@@ -887,7 +890,7 @@ public void Attack()
 <li><a href="../../examples/animator-controllers/hybrid">Hybrid Mini Game</a> now has the character walk into and out of the mini game rather than teleporting.</li>
 <li>Improved <a href="../../examples/animator-controllers/3d-game-kit">3D Game Kit</a>:
 <ul>
-<li>It is now based on the 3D Game Kit Lite since the full version is a massive pain to download and import.</li>
+<li>It is now based on the 3D Game Kit Lite since the full version is a massive pain to download and import. <a href="https://github.com/KybernetikGames/animancer/issues/11">#11</a></li>
 <li>It now shows which system (Animancer or Mecanim) is active and lets you swap between them with keyboard controls instead of UI  Buttons.</li>
 <li>It now uses custom end times as part of each transition rather than End Animation Events or separate end time fields.</li>
 <li>The root object is now separate from the model with <code>RootMotionRedirect</code> passing on the root motion.</li>

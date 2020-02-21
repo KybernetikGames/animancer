@@ -58,7 +58,8 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
@@ -163,7 +164,6 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
-				<li><a href="/animancer/api/Animancer/ExposedCurve">ExposedCurve</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerTransition">Float1<wbr>Controller<wbr>Transition</a></li>
@@ -496,8 +496,18 @@ class Type type-node
 								<td>int</td>
 								<td>
 									<div>
-    The <code class="cs">Animancer.ObjectPool`1.Capacity</code> for <code class="cs">Animancer.AnimancerEvent.Sequence</code> and
-    <code class="cs">Animancer.AnimancerState.EventUpdatable</code>.
+    The capacity of the internal list in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventRunner</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/11BC5AD1">EventPoolCount</a></td>
+								<td>int</td>
+								<td>
+									<div>
+    The number of spare items in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventRunner</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 											<div><small><em>static</em></small></div>
@@ -669,17 +679,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/ControllerState/822DBACC">NewTime</a></td>
-								<td>float</td>
-								<td>
-									<div>
-    The <code class="cs">UnityEngine.AnimatorStateInfo.normalizedTime</code> * <code class="cs">UnityEngine.AnimatorStateInfo.length</code> of the
-    <code class="cs">Animancer.ControllerState.StateInfo</code>
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/617EFC91">NormalizedTime</a></td>
 								<td>float</td>
 								<td>
@@ -787,6 +786,17 @@ class Type type-node
 								<td>Animator<wbr>Controller<wbr>Playable</td>
 								<td>
 									<div>The internal system which plays the <code class="cs">UnityEngine.RuntimeAnimatorController</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ControllerState/2E9955F7">RawTime</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The <code class="cs">UnityEngine.AnimatorStateInfo.normalizedTime</code> * <code class="cs">UnityEngine.AnimatorStateInfo.length</code> of the
+    <code class="cs">Animancer.ControllerState.StateInfo</code>
+    </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
 							</tr>
@@ -909,6 +919,17 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Sets the `currentObject` and calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code>. If the `currentObject` was
+    being used as the <code class="cs">Animancer.AnimancerState.Key</code> then it is changed as well.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/2BA3355C">ConnectToGraph<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -916,6 +937,14 @@ class Type type-node
     Connects the <code class="cs">Animancer.AnimancerNode._Playable</code> to the <code class="cs">Animancer.AnimancerNode.Parent</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ControllerState/3344CA29">CreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Creates and assigns the <code class="cs">Animancer.AnimancerNode._Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1038,6 +1067,22 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/531570FA">RecreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code> and creates a new one using <code class="cs">Animancer.AnimancerNode.CreatePlayable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/F6B6D11D">Recreate<wbr>Playable<wbr>Recursive<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code> on this node and all its children recursively.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/ControllerState/DFCCF6EE">ResetToDefaultStates<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -1045,6 +1090,18 @@ class Type type-node
     Resets all layers to their default state.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/953157FA">SetMinEventPoolCount<wbr>(int)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    If the <code class="cs">Animancer.AnimancerState.EventPoolCount</code> is less than the specified value, this method increases it to that
+    value by creating new objects.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1143,13 +1200,11 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/D7CCC2A6">IsValid<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerUtilities/0618A072">IsValid<wbr>()<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Returns true if the `node` is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.
-    </div>
-										<div><small><em>From <a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></em></small></div>
+									<div>Returns true if the `node` is not null and <code class="cs">Animancer.AnimancerNode.IsValid</code>.</div>
+										<div><small><em>From <a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></em></small></div>
 								</td>
 							</tr>
 					</tbody></table>
