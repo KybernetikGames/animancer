@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -333,6 +333,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
@@ -619,29 +620,28 @@ public override bool StickToGround { get { return false; } }
   </tbody>
 </table>
 <p>The Animancer character solves this issue in the <code>Creature.GetRootMotion</code> method by making it so that most states will only apply root motion in the exact direction the <code>Creature.Brain</code> is actually trying to go and ignore any portion of the movement which is perpendicular to that direction. The result is a far more responsive character, but in exchange the root motion is not exactly what the animations would normally apply so it is trading visual realism for smoother controls.</p>
-<pre><code class="language-cs">private Vector3 GetRootMotion()
+<pre><code class="language-cs">// Inspector toggle so you can easily compare raw root motion with controlled motion.
+[SerializeField]
+private bool _FullMovementControl = true;
+
+private Vector3 GetRootMotion()
 {
-    var movement = StateMachine.CurrentState.RootMotion;
-
-    // If the current state wants full movement control.
-    if (_FullMovementControl &amp;&amp; StateMachine.CurrentState.FullMovementControl)
-    {
-        // And we are actually trying to move.
-        var direction = _Brain.Movement;
-        direction.y = 0;
-        if (direction == Vector3.zero)
-        {
-            movement = Vector3.zero;
-        }
-        else
-        {
-            // Then calculate the attempted movement in that direction and use only that.
-            var magnitude = Vector3.Dot(direction.normalized, movement);
-            movement = direction * magnitude;
-        }
-    }
-
-    return movement;
+    var motion = StateMachine.CurrentState.RootMotion;
+    
+    if (!_FullMovementControl ||// If Full Movement Control is disabled in the Inspector.
+        !StateMachine.CurrentState.FullMovementControl)// Or the current state does not want it.
+        return motion;// Return the raw Root Motion.
+    
+    // If the Brain is not trying to move, we do not move.
+    var direction = _Brain.Movement;
+    direction.y = 0;
+    if (direction == Vector3.zero)
+        return Vector3.zero;
+    
+    // Otherwise calculate the Root Motion only in the specified direction.
+    direction.Normalize();
+    var magnitude = Vector3.Dot(direction, motion);
+    return direction * magnitude;
 }
 </code></pre>
 <h1 id="acceleration">Acceleration</h1>

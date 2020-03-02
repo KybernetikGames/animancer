@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -322,6 +322,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
@@ -358,37 +359,21 @@
 		</section>
 	<section class="content">
 		<p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase Animancer Pro.</em></p>
-<p>You can implement your own state type by inheriting from <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> (or any type derived from it). When doing so it is recommended that you start with the template below to include the common constructors.</p>
-<p><strong>Note that setting the base <code>AnimancerNode._Playable</code> is mandatory</strong>, otherwise you will get the following exception in various places throughout the system: <code>ArgumentException: The playable passed as an argument is invalid. To create a valid playable, please use the appropriate Create method</code>.</p>
+<p>You can implement your own state type by inheriting from <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> (or any type derived from it). Every state must override <code>CreatePlayable</code> to set the <code>AnimancerNode._Playable</code>, otherwise you will get the following exception in various places throughout the system: <code>ArgumentException: The playable passed as an argument is invalid. To create a valid playable, please use the appropriate Create method</code>.</p>
 <pre><code class="language-cs">using Animancer;
  
 public sealed class MyState : <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>
 {
-    // If you use this constructor you will need to use SetParent to connect
-    // the playable to the graph.
-    public MyState(AnimancerPlayable root)
+    private AnimationClip _Clip;
+
+    public ClipState(AnimationClip clip)
     {
-        // Set the playable. THIS IS MANDATORY.
-        // For example, <a href="/animancer/api/Animancer/ClipState">ClipState</a> has an AnimationClip parameter and calls:
-        _Playable = AnimationClipPlayable.Create(graph, clip);
+        _Clip = clip;
     }
 
-    // Extra constructors for convenience.
-
-    // Note that <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> can be implicitly cast to
-    // <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> to use their default layer in this constructor.
-    // This is the most commonly used constructor.
-    public MyState(AnimancerLayer layer)
-        : this(layer.Root)
+    protected override void CreatePlayable()
     {
-        layer.AddChild(this);
-    }
-
-    // This one is for AnimationMixers so you can specify any index you want.
-    public MyState(AnimancerNode parent, int index)
-        : this(parent.Root)
-    {
-        SetParent(parent, index);
+        _Playable = AnimationClipPlayable.Create(Root._Graph, _Clip);
     }
 }
 </code></pre>

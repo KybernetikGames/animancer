@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -80,7 +80,6 @@
 <p><a href="#Syntax">Syntax</a></p>
 <p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Constructors">Constructors</a></p>
-<p><a href="#fields">Fields</a></p>
 <p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <p><a href="#ExtensionMethods">Extension Methods</a></p>
@@ -267,10 +266,10 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>								
 											<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>								
-											<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>								
 											<li><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></li>								
+											<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>								
 									</ul>
 								</dd>			
 							
@@ -294,14 +293,14 @@
 	click Interface4 "/animancer/api/Animancer/IAnimationClipCollection"
 	Type["AnimancerState"]
 class Type type-node
-	Derived0["MixerState"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/MixerState"
-	Derived1["ClipState"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/ClipState"
-	Derived2["PlayableAssetState"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/PlayableAssetState"
-	Derived3["ControllerState"]--&gt;Type
-	click Derived3 "/animancer/api/Animancer/ControllerState"
+	Derived0["ClipState"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/ClipState"
+	Derived1["ControllerState"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/ControllerState"
+	Derived2["MixerState"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/MixerState"
+	Derived3["PlayableAssetState"]--&gt;Type
+	click Derived3 "/animancer/api/Animancer/PlayableAssetState"
 
 						</div>
 					</div>
@@ -362,6 +361,10 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/5C6F2735">AnimancerState<wbr>()<wbr></a></td>
+									<td>Constructs a new <code class="cs">Animancer.AnimancerState</code>.</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/D6C4DE3D">AnimancerState<wbr>(AnimancerPlayable)<wbr></a></td>
 									<td>Constructs a new <code class="cs">Animancer.AnimancerState</code>.</td>
 							</tr>
@@ -371,29 +374,6 @@ class Type type-node
 		
 
 
-			<h1 id="fields">Fields</h1>
-			<div class="box">
-				<div class="box-body no-padding table-responsive">
-					<table class="table table-striped table-hover three-cols">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Constant Value</th>
-								<th>Summary</th>
-							</tr>
-						</thead>
-							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/C3A30F31">Root</a></td>
-								<td></td>
-								<td>
-									<div>The <code class="cs">Animancer.AnimancerPlayable</code> at the root of the graph.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
-								</td>
-							</tr>
-					</tbody></table>
-				</div>
-			</div>
-		
 
 			<h1 id="Properties">Properties</h1>
 			<div class="box">
@@ -407,36 +387,33 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/06BE7F07">ApplyAnimatorIK</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/85733842">ApplyAnimatorIK</a></td>
 								<td>bool</td>
 								<td>
 									<div>
-    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object.
-    The initial value is determined by <code class="cs">Animancer.AnimancerLayer.DefaultApplyAnimatorIK</code>.
+    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object while this
+    node is active. The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyAnimatorIK</code>.
     <p></p>
-    This is equivalent to the "IK Pass" toggle in Animator Controller layers, except that due to limitations in
-    the Playables API the <code class="cs">layerIndex</code> will always be zero.
+    This is equivalent to the "IK Pass" toggle in Animator Controller layers.
     <p></p>
     It requires Unity 2018.1 or newer, however 2018.3 or newer is recommended because a bug in earlier versions
-    of the Playables API caused this value to only take effect while a state was at
-    <code class="cs">Animancer.AnimancerNode.Weight</code> == 1 which meant that IK would not work while fading between animations.
-    <p></p>
-    Returns false and does nothing if this state does not support IK.
+    of the Playables API caused this value to only take effect while a state was at <code class="cs">Animancer.AnimancerNode.Weight</code> == 1
+    which meant that IK would not work while fading between animations.
     </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/7A656C3D">ApplyFootIK</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/491B2595">ApplyFootIK</a></td>
 								<td>bool</td>
 								<td>
 									<div>
-    Indicates whether this state is applying IK to the character's feet.
-    The initial value is determined by <code class="cs">Animancer.AnimancerLayer.DefaultApplyFootIK</code>.
+    Determines whether this node is applying IK to the character's feet.
+    The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code>.
     <p></p>
     This is equivalent to the "Foot IK" toggle in Animator Controller states.
-    <p></p>
-    Returns false and does nothing if this state does not support IK.
     </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -710,6 +687,14 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/F1D5A1C8">Root</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerPlayable</code> at the root of the graph.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></td>
 								<td>float</td>
 								<td>
@@ -801,6 +786,13 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/7366C13A">CancelSetTime<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Prevents the <code class="cs">Animancer.AnimancerState.RawTime</code> from being applied.</div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -833,6 +825,14 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/D707FF1B">DestroyPlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -909,7 +909,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerNode/057FFBCF">OnAddChild<wbr>(IList<wbr>&lt;<wbr>Animancer<wbr>State&gt;<wbr>, <wbr>AnimancerState)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Connects the `state` to the `mixer` at its <code class="cs">Animancer.AnimancerNode.Index</code>.</div>
+									<div>Connects the `state` to this node at its <code class="cs">Animancer.AnimancerNode.Index</code>.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
@@ -943,6 +943,17 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/F21BAAA0">RequireUpdate<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerPlayable.RequireUpdate(Animancer.AnimancerNode)</code> as long as the <code class="cs">Animancer.AnimancerNode.Root</code> is not
+    null.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/953157FA">SetMinEventPoolCount<wbr>(int)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -963,6 +974,13 @@ class Type type-node
     See also <code class="cs">Animancer.AnimancerLayer.AddChild(Animancer.AnimancerState)</code> to connect a state to an available port on a
     layer.
     </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/88069733">SetRoot<wbr>(AnimancerPlayable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerPlayable</code> at the root of the graph.</div>
 								</td>
 							</tr>
 							<tr>

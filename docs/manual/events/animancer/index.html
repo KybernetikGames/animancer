@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -330,6 +330,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
@@ -372,11 +373,21 @@
 <p><img src="animancer-event-inspector.gif" class="img-responsive"></p>
 <ul>
 <li>The <a href="../../transitions#previews">Transition Preview Window</a> can be useful to see what the animated character will look like when the event occurs.</li>
-<li>You can select and edit events one at a time, or you can click the foldout arrow next to the timeline to instead show all of the events at once.</li>
-<li>You can Double Click in the timeline to add an event at that time.</li>
 <li>A transition defines how it fades in but not how it fades out (because that gets determined by the next transition), so the Inspector timeline display simply uses a default value. If the end time is less than the animation length, it shows the fade out ending at the end of the animation. Or if the end time is greater than the length, it shows the default 0.25 second fade.</li>
 <li>Event <a href="../../transitions#time-fields">Time Fields</a> are always serialized as normalized time, regardless of which field you use to enter the value.</li>
-<li>Every script using a <a href="../../transitions">Transition</a> to play a particular animation will have its own sequence of events for that animation, but you can also use <a href="../../transitions/types#transition-assets">Transition Assets</a> so that any number of things can use the same asset and therefore the same events.</li>
+<li>Every script using a <a href="../../transitions">Transition</a> to play a particular animation will have its own sequence of events for that animation, but you can also use <a href="../../transitions/types#transition-assets">Transition Assets</a> so that any number of things can reference the same asset and therefore the same events.</li>
+</ul>
+<h2 id="controls">Controls</h2>
+<ul>
+<li>You can select and edit events one at a time, or you can click the foldout arrow next to the timeline to instead show all of the events at once.</li>
+<li>Double Click in the timeline to add an event at that time.</li>
+<li>With an event selected:
+<ul>
+<li>Left and Right Arrows nudge the event time one pixel to the side. <a href="https://github.com/KybernetikGames/animancer/issues/23">#23</a></li>
+<li>Holding Shift moves 10 pixels at a time.</li>
+<li>Space rounds off the event time by one digit. For example: <code>0.123</code> would become <code>0.12</code> and <code>0.999</code> would become <code>1</code>.</li>
+</ul>
+</li>
 </ul>
 <h1 id="events-in-code">Events in Code</h1>
 <p>Animancer Events can also be configured using code like so:</p>

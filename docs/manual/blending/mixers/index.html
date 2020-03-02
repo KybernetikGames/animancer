@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -327,6 +327,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
@@ -447,10 +448,10 @@ public sealed class LinearMixerExample : MonoBehaviour
     private void Awake()
     {
         // Make a new mixer and connect it to the default layer.
-        _MovementMixer = new LinearMixerState(_Animancer);
+        _MovementMixer = new LinearMixerState();
 
         // We could specify custom thresholds in the Initialise call,
-        // but since we aren't it will use 0 and 1 respectively.
+        // but since we are not it will use 0 and 1 respectively.
         // Other overloads take 3 clips, or an array of any number of clips.
         _MovementMixer.Initialise(_Idle, _Run);
 
@@ -513,12 +514,12 @@ public sealed class NestedMixerExample : MonoBehaviour
 
     private void Awake()
     {
-        _MovementMixer = new LinearMixerState(_Animancer);
+        _MovementMixer = new LinearMixerState();
 
         // Allocate 2 child states and assign the mixers to them.
         _MovementMixer.Initialise(2);
-        _MovementMixer.SetChild(0, _RegularMovement.CreateState(_Animancer));
-        _MovementMixer.SetChild(1, _InjuredMovement.CreateState(_Animancer));
+        _MovementMixer.SetChild(0, _RegularMovement.CreateState());
+        _MovementMixer.SetChild(1, _InjuredMovement.CreateState());
 
         // Set Thresholds[0] = 0 and Thresholds[1] = 1.
         // So _MovementMixer.Parameter = 0 will use _RegularMovement.

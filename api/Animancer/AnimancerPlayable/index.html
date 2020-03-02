@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -328,6 +328,36 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/AFA3F42A">ApplyAnimatorIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object for any
+    <code class="cs">Animancer.AnimancerPlayable.States</code>. The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyAnimatorIK</code> when a new
+    state is created and setting this value will also set the default.
+    <p></p>
+    This is equivalent to the "IK Pass" toggle in Animator Controller layers, except that due to limitations in
+    the Playables API the <code class="cs">layerIndex</code> will always be zero.
+    <p></p>
+    It requires Unity 2018.1 or newer, however 2018.3 or newer is recommended because a bug in earlier versions
+    of the Playables API caused this value to only take effect while at least one state was at
+    <code class="cs">Animancer.AnimancerNode.Weight</code> = 1 which meant that IK would not work while fading between animations.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/CF5207DD">ApplyFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Determines whether any of the <code class="cs">Animancer.AnimancerPlayable.States</code> in this layer are applying IK to the character's feet.
+    The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code> when a new state is created.
+    <p></p>
+    This is equivalent to the "Foot IK" toggle in Animator Controller states (applied to the whole layer).
+    </div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/7C4112E5">CommandCount</a></td>
 								<td>int</td>
 								<td>
@@ -361,6 +391,30 @@ class Type type-node
     The <code class="cs">UnityEngine.AnimationEvent</code> called 'End' which is currently being triggered.
     </div>
 											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/83691791">Default<wbr>Apply<wbr>Animator<wbr>I<wbr>K</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Determines the default value of <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> for all new states created in
+    this layer. Default false.
+    <p></p>
+    It requires Unity 2018.1 or newer, however 2018.3 or newer is recommended because a bug in earlier versions
+    of the Playables API caused this value to only take effect while at least one state was at
+    <code class="cs">Animancer.AnimancerNode.Weight</code> = 1 which meant that IK would not work while fading between animations.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/2D2E39F7">DefaultApplyFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Determines the default value of <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> for all new states created in this
+    layer. Default false.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -804,8 +858,13 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Adds the `node` to the list that need to be updated if it wasn't there already.
+    Adds the `node` to the list that need to be updated if it was not there already.
+    <p></p>
     This method is safe to call at any time, even during an update.
+    <p></p>
+    The execution order of nodes is non-deterministic. Specifically, the most recently added will be
+    updated first and <code class="cs">Animancer.AnimancerPlayable.CancelUpdate(Animancer.AnimancerNode)</code> will change the order by swapping the last one
+    into the place of the removed element.
     </div>
 								</td>
 							</tr>
@@ -814,13 +873,13 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Adds the `updatable` to the list of objects that need to be updated if it wasn't there already.
+    Adds the `updatable` to the list of objects that need to be updated if it was not there already.
     <p></p>
     This method is safe to call at any time, even during an update.
     <p></p>
     The execution order of updatables is non-deterministic. Specifically, the most recently added will be
-    updated first and <code class="cs">Animancer.AnimancerPlayable.CancelUpdate(Animancer.IUpdatable)</code> will change the order by swapping the last one into the place
-    of the removed element.
+    updated first and <code class="cs">Animancer.AnimancerPlayable.CancelUpdate(Animancer.IUpdatable)</code> will change the order by swapping the last one
+    into the place of the removed element.
     </div>
 								</td>
 							</tr>

@@ -58,7 +58,7 @@
                         <ul class="nav navbar-nav">                            
                                     <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
         <li><a href="https://kybernetik.itch.io/animancer"><img src="/animancer/images/itch.png" height="20" style="position:relative; left:-4px; top:-1px;"> Itch</a></li>
         <li><a href="/animancer/lite"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Try</a></li>
         <li><a href="/animancer/pro"><img src="/animancer/images/unity-logo.png" height="20" style="position:relative; left:-4px; top:-1px;"> Buy</a></li>
@@ -326,6 +326,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
@@ -363,28 +364,47 @@
 	<section class="content">
 		<p>The most common form of animation uses Forward Kinematics where each bone is given a specific rotation which it adds to the rotation of its parent. So you rotate the shoulder and the elbow moves accordingly because it is a child of the shoulder. You rotate the elbow and the hand moves accordingly. And so on.</p>
 <p>But sometimes it is desirable to directly control the end point instead. With Inverse Kinematics, you specify the desired position of a hand or foot and the IK system figures out how to rotate the bones to get it there. This can be used to have a hand reach a specific point such as a door handle or adjusting the height of a foot to match the terrain.</p>
-<p>Animancer allows you to use Unity's inbuilt <a href="https://docs.unity3d.com/Manual/InverseKinematics.html">Humanoid IK</a> system in mostly the same way you would with Mecanim. The main difference is that you enable it by setting <code><a href="/animancer/api/Animancer/AnimancerLayer/0A02E3C9">AnimancerLayer.ApplyFootIK</a></code> or <code><a href="/animancer/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a></code> (or the same properties in a specific <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>) instead of enabling it with toggles in an Animator Controller.</p>
+<p>Animancer allows you to use Unity's inbuilt <a href="https://docs.unity3d.com/Manual/InverseKinematics.html">Humanoid IK</a> system in mostly the same way you would with Mecanim. The main difference is that you enable it by setting <code><a href="/animancer/api/Animancer/AnimancerNode/491B2595">AnimancerNode.ApplyFootIK</a></code> or <code><a href="/animancer/api/Animancer/AnimancerNode/85733842">AnimancerNode.ApplyAnimatorIK</a></code> on a state or layer instead of enabling it with toggles in an Animator Controller.</p>
 <p>You can also enable/disable IK using the <a href="../playing/inspector#context-menus">Context Menu Functions</a> in the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for testing purposes (the setting will not be stored in the scene or prefab, so you will always need to enable Ik with a script to use it at runtime).</p>
 <p>The <a href="../../examples/ik">Inverse Kinematics</a> examples demonstrate the use of this feature.</p>
 <h1 id="foot-ik">Foot IK</h1>
 <p><em>Foot IK</em> allows Unity to make the character's feet more closely match the original animation's positions after retargeting it from the animation's rig to the model's rig. This can help reduce foot sliding caused by differing rig proportions, but it also often has undesirable results so it should be selected on a case by case basis.</p>
 <pre><code class="language-cs">void EnableFootIK(AnimancerComponent animancer, AnimationClip clip)
 {
+    // Enable Foot IK for all new states by default:
+    animancer.Playable.DefaultApplyFootIK = true;
+
+    // Enable Foot IK for all states and set the default:
+    animancer.Playable.ApplyFootIK = true;
+
+    // Enable Foot IK for a specific layer:
+    animancer.Layers[0].ApplyFootIK = true;
+
+    // Enable Foot IK for a specific state (and any children if it is a mixer):
     var state = animancer.States.GetOrCreate(clip);
     state.ApplyFootIK = true;
-    // Can also be set per-layer like below.
 }
 </code></pre>
 <p></p><details><summary>This is equivalent to the <code>Foot IK</code> toggle in an Animator Controller state:</summary><p>
 <img src="foot-ik.png" class="img-responsive">
 </p></details><p></p>
-<p>Internally, when Unity creates an <code>AnimationClipPlayable</code> it actually starts with the <em>Foot IK</em> enabled by default. Unity Support says this is "by design" since they believe it looks better, however this default is not mentioned anywhere in the Unity Manual and many users complained about the foot pose being different from the original animation when using Animancer so it simply disables <em>Foot IK</em> when the playable is created (unless you set <code><a href="/animancer/api/Animancer/AnimancerLayer/2137BD67">AnimancerLayer.DefaultApplyFootIK</a> = true</code> beforehand).</p>
+<p>Internally, when Unity creates an <code>AnimationClipPlayable</code> it actually starts with the <em>Foot IK</em> enabled by default. Unity Support says this is "by design" since they believe it looks better, however this default is not mentioned anywhere in the Unity Manual and many users complained about the foot pose being different from the original animation when using Animancer so it simply disables <em>Foot IK</em> when the playable is created (unless you set <code><a href="/animancer/api/Animancer/AnimancerPlayable/2D2E39F7">AnimancerPlayable.DefaultApplyFootIK</a> = true</code> beforehand).</p>
 <h1 id="ik-pass">IK Pass</h1>
-<p>The <em>IK Pass</em> causes Unity to call the <code>OnAnimatorIK(int layerIndex)</code> method every frame in any scripts attached to the same object as the <code>Animator</code>.</p>
-<pre><code class="language-cs">void EnableIKPass(AnimancerComponent animancer, int layerIndex)
+<p>The <em>IK Pass</em> causes Unity to call the <code>OnAnimatorIK(int layerIndex)</code> method every frame in any scripts attached to the same object as the <code>Animator</code>. Unfortunately, due to limitations in the Playables API Unity will only ever call <code>OnAnimatorIK</code> with the <code>layerIndex = 0</code>.</p>
+<pre><code class="language-cs">void EnableIKPass(AnimancerComponent animancer, AnimationClip clip)
 {
-    animancer.Layers[layerIndex].ApplyAnimatorIK = true;
-    // Can also be set per-state like above.
+    // Enable IK Pass for all new states by default:
+    animancer.Playable.DefaultApplyAnimatorIK = true;
+
+    // Enable IK Pass for all states and set the default:
+    animancer.Playable.ApplyAnimatorIK = true;
+
+    // Enable IK Pass for a specific layer:
+    animancer.Layers[0].ApplyAnimatorIK = true;
+
+    // Enable IK Pass for a specific state (and any children if it is a mixer):
+    var state = animancer.States.GetOrCreate(clip);
+    state.ApplyAnimatorIK = true;
 }
 </code></pre>
 <p></p><details><summary>This is equivalent to the <code>IK Pass</code> toggle in an Animator Controller layer, except that due to limitations in the Playables API the <code>layerIndex</code> Unity passes into <code>OnAnimatorIK</code> will always be zero:</summary><p>
