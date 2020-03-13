@@ -59,7 +59,7 @@
                                     <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.3</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -324,6 +324,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
                 <li class="treeview">
@@ -380,7 +381,7 @@ void PlayAnimation()
 
 void OnAnimationEnd()
 {
-    Debug.Log("Animation ended");
+    Debug.Log(AnimancerEvent.State + " Ended");
 }
 </code></pre>
 <img src="end-event-inspector.png" class="img-responsive img-right">
@@ -391,7 +392,7 @@ void OnAnimationEnd()
 <li>End Events are <a href="../animancer#auto-clear">cleared whenever you play another animation</a>.</li>
 </ul>
 </li>
-<li>Where other events are only triggered once when the specified time passes, End Events are triggered every frame after that point. This ensures that even if the animation has already passed the end when you register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</li>
+<li>Where other events are only triggered once when the specified time passes, <strong>End Events are triggered every frame</strong> after that point. This ensures that even if the animation has already passed the end when you register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</li>
 <li>The default End Event time is <code>NaN</code>, which means that it automatically determines which time to actually use based on the play speed: positive speed plays forwards and ends at normalized time 1 while negative speed plays backwards and ends at 0).</li>
 <li>Despite the name, End Events do not inherently do anything to end the animation. You can do anything you want using the callback.</li>
 <li>You can also use <a href="../animation#end-animation-events">End Animation Events</a> to trigger whatever <code>OnEnd</code> callback you register, but that is generally much less convenient.</li>
