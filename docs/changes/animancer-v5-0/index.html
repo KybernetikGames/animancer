@@ -76,6 +76,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#major-features">Major Features</a></p>
 <p><a href="#minor-features">Minor Features</a></p>
+<p><a href="#changes">Changes</a></p>
 <p><a href="#improvements">Improvements</a></p>
 <p><a href="#fixes">Fixes</a></p>
 <hr class="infobar-hidden">
@@ -403,7 +404,7 @@
 <li>If you have any suggestions for other similar examples, please use any of the contact options on the <a href="../../help">Help</a> page.</li>
 </ul>
 </li>
-<li>Added <code>AnimancerPlayable.InsertOutputJob</code> and <code>AnimancerUtilities.RemovePlayable</code> to allow Animation Jobs to be easily added to the graph output.</li>
+<li>Added <code>AnimancerPlayable.InsertOutputJob</code>, <code>AnimancerPlayable.InsertOutputPlayable</code>, and <code>AnimancerUtilities.RemovePlayable</code> to allow Animation Jobs and other playables to be easily added to the graph output.</li>
 <li>Added <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list for easily registering objects that need to be cleaned up with the graph (mostly <code>NativeArray</code>s).</li>
 <li>Added <code>AnimancerUtilities.CreateNativeReference</code> to create single element arrays for easy data interactions in and out of jobs.</li>
 <li>Added several <code>MixerState.CreatePlayable&lt;T&gt;</code> and <code>Get</code>/<code>SetJobData</code> methods to use Animation Jobs in <a href="../../manual/blending/mixers">Mixer States</a> instead of the default <code>AnimationMixerPlayable</code>.</li>
@@ -416,11 +417,36 @@
 <li>Added <code>AnimationCurve</code> preset libraries for common easing functions which can be selected from the dropdown menu in the Presets area when editing an <code>AnimationCurve</code> field. Note that these curves were configured by hand with the minimum number of keyframes for efficiency. They do not cover the exact same set of functions as the <code><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></code> class and any that are the same will have slight differences.</li>
 </ul>
 </li>
+<li>Improved <a href="../../manual/transitions#previews">Transition Previews</a>:
+<ul>
+<li>You can now pan the camera using Left Click while Right Click still rotates it as before.</li>
+<li>Added settings to customise the movement and rotation sensitivity.</li>
+<li>Added a field for selecting a model with a dropdown that remembers previously used assets.</li>
+<li>It automatically picks a recently used model based on the best match of properties animated by the transition and properties that exist in each model.</li>
+<li>Added default human model (uses Animancer's <em>DefaultHumanoid</em> if it exists, otherwise it uses Unity's <em>DefaultAvatar</em> which is just the same model with a different texture).</li>
+<li>Fixed the grid to properly draw behind <code>Sprite</code>s.</li>
+<li>Added the ability to assign a custom floor material or disable the floor entirely because Scriptable Render Pipelines often break the default shader. <a href="https://github.com/KybernetikGames/animancer/issues/53">#53</a></li>
+<li>Fixed the internal details display to use the correct margins in both the Inspector and <code>TransitionPreviewWindow</code>.</li>
+<li><code>AnimancerState.RecreatePlayable</code> is now overridden by <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> to retain their parameter values.</li>
+<li>Fixed the preview time indicator in the <code><a href="/animancer/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> to work properly on transitions with a variable <code><a href="/animancer/api/Animancer/AnimancerState/E9649ABA">AnimancerState.Length</a></code> (<code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code>).</li>
+<li><code><a href="/animancer/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code> now stores exceptions in a list for the <code>TransitionPreviewWindow</code> to show instead of logging them.</li>
+</ul>
+</li>
 </ul>
 <h1 id="minor-features">Minor Features</h1>
 <ul>
+<li>Added <em>DefaultHumanoid</em> model (Unity's <em>DefaultAvatar</em> with a different texture) to replace the <em>LowPolyMan</em>.
+<ul>
+<li>Fixed the finger pose of all <em>Humanoid</em> animations (the <em>LowPolyMan</em> didn't have individual fingers).</li>
+</ul>
+</li>
+<li>Improved the <em>SpiderBot</em> model:
+<ul>
+<li>Cleaned up the naming conventions for bones, meshes, etc.</li>
+<li>Added foot bones so it can be used with Two Bone IK (one of the Animation Jobs examples).</li>
+</ul>
+</li>
 <li>Added <code><a href="/animancer/api/Animancer/LinearMixerState/96AB80DE">LinearMixerState.ExtrapolateSpeed</a></code> to allow parameter values above the highest threshold to increase the <code>Speed</code> of the mixer proportionally. This feature is enabled by default and you can try it out in the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example by simply increasing the maximum value of the UI Slider.</li>
-<li>Added the ability to assign a custom floor material or disable the floor entirely for the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> because Scriptable Render Pipelines often break the default shader. <a href="https://github.com/KybernetikGames/animancer/issues/53">#53</a></li>
 <li>Added <code>Start Time</code> field to <code><a href="/animancer/api/Animancer/Transition">ControllerState.Transition</a></code>.</li>
 <li>Added <code>AnimancerEvent.Sequence.AddCallback</code>.</li>
 <li>Added <code><a href="/animancer/api/Animancer/AnimancerPlayable/72BB059D">AnimancerPlayable.Graph</a></code> to expose the <code>PlayableGraph</code>. <a href="https://github.com/KybernetikGames/animancer/issues/48">#48</a>
@@ -447,42 +473,55 @@
 <li>Added <code><a href="/animancer/api/Animancer/WarningType">WarningType</a></code> enum with various extension methods in <code><a href="/animancer/api/Animancer/Validate">Validate</a></code> to standardise the way optional warning messages can be disabled.
 <ul>
 <li>These warnings can be disabled individually using <code>WarningType.X.Disable();</code>.</li>
-<li>Moved the duplicate event and unsupported event warnings to this system.</li>
+<li>Moved the Pro-Only, duplicate event, and unsupported event warnings to this system.</li>
 <li>Added a warning when attempting to enable IK on a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> or <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>.</li>
 <li>Added a warning when attempting to use Animancer Events on a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s explaining that it will probably not work as expected. <a href="https://github.com/KybernetikGames/animancer/issues/37">#37</a></li>
 <li>Added a warning for when an <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> is created for an inactive <code>GameObject</code> to explain that it needs to be manually destroyed if that object is never activated because Unity won't call <code>OnDestroy</code> otherwise.</li>
 <li>Added a warning for when adding the same callback to an <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> multiple times, even if the delegate's <code>Target</code> object is different. This allows it to detect situations where multiple objects are each adding their own version of an event to a shared sequence.</li>
+<li>Added a warning for when the <code>Animator.speed</code> is changed to explain that <code><a href="/animancer/api/Animancer/AnimancerPlayable/5840669B">AnimancerPlayable.Speed</a></code> needs to be used instead.</li>
 </ul>
 </li>
+<li>Added <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code> methods for <code>StringBuilder</code>s and replaced all standard usage with them.</li>
 </ul>
-<h1 id="improvements">Improvements</h1>
+<h1 id="changes">Changes</h1>
 <ul>
 <li>Changed <code>AnimancerLayer.Play</code> to only snap its <code>Weight = 1</code> if it was at 0 rather than if it was not at 1.</li>
-<li>Added <code>AnimancerUtilities.CreateStateAndApply</code> extension method for <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code>.</li>
+<li>Moved the editor version of <em>Animancer.Lite.dll</em> into the <em>Internal/Editor</em> folder since having it visible in the root <em>Animancer</em> folder serves no purpose.</li>
 <li>Mixers now initialise with empty arrays of states and thresholds so they don't need to null check them.</li>
-<li>Added <code>MixerState.DontSynchroniseChildren</code> which can be assigned to the <code>SynchroniseChildren</code> property to easily disable synchronisation for all children without needing to allocate an array of the correct size.</li>
-<li>Added <code>context</code> parameter to various log messages so that clicking them in the Console window will highlight the object that caused the message.</li>
-<li><code><a href="/animancer/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code> now stores exceptions in a list for the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> to show instead of logging them.</li>
-<li>Improved the "AnimancerNode.Root is null" exception message to explain that you probably just need to play the state or call <code>state.SetRoot(animancer)</code> before trying to access it.</li>
-<li>Added <code>Validate.AssertPlayable</code> to give a more useful error message if a state's <code>Playable</code> doesn't exist.</li>
 <li><code>ManualMixerState.Initialise(count)</code> now creates the <code>Playable</code> if the <code>Root</code> is set and simply changes the number of inputs if it already existed.</li>
-<li>The <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> and <code>TargetWeight</code> fields in the Inspector now silently clamp the value to be non-negative instead of letting the underlying properties throw exceptions.</li>
-<li>Middle clicking on live fields to reset them now deselects the active control since having a field selected would not display the modified value.</li>
+<li>Moved various functionality from <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code> into the base <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> so it can be used by custom mixers that don't want to inherit from <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>.</li>
+<li>The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector now always shows the <code><a href="/animancer/api/Animancer/AnimancerPlayable/FBD2FD77">AnimancerPlayable.IsGraphPlaying</a></code> field (instead of only when it is paused) and also shows its <code>Speed</code> field.</li>
 <li>Changed <code>Transition.CreateState</code> to a method because it doesn't make much sense as a property.</li>
-<li>All <code>Transition.CreateState</code> methods now set the <code>State</code> property.</li>
-<li>Added more specific exceptions for if you try to initialise a mixer without any clips or thresholds.</li>
 <li><code>AnimancerUtilities.AddAnimancerComponent</code> (an <code>Animator</code> extension method) now clears the <code>runtimeAnimatorController</code>.</li>
-<li>Animancer Lite now gives a Pro-Only warning when using a custom End Event Time.</li>
 <li>Removed the standard Animation Event receiver methods from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> since they are not very convenient to use anyway.
 <ul>
 <li>Added <code><a href="/animancer/api/Animancer/EndEventReceiver">EndEventReceiver</a></code> for receiving Animation Events with the Function Name "End" and moved all the related functionality out of <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> and <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>.</li>
 </ul>
 </li>
+<li>Standardised <code>AnimancerState.ToString</code> instead of having each child class implement its own.</li>
+<li>Split <code>AnimancerPlayable.AppendInternalDetails</code> out of <code>AppendDescription</code> so it can be used to display updatables, dirty nodes, and disposables in a single label.</li>
+<li><code>AnimationType.Sprite</code> now includes any object with only <code>SpriteRenderer</code>s in its children without any other <code>Renderer</code> types.</li>
+<li>Moved <code>GetParameterValue</code> (and <code>Set</code>) to <code><a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code>.</li>
+<li>Changed <code><a href="/animancer/api/Animancer/AnimancerPlayable/EA98B55C">AnimancerPlayable.FrameID</a></code> from <code>uint</code> to <code>ulong</code> to avoid the need for a cast.</li>
+<li><code><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">ScriptableObjectEditor</a></code> now displays its message about changes being undone when exiting Play Mode as a warning rather than info and only in Play Mode.</li>
+</ul>
+<h1 id="improvements">Improvements</h1>
+<ul>
+<li>Added <code>AnimancerUtilities.CreateStateAndApply</code> extension method for <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code>.</li>
+<li>Added <code>MixerState.DontSynchroniseChildren</code> which can be assigned to the <code>SynchroniseChildren</code> property to easily disable synchronisation for all children without needing to allocate an array of the correct size.</li>
+<li>Added <code>context</code> parameter to various log messages so that clicking them in the Console window will highlight the object that caused the message.</li>
+<li>Improved the "AnimancerNode.Root is null" exception message to explain that you probably just need to play the state or call <code>state.SetRoot(animancer)</code> before trying to access it.</li>
+<li>Added <code>Validate.AssertPlayable</code> to give a more useful error message if a state's <code>Playable</code> doesn't exist.</li>
+<li>Middle clicking on live fields to reset them now deselects the active control since having a field selected would not display the modified value.</li>
+<li>All <code>Transition.CreateState</code> methods now set the <code>State</code> property.</li>
+<li>Added more specific exceptions for if you try to initialise a mixer without any clips or thresholds.</li>
+<li>Added <code>ObjectPool.GetCachedResult</code> for easily creating <code>GUIStyle</code>s and other things that need caching.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
 <li>Fixed an exception when resizing transition arrays in the Inspector on a script without a custom Editor. <a href="https://github.com/KybernetikGames/animancer/issues/38">#38</a></li>
 <li>Fixed the <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> property to work properly for Mixers. <a href="https://github.com/KybernetikGames/animancer/issues/51">#51</a></li>
+<li>Fixed <code>ControllerState.Transition.NormalizedStartTime</code> to not interfere with resetting to the default states.</li>
 <li>Fixed <code>AnimancerNode.ParentEffectiveSpeed</code> to exclude the root because the delta time value already includes it.
 <ul>
 <li>This fixes cross fading to advance correctly when the root speed is not 1.</li>
@@ -490,6 +529,7 @@
 </ul>
 </li>
 <li>Fixed the <code><a href="/animancer/api/Animancer/MixerState/76784F91">MixerState.SynchroniseChildren</a></code> setter to correctly reset the speed of any children that were previously synced but aren't anymore.</li>
+<li>Fixed the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> and <code>TargetWeight</code> fields in the Inspector to silently clamp the value to be non-negative instead of letting the underlying properties throw exceptions.</li>
 <li>Fixed <code>AnimancerEvent.Sequence.CopyFrom</code> and the copy constructor to properly handle nulls.</li>
 <li>Fixed GUI Layout bug in <code>AnimancerPlayable.DoUpdateListGUI</code> if the lists are changed between Layout and Repaint events.</li>
 <li>Fixed <code>AnimancerLayer.Play</code> to respect <code>FadeMode.FromStart</code> when the <code>fadeDuration</code> is 0.</li>
@@ -497,6 +537,9 @@
 <li>Fixed <code>StackOverflowException</code> in <code><a href="/animancer/api/Animancer/LinearMixerState/BA35CFB6">LinearMixerState.Initialise(AnimationClip[], float, float)</a></code>.</li>
 <li>Fixed formatting of <code>AnimancerEvent.AppendDetails</code>.</li>
 <li>Fixed <code>HybridAnimancerComponent.Play</code> and <code>CrossFade</code> to not set the <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> to the default value (negative infinity).</li>
+<li>Fixed the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector updatables list to not cause the horizontal scrollbar to appear.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> to maintain a fixed distance to the target.</li>
+<li>Fixed Animancer Lite to correctly give a Pro-Only warning when using a custom End Event Time.</li>
 </ul>
 
 	</section>
