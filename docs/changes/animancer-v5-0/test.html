@@ -56,7 +56,8 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
         <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
@@ -74,7 +75,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#beta-1">Beta 1</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#beta-2">Beta 2</a></p>
+<p><a href="#beta-1">Beta 1</a></p>
 <p><a href="#alpha-1">Alpha 1</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -378,6 +380,7 @@
 <blockquote class="blockquote">
 <p><strong>Current Status</strong>: stable. All known (fixable) bugs are fixed. Most of the remaining tasks are improving the examples and documentation. Anyone encountering bugs should try this version and report any lingering issues before release.</p>
 </blockquote>
+<p><a href="../../../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Animancer Lite</th>
@@ -386,12 +389,45 @@
   <tbody>
     <tr>
       <td><ul>
-<li><a href="animancer-lite-v5-0b1-unity-2018-4.unitypackage">Animancer Lite for Unity 2018.4+</a></li>
-<li><a href="animancer-lite-v5-0b1-unity-2019-4.unitypackage">Animancer Lite for Unity 2019.4+</a></li></ul></td>
+<li><a href="animancer-lite-v5-0b2-unity-2018-4.unitypackage">Animancer Lite for Unity 2018.4+</a></li>
+<li><a href="animancer-lite-v5-0b2-unity-2019-4.unitypackage">Animancer Lite for Unity 2019.4+</a></li></ul></td>
       <td>Email the Invoice Number (IN000000000) from your Asset Store purchase to <a href="mailto:animancer@kybernetik.com.au?Subject=Animancer">animancer@kybernetik.com.au</a>.</td>
     </tr>
   </tbody>
 </table>
+<h1 id="beta-2">Beta 2</h1>
+<blockquote class="blockquote">
+<p>Released 2020-07-03</p>
+</blockquote>
+<p>Changes since Beta 1 (see the <a href=".">v5.0 Change Log</a> for the full list of changes since v4.4):</p>
+<ul>
+<li>Added optional event names to <code>AnimancerEvent.Sequence</code> and <code>AnimancerEvent.Sequence.Serializable</code> so they can be used to identify events when defining event times in the Inspector and assigning their callbacks in code.</li>
+<li>Added <code>MixerParameterTween</code> for easily interpolating mixer parameters over time.</li>
+<li>Replaced the "Possible animation type mismatch..." warning in the Inspector with a compact icon:
+<ul>
+<li>The icon differentiates between warnings (some animated properties aren't present in the Rig) and errors (none of the animated properties are present in the Rig).</li>
+<li>You can click the icon to get a full explanation of the incompatabilities between the animations and the Rig.</li>
+<li>If this feature is affecting your performance, you can disable it via the <em>Display Options</em> in the layer context menu.</li>
+</ul>
+</li>
+<li>The Inspector warnings about layers being at 0 weight are no longer shown if the object is inactive since the default <code>DisableAction.Stop</code> resets everything to 0 weight.</li>
+<li>Changed <code>KeyedList.AddNew</code> to throw an exception if the <code>item</code> is already in another list (since <code>KeyedList</code>s only allow each <code>item</code> to be in one list at a time).</li>
+<li>The Display Options conext menu functions are now shown on states as well as layers.
+<ul>
+<li>Added <code>Repaint Constantly</code> option which can be disabled to reduce the automatic repainting rate to an interval specified in the <code>AnimancerSettings</code> (default 0.25 seconds) in case the constant repainting is affecting performance.</li>
+</ul>
+</li>
+<li><code>AnimancerNode.ConnectToGraph</code> now applies the weight instantly instead of registering the node to be updated.</li>
+<li><code>OrbitControls</code> now uses an enum to specify the mouse button instead of an int slider.</li>
+<li>Added <code>DummyObjectEditor</code> back in for Unity 2018.4.</li>
+<li>Fixed drag and drop into the <code>NamedAnimancerComponent.Animations</code> field to work properly.</li>
+<li>Fixed some minor pixel alignment issues in <code>TimeRuler</code>.</li>
+<li>Fixed <code>NullReferenceException</code> when first creating <code>AnimancerSettings</code>.</li>
+<li>Fixed <code>TimeRuler</code> to display looped time indicators at the correct intervals.</li>
+<li>Cleaned up the Animation Jobs examples and added a <em>SpiderBot</em> to the Two Bone IK example.</li>
+<li>Fixed the <em>SpiderBot-Idle</em> animation to have two keyframes because only having one causes errors when accessing its property bindings.</li>
+<li>Moved the Editor-Only <em>Animancer.Lite.dll</em> into the Core folder since Unity gives build errors relating to serialization if it is in the Editor folder.</li>
+</ul>
 <h1 id="beta-1">Beta 1</h1>
 <blockquote class="blockquote">
 <p>Released 2020-06-24</p>
@@ -418,31 +454,31 @@
 <li>Added default human model (uses Animancer's <em>DefaultHumanoid</em> if it exists, otherwise it uses Unity's <em>DefaultAvatar</em> which is just the same model with a different texture).</li>
 <li>Fixed the grid to properly draw behind <code>Sprite</code>s.</li>
 <li>Fixed the internal details display to use the correct margins in both the Inspector and <code>TransitionPreviewWindow</code>.</li>
-<li><code>AnimancerState.RecreatePlayable</code> is now overridden by <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> to retain their parameter values.</li>
-<li>Fixed the preview time indicator in the <code><a href="/animancer/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> to work properly on transitions with a variable <code><a href="/animancer/api/Animancer/AnimancerState/E9649ABA">AnimancerState.Length</a></code> (<code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code>).</li>
+<li><code>AnimancerState.RecreatePlayable</code> is now overridden by <code>ControllerState</code> and <code>MixerState</code> to retain their parameter values.</li>
+<li>Fixed the preview time indicator in the <code>TimeRuler</code> to work properly on transitions with a variable <code>AnimancerState.Length</code> (<code>ControllerState</code> and <code>MixerState</code>).</li>
 </ul>
 </li>
-<li>Moved various functionality from <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code> into the base <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> so it can be used by custom mixers that don't want to inherit from <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>.</li>
+<li>Moved various functionality from <code>ManualMixerState</code> into the base <code>MixerState</code> so it can be used by custom mixers that don't want to inherit from <code>ManualMixerState</code>.</li>
 <li>Changed <code>AnimancerPlayable.InsertOutputJob(AnimationScriptPlayable)</code> into <code>InsertOutputPlayable(Playable)</code> so that it could potentially be used for custom mixers as well.</li>
-<li>The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector now always shows the <code><a href="/animancer/api/Animancer/AnimancerPlayable/FBD2FD77">AnimancerPlayable.IsGraphPlaying</a></code> field (instead of only when it is paused) and also shows its <code>Speed</code> field.</li>
-<li>Changed <code><a href="/animancer/api/Animancer/ControllerState/199AFDE3">ControllerState.Playable</a></code> back to a regular property instead of <code>ref readonly</code> and removed <code>HybridAnimancerComponent.ControllerPlayable</code>.</li>
+<li>The <code>AnimancerComponent</code> Inspector now always shows the <code>AnimancerPlayable.IsGraphPlaying</code> field (instead of only when it is paused) and also shows its <code>Speed</code> field.</li>
+<li>Changed <code>ControllerState.Playable</code> back to a regular property instead of <code>ref readonly</code> and removed <code>HybridAnimancerComponent.ControllerPlayable</code>.</li>
 <li>Moved the editor version of <em>Animancer.Lite.dll</em> into the <em>Internal/Editor</em> folder since having it visible in the root <em>Animancer</em> folder serves no purpose.</li>
-<li>Added <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code> methods for <code>StringBuilder</code>s and replaced all standard usage with them.</li>
+<li>Added <code>ObjectPool</code> methods for <code>StringBuilder</code>s and replaced all standard usage with them.</li>
 <li>Standardised <code>AnimancerState.ToString</code> instead of having each child class implement its own.</li>
 <li>Split <code>AnimancerPlayable.AppendInternalDetails</code> out of <code>AppendDescription</code> so it can be used to display updatables, dirty nodes, and disposables in a single label.</li>
 <li><code>AnimationType.Sprite</code> now includes any object with only <code>SpriteRenderer</code>s in its children without any other <code>Renderer</code> types.</li>
-<li>Moved <code>GetParameterValue</code> (and <code>Set</code>) to <code><a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code>.</li>
-<li>Changed <code><a href="/animancer/api/Animancer/AnimancerPlayable/EA98B55C">AnimancerPlayable.FrameID</a></code> from <code>uint</code> to <code>ulong</code> to avoid the need for a cast.</li>
-<li><code><a href="/animancer/api/Animancer.Editor/ScriptableObjectEditor">ScriptableObjectEditor</a></code> now displays its message about changes being undone when exiting Play Mode as a warning rather than info and only in Play Mode.</li>
+<li>Moved <code>GetParameterValue</code> (and <code>Set</code>) to <code>AnimancerUtilities</code>.</li>
+<li>Changed <code>AnimancerPlayable.FrameID</code> from <code>uint</code> to <code>ulong</code> to avoid the need for a cast.</li>
+<li><code>ScriptableObjectEditor</code> now displays its message about changes being undone when exiting Play Mode as a warning rather than info and only in Play Mode.</li>
 <li>Added <code>ObjectPool.GetCachedResult</code> for easily creating <code>GUIStyle</code>s and other things that need caching.</li>
-<li>Moved Pro-Only warnings into the <code><a href="/animancer/api/Animancer/WarningType">WarningType</a></code> enum and changed them to log individual features once each.</li>
-<li>Added <code>WarningType.AnimatorSpeed</code> to explain that <code><a href="/animancer/api/Animancer/AnimancerPlayable/5840669B">AnimancerPlayable.Speed</a></code> should be used instead of <code>Animator.speed</code>.</li>
+<li>Moved Pro-Only warnings into the <code>WarningType</code> enum and changed them to log individual features once each.</li>
+<li>Added <code>WarningType.AnimatorSpeed</code> to explain that <code>AnimancerPlayable.Speed</code> should be used instead of <code>Animator.speed</code>.</li>
 <li>Fixed serialized fields in <code>AnimancerSettings</code> to not have their names obfuscated in Animancer Lite.</li>
 <li>Fixed <code>Interpolation.Back...</code> methods to be consistent with each other.</li>
 <li>Fixed <code>WarningType.CreateGraphWhileDisabled</code> to not be triggered in Edit Mode and to work in Development Builds.</li>
-<li>Fixed the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector updatables list to not cause the horizontal scrollbar to appear.</li>
+<li>Fixed the <code>AnimancerComponent</code> Inspector updatables list to not cause the horizontal scrollbar to appear.</li>
 <li>Fixed <code>ControllerState.Transition.NormalizedStartTime</code> to not interfere with resetting to the default states.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> to maintain a fixed distance to the target.</li>
+<li>Fixed <code>MouseDrag</code> to maintain a fixed distance to the target.</li>
 </ul>
 <h1 id="alpha-1">Alpha 1</h1>
 <blockquote class="blockquote">
