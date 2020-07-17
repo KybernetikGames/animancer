@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -235,6 +236,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -293,6 +304,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -323,6 +335,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -371,7 +391,7 @@
 
 <p>This example demonstrates how you can remake the Animator Controller based character setup used in Unity's <a href="https://assetstore.unity.com/packages/templates/tutorials/3d-game-kit-lite-135162">3D Game Kit <strong>Lite</strong></a> to use Animancer (and its <a href="../../../manual/fsm">Finite State Machine</a> system) instead.</p>
 
-<p><em>Various <a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/blending/fading#durations">custom Fade durations</a>, <a href="../../../manual/events/end">custom end times</a>, <a href="../../../manual/animator-controllers">Controller States</a>. You can try them out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<p><em>Various <a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/blending/fading#durations">custom Fade durations</a>, <a href="../../../manual/events/end">custom end times</a>, <a href="../../../manual/blending/mixers">Mixer States</a>. You can try them out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 
 <p><img src="gameplay.gif" class="img-responsive"></p>
 
@@ -416,7 +436,7 @@
 
 <p>The Animator Controller contains a few <code>StateMachineBehaviour</code>s on certain states, but it is mostly controlled by the <code>PlayerController</code> component. This is a poorly designed setup because even though it uses the concept of a Finite State Machine, it still violates the <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a> by keeping the individual logic of all states in that one huge class instead of separating their concerns into multiple scripts. The practical problems this causes are explained later on in their relevant sections.</p>
 
-<p>Animancer instead uses a code based <a href="../../../manual/fsm">Finite State Machine</a> with a central <code>Creature</code> script and a separate <code>CreatureState</code> class for each of those states like in the <a href="../../fsm">State Machines</a> examples. Many of the states directly reference their <code>AnimationClip</code>s while some of them use <a href="../../../manual/blending/mixers">Mixers</a> or play their own invididual <a href="../../../manual/animator-controllers">Animator Controllers</a> containing a single Blend Tree each.</p>
+<p>Animancer instead uses a code based <a href="../../../manual/fsm">Finite State Machine</a> with a central <code>Creature</code> script and a separate <code>CreatureState</code> class for each of those states like in the <a href="../../fsm">State Machines</a> examples. Many of the states directly reference their <code>AnimationClip</code>s while some of them use <a href="../../../manual/blending/mixers">Mixers</a> to blend between multiple animations.</p>
 
 <p>The key difference between <code>PlayerController</code> and <code>Creature</code> is that the former is responsible for managing everything the character can do while the latter is only responsible for things common to multiple states like gravity and turning. For example, if you want to know what is involved in the Animancer's <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code>, you can go to that script to see what it does. But if you want to know what is involved in the Mecanim <code>AirborneSM</code>, you need to examine the Animator Controller and also find the <code>PlayerController.FixedUpdate</code> and <code>OnAnimatorMove</code> methods which contain logic for input blocking, attacks, movement, turning, audio, and a time out to idle. Most of those things aren't relevant when the character is in the air, but you cannot be sure of that without going through them all so it would be very much harder than necessary to find and fix any bugs or add new functionality to the character.</p>
 

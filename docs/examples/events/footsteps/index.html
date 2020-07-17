@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -238,6 +239,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -296,6 +307,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -326,6 +338,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -371,9 +391,9 @@
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Events"><code>Animancer.Examples.Events</code></a></p>
 </blockquote>
 <p><img src="footstep-events.gif" class="img-responsive img-right"> This example demonstrates how you can use <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/events/animation">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle. The <a href="../../../manual/events">Events</a> page summarises the differences between the two systems which are further demonstrated by the <a href="../golf">Golf Events</a> example.</p>
-<p>The actual example scene demonstrates both systems with one character each, playing a sound every time one of their feet touches the ground. But since the video does not have sound, it instead shows a sphere around the foot in question for a short time after each event occurs.</p>
-<p>The <a href="../../animator-controllers-3d-game-kit">3D Game Kit</a> example uses a similar system which also has different footstep sounds depending on the surface being stepped on. An even more complex system might not even use <a href="../../../manual/events">Events</a> at all, but could instead use <a href="../../../introduction/cs/vectors#raycasting">Raycasts</a> to determine when a character's feet touch down so it would work for all animations without manually adding events to them all and could even calculate the desired volume based on the velocity of the foot while properly accounting for any blending.</p>
-<p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script is used to demonstrate <a href="../../../manual/events/animancer">Animancer Events</a> and looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+<p>The actual example scene demonstrates both systems with one character each, playing a sound every time one of their feet touches the ground. But since the video shown here does not have sound, it instead shows a sphere around the foot associated with each event for a short time after that event occurs.</p>
+<p>The <a href="../../animator-controllers-3d-game-kit">3D Game Kit</a> example uses a similar system based on animation curves instead of events which also has different footstep sounds depending on the surface the character is standing on. An even more complex system could instead use <a href="../../../introduction/cs/vectors#raycasting">Raycasts</a> like in the <a href="../../ik/uneven-ground">Uneven Ground</a> example to determine when a character's feet touch down. That would allow it to work for all animations without manually adding events to them all and could do things like calculating the desired volume based on the velocity of the foot and playing different sounds based on where each foot actually lands rather than the character's center.</p>
+<p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script is used to demonstrate <a href="../../../manual/events/animancer">Animancer Events</a> and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -396,7 +416,7 @@ public class <a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">F
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a></code> script inherits from <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> to demonstrate <a href="../../../manual/events/animation">Animation Events</a> instead and looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a></code> script inherits from <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> to demonstrate <a href="../../../manual/events/animation">Animation Events</a> instead and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -457,24 +477,23 @@ private AudioClip[] _Sounds;
 <h1 id="animancer-events">Animancer Events</h1>
 <p>Using a <a href="../../../manual/transitions">Transition</a> field gives us various additional controls in the Inspector which we would not have if we used a simple <code>AnimationClip</code> reference. In this case, we are interested in the preview button on the right so that we can see what the character will look like throughout the animation while we set up the <a href="../../../manual/events/animancer">Animancer Events</a>:</p>
 <ol>
-<li>Click the "Preview" button to open the <a href="../../../manual/transitions#previews">Preview Window</a>.</li>
-<li>Click the "Add Event" button and adjust the time of the event. The <em>Humanoid-Walk</em> animation touches down at about 0.04x (normalized time).</li>
-<li>Add a function to the callback.</li>
-<li>Assign the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script as the target object.</li>
-<li>Select its <code>PlaySound</code> method.</li>
-<li>Since this is the event for the left foot, find the character's <em>Foot.L</em> object in the Hierarchy.</li>
-<li>Add an <code>AudioSource</code> component to the <em>Foot.L</em>.</li>
-<li>Drag that <code>AudioSource</code> into the parameter field for the <code>PlaySound</code> method.</li>
-<li>Repeat steps 2-8 for the right foot which touches down at about 0.54x.</li>
+<li><details><summary>Click the "Preview" button to open the <a href="../../../manual/transitions#previews">Preview Window</a>:</summary><p><img src="open-preview.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Click the "Add Event" button and adjust the time of the event. The <em>Humanoid-Walk</em> animation touches down at about 0.04x (normalized time):</summary><p><img src="add-event.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Add a function to the callback:</summary><p><img src="add-function.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Assign the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script as the target object:</summary><p><img src="assign-target.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Select its <code>PlaySound</code> method:</summary><p><img src="select-method.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Since this is the event for the left foot, find the character's <em>Left Foot</em> object in the Hierarchy:</summary><p><img src="find-left-foot.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Add an <code>AudioSource</code> component to the <em>Left Foot</em>:</summary><p><img src="add-audio-source.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Drag that <code>AudioSource</code> into the parameter field for the <code>PlaySound</code> method:</summary><p><img src="set-parameter.gif" class="img-responsive"></p></details></li>
+<li>Repeat steps 2-8 for the <em>Right Foot</em> which touches down at about 0.54x.</li>
 </ol>
-<p><img src="animancer-events.gif" class="img-responsive"></p>
 <p>If we wanted to share these events in multiple places throughout the project, we could use a <a href="../../../manual/transitions/types#transition-assets">Transition Asset</a> instead of a regular <a href="../../../manual/transitions">Transition</a>.</p>
 <h1 id="animation-events">Animation Events</h1>
 <p>Unity's <a href="../../../manual/events/animation">Animation Events</a> are built into <code>AnimationClip</code> assets rather than being added to a scene object in the Inspector. This affects several parts of the setup process which will be explained as we get to them.</p>
 <p>Note that this setup process is exactly the same as it would be without Animancer.</p>
 <h2 id="duplicate-animation">Duplicate Animation</h2>
 <p>The first difference is the fact that we need to make a copy of the original <em>Humanoid-Walk</em> animation to add the events since we do not want them in any of the other examples which use that animation. This may not be a real problem in a proper project since you will likely use each animation for only one general purpose.</p>
-<p></p><details><summary>If your animation is imported as part of a model file (such as an *.FBX*), you can add animations using the Animations tab in its import settings as shown here:</summary><p>
+<p></p><details><summary>If your animation is imported as part of a model file (such as an <em>.FBX</em>), you can add animations using the Animations tab in its import settings as shown here:</summary><p>
 </p><p>One thing to note in this video is that the <code>Average Velocity</code> of the imported animation has some movement on the <code>X</code> axis even though we only want it to go straight forwards, so we can adjust the <code>Root Transform Rotation Offset</code> to straighten it out.</p>
 <img src="fbx-add-animation.gif" class="img-responsive">
 <p></p></details><p></p>

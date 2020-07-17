@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -239,6 +240,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -297,6 +308,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -327,6 +339,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -552,9 +572,9 @@ public class Creature
 <p>They are very useful for decoupling generalised systems from specific implementations. For example, the <a href="../../manual/events/animancer">Animancer Events</a> system requires a script to check the animation time every frame to determine when to trigger any events that have been registered, but there is no reason for the main update method (<code>AnimancerPlayable.PrepareFrame</code>) to actually know anything about events. Instead, it has a <code>List&lt;<a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a>&gt;</code> so that it can simply call methods on that interface without knowing what it is actually doing and the event system can implement the interface without being directly connected to the main update loop. This means that if you want to add your own logic that needs to run every update, you can also implement <code><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></code> and register for updates without needing to make any modifications to Animancer itself.</p>
 <p>The <a href="../../examples/fine-control/doors">Doors</a> example also uses an interface to implement an interaction system. The system simply checks if a target object implements the appripriate interface without knowing anything about what the interaction will actually do and the interactable object (the <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code>) does not know how it was triggered, so either part could be replaced or modified without affecting the rest.</p>
 <h1 id="composition">Composition</h1>
-<p><a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">Composition Over Inheritance</a> is the principle that it is easier to create reusable code by giving classes fields that reference other classes instead of inheriting from them. It is especially important in C# where each class can only inherit from one base class. Unity has an inbuilt <a href="https://docs.unity3d.com/Manual/Components">Component</a> system where each <code>GameObject</code> has a list of <code>Component</code>s attached to it instead of only being able to inherit from one base class (<code>MonoBehaviour</code> inherits from <code>Behaviour</code> which inherits from <code>Component</code>). This allows much greater flexibility, for example: rather than having <code>Creature</code> inherit from <code>Movable</code>, <code>Renderable</code>, <code>Destructible</code>, etc. to share their functionality in a fixed hierarchy, having those each as separate <code>Component</code>s would allow you to eaxily implement a character that cannot move (such as a plant monster) or an invulnerable character (such as a friendly NPC) by simply not giving it the appropriate component.</p>
+<p><a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">Composition Over Inheritance</a> is the principle that it is easier to create reusable code by giving classes fields that reference other classes instead of inheriting from them. It is especially important in C# where each class can only inherit from one base class. Unity has an inbuilt <a href="https://docs.unity3d.com/Manual/Components">Component</a> system where each <code>GameObject</code> has a list of <code>Component</code>s attached to it instead of only being able to inherit from one base class (<code>MonoBehaviour</code> inherits from <code>Behaviour</code> which inherits from <code>Component</code>). This allows much greater flexibility, for example: rather than having <code>Creature</code> inherit from <code>Movable</code>, <code>Renderable</code>, <code>Destructible</code>, etc. to share their functionality in a fixed hierarchy, having those each as separate <code>Component</code>s would allow you to easily implement a character that cannot move (such as a plant monster) or an invulnerable character (such as a friendly NPC) by simply not giving it the appropriate component.</p>
 <p>One downside of using separate <code>Component</code>s is that it becomes slightly harder to communicate between them. For example, there are several classes which inherit from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in order to <code>override</code> parts of its behaviour (see <a href="../../manual/playing/component-types">Component Types</a> for details), but there is usually no need for such a close connection when all you really want to do is use an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in your scripts. There are two main ways of using another <code>Component</code> in your script:</p>
-<table class="table">
+<p></p><table class="table">
   <thead>
     <tr><th style="width:50%">Serialized Field</th>
     <th style="width:50%">Get Component</th>
@@ -574,9 +594,8 @@ public class Creature
     }
 }
 </code></pre>
-<p>Note that if you do not assign a reference in the Inspector, the field will be <code>null</code> so the <code>Awake</code> method will throw a <a href="other#exceptions"><code>NullReferenceException</code></a> when it tries to use it (unless you check <code>if (_Animancer != null)</code>).</p>
-</td>
-      <td>
+<p>Note that if you do not assign a reference in the Inspector, the field will be <code>null</code> so the <code>Awake</code> method will throw a <a href="other#exceptions"><code>NullReferenceException</code></a> when it tries to use it (unless you check <code>if (_Animancer != null)</code>).</p></td>
+<td><p></p>
 <p><a href="https://docs.unity3d.com/ScriptReference/Component.GetComponent"><code>GetComponent</code></a> returns a <code>Component</code> of the specified type attached to the same <code>GameObject</code>:</p>
 <pre><code class="language-cs">public class Example : MonoBehaviour
 {
@@ -592,9 +611,8 @@ public class Creature
 <li>If there is more than one, it returns the top one.</li>
 <li>If there are none, it returns <code>null</code>. In this case, that means the <code>Awake</code> method will throw a <a href="other#exceptions"><code>NullReferenceException</code></a> when it tries to use it (unless you check <code>if (animancer != null)</code>).</li>
 </ul>
-<p>Calling <code>GetComponent</code> every time you need it is inefficient so if you want to use the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in other methods you should get it once in <code>Awake</code> and store it in a <a href="variables#fields">Field</a> (this is often referred to as "caching" the reference).</p>
-</td>
-    </tr>
+<p>Calling <code>GetComponent</code> every time you need it is inefficient so if you want to use the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in other methods you should get it once in <code>Awake</code> and store it in a <a href="variables#fields">Field</a> (this is often referred to as "caching" the reference).</p></td>
+</tr>
   </tbody>
 </table>
 <p>The Animancer <a href="../../examples">Examples</a> use <a href="variables#serialized-fields">Serialized Fields</a> because it makes them more flexible and reliable. When you add an example script to an object, you can see what references it needs in the Inspector and you can assign appropriate <code>Component</code>s from any <code>GameObject</code> instead of needing to add the example script to the same <code>GameObject</code> as the other things it needs and not even seeing any indication of that requirement without reading the script.</p>

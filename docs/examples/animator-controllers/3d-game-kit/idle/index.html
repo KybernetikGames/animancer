@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -81,6 +82,7 @@
 <p><a href="#check-motion-state">Check Motion State</a></p>
 <p><a href="#update-speed-control">Update Speed Control</a></p>
 <p><a href="#exit-transition">Exit Transition</a></p>
+<p><a href="#custom-fade">Custom Fade</a></p>
 <p><a href="#adding-more-idles">Adding More Idles</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -241,6 +243,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -299,6 +311,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -329,6 +342,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -452,10 +473,7 @@ public sealed class IdleState : CreatureState
         }
     }
 
-    public override bool CanEnterState(CreatureState previousState)
-    {
-        return Creature.CharacterController.isGrounded;
-    }
+    public override bool CanEnterState(CreatureState previousState) =&gt; Creature.CharacterController.isGrounded;
 
     private void OnEnable()
     {
@@ -476,8 +494,9 @@ public sealed class IdleState : CreatureState
 
         Creature.UpdateSpeedControl();
 
-        if (Creature.Animancer.CurrentState == _MainAnimation.State &amp;&amp;
-            Creature.Animancer.CurrentState.Time &gt;= _RandomizeTime)
+        var state = Creature.Animancer.States.Current;
+        if (state == _MainAnimation.State &amp;&amp;
+            state.Time &gt;= _RandomizeTime)
         {
             PlayRandomAnimation();
         }
@@ -488,6 +507,7 @@ public sealed class IdleState : CreatureState
         var index = UnityEngine.Random.Range(0, _RandomAnimations.Length);
         var animation = _RandomAnimations[index];
         Creature.Animancer.Play(animation);
+        CustomFade.Apply(Creature.Animancer, Interpolation.Function.SineInOut);
     }
 }
 </code></pre>
@@ -579,8 +599,9 @@ public void UpdateSpeedControl()
 <pre><code class="language-cs">private void FixedUpdate()
 {
     ...
-    if (Creature.Animancer.CurrentState == _MainAnimation.State &amp;&amp;
-        Creature.Animancer.CurrentState.Time &gt;= _RandomizeTime)
+    var state = Creature.Animancer.States.Current;
+    if (state == _MainAnimation.State &amp;&amp;
+        state.Time &gt;= _RandomizeTime)
     {
         PlayRandomAnimation();
     }
@@ -593,6 +614,17 @@ private void PlayRandomAnimation()
     Creature.Animancer.Play(animation);
 }
 </code></pre>
+<h1 id="custom-fade">Custom Fade</h1>
+<p>The Mecanim character uses a fixed transition duration of 0.25 seconds between each of the idle animations. That causes a rather sudden change in the character's motion which the Animancer character smoothes out a bit by using 0.5 seconds instead. Each transition could have its duration further customised to suit each individual animation, but that is not the goal of this example. However, there is one more thing we can do to smooth out the transition: we can apply a <a href="../../../../manual/blending/fading#custom-fade">Custom Fade</a> right after starting the transition to replaces its default Linear Interpolation with an <code><a href="/animancer/api/Animancer/Function">Interpolation.Function</a></code>, <code>AnimationCurve</code>, or custom delegate:</p>
+<pre><code class="language-cs">private void PlayRandomAnimation()
+{
+    ...
+    Creature.Animancer.Play(animation);
+    CustomFade.Apply(Creature.Animancer, Interpolation.Function.SineInOut);
+}
+</code></pre>
+<p>The following video compares the default Linear Interpolation (left) with the <code>SineInOut</code> function (right). The differences are fairly subtle, but if you look at the way the left character suddenly changes direction for each transition you can see that the right character does so a bit more smoothly.</p>
+<p><img src="custom-fade.gif" class="img-responsive"></p>
 <h1 id="adding-more-idles">Adding More Idles</h1>
 <p>Aside from the distribution of data and logic, there is one more notable difference between the two approaches: the use of data structures. Consider the process of adding another animation to the random possibilities:</p>
 <table class="table">
@@ -620,7 +652,7 @@ private void PlayRandomAnimation()
     </tr>
   </tbody>
 </table>
-<p>The Animancer setup is clearly superior in this regard. Mecanim requires several extra manual steps for every change where Animancer can simply use any array size. Every one of those manual steps is a waste of time upfront and an opportunity to make a mistake which will waste more time later on.</p>
+<p>The Animancer setup is clearly superior in this regard. Mecanim requires several extra manual steps for every change where Animancer can simply use any array size. Every one of those manual steps is a waste of time upfront and an opportunity to make a mistake which will waste more time later on when you need to track down bugs.</p>
 
 	</section>
                 

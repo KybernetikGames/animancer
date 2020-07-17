@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -75,6 +76,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#durations">Durations</a></p>
+<p><a href="#custom-fade">Custom Fade</a></p>
 <p><a href="#individual-fading">Individual Fading</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -235,6 +237,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -293,6 +305,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -323,6 +336,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -388,6 +409,31 @@
 animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 </code></pre>
 <p>Note that the fade duration is entirely separate from the length of the animation, so if the fade is too long it might not even finish fading in by the time the animation ends.</p>
+<h1 id="custom-fade">Custom Fade</h1>
+<p>All fades are linear by default, i.e. they move the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> towards the <code><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">AnimancerNode.TargetWeight</a></code> at a constant <code><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">AnimancerNode.FadeSpeed</a></code> calculated when starting the fade. But that does not always give the smoothest transitions so Animancer includes a <code><a href="/animancer/api/Animancer/CustomFade">CustomFade</a></code> system which allows you to modify a fade progress using a standard <code><a href="/animancer/api/Animancer/Function">Interpolation.Function</a></code>, an <code>AnimationCurve</code>, or a custom delegate.</p>
+<p>The <a href="../../../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example demonstrates the use of this feature to smooth out the transitions between its <a href="../../../examples/animator-controllers/3d-game-kit/idle#custom-fade">Idle</a> animations.</p>
+<p>To use the system, simply call any of the static <code>CustomFade.Apply</code> methods right after calling <code>animancer.Play</code> normally:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimationClip _Clip;
+
+private void Awake()
+{
+    // Start fading the animation normally.
+    var state = _Animancer.Play(_Clip, 0.25f);
+    
+    // Then apply the custom fade to modify the state you are fading in.
+    CustomFade.Apply(state, Interpolation.Function.SineInOut);
+    
+    // Or apply it to whatever the current state happens to be.
+    CustomFade.Apply(_Animancer, Interpolation.Function.SineInOut);
+    
+    // Anything else you play after this will automatically cancel the custom fade.
+}
+</code></pre>
+<p><em>The <code><a href="/animancer/api/Animancer/CustomFade">CustomFade</a></code> system is located in the <em>Utilities</em> folder, meaning that its source code is even included in <a href="/animancer/lite">Animancer Lite</a> to demonstrate how the system can be extended, however it relies on the ability to set the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> which is a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a> so it cannot be used in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<h2 id="curve-preset-libraries">Curve Preset Libraries</h2>
+<p><code>AnimationCurve</code> fields are convenient for easily visualising and editing curve functions in the Inspector, however they can be somewhat tedious to set up complex and consistent curves. Fortunately, Unity allows you to define Curve Preset Libraries so you can simply download the <a href="animancer-curve-presets.unitypackage">Animancer Curve Presets from here</a> and use them as a starting point for your own curves. Note that these curves were configured by hand with the minimum number of keyframes for efficiency. They do not cover the exact same set of functions as the <code><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></code> class and any that are the same will have slight differences in their exact values.</p>
+<img src="curve-presets.gif" class="img-responsive">
 <h1 id="individual-fading">Individual Fading</h1>
 <p>When you call the <code>Play</code> method with a fade duration, it internally calls <code>AnimancerNode.StartFade</code> on every animation. For example, if you have <em>Idle</em>, <em>Walk</em>, and <em>Jump</em> animations and you call <code>Play(walk, 0.25f)</code>, it will call <code>StartFade(1, 0.25f)</code> on the <code>walk</code> state and <code>StartFade(0, 0.25f)</code> on the others. This means you can use <code>StartFade</code> to control individual states rather than only cross-fading all of them at once.</p>
 <p>Since <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> also inherits from <code><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></code>, this also means that you can fade entire <a href="../layers">Layers</a> in and out. There is no <code>CrossFade</code> for layers because they are not commonly used in that manner, but you can achieve the same thing by calling <code>StartFade(0, fadeDuration)</code> to fade some layers out and <code>StartFade(1, fadeDuration)</code> to fade others in. The <a href="../../../examples/layers">Layers</a> example makes use of this feature to fade out the upper body layer once it is no longer needed so that the base layer can resume controlling the character's entire body.</p>

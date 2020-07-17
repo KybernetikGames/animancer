@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -238,6 +239,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -296,6 +307,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -326,6 +338,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -432,7 +452,7 @@ private void OnAnimatorIK(int layerIndex)
     _Animancer.Animator.bodyRotation = _BodyTarget.rotation;
 }
 </code></pre>
-<p>That lets the character move around with the target, which is not very interesting on its own:</p>
+<p>That lets the character move around with the target, which is not very interesting on its own (and could have easily been done without IK):</p>
 <p><img src="body-only.gif" class="img-responsive"></p>
 <h1 id="look-at">Look At</h1>
 <p>Then we want to control where the character is looking:</p>
@@ -532,7 +552,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
 </code></pre>
 <p></p></details><p></p>
 <h2 id="rotation">Rotation</h2>
-<p>You can also select any of the limb targets in the Hierarchy and use its Inspector to modify its details, including the weight with which it affects the position and rotation. By default, we set the <code>_RotationWeight = 0</code> since the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script does not give us an easy way to control rotations, but if you would like to see it in action you can just increase the weight and use the <code>Transform</code> Inspector of the Scene view to rotate the object:</p>
+<p>You can also select any of the limb targets in the Hierarchy and use its Inspector to modify its details, including the weight with which it affects the position and rotation. By default, we set the <code>_RotationWeight = 0</code> since the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script does not give us an easy way to visualise or control rotations, but if you would like to see it in action you can just increase the weight and use the <code>Transform</code> Inspector of the Scene view gizmo to rotate the object:</p>
 <p><img src="hand-rotation.gif" class="img-responsive"></p>
 <h1 id="reset">Reset</h1>
 <p>This example also uses a really simple script to allow a <a href="../../basics/scene-setup#buttons">UI Button</a> to reset all the IK targets to their starting positions and rotations:</p>

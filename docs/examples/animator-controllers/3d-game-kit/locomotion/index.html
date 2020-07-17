@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -235,6 +236,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -293,6 +304,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -323,6 +335,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -387,7 +407,7 @@
 
 <h1 id="animancer">Animancer</h1>
 
-<p></p><details><summary>With Animancer, all the state logic is defined in the <code>LocomotionState</code> script which handles everything that applies while the character is moving along the ground except for things that also apply in other states as well (such as the <code>Creature.OnAnimatorMove</code> method described on the <a href="movement">Movement</a> page):</summary><p>
+<p></p><details><summary>With Animancer, all the state logic is defined in the <code>LocomotionState</code> script which handles everything that applies while the character is moving along the ground except for things that also apply in other states as well (such as the <code>Creature.OnAnimatorMove</code> method described on the <a href="movement">Movement</a> page). It uses a <a href="../../../../manual/blending/mixers">Mixer State</a> in place of the <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a> used by Mecanim:</summary><p>
 
 </p><pre><code class="language-cs">using Animancer;
 using System;
@@ -395,27 +415,28 @@ using UnityEngine;
 
 public sealed class LocomotionState : CreatureState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/Transition">Float2ControllerState.Transition</a> _LocomotionBlendTree;
+    [SerializeField] private <a href="/animancer/api/Animancer/Transition">LinearMixerState.Transition</a> _LocomotionMixer;
     [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _QuickTurnLeft;
     [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _QuickTurnRight;
     [SerializeField] private float _QuickTurnMoveSpeed = 2;
     [SerializeField] private float _QuickTurnAngle = 145;
 
+    private <a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootFall;
+
     private void Awake()
     {
-        _QuickTurnLeft.Events.Sequence.OnEnd =
-            _QuickTurnRight.Events.Sequence.OnEnd =
-            () =&gt; Creature.Animancer.Play(_LocomotionBlendTree);
+        _QuickTurnLeft.Events.OnEnd =
+            _QuickTurnRight.Events.OnEnd =
+            () =&gt; Creature.Animancer.Play(_LocomotionMixer);
+
+        _FootFall = new AnimatedFloat(Creature.Animancer, "FootFall");
     }
 
-    public override bool CanEnterState(CreatureState previousState)
-    {
-        return Creature.CharacterController.isGrounded;
-    }
+    public override bool CanEnterState(CreatureState previousState) =&gt; Creature.IsGrounded;
 
     private void OnEnable()
     {
-        Creature.Animancer.Play(_LocomotionBlendTree);
+        Creature.Animancer.Play(_LocomotionMixer);
     }
 
     private void FixedUpdate()
@@ -424,7 +445,7 @@ public sealed class LocomotionState : CreatureState
             return;
 
         Creature.UpdateSpeedControl();
-        _LocomotionBlendTree.State.ParameterX = Creature.ForwardSpeed;
+        _LocomotionMixer.State.Parameter = Creature.ForwardSpeed;
 
         UpdateRotation();
         UpdateAudio();
@@ -432,11 +453,10 @@ public sealed class LocomotionState : CreatureState
 
     private void UpdateRotation()
     {
-        if (!_LocomotionBlendTree.State.IsActive)
+        if (!_LocomotionMixer.State.IsActive)
             return;
 
-        float currentAngle, targetAngle;
-        if (!Creature.GetTurnAngles(Creature.Brain.Movement, out currentAngle, out targetAngle))
+        if (!Creature.GetTurnAngles(Creature.Brain.Movement, out var currentAngle, out var targetAngle))
             return;
 
         if (Creature.ForwardSpeed &gt; _QuickTurnMoveSpeed)
@@ -463,19 +483,21 @@ public sealed class LocomotionState : CreatureState
 
     private void UpdateAudio()
     {
-        var footFallCurve = _LocomotionBlendTree.State.ParameterY;
+        const float Threshold = 0.01f;
 
-        if (footFallCurve &gt; 0.01f &amp;&amp; !_IsPlayingAudio &amp;&amp; _CanPlayAudio)
+        var footFallCurve = _FootFall.Value;
+        if (footFallCurve &gt; Threshold &amp;&amp; !_IsPlayingAudio &amp;&amp; _CanPlayAudio)
         {
             _IsPlayingAudio = true;
             _CanPlayAudio = false;
+
             _PlayFootstepAudio.Invoke();
         }
         else if (_IsPlayingAudio)
         {
             _IsPlayingAudio = false;
         }
-        else if (footFallCurve &lt; 0.01f &amp;&amp; !_CanPlayAudio)
+        else if (footFallCurve &lt; Threshold &amp;&amp; !_CanPlayAudio)
         {
             _CanPlayAudio = true;
         }

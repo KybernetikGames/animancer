@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -237,6 +238,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -295,6 +306,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -325,6 +337,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -368,10 +388,10 @@
 <p>The required steps are quite simple:</p>
 <ol>
 <li>Create a new scene by right clicking in the Project window and selecting <em>Create/Scene</em>.</li>
-<li>Drag the desired character model into the Hierarchy window and position it at the origin <code>(0,0,0)</code>. Practically any character will work if you have animations for them, or you can use the standard character included with Animancer which is located at <em>Assets/Plugins/Animancer/Examples/Low Poly Man/LowPolyMan.fbx</em>.</li>
+<li>Drag the desired character model into the Hierarchy window and position it at the origin <code>(0,0,0)</code>. Practically any character will work if you have animations for them, or you can use the standard character included with Animancer which is located at <em>Assets/Plugins/Animancer/Examples/Art/Default Humanoid/DefaultHumanoid.fbx</em>.</li>
 <li>Disable the <code>Apply Root Motion</code> toggle on the character's <code>Animator</code> component. Most examples won't involve any root motion and those that do will tell you to re-enable it.</li>
 <li>Select the character and click the <em>Add Component</em> button at the bottom of the Inspector then start typing <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and click on that component when it appears in the list.</li>
-<li>Select the <em>Main Camera</em> and reposition it to better view the character. For the <em>LowPolyMan</em> model, <code>(2,1,-1)</code> is a good position with <code>(0,-60,0)</code> as the rotation.</li>
+<li>Select the <em>Main Camera</em> and reposition it to better view the character. For the <em>DefaultHumanoid</em> model, <code>(2,1,-1)</code> is a good position with <code>(0,-60,0)</code> as the rotation.</li>
 </ol>
 <p><img src="scene-setup.png" class="img-responsive"></p>
 <p></p><details><summary>Click here if you are wondering why the Transform Inspector looks different from Unity's default in that image.</summary><p>
@@ -389,13 +409,7 @@
 <p>There are also a few optional scripts located in <em>Assets/Plugins/Animancer/Examples/Code</em> which can be useful.</p>
 <h1 id="orbit-controls">Orbit Controls</h1>
 <p>Most of the examples can be viewed fine from a fixed camera angle, but if you add the <code><a href="/animancer/api/Animancer.Examples/OrbitControls">OrbitControls</a></code> script to the <em>Main Camera</em> it will allow you to rotate the camera around a <code>Focal Point</code> point by holding Right Click and dragging the mouse. You can also scroll to zoom in and out.</p>
-<p>Right Click was chosen as the default to avoid interfering with any examples where you need to Left Click on buttons or anything else, but you can easily change it via the <code>Mouse Button</code> slider in the Inspector:</p>
-<ul>
-<li>-1 = No button. Always rotate with mouse movement.</li>
-<li>0 = Left Click.</li>
-<li>1 = Right Click (default).</li>
-<li>2 = Middle Click.</li>
-</ul>
+<p>Right Click was chosen as the default to avoid interfering with any examples where you need to Left Click on buttons or anything else, but you can easily change it via the <code>Mouse Button</code> field in the Inspector.</p>
 <p><img src="orbit-controls.gif" class="img-responsive"></p>
 <p>Remember to exit Play Mode after you are done looking.</p>
 <h1 id="time-scale">Time Scale</h1>

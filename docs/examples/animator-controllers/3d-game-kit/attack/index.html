@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -240,6 +241,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -298,6 +309,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -328,6 +340,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -413,10 +433,7 @@ public sealed class AttackState : CreatureState
         _SetWeaponOwner.Invoke();
     }
 
-    public override bool CanEnterState(CreatureState previousState)
-    {
-        return Creature.CharacterController.isGrounded;
-    }
+    public override bool CanEnterState(CreatureState previousState) =&gt; Creature.CharacterController.isGrounded;
 
     private void OnEnable()
     {
@@ -441,7 +458,7 @@ public sealed class AttackState : CreatureState
         _OnEnd.Invoke();
     }
 
-    public override bool FullMovementControl { get { return false; } }
+    public override bool FullMovementControl =&gt; false;
 
     private void FixedUpdate()
     {
@@ -525,10 +542,7 @@ private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _
 <p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this script to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time as you would when using Mecanim.</p>
 <h1 id="state-entry">State Entry</h1>
 <p>In this example, we only allow attacking while grounded:</p>
-<pre><code class="language-cs">public override bool CanEnterState(CreatureState previousState)
-{
-    return Creature.CharacterController.isGrounded;
-}
+<pre><code class="language-cs">public override bool CanEnterState(CreatureState previousState) =&gt; Creature.CharacterController.isGrounded;
 </code></pre>
 <p>Games often have different attacks they can use while <a href="../airborne">Airborne</a> as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it is for ground or air attacks and attaching two of them to the same <code>Creature</code>, or by giving it a second array of <code><a href="/animancer/api/Animancer/Transition">ClipState.Transition</a></code>s to use when airborne.</p>
 <p>When entering this state, we start by determining which attack in the sequence we are up to. If the previous attack was the last one or it has already fully faded out, we want the first attack, but otherwise we can go to the next one in line:</p>
@@ -554,7 +568,7 @@ private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _
 </code></pre>
 <h1 id="updates">Updates</h1>
 <p>While this state is active, we want to apply the raw root motion from the attack animations so we disable <code>FullMovementControl</code>:</p>
-<pre><code class="language-cs">public override bool FullMovementControl { get { return false; } }
+<pre><code class="language-cs">public override bool FullMovementControl =&gt; false;
 </code></pre>
 <p>This <code>FixedUpdate</code> method is the simplest of any state, we just <a href="../idle#check-motion-state">check the standard transitions</a> (<em>Idle</em>, <em>Locomotion</em>, or <em>Airborne</em> as appropriate) and turn in the direction the <code>Creature.Brain</code> wants to go:</p>
 <pre><code class="language-cs">private void FixedUpdate()

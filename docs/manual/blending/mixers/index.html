@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -76,6 +77,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#choosing-a-mixer">Choosing a Mixer</a></p>
 <p><a href="#manual-creation">Manual Creation</a></p>
+<p><a href="#fading">Fading</a></p>
 <p><a href="#blend-trees-vs.mixers">Blend Trees vs. Mixers</a></p>
 <p><a href="#synchronisation">Synchronisation</a></p>
 <hr class="infobar-hidden">
@@ -237,6 +239,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -295,6 +307,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -325,6 +338,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -544,6 +565,23 @@ public sealed class NestedMixerExample : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
+<h1 id="fading">Fading</h1>
+<p>Setting the <code>Parameter</code> of a mixer will instantly change its blending rather than doing it smoothly over time, so the <code><a href="/animancer/api/Animancer/MixerParameterTweenFloat">MixerParameterTweenFloat</a></code> and <code><a href="/animancer/api/Animancer/MixerParameterTweenVector2">MixerParameterTweenVector2</a></code> classes can be used if you want to do that:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/Transition">LinearMixerState.Transition</a> _Mixer;
+
+private <a href="/animancer/api/Animancer/MixerParameterTweenFloat">MixerParameterTweenFloat</a> _MixerTween;
+
+private void Awake()
+{
+    _Animancer.Play(_Mixer);
+
+    _MixerTween = new MixerParameterTweenFloat(_Mixer);
+
+    // Move the Parameter towards 1 over 0.25 seconds:
+    _MixerTween.Start(1, 0.25f);
+}
+</code></pre>
 <h1 id="blend-trees-vs.mixers">Blend Trees vs. Mixers</h1>
 <p>Animancer's Mixers and Mecanim's <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> (which can be played using using <a href="../../animator-controllers#parameter-controller-states">Parameter Controller States</a>) serve the same general purpose, however they have significant differences in their implementation:</p>
 <table class="table">

@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -240,6 +241,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -298,6 +309,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -328,6 +340,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -373,7 +393,7 @@
 <p><a href="../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>You must delete any old version of Animancer before importing a new one because Unity's package importer doesn't handle deleting or moving files.</p>
-<p>It is also recommended that you use the latest possible Unity version. See the <a href="../introduction/features#unity-versions">Unity Versions</a> section for details.</p>
+<p>It is also recommended that you use the latest possible Unity version.</p>
 <p>All of the <a href="#major-features">Major Features and Changes</a> are listed below.</p>
 <p>The <a href="../introduction/features">features</a> included in Animancer Lite have been changed slightly:</p>
 <ul>
@@ -452,9 +472,9 @@
 <li>Added support for <a href="../manual/events/end">Animation Events called "End"</a> which invoke the <code>AnimancerState.OnEnd</code> callback so that animations can pretend they are ending early, usually to begin fading out as the animation approaches its end.</li>
 <li>Greatly improved various aspects of the <a href="#inspector-improvements">Inspector</a>.</li>
 <li>Added <code>AnimancerComponent.StopOnDisable</code> to control whether all animations are stopped by <code>OnDisable</code>. Also exposed it in the Inspector.</li>
-<li>Implemented the <code><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> interface introduced in Unity 2018.3 throughout the system:
+<li>Implemented the <code>IAnimationClipSource</code> interface introduced in Unity 2018.3 throughout the system:
 <ul>
-<li>Added <code>IAnimancerClipSource</code> for classes to indicate that they can provide animations to an AnimancerComponent for <code><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> in Unity 2018.3. The actual implementation is done using reflection in <code><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">AnimancerEditorUtilities</a></code>.</li>
+<li>Added <code>IAnimancerClipSource</code> for classes to indicate that they can provide animations to an AnimancerComponent for <code>IAnimationClipSource</code> in Unity 2018.3. The actual implementation is done using reflection in <code><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">AnimancerEditorUtilities</a></code>.</li>
 <li>This allows custom components using Animancer to provide <code>AnimationClip</code>s to the Animation window without needing an <code>AnimatorController</code>.</li>
 </ul>
 </li>
@@ -632,7 +652,7 @@
 <li>Added a warning when an animation has an "End" event but no <code>OnEnd</code> callback is registered.</li>
 </ul>
 </li>
-<li>Added Drag and Drop support to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector to create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> from an <code>AnimationClip</code> or several from an <code><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code>. Animations that already have states won't create new ones.</li>
+<li>Added Drag and Drop support to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector to create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> from an <code>AnimationClip</code> or several from an <code>IAnimationClipSource</code>. Animations that already have states won't create new ones.</li>
 <li>Added Drag and Drop support to the <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> Inspector to add an <code>AnimationClip</code> to the <code>Animations</code> list.</li>
 <li>Improved the <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> Inspector:
 <ul>

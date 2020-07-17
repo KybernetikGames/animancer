@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -238,6 +239,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -296,6 +307,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -326,6 +338,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -373,7 +393,7 @@
 <p>This example demonstrates a simple script which plays a <em>Walk</em> animation while you hold down a key and then extends that with another script which can also play a <em>Run</em> animation if you hold down a different key at the same time. It also ensures that those animations remain in sync when blending between them so that the transition looks natural.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="walk-and-run.gif" class="img-responsive"></p>
-<p></p><details><summary>The character on the right uses the <code><a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a></code> script which looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+<p></p><details><summary>The character on the right uses the <code><a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -381,7 +401,7 @@ public class <a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalk">
 {
     [SerializeField]
     private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 
     [SerializeField]
     private AnimationClip _Idle;
@@ -418,7 +438,7 @@ public class <a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalk">
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>And the character on the left uses the <code><a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a></code> script which looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+<p></p><details><summary>And the character on the left uses the <code><a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><p>Note how it <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a></code> instead of the usual <code>MonoBehaviour</code>.</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -444,8 +464,8 @@ public class <a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalkAn
 
         var playState = Animancer.Play(playAnimation, 0.25f);
 
-        var otherState = Animancer.GetState(otherAnimation);
-        if (otherState != null &amp;&amp; otherState.IsPlaying)
+        if (Animancer.States.TryGet(otherAnimation, out var otherState) &amp;&amp;
+            otherState.IsPlaying)
             playState.NormalizedTime = otherState.NormalizedTime;
     }
 }
@@ -483,7 +503,7 @@ public sealed class IdleAndWalkTutorial : MonoBehaviour
 <p>First we need to remove the <a href="../../../introduction/cs/inheritance#keywords"><code>sealed</code></a> keyword from the class and change the <code>Update</code> method to <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>. The <a href="../../../source/default-script-template#why-sealed">Default Script Template</a> page explains why we made it <a href="../../../introduction/cs/inheritance#keywords"><code>sealed</code></a> by default.</p>
 <p>The derived class will need access to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code>_Walk</code> animation so let's add <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> read-only <a href="../../../introduction/cs/methods#properties">Properties</a> for them (we could make the fields <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>, but we do not particularly want the derived class to be able to change their values). For the sake of completeness we might as well add one for the <code>_Idle</code> animation as well even though we do not intend to use it.</p>
 <pre><code class="language-cs">// These properties are read-only because they have "get" but not "set".
-public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 public AnimationClip Idle { get { return _Idle; } }
 public AnimationClip Walk { get { return _Walk; } }
 </code></pre>
@@ -496,7 +516,7 @@ public class IdleAndWalkTutorial : MonoBehaviour
 {
     [SerializeField]
     private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 
     [SerializeField]
     private AnimationClip _Idle;
@@ -573,8 +593,8 @@ else
 <pre><code class="language-cs">var playState = Animancer.Play(playAnimation, 0.25f);
 </code></pre>
 <p>Then we get the other animation's state and if it's still playing (because it hasn't finished fading out) we give its <code>NormalizedTime</code> to the animation we just started playing:</p>
-<pre><code class="language-cs">var otherState = Animancer.GetState(otherAnimation);
-if (otherState != null &amp;&amp; otherState.IsPlaying)
+<pre><code class="language-cs">if (Animancer.States.TryGet(otherAnimation, out var otherState) &amp;&amp;
+    otherState.IsPlaying)
     playState.NormalizedTime = otherState.NormalizedTime;
 </code></pre>
 <p><a href="../../../manual/blending/mixers">Mixers</a> and Blend Trees can automatically perform this synchronisation as demonstrated in the <a href="../linear-blending">Linear Blending</a> example.</p>
@@ -602,8 +622,8 @@ public class IdleAndWalkAndRunTutorial : IdleAndWalkTutorial
 
         var playState = Animancer.Play(playAnimation, 0.25f);
 
-        var otherState = Animancer.GetState(otherAnimation);
-        if (otherState != null &amp;&amp; otherState.IsPlaying)
+        if (Animancer.States.TryGet(otherAnimation, out var otherState) &amp;&amp;
+            otherState.IsPlaying)
             playState.NormalizedTime = otherState.NormalizedTime;
     }
 }
@@ -631,7 +651,7 @@ public class IdleAndWalkTutorial : MonoBehaviour
 {
     [SerializeField]
     private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 
     [SerializeField]
     private AnimationClip _Idle;
@@ -667,7 +687,7 @@ public class IdleAndWalkTutorial : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
-<p><img src="walk-run-backwards.gif" class="img-responsive"></p>
+<p><img src="walk-backwards.gif" class="img-responsive"></p>
 
 	</section>
                 

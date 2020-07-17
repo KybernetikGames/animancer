@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -239,6 +240,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -297,6 +308,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -327,6 +339,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -383,7 +403,7 @@ public abstract class <a href="/animancer/api/Animancer.Examples.FineControl/Spi
 {
     [SerializeField]
     private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer { get { return _Animancer; } }
+    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 
     [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _WakeUp;
     [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Sleep;
@@ -400,8 +420,8 @@ public abstract class <a href="/animancer/api/Animancer.Examples.FineControl/Spi
         _Animancer.Evaluate();
         _Animancer.Playable.PauseGraph();
 
-        _WakeUp.Events.Sequence.OnEnd = () =&gt; _Animancer.Play(MovementAnimation);
-        _Sleep.Events.Sequence.OnEnd = _Animancer.Playable.PauseGraph;
+        _WakeUp.Events.OnEnd = () =&gt; _Animancer.Play(MovementAnimation);
+        _Sleep.Events.OnEnd = _Animancer.Playable.PauseGraph;
     }
 
     protected virtual void Update()
@@ -438,17 +458,11 @@ using UnityEngine;
 
 public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a> : <a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
 {
-    protected override bool IsMoving
-    {
-        get { return Input.GetKey(KeyCode.Space); }
-    }
+    protected override bool IsMoving =&gt; Input.GetKey(KeyCode.Space);
 
     [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Move;
 
-    protected override <a href="/animancer/api/Animancer/ITransition">ITransition</a> MovementAnimation
-    {
-        get { return _Move; }
-    }
+    protected override <a href="/animancer/api/Animancer/ITransition">ITransition</a> MovementAnimation =&gt; _Move;
 }
 </code></pre>
 <p></p></details><p></p>
@@ -510,19 +524,12 @@ protected abstract <a href="/animancer/api/Animancer/ITransition">ITransition</a
 public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a> : <a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
 {
     // Override the IsMoving property to return true whenever the Space key is held.
-    protected override bool IsMoving
-    {
-        get { return Input.GetKey(KeyCode.Space); }
-    }
+    protected override bool IsMoving =&gt; Input.GetKey(KeyCode.Space);
 
     // Add a transition field for the movement animation.
     [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Move;
 
-    // Override the MovementAnimation property to return that animation.
-    protected override <a href="/animancer/api/Animancer/ITransition">ITransition</a> MovementAnimation
-    {
-        get { return _Move; }
-    }
+    protected override <a href="/animancer/api/Animancer/ITransition">ITransition</a> MovementAnimation =&gt; _Move;
 }
 </code></pre>
 <h1 id="initialisation">Initialisation</h1>
@@ -535,8 +542,8 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Spide
 </code></pre>
 <p>We could have used <code>_Animancer.Play(_WakeUp).IsPlaying = false;</code> or set the <code>Speed = 0</code>, but pausing the entire graph is better for performance because it means that Unity does not need to evaluate its output every frame.</p>
 <p>Then we initialise the <code>OnEnd</code> events for each animation to avoid creating <a href="../../../manual/events/animancer#garbage">Garbage</a> every time we play the animation:</p>
-<pre><code class="language-cs">    _WakeUp.Events.Sequence.OnEnd = () =&gt; _Animancer.Play(MovementAnimation);
-    _Sleep.Events.Sequence.OnEnd = _Animancer.Playable.PauseGraph;
+<pre><code class="language-cs">    _WakeUp.Events.OnEnd = () =&gt; _Animancer.Play(MovementAnimation);
+    _Sleep.Events.OnEnd = _Animancer.Playable.PauseGraph;
 }
 </code></pre>
 <p>Note that this method is <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> because <code><a href="/animancer/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> needs to add its own input code. An <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> member (property or method) does not have an implementation in the base class (<code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code>) so it must always be overridden in every child class while a <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> member does have a base implementation so child classes can optionally <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> it and optionally call <code>base.Awake()</code> if they want to use the base implementation as well.</p>

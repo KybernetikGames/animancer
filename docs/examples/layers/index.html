@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -238,6 +239,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -296,6 +307,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -326,6 +338,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -373,7 +393,7 @@
 <p>This example demonstrates how you can use <a href="../../manual/blending/layers">Layers</a> and masks to play multiple animations at the same time on different body parts. If the <em>Action</em> (a tennis swing) is performed while the character is <em>Idle</em>, it is played on the default layer so that it controls the full body. But if it is performed while the <em>Run</em> animation is playing, the <em>Action</em> is played on another layer which is masked to only affect the upper body, so the legs continue running while the upper body acts independantly without needing to actually make a <em>RunningTennisSwing</em> animation.</p>
 <p><em><a href="../../manual/blending/layers">Layers</a> are a <a href="../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="layers.gif" class="img-responsive"></p>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.Layers/LayerExample">LayerExample</a></code> script looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.Layers/LayerExample">LayerExample</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -530,6 +550,7 @@ private void OnEnable()
 </code></pre>
 <p>Now we have a character that can perform an action with their upper body while their lower body continues doing whatever it was previously doing:</p>
 <p><img src="masked.gif" class="img-responsive"></p>
+<p>The official <a href="https://learn.unity.com/tutorial/character-animation#5c7f8528edbc2a002053b4fc">Character Animation</a> tutorial has a section which explains how to create <code>AvatarMask</code>s in more detail.</p>
 <h1 id="layer-changing">Layer Changing</h1>
 <p>The <em>Action</em> animation already has the character effectively standing still but has appropriate foot movements for the swing which the <em>Idle</em> animation does not, so when the character is <em>Idle</em> we might want to allow it to affect the whole body instead of only ever the upper body. To do this, we can simply change the layer we want to play it on depending on the current state:</p>
 <pre><code class="language-cs">// In PerformAction:

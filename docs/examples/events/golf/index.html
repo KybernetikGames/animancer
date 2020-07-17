@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -236,6 +237,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -294,6 +305,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -324,6 +336,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -371,7 +391,7 @@
 <p>This example expands upon the <a href="../../basics/quick-play">Quick Play</a> scene to demonstrate how you can utilise the various types of <a href="../../../manual/events">Events</a> supported by Animancer. It shows how you can have a character hit a ball at a specific time and adjust the end time of the animation to create a smoother transition. Both of these tasks are performed in several different ways using Unity's <a href="../../../manual/events/animation">Animation Events</a> and <a href="../../../manual/events/animancer">Animancer Events</a> so that you can compare the differences between those systems.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/blending/fading">custom Fade durations</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="golf-events.gif" class="img-responsive"></p>
-<p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script looks like this (with the comments removed since we are about to explain how it works):</summary><p>
+<p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System;
 using UnityEngine;
@@ -452,7 +472,7 @@ public abstract class <a href="/animancer/api/Animancer.Examples.Events/GolfHitC
     {
         _State = State.Idle;
 
-        var fadeDuration = AnimancerPlayable.GetFadeOutDuration();
+        var fadeDuration = EndEventReceiver.GetFadeOutDuration();
         _Animancer.Play(_Idle, fadeDuration);
     }
 
@@ -611,7 +631,7 @@ private Vector3 _BallStartPosition;
 {
     _State = State.Idle;
 
-    var fadeDuration = AnimancerPlayable.GetFadeOutDuration();
+    var fadeDuration = EndEventReceiver.GetFadeOutDuration();
     _Animancer.Play(_Idle, fadeDuration);
 }
 </code></pre>
@@ -637,10 +657,10 @@ private Vector3 _BallStartPosition;
     base.StartSwing();
 
     var state = _Animancer.States.Current;
-    _EventReceiver.onEvent.Set(state, (animationEvent) =&gt; HitBall());
+    _EventReceiver.OnEvent.Set(state, (animationEvent) =&gt; HitBall());
 }
 </code></pre>
-<p>Since we are using the <code>Set</code> method to specify which <code>state</code> we expect the event to come from, any events with the same name that come from other animations will be ignored. Likewise, if anything starts another animation, this callback will no longer be triggered. If we had set the <code>_EventReceiver.onEvent.Callback</code> directly, it would still get invoked if something interrupts this state and the event occurs while it was fading out. This could mean that a cancelled animation triggers a callback which was registered for a new animation, likely far earlier than desired.</p>
+<p>Since we are using the <code>Set</code> method to specify which <code>state</code> we expect the event to come from, any events with the same name that come from other animations will be ignored. Likewise, if anything starts another animation, this callback will no longer be triggered. If we had set the <code>_EventReceiver.OnEvent.Callback</code> directly, it would still get invoked if something interrupts this state and the event occurs while it was fading out. This could mean that a cancelled animation triggers a callback which was registered for a new animation, likely far earlier than desired.</p>
 <ol start="3">
 <li>The <em>Humanoid-GolfSwing-WithEvents</em> animation has an event with the Function Name "Event".</li>
 </ol>
@@ -661,23 +681,24 @@ private Vector3 _BallStartPosition;
 <p>The <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code> script is actually empty because the base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> already has everything we need to be able to set up <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector. The event callback is set up using a <a href="../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a> just like a <a href="../../basics/scene-setup#buttons">UI Button</a>:</p>
 <p><img src="animancer-hit-event.png" class="img-responsive"></p>
 <h2 id="hybrid-animancer-events">4. Hybrid Animancer Events</h2>
-<p>The last character also uses <a href="../../../manual/events/animancer">Animancer Events</a>, but the event only has its time set in the Inspector with its callback left blank:</p>
+<p>The last character also uses <a href="../../../manual/events/animancer">Animancer Events</a>. It's time is the same, but instead of having its callback set, it is left blank and the event's name is set to "Hit":</p>
 <p><img src="animancer-hybrid-hit-event.png" class="img-responsive"></p>
-<p>This allows the <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code> script to verify that the expected number of events actually exist and then assign the callback on startup:</p>
+<p>This allows the <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code> script to set the callback of the event with that name on startup:</p>
 <pre><code class="language-cs">protected override void Awake()
 {
     base.Awake();
 
-    Debug.Assert(_Swing.Events.Sequence.Count == 1,
-        "Expected one event for hitting the ball", this);
-    _Swing.Events.Sequence.Set(0, HitBall);
+    _Swing.Events.SetCallback("Hit", HitBall);
 
     // ... Initialise the End Event as well.
 }
 </code></pre>
-<p>Note how <code>this</code> is used as the last parameter in the <code>Debug.Assert</code> call to specify the <code>context</code> so that if the condition is false and it logs the message, clicking on that message in the Console window will highlight the object this script is attached to in the Hierarchy window. Other <code>Debug</code> methods like <code>Debug.Log</code> also have the same optional <code>context</code> parameter.</p>
-<p>If we did not create the event in the Inspector, we could create it from scratch like so:</p>
-<pre><code class="language-cs">    _Swing.Events.Sequence.Add(new AnimancerEvent(0.375f, OnHitBall));
+<p>If we did not set the event's Name in the Inspector, we could just access it by index like so:</p>
+<pre><code class="language-cs">_Swing.Events.SetCallback(0, HitBall);
+</code></pre>
+<p>But that hard-codes the assumption that there will not be any other events before the one we want.</p>
+<p>Or if we did not create the event in the Inspector, we could create it from scratch like so:</p>
+<pre><code class="language-cs">_Swing.Events.Add(new AnimancerEvent(0.375f, OnHitBall));
 </code></pre>
 <p>But that would hard-code the event time into the script instead of allowing us to use the <a href="../../../manual/transitions#previews">Transition Preview Window</a> to see what the animated model looks like while we adjust the event time.</p>
 <h1 id="end-events">End Events</h1>
@@ -691,19 +712,15 @@ private Vector3 _BallStartPosition;
       <td><img src="standard-end.gif" class="img-responsive"></td>
       <td><img src="early-end.gif" class="img-responsive"></td>
     </tr>
-    <tr>
-      <td><img src="standard-end.gif" class="img-responsive"></td>
-      <td><img src="early-end.gif" class="img-responsive"></td>
-    </tr>
   </tbody>
 </table>
 <p>If we wait for the actual end of the swing animation before we start transitioning to idle (the video on the left), we can observe an unnatural change in the motion when the transition begins. The swing animation goes up to the top of the arc and begins to relax, then when that animation actually finishes it starts transitioning from that pose to <em>Idle</em>. It's fairly smooth, but it's clearly a different motion from the end of the swing. This is made worse by the fact that the <em>Swing</em> animation ends in a pose similar to the one it started in which isn't the <em>Idle</em> pose we want to be in, so the character relaxes towards one pose then suddenly decides to go to a different pose.</p>
-<p>This can be improved by simply starting the transition early (the video on the right) and having it last for the entire remaining duration of the swing animation so that the "relaxation" of the character's pose consistently comes from both the end of the swing animation and from the <a href="../../../manual/blending/fading">Fade</a> towards <em>Idle</em> at the same time. This is done by having the <code>EndSwing</code> method call <code>AnimancerPlayable.GetFadeOutDuration</code> to get the remaining duration instead of using the regular duration of the <code>_Idle</code> transition:</p>
+<p>This can be improved by simply starting the transition early (the video on the right) and having it last for the entire remaining duration of the swing animation so that the "relaxation" of the character's pose consistently comes from both the end of the swing animation and from the <a href="../../../manual/blending/fading">Fade</a> towards <em>Idle</em> at the same time. This is done by having the <code>EndSwing</code> method call <code>EndEventReceiver.GetFadeOutDuration</code> to get the remaining duration instead of using the regular duration of the <code>_Idle</code> transition:</p>
 <pre><code class="language-cs">public void EndSwing()
 {
     _State = State.Idle;
 
-    var fadeDuration = AnimancerPlayable.GetFadeOutDuration();
+    var fadeDuration = EndEventReceiver.GetFadeOutDuration();
     _Animancer.Play(_Idle, fadeDuration);
 }
 </code></pre>
@@ -712,7 +729,7 @@ private Vector3 _BallStartPosition;
 <pre><code class="language-cs">protected override void Awake()
 {
     base.Awake();
-    _Swing.Events.Sequence.OnEnd = EndSwing;
+    _Swing.Events.OnEnd = EndSwing;
 }
 </code></pre>
 <p>That on its own would still only trigger <code>EndSwing</code> at the very end of the animation, but the <em>Humanoid-GolfSwing-WithEvents</em> animation they use also has another event with the Function Name <code>"End"</code> which will trigger that callback early:</p>
@@ -731,7 +748,7 @@ private Vector3 _BallStartPosition;
 
     // ... Initialise the Hit Event as shown above.
 
-    _Swing.Events.Sequence.OnEnd = EndSwing;
+    _Swing.Events.OnEnd = EndSwing;
 }
 </code></pre>
 

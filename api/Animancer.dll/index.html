@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -75,6 +76,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#ClassTypes">Class Types</a></p>
+<p><a href="#DelegateTypes">Delegate Types</a></p>
 <p><a href="#EnumTypes">Enum Types</a></p>
 <p><a href="#InterfaceTypes">Interface Types</a></p>
 <p><a href="#StructTypes">Struct Types</a></p>
@@ -209,7 +211,7 @@
 							<tr>
 								<td><a href="/animancer/api/Animancer/Sequence">AnimancerEvent<wbr>.Sequence</a></td>
 									<td>
-    A variable-size list of <code class="cs">Animancer.AnimancerEvent</code>s which keeps itself sorted by
+    A variable-size list of <code class="cs">Animancer.AnimancerEvent</code>s which keeps itself sorted according to their
     <code class="cs">Animancer.AnimancerEvent.normalizedTime</code>.
     <p></p>
     Animancer Lite does not allow the use of events in a runtime build, except for <code class="cs">Animancer.AnimancerEvent.Sequence.OnEnd</code>.
@@ -225,6 +227,12 @@
 							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimancerGUI">AnimancerGUI</a></td>
 									<td>[Editor-Only] Various GUI utilities used throughout Animancer.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerJob_1">AnimancerJob</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerJob_1#typeparam-T">T</a>&gt;<wbr></td>
+									<td>[Pro-Only]
+    A base class that allows Animation Jobs to be easily inserted into an Animancer graph.
+    </td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></td>
@@ -258,11 +266,13 @@
     <code class="cs">UnityEngine.RuntimeAnimatorController</code> normally used to control an <code class="cs">UnityEngine.Animator</code>.
     <p></p>
     This class can be used as a custom yield instruction to wait until all animations finish playing.
+    <p></p>
+    The most common way to access this class is via <code class="cs">Animancer.AnimancerComponent.Playable</code>.
     </td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/LayerList">AnimancerPlayable<wbr>.LayerList</a></td>
-									<td>[Pro-Only]
+									<td>
     A list of <code class="cs">Animancer.AnimancerLayer</code>s with methods to control their mixing and masking.
     </td>
 							</tr>
@@ -314,11 +324,41 @@
 									<td>Various extension methods and utilities.</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimatedProperty">AnimatedProperty</a></td>
+								<td><a href="/animancer/api/Animancer/AnimatedBool">AnimatedBool</a></td>
+									<td>[Pro-Only]
+    A wrapper which allows access to the value of <code class="cs"><a href="/animancer">bool</a></code> properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></td>
+									<td>[Pro-Only]
+    A wrapper which allows access to the value of <code class="cs"><a href="/animancer">float</a></code> properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimatedInt">AnimatedInt</a></td>
+									<td>[Pro-Only]
+    A wrapper which allows access to the value of <code class="cs"><a href="/animancer">int</a></code> properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimatedProperty_2">AnimatedProperty</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimatedProperty_2#typeparam-TJob">TJob</a>, <wbr><a href="/animancer/api/Animancer/AnimatedProperty_2#typeparam-TValue">TValue</a>&gt;<wbr></td>
+									<td>[Pro-Only]
+    A base wrapper which allows access to the value of properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimationBindings">AnimationBindings</a></td>
+									<td>[Editor-Only]
+    Various utility functions relating to the properties animated by an <code class="cs">UnityEngine.AnimationClip</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/BindingData">AnimationBindings<wbr>.BindingData</a></td>
 									<td>
-    A wrapper which allows access to the value of a property that is controlled by animations.
-    <p></p>
-    Requires Unity 2019.1+.
+    A collection of data about the properties on a <code class="cs">UnityEngine.GameObject</code> and its children
+    which can be animated and the relationships between those properties and the properties that individual
+    <code class="cs">UnityEngine.AnimationClip</code>s are trying to animate.
     </td>
 							</tr>
 							<tr>
@@ -337,9 +377,9 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/AttackState">AttackState</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Weapons/AttackState">AttackState</a></td>
 									<td>
-    A <code class="cs">Animancer.Examples.StateMachines.Platformer.CreatureState</code> that performs an attack animation then returns to idle.
+    A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which can perform <code class="cs">Animancer.Examples.StateMachines.Weapons.Weapon.AttackAnimations</code> in sequence.
     </td>
 							</tr>
 							<tr>
@@ -349,9 +389,9 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Weapons/AttackState">AttackState</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/AttackState">AttackState</a></td>
 									<td>
-    A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which can perform <code class="cs">Animancer.Examples.StateMachines.Weapons.Weapon.AttackAnimations</code> in sequence.
+    A <code class="cs">Animancer.Examples.StateMachines.Platformer.CreatureState</code> that performs an attack animation then returns to idle.
     </td>
 							</tr>
 							<tr>
@@ -422,7 +462,7 @@
 								<td><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></td>
 									<td>[Pro-Only]
     An <code class="cs">Animancer.AnimancerState</code> which plays a <code class="cs">UnityEngine.RuntimeAnimatorController</code>.
-    You can control this state very similarly to an <code class="cs">UnityEngine.Animator</code> via its <code class="cs">Animancer.ControllerState.Playable</code> field.
+    You can control this state very similarly to an <code class="cs">UnityEngine.Animator</code> via its <code class="cs">Animancer.ControllerState.Playable</code> property.
     </td>
 							</tr>
 							<tr>
@@ -466,13 +506,13 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/Creature">Creature</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/Creature">Creature</a></td>
 									<td>
     A centralised group of references to the common parts of a creature and a state machine for their actions.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/Creature">Creature</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/Creature">Creature</a></td>
 									<td>
     A centralised group of references to the common parts of a creature and a state machine for their actions.
     </td>
@@ -484,21 +524,15 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/Creature">Creature</a></td>
-									<td>
-    A centralised group of references to the common parts of a creature and a state machine for their actions.
-    </td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Creatures/Creature">Creature</a></td>
 									<td>
     A centralised group of references to the common parts of a creature and a state machine for their actions.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/CreatureBrain">CreatureBrain</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/Creature">Creature</a></td>
 									<td>
-    Base class for controlling the actions of a <code class="cs">Animancer.Examples.StateMachines.Brains.Creature</code>.
+    A centralised group of references to the common parts of a creature and a state machine for their actions.
     </td>
 							</tr>
 							<tr>
@@ -508,15 +542,15 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/CreatureBrain">CreatureBrain</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/CreatureBrain">CreatureBrain</a></td>
 									<td>
-    Base class for any kind of <code class="cs">Animancer.Examples.StateMachines.Platformer.Creature</code> controller - local, network, AI, replay, etc.
+    Base class for controlling the actions of a <code class="cs">Animancer.Examples.StateMachines.Brains.Creature</code>.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureState">CreatureState</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/CreatureBrain">CreatureBrain</a></td>
 									<td>
-    Base class for the various states a <code class="cs">Brains.Creature</code> can be in and actions they can perform.
+    Base class for any kind of <code class="cs">Animancer.Examples.StateMachines.Platformer.Creature</code> controller - local, network, AI, replay, etc.
     </td>
 							</tr>
 							<tr>
@@ -545,14 +579,32 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureState">CreatureState</a></td>
+									<td>
+    Base class for the various states a <code class="cs">Brains.Creature</code> can be in and actions they can perform.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureStats">CreatureStats</a></td>
+									<td>The numerical details of a <code class="cs">Animancer.Examples.AnimatorControllers.GameKit.Creature</code>.</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/CreatureStats">CreatureStats</a></td>
 									<td>
     The numerical details of a <code class="cs">Animancer.Examples.StateMachines.Brains.Creature</code>.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CreatureStats">CreatureStats</a></td>
-									<td>The numerical details of a <code class="cs">Animancer.Examples.AnimatorControllers.GameKit.Creature</code>.</td>
+								<td><a href="/animancer/api/Animancer/CustomFade">CustomFade</a></td>
+									<td>[Pro-Only]
+    A system which fades animation weights animations using a custom calculation rather than linear interpolation.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/Damping">Damping</a></td>
+									<td>
+    An example of how to use Animation Jobs in Animancer to apply physics based damping to certain bones.
+    </td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/DelegateState_1">DelegateState</a><wbr>&lt;<a href="/animancer/api/Animancer.FSM/DelegateState_1#typeparam-TState">TState</a>&gt;<wbr></td>
@@ -561,15 +613,15 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/DieState">DieState</a></td>
-									<td>
-    Base class for the various states a <code class="cs">Brains.Creature</code> can be in and actions they can perform.
-    </td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/DieState">DieState</a></td>
 									<td>
     A <code class="cs">Animancer.Examples.StateMachines.Platformer.CreatureState</code> that plays a die animation.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/DieState">DieState</a></td>
+									<td>
+    Base class for the various states a <code class="cs">Brains.Creature</code> can be in and actions they can perform.
     </td>
 							</tr>
 							<tr>
@@ -604,6 +656,16 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/EndEventReceiver">EndEventReceiver</a></td>
+									<td>
+    A component which uses Animation Events with the Function Name "End" to invoke the
+    <code class="cs">Animancer.AnimancerEvent.Sequence.endEvent</code> of the <code class="cs">Animancer.AnimancerState</code> that triggered the event.
+    <p></p>
+    This component must always be attached to the same <code class="cs">UnityEngine.GameObject</code> as the <code class="cs">UnityEngine.Animator</code> in
+    order to receive Animation Events from it.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a></td>
 									<td>
     A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which managed the currently equipped <code class="cs">Animancer.Examples.StateMachines.Weapons.EquipState.Weapon</code>.
@@ -616,6 +678,10 @@
 							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/Context">EventSequenceDrawer<wbr>.Context</a></td>
 									<td>Details of an <code class="cs">Animancer.AnimancerEvent.Sequence.Serializable</code>.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/SerializedArrayProperty">EventSequenceDrawer<wbr>.Context<wbr>.<wbr>Serialized<wbr>Array<wbr>Property</a></td>
+									<td>A wrapper around a <code class="cs">UnityEditor.SerializedProperty</code> representing an array field.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></td>
@@ -801,21 +867,22 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/IdleState">IdleState</a></td>
+									<td>
+    A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which keeps the creature standing still.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/IdleState">IdleState</a></td>
 									<td>
-    A <code class="cs">Animancer.Examples.AnimatorControllers.GameKit.CreatureState</code> which keeps the creature standing still.
+    A <code class="cs">Animancer.Examples.AnimatorControllers.GameKit.CreatureState</code> which keeps the creature standing still and occasionally plays alternate
+    animations if it remains active for long enough.
     </td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/IdleState">IdleState</a></td>
 									<td>
     A <code class="cs">Animancer.Examples.StateMachines.Platformer.CreatureState</code> that plays an idle animation.
-    </td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/IdleState">IdleState</a></td>
-									<td>
-    A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which keeps the creature standing still.
     </td>
 							</tr>
 							<tr>
@@ -835,6 +902,10 @@
 									<td>
     An object for one of a character's limbs to aim at using Inverse Kinematics (IK).
     </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></td>
+									<td>Utility functions for various types of interpolation.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a></td>
@@ -903,6 +974,10 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/Drawer">LinearMixerState<wbr>.Drawer</a></td>
+									<td>[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.ControllerState</code>.</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/Transition">LinearMixerState<wbr>.Transition</a></td>
 									<td>
     A serializable <code class="cs">Animancer.ITransition</code> which can create a <code class="cs">Animancer.LinearMixerState</code> when
@@ -933,14 +1008,14 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/LocomotionState">LocomotionState</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers/LocomotionState">LocomotionState</a></td>
 									<td>
     A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which moves the creature according to their
     <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureBrain.MovementDirection</code>.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers/LocomotionState">LocomotionState</a></td>
+								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Brains/LocomotionState">LocomotionState</a></td>
 									<td>
     A <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureState</code> which moves the creature according to their
     <code class="cs">Animancer.Examples.StateMachines.Brains.CreatureBrain.MovementDirection</code>.
@@ -953,6 +1028,8 @@
     perform any automatic weight calculations, it simple allows you to control the weight of all states manually.
     <p></p>
     This mixer type is similar to the Direct Blend Type in Mecanim Blend Trees.
+    The official <a href="https://learn.unity.com/tutorial/5c5152bcedbc2a001fd5c696">Direct Blend Trees</a>
+    tutorial explains their general concepts and purpose which apply to <code class="cs">Animancer.ManualMixerState</code>s as well.
     </td>
 							</tr>
 							<tr>
@@ -980,14 +1057,28 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween</a><wbr>&lt;<a href="/animancer/api/Animancer/MixerParameterTween_1#typeparam-TParameter">TParameter</a>&gt;<wbr></td>
+									<td>
+    A system which allows a <code class="cs">Animancer.MixerState`1.Parameter</code> to be easily interpolated over time.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></td>
+									<td>A <code class="cs">Animancer.MixerParameterTween`1</code> which uses <code class="cs">UnityEngine.Mathf.LerpUnclamped(System.Single,System.Single,System.Single)</code>.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></td>
+									<td>A <code class="cs">Animancer.MixerParameterTween`1</code> which uses <code class="cs">UnityEngine.Vector2.LerpUnclamped(UnityEngine.Vector2,UnityEngine.Vector2,System.Single)</code>.</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/MixerState">MixerState</a></td>
 									<td>[Pro-Only]
     Base class for <code class="cs">Animancer.AnimancerState</code>s which blend other states together.
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer">MixerState<wbr>.Drawer</a></td>
-									<td>[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.ControllerState</code>.</td>
+								<td><a href="/animancer/api/Animancer/Drawer_1">MixerState<wbr>.Drawer</a><wbr>&lt;<a href="/animancer/api/Animancer/Drawer_1#typeparam-T">T</a>&gt;<wbr></td>
+									<td>[Editor-Only] Draws the Inspector GUI for a <code class="cs">Animancer.MixerState</code>.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/Transition_2">MixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_2#typeparam-TMixer">TMixer</a>, <wbr><a href="/animancer/api/Animancer/Transition_2#typeparam-TParameter">TParameter</a>&gt;<wbr></td>
@@ -1164,17 +1255,17 @@
     </td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RootMotionRedirect">RootMotionRedirect</a></td>
-									<td>
-    Takes the root motion from the <code class="cs">UnityEngine.Animator</code> attached to the same <code class="cs">UnityEngine.GameObject</code> and applies
-    it to a <code class="cs">Animancer.Examples.AnimatorControllers.GameKit.Creature</code> on a different object.
-    </td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.Weapons/RootMotionRedirect">RootMotionRedirect</a></td>
 									<td>
     Takes the root motion from the <code class="cs">UnityEngine.Animator</code> attached to the same <code class="cs">UnityEngine.GameObject</code> and applies
     it to a <code class="cs">UnityEngine.Rigidbody</code> on a different object.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RootMotionRedirect">RootMotionRedirect</a></td>
+									<td>
+    Takes the root motion from the <code class="cs">UnityEngine.Animator</code> attached to the same <code class="cs">UnityEngine.GameObject</code> and applies
+    it to a <code class="cs">Animancer.Examples.AnimatorControllers.GameKit.Creature</code> on a different object.
     </td>
 							</tr>
 							<tr>
@@ -1243,6 +1334,19 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></td>
+									<td>
+    A wrapper that manages an Animation Job (the <code class="cs">Animancer.Examples.Jobs.SimpleLean.Job</code> struct nested inside this class) which rotates a
+    set of bones to allow the character to dynamically lean over independantly of their animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLeanComponent">SimpleLeanComponent</a></td>
+									<td>
+    An example component that demonstrates how to use <code class="cs">Animancer.Examples.Jobs.SimpleLean</code>.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></td>
 									<td>Plays a single <code class="cs">UnityEngine.AnimationClip</code> on startup.</td>
 							</tr>
@@ -1292,9 +1396,7 @@
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></td>
-									<td>
-    Various extension methods for <code class="cs">Animancer.FSM.IOwnedState`1</code>.
-    </td>
+									<td>Various extension methods for <code class="cs">Animancer.FSM.IOwnedState`1</code>.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine</a><wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>, <wbr><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a>&gt;<wbr></td>
@@ -1372,17 +1474,17 @@
 									<td>Details of an <code class="cs">Animancer.AnimancerState.Transition`1</code>.</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">Transition<wbr>Preview<wbr>Window</a></td>
-									<td>[Editor-Only] [Pro-Only]
-    An <code class="cs">UnityEditor.EditorWindow</code> which allows the user to preview animation transitions separately from the rest
-    of the scene in Edit Mode or Play Mode.
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/TwoBoneIK">TwoBoneIK</a></td>
+									<td>
+    An example of how to use Animation Jobs in Animancer to apply simple two bone Inverse Kinematics, even to
+    Generic Rigs which are not supported by Unity's inbuilt IK system.
     </td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/Validate">Validate</a></td>
 									<td>
     Enforces various rules throughout the system, most of which are compiled out if UNITY_ASSERTIONS is not defined
-    (by default, it is defined in the Unity Editor and in Development Builds).
+    (by default, it is only defined in the Unity Editor and in Development Builds).
     </td>
 							</tr>
 							<tr>
@@ -1392,6 +1494,25 @@
     like damage, damage type, weapon category, etc. It could also inherit from a base Item class for things like
     weight, cost, and description.
     </td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+			<h1 id="DelegateTypes">Delegate Types</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover two-cols">
+						<thead>
+							<tr>
+								<th>Delegate</th>
+									<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/Delegate">Interpolation<wbr>.Delegate</a></td>
+									<td>A delegate representing an interpolation function.</td>
 							</tr>
 					</tbody></table>
 				</div>
@@ -1419,14 +1540,19 @@
 									<td>Indicates where <code class="cs">Animancer.Editor.AnimancerGUI.LayoutSingleLineRect(Animancer.Editor.AnimancerGUI.SpacingMode)</code> should add the <code class="cs">Animancer.Editor.AnimancerGUI.StandardSpacing</code>.</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Type">AnimatedProperty<wbr>.Type</a></td>
-									<td>The type of property being wrapped.</td>
+								<td><a href="/animancer/api/Animancer.Editor/MatchType">AnimationBindings<wbr>.MatchType</a></td>
+									<td>
+    A summary of the compatability between the properties animated by an <code class="cs">UnityEngine.AnimationClip</code> and the
+    properties that actually exist on a particular <code class="cs">UnityEngine.GameObject</code> (and its children).
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/ExceptionHandler">AnimationGatherer<wbr>.ExceptionHandler</a></td>
+									<td>An action that can be performed in response to an exception.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/AnimationType">AnimationType</a></td>
-									<td>[Editor-Only]
-    The type of object an <code class="cs">UnityEngine.AnimationClip</code> can animate.
-    </td>
+									<td>[Editor-Only] The general type of object an <code class="cs">UnityEngine.AnimationClip</code> can animate.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.Examples.StateMachines.InterruptManagement/Priority">CreatureState<wbr>.Priority</a></td>
@@ -1451,6 +1577,13 @@
 									<td></td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/Function">Interpolation<wbr>.Function</a></td>
+									<td>
+    The name of an interpolation function.
+    The <code class="cs">Animancer.Interpolation</code> class contains various extension methods for this enum.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/MenuFunctionState">MenuFunctionState</a></td>
 									<td>The possible states for a function in a <code class="cs">UnityEditor.GenericMenu</code>.</td>
 							</tr>
@@ -1458,6 +1591,18 @@
 								<td><a href="/animancer/api/Animancer/MixerType">MixerState<wbr>.Transition2D<wbr>.MixerType</a></td>
 									<td>
     A type of <code class="cs">Animancer.MixerState</code> that can be created by a <code class="cs">Animancer.MixerState.Transition2D</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples/MouseButton">OrbitControls<wbr>.MouseButton</a></td>
+									<td></td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/WarningType">WarningType</a></td>
+									<td>
+    Bitwise flags used by <code class="cs">Validate.IsEnabled</code> and <code class="cs">Animancer.Validate.Disable(Animancer.WarningType)</code> to determine which
+    warnings Animancer should give. All warnings are enabled by default, but are entirely compiled out of runtime
+    builds (except development builds).
     </td>
 							</tr>
 					</tbody></table>
@@ -1488,19 +1633,12 @@
 							<tr>
 								<td><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></td>
 									<td>
-    A variant of <code class="cs">Animancer.IAnimationClipSource</code> which uses a <code class="cs">System.Collections.Generic.ICollection`1</code> instead of a
+    A variant of <code class="cs">IAnimationClipSource</code> which uses a <code class="cs">System.Collections.Generic.ICollection`1</code> instead of a
     <code class="cs">System.Collections.Generic.List`1</code> so that it can take a <code class="cs">System.Collections.Generic.HashSet`1</code> to efficiently avoid adding duplicates.
     <code class="cs">Animancer.AnimancerUtilities</code> contains various extension methods for this purpose.
     <p></p>
-    <code class="cs">Animancer.IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
+    <code class="cs">IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
     interface is only used internally.
-    </td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></td>
-									<td>
-    Proxy for an identical interface introduced in Unity 2018.3 to have a class provide its own list of
-    <code class="cs">UnityEngine.AnimationClip</code>s to the Animation Window without an Animator Controller.
     </td>
 							</tr>
 							<tr>
@@ -1597,6 +1735,18 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/Job">AnimatedBool<wbr>.Job</a></td>
+									<td></td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Job">AnimatedFloat<wbr>.Job</a></td>
+									<td></td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Job">AnimatedInt<wbr>.Job</a></td>
+									<td></td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></td>
 									<td>
     A callback to be invoked by Animation Events that have been triggered by a specific animation.
@@ -1607,6 +1757,18 @@
 									<td>
     A wrapper for the name and hash of an <code class="cs">UnityEngine.AnimatorControllerParameter</code> to allow easy access.
     </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></td>
+									<td></td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/Job">SimpleLean<wbr>.Job</a></td>
+									<td></td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Examples.Jobs/TwoBoneIKJob">TwoBoneIKJob</a></td>
+									<td></td>
 							</tr>
 					</tbody></table>
 				</div>

@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -240,6 +241,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -298,6 +309,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -328,6 +340,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -390,7 +410,7 @@
 <p>Many games play a special animation for the player when the scene starts which is not used again during regular gameplay. For example, Super Smash Bros. Ultimate:</p>
 <iframe width="480" height="270" src="https://www.youtube.com/embed/XXZpGWfi-ak?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 <p>Those animations could simply be created as a single <code>AnimationClip</code> (per character) so that it can be played like any other, but Unity's <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> system allows us to create animation sequences from multiple clips within Unity and then play the entire sequence using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> in Animancer.</p>
-<p>The Unity Manual explains how to use <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> so we will not be repeating it here. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
+<p>The Unity Manual explains how to use <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> (along with the official <a href="https://learn.unity.com/tutorial/timeline">Timeline</a> tutorial) so we will not be repeating it here. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
 <p><img src="timeline.png" class="img-responsive"></p>
 <p>We could instead give our script an array of <code>AnimationClip</code>s and play them in sequence like the <a href="../../basics/sequence-coroutine">Sequence Coroutine</a> example, but this way the artists have full control over the sequence and the code is very simple:</p>
 <table class="table">
@@ -424,7 +444,7 @@ private void Awake()
 {
     if (_DestroyWhenDone)
     {
-        _Animation.Events.Sequence.OnEnd = () =&gt;
+        _Animation.Events.OnEnd = () =&gt;
         {
             Creature.Idle.ForceEnterState();
 
@@ -437,7 +457,7 @@ private void Awake()
     }
     else
     {
-        _Animation.Events.Sequence.OnEnd = Creature.ForceEnterIdleState;
+        _Animation.Events.OnEnd = Creature.ForceEnterIdleState;
     }
 }
 </code></pre>
@@ -451,7 +471,7 @@ private void Awake()
     {
         if (_DestroyWhenDone)
         {
-            _Animation.Events.Sequence.OnEnd = () =&gt;
+            _Animation.Events.OnEnd = () =&gt;
             {
                 Creature.Idle.ForceEnterState();
                 Creature.Animancer.States.Destroy(_Animation);
@@ -460,7 +480,7 @@ private void Awake()
         }
         else
         {
-            _Animation.Events.Sequence.OnEnd = Creature.ForceEnterIdleState;
+            _Animation.Events.OnEnd = Creature.ForceEnterIdleState;
         }
     }
 
@@ -498,19 +518,13 @@ public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines.Pla
 <h1 id="standardised-locomotion">Standardised Locomotion</h1>
 <p>The <a href="../brains">Brains</a> example only had two states so they could each just implement their own locomotion, but in this example we have more states so we want them all to share the same locomotion system. We do this by giving the base <code>CreatureState</code> class a <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> property which any state can <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> to allow movement:</p>
 <pre><code class="language-cs">// CreatureState does not allow movement by default:
-public virtual float MovementSpeed { get { return 0; } }
+public virtual float MovementSpeed =&gt; 0;
 
 // IdleState uses either a run or walk speed:
-public override float MovementSpeed
-{
-    get { return Creature.Brain.IsRunning ? _RunSpeed : _WalkSpeed; }
-}
+public override float MovementSpeed =&gt; Creature.Brain.IsRunning ? _RunSpeed : _WalkSpeed;
 
 // <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a> uses whatever speed the Idle state recommends:
-public override float MovementSpeed
-{
-    get { return Creature.Idle.MovementSpeed; }
-}
+public override float MovementSpeed =&gt; Creature.Idle.MovementSpeed;
 
 // Other states stick with the base 0 speed.
 </code></pre>
@@ -623,16 +637,13 @@ public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines.Pla
 <p>With that script in place, we can give the <code>Creature</code> script a reference to it with a <a href="../../../introduction/cs/methods#properties">Property</a> for other scripts to access it:</p>
 <pre><code class="language-cs">[SerializeField]
 private <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> _GroundDetector;
-public <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> { get { return _GroundDetector; } }
+public <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> =&gt; _GroundDetector;
 </code></pre>
 <p>Then anything can check if the creature is on the ground:</p>
 <pre><code class="language-cs">// You can only jump while grounded:
 public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a> : CreatureState
 {
-    public override bool CanEnterState(CreatureState previousState)
-    {
-        return Creature.GroundDetector.IsGrounded;
-    }
+    public override bool CanEnterState(CreatureState previousState) =&gt; Creature.GroundDetector.IsGrounded;
 
     ...
 }
@@ -684,15 +695,9 @@ public float CalculateJumpSpeed(float height)
 
     protected <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> { get; private set; }
 
-    public override float MovementSpeed
-    {
-        get { return Creature.Idle.MovementSpeed; }
-    }
+    public override float MovementSpeed =&gt; Creature.Idle.MovementSpeed;
 
-    public override bool CanEnterState(CreatureState previousState)
-    {
-        return Creature.GroundDetector.IsGrounded;
-    }
+    public override bool CanEnterState(CreatureState previousState) =&gt; Creature.GroundDetector.IsGrounded;
 
     protected virtual void OnEnable()
     {
@@ -781,7 +786,7 @@ private void Update()
 {
     [SerializeField]
     private int _MaxHealth;
-    public int MaxHealth { get { return _MaxHealth; } }
+    public int MaxHealth =&gt; _MaxHealth;
 </code></pre>
 <p>This script does not need to specifically know what will happen when the health value is changed. Something probably happens when it reaches 0 and the player might want to display their health somwhere, but other objects might not need to do anything in response to most health changes. So instead of hard coding a response into this script, we can give it a <a href="../../../introduction/cs/methods#delegates">Delegate</a> which other scripts can assign the appropriate callback method to:</p>
 <pre><code class="language-cs">    public event Action OnHealthChanged;
@@ -791,7 +796,7 @@ private void Update()
 <pre><code class="language-cs">    private int _CurrentHealth;
     public int CurrentHealth
     {
-        get { return _CurrentHealth; }
+        get =&gt; _CurrentHealth;
         set
         {
 </code></pre>
@@ -837,10 +842,7 @@ private void Update()
     }
 </code></pre>
 <p>We also want to prevent the brain or anything else from performing actions now that the creature is dead:</p>
-<pre><code class="language-cs">    public override bool CanExitState(CreatureState nextState)
-    {
-        return false;
-    }
+<pre><code class="language-cs">    public override bool CanExitState(CreatureState nextState) =&gt; false;
 }
 </code></pre>
 <p>This is demonstrated by a <a href="../../basics/scene-setup#buttons">UI Button</a> in the scene which sets the <code>CurrentHealth</code> value to 0.</p>

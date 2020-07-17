@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -237,6 +238,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -295,6 +306,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -325,6 +337,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -370,7 +390,7 @@
 <p><a href="../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
 <h1 id="features">Features</h1>
 <ul>
-<li>Replaced <code>ExposedCurve</code> with <code><a href="/animancer/api/Animancer/AnimatedProperty">AnimatedProperty</a></code>:
+<li>Replaced <code>ExposedCurve</code> with <code>AnimatedProperty</code>:
 <ul>
 <li>Instead of a <code>ScriptableObject</code> that serializes the curve separately and evaluates it manually, it now accesses the value directly from the animation stream.</li>
 <li>It automatically blends the value according to the weights of all current animations.</li>
@@ -406,7 +426,7 @@
 <li><code><a href="/animancer/api/Animancer/PlayableAssetState/9466EAB9">PlayableAssetState.Length</a></code> is now cached so it no longer allocates garbage all the time (not sure why Unity's <code>PlayableAsset.length</code> would do so in the first place though).</li>
 <li>Added <code>AnimancerNode.CreatePlayable</code>, <code>RecreatePlayable</code>, and <code>RecreatePlayableRecursive</code> to standardise their initialisation.
 <ul>
-<li>The <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> now uses them instead of totally destroying and recreating the states to ensure that the playables are correct without losing their drawer state. <a href="https://github.com/KybernetikGames/animancer/issues/23">#23</a></li>
+<li>The <code>TransitionPreviewWindow</code> now uses them instead of totally destroying and recreating the states to ensure that the playables are correct without losing their drawer state. <a href="https://github.com/KybernetikGames/animancer/issues/23">#23</a></li>
 <li>Added <code>AnimancerState.ChangeMainObject</code> to standardise the destruction and re-creation of playables when the <code><a href="/animancer/api/Animancer/AnimancerState/8A80B66F">AnimancerState.MainObject</a></code> is changed.</li>
 </ul>
 </li>
@@ -426,13 +446,13 @@
 <ul>
 <li>Fixed <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> pooling to work correctly.</li>
 <li>Added <code>[CanEditMultipleObjects]</code> to <code>DummyObjectEditor</code>.</li>
-<li><code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> now supports Scriptable Render Pipelines. <a href="https://github.com/KybernetikGames/animancer/issues/17">#17</a></li>
+<li><code>TransitionPreviewWindow</code> now supports Scriptable Render Pipelines. <a href="https://github.com/KybernetikGames/animancer/issues/17">#17</a></li>
 <li>Fixed <code>AnimancerPlayable.LateUpdate.IsConnected</code> to properly disconnect it when set to false.</li>
 <li>The <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> setter now delays assigning the value to the playable until the next update since weights cannot be applied during the late update (so the time and weight could be out of sync for a frame if set during an event). <a href="https://github.com/KybernetikGames/animancer/issues/25">#25</a></li>
 <li>Fixed the 3D Game Kit example character to stand on moving platforms properly by only accessing the <code>CharacterController.isGrounded</code> flag once per frame right after moving and using that value for everything. <a href="https://github.com/KybernetikGames/animancer/issues/24">#24</a></li>
 <li>Destroyed <code><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></code>s no longer get updated.</li>
 <li>Fixed potential <code>NullReferenceException</code> in <code>MixerState.ApplySynchroniseChildren</code>.</li>
-<li>Fixed errors in <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> when the target transition is not valid.</li>
+<li>Fixed errors in <code>TransitionPreviewWindow</code> when the target transition is not valid.</li>
 </ul>
 
 	</section>

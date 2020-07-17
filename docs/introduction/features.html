@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li class="active"><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -79,7 +80,6 @@
 <p><a href="#blending">Blending</a></p>
 <p><a href="#humanoids">Humanoids</a></p>
 <p><a href="#fsm">Finite State Machines</a></p>
-<p><a href="#unity-versions">Unity Versions</a></p>
 <p><a href="#compatibility">Compatibility</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -240,6 +240,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -298,6 +308,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -328,6 +339,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -371,7 +390,7 @@
 <ul>
 <li><a href="https://docs.unity3d.com/Manual/MecanimFAQ.html"><strong>Mecanim</strong></a> is Unity’s main animation system. It uses the <code>Animator</code> component with an <code>AnimatorController</code> asset which is configured using the Animator window and controlled by scripts using <a href="mexanim-vs-animancer/why#magic-strings">Magic Strings</a>.</li>
 <li><a href="https://docs.unity3d.com/Manual/Animations.html"><strong>Legacy</strong></a> is Unity’s old animation system. It uses the <code>Animation</code> component which is primarily configured via the Inspector and controlled by scripts using <a href="mexanim-vs-animancer/why#magic-strings">Magic Strings</a>.</li>
-<li><a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki"><strong>Simple Animation</strong></a> is another animation system built by Unity as a minor side project which demonstrates how the Playables API can be used. It attempts to replicate the features of the Legacy animation system.</li>
+<li><a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki"><strong>Simple Animation</strong></a> (Abandoned) is another animation system built by Unity as a minor side project which demonstrates how the Playables API can be used. It attempted to replicate the features of the Legacy animation system and was partially successful, but had several significant issues which were never fixed before the project was abandoned.</li>
 <li><strong>Animancer</strong> is also built upon the Playables API and focuses on giving scripts full control over the animations they use to allow for better management of responsibilities and dependencies.
 <ul>
 <li><strong>Animancer Lite</strong> is the free version of Animancer which allows you to try out all the features for free in the Unity Editor, but disables many of them in runtime builds (indicated by <a href="#pro-only">[1]</a> in the table below).</li>
@@ -437,7 +456,7 @@ summary
     <td><details><summary>No need for Animator Controllers</summary>
       <p>Mecanim requires that all possible animation states be defined upfront in the Unity Editor as part of an Animator Controller asset and imposes severe limitations on your ability to have scripts control things at runtime.</p>
       <p>Legacy and Simple Animation are primarily designed around assigning the animations you want to an array in the Inspector, but they do allow scripts to add more animations dynamically at runtime.</p>
-      <p>Animancer also supports assigning animations to an Inspector array, but its main focus is on allowing scripts to play any animation on-demand at runtime without requiring any unnecessary preparation beforehand.</p>
+      <p>Animancer supports both Animator Controllers and assigning animations to an Inspector array, but its main focus is on allowing scripts to play any animation on-demand at runtime without requiring any unnecessary preparation beforehand.</p>
       By avoiding the need to define everything upfront, it becomes much easier to play animations from any source such as user created mods.</details></td>
     <td class="n">
     </td><td class="y">
@@ -601,8 +620,8 @@ animancer.Play("Attack");
   </td></tr>
   
   <tr>
-    <td><details><summary>Custom state types</summary>
-      Animancer allows you to create your own state types by inheriting from <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> (or any of its child classes) so that you can implement custom behaviour. For example, you might inherit from <code>AnimationMixer</code> to implement a new blending algorithm.</details></td>
+    <td><details><summary>Easily use Animation Jobs and custom state types</summary>
+      Animancer allows you to easily utilise <a href="../examples/jobs">Animation Jobs</a> for low level access to the animation stream as well as creating your own state types by inheriting from <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> (or any of its child classes) so that you can implement custom behaviour. For example, you might inherit from <code>AnimationMixer</code> to implement a new blending algorithm.</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -636,6 +655,16 @@ animancer.Play("Attack");
   </td></tr>
   
   <tr>
+    <td><details><summary>Custom fade curves</summary>
+      Animancer has a <a href="../manual/blending/fading#custom-fade">Custom Fade</a> system which makes it easy to replace the default Linear Interpolation with a different algorithm of your choice.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n"><a href="#pro-only">[1]</a></td>
+    <td class="y">
+  </td></tr>
+  
+  <tr>
     <td><details><summary>Mix and blend between multiple Animator Controllers</summary>
       Mecanim only allows one Animator Controller at a time while Animancer's <a href="../manual/animator-controllers">Controller States</a> allow you to mix multiple controllers with each other and with individual animations controlled directly by scripts.</details></td>
     <td class="n">
@@ -659,7 +688,7 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>Blend Trees / Animation Mixers</summary>
       <p>Blend Trees allow you to interpolate between multiple animations based on a parameter. For example, you might blend between idle, walk, and run based on how fast you want to move so that you can have your character animate appropriately for any speed based on how far the user tilts a joystick instead of only having a few specific speeds you can move at.</p>
-      Animancer's <a href="../manual/blending/mixers">Animation Mixers</a> serve the same purpose and allow much greater scripting control but do not attempt to automate things like aligning the stride timing of each animation to get consistent blending (which Blend Trees do). Animancer also allows the use of Blend Trees via <a href="../manual/animator-controllers">Controller States</a>.</details></td>
+      Animancer can play Blend Trees inside <a href="../manual/animator-controllers">Animator Controllers</a>, but also has <a href="../manual/blending/mixers">Mixer States</a> which serve the same purpose and allow much greater control over their internal details.</details></td>
     <td class="y">
     </td><td class="n">
     </td><td class="n">
@@ -724,7 +753,6 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>Inverse Kinematics</summary>
       <p>The Playables API exposes standard IK features which Mecanim and Animancer can utilise, however Simple Animation does not support these features because it was designed to replicate Legacy which does not support them.</p>
-      <p>Unity 2018.3 or later is required to use IK effectively with Animancer. See the <a href="#unity-versions">Unity Versions</a> section below for details.</p>
       Also note that due to <a href="https://docs.unity3d.com/ScriptReference/Animations.AnimationClipPlayable.SetApplyPlayableIK">limitations in the Playables API</a>, Unity will only ever call <code>OnAnimatorIK</code> on layer 0 when using Animancer.</details></td>
     <td class="y">
     </td><td class="n">
@@ -814,38 +842,6 @@ animancer.Play("Attack");
 </table>
 <p id="pro-only"><strong>[1]</strong> Animancer Lite includes these features in the Unity Editor so you can try them out, but they will not be available in runtime builds unless you purchase Animancer Pro. All Pro-Only features are commented as such and using them will log a message to make sure you are aware of the restriction.</p>
 <p id="animator-controller"><strong>[2]</strong> While Animancer itself does not have these features, you can still use them while configuring an Animator Controller for use in a <a href="../manual/animator-controllers">Controller State</a> (Pro-Only, see <a href="#pro-only">[1]</a>).</p>
-<h1 id="unity-versions">Unity Versions</h1>
-<table class="table">
-<thead>
-<tr>
-<th>Unity</th>
-<th>Animancer Features</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>5.6</td>
-<td>Not supported. The Playables API was still highly experimental at this point and it has changed a lot since then so while it may be possible to implement a system like Animancer in that version of Unity, it would not be worth the effort to develop, test, and maintain.</td>
-</tr>
-<tr>
-<td>2017.1</td>
-<td>Oldest version supported by Animancer.</td>
-</tr>
-<tr>
-<td>2018.1</td>
-<td><p>Fixed the <a href="../bugs/inconsistent-timing#first-frame-delay">First Frame Delay</a> bug.</p>Added support for <a href="../manual/ik">Inverse Kinematics</a>.</td>
-</tr>
-<tr>
-<td>2018.3</td>
-<td><p>Added <code><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></code> which allows the Animation Window to access animations from custom components (specifically, <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>s) rather than only from an <code>AnimatorController</code>.</p><p>Fixed the bug that prevented the <a href="../manual/ik">IK Pass</a> from working while fading between animations.</p>Fixed animations played in <a href="../manual/playing#edit-mode">Edit Mode</a> to work properly.</td>
-</tr>
-<tr>
-<td>2019.3</td>
-<td>Newest version Animancer has been tested in.</td>
-</tr>
-</tbody>
-</table>
-<p>Note that if you are using <a href="/animancer/lite">Animancer Lite</a> and you change to a different Unity version, you will need to re-download Animancer for that version.</p>
 <h1 id="compatibility">Compatibility</h1>
 <p>Animancer is based on the Playables API, which means most systems developed for regular Mecanim Animator Controllers should work with it.</p>
 <table class="table">
@@ -870,12 +866,12 @@ animancer.Play("Attack");
 <tr>
 <td><code>OnAnimatorIK</code></td>
 <td>Yes</td>
-<td>You can enable IK by setting <code>AnimancerLayer.ApplyAnimatorIK = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. This requires Unity 2018.3 to work properly as mentioned above. Note that the layer index will always be 0. See <a href="../manual/ik">Inverse Kinematics</a> for more details.</td>
+<td>You can enable IK by setting <code>AnimancerLayer.ApplyAnimatorIK = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. Note that the layer index will always be 0. See <a href="../manual/ik">Inverse Kinematics</a> for more details.</td>
 </tr>
 <tr>
 <td>Unity's <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@latest/index">Animation Rigging</a> package</td>
 <td>Yes</td>
-<td>Seems to work out of the box, but the package is currently in preview so anything could change.</td>
+<td>Seems to work out of the box, but the package is currently in preview so anything could change. The official <a href="https://learn.unity.com/tutorial/working-with-animation-rigging">Working with Animation Rigging</a> tutorial explains how to use it.</td>
 </tr>
 <tr>
 <td>Curve Driven Parameters</td>

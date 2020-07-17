@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -79,7 +80,7 @@
 <p><a href="#blend-tree">2. Blend Tree</a></p>
 <p><a href="#on-animator-move">3. On Animator Move</a></p>
 <p><a href="#animancer">Animancer</a></p>
-<p><a href="#setup-blend-tree">1. Setup Blend Tree</a></p>
+<p><a href="#setup-mixer">1. Setup Mixer</a></p>
 <p><a href="#fixed-update">2. Fixed Update</a></p>
 <p><a href="#on-animator-move-1">3. On Animator Move</a></p>
 <p><a href="#full-movement-control">Full Movement Control</a></p>
@@ -243,6 +244,16 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -301,6 +312,7 @@
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li><a href="/animancer/docs/manual/debugging">Debugging</a></li>
 
                     </ul>
                 </li>
@@ -331,6 +343,14 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
@@ -465,25 +485,26 @@
 <p>That method is long enough that it should really have been split into multiple methods. The first part where it determines the <code>movement</code> based on whether the character is grounded or not would do well as a separate method called something like <code>GetMovementThisFrame</code> which simply returns the <code>Vector3</code>.</p>
 <h1 id="animancer">Animancer</h1>
 <ol>
-<li><a href="#setup-blend-tree">Setup Blend Tree</a></li>
+<li><a href="#setup-mixer">Setup Mixer</a></li>
 <li><a href="#fixed-update">Fixed Update</a></li>
 <li><a href="#on-animator-move-1">On Animator Move</a></li>
 </ol>
-<h1 id="setup-blend-tree">1. Setup Blend Tree</h1>
-<p>The Animancer character uses an identical Blend Tree for <em>Locomotion</em>, except that it is contained in its own Animator Controller without any other unrelated states or parameters. We start with a <code><a href="/animancer/api/Animancer/Transition">Float2ControllerState.Transition</a></code>, which will create a <a href="../../../../../manual/animator-controllers">Controller State</a> at runtime to play the Animator Controller and wrap its two parameters with C# properties:</p>
-<ul>
-<li><code>ParameterX</code> is the <code>Speed</code> parameter which we set to control the Blend Tree.</li>
-<li><code>ParameterY</code> is <code>FootFall</code> parameter which gets automatically updated by a curve built into each of the animations (and blended by the Blend Tree) so that we can read from it to determine when to play the footstep sounds.</li>
-</ul>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/Transition">Float2ControllerState.Transition</a> _LocomotionBlendTree;
+<h1 id="setup-mixer">1. Setup Mixer</h1>
+<p>The Animancer character uses a <a href="../../../../../manual/blending/mixers">Mixer State</a> in place of the Blend Tree:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/Transition">LinearMixerState.Transition</a> _LocomotionMixer;
 
 private void OnEnable()
 {
-    Animancer.Play(_LocomotionBlendTree);
+    Animancer.Play(_LocomotionMixer);
 }
 </code></pre>
-<p><img src="locomotion-transition.png" class="img-responsive"></p>
-<p>The <code>Locomotion Blend Tree</code> asset is an Animator Controller containing only one state - a Blend Tree identical to the one in the Mecanim Animator Controller (pictured in <a href="#blend-tree">2. Blend Tree</a> above) except that where Mecanim needed parameters for both <code>ForwardSpeed</code> and <code>VerticalSpeed</code>, this one only has a single purpose so its main parameter is just called <code>Speed</code>.</p>
+<p><img src="locomotion-mixer.png" class="img-responsive"></p>
+<p>There are a few notable differences between this Mixer and the original Blend Tree (pictured in <a href="#blend-tree">2. Blend Tree</a> above):</p>
+<ul>
+<li>It is defined in the Inspector instead of in an Animator Controller.</li>
+<li>It has the <a href="../../../../../manual/blending/mixers#synchronisation">Synchronisation</a> toggle disabled for the <em>Idle</em> animation where the Blend Tree will always synchronise all its animations.</li>
+<li>It only has 3 animations and <code>Extrapolate Speed</code> enabled instead of the 4 used in the Blend Tree. The Character's <code>Max Speed</code> is set to 8, which is slightly above the threshold of the 3rd animation (~7). The Blend Tree used another copy of the <em>EllenRunForward</em> animation with its speed set to 2 and its threshold twice as high (~14) so that when the parameter reaches 8 it will essentially just be playing that animation slightly faster than normal. We could do the exact same thing in the Mixer, but the <code>Extrapolate Speed</code> toggle allows it to automatically achieve the same result without manually adding a copy of the last animation.</li>
+</ul>
 <h1 id="fixed-update">2. Fixed Update</h1>
 <p>We also have a <code>FixedUpdate</code> method like the Mecanim character, but instead of one massive method that does lots of different things depending on your state this one only gets called while the character is in this state so its logic is much easier to understand:</p>
 <p>It starts with the same calls to <code>Creature.CheckMotionState</code> and <code>UpdateSpeedControl</code> that the <a href="../../idle#check-motion-state">Idle</a> state used:</p>
@@ -494,11 +515,8 @@ private void OnEnable()
 
     Creature.UpdateSpeedControl();
 </code></pre>
-<p>After updating the creature's speed according to its <code>Brain</code>, we send that value to the Animator Controller so it can control the Blend Tree (note that <code>ParameterX</code> was set to control the <code>Speed</code> parameter in <a href="#setup-blend-tree">step #1</a>):</p>
-<pre><code class="language-cs">    _LocomotionBlendTree.State.ParameterX = Creature.ForwardSpeed;
-
-    // Or we could set the parameter manually:
-    //_LocomotionBlendTree.State.Playable.SetFloat("Speed", Creature.ForwardSpeed);
+<p>After updating the creature's speed according to its <code>Brain</code>, we send that value to the Mixer so it can control the blending:</p>
+<pre><code class="language-cs">    _LocomotionMixer.State.Parameter = Creature.ForwardSpeed;
 </code></pre>
 <p>The rest of the <code>FixedUpdate</code> method concerns <a href="../turning">Turning</a> and audio.</p>
 <h1 id="on-animator-move-1">3. On Animator Move</h1>
@@ -529,23 +547,14 @@ private void OnEnable()
 <p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
 <p>But since each of our states is a separate class, we can use the power of <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> to give the base <code>CreatureState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
 <pre><code class="language-cs">// In CreatureState:
-public virtual Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> { get { return Animancer.Animator.deltaPosition; } }
+public virtual Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Animancer.Animator.deltaPosition;
 </code></pre>
 <p>Then any states that want different behaviour such as the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> can <code>override</code> that property:</p>
 <pre><code class="language-cs">// In AirborneState:
-public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a>
-{
-    get
-    {
-        return Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
-    }
-}
+public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
 </code></pre>
 <p>And now the <code>Creature</code> class can just access that property on whatever the current state happens to be, without having any specific knowledge about that state:</p>
-<pre><code class="language-cs">private Vector3 GetRootMotion()
-{
-    return StateMachine.CurrentState.RootMotion;
-}
+<pre><code class="language-cs">private Vector3 GetRootMotion() =&gt; StateMachine.CurrentState.RootMotion;
 </code></pre>
 <p>Note that there is actually more to the <code>GetRootMotion</code> method than just that. See <a href="#full-movement-control">Full Movement Control</a> below.</p>
 <h2 id="check-ground">Check Ground</h2>
@@ -557,9 +566,8 @@ public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/Ro
 
     const float GroundedRayDistance = 1f;
 
-    RaycastHit hit;
     var ray = new Ray(transform.position + Vector3.up * GroundedRayDistance * 0.5f, -Vector3.up);
-    if (Physics.Raycast(ray, out hit, GroundedRayDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+    if (Physics.Raycast(ray, out var hit, GroundedRayDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
     {
         // Rotate the movement to lie along the ground vector.
         movement = Vector3.ProjectOnPlane(movement, hit.normal);
@@ -579,10 +587,10 @@ public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/Ro
 <p>The Mecanim <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
 <p>Instead, we are using <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>
 <pre><code class="language-cs">// CreatureState.cs:
-public virtual bool StickToGround { get { return true; } }
+public virtual bool StickToGround =&gt; true;
 
 // AirborneState.cs:
-public override bool StickToGround { get { return false; } }
+public override bool StickToGround =&gt; false;
 </code></pre>
 <p>Now <code>Creature.UpdateGravity</code> can just check that property when needed:</p>
 <pre><code class="language-cs">private void UpdateGravity(ref Vector3 movement)

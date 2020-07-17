@@ -56,10 +56,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Docs</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v4.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -158,6 +159,7 @@
 			<li><a href="/animancer/api/Animancer.Examples.Events">Animancer<wbr>.Examples<wbr>.Events</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.FineControl">Animancer<wbr>.Examples<wbr>.FineControl</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.InverseKinematics">Animancer<wbr>.Examples<wbr>.InverseKinematics</a></li>
+			<li><a href="/animancer/api/Animancer.Examples.Jobs">Animancer<wbr>.Examples<wbr>.Jobs</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.Layers">Animancer<wbr>.Examples<wbr>.Layers</a></li>
 			<li><a href="/animancer/api/Animancer.Examples.Locomotion">Animancer<wbr>.Examples<wbr>.Locomotion</a></li>
 
@@ -216,6 +218,12 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerJob_1">AnimancerJob</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerJob_1#typeparam-T">T</a>&gt;<wbr></td>
+									<td>[Pro-Only]
+    A base class that allows Animation Jobs to be easily inserted into an Animancer graph.
+    </td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></td>
 									<td>
     A layer on which animations can play with their states managed independantly of other layers while blending the
@@ -237,6 +245,8 @@
     <code class="cs">UnityEngine.RuntimeAnimatorController</code> normally used to control an <code class="cs">UnityEngine.Animator</code>.
     <p></p>
     This class can be used as a custom yield instruction to wait until all animations finish playing.
+    <p></p>
+    The most common way to access this class is via <code class="cs">Animancer.AnimancerComponent.Playable</code>.
     </td>
 							</tr>
 							<tr>
@@ -266,11 +276,27 @@
 									<td>Various extension methods and utilities.</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimatedProperty">AnimatedProperty</a></td>
-									<td>
-    A wrapper which allows access to the value of a property that is controlled by animations.
-    <p></p>
-    Requires Unity 2019.1+.
+								<td><a href="/animancer/api/Animancer/AnimatedBool">AnimatedBool</a></td>
+									<td>[Pro-Only]
+    A wrapper which allows access to the value of <code class="cs"><a href="/animancer">bool</a></code> properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></td>
+									<td>[Pro-Only]
+    A wrapper which allows access to the value of <code class="cs"><a href="/animancer">float</a></code> properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimatedInt">AnimatedInt</a></td>
+									<td>[Pro-Only]
+    A wrapper which allows access to the value of <code class="cs"><a href="/animancer">int</a></code> properties that are controlled by animations.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimatedProperty_2">AnimatedProperty</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimatedProperty_2#typeparam-TJob">TJob</a>, <wbr><a href="/animancer/api/Animancer/AnimatedProperty_2#typeparam-TValue">TValue</a>&gt;<wbr></td>
+									<td>[Pro-Only]
+    A base wrapper which allows access to the value of properties that are controlled by animations.
     </td>
 							</tr>
 							<tr>
@@ -298,13 +324,19 @@
 								<td><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></td>
 									<td>[Pro-Only]
     An <code class="cs">Animancer.AnimancerState</code> which plays a <code class="cs">UnityEngine.RuntimeAnimatorController</code>.
-    You can control this state very similarly to an <code class="cs">UnityEngine.Animator</code> via its <code class="cs">Animancer.ControllerState.Playable</code> field.
+    You can control this state very similarly to an <code class="cs">UnityEngine.Animator</code> via its <code class="cs">Animancer.ControllerState.Playable</code> property.
     </td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></td>
 									<td>
     A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.ControllerState.Transition</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/CustomFade">CustomFade</a></td>
+									<td>[Pro-Only]
+    A system which fades animation weights animations using a custom calculation rather than linear interpolation.
     </td>
 							</tr>
 							<tr>
@@ -326,6 +358,16 @@
     parameter and thresholds using Polar Gradient Band Interpolation.
     <p></p>
     This mixer type is similar to the 2D Freeform Directional Blend Type in Mecanim Blend Trees.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/EndEventReceiver">EndEventReceiver</a></td>
+									<td>
+    A component which uses Animation Events with the Function Name "End" to invoke the
+    <code class="cs">Animancer.AnimancerEvent.Sequence.endEvent</code> of the <code class="cs">Animancer.AnimancerState</code> that triggered the event.
+    <p></p>
+    This component must always be attached to the same <code class="cs">UnityEngine.GameObject</code> as the <code class="cs">UnityEngine.Animator</code> in
+    order to receive Animation Events from it.
     </td>
 							</tr>
 							<tr>
@@ -386,6 +428,10 @@
     </td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></td>
+									<td>Utility functions for various types of interpolation.</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/Key">Key</a></td>
 									<td>
     Stores the index of an object in a <code class="cs">Animancer.Key.KeyedList`1</code> to allow it to be efficiently removed.
@@ -413,6 +459,8 @@
     perform any automatic weight calculations, it simple allows you to control the weight of all states manually.
     <p></p>
     This mixer type is similar to the Direct Blend Type in Mecanim Blend Trees.
+    The official <a href="https://learn.unity.com/tutorial/5c5152bcedbc2a001fd5c696">Direct Blend Trees</a>
+    tutorial explains their general concepts and purpose which apply to <code class="cs">Animancer.ManualMixerState</code>s as well.
     </td>
 							</tr>
 							<tr>
@@ -420,6 +468,20 @@
 									<td>
     A <code class="cs">UnityEngine.ScriptableObject</code> which holds a <code class="cs">Animancer.ManualMixerState.Transition</code>.
     </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween</a><wbr>&lt;<a href="/animancer/api/Animancer/MixerParameterTween_1#typeparam-TParameter">TParameter</a>&gt;<wbr></td>
+									<td>
+    A system which allows a <code class="cs">Animancer.MixerState`1.Parameter</code> to be easily interpolated over time.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></td>
+									<td>A <code class="cs">Animancer.MixerParameterTween`1</code> which uses <code class="cs">UnityEngine.Mathf.LerpUnclamped(System.Single,System.Single,System.Single)</code>.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></td>
+									<td>A <code class="cs">Animancer.MixerParameterTween`1</code> which uses <code class="cs">UnityEngine.Vector2.LerpUnclamped(UnityEngine.Vector2,UnityEngine.Vector2,System.Single)</code>.</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/MixerState">MixerState</a></td>
@@ -497,7 +559,7 @@
 								<td><a href="/animancer/api/Animancer/Validate">Validate</a></td>
 									<td>
     Enforces various rules throughout the system, most of which are compiled out if UNITY_ASSERTIONS is not defined
-    (by default, it is defined in the Unity Editor and in Development Builds).
+    (by default, it is only defined in the Unity Editor and in Development Builds).
     </td>
 							</tr>
 					</tbody></table>
@@ -524,19 +586,12 @@
 							<tr>
 								<td><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></td>
 									<td>
-    A variant of <code class="cs">Animancer.IAnimationClipSource</code> which uses a <code class="cs">System.Collections.Generic.ICollection`1</code> instead of a
+    A variant of <code class="cs">IAnimationClipSource</code> which uses a <code class="cs">System.Collections.Generic.ICollection`1</code> instead of a
     <code class="cs">System.Collections.Generic.List`1</code> so that it can take a <code class="cs">System.Collections.Generic.HashSet`1</code> to efficiently avoid adding duplicates.
     <code class="cs">Animancer.AnimancerUtilities</code> contains various extension methods for this purpose.
     <p></p>
-    <code class="cs">Animancer.IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
+    <code class="cs">IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
     interface is only used internally.
-    </td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/IAnimationClipSource">IAnimationClipSource</a></td>
-									<td>
-    Proxy for an identical interface introduced in Unity 2018.3 to have a class provide its own list of
-    <code class="cs">UnityEngine.AnimationClip</code>s to the Animation Window without an Animator Controller.
     </td>
 							</tr>
 							<tr>
@@ -633,6 +688,14 @@
 								<td><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></td>
 									<td>
     Determines how <code class="cs">Animancer.AnimancerLayer.Play(Animancer.AnimancerState,System.Single,Animancer.FadeMode)</code> works.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/WarningType">WarningType</a></td>
+									<td>
+    Bitwise flags used by <code class="cs">Validate.IsEnabled</code> and <code class="cs">Animancer.Validate.Disable(Animancer.WarningType)</code> to determine which
+    warnings Animancer should give. All warnings are enabled by default, but are entirely compiled out of runtime
+    builds (except development builds).
     </td>
 							</tr>
 					</tbody></table>
