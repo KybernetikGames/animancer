@@ -317,6 +317,7 @@
                         
                 <li><a href="/animancer/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
                 <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
 
                     </ul>
@@ -444,11 +445,11 @@
 <li>Call one of the <code>Initialise</code> methods on the mixer:</li>
 </ol>
 <ul>
-<li><code>Initialise(portCount)</code> allocates room for the specified number of states which can be filled individually using <code>CreateState</code> or by passing the mixer into the constructor or <code>SetParent</code> method of any state type. This even lets you nest mixers inside each other.</li>
+<li><code>Initialise(portCount)</code> allocates room for the specified number of states which can be filled individually using <code>CreateChild</code> or by passing the mixer into the constructor or <code>SetParent</code> method of any state type. This even lets you nest mixers inside each other.</li>
 <li><code>Initialise(clips, thresholds)</code> allocates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> for each of the <code>clips</code> and assigns their corresponding <code>thresholds</code>.</li>
 </ul>
 <ol start="3">
-<li>Make sure all states have been assigned thresholds to determine the parameter values where they will be used and how they will blend in relation to other states. This can be done using optional parameters in the <code>Initialise</code> and <code>CreateState</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
+<li>Make sure all states have been assigned thresholds to determine the parameter values where they will be used and how they will blend in relation to other states. This can be done using optional parameters in the <code>Initialise</code> and <code>CreateChild</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
 <li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
 </ol>
 <p></p><details><summary>The following example script uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
