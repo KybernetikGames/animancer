@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -203,6 +203,7 @@
 				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
 				<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
 				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
+				<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
 				<li><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></li>
 				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
@@ -371,13 +372,16 @@ class Type type-node
 								<td></td>
 								<td>
 									<div>
-     An <code class="cs">Animancer.AnimancerEvent</code> which denotes the end of the animation. Its values can be accessed via
-     <code class="cs">Animancer.AnimancerEvent.Sequence.OnEnd</code> and <code class="cs">Animancer.AnimancerEvent.Sequence.NormalizedEndTime</code>.
+     A <code class="cs">Animancer.AnimancerEvent.callback</code> that will be triggered every frame after the <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> has
+     passed. If you want it to only get triggered once, you can either have the event clear itself or just
+     use a regular event instead.
+     <p></p>
+     Interrupting the animation does not trigger this event.
      <p></p>
      By default, the <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> will be <code class="cs">System.Single.NaN</code> so that it can choose the
      correct value based on the current play direction: forwards ends at 1 and backwards ends at 0.
      <p></p>
-     Animancer Lite does not allow the <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to be changed in a runtime build.
+     Animancer Lite does not allow the <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to be changed in Runtime Builds.
      </div>
 								</td>
 							</tr>
@@ -447,30 +451,14 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/Sequence/467FFF3E">NormalizedEndTime</a></td>
 								<td>float</td>
 								<td>
-									<div>[Pro-Only]
-     Shorthand for <code class="cs">endEvent.normalizedTime</code>.
-     <p></p>
-     By default, this value will be <code class="cs">System.Single.NaN</code> so that it can choose the correct value based on
-     the current play direction: forwards ends at 1 and backwards ends at 0.
-     <p></p>
-     Animancer Lite does not allow this value to be changed in a runtime build.
-     </div>
+									<div>[Pro-Only] Shorthand for <code class="cs">endEvent.normalizedTime</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/Sequence/9FF5A569">OnEnd</a></td>
 								<td>Action</td>
 								<td>
-									<div>
-     Shorthand for the <code class="cs">endEvent.callback</code>. This callback is triggered when the animation passes the
-     <code class="cs">Animancer.AnimancerEvent.Sequence.NormalizedEndTime</code> (not when the state is interrupted or exited for whatever reason).
-     <p></p>
-     Unlike regular events, this callback will be triggered every frame while it is past the end so if you
-     want to ensure that your callback only occurs once, you will need to clear it as part of that callback.
-     <p></p>
-     This callback is automatically cleared by <code class="cs">Animancer.AnimancerState.Play</code>,
-     <code class="cs">Animancer.AnimancerState.OnStartFade</code>, and <code class="cs">Animancer.AnimancerState.Stop</code>.
-     </div>
+									<div>Shorthand for the <code class="cs">endEvent.callback</code>.</div>
 								</td>
 							</tr>
 							<tr>

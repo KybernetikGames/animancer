@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.0</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -202,6 +202,7 @@
 				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
 				<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
 				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
+				<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
 				<li><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></li>
 				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
@@ -257,9 +258,11 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
+											<li>IEnumerable<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
 											<li>IEnumerator</li>								
 											<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
 											<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
+											<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>								
 									</ul>
 								</dd>
 							
@@ -277,11 +280,14 @@
 						<div class="mermaid">
 							graph BT
 	Type--&gt;Base0["PlayableBehaviour"]
-	Type-.-&gt;Interface0["IEnumerator"]
-	Type-.-&gt;Interface1["IPlayableWrapper"]
-	click Interface1 "/animancer/api/Animancer/IPlayableWrapper"
-	Type-.-&gt;Interface2["IAnimationClipCollection"]
-	click Interface2 "/animancer/api/Animancer/IAnimationClipCollection"
+	Type-.-&gt;Interface0["IEnumerable&lt;AnimancerState&gt;"]
+	Type-.-&gt;Interface1["IEnumerator"]
+	Type-.-&gt;Interface2["IPlayableWrapper"]
+	click Interface2 "/animancer/api/Animancer/IPlayableWrapper"
+	Type-.-&gt;Interface3["IAnimationClipCollection"]
+	click Interface3 "/animancer/api/Animancer/IAnimationClipCollection"
+	Type-.-&gt;Interface4["IHasIK"]
+	click Interface4 "/animancer/api/Animancer/IHasIK"
 	Type["AnimancerPlayable"]
 class Type type-node
 
@@ -292,8 +298,8 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public sealed class AnimancerPlayable : PlayableBehaviour, IEnumerator, IPlayableWrapper, 
-    IAnimationClipCollection</code></pre>
+	<pre><code>public sealed class AnimancerPlayable : PlayableBehaviour, IEnumerable&lt;AnimancerState&gt;, 
+    IEnumerator, IPlayableWrapper, IAnimationClipCollection, IHasIK</code></pre>
 
 
 
@@ -342,17 +348,13 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/AFA3F42A">ApplyAnimatorIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>
+									<div>[<code class="cs">Animancer.IHasIK</code>]
     Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object for any
     <code class="cs">Animancer.AnimancerPlayable.States</code>. The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyAnimatorIK</code> when a new
     state is created and setting this value will also set the default.
     <p></p>
     This is equivalent to the "IK Pass" toggle in Animator Controller layers, except that due to limitations in
     the Playables API the <code class="cs">layerIndex</code> will always be zero.
-    <p></p>
-    It requires Unity 2018.1 or newer, however 2018.3 or newer is recommended because a bug in earlier versions
-    of the Playables API caused this value to only take effect while at least one state was at
-    <code class="cs">Animancer.AnimancerNode.Weight</code> = 1 which meant that IK would not work while fading between animations.
     </div>
 								</td>
 							</tr>
@@ -360,7 +362,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/CF5207DD">ApplyFootIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>
+									<div>[<code class="cs">Animancer.IHasIK</code>]
     Determines whether any of the <code class="cs">Animancer.AnimancerPlayable.States</code> in this layer are applying IK to the character's feet.
     The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code> when a new state is created.
     <p></p>
@@ -401,10 +403,6 @@ class Type type-node
 									<div>
     Determines the default value of <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> for all new states created in
     this layer. Default false.
-    <p></p>
-    It requires Unity 2018.1 or newer, however 2018.3 or newer is recommended because a bug in earlier versions
-    of the Playables API caused this value to only take effect while at least one state was at
-    <code class="cs">Animancer.AnimancerNode.Weight</code> = 1 which meant that IK would not work while fading between animations.
     </div>
 								</td>
 							</tr>
@@ -485,7 +483,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/012372D7">Layers</a></td>
 								<td><a href="/animancer/api/Animancer/LayerList">AnimancerPlayable<wbr>.LayerList</a></td>
 								<td>
-									<div>The layers which each manage their own set of animations.</div>
+									<div>The <code class="cs">Animancer.AnimancerLayer</code>s which each manage their own set of animations.</div>
 								</td>
 							</tr>
 							<tr>
@@ -509,7 +507,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/1CB93800">States</a></td>
 								<td><a href="/animancer/api/Animancer/StateDictionary">AnimancerPlayable<wbr>.StateDictionary</a></td>
 								<td>
-									<div>The states managed by this playable.</div>
+									<div>The <code class="cs">Animancer.AnimancerState</code>s managed by this playable.</div>
 								</td>
 							</tr>
 							<tr>
@@ -627,6 +625,15 @@ class Type type-node
 								<td>string</td>
 								<td>
 									<div>Returns a detailed descrption of all currently playing states and other registered states.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/BE3851AC">GetEnumerator<wbr>()<wbr></a></td>
+								<td>IEnumerator<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></td>
+								<td>
+									<div>
+    Returns an enumerator that will iterate through all states in each layer (but not sub-states).
+    </div>
 								</td>
 							</tr>
 							<tr>
