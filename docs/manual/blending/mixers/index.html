@@ -339,7 +339,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5-1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -451,6 +451,7 @@
 </ul>
 <ol start="3">
 <li>Make sure all states have been assigned thresholds to determine the parameter values where they will be used and how they will blend in relation to other states. This can be done using optional parameters in the <code>Initialise</code> and <code>CreateChild</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
+<li>Optionally call <code>SetName</code> to give it a more descriptive display name to show in the Inspector.</li>
 <li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
 </ol>
 <p></p><details><summary>The following example script uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
@@ -484,18 +485,12 @@ public sealed class LinearMixerExample : MonoBehaviour
         // and since there is only one other state it will have nothing else to sync with anyway.
         _MovementMixer.SynchroniseChildren = new bool[] { false, false };
 
-        // Optionally register the mixer with a key so it
-        // can be accessed from other scripts using that key.
+        // Optionally set a display name to show in the Inspector.
+        // Otherwise it would appear as "LinearMixerState (Idle, Run)".
+        // This call will be automatically compiled out of Runtime Builds.
+        _MovementMixer.SetName("Movement Mixer");
 
-        // A string name:
-        _MovementMixer.Key = "Movement Mixer";
-        //var state = _Animancer.States["Movement Mixer"];
-
-        // Or use this component itself as the key.
-        _MovementMixer.Key = this;
-        //var state = _Animancer.States[this];
-
-        // Play the mixer just like a regular clip.
+        // Play the mixer just like a regular AnimationClip.
         _Animancer.Play(_MovementMixer);
     }
 
@@ -540,18 +535,19 @@ public sealed class NestedMixerExample : MonoBehaviour
     {
         _MovementMixer = new LinearMixerState();
 
-        // Allocate 2 child states and assign the mixers to them.
+        // Allocate 2 child states.
         _MovementMixer.Initialise(2);
-        _MovementMixer.SetChild(0, _RegularMovement.CreateState());
-        _MovementMixer.SetChild(1, _InjuredMovement.CreateState());
+        _MovementMixer.SetName("Movement Mixer");
 
-        // Set Thresholds[0] = 0 and Thresholds[1] = 1.
-        // So _MovementMixer.Parameter = 0 will use _RegularMovement.
-        // And _MovementMixer.Parameter = 1 will use _InjuredMovement.
-        // And values inbetween will blend accordingly.
-        _MovementMixer.SetThreshold(0, 0);
-        _MovementMixer.SetThreshold(1, 1);
-        //_MovementMixer.AssignLinearThresholds();// This would do the same thing.
+        // Create the state from the _RegularMovement transition and connect it to port 0.
+        var state = _RegularMovement.CreateState();
+        state.SetName("Regular Movement");
+        _MovementMixer.CreateChild(0, state, 0);
+
+        // Create the state from the _InjuredMovement transition and connect it to port 1.
+        var state = _InjuredMovement.CreateState();
+        state.SetName("Injured Movement");
+        _MovementMixer.CreateChild(0, state, 0);
 
         _Animancer.Play(_MovementMixer);
     }
