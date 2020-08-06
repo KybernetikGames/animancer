@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Die</title>
+        <title>Animancer - Animation Events</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -75,8 +75,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
-<p><a href="#animancer">Animancer</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#start-event-only-triggers-once">Start Event Only Triggers Once</a></p>
+<p><a href="#most-recent-event-is-not-repeated-when-setting-playable-time">Most recent event is not repeated when setting playable time</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -125,7 +125,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/examples">Examples</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -204,12 +204,12 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -229,7 +229,7 @@
                 <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
                 <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
                 <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
-                <li class="selected"><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
 
                     </ul>
                 </li>
@@ -308,11 +308,11 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
+                <li class="selected"><a href="/animancer/docs/bugs/events">Animation Events</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
                 <li><a href="/animancer/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
@@ -383,149 +383,32 @@
 
 
 		<section class="content-header">
-			<h1>Die</h1>
+			<h1>Animation Events</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
-</blockquote>
-<p>When the player gets hit too many times, they die and <a href="../respawn">Respawn</a> at the last checkpoint they passed:</p>
-<p><img src="die.gif" class="img-responsive"></p>
-<h1 id="mecanim">Mecanim</h1>
-<p>Dying works basically the same as <a href="../flinch">Flinching</a> except that it is triggered by the <code>Damageable.OnDeath</code> event:</p>
-<p><img src="die-and-respawn-states.png" class="img-responsive"></p>
-<p>The <code>PlayerController.OnReceiveMessage</code> method explained on the <a href="../flinch">Flinch</a> page includes a case for death messages:</p>
-<pre><code class="language-cs">public void OnReceiveMessage(MessageType type, object sender, object data)
-{
-    switch (type)
-    {
-        case MessageType.DAMAGED:
-            {
-                Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
-                Damaged(damageData);
-            }
-            break;
-        case MessageType.DEAD:
-            {
-                Damageable.DamageMessage damageData = (Damageable.DamageMessage)data;
-                Die(damageData);
-            }
-            break;
-    }
-}
-
-readonly int m_HashDeath = Animator.StringToHash("Death");
-
-public void Die(Damageable.DamageMessage damageMessage)
-{
-    m_Animator.SetTrigger(m_HashDeath);
-    m_ForwardSpeed = 0f;
-    m_VerticalSpeed = 0f;
-    m_Respawning = true;
-    m_Damageable.isInvulnerable = true;
-}
-</code></pre>
-<ol>
-<li>The transition from <code>Any State</code> to <code>EllenDeath</code> occurs after the <code>"Death"</code> trigger parameter is set.</li>
-<li>When that animation finishes it transitions into the <code>BeginRespawn</code> state.</li>
-<li>That state has a <code>EllenRespawnEffect</code> script attached to it.</li>
-<li>That script's <code>OnStateEnter</code> method calls <code>PlayerController.Respawn</code>.</li>
-<li><code>Respawn</code> calls <code>StartCoroutine(RespawnRoutine())</code>.</li>
-<li><code>RespawnRoutine</code> does several things:</li>
-</ol>
-<pre><code class="language-cs">readonly int m_HashRespawn = Animator.StringToHash("Respawn");
-
-protected IEnumerator RespawnRoutine()
-{
-    // Wait for the animator to be transitioning from the EllenDeath state.
-    while (m_CurrentStateInfo.shortNameHash != m_HashEllenDeath || !m_IsAnimatorTransitioning)
-    {
-        yield return null;
-    }
-
-    // Wait for the screen to fade out.
-    yield return StartCoroutine(ScreenFader.FadeSceneOut());
-    while (ScreenFader.IsFading)
-    {
-        yield return null;
-    }
-
-    // Enable spawning.
-    EllenSpawn spawn = GetComponentInChildren&lt;EllenSpawn&gt;();
-    spawn.enabled = true;
-
-    // If there is a checkpoint, move Ellen to it.
-    if (m_CurrentCheckpoint != null)
-    {
-        transform.position = m_CurrentCheckpoint.transform.position;
-        transform.rotation = m_CurrentCheckpoint.transform.rotation;
-    }
-    else
-    {
-        Debug.LogError("There is no Checkpoint set, there should always be a checkpoint set. Did you add acheckpoint at the spawn?");
-    }
-
-    // Set the Respawn parameter of the animator.
-    m_Animator.SetTrigger(m_HashRespawn);
-
-    // Start the respawn graphic effects.
-    spawn.StartEffect();
-
-    // Wait for the screen to fade in.
-    // Currently it is not important to yield here but should some changes occur that require waiting until arespawn has finished this will be required.
-    yield return StartCoroutine(ScreenFader.FadeSceneIn());
-
-    m_Damageable.ResetDamage();
-}
-</code></pre>
-<ol start="7">
-<li>The <code>"Respawn"</code> trigger causes the Animator Controller to transition to the <code>Respawn</code> state which plays the actual animation on the character (while the screen is fading back in).</li>
-</ol>
-<h1 id="animancer">Animancer</h1>
-<p></p><details><summary>The <code>DieState</code> script handles most of the same behaviour as the Mecanim character:</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
-using UnityEngine;
-using UnityEngine.Events;
-
-public sealed class DieState : CreatureState
-{
-    [SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Animation;
-    [SerializeField] private UnityEvent _OnEnterState;
-    [SerializeField] private UnityEvent _OnExitState;
-
-    private void Awake()
-    {
-        _Animation.Events.OnEnd = Creature.Respawn.ForceEnterState;
-    }
-
-    public void OnDeath()
-    {
-        Creature.StateMachine.ForceSetState(this);
-    }
-
-    private void OnEnable()
-    {
-        Creature.Animancer.Play(_Animation);
-        <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
-        _OnEnterState.Invoke();
-    }
-
-    private void OnDisable()
-    {
-        _OnExitState.Invoke();
-    }
-
-    public override bool FullMovementControl =&gt; false;
-
-    public override bool CanExitState(CreatureState nextState) =&gt; false;
-}
-</code></pre>
-<p></p></details><p></p>
-<p><img src="die-state.png" class="img-responsive img-right"></p>
-<p>Unfortunately, the <a href="../problems#script-referencing">Script Referencing</a> issue prevents it from using the <code>ScreenFader</code> script because its methods are <code>static</code> so <a href="../../../../introduction/cs/methods#unity-events">Unity Events</a> cannot call them. <a href="/ultevents">UltEvents</a> could call them, but we do not want this example to require another plugin.</p>
-<p>It has a <code>public</code> <code>OnDeath</code> method for the <code>Damageable</code> to call just like the <a href="../flinch">Flinch</a> state as well as <code>_OnEnterState</code> and <code>_OnExitState</code> events which make the player invulnerable just like the <a href="../respawn">Respawn</a> state.</p>
-<p>Those events could have been set up as <a href="../../../../manual/events/animancer">Animancer Events</a> at the start and end of the <code>_Animation</code> <a href="../../../../manual/transitions">Transition</a>, but it is possible that something could interrupt this state (such as forcibly restarting the level) and we would not want to leave the player invulnerable if that happens.</p>
+		<p>These bugs in Unity's inbuilt <a href="../manual/events/animation">Animation Event</a> system are part of the reason why <a href="../manual/events/animancer">Animancer Events</a> were implemented. The <a href="../manual/events">Events</a> page and <a href="../examples/events/golf">Golf Events</a> example compare the differences between the two systems.</p>
+<h1 id="start-event-only-triggers-once">Start Event Only Triggers Once</h1>
+<ul>
+<li>Having an <a href="../manual/events/animation">Animation Event</a> at time 0 will cause it to be triggered on the first frame when the animation is played.</li>
+<li>But even if the animation time is later reset to 0 or a negative value, that event will never be triggered again.</li>
+<li>This issue only occurs when the event time is exactly 0, so you can work around it by using a text editor to open the animation file (or the metadata if it is part of a model such as an FBX file) and changing the event time to a very small value such as 0.00001.</li>
+<li>Bug Report Case Number: <a href="https://issuetracker.unity3d.com/product/unity/issues/guid/1230811">1230811</a></li>
+</ul>
+<h1 id="most-recent-event-is-not-repeated-when-setting-playable-time">Most recent event is not repeated when setting playable time</h1>
+<ul>
+<li>The <a href="https://docs.unity3d.com/ScriptReference/Playables.PlayableExtensions.SetTime.html"><code>PlayableExtensions.SetTime</code></a> method is used to set the time of an animation when using the Playables API.</li>
+<li>It is supposed to trigger all of the <a href="../manual/events/animation">Animation Events</a> between the old and new time during the next frame.</li>
+<li>However, it fails to re-trigger the most recent event. For example:
+<ul>
+<li>Imagine an animation with 3 events: <code>A -&gt; B -&gt; C</code>.</li>
+<li>The animation plays and triggers the events in that order.</li>
+<li>Then we call <code>SetTime(0)</code> to reset the animation back to the start.</li>
+<li>During the next animation update it triggers the events again in reverse order, but instead of <code>C -&gt; B -&gt; A</code> it only triggers <code>B -&gt; A</code>.</li>
+</ul>
+</li>
+<li>Calling <code>SetTime</code> twice in a row avoids triggering the events, so this bug doesn't really affect Animancer (because we don't want <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> to trigger events anyway).</li>
+<li>Bug Report Case Number: <a href="https://issuetracker.unity3d.com/product/unity/issues/guid/1230810">1230810</a></li>
+</ul>
 
 	</section>
                 

@@ -309,9 +309,11 @@
                     <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/bugs/inconsistent-timing">Inconsistent Timing</a></li>
+                <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
+                <li><a href="/animancer/docs/bugs/timing">Timing</a></li>
                 <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
 
                     </ul>
@@ -401,17 +403,17 @@
 
   <tr>
     <td>Built into Unity. They work the same with Animancer as without it.</td>
-    <td><em><a href="../events/end#events">End Events</a> are included in <a href="/animancer/lite">Animancer Lite</a>, but the ability to set a custom end time and use other Animancer Events is only available in the Unity Editor unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></td>
+    <td><em><a href="../events/end#events">End Events</a> are included in <a href="/animancer/lite">Animancer Lite</a>, but the ability to set a custom end time and use other <a href="animancer">Animancer Events</a> is only available in the Unity Editor unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></td>
   </tr>
 
   <tr>
-    <td>Animation Events are defined as part of an <code>AnimationClip</code> so every state using that clip will have the same events.</td>
-    <td>Animancer Events are defined as part of an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> so they can each have different events regardless of which clip they use. If you want to share a set of events, you can simply define them in a shared location such as by using a <a href="../transitions/types#transition-assets">Transition Asset</a>.</td>
+    <td><a href="animation">Animation Events</a> are defined as part of an <code>AnimationClip</code> so every state using that clip will have the same events.</td>
+    <td><a href="animancer">Animancer Events</a> are defined as part of an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> so they can each have different events regardless of which clip they use. If you want to share a set of events, you can simply define them in a shared location such as by using a <a href="../transitions/types#transition-assets">Transition Asset</a>.</td>
   </tr>
 
   <tr>
-    <td>Each Animation Event calls one method which must be located in a component on the same <code>GameObject</code> as the <code>Animator</code>.</td>
-    <td>By default, <a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> are used to configure Animancer Events in the Inspector so they can call methods on any object they can reference and each event can call as many methods as you want.</td>
+    <td>Each <a href="animation">Animation Event</a> calls one method which must be located in a component on the same <code>GameObject</code> as the <code>Animator</code>.</td>
+    <td>By default, <a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> are used to configure <a href="animancer">Animancer Events</a> in the Inspector so they can call methods on any object they can reference and each event can call as many methods as you want.</td>
   </tr>
 
   <tr>
@@ -428,20 +430,25 @@
   </tr>
 
   <tr>
-    <td>Animation Events are not very efficient because they use a mechanism similar to <code>GameObject.SendMessage</code> and if the event has a <code>string</code> or <code>AnimationEvent</code> parameter, it will create some <a href="../../introduction/cs/other#garbage-collection">Garbage</a> every time it is triggered which can potentially cause performance issues.</td>
+    <td><a href="animation">Animation Events</a> are not very efficient because they use a mechanism similar to <code>GameObject.SendMessage</code> and if the event has a <code>string</code> or <code>AnimationEvent</code> parameter, it will create some <a href="../../introduction/cs/other#garbage-collection">Garbage</a> every time it is triggered which can potentially cause performance issues.</td>
     <td>
-      <p>Animancer Events are much more efficient because they use C# <a href="../../introduction/cs/methods#delegates">Delegates</a>.</p>
-      Animancer Events configured in the Inspector using <a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> do not allocate <a href="../../introduction/cs/other#garbage-collection">Garbage</a>. <a href="animancer#ultevents"><code>UltEvents</code></a> do not usually do so either, except in certain circumstances such as when a method returns a value type (<a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> simply would not be able to call such a method though).</td>
+      <p><a href="animancer">Animancer Events</a> are much more efficient because they use C# <a href="../../introduction/cs/methods#delegates">Delegates</a>.</p>
+      <a href="animancer">Animancer Events</a> configured in the Inspector using <a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> do not allocate <a href="../../introduction/cs/other#garbage-collection">Garbage</a>. <a href="animancer#ultevents"><code>UltEvents</code></a> do not usually do so either, except in certain circumstances such as when a method returns a value type (<a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> simply would not be able to call such a method though).</td>
   </tr>
 
   <tr>
-    <td>Animation Events can be added using code, but they are still subject to all the above limitations. If you are using an Animator Controller, you do not even have access to the <code>AnimationClip</code> of a particular state until it is already playing.</td>
-    <td>Animancer Events can be added using <a href="../../introduction/cs/methods#delegates">Delegates</a>. For example: <code>state.Events.Add(0.5f, () =&gt; Debug.Log("Event Triggered"));</code>.</td>
+    <td><a href="animation">Animation Events</a> can be added using code, but they are still subject to all the above limitations. If you are using an Animator Controller, you do not even have access to the <code>AnimationClip</code> of a particular state until it is already playing.</td>
+    <td><a href="animancer">Animancer Events</a> can be added using <a href="../../introduction/cs/methods#delegates">Delegates</a>. For example: <code>state.Events.Add(0.5f, () =&gt; Debug.Log("Event Triggered"));</code>.</td>
   </tr>
 
   <tr>
-    <td>Methods are referenced using <a href="../../introduction/mecanim-vs-animancer/why#magic-strings">Magic Strings</a>. Newer Unity versions use a dropdown menu to select the method instead of a text field to enter the name manually, but once selected the name is still stored as a string so if the method is renamed the Animation Event will <strong>not</strong> be automatically updated to reference the new name.</td>
-    <td><a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> and <a href="animancer#ultevents"><code>UltEvents</code></a> use strings just like Animation Events when you configure them in the Inspector, but when adding Animancer Events using code there are no strings involved. It can even be useful to configure the event times in the Inspector so you can preview what the model looks like at that time, but leave the actual event blank and set it up using code.</td>
+    <td>Methods are referenced using <a href="../../introduction/mecanim-vs-animancer/why#magic-strings">Magic Strings</a>. Newer Unity versions use a dropdown menu to select the method instead of a text field to enter the name manually, but once selected the name is still stored as a string so if the method is renamed the <a href="animation">Animation Event</a> will <strong>not</strong> be automatically updated to reference the new name.</td>
+    <td><a href="../../introduction/cs/methods#unity-events"><code>UnityEvents</code></a> and <a href="animancer#ultevents"><code>UltEvents</code></a> use strings just like <a href="animation">Animation Events</a> when you configure them in the Inspector, but when adding <a href="animancer">Animancer Events</a> using code there are no strings involved. It can even be useful to configure the event times in the Inspector so you can preview what the model looks like at that time, but leave the actual event blank and set it up using code.</td>
+  </tr>
+
+  <tr>
+    <td>There are several <a href="../../bugs/events">Known Bugs</a> in the <a href="animation">Animation Events</a> system which can only be fixed by waiting for Unity to address them and release a new version.</td>
+    <td>There are currently no known bugs in the <a href="animancer">Animancer Events</a> system and having the source code of Animancer Pro allows any that are found to be quickly fixed without even needing to wait for the Asset Store to approve an update.</td>
   </tr>
 
   </tbody>
