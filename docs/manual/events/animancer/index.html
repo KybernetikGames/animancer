@@ -438,7 +438,7 @@ public void Attack()
 }
 </code></pre>
 <p>See <a href="../end#events">End Events</a> for details about how the <code>OnEnd</code> event is different from others.</p>
-<p></p><details><summary>You can use Lambda Expressions and Anonymous Methods to define the code you want an event to run without needing to create another separate method:</summary><p>
+<p></p><details><summary>You can use <a href="../../../introduction/cs/methods#inline-delegates">Lambda Expressions and Anonymous Methods</a> to define the code you want an event to run without needing to create another separate method:</summary><p>
 </p><pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
     var state = animancer.Play(clip);
@@ -459,30 +459,6 @@ public void Attack()
     {
         Debug.Log(clip.name + " ended");
     };
-}
-</code></pre>
-<p></p></details><p></p>
-<p></p><details><summary>You can also set up event times using the Inspector as outlined above and leave their callbacks blank so they can be set in code on startup like so:</summary><p>
-</p><pre><code class="language-cs">// MeleeAttack.cs:
-
-[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Animation;
-
-private void Awake()
-{
-    // Make sure it has the correct number of events.
-    Debug.Assert(_Animation.Events.Count == 2, "Expected 2 events for the hit start and end");
-
-    // <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> always sorts itself so we know the start will be before the end.
-    _Animation.Events.Set(0, OnHitStart);// Set the callback for event 0.
-    _Animation.Events.Set(1, OnHitEnd);// Set the callback for event 1.
-
-    _Animation.Events.OnEnd = EnterIdleState;
-}
-
-public void Attack()
-{
-    _Animancer.Play(_Animation);
 }
 </code></pre>
 <p></p></details><p></p>
@@ -542,6 +518,7 @@ private void PlayAnimation()
 
 private void Awake()
 {
+    // Set the event named "Hit" to call the HitBall method when it is triggered.
     _GolfSwing.Events.SetCallback("Hit", HitBall);
 }
 
