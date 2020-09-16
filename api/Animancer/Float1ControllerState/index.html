@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -82,6 +82,7 @@
 <p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <p><a href="#ExtensionMethods">Extension Methods</a></p>
+<p><a href="#SeeAlso">See Also</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -168,7 +169,9 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
 				<li><a href="/animancer/api/Animancer/EndEventReceiver">EndEventReceiver</a></li>
+				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/FastReferenceComparer">Fast<wbr>Reference<wbr>Comparer</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
@@ -178,7 +181,6 @@
 				<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Float3ControllerTransition">Float3<wbr>Controller<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
-				<li><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></li>
 				<li><a href="/animancer/api/Animancer/Key">Key</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerTransition">Linear<wbr>Mixer<wbr>Transition</a></li>
@@ -199,6 +201,7 @@
 				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
+				<li><a href="/animancer/api/Animancer/TimeSynchronisationGroup">Time<wbr>Synchronisation<wbr>Group</a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
 			<li class="header">Interface Types</li>
 				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
@@ -216,7 +219,7 @@
 				<li><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></li>
-				<li><a href="/animancer/api/Animancer/WarningType">WarningType</a></li>
+				<li><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></li>
 
 
                     </ul>
@@ -237,9 +240,7 @@
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[Pro-Only]
-    A <code class="cs">Animancer.ControllerState</code> which manages one float parameter.
-    </div>
+	<div class="lead">[Pro-Only] A <code class="cs">Animancer.ControllerState</code> which manages one float parameter.</div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">
@@ -313,7 +314,7 @@ class Type type-node
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
-    See also: <code class="cs">Animancer.Float2ControllerState</code> and <code class="cs">Animancer.Float3ControllerState</code>.
+    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/animator-controllers">Animator Controllers</a>
     </div>
 
 
@@ -365,10 +366,12 @@ class Type type-node
 								<td>bool</td>
 								<td>
 									<div>[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether this node is applying IK to the character's feet.
+    Determines whether this node and its children are applying IK to the character's feet.
     The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code>.
     <p></p>
     This is equivalent to the "Foot IK" toggle in Animator Controller states.
+    <p></p>
+    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
@@ -385,7 +388,9 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerNode/A8AF7E6B">ChildCount</a></td>
 								<td>int</td>
 								<td>
-									<div>The number of states using this node as their <code class="cs">Animancer.AnimancerState.Parent</code>.</div>
+									<div>[<code class="cs">Animancer.IPlayableWrapper</code>]
+    The number of states using this node as their <code class="cs">Animancer.AnimancerState.Parent</code>.
+    </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
@@ -424,12 +429,21 @@ class Type type-node
      The number of seconds the animation will take to play fully at its current
      <code class="cs">Animancer.AnimancerNode.Speed</code>.
      <p></p>
-     Setting this value modifies the <code class="cs">Animancer.AnimancerNode.Speed</code>, not the <code class="cs">Animancer.AnimancerState.Length</code>.
-     Animancer Lite does not allow this value to be changed in a runtime build.
-     <p></p>
      For the time remaining from now until it reaches the end, use <code class="cs">Animancer.AnimancerState.RemainingDuration</code> instead.
+     <p></p>
+     Setting this value modifies the <code class="cs">Animancer.AnimancerNode.Speed</code>, not the <code class="cs">Animancer.AnimancerState.Length</code>.
+     <p></p>
+     <em>Animancer Lite does not allow this value to be changed in runtime builds.</em>
      </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/612FDF60">EditorName</a></td>
+								<td>string</td>
+								<td>
+									<div>[Editor-Only] The Inspector display name of this node.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -489,8 +503,8 @@ class Type type-node
     <code class="cs">Animancer.ObjectPool</code> if none was already assigned. You can use <code class="cs">Animancer.AnimancerState.HasEvents</code> to check
     beforehand.
     <p></p>
-    Animancer Lite does not allow the use of events in a runtime build, except for
-    <code class="cs">Animancer.AnimancerEvent.Sequence.OnEnd</code>.
+    <em>Animancer Lite does not allow the use of events in runtime builds, except for
+    <see cref="P:Animancer.AnimancerEvent.Sequence.OnEnd">.</see></em>
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -543,9 +557,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/ControllerState/0E1A5E1B">IsLooping</a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Indicates whether the current state on layer 0 will loop back to the start when it reaches the end.
-    </div>
+									<div>Indicates whether the current state on layer 0 will loop back to the start when it reaches the end.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
 							</tr>
@@ -615,7 +627,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerState/AF796608">Layer</a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></td>
 								<td>
-									<div>The root <code class="cs">Animancer.AnimancerLayer</code> which this state is connected to.</div>
+									<div>The root <code class="cs">Animancer.AnimancerLayer</code> which this node is connected to.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
 							</tr>
@@ -647,14 +659,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/AC527680">Name</a></td>
-								<td>string</td>
-								<td>
-									<div>[Editor-Only] The Inspector display name of this node.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/617EFC91">NormalizedTime</a></td>
 								<td>float</td>
 								<td>
@@ -670,7 +674,7 @@ class Type type-node
      current loop while the integer part (<code class="cs">(int)NormalizedTime</code>) is the number of times the animation has
      been looped.
      <p></p>
-     Animancer Lite does not allow this value to be changed to a value other than 0 in a runtime build.
+     <em>Animancer Lite does not allow this value to be changed to a value other than 0 in runtime builds.</em>
      </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -733,7 +737,7 @@ class Type type-node
 								<td>
 									<div>
     The <code class="cs">UnityEngine.AnimatorStateInfo.normalizedTime</code> * <code class="cs">UnityEngine.AnimatorStateInfo.length</code> of the
-    <code class="cs">Animancer.ControllerState.StateInfo</code>
+    <code class="cs">Animancer.ControllerState.StateInfo</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
@@ -745,10 +749,11 @@ class Type type-node
 									<div>
      The number of seconds the animation will take to reach the end at its current <code class="cs">Animancer.AnimancerNode.Speed</code>.
      <p></p>
-     Setting this value modifies the <code class="cs">Animancer.AnimancerNode.Speed</code>, not the <code class="cs">Animancer.AnimancerState.Length</code>.
-     Animancer Lite does not allow this value to be changed in a runtime build.
-     <p></p>
      For the time it would take to play fully from the start, use <code class="cs">Animancer.AnimancerState.Duration</code> instead.
+     <p></p>
+     Setting this value modifies the <code class="cs">Animancer.AnimancerNode.Speed</code>, not the <code class="cs">Animancer.AnimancerState.Length</code>.
+     <p></p>
+     <em>Animancer Lite does not allow this value to be changed in runtime builds.</em>
      </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -807,7 +812,7 @@ class Type type-node
      the animated object either freezes in place or starts again from the beginning according to whether it is
      looping or not.
      <p></p>
-     Animancer Lite does not allow this value to be changed in a runtime build (except resetting it to 0).
+     <em>Animancer Lite does not allow this value to be changed in runtime builds (except resetting it to 0).</em>
      </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -823,7 +828,7 @@ class Type type-node
      Setting this property cancels any fade currently in progress. If you don't wish to do that, you can use
      <code class="cs">Animancer.AnimancerNode.SetWeight(System.Single)</code> instead.
      <p></p>
-     Animancer Lite only allows this value to be set to 0 or 1 in a runtime build.
+     <em>Animancer Lite only allows this value to be set to 0 or 1 in runtime builds.</em>
      </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
@@ -880,18 +885,18 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/DD2185EC">CreatePlayable<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState/DAFE670C">CreatePlayable<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Creates and assigns the <code class="cs">UnityEngine.Playables.Playable</code> managed by this node.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+									<div>Creates and assigns the <code class="cs">UnityEngine.Playables.Playable</code> managed by this state.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/ControllerState/B90686CD">CreatePlayable<wbr>(Playable)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Creates and assigns the <code class="cs">Animancer.ControllerState.Playable</code> managed by this node.</div>
+									<div>Creates and assigns the <code class="cs">UnityEngine.Animations.AnimatorControllerPlayable</code> managed by this state.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
 							</tr>
@@ -899,7 +904,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/ControllerState/4AA887C9">Destroy<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Destroys the <code class="cs">Animancer.ControllerState.Playable</code> and cleans up this state.</div>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code> and cleans up this state.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
 							</tr>
@@ -925,9 +930,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/ControllerState/BAC8DBE9">GatherDefaultStates<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>
-    Gathers the <code class="cs">Animancer.ControllerState.DefaultStateHashes</code> from the current states.
-    </div>
+									<div>Gathers the <code class="cs">Animancer.ControllerState.DefaultStateHashes</code> from the current states.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/ControllerState">ControllerState</a></em></small></div>
 								</td>
 							</tr>
@@ -935,7 +938,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerNode/AF703B25">GetChild<wbr>(int)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>
+									<div>[<code class="cs">Animancer.IPlayableWrapper</code>]
     Returns the state connected to the specified `index` as a child of this node.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
@@ -1053,6 +1056,16 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/A15E4245">SetEditorName<wbr>(string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Conditional]
+    Sets the Inspector display name of this node. <code class="cs">Animancer.AnimancerNode.ToString</code> returns the name.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/953157FA">SetMinEventPoolCount<wbr>(int)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -1062,16 +1075,6 @@ class Type type-node
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/464B7494">SetName<wbr>(string)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>[Editor-Conditional]
-    Sets the Inspector display name of this node. <code class="cs">Animancer.AnimancerNode.ToString</code> returns the name.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1106,7 +1109,7 @@ class Type type-node
     This method allows any fade currently in progress to continue. If you don't wish to do that, you can set
     the <code class="cs">Animancer.AnimancerNode.Weight</code> property instead.
     <p></p>
-    Animancer Lite only allows this value to be set to 0 or 1 in a runtime build.
+    <em>Animancer Lite only allows this value to be set to 0 or 1 in runtime builds.</em>
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
@@ -1124,7 +1127,8 @@ class Type type-node
     If the <code class="cs">Animancer.AnimancerNode.Weight</code> is already equal to the `targetWeight` then the fade will end
     immediately.
     <p></p>
-    Animancer Lite only allows a `targetWeight` of 0 or 1 and the default `fadeDuration` in a runtime build.
+    <em>Animancer Lite only allows a `targetWeight` of 0 or 1 and the default `fadeDuration` (0.25 seconds) in
+    runtime builds.</em>
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
@@ -1145,7 +1149,7 @@ class Type type-node
 								<td>string</td>
 								<td>
 									<div>
-    Returns the <code class="cs">Animancer.AnimancerNode.Name</code> if one is set, otherwise a string describing the type of this
+    Returns the <code class="cs">Animancer.AnimancerNode.EditorName</code> if one is set, otherwise a string describing the type of this
     state and the name of the <code class="cs">Animancer.AnimancerState.MainObject</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
@@ -1190,6 +1194,11 @@ class Type type-node
 				</div>
 			</div>
 		
+	<h1 id="SeeAlso">See Also</h1>
+	<ul class="list-unstyled">
+			<li>Animancer.Float2ControllerState</li>
+			<li>Animancer.Float3ControllerState</li>
+	</ul>
 
 	
 </section>

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -156,6 +156,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -344,6 +345,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -517,7 +519,7 @@ public sealed class IdleState : CreatureState
         var index = UnityEngine.Random.Range(0, _RandomAnimations.Length);
         var animation = _RandomAnimations[index];
         Creature.Animancer.Play(animation);
-        CustomFade.Apply(Creature.Animancer, Interpolation.Function.SineInOut);
+        CustomFade.Apply(Creature.Animancer, Easing.Sine.InOut);
     }
 }
 </code></pre>
@@ -625,15 +627,15 @@ private void PlayRandomAnimation()
 }
 </code></pre>
 <h1 id="custom-fade">Custom Fade</h1>
-<p>The Mecanim character uses a fixed transition duration of 0.25 seconds between each of the idle animations. That causes a rather sudden change in the character's motion which the Animancer character smoothes out a bit by using 0.5 seconds instead. Each transition could have its duration further customised to suit each individual animation, but that is not the goal of this example. However, there is one more thing we can do to smooth out the transition: we can apply a <a href="../../../../manual/blending/fading#custom-fade">Custom Fade</a> right after starting the transition to replaces its default Linear Interpolation with an <code><a href="/animancer/api/Animancer/Function">Interpolation.Function</a></code>, <code>AnimationCurve</code>, or custom delegate:</p>
+<p>The Mecanim character uses a fixed transition duration of 0.25 seconds between each of the idle animations. That causes a rather sudden change in the character's motion which the Animancer character smoothes out a bit by using 0.5 seconds instead. Each transition could have its duration further customised to suit each individual animation, but that is not the goal of this example. However, there is one more thing we can do to smooth out the transition: we can apply a <a href="../../../../manual/blending/fading#custom-fade">Custom Fade</a> right after starting the transition to replaces its default Linear Interpolation with an <code><a href="/animancer/api/Animancer/Function">Easing.Function</a></code>, <code>AnimationCurve</code>, or custom delegate (such as one of the methods in the <code><a href="/animancer/api/Animancer/Easing">Easing</a></code> class):</p>
 <pre><code class="language-cs">private void PlayRandomAnimation()
 {
     ...
     Creature.Animancer.Play(animation);
-    CustomFade.Apply(Creature.Animancer, Interpolation.Function.SineInOut);
+    CustomFade.Apply(Creature.Animancer, Easing.Sine.InOut);
 }
 </code></pre>
-<p>The following video compares the default Linear Interpolation (left) with the <code>SineInOut</code> function (right). The differences are fairly subtle, but if you look at the way the left character suddenly changes direction for each transition you can see that the right character does so a bit more smoothly.</p>
+<p>The following video compares the default Linear Interpolation (left) with the <a href="https://easings.net/#easeInOutSine">Sine In Out</a> function (right). The differences are fairly subtle, but if you look at the way the left character suddenly changes direction for each transition you can see that the right character does so a bit more smoothly.</p>
 <p><img src="custom-fade.gif" class="img-responsive"></p>
 <h1 id="adding-more-idles">Adding More Idles</h1>
 <p>Aside from the distribution of data and logic, there is one more notable difference between the two approaches: the use of data structures. Consider the process of adding another animation to the random possibilities:</p>

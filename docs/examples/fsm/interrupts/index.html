@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -152,6 +152,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -340,6 +341,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -565,15 +567,15 @@ public sealed class CreatureState : Creatures.CreatureState
 <p>Instead of giving each state a serialized <code>Priority</code> field which needs to be set in the Inspector every time you add it to an object, you could give the base state class a <code>virtual</code> or <code>abstract</code> property that can be overridden by the actual state classes that <a href="../../../introduction/cs/inheritance">Inherit</a> from it:</p>
 <pre><code class="language-cs">// In the base State class.
 // Everything is low priority by default.
-public virtual Priority Priority { get { return Priority.Low; } }
+public virtual Priority Priority =&gt; Priority.Low;
 
 // In the Attack class.
 // All attacks are medium priority.
-public override Priority Priority { get { return Priority.Medium; } }
+public override Priority Priority =&gt; Priority.Medium;
 
 // In the Flinch class.
 // Flinching when you get hit is high priority to interrupt everything.
-public override Priority Priority { get { return Priority.High; } }
+public override Priority Priority =&gt; Priority.High;
 </code></pre>
 <p>The serialized field approach can be more flexible because some scripts might want a different priority to other instances of the same script, but the inheritance approach is often simpler to use because you do not have to set the priority in the Inspector for every state you create.</p>
 <h1 id="action-types">Action Types</h1>

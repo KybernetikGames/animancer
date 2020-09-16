@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -154,6 +154,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -342,6 +343,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -418,7 +420,7 @@
 <p>Note that this video is a little different from the actual example scene. It has disabled the camera movement because the delta based compression used by GIFs is not effective when the entire image is moving (causing the video file to be far larger than any of the other examples). The sprites have also been significantly reduced in size from their originals to keep the package size of Animancer small.</p>
 <h1 id="introductions">Introductions</h1>
 <p>Many games play a special animation for the player when the scene starts which is not used again during regular gameplay. For example, Super Smash Bros. Ultimate:</p>
-<iframe width="480" height="270" src="https://www.youtube.com/embed/XXZpGWfi-ak?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe width="480" height="270" src="https://www.youtube.com/embed/XXZpGWfi-ak?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 <p>Those animations could simply be created as a single <code>AnimationClip</code> (per character) so that it can be played like any other, but Unity's <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> system allows us to create animation sequences from multiple clips within Unity and then play the entire sequence using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> in Animancer.</p>
 <p>The Unity Manual explains how to use <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> (along with the official <a href="https://learn.unity.com/tutorial/timeline">Timeline</a> tutorial) so we will not be repeating it here. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
 <p><img src="timeline.png" class="img-responsive"></p>
@@ -502,7 +504,7 @@ private void Awake()
 </code></pre>
 <p></p></details><p></p>
 <h1 id="idle">Idle</h1>
-<p>The <a href="../brains">Brains</a> example merged the <em>Walk</em> and <em>Run</em> animations into a single <code>LocomotionState</code> so that it could synchronise their timings, but kept that separate from the <code>IdleState</code>. This meant that in order to move, the brain had to set the <code>MovementDirection</code> and also attempt to enter the <code>LocomotionState</code>. It also meant that whenever a creature finished an action they returned to the <code>IdleState</code> at least momentarily, even if the brain was trying to move. We could have let the <code>ReturnToIdle</code> callback determine which of those states to return to when an action finishes, but in this example we have merged them all into the <code>IdleState</code> so we are using the term "Idle" to mean "able to move freely" rather than specifically "standing still".</p>
+<p>The <a href="../brains">Brains</a> example merged the <em>Walk</em> and <em>Run</em> animations into a single <code>LocomotionState</code> so that it could synchronise their timings, but kept that separate from the <code>IdleState</code>. This meant that in order to move, the brain had to set the <code>MovementDirection</code> and also attempt to enter the <code>LocomotionState</code>. It also meant that whenever a creature finished an action they returned to the <code>IdleState</code> at least momentarily, even if the brain was trying to move. We could have the <code>ReturnToIdle</code> callback determine which of those states to return to when an action finishes, but in this example we have merged them all into the <code>IdleState</code> so we are using the term "Idle" to mean "able to move freely" rather than specifically "standing still".</p>
 <p>This means that the brain can just control the <code>MovementDirection</code> and <code>IsRunning</code> properties then a creature in the <code>IdleState</code> will act accordingly. A creature will never have a non-zero <code>MovementDirection</code> while standing still just because the brain forgot to enter the <code>LocomotionState</code>.</p>
 <p></p><details><summary>This allows the <code><a href="/animancer/api/Animancer.Examples.StateMachines.Platformer/LocalPlayerBrain">LocalPlayerBrain</a></code> script to be quite simple (we will be changing it a bit to implement <a href="#jumping">Jumping</a> later):</summary><p>
 </p><pre><code class="language-cs">using Animancer;

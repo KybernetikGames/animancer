@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -169,7 +169,9 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
 				<li><a href="/animancer/api/Animancer/EndEventReceiver">EndEventReceiver</a></li>
+				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/FastReferenceComparer">Fast<wbr>Reference<wbr>Comparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
@@ -179,7 +181,6 @@
 				<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Float3ControllerTransition">Float3<wbr>Controller<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
-				<li><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></li>
 				<li><a href="/animancer/api/Animancer/Key">Key</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerTransition">Linear<wbr>Mixer<wbr>Transition</a></li>
@@ -200,6 +201,7 @@
 				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
+				<li><a href="/animancer/api/Animancer/TimeSynchronisationGroup">Time<wbr>Synchronisation<wbr>Group</a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
 			<li class="header">Interface Types</li>
 				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
@@ -217,7 +219,7 @@
 				<li><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></li>
-				<li><a href="/animancer/api/Animancer/WarningType">WarningType</a></li>
+				<li><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></li>
 
 
                     </ul>
@@ -265,8 +267,8 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/Drawer">LinearMixerState<wbr>.Transition<wbr>.Drawer</a></li>								
 											<li><a href="/animancer/api/Animancer/Drawer">MixerState<wbr>.Transition2D<wbr>.Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer/Drawer">LinearMixerState<wbr>.Transition<wbr>.Drawer</a></li>								
 									</ul>
 								</dd>			
 							
@@ -282,9 +284,9 @@
 	Base1--&gt;Base2["PropertyDrawer"]
 	Type["MixerState.TransitionDrawer"]
 class Type type-node
-	Derived0["LinearMixerState.Transition.Drawer"]--&gt;Type
+	Derived0["MixerState.Transition2D.Drawer"]--&gt;Type
 	click Derived0 "/animancer/api/Animancer/Drawer"
-	Derived1["MixerState.Transition2D.Drawer"]--&gt;Type
+	Derived1["LinearMixerState.Transition.Drawer"]--&gt;Type
 	click Derived1 "/animancer/api/Animancer/Drawer"
 
 						</div>
@@ -295,13 +297,17 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[CustomPropertyDrawer(typeof(Transition&lt;, &gt;), true)]
-public class MixerState.TransitionDrawer : ManualMixerState.Transition.Drawer</code></pre>
+public abstract class MixerState.TransitionDrawer : ManualMixerState.Transition.Drawer</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
     This class would be nested inside <code class="cs">Animancer.MixerState.Transition`2</code>, but the generic parameters
     cause problems in Unity 2019.3.
+    <p></p>
+    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/transitions">Transitions</a>
+    <p></p>
+    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/blending/mixers">Mixers</a>
     </div>
 
 	<h1 id="Attributes">Attributes</h1>
@@ -470,13 +476,6 @@ public class MixerState.TransitionDrawer : ManualMixerState.Transition.Drawer</c
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/TransitionDrawer/7E230F20">Has<wbr>Threshold<wbr>Context<wbr>Menu</a></td>
-								<td>bool</td>
-								<td>
-									<div>Indicates whether <code class="cs">Animancer.MixerState.TransitionDrawer.AddThresholdFunctionsToMenu(UnityEditor.GenericMenu)</code> will add anything to the menu.</div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/TransitionDrawer/3D9FF595">Standard<wbr>Threshold<wbr>Width</a></td>
 								<td>float</td>
 								<td>
@@ -640,8 +639,7 @@ public class MixerState.TransitionDrawer : ManualMixerState.Transition.Drawer</c
 								<td>
 									<div>
     Called every time a `property` is drawn to find the relevant child properties and store them to be
-    used in <code class="cs">Animancer.ManualMixerState.Transition.Drawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> and
-    <code class="cs">Animancer.ManualMixerState.Transition.Drawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code>.
+    used in <code class="cs">Animancer.ManualMixerState.Transition.Drawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> and <code class="cs">Animancer.ManualMixerState.Transition.Drawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code>.
     </div>
 								</td>
 							</tr>
@@ -714,8 +712,7 @@ public class MixerState.TransitionDrawer : ManualMixerState.Transition.Drawer</c
 								<td>void</td>
 								<td>
 									<div>
-    Draws the root `property` GUI and calls
-    <code class="cs">Animancer.Editor.TransitionDrawer.DoPropertyGUI(UnityEngine.Rect@,UnityEditor.SerializedProperty,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> for each of its children.
+    Draws the root `property` GUI and calls <code class="cs">Animancer.Editor.TransitionDrawer.DoPropertyGUI(UnityEngine.Rect@,UnityEditor.SerializedProperty,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> for each of its children.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">ManualMixerState<wbr>.Transition<wbr>.Drawer</a></em></small></div>
 								</td>

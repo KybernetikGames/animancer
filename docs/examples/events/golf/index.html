@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -150,6 +150,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -338,6 +339,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -415,6 +417,8 @@ public abstract class <a href="/animancer/api/Animancer.Examples.Events/GolfHitC
     [SerializeField] private Rigidbody _Ball;
     [SerializeField] private Vector3 _HitVelocity;
     [SerializeField] private AudioSource _HitSound;
+
+    public const string HitEventName = "Hit";
 
     public enum State { Ready, Swing, Idle, }
 
@@ -554,7 +558,7 @@ public abstract class <a href="/animancer/api/Animancer.Examples.Events/GolfHitC
     </tr>
   </tbody>
 </table>
-<p>We also have a simple <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> to represent the character's current state and another field to store the initial position of the ball:</p>
+<p>It also has a simple <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> to represent the character's current state and another field to store the initial position of the ball:</p>
 <pre><code class="language-cs">public enum State { Ready, Swing, Idle, }
 
 private State _State;
@@ -691,19 +695,24 @@ private Vector3 _BallStartPosition;
 <p>The <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code> script is actually empty because the base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> already has everything we need to be able to set up <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector. The event callback is set up using a <a href="../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a> just like a <a href="../../basics/scene-setup#buttons">UI Button</a>:</p>
 <p><img src="animancer-hit-event.png" class="img-responsive"></p>
 <h2 id="hybrid-animancer-events">4. Hybrid Animancer Events</h2>
-<p>The last character also uses <a href="../../../manual/events/animancer">Animancer Events</a>. It's time is the same, but instead of having its callback set, it is left blank and the event's name is set to "Hit":</p>
+<p>The last character also uses <a href="../../../manual/events/animancer">Animancer Events</a>, but this time a <a href="../../../manual/events/animancer#hybrid-events">Hybrid</a> approach:</p>
+<ul>
+<li>The <code>Event Time</code> is still defined in the Inspector. This makes it easy for non-programmers to <a href="../../../manual/transitions#previews">Preview</a> and tweak the value.</li>
+</ul>
 <p><img src="animancer-hybrid-hit-event.png" class="img-responsive"></p>
-<p>This allows the <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code> script to set the callback of the event with that name on startup:</p>
+<ul>
+<li>But the <code>Event Callback</code> is left blank and the <code>Event Name</code> is set so that the script can then find the event with that name and set the callback. This allows all the logic to stay inside the script, making it clear that the <code>_Swing</code> animation will trigger the <code>HitBall</code> event instead of needing to check the Inspector to find out what events it has.</li>
+</ul>
 <pre><code class="language-cs">protected override void Awake()
 {
     base.Awake();
 
-    _Swing.Events.SetCallback("Hit", HitBall);
+    _Swing.Events.SetCallback("Hit", HitBall);// See "Avoiding Magic Strings" below.
 
     // ... Initialise the End Event as well.
 }
 </code></pre>
-<p>If we did not set the event's Name in the Inspector, we could just access it by index like so:</p>
+<p>If we did not set the <code>Event Name</code> in the Inspector, we could just access it by index like so:</p>
 <pre><code class="language-cs">_Swing.Events.SetCallback(0, HitBall);
 </code></pre>
 <p>But that hard-codes the assumption that there will not be any other events before the one we want.</p>
@@ -711,6 +720,31 @@ private Vector3 _BallStartPosition;
 <pre><code class="language-cs">_Swing.Events.Add(new AnimancerEvent(0.365f, OnHitBall));
 </code></pre>
 <p>But that would hard-code the event time into the script instead of allowing us to use the <a href="../../../manual/transitions#previews">Transition Preview Window</a> to see what the animated model looks like while we adjust the event time.</p>
+<h2 id="avoiding-magic-strings">Avoiding Magic Strings</h2>
+<p>The <code>SetCallback</code> call above uses the <a href="../../../introduction/mecanim-vs-animancer/why#magic-strings">Magic String</a> <code>"Hit"</code>, which is not ideal because the Inspector would give no indication of what event name was expected and you would need to type the same name every time you add that script to an object. The <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> allows you to avoid that problem by replacing the regular text field used for the <code>Event Name</code> in the Inspector with a dropdown menu containing a specific set of allowed options:</p>
+<p><img src="animancer-hybrid-hit-event-named.gif" class="img-responsive"></p>
+<p>In a real project, you would usually put the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> on the specific transition field you want it to apply to:</p>
+<pre><code>[SerializeField]
+[EventNames(...)]
+private <a href="/animancer/api/Animancer/Transition">ClipState.Transition</a> _Swing;
+</code></pre>
+<p>But since the <code>_Swing</code> field in this example is declared in the base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script which is shared by all 4 characters, we have instead applied it to the <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code> class which is only used for the hybrid character:</p>
+<pre><code>[EventNames(...)]
+public sealed class <a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a> : <a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a>
+{
+}
+</code></pre>
+<p>There are several different constructors you can use depending on how you want to specify the names which are explained in the API documentation for <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code>, but in this case we are using a simple constant (<code>HitEventName</code>) so that we can reference the same value in both the attribute and when setting the callback:</p>
+<pre><code>[EventNames(HitEventName)]
+public sealed class <a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a> : <a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a>
+{
+    public const string HitEventName = "Hit";
+
+    protected override void Awake()
+    {
+        ...
+        _Swing.Events.SetCallback(HitEventName, HitBall);
+</code></pre>
 <h1 id="end-events">End Events</h1>
 <table class="table">
   <thead>

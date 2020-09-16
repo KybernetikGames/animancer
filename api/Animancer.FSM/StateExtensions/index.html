@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -77,6 +77,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Examples">Examples</a></p>
 <p><a href="#Attributes">Attributes</a></p>
 <p><a href="#fields">Fields</a></p>
 <p><a href="#Methods">Methods</a></p>
@@ -213,6 +214,84 @@ class Type type-node
 	<pre><code>[HelpURL(APIDocumentationURL + nameof(StateExtensions))]
 public static class StateExtensions</code></pre>
 
+	<h1 id="Examples">Examples</h1>
+	<div><pre><code class="cs">public class Creature : MonoBehaviour
+{
+    public StateMachine&lt;CreatureState&gt; StateMachine { get; private set; }
+}
+
+public class CreatureState : StateBehaviour, IOwnedState&lt;CreatureState&gt;
+{
+    [SerializeField]
+    private Creature _Creature;
+    public Creature Creature =&gt; _Creature;
+    
+    public StateMachine&lt;CreatureState&gt; OwnerStateMachine =&gt; _Creature.StateMachine;
+}
+
+public class CreatureBrain : MonoBehaviour
+{
+    [SerializeField] private Creature _Creature;
+    [SerializeField] private CreatureState _Jump;
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Normally you would need to refer to both the state machine and the state:
+            _Creature.StateMachine.TrySetState(_Jump);
+            
+            // But since CreatureState implements IOwnedState you can use these extension methods:
+            _Jump.TryEnterState();
+        }
+    }
+}</code></pre>
+    <h2>Inherited Types</h2>
+    Unfortunately, if the field type is not the same as the <code class="cs">T</code> in the <code class="cs">IOwnedState&lt;T&gt;</code>
+    implementation then attempting to use these extension methods without specifying the generic argument will
+    give the following error:
+    <p></p>
+    <em>The type 'StateType' cannot be used as type parameter 'TState' in the generic type or method
+    'StateExtensions.TryEnterState&lt;TState&gt;(TState)'. There is no implicit reference conversion from
+    'StateType' to 'Animancer.FSM.IOwnedState&lt;StateType&gt;'.</em>
+    <p></p>
+    For example, you might want to access members of a derived state class like this <code class="cs">SetTarget</code> method:
+    <p></p><pre><code class="cs">public class AttackState : CreatureState
+{
+    public void SetTarget(Transform target) { }
+}
+
+public class CreatureBrain : MonoBehaviour
+{
+    [SerializeField] private AttackState _Attack;
+    
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _Attack.SetTarget(...)
+            // Can't do _Attack.TryEnterState();
+            _Attack.TryEnterState&lt;CreatureState&gt;();
+        }
+    }
+}</code></pre>
+    Unlike the <code class="cs">_Jump</code> example, the <code class="cs">_Attack</code> field is an <code class="cs">AttackState</code> rather than the base
+    <code class="cs">CreatureState</code> so we can call <code class="cs">_Attack.SetTarget(...)</code> but that causes problems with these extension
+    methods.
+    <p></p>
+    Calling the method without specifying its generic argument automatically uses the variable's type as the
+    argument so both of the following calls do the same thing:
+    <p></p><pre><code class="cs">_Attack.TryEnterState();
+_Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
+    <p></p>
+    The problem is that <code class="cs">AttackState</code> inherits the implementation of <code class="cs">IOwnedState</code> from the base
+    <code class="cs">CreatureState</code> class. But since that implementation is <code class="cs">IOwnedState&lt;CreatureState&gt;</code>, rather
+    than <code class="cs">IOwnedState&lt;AttackState&gt;</code> that means <code class="cs">TryEnterState&lt;AttackState&gt;</code> does not satisfy
+    that method's generic constraints: <code class="cs">where TState : class, IOwnedState&lt;TState&gt;</code>
+    <p></p>
+    That is why you simply need to specify the base class which implements <code class="cs">IOwnedState</code> as the generic
+    argument to prevent it from inferring the wrong type:
+    <p></p><pre><code class="cs">_Attack.TryEnterState&lt;CreatureState&gt;();</code></pre></div>
 
 
 	<h1 id="Attributes">Attributes</h1>
@@ -253,7 +332,7 @@ public static class StateExtensions</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/F1309000">APIDocumentationURL</a></td>
 								<td>https://kybernetik.com.au/animancer/api/Animancer.FSM/</td>
 								<td>
-									<div>The URL of the website where the Animancer API documentation is hosted.</div>
+									<div>The URL of the API documentation for the <code class="cs">Animancer.FSM</code> system.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li class="active"><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -75,7 +75,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#logging">Logging</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#debuggers-and-logging">Debuggers and Logging</a></p>
 <p><a href="#inspector">Inspector</a></p>
 <p><a href="#rig-types">Rig Types</a></p>
 <p><a href="#other">Other</a></p>
@@ -152,6 +152,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -340,6 +341,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -396,31 +398,18 @@
 		</section>
 	<section class="content">
 		<p>Animation management is a fairly complex subject which unfortunately means there are a wide variety of different problems that you might encounter when working with them, so this page explains how to identify and resolve them.</p>
-<h1 id="logging">Logging</h1>
-<p>Using an IDE like Visual Studio allows you to use it's <a href="https://docs.microsoft.com/en-us/visualstudio/cross-platform/using-visual-studio-tools-for-unity#unity-debugging">Debugger</a> to pause the game and step through your code (and Animancer's internals if you have Animancer Pro) line by line to see exactly what is happening and examine the values of any variables. Debuggers can be extremely useful for finding the cause of a bug, but they are not necessarily ideal for all situations and are sometimes not usable at all. For example, when debugging a networked multiplayer game you can't simply let the debugger pause the game on one computer because the others would think it has disconnected. There are also times when you don't know exactly what is causing a bug so you don't know when it would need to be paused.</p>
-<p>If you can't or don't want to use a debugger, you can use various methods in Unity's <code>Debug</code> class to log messages to record things that happen and important values:</p>
+<h1 id="debuggers-and-logging">Debuggers and Logging</h1>
+<p><a href="../../introduction/cs/other#debuggers-and-logging">Debuggers and Logging</a> are extremely useful tools for finding the cause of any issues so that you can fix them. For example:</p>
 <ul>
-<li>In the Unity Editor, log messages are displayed in the Console window.</li>
-<li>In a Runtime Build, log messages are saved into a <a href="https://docs.unity3d.com/Manual/LogFiles.html">Log File</a>.</li>
-<li>Note that logging can have a notable performance cost which is <em>not</em> automatically removed from Runtime Builds, so you should be careful with unnecessary logging.</li>
+<li>If an animation isn't playing, you could call <code>Debug.Log("Playing Animation");</code> near where you are telling it to play to make sure that function is actually getting executed.</li>
+<li>If you want to find out what animation is currently playing, you can call <code>Debug.Log(animancer.States.Current);</code> (or select the object and have a look at it in the <a href="../../manual/playing/inspector">Inspector</a>.</li>
 </ul>
-<p>For example, if you want to find out which animation is currently being played you could simply log it like so:</p>
-<pre><code class="language-cs">private void LogCurrentAnimation(AnimancerComponent animancer)
-{
-    Debug.Log(animancer.States.Current);
-}
-</code></pre>
-<p>Or if you want to log the full details of a state, you can use the <code>GetDescription</code> methods:</p>
-<pre><code class="language-cs">Debug.Log(animancer.States.Current.GetDescription());// Description of current state.
-Debug.Log(animancer.Playable.GetDescription());// Description of all states.
-</code></pre>
-<p>You can also manually log those messages using <a href="../playing/inspector#context-menus">Context Menu</a> functions.</p>
 <h1 id="inspector">Inspector</h1>
-<p>In Play Mode, you can select an object with an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and use the Inspector to examine the current <a href="../playing/inspector#animation-details">Details</a> of all the states it manages in real-time.</p>
+<p>In Play Mode, you can select an object with an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and use the Inspector to examine the current <a href="../../manual/playing/inspector#animation-details">Animation Details</a> of all the states it manages in real-time.</p>
 <h1 id="rig-types">Rig Types</h1>
 <img src="humanoid-default.png" class="img-responsive img-right">
 <p>If a character with a Generic Rig is not playing any animation it will simply not move, but if a Humanoid Rig is not playing any animation it will go into a "compressed" or "hunched over" pose according to the muscle limits defined in the <code>Avatar</code> configuration (pictured to the right). One of the most common reasons for this to happen is if you accidentally try to play a Generic animation on a Humanoid Rig (or vice-versa). Both the model and animations must use the same Rig type.</p>
-<p>The <a href="../playing/inspector#animation-types">Animation Types</a> section explains the potential incompatabilities between models and animations in more detail.</p>
+<p>The <a href="../../manual/playing/inspector#animation-types">Animation Types</a> section explains the potential incompatabilities between models and animations in more detail.</p>
 <h1 id="other">Other</h1>
 <ul>
 <li>If an animation is not playing properly, it may be worth trying it in a regular Animator Controller to determine whether the problem is caused by Animancer or something else.</li>
@@ -428,7 +417,7 @@ Debug.Log(animancer.Playable.GetDescription());// Description of all states.
 <li>If you think there may be a bug relating to the <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code> system, you can make it log various usage events by going to <em>Edit -&gt; Project Settings -&gt; Player -&gt; Other Settings -&gt; Scripting Define Symbols</em> and adding <code>ANIMANCER_LOG_OBJECT_POOLING</code> to that field. This only works with Animancer Pro.</li>
 </ul>
 <h1 id="reproducible-example">Reproducible Example</h1>
-<p>If you still can't track down the cause of a problem, the <a href="../../help">Help</a> page lists several contact methods you can use to get help with your specific issue.</p>
+<p>If you still can't track down the cause of a problem, the <a href="../">Help</a> page lists several contact methods you can use to get help with your specific issue.</p>
 <p>When asking for help, it is important to actually describe the problem. Simply saying "It doesn't work" isn't descriptive enough to help people understand your problem. You need to explain what you expected to happen and how that is different from what is actually happening.</p>
 <p>People will be better able to provide help if you provide code (and any other necessary assets) that they can use to reproduce the problem. Your goal is to narrow down the minimum necessary files for someone else to see what is wrong, which is usually easiest to do by starting a new project and adding the parts you think you need until it can demonstrate the problem.</p>
 <p>Once you have determined which assets you need, you can select them in Unity's Project window and use the <em>Assets -&gt; Export Package...</em> menu function to open a window where you can select which assets to export. If you are going to email the package to <a href="mailto:animancer@kybernetik.com.au?subject=Animancer">animancer@kybernetik.com.au</a> then you can simply include all the necessary assets, but <strong>you MUST NOT include Animancer in the package if you are going to post it anywhere public such as a <a href="https://github.com/KybernetikGames/animancer/issues">Github Issue</a> or <a href="/animancer/forum">Forum</a></strong> (simply untick the <em>Assets/Plugins/Animancer</em> folder in the <em>Exporting package</em> window so that anyone who downloads it will need to import Animancer separately).</p>

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -77,9 +77,11 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#fields">Fields</a></p>
 <p><a href="#states">States</a></p>
+<p><a href="#synchronisation">Synchronisation</a></p>
 <p><a href="#movement">Movement</a></p>
 <p><a href="#pixel-perfect-positioning">Pixel Perfect Positioning</a></p>
 <p><a href="#edit-mode">Edit Mode</a></p>
+<p><a href="#sub-assets">Sub-Assets</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -152,6 +154,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -340,6 +343,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -428,9 +432,12 @@ public sealed class <a href="/animancer/api/Animancer.Examples.DirectionalSprite
 
     private Vector2 _Movement;
     private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _CurrentAnimationSet;
+    private <a href="/animancer/api/Animancer/TimeSynchronisationGroup">TimeSynchronisationGroup</a> _MovementSynchronisation;
 
     private void Awake()
     {
+        _MovementSynchronisation = new TimeSynchronisationGroup(_Animancer)
+        { _Walk, _Run, _Push };
         Play(_Idle);
     }
 
@@ -453,8 +460,12 @@ public sealed class <a href="/animancer/api/Animancer.Examples.DirectionalSprite
 
     private void Play(DirectionalAnimationSet animations)
     {
+        _MovementSynchronisation.StoreTime(_CurrentAnimationSet);
+
         _CurrentAnimationSet = animations;
         _Animancer.Play(animations.GetClip(_Facing));
+
+        _MovementSynchronisation.SyncTime(_CurrentAnimationSet);
     }
 
     private static readonly ContactPoint2D[] Contacts = new ContactPoint2D[4];
@@ -601,6 +612,76 @@ private void UpdateMovementState()
     Play(isRunning ? _Run : _Walk);
 }
 </code></pre>
+<h1 id="synchronisation">Synchronisation</h1>
+<p>With the implementation so far, every time the character changes between <em>Walk</em> and <em>Run</em>, it will re-start from the beginning of the new animation. The problem is not usually too obvious with animations like these which only have a small number of frames, but in smoother animations it can be very jarring when a character snaps from one part of the <em>Walk</em> cycle to a totally different part of the <em>Run</em> cycle. In the worst case, repeatedly swapping between <em>Walk</em> and <em>Run</em> would only let it play the start of each animation before swapping again.</p>
+<p>This problem can be avoided by synchronising the time of the previous and next animations:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Not Synchronised</th>
+    <th style="width:50%">Synchronised</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="walk-run-bad.gif" class="img-responsive"></td>
+      <td><img src="walk-run-good.gif" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td>Every animation change starts from the beginning.</td>
+      <td>Changing animations continues from the current point in the walk cycle.</td>
+    </tr>
+  </tbody>
+</table>
+<p>A basic implementation only needs two additions to our <code>Play</code> method:</p>
+<pre><code class="language-cs">private void Play(DirectionalAnimationSet animations)
+{
+</code></pre>
+<ol>
+<li>Store the <code>Time</code> of the current state:</li>
+</ol>
+<pre><code class="language-cs">    var time = _Animancer.States.Current.Time;
+</code></pre>
+<ol start="2">
+<li>Play the new animation just like before:</li>
+</ol>
+<pre><code class="language-cs">    _CurrentAnimationSet = animations;
+    _Animancer.Play(animations.GetClip(_Facing));
+</code></pre>
+<ol start="3">
+<li>Set the <code>Time</code> of the new state:</li>
+</ol>
+<pre><code class="language-cs">    _Animancer.States.Current.Time = time;
+}
+</code></pre>
+<p>But there are a couple of problems with that implementation:</p>
+<ul>
+<li>It won't actually work because the first time <code>Play</code> is called the current state will be <code>null</code> so it will just cause an exception. That would be easy to fix.</li>
+<li>Setting the <code>Time</code> of an animation will actually ensure that it stays at that value after the next animation update (in this case, that will be before the current frame renders). That means if you were to alternate between <em>Walk</em> and <em>Run</em> every single frame, the time would never actually get to advance. That could be solved by adding <code>Time.deltaTime</code> multiplied by the <code>Speed</code> of the state to the value we set.</li>
+<li>It assumes both animations are the same length. They are in this example, but that won't always be the case. That could be fixed by using <code>NormalizedTime</code> instead, which would also complicate the way we need to add <code>deltaTime</code> a bit more.</li>
+<li>It synchronises <em>all</em> animations. We want to synchronise <em>Walk</em> and <em>Run</em>, but when we go from <em>Idle</em> to <em>Walk</em> we don't really care what time the <em>Idle</em> was at and if we had another action such as <em>Open Door</em> then we definitely wouldn't want it to skip halfway into that animation based on the <em>Walk</em> cycle. There are plenty of ways that problem could be addressed, but we just keep adding complexity to this system.</li>
+</ul>
+<p>These issues could be addressed by using a <a href="../../../manual/animator-controllers">Blend Tree</a> or <a href="../../../manual/blending/mixers">Mixer</a> like in the <a href="../../locomotion/linear-blending">Linear Blending</a> example since they already have <a href="../../../manual/blending/mixers#synchronisation">Synchronisation</a> built-in, but using them alongside <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s isn't particularly convenient.</p>
+<p>Instead, we can make a <code><a href="/animancer/api/Animancer/TimeSynchronisationGroup">TimeSynchronisationGroup</a></code> which we initialise in <code>Awake</code> by telling it what we want it to synchronise (<em>Walk</em>, <em>Run</em>, and <em>Push</em>, but not <em>Idle</em>):</p>
+<pre><code class="language-cs">private <a href="/animancer/api/Animancer/TimeSynchronisationGroup">TimeSynchronisationGroup</a> _MovementSynchronisation;
+
+private void Awake()
+{
+    _MovementSynchronisation = new TimeSynchronisationGroup(_Animancer) { _Walk, _Run, _Push };
+    Play(_Idle);
+}
+</code></pre>
+<p>Then our <code>Play</code> method can use it in much the same way as the basic implementation:</p>
+<pre><code class="language-cs">private void Play(DirectionalAnimationSet animations)
+{
+    // Store the time if the _CurrentAnimationSet is in the group:
+    _MovementSynchronisation.StoreTime(_CurrentAnimationSet);
+
+    _CurrentAnimationSet = animations;
+    _Animancer.Play(animations.GetClip(_Facing));
+
+    // Apply the stored time if the newly assigned _CurrentAnimationSet is also in the group:
+    _MovementSynchronisation.SyncTime(_CurrentAnimationSet);
+}
+</code></pre>
 <h1 id="movement">Movement</h1>
 <p>Since the character only has animations for a specific set of directions, we want to only allow them to move in those exact directions (this will not always be the case, it is a stylistic choice for you to decide how your game looks and feels):</p>
 <ul>
@@ -636,8 +717,8 @@ public sealed class <a href="/animancer/api/Animancer/PixelPerfectPositioning">P
 
     public SpriteRenderer Renderer
     {
-        get { return _Renderer; }
-        set { _Renderer = value; }
+        get =&gt; _Renderer;
+        set =&gt; _Renderer = value;
     }
 
     private void Reset()
@@ -684,6 +765,9 @@ public sealed class <a href="/animancer/api/Animancer/PixelPerfectPositioning">P
 <p>Note that other than <code>Editor.AnimancerEditorUtilities.GetComponentInHierarchy</code>, this script does not use anything else from Animancer so you could easily take it out and use it separately (that method just calls <code>GetComponentInParent</code> then if it does not find anything it calls <code>GetComponentInChild</code>).</p>
 <h1 id="edit-mode">Edit Mode</h1>
 <p>In order to ensure that the <code>SpriteRenderer</code> shows the correct <code>Sprite</code> in Edit Mode once we assign the animations to our script, it has basically the same <code>OnValidate</code> method used in the <a href="../basic-movement">Basic Movement</a> example, except that this time we pass <code>false</code> as the <code>stopImmediately</code> parameter so we can see the <em>Idle</em> animation playing on its own. It is up to you whether you want this to happen in your own scripts; you might find it annoying and prefer to just have it show the first frame by passing <code>true</code> instead.</p>
+<img src="sub-assets.gif" class="img-responsive img-right">
+<h1 id="sub-assets">Sub-Assets</h1>
+<p>Since the there are lots of animations in this example and they are each only used by a single <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, the <a href="/inspector-gadgets/docs/other/drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature of <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> was used to turn the animations into sub-assets of the set in order to organise them a bit better.</p>
 
 	</section>
                 

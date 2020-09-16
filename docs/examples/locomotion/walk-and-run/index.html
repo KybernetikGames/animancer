@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -152,6 +152,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -340,6 +341,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -415,11 +417,11 @@ public class <a href="/animancer/api/Animancer.Examples.Locomotion/IdleAndWalk">
 
     [SerializeField]
     private AnimationClip _Idle;
-    public AnimationClip Idle { get { return _Idle; } }
+    public AnimationClip Idle =&gt; _Idle;
 
     [SerializeField]
     private AnimationClip _Walk;
-    public AnimationClip Walk { get { return _Walk; } }
+    public AnimationClip Walk =&gt; _Walk;;
 
     protected void Update()
     {
@@ -514,8 +516,8 @@ public sealed class IdleAndWalkTutorial : MonoBehaviour
 <p>The derived class will need access to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code>_Walk</code> animation so let's add <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> read-only <a href="../../../introduction/cs/methods#properties">Properties</a> for them (we could make the fields <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>, but we do not particularly want the derived class to be able to change their values). For the sake of completeness we might as well add one for the <code>_Idle</code> animation as well even though we do not intend to use it.</p>
 <pre><code class="language-cs">// These properties are read-only because they have "get" but not "set".
 public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
-public AnimationClip Idle { get { return _Idle; } }
-public AnimationClip Walk { get { return _Walk; } }
+public AnimationClip Idle =&gt; _Idle;
+public AnimationClip Walk =&gt; _Walk;
 </code></pre>
 <p>The last thing we need to be able to do is change the behaviour when you are moving. We could make the <code>Update</code> method <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a>, but all we actually want to change is the <code>Play(_Walk, 0.25f)</code> to choose between <em>Walk</em> or <em>Run</em> so we only need to move that part out to a <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> method.</p>
 <p></p><details><summary>The full script now looks like this:</summary><p>
@@ -530,11 +532,11 @@ public class IdleAndWalkTutorial : MonoBehaviour
 
     [SerializeField]
     private AnimationClip _Idle;
-    public AnimationClip Idle { get { return _Idle; } }
+    public AnimationClip Idle =&gt; _Idle;
 
     [SerializeField]
     private AnimationClip _Walk;
-    public AnimationClip Walk { get { return _Walk; } }
+    public AnimationClip Walk =&gt; _Walk;
 
     protected void Update()
     {
@@ -665,11 +667,11 @@ public class IdleAndWalkTutorial : MonoBehaviour
 
     [SerializeField]
     private AnimationClip _Idle;
-    public AnimationClip Idle { get { return _Idle; } }
+    public AnimationClip Idle =&gt; _Idle;
 
     [SerializeField]
     private AnimationClip _Walk;
-    public AnimationClip Walk { get { return _Walk; } }
+    public AnimationClip Walk =&gt; _Walk;
 
     protected void Update()
     {

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -77,6 +77,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -164,7 +165,9 @@
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
 				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
 				<li><a href="/animancer/api/Animancer/EndEventReceiver">EndEventReceiver</a></li>
+				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/FastReferenceComparer">Fast<wbr>Reference<wbr>Comparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
@@ -174,7 +177,6 @@
 				<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/Float3ControllerTransition">Float3<wbr>Controller<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
-				<li><a href="/animancer/api/Animancer/Interpolation">Interpolation</a></li>
 				<li><a href="/animancer/api/Animancer/Key">Key</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
 				<li><a href="/animancer/api/Animancer/LinearMixerTransition">Linear<wbr>Mixer<wbr>Transition</a></li>
@@ -195,6 +197,7 @@
 				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
+				<li><a href="/animancer/api/Animancer/TimeSynchronisationGroup">Time<wbr>Synchronisation<wbr>Group</a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
 			<li class="header">Interface Types</li>
 				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
@@ -212,7 +215,7 @@
 				<li><a href="/animancer/api/Animancer/AnimationEventReceiver">Animation<wbr>Event<wbr>Receiver</a></li>
 			<li class="header">Enum Types</li>
 				<li><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></li>
-				<li><a href="/animancer/api/Animancer/WarningType">WarningType</a></li>
+				<li><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></li>
 
 
                     </ul>
@@ -237,9 +240,6 @@
     A variant of <code class="cs">IAnimationClipSource</code> which uses a <code class="cs">System.Collections.Generic.ICollection`1</code> instead of a
     <code class="cs">System.Collections.Generic.List`1</code> so that it can take a <code class="cs">System.Collections.Generic.HashSet`1</code> to efficiently avoid adding duplicates.
     <code class="cs">Animancer.AnimancerUtilities</code> contains various extension methods for this purpose.
-    <p></p>
-    <code class="cs">IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
-    interface is only used internally.
     </div>
 
 		<div class="panel panel-default">
@@ -259,39 +259,39 @@
 								<dt>Implementing Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/Transition">PlayableAssetState<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">LinearMixerState<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/MixerState_1">MixerState</a><wbr>&lt;<a href="/animancer/api/Animancer/MixerState_1#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Transition">ManualMixerState<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">Float3<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/LayerList">AnimancerPlayable<wbr>.LayerList</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">Float1<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">ControllerState<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">ClipState<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">Float2<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></li>								
-											<li><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></li>								
-											<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>								
-											<li><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></li>								
-											<li><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></li>								
-											<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>								
-											<li><a href="/animancer/api/Animancer.Examples.Locomotion/MotionTransition">RootMotion<wbr>.MotionTransition</a></li>								
-											<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition_1">ManualMixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TMixer">TMixer</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Transition2D">MixerState<wbr>.Transition2D</a></li>								
 											<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>								
-											<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>								
-											<li><a href="/animancer/api/Animancer/StateDictionary">AnimancerPlayable<wbr>.StateDictionary</a></li>								
-											<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>								
 											<li><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></li>								
-											<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition_1">ManualMixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TMixer">TMixer</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">PlayableAssetState<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer.Examples.Locomotion/MotionTransition">RootMotion<wbr>.MotionTransition</a></li>								
+											<li><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></li>								
+											<li><a href="/animancer/api/Animancer/LayerList">AnimancerPlayable<wbr>.LayerList</a></li>								
+											<li><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></li>								
 											<li><a href="/animancer/api/Animancer/Float2ControllerState">Float2<wbr>Controller<wbr>State</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition_1">ControllerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TState">TState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Transition_2">MixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_2#typeparam-TMixer">TMixer</a>, <wbr><a href="/animancer/api/Animancer/Transition_2#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition2D">MixerState<wbr>.Transition2D</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">LinearMixerState<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">Float1<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/MixerState_1">MixerState</a><wbr>&lt;<a href="/animancer/api/Animancer/MixerState_1#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
 											<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">Float3<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition_1">ControllerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TState">TState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>								
+											<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">ControllerState<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/StateDictionary">AnimancerPlayable<wbr>.StateDictionary</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">ManualMixerState<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">Float2<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition_2">MixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_2#typeparam-TMixer">TMixer</a>, <wbr><a href="/animancer/api/Animancer/Transition_2#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>								
+											<li><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">ClipState<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>								
+											<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>								
+											<li><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></li>								
 									</ul>
 								</dd>				
 						</dl>
@@ -301,72 +301,72 @@
 							graph BT
 	Type["IAnimationClipCollection"]
 class Type type-node
-	Implementing0["PlayableAssetState.Transition"]-.-&gt;Type
-	click Implementing0 "/animancer/api/Animancer/Transition"
-	Implementing1["ControllerState"]-.-&gt;Type
-	click Implementing1 "/animancer/api/Animancer/ControllerState"
-	Implementing2["LinearMixerState.Transition"]-.-&gt;Type
-	click Implementing2 "/animancer/api/Animancer/Transition"
-	Implementing3["MixerState&lt;TParameter&gt;"]-.-&gt;Type
-	click Implementing3 "/animancer/api/Animancer/MixerState_1"
-	Implementing4["ManualMixerState.Transition"]-.-&gt;Type
+	Implementing0["PlayableAssetState"]-.-&gt;Type
+	click Implementing0 "/animancer/api/Animancer/PlayableAssetState"
+	Implementing1["AnimancerState"]-.-&gt;Type
+	click Implementing1 "/animancer/api/Animancer/AnimancerState"
+	Implementing2["ManualMixerState.Transition&lt;TMixer&gt;"]-.-&gt;Type
+	click Implementing2 "/animancer/api/Animancer/Transition_1"
+	Implementing3["LinearMixerState"]-.-&gt;Type
+	click Implementing3 "/animancer/api/Animancer/LinearMixerState"
+	Implementing4["PlayableAssetState.Transition"]-.-&gt;Type
 	click Implementing4 "/animancer/api/Animancer/Transition"
-	Implementing5["LinearMixerState"]-.-&gt;Type
-	click Implementing5 "/animancer/api/Animancer/LinearMixerState"
-	Implementing6["Float3ControllerState.Transition"]-.-&gt;Type
-	click Implementing6 "/animancer/api/Animancer/Transition"
+	Implementing5["RootMotion.MotionTransition"]-.-&gt;Type
+	click Implementing5 "/animancer/api/Animancer.Examples.Locomotion/MotionTransition"
+	Implementing6["AnimancerLayer"]-.-&gt;Type
+	click Implementing6 "/animancer/api/Animancer/AnimancerLayer"
 	Implementing7["AnimancerPlayable.LayerList"]-.-&gt;Type
 	click Implementing7 "/animancer/api/Animancer/LayerList"
-	Implementing8["Float1ControllerState.Transition"]-.-&gt;Type
-	click Implementing8 "/animancer/api/Animancer/Transition"
-	Implementing9["DirectionalMixerState"]-.-&gt;Type
-	click Implementing9 "/animancer/api/Animancer/DirectionalMixerState"
-	Implementing10["ControllerState.Transition"]-.-&gt;Type
-	click Implementing10 "/animancer/api/Animancer/Transition"
-	Implementing11["ClipState.Transition"]-.-&gt;Type
-	click Implementing11 "/animancer/api/Animancer/Transition"
-	Implementing12["Float2ControllerState.Transition"]-.-&gt;Type
+	Implementing8["ControllerState"]-.-&gt;Type
+	click Implementing8 "/animancer/api/Animancer/ControllerState"
+	Implementing9["Float2ControllerState"]-.-&gt;Type
+	click Implementing9 "/animancer/api/Animancer/Float2ControllerState"
+	Implementing10["Float3ControllerState"]-.-&gt;Type
+	click Implementing10 "/animancer/api/Animancer/Float3ControllerState"
+	Implementing11["MixerState.Transition2D"]-.-&gt;Type
+	click Implementing11 "/animancer/api/Animancer/Transition2D"
+	Implementing12["LinearMixerState.Transition"]-.-&gt;Type
 	click Implementing12 "/animancer/api/Animancer/Transition"
-	Implementing13["AnimancerLayer"]-.-&gt;Type
-	click Implementing13 "/animancer/api/Animancer/AnimancerLayer"
-	Implementing14["CartesianMixerState"]-.-&gt;Type
-	click Implementing14 "/animancer/api/Animancer/CartesianMixerState"
-	Implementing15["MixerState"]-.-&gt;Type
-	click Implementing15 "/animancer/api/Animancer/MixerState"
-	Implementing16["AnimancerComponent"]-.-&gt;Type
-	click Implementing16 "/animancer/api/Animancer/AnimancerComponent"
-	Implementing17["AnimancerPlayable"]-.-&gt;Type
-	click Implementing17 "/animancer/api/Animancer/AnimancerPlayable"
-	Implementing18["ClipState"]-.-&gt;Type
-	click Implementing18 "/animancer/api/Animancer/ClipState"
-	Implementing19["RootMotion.MotionTransition"]-.-&gt;Type
-	click Implementing19 "/animancer/api/Animancer.Examples.Locomotion/MotionTransition"
+	Implementing13["MixerState"]-.-&gt;Type
+	click Implementing13 "/animancer/api/Animancer/MixerState"
+	Implementing14["Float1ControllerState.Transition"]-.-&gt;Type
+	click Implementing14 "/animancer/api/Animancer/Transition"
+	Implementing15["MixerState&lt;TParameter&gt;"]-.-&gt;Type
+	click Implementing15 "/animancer/api/Animancer/MixerState_1"
+	Implementing16["Float1ControllerState"]-.-&gt;Type
+	click Implementing16 "/animancer/api/Animancer/Float1ControllerState"
+	Implementing17["Float3ControllerState.Transition"]-.-&gt;Type
+	click Implementing17 "/animancer/api/Animancer/Transition"
+	Implementing18["ControllerState.Transition&lt;TState&gt;"]-.-&gt;Type
+	click Implementing18 "/animancer/api/Animancer/Transition_1"
+	Implementing19["ClipState"]-.-&gt;Type
+	click Implementing19 "/animancer/api/Animancer/ClipState"
 	Implementing20["ManualMixerState"]-.-&gt;Type
 	click Implementing20 "/animancer/api/Animancer/ManualMixerState"
-	Implementing21["ManualMixerState.Transition&lt;TMixer&gt;"]-.-&gt;Type
-	click Implementing21 "/animancer/api/Animancer/Transition_1"
-	Implementing22["MixerState.Transition2D"]-.-&gt;Type
-	click Implementing22 "/animancer/api/Animancer/Transition2D"
-	Implementing23["PlayableAssetState"]-.-&gt;Type
-	click Implementing23 "/animancer/api/Animancer/PlayableAssetState"
-	Implementing24["HybridAnimancerComponent"]-.-&gt;Type
-	click Implementing24 "/animancer/api/Animancer/HybridAnimancerComponent"
-	Implementing25["AnimancerPlayable.StateDictionary"]-.-&gt;Type
-	click Implementing25 "/animancer/api/Animancer/StateDictionary"
-	Implementing26["Float3ControllerState"]-.-&gt;Type
-	click Implementing26 "/animancer/api/Animancer/Float3ControllerState"
-	Implementing27["AnimancerState"]-.-&gt;Type
-	click Implementing27 "/animancer/api/Animancer/AnimancerState"
-	Implementing28["NamedAnimancerComponent"]-.-&gt;Type
-	click Implementing28 "/animancer/api/Animancer/NamedAnimancerComponent"
-	Implementing29["Float2ControllerState"]-.-&gt;Type
-	click Implementing29 "/animancer/api/Animancer/Float2ControllerState"
-	Implementing30["ControllerState.Transition&lt;TState&gt;"]-.-&gt;Type
-	click Implementing30 "/animancer/api/Animancer/Transition_1"
-	Implementing31["MixerState.Transition&lt;TMixer, TParameter&gt;"]-.-&gt;Type
-	click Implementing31 "/animancer/api/Animancer/Transition_2"
-	Implementing32["Float1ControllerState"]-.-&gt;Type
-	click Implementing32 "/animancer/api/Animancer/Float1ControllerState"
+	Implementing21["ControllerState.Transition"]-.-&gt;Type
+	click Implementing21 "/animancer/api/Animancer/Transition"
+	Implementing22["AnimancerPlayable.StateDictionary"]-.-&gt;Type
+	click Implementing22 "/animancer/api/Animancer/StateDictionary"
+	Implementing23["ManualMixerState.Transition"]-.-&gt;Type
+	click Implementing23 "/animancer/api/Animancer/Transition"
+	Implementing24["Float2ControllerState.Transition"]-.-&gt;Type
+	click Implementing24 "/animancer/api/Animancer/Transition"
+	Implementing25["MixerState.Transition&lt;TMixer, TParameter&gt;"]-.-&gt;Type
+	click Implementing25 "/animancer/api/Animancer/Transition_2"
+	Implementing26["DirectionalMixerState"]-.-&gt;Type
+	click Implementing26 "/animancer/api/Animancer/DirectionalMixerState"
+	Implementing27["CartesianMixerState"]-.-&gt;Type
+	click Implementing27 "/animancer/api/Animancer/CartesianMixerState"
+	Implementing28["AnimancerComponent"]-.-&gt;Type
+	click Implementing28 "/animancer/api/Animancer/AnimancerComponent"
+	Implementing29["ClipState.Transition"]-.-&gt;Type
+	click Implementing29 "/animancer/api/Animancer/Transition"
+	Implementing30["HybridAnimancerComponent"]-.-&gt;Type
+	click Implementing30 "/animancer/api/Animancer/HybridAnimancerComponent"
+	Implementing31["NamedAnimancerComponent"]-.-&gt;Type
+	click Implementing31 "/animancer/api/Animancer/NamedAnimancerComponent"
+	Implementing32["AnimancerPlayable"]-.-&gt;Type
+	click Implementing32 "/animancer/api/Animancer/AnimancerPlayable"
 
 						</div>
 					</div>
@@ -378,6 +378,11 @@ class Type type-node
 	<pre><code>public interface IAnimationClipCollection</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    <code class="cs">IAnimationClipSource</code> still needs to be the main point of entry for the Animation Window, so this
+    interface is only used internally.
+    </div>
 
 
 

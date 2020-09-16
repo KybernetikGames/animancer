@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -77,7 +77,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#comments">Comments</a></p>
 <p><a href="#exceptions">Exceptions</a></p>
-<p><a href="#debugging">Debugging</a></p>
+<p><a href="#debuggers-and-logging">Debuggers and Logging</a></p>
 <p><a href="#memory-management">Memory Management</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -151,6 +151,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -339,6 +340,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -484,7 +486,7 @@ finally
 <li>You can have multiple <code>catch</code> blocks for different exception types and you can use the base <code>System.Exception</code> to catch everything.</li>
 <li>In Visual Studio, if you type <code>try</code> then press <code>Tab</code> twice it will insert a <code>try/catch</code> block.</li>
 </ul>
-<h1 id="debugging">Debugging</h1>
+<h1 id="debuggers-and-logging">Debuggers and Logging</h1>
 <p>During development there will inevitably be times when you encounter behaviour you do not want, so you need to be able to track down the cause of that behaviour before you can fix it. There are two main ways of tracking down bugs which each have advantages in different situations:</p>
 <table class="table">
   <thead>
@@ -501,12 +503,14 @@ finally
       <td>You need to edit your script to call the <code>Log</code> method and let Unity recompile it, meaning you probably also need to exit Play Mode and restart it again.</td>
     </tr>
     <tr>
-      <td>You can easily view any variables on the current object without needing to decide what you want to see beforehand.</td>
+      <td>You can view any variables on the current object without needing to decide what you want to see beforehand.</td>
       <td>You need to decide what to actually log and all messages are kept in a list. This can be bad if you have too many objects all filling up the Console with messages that make it hard to find what you want, but it can also be good if you need to compare the contents of messages from different objects and at different times without knowing what you are looking for beforehand.</td>
     </tr>
     <tr>
       <td>Pauses the game. This makes it very difficult or even impossible to use a debugger for situations like input related issues where you need to be able to play the game properly and then review what actually happened afterwards or network multiplayer where pausing one computer would cause the others to think it disconnected.</td>
-      <td>Does not pause the game unless you intentionally call <a href="https://docs.unity3d.com/ScriptReference/Debug.Break"><code>Debug.Break</code></a>.</td>
+      <td><p>Does not pause the game unless you intentionally call <a href="https://docs.unity3d.com/ScriptReference/Debug.Break"><code>Debug.Break</code></a>.</p>
+          Note that logging can have a notable performance cost which is <em>not</em> automatically removed from Runtime Builds, so you should be careful with unnecessary logging.
+      </td>
     </tr>
   </tbody>
 </table>

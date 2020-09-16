@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -78,6 +78,7 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#events-in-transitions">Events in Transitions</a></p>
 <p><a href="#events-in-code">Events in Code</a></p>
 <p><a href="#hybrid-events">Hybrid Events</a></p>
+<p><a href="#event-names">Event Names</a></p>
 <p><a href="#auto-clear">Auto Clear</a></p>
 <p><a href="#garbage">Garbage</a></p>
 <p><a href="#looping">Looping</a></p>
@@ -155,6 +156,7 @@
                 <li><a href="/animancer/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/doors">02 Doors</a></li>
                 <li><a href="/animancer/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
 
                     </ul>
                 </li>
@@ -343,6 +345,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
@@ -535,6 +538,22 @@ private void HitBall() { ... }
 </code></pre>
 <p>But that hard-codes the assumption that there will not be any other events before the one you want so it may cause a bug later on if you add more events to it.</p>
 <p>The <a href="../../../examples/events/golf">Golf Events</a> example demonstrates how to use this feature.</p>
+<h1 id="event-names">Event Names</h1>
+<p>The <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> allows you to provide a specific set of names that events are allowed have, replacing the usual text field with a dropdown menu to avoid needing to type same event name in the script and in the Inspector.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Without Attribute</th>
+    <th style="width:50%">With Attribute</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="../../../examples/events/golf/animancer-hybrid-hit-event.png" class="img-responsive"></td>
+      <td><img src="../../../examples/events/golf/animancer-hybrid-hit-event-named.gif" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<p>Note that values selected using the dropdown menu are still stored as strings. Modifying the names in the script will NOT automatically update any values previously set in the Inspector.</p>
+<p>The <a href="../../../examples/events/golf#avoiding-magic-strings">Avoiding Magic Strings</a> section in the <a href="../../../examples/events/golf">Golf Events</a> example shows how to use it and API documentation for the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> gives more details about the various different ways it can be used.</p>
 <h1 id="auto-clear">Auto Clear</h1>
 <p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states to ensure that you do not have to worry about other scripts that might have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
 <p>This usually means that only one state on each object will actually have events at any given time so <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>s are recycled in an <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code>:</p>
