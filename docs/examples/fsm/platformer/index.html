@@ -309,6 +309,7 @@
                 </li>
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
+                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
 
                     </ul>
@@ -406,12 +407,13 @@
 </blockquote>
 <p>This example demonstrates how the ideas from <a href="../creatures">Creatures</a> and <a href="../brains">Brains</a> can be used to make a character controller for a 2D platformer featuring:</p>
 <ul>
-<li>Using a <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline Asset</a> to create an introduction sequence to play on startup.</li>
+<li>Using a <a href="../../../manual/timeline">Timeline Asset</a> to create an introduction sequence to play on startup.</li>
 <li>Walking and running.</li>
 <li>Jumping with the height determined by how long you hold the key.</li>
 <li>Attacking (though there is no damage system or anything to attack).</li>
 <li>Dying which prevents the player from controlling the character.</li>
 </ul>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/timeline">Timeline Assets</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p>Many of the concepts used in this example have already been explained in the earlier <a href="../">State Machines</a> examples so they will not be repeated here.</p>
 <p></p><figure>
     <img src="platformer.gif" class="img-responsive">
@@ -421,8 +423,7 @@
 <h1 id="introductions">Introductions</h1>
 <p>Many games play a special animation for the player when the scene starts which is not used again during regular gameplay. For example, Super Smash Bros. Ultimate:</p>
 <iframe width="480" height="270" src="https://www.youtube.com/embed/XXZpGWfi-ak?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-<p>Those animations could simply be created as a single <code>AnimationClip</code> (per character) so that it can be played like any other, but Unity's <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> system allows us to create animation sequences from multiple clips within Unity and then play the entire sequence using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> in Animancer.</p>
-<p>The Unity Manual explains how to use <a href="https://docs.unity3d.com/Manual/TimelineSection">Timeline</a> (along with the official <a href="https://learn.unity.com/tutorial/timeline">Timeline</a> tutorial) so we will not be repeating it here. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
+<p>Those animations could simply be created as a single <code>AnimationClip</code> (per character) so that it can be played like any other, but Unity's <a href="../../../manual/timeline">Timeline</a> package allows us to create animation sequences from multiple clips within Unity and then play the entire sequence using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> in Animancer. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
 <p><img src="timeline.png" class="img-responsive"></p>
 <p>We could instead give our script an array of <code>AnimationClip</code>s and play them in sequence like the <a href="../../basics/sequence-coroutine">Sequence Coroutine</a> example, but this way the artists have full control over the sequence and the code is very simple:</p>
 <table class="table">

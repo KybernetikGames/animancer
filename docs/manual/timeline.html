@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Default Script Template</title>
+        <title>Animancer - Timeline</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -75,9 +75,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#why-only-using-unityengine">Why only <code>using UnityEngine;</code>?</a></p>
-<p><a href="#why-sealed">Why <code>sealed</code>?</a></p>
-<p><a href="#why">Why <code>/*************...</code>?</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#bindings">Bindings</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -251,7 +249,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -305,7 +303,7 @@
                 </li>
                 <li><a href="/animancer/docs/manual/fsm">Finite State Machines</a></li>
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
-                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
+                <li class="selected"><a href="/animancer/docs/manual/timeline">Timeline</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
 
                     </ul>
@@ -323,7 +321,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -332,7 +330,7 @@
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
                 <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li class="selected"><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
+                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -393,47 +391,33 @@
 
 
 		<section class="content-header">
-			<h1>Default Script Template</h1>
+			<h1>Timeline</h1>
 		</section>
 	<section class="content">
-		<p>When you create a new script, Unity uses a text file to specify its initial layout. That text file is located in your Unity installation folder:</p>
-<ul>
-<li>Windows: <em>C:\Program Files\Unity\Editor\Data\Resources\ScriptTemplates</em></li>
-<li>Mac: <em>/Applications/Unity/Unity.app/Contents/Resources/ScriptTemplates</em></li>
-</ul>
-<p>These paths may differ if you are using Unity Hub or chose a different path when installing Unity.</p>
-<p>The template for a new C# Script is <code>81-C# Script-NewBehaviourScript.cs.txt</code>.</p>
-<p>If you make changes to any of the templates, you should keep a copy of your changed file somewhere else so that you do not lose it if you uninstall Unity and can easily apply it when you install a new version of Unity.</p>
-<p>It is recommended that you remove the default <code>Start</code> and <code>Update</code> methods because they have a performance cost just for existing, even if they are empty. Adding them back in when you actually need them only takes a few seconds and this helps encourage you to keep your scripts clean. At the very least, you should remove their comments which are absolutely useless to the extent that lazy people who leave them in often do not even bother changing them when they rename the method, meaning the comments become worse than useless because they are not even correct about what the method does anymore.</p>
-<p>Any other modifications are up to you. The template used by Kybernetik looks like this:</p>
-<pre><code class="language-cs">using UnityEngine;
-
-public sealed class #SCRIPTNAME# : MonoBehaviour
-{
-    /************************************************************************************************************************/
-
-    /************************************************************************************************************************/
-}
-</code></pre>
-<p>Note that the <code>/****</code> is actually on the line immediately after the <code>{</code> and indented, it just looks like there's an extra line between due to word wrapping on this page.</p>
-<h1 id="why-only-using-unityengine">Why only <code>using UnityEngine;</code>?</h1>
-<p>Visual Studio (and other IDEs) can automatically list types that contain a given sub-string, including ones in namespaces that do not yet have <code>using</code> statements in the current file and will automatically add such statements if necessary. This means the only <code>using</code> statement we need in a script by default is <code>UnityEngine</code> for the <code>MonoBehaviour</code> class.</p>
-<img src="pick-type.gif" class="img-responsive">
-<h1 id="why-sealed">Why <code>sealed</code>?</h1>
-<ul>
-<li>By default, any class in C# can be <a href="../introduction/cs/inheritance">Inherited</a>.</li>
-<li>This is often problematic since a class that was not designed to be <a href="../introduction/cs/inheritance">Inherited</a> may behave unexpectedly.</li>
-<li>The <code>sealed</code> keyword prevents the class from being <a href="../introduction/cs/inheritance">Inherited</a>.</li>
-<li>Having everything <code>sealed</code> by default is much safer. If you want to <a href="../introduction/cs/inheritance">Inherit</a> from a <code>sealed</code> class, you can simply remove that keyword. When doing so, it is worth having a quick look over the class to see if there is anything that should be made <code>protected</code> and/or <code>virtual</code>.
-<ul>
-<li>In particular, <code>MonoBehaviour</code> event methods like <code>Awake</code>, <code>OnEnable</code>, etc. should generally have both of those keywords in a class that can be inherited. They do not need to be <code>public</code> for Unity to call them and your other scripts do not generally need to call them either. But if you have a <code>private</code> method in the base class, you can put another method with the same name in the child class without ever noticing and Unity will only call the child method, which often results in a bug. So by changing them to <code>protected virtual</code> when you remove the <code>sealed</code> keyword you ensure that you get compiler warnings immediately if the child class tries to use the same method without overriding it correctly.</li>
-</ul>
-</li>
-</ul>
-<h1 id="why">Why <code>/*************...</code>?</h1>
-<ul>
-<li>These are Comment Separators which help to improve code readability as explained by the <a href="coding-standard">Coding Standard</a>.</li>
-</ul>
+		<p><em>This is a <a href="../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<p>Unity's <a href="https://docs.unity3d.com/Manual/com.unity.timeline.html">Timeline</a> package is a sequencing system that can manage things like animations, audio, particle systems, and other events in order to develop things like cut-scenes and cinematics.</p>
+<p>Timeline Assets are normally played using a <code>PlayableDirector</code> but Animancer can also play them with a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>:</p>
+<table class="table">
+<thead>
+<tr>
+<th><code>PlayableDirector</code></th>
+<th><code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Outside of Animancer, Timeline Assets are played using a <code>PlayableDirector</code> component as explained in the official <a href="https://learn.unity.com/tutorial/timeline">Timeline Tutorial</a>.</td>
+<td>Inside Animancer, Timeline Assets are played using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> as explained in the <a href="../examples/fsm/platformer">Platformer</a> example.</td>
+</tr>
+<tr>
+<td>Even with Animancer, this is still often the best way to play Timelines that control multiple characters.</td>
+<td>This is the recommended approach for Timelines that only control a single character that is already being controlled using Animancer since it fits right in with that character's other animation states. As with all other <a href="playing/states">States</a>, you can get a <code>PlayableAsset timeline;</code> and manually create a <code>new PlayableAssetState(timeline)</code>, but <a href="transitions/types#basic-transitions">Transitions</a> are often easier to use.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="bindings">Bindings</h1>
+<p>Timelines can contain multiple "Tracks" which each control a different object in the scene. Since a <code>TimelineAsset</code> is an asset, it can't directly reference scene objects so whatever plays it needs to specify its <code>Bindings</code> to assign the object each track controls.</p>
+<p>If the first track of the <code>TimelineAsset</code> used in a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</p>
 
 	</section>
                 
