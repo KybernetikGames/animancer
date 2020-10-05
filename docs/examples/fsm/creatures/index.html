@@ -418,7 +418,7 @@ using Animancer.FSM;
 using System;
 using UnityEngine;
 
-public sealed class Creature : MonoBehaviour, IAnimancerClipSource
+public sealed class Creature : MonoBehaviour
 {
     [SerializeField]
     private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
@@ -448,7 +448,7 @@ public sealed class Creature : MonoBehaviour, IAnimancerClipSource
         {
             var enabled = GUI.enabled;
             GUI.enabled = false;
-            UnityEditor.EditorGUILayout.ObjectField("Current State", StateMachine.CurrentState, typeo(CreatureState), true);
+            UnityEditor.EditorGUILayout.ObjectField("Current State", StateMachine.CurrentState, typeof(CreatureState), true);
             GUI.enabled = enabled;
         }
     }
@@ -470,7 +470,7 @@ public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;
     {
         var state = _Creature.Animancer.Play(_Animation, 0.25f);
         if (!_Animation.isLooping)
-            state.Events.OnEnd = _Creature.ForceEnterIdleState;
+            state.Events.OnEnd = _Creature.ForceIdleState;
     }
 }
 </code></pre>

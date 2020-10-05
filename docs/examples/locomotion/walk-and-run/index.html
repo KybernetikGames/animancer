@@ -652,9 +652,9 @@ public class IdleAndWalkAndRunTutorial : IdleAndWalkTutorial
 <p>We do not have dedicated animations for walking or running backwards, but if we set the <code>Speed</code> to -1 to play the existing animations backwards we can get a somewhat acceptable result. This only requires two simple modifications to the base <code>IdleAndWalkTutorial</code> script:</p>
 <ol>
 <li>Change <code>if (movement &gt; 0)</code> to <code>if (movement != 0)</code>.</li>
-<li>Add <code>_Animancer.CurrentState.Speed = movement;</code> after <code>PlayMove();</code>.</li>
+<li>Add <code>_Animancer.States.Current.Speed = movement;</code> after <code>PlayMove();</code>.</li>
 </ol>
-<p>That will call <code>PlayMove</code> when holding backwards as well as forwards and whatever it just played will be the <code>_Animancer.CurrentState</code> so we set its speed accordingly.</p>
+<p>That will call <code>PlayMove</code> when holding backwards as well as forwards and whatever it just played will be the <code>_Animancer.States.Current</code> so we set its speed accordingly.</p>
 <p>Note that manipulating the <code>Speed</code> requires Animancer Pro (Animancer Lite allows you to try it out in the Unity Editor, but it will do nothing in runtime builds).</p>
 <p></p><details><summary>The full script now looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -680,7 +680,7 @@ public class IdleAndWalkTutorial : MonoBehaviour
         if (movement != 0)
         {
             PlayMove();
-            _Animancer.CurrentState.Speed = movement;
+            _Animancer.States.Current.Speed = movement;
         }
         else
         {
