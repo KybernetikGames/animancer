@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.3</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -208,7 +208,7 @@
 				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
 				<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
-				<li><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></li>
+				<li><a href="/animancer/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>
 				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 				<li><a href="/animancer/api/Animancer/ITransition">ITransition</a></li>
 				<li><a href="/animancer/api/Animancer/ITransitionDetailed">ITransitionDetailed</a></li>
@@ -276,8 +276,8 @@
 								<dd>
 									<ul class="list-unstyled">
 											<li><a href="/animancer/api/Animancer/Transition_1">ManualMixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TMixer">TMixer</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Transition">PlayableAssetState<wbr>.Transition</a></li>								
 											<li><a href="/animancer/api/Animancer/Transition_1">ControllerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TState">TState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Transition">PlayableAssetState<wbr>.Transition</a></li>								
 											<li><a href="/animancer/api/Animancer/Transition">ClipState<wbr>.Transition</a></li>								
 									</ul>
 								</dd>			
@@ -298,10 +298,10 @@
 class Type type-node
 	Derived0["ManualMixerState.Transition&lt;TMixer&gt;"]--&gt;Type
 	click Derived0 "/animancer/api/Animancer/Transition_1"
-	Derived1["PlayableAssetState.Transition"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/Transition"
-	Derived2["ControllerState.Transition&lt;TState&gt;"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/Transition_1"
+	Derived1["ControllerState.Transition&lt;TState&gt;"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/Transition_1"
+	Derived2["PlayableAssetState.Transition"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/Transition"
 	Derived3["ClipState.Transition"]--&gt;Type
 	click Derived3 "/animancer/api/Animancer/Transition"
 
@@ -441,11 +441,14 @@ public abstract class AnimancerState.Transition&lt;TState&gt; : ITransitionDetai
 								<td><a href="/animancer/api/Animancer/Transition_1/EF7A1379">Key</a></td>
 								<td>Object</td>
 								<td>
-									<div>
-    The <code class="cs">Animancer.AnimancerState.Key</code> which the created state will be registered with.
-    <p></p>
-    By default, a transition is used as its own <code class="cs">Animancer.AnimancerState.Transition`1.Key</code>, but this property can be overridden.
-    </div>
+									<div>The <code class="cs">Animancer.AnimancerState.Key</code> which the created state will be registered with.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition_1/C20D491A">MainObject</a></td>
+								<td>Object</td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerState.MainObject</code> that the created state will have.</div>
 								</td>
 							</tr>
 							<tr>
@@ -455,6 +458,13 @@ public abstract class AnimancerState.Transition&lt;TState&gt; : ITransitionDetai
 									<div>[<code class="cs">Animancer.ITransitionDetailed</code>]
     The maximum amount of time the animation is expected to take (in seconds).
     </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition_1/72196FC1">Name</a></td>
+								<td>string</td>
+								<td>
+									<div>The display name of this transition.</div>
 								</td>
 							</tr>
 							<tr>
@@ -491,12 +501,6 @@ public abstract class AnimancerState.Transition&lt;TState&gt; : ITransitionDetai
 									<div>
     The state that was created by this object. Specifically, this is the state that was most recently
     passed into <code class="cs">Animancer.AnimancerState.Transition`1.Apply(Animancer.AnimancerState)</code> (usually by <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code>).
-    <p></p>
-    You can use <code class="cs">Animancer.AnimancerPlayable.StateDictionary.GetOrCreate(Animancer.ITransition)</code> or
-    <code class="cs">Animancer.AnimancerLayer.GetOrCreateState(Animancer.ITransition)</code> to get or create the state for a
-    specific object.
-    <p></p>
-    This property is shorthand for casting the <code class="cs">Animancer.AnimancerState.Transition`1.BaseState</code> to <span name="TState" class="typeparamref">TState</span>.
     </div>
 								</td>
 							</tr>
@@ -537,13 +541,14 @@ public abstract class AnimancerState.Transition&lt;TState&gt; : ITransitionDetai
 								<td><a href="/animancer/api/Animancer/Transition_1/962CB16D">CreateState<wbr>()<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/Transition_1#typeparam-TState">TState</a></td>
 								<td>
-									<div>
-    Creates and returns a new <span name="TState" class="typeparamref">TState</span>.
-    <p></p>
-    Note that using methods like <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code> will also call
-    <code class="cs">Animancer.AnimancerState.Transition`1.Apply(Animancer.AnimancerState)</code>, so if you call this method manually you may want to call that method as well.
-    Or you can just use <code class="cs">Animancer.AnimancerUtilities.CreateStateAndApply(Animancer.ITransition,Animancer.AnimancerPlayable)</code>.
-    </div>
+									<div>Creates and returns a new <span name="TState" class="typeparamref">TState</span>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition_1/CEF0DB1D">ToString<wbr>()<wbr></a></td>
+								<td>string</td>
+								<td>
+									<div>Returns the <code class="cs">Animancer.AnimancerState.Transition`1.Name</code> and type of this transition.</div>
 								</td>
 							</tr>
 					</tbody></table>

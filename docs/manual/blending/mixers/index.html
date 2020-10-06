@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.3</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -342,6 +342,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
                 <li class="treeview">
@@ -650,7 +651,7 @@ private void Awake()
 </table>
 <p>Enabling time synchronisation for all states would give a similar result to the Blend Tree.</p>
 <h2 id="optional">Optional</h2>
-<p>Blend Trees always synchronise their states, however this is not always ideal so Mixers allow you to choose which states are synchronised using the <code><a href="/animancer/api/Animancer/MixerState/76784F91">MixerState.SynchroniseChildren</a></code> array (or the <code>Sync</code> toggle in the Inspector when using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>). The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronise the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
+<p>Blend Trees always synchronise their states, however this is not always ideal so Mixers allow you to choose which states are synchronised using the <code>MixerState.SynchroniseChildren</code> array (or the <code>Sync</code> toggle in the Inspector when using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>). The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronise the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
 <h2 id="foot-phase-synchronisation">Foot Phase Synchronisation</h2>
 <p>Blend Trees also use a more complex synchronisation technique for Humanoid animations known as Foot Phase Synchronisation which is described in the following video at 17:10. Essentially, each animation is broken down into phases (right foot down, right foot up, etc.) so that it can properly support animations with irregular walk cycles such as a character with a limp and animations that contain different numbers of walk cycles.</p>
 <iframe width="480" height="270" src="https://www.youtube.com/embed/3lO1q8mQrrg?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>

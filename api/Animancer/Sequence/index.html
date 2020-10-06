@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.3</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -208,7 +208,7 @@
 				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
 				<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
-				<li><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></li>
+				<li><a href="/animancer/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>
 				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 				<li><a href="/animancer/api/Animancer/ITransition">ITransition</a></li>
 				<li><a href="/animancer/api/Animancer/ITransitionDetailed">ITransitionDetailed</a></li>
@@ -515,10 +515,6 @@ class Type type-node
 									<div>[Pro-Only]
     Adds the given event to this sequence. The <code class="cs">Animancer.AnimancerEvent.Sequence.Count</code> is increased by one and if required, the
     <code class="cs">Animancer.AnimancerEvent.Sequence.Capacity</code> is doubled to fit the new event.
-    <p></p>
-    This methods returns the index at which the event is added, which is determined by its
-    <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to keep the sequence sorted in ascending order. If there are already any
-    events with the same <code class="cs">Animancer.AnimancerEvent.normalizedTime</code>, the new event is added immediately after them.
     </div>
 								</td>
 							</tr>
@@ -529,10 +525,6 @@ class Type type-node
 									<div>[Pro-Only]
     Adds the given event to this sequence. The <code class="cs">Animancer.AnimancerEvent.Sequence.Count</code> is increased by one and if required, the
     <code class="cs">Animancer.AnimancerEvent.Sequence.Capacity</code> is doubled to fit the new event.
-    <p></p>
-    This methods returns the index at which the event is added, which is determined by its
-    <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to keep the sequence sorted in ascending order. If there are already any
-    events with the same <code class="cs">Animancer.AnimancerEvent.normalizedTime</code>, the new event is added immediately after them.
     </div>
 								</td>
 							</tr>
@@ -543,10 +535,6 @@ class Type type-node
 									<div>[Pro-Only]
     Adds the given event to this sequence. The <code class="cs">Animancer.AnimancerEvent.Sequence.Count</code> is increased by one and if required, the
     <code class="cs">Animancer.AnimancerEvent.Sequence.Capacity</code> is doubled to fit the new event.
-    <p></p>
-    This methods returns the index at which the event is added, which is determined by its
-    <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to keep the sequence sorted in ascending order. If there are already any
-    events with the same <code class="cs">Animancer.AnimancerEvent.normalizedTime</code>, the new event is added immediately after them.
     </div>
 								</td>
 							</tr>
@@ -557,10 +545,6 @@ class Type type-node
 									<div>[Pro-Only]
     Adds the given event to this sequence. The <code class="cs">Animancer.AnimancerEvent.Sequence.Count</code> is increased by one and if required, the
     <code class="cs">Animancer.AnimancerEvent.Sequence.Capacity</code> is doubled to fit the new event.
-    <p></p>
-    This methods returns the index at which the event is added, which is determined by its
-    <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to keep the sequence sorted in ascending order. If there are already any
-    events with the same <code class="cs">Animancer.AnimancerEvent.normalizedTime</code>, the new event is added immediately after them.
     </div>
 								</td>
 							</tr>
@@ -589,10 +573,6 @@ class Type type-node
 									<div>[Pro-Only]
     Adds every event in the `enumerable` to this sequence. The <code class="cs">Animancer.AnimancerEvent.Sequence.Count</code> is increased by one and if
     required, the <code class="cs">Animancer.AnimancerEvent.Sequence.Capacity</code> is doubled to fit the new event.
-    <p></p>
-    This methods returns the index at which the event is added, which is determined by its
-    <code class="cs">Animancer.AnimancerEvent.normalizedTime</code> to keep the sequence sorted in ascending order. If there are already any
-    events with the same <code class="cs">Animancer.AnimancerEvent.normalizedTime</code>, the new event is added immediately after them.
     </div>
 								</td>
 							</tr>
@@ -752,18 +732,14 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/Sequence/13A79EED">SetCallback<wbr>(int, <wbr>Action)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>[Pro-Only]
-    Replaces the <code class="cs">Animancer.AnimancerEvent.callback</code> of the event at the specified `index`.
-    </div>
+									<div>[Pro-Only] Replaces the <code class="cs">Animancer.AnimancerEvent.callback</code> of the event at the specified `index`.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/Sequence/6255144D">SetCallback<wbr>(string, <wbr>Action)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>[Pro-Only]
-    Replaces the <code class="cs">Animancer.AnimancerEvent.callback</code> of the event with the specified `name`.
-    </div>
+									<div>[Pro-Only] Replaces the <code class="cs">Animancer.AnimancerEvent.callback</code> of the event with the specified `name`.</div>
 								</td>
 							</tr>
 							<tr>

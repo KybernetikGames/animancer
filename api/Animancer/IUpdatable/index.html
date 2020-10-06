@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.3</a></li>
         <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
  
                         </ul>       
@@ -205,7 +205,7 @@
 				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
 				<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
-				<li><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></li>
+				<li><a href="/animancer/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>
 				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
 				<li><a href="/animancer/api/Animancer/ITransition">ITransition</a></li>
 				<li><a href="/animancer/api/Animancer/ITransitionDetailed">ITransitionDetailed</a></li>
@@ -252,7 +252,7 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/IKeyHolder">IKeyHolder</a></li>								
+											<li><a href="/animancer/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>								
 									</ul>
 								</dd>
 							
@@ -261,10 +261,10 @@
 								<dt>Implementing Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></li>								
 											<li><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween</a><wbr>&lt;<a href="/animancer/api/Animancer/MixerParameterTween_1#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></li>								
 											<li><a href="/animancer/api/Animancer/CustomFade">CustomFade</a></li>								
+											<li><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></li>								
+											<li><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></li>								
 									</ul>
 								</dd>				
 						</dl>
@@ -272,18 +272,18 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type-.-&gt;Interface0["IKeyHolder"]
-	click Interface0 "/animancer/api/Animancer/IKeyHolder"
+	Type-.-&gt;Interface0["IKeyedListItem"]
+	click Interface0 "/animancer/api/Animancer/IKeyedListItem"
 	Type["IUpdatable"]
 class Type type-node
-	Implementing0["MixerParameterTweenVector2"]-.-&gt;Type
-	click Implementing0 "/animancer/api/Animancer/MixerParameterTweenVector2"
-	Implementing1["MixerParameterTween&lt;TParameter&gt;"]-.-&gt;Type
-	click Implementing1 "/animancer/api/Animancer/MixerParameterTween_1"
+	Implementing0["MixerParameterTween&lt;TParameter&gt;"]-.-&gt;Type
+	click Implementing0 "/animancer/api/Animancer/MixerParameterTween_1"
+	Implementing1["CustomFade"]-.-&gt;Type
+	click Implementing1 "/animancer/api/Animancer/CustomFade"
 	Implementing2["MixerParameterTweenFloat"]-.-&gt;Type
 	click Implementing2 "/animancer/api/Animancer/MixerParameterTweenFloat"
-	Implementing3["CustomFade"]-.-&gt;Type
-	click Implementing3 "/animancer/api/Animancer/CustomFade"
+	Implementing3["MixerParameterTweenVector2"]-.-&gt;Type
+	click Implementing3 "/animancer/api/Animancer/MixerParameterTweenVector2"
 
 						</div>
 					</div>
@@ -292,37 +292,38 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public interface IUpdatable : IKeyHolder</code></pre>
+	<pre><code>public interface IUpdatable : IKeyedListItem</code></pre>
 
 	<h1 id="Examples">Examples</h1>
 	<div>
      Register to receive updates using <code class="cs">Animancer.AnimancerPlayable.RequireUpdate(Animancer.IUpdatable)</code> and stop
      receiving updates using <code class="cs">Animancer.AnimancerPlayable.CancelUpdate(Animancer.IUpdatable)</code>.
-     <p></p><pre><code class="cs"> public sealed class UpdatableBehaviour : MonoBehaviour, IUpdatable
+     <p></p><pre><code class="cs"> public sealed class MyUpdatable : Key, IUpdatable
  {
-     [SerializeField] private AnimancerComponent _Animancer;
+     private AnimancerComponent _Animancer;
 
-     private void OnEnable()
+     public void StartUpdating(AnimancerComponent animancer)
      {
+         _Animancer = animancer;
          _Animancer.Playable.RequireUpdate(this);
      }
 
-     private void OnEnable()
+     public void StopUpdating()
      {
          _Animancer.Playable.CancelUpdate(this);
      }
 
-     public void EarlyUpdate()
+     void IUpdatable.EarlyUpdate()
      {
-         // Called at the start of every Animator update before the playables get updated.
+         // Called at the start of every animation update before the playables get updated.
      }
 
-     public void LateUpdate()
+     void IUpdatable.LateUpdate()
      {
-         // Called at the end of every Animator update after the playables get updated.
+         // Called at the end of every animation update after the playables get updated.
      }
 
-     public void OnDestroy()
+     void IUpdatable.OnDestroy()
      {
          // Called by AnimancerPlayable.Destroy if this object is currently being updated.
      }
