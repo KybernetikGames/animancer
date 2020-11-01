@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - ControllerState.ControllerState.Transition&lt;TState&gt; Class</title>
+        <title>Animancer - API - ManualMixerState.ManualMixerState.Transition&lt;TMixer&gt; Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -82,7 +82,6 @@
 <p><a href="#TypeParameters">Type Parameters</a></p>
 <p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
-<p><a href="#Operators">Operators</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -234,8 +233,8 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/api/Animancer/ControllerState">ControllerState</a>.</h3>
-	<h1>ControllerState<wbr>.Transition<wbr>&lt;TState&gt;<wbr> <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a>.</h3>
+	<h1>ManualMixerState<wbr>.Transition<wbr>&lt;TMixer&gt;<wbr> <small>Class</small></h1>
 </section>
 <section class="content">
 	
@@ -243,7 +242,7 @@
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
     Base class for serializable <code class="cs">Animancer.ITransition</code>s which can create a particular type of
-    <code class="cs">Animancer.ControllerState</code> when passed into <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code>.
+    <code class="cs">Animancer.ManualMixerState</code> when passed into <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -271,17 +270,15 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
-											<li><a href="/animancer/api/Animancer/Transition_1">AnimancerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TState">TState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Transition_1">AnimancerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_1#typeparam-TMixer">TMixer</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/Transition">ControllerState<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">Float1<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">Float3<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
-											<li><a href="/animancer/api/Animancer/Transition">Float2<wbr>Controller<wbr>State<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition">ManualMixerState<wbr>.Transition</a></li>								
+											<li><a href="/animancer/api/Animancer/Transition_2">MixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/Transition_2#typeparam-TMixer">TMixer</a>, <wbr><a href="/animancer/api/Animancer/Transition_2#typeparam-TParameter">TParameter</a>&gt;<wbr></li>								
 									</ul>
 								</dd>			
 							
@@ -290,7 +287,7 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["AnimancerState.Transition&lt;TState&gt;"]
+	Type--&gt;Base0["AnimancerState.Transition&lt;TMixer&gt;"]
 	Base0--&gt;Base1["Object"]
 	Type-.-&gt;Interface0["ITransitionDetailed"]
 	click Interface0 "/animancer/api/Animancer/ITransitionDetailed"
@@ -300,16 +297,12 @@
 	click Interface2 "/animancer/api/Animancer/IHasKey"
 	Type-.-&gt;Interface3["IAnimationClipCollection"]
 	click Interface3 "/animancer/api/Animancer/IAnimationClipCollection"
-	Type["ControllerState.Transition&lt;TState&gt;"]
+	Type["ManualMixerState.Transition&lt;TMixer&gt;"]
 class Type type-node
-	Derived0["ControllerState.Transition"]--&gt;Type
+	Derived0["ManualMixerState.Transition"]--&gt;Type
 	click Derived0 "/animancer/api/Animancer/Transition"
-	Derived1["Float1ControllerState.Transition"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/Transition"
-	Derived2["Float3ControllerState.Transition"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/Transition"
-	Derived3["Float2ControllerState.Transition"]--&gt;Type
-	click Derived3 "/animancer/api/Animancer/Transition"
+	Derived1["MixerState.Transition&lt;TMixer, TParameter&gt;"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/Transition_2"
 
 						</div>
 					</div>
@@ -319,20 +312,22 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[Serializable]
-public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.Transition&lt;TState&gt;, 
+public abstract class ManualMixerState.Transition&lt;TMixer&gt; : AnimancerState.Transition&lt;TMixer&gt;, 
     ITransitionDetailed, ITransition, IHasKey, IAnimationClipCollection
-    where TState : ControllerState</code></pre>
+    where TMixer : ManualMixerState</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
-    Unfortunately the tool used to generate this documentation does not currently support nested types with
-    identical names, so only one <code class="cs">Transition</code> class will actually have a documentation page.
-    <p></p>
     Even though it has the <code class="cs">System.SerializableAttribute</code>, this class won't actually get serialized
     by Unity because it's generic and abstract. Each child class still needs to include the attribute.
     <p></p>
+    Unfortunately the tool used to generate this documentation does not currently support nested types with
+    identical names, so only one <code class="cs">Transition</code> class will actually have a documentation page.
+    <p></p>
     Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/transitions">Transitions</a>
+    <p></p>
+    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/blending/mixers">Mixers</a>
     </div>
 
 	<h1 id="Attributes">Attributes</h1>
@@ -363,8 +358,8 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
 						<th>Description</th>
 					</tr>
 				</thead>
-					<tbody><tr id="typeparam-TState">
-						<td>TState</td>
+					<tbody><tr id="typeparam-TMixer">
+						<td>TMixer</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -388,42 +383,25 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/72EE15FB">Controller</a></td>
-								<td>Runtime<wbr>Animator<wbr>Controller</td>
+								<td><a href="/animancer/api/Animancer/Transition_1/DEC91585">Clips</a></td>
+								<td>AnimationClip[]</td>
 								<td>
 									<div>[<code class="cs">UnityEngine.SerializeField</code>]
-    The <code class="cs">Animancer.ControllerState.Controller</code> that will be used for the created state.
+    The <code class="cs">Animancer.ClipState.Clip</code> to use for each state in the mixer.
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/654B1232">IsValid</a></td>
+								<td><a href="/animancer/api/Animancer/Transition_1/CCBAE72D">IsLooping</a></td>
 								<td>bool</td>
 								<td>
-									<div>Indicates whether this transition can create a valid <code class="cs">Animancer.AnimancerState</code>.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/9EE5CF07">KeepStateOnStop</a></td>
-								<td>bool</td>
-								<td>
-									<div>[<code class="cs">UnityEngine.SerializeField</code>]
-    If false, <code class="cs">Animancer.ControllerState.Stop</code> will reset all layers to their default state.
-    <p></p>
-    If you set this value to false after the <code class="cs">Animancer.ControllerState.Playable</code> is created, you must assign the
-    <code class="cs">Animancer.ControllerState.DefaultStateHashes</code> or call <code class="cs">Animancer.ControllerState.GatherDefaultStates</code> yourself.
+									<div>[<code class="cs">Animancer.ITransitionDetailed</code>]
+    Returns true is any of the <code class="cs">Animancer.ManualMixerState.Transition`1.Clips</code> are looping.
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/E8798231">MainObject</a></td>
-								<td>Object</td>
-								<td>
-									<div>The <code class="cs">Animancer.AnimancerState.MainObject</code> that the created state will have.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/58815A26">MaximumDuration</a></td>
+								<td><a href="/animancer/api/Animancer/Transition_1/84A22DA1">MaximumDuration</a></td>
 								<td>float</td>
 								<td>
 									<div>[<code class="cs">Animancer.ITransitionDetailed</code>]
@@ -432,14 +410,29 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/29BE117D">NormalizedStartTime</a></td>
+								<td><a href="/animancer/api/Animancer/Transition_1/CC2C4642">Speed</a></td>
 								<td>float</td>
 								<td>
 									<div>[<code class="cs">UnityEngine.SerializeField</code>]
-    Determines what <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to start the animation at.
-    <p></p>
-    The default value is <code class="cs">System.Single.NaN</code> which indicates that this value is not used so the
-    animation will continue from its current time.
+    Determines how fast the mixer plays (1x = normal speed, 2x = double speed).
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition_1/BC079E89">Speeds</a></td>
+								<td>float[]</td>
+								<td>
+									<div>[<code class="cs">UnityEngine.SerializeField</code>]
+    The <code class="cs">Animancer.AnimancerNode.Speed</code> to use for each state in the mixer.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition_1/E3E5E6E4">SynchroniseChildren</a></td>
+								<td>bool[]</td>
+								<td>
+									<div>[<code class="cs">UnityEngine.SerializeField</code>]
+    The flags to be used in <code class="cs">Animancer.MixerState.InitialiseSynchronisedChildren(System.Boolean[])</code>.
     </div>
 								</td>
 							</tr>
@@ -460,12 +453,20 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Transition_1/7E269A99">Apply<wbr>(AnimancerState)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Transition_1/CC1539BB">Apply<wbr>(AnimancerState)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>
-    Called by <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code> to apply the
-    <code class="cs">Animancer.ControllerState.Transition`1.NormalizedStartTime</code>.
+    Called by <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code> to apply the <code class="cs">Animancer.ManualMixerState.Transition`1.Speed</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition_1/0856E915">InitialiseState<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Initialises the <code class="cs">Animancer.AnimancerState.Transition`1.State</code> immediately after it is created.
     </div>
 								</td>
 							</tr>
@@ -474,28 +475,6 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
 			</div>
 		
 
-			<h1 id="Operators">Operators</h1>
-			<div class="box">
-				<div class="box-body no-padding table-responsive">
-					<table class="table table-striped table-hover three-cols">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Value</th>
-								<th>Summary</th>
-							</tr>
-						</thead>
-							<tbody><tr>
-								<td>implicit operator <wbr>Runtime<wbr>Animator<wbr>Controller<wbr>(ControllerState<wbr>.Transition<wbr>&lt;TState&gt;<wbr>)<wbr></td>
-								<td>Runtime<wbr>Animator<wbr>Controller</td>
-								<td>
-									<div></div>
-								</td>
-							</tr>
-					</tbody></table>
-				</div>
-			</div>
-		
 
 
 	
@@ -513,6 +492,24 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
                 <strong><div style="text-align:left; display:flex">
 
 <div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
 <p>Contact</p>
 <p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
 <p><a href="/animancer/forum">Unity Forum</a></p>
@@ -522,19 +519,10 @@ public abstract class ControllerState.Transition&lt;TState&gt; : AnimancerState.
 <div style="width:10%"></div>
 
 <div>
-<p>Download</p>
-<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
-</div>
-
-<div style="width:10%"></div>
-
-<div>
-<p>Documentation</p>
-<p><a href="/animancer/docs/examples">Examples</a></p>
-<p><a href="/animancer/docs/manual">Manual</a></p>
-<p><a href="/animancer/docs/changes">Change Log</a></p>
+<p>Other Assets</p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
 </div>
 
 </div></strong>
