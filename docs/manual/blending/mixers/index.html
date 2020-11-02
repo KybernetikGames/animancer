@@ -494,17 +494,28 @@ public sealed class LinearMixerExample : MonoBehaviour
         // Other overloads take 3 clips, or an array of any number of clips.
         _MovementMixer.Initialise(_Idle, _Run);
 
-        // Optionally disable Synchronisation for states that do not need it.
         // In general, synchronisation is good for movement so you should disable it for Idle
         // and since there is only one other state it will have nothing else to sync with anyway.
-        _MovementMixer.SynchroniseChildren = new bool[] { false, false };
+        // See the Optional Synchronisation section for more information.
+        _MovementMixer.DontSynchroniseChildren();
 
-        // Optionally set a display name to show in the Inspector.
-        // Otherwise it would appear as "LinearMixerState (Idle, Run)".
-        // This call will be automatically compiled out of Runtime Builds.
-        _MovementMixer.SetName("Movement Mixer");
+        // Optionally register the mixer with a key so it
+        // can be accessed from other scripts using that key.
 
-        // Play the mixer just like a regular AnimationClip.
+        // A string name:
+        _MovementMixer.Key = "Movement Mixer";
+        // Would let other scripts call:
+        // var state = _Animancer["Movement Mixer"];
+        // _Animancer.Play("Movement Mixer");
+
+        // Or use this component itself as the key.
+        _MovementMixer.Key = this;
+        // Would let other scripts with a reference to this one access the mixer:
+        // LinearMixerExample example;
+        // var state = _Animancer[example];
+        // _Animancer.Play(example);
+
+        // Play the mixer just like a regular clip.
         _Animancer.Play(_MovementMixer);
     }
 
@@ -712,8 +723,30 @@ public void BlendMixerParameter(float parameter, float duration)
   </tbody>
 </table>
 <p>Enabling time synchronisation for all states would give a similar result to the Blend Tree.</p>
-<h2 id="optional">Optional</h2>
-<p>Blend Trees always synchronise their states, however this is not always ideal so Mixers allow you to choose which states are synchronised using the <code>MixerState.SynchroniseChildren</code> array (or the <code>Sync</code> toggle in the Inspector when using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>). The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronise the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
+<h2 id="optional-synchronisation">Optional Synchronisation</h2>
+<blockquote class="blockquote">
+<p>Synchronisation is good for movement but should usually be disabled for <em>Idle</em> animations.</p>
+</blockquote>
+<p>Blend Trees always synchronise their states, however this is not always ideal so Mixers allow you to choose which states are synchronised. The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronise the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
+<p>When using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, the <code>Sync</code> toggles on the right side of the Inspector allow you to choose which of its states are synchronised.</p>
+<p>In code, you can control child synchronisation like this:</p>
+<pre><code class="language-cs">// Reference whatever mixer you are using.
+// This could be the _MovementMixer from the Manual Creation example above.
+<a href="/animancer/api/Animancer/MixerState">MixerState</a> mixer;
+
+// By default, all children are synchronised but you can prevent that if you want:
+// Note that this only affects children added to a mixer after you set it.
+<a href="/animancer/api/Animancer/MixerState/54C8C9D0">MixerState.AutoSynchroniseChildren</a> = false;
+
+// Disable synchronisation for all children.
+mixer.DontSynchroniseChildren();
+
+// Or for a specific child.
+mixer.DontSynchronise(mixer.GetChild(0));
+
+// Or enable it for a specific child (if you set AutoSynchroniseChildren = false).
+mixer.Synchronise(mixer.GetChild(1));
+</code></pre>
 <h2 id="foot-phase-synchronisation">Foot Phase Synchronisation</h2>
 <p>Blend Trees also use a more complex synchronisation technique for Humanoid animations known as Foot Phase Synchronisation which is described in the following video at 17:10. Essentially, each animation is broken down into phases (right foot down, right foot up, etc.) so that it can properly support animations with irregular walk cycles such as a character with a limp and animations that contain different numbers of walk cycles.</p>
 <iframe width="480" height="270" src="https://www.youtube.com/embed/3lO1q8mQrrg?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
