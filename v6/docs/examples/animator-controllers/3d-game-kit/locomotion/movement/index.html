@@ -1,0 +1,811 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/v6/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/v6/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - Movement</title>
+        <link href="/animancer/v6/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/v6/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/v6/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/v6/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/v6/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/v6/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/v6/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/v6/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/v6/assets/js/app.min.js"></script>         
+        <script src="/animancer/v6/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/v6/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/v6/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/v6/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/v6/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/v6/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/v6/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/v6/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/v6/docs/introduction/features"><img src="/animancer/v6/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
+        <li><a href="/animancer/v6/docs/download"><img src="/animancer/v6/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
+        <li class="active"><a href="/animancer/v6/docs"><img src="/animancer/v6/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
+        <li><a href="/animancer/v6/docs/help"><img src="/animancer/v6/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
+        <li><a href="/animancer/v6/api/Animancer/AnimancerComponent"><img src="/animancer/v6/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v6.0</a></li>
+        <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/v6/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
+ 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+<a href="/animancer" style="font-size:1.42em; color:white">This is the <strong>Animancer v6.0 Preview</strong> Documentation. Click Here to return to the v5.3 Documentation.</a>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
+<p><a href="#forward-movement">1. Forward Movement</a></p>
+<p><a href="#blend-tree">2. Blend Tree</a></p>
+<p><a href="#on-animator-move">3. On Animator Move</a></p>
+<p><a href="#animancer">Animancer</a></p>
+<p><a href="#setup-mixer">1. Setup Mixer</a></p>
+<p><a href="#fixed-update">2. Fixed Update</a></p>
+<p><a href="#on-animator-move-1">3. On Animator Move</a></p>
+<p><a href="#full-movement-control">Full Movement Control</a></p>
+<p><a href="#acceleration">Acceleration</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/v6/docs/download">Download</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/introduction/glossary">Glossary</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/cs/overview">Scripting Overview</a></li>
+                <li><a href="/animancer/v6/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/v6/docs/introduction/cs/variables">Variables</a></li>
+                <li><a href="/animancer/v6/docs/introduction/cs/methods">Methods</a></li>
+                <li><a href="/animancer/v6/docs/introduction/cs/inheritance">Inheritance</a></li>
+                <li><a href="/animancer/v6/docs/introduction/cs/vectors">Vectors</a></li>
+                <li><a href="/animancer/v6/docs/introduction/cs/other">Other Topics</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/v6/docs/examples">Examples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/v6/docs/examples/basics/quick-play">01 Quick Play</a></li>
+                <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
+                <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
+                <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
+                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fine-control/spider-bot">01 Spider Bot</a></li>
+                <li><a href="/animancer/v6/docs/examples/fine-control/doors">02 Doors</a></li>
+                <li><a href="/animancer/v6/docs/examples/fine-control/solo-animation">03 Solo Animation</a></li>
+                <li><a href="/animancer/v6/docs/examples/fine-control/update-rate">04 Update Rate</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/locomotion">03 Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/locomotion/walk-and-run">01 Walk and Run</a></li>
+                <li><a href="/animancer/v6/docs/examples/locomotion/root-motion">02 Root Motion</a></li>
+                <li><a href="/animancer/v6/docs/examples/locomotion/linear-blending">03 Linear Blending</a></li>
+                <li><a href="/animancer/v6/docs/examples/locomotion/directional-blending">04 Directional Blending</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/directional-sprites">04 Directional Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/directional-sprites/basic-movement">01 Basic Movement</a></li>
+                <li><a href="/animancer/v6/docs/examples/directional-sprites/character-controller">02 Character Controller</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/events/footsteps">01 Footstep Events</a></li>
+                <li><a href="/animancer/v6/docs/examples/events/golf">02 Golf Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/more-brains">05 More Brains</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/weapons">06 Weapons</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/platformer">07 Platformer</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/examples/layers">07 Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/ik/puppet">01 Puppet</a></li>
+                <li><a href="/animancer/v6/docs/examples/ik/uneven-ground">02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li class="treeview active">
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview active">
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="selected"><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
+                <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/sprites">Sprites</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/v6/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/v6/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/v6/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/manual/transitions/types">Transition Types</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/manual/blending/fading">Fading</a></li>
+                <li><a href="/animancer/v6/docs/manual/blending/layers">Layers</a></li>
+                <li><a href="/animancer/v6/docs/manual/blending/mixers">Mixers</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/manual/events/animation">Animation Events</a></li>
+                <li><a href="/animancer/v6/docs/manual/events/animancer">Animancer Events</a></li>
+                <li><a href="/animancer/v6/docs/manual/events/end">End Events</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/manual/fsm">Finite State Machines</a></li>
+                <li><a href="/animancer/v6/docs/manual/animator-controllers">Animator Controllers</a></li>
+                <li><a href="/animancer/v6/docs/manual/timeline">Timeline</a></li>
+                <li><a href="/animancer/v6/docs/manual/ik">Inverse Kinematics</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/bugs/events">Animation Events</a></li>
+                <li><a href="/animancer/v6/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/v6/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/v6/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
+                <li><a href="/animancer/v6/docs/bugs/timeline">Timeline</a></li>
+                <li><a href="/animancer/v6/docs/bugs/timing">Timing</a></li>
+                <li><a href="/animancer/v6/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/v6/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/v6/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/v6/docs/source/asset-sources">Asset Sources</a></li>
+                <li><a href="/animancer/v6/docs/source/coding-standard">Coding Standard</a></li>
+                <li><a href="/animancer/v6/docs/source/default-script-template">Default Script Template</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/changes/animancer-v6-0">Animancer v6.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/changes/animancer-v6-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/v6/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/help">Help and FAQ</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/help/debugging">Debugging</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>Movement</h1>
+		</section>
+	<section class="content">
+		<blockquote class="blockquote">
+<p>This page is part of the <a href="../">3D Game Kit</a> example.</p>
+</blockquote>
+<h1 id="mecanim">Mecanim</h1>
+<p>Movement is handled in several steps every frame:</p>
+<ol>
+<li><a href="#forward-movement">Forward Movement</a></li>
+<li><a href="#blend-tree">Blend Tree</a></li>
+<li><a href="#on-animator-move">On Animator Move</a></li>
+</ol>
+<h1 id="forward-movement">1. Forward Movement</h1>
+<p><code>PlayerController.FixedUpdate</code> calls <code>CalculateForwardMovement</code> which gets the desired movement from the <code>PlayerInput</code> script, accelerates the current speed towards the desired speed, and sets the <code>ForwardSpeed</code> parameter in the Animator Controller.</p>
+<pre><code class="language-cs">void CalculateForwardMovement()
+{
+    // Cache the move input and cap it's magnitude at 1.
+    Vector2 moveInput = m_Input.MoveInput;
+    if (moveInput.sqrMagnitude &gt; 1f)
+        moveInput.Normalize();
+
+    // Calculate the speed intended by input.
+    m_DesiredForwardSpeed = moveInput.magnitude * maxForwardSpeed;
+
+    // Determine change to speed based on whether there is currently any move input.
+    float acceleration = IsMoveInput ? k_GroundAcceleration : k_GroundDeceleration;
+
+    // Adjust the forward speed towards the desired speed.
+    m_ForwardSpeed = Mathf.MoveTowards(m_ForwardSpeed, m_DesiredForwardSpeed, acceleration * Time.deltaTime);
+
+    // Set the animator parameter to control what animation is being played.
+    m_Animator.SetFloat(m_HashForwardSpeed, m_ForwardSpeed);
+}
+</code></pre>
+<h1 id="blend-tree">2. Blend Tree</h1>
+<p>The <code>Locomotion</code> Blend Tree uses the <code>ForwardSpeed</code> parameter to calculate the weights of its animations, which determines how they are blended.</p>
+<p><img src="locomotion-blend-tree.png" class="img-responsive"></p>
+<p>Note how the last two animations in the Blend Tree are the same, with the second one having its speed set to 2 so that once your <code>ForwardSpeed</code> gets above 7.09... it will increase the speed of that animation proportionally rather than blending with a second animation. The actual maximum <code>ForwardSpeed</code> that the <code>PlayerController</code> script will allow is set to 8.</p>
+<h1 id="on-animator-move">3. On Animator Move</h1>
+<p>Then Unity calls <code>PlayerController.OnAnimatorMove</code> which modifies the way Root Motion is applied to the <code>CharacterController</code>.</p>
+<pre><code class="language-cs">void OnAnimatorMove()
+{
+    Vector3 movement;
+
+    // If Ellen is on the ground...
+    if (m_IsGrounded)
+    {
+        // ... raycast into the ground...
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + Vector3.up * k_GroundedRayDistance * 0.5f, -Vector3.up);
+        if (Physics.Raycast(ray, out hit, k_GroundedRayDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        {
+            // ... and get the movement of the root motion rotated to lie along the plane of the ground.
+            movement = Vector3.ProjectOnPlane(m_Animator.deltaPosition, hit.normal);
+
+            // Also store the current walking surface so the correct audio is played.
+            Renderer groundRenderer = hit.collider.GetComponentInChildren&lt;Renderer&gt;();
+            m_CurrentWalkingSurface = groundRenderer ? groundRenderer.sharedMaterial : null;
+        }
+        else
+        {
+            // If no ground is hit just get the movement as the root motion.
+            // Theoretically this should rarely happen as when grounded the ray should always hit.
+            movement = m_Animator.deltaPosition;
+            m_CurrentWalkingSurface = null;
+        }
+    }
+    else
+    {
+        // If not grounded the movement is just in the forward direction.
+        movement = m_ForwardSpeed * transform.forward * Time.deltaTime;
+    }
+
+    // Rotate the transform of the character controller by the animation's root rotation.
+    m_CharCtrl.transform.rotation *= m_Animator.deltaRotation;
+
+    // Add to the movement with the calculated vertical speed.
+    movement += m_VerticalSpeed * Vector3.up * Time.deltaTime;
+
+    // Move the character controller.
+    m_CharCtrl.Move(movement);
+
+    // After the movement store whether or not the character controller is grounded.
+    m_IsGrounded = m_CharCtrl.isGrounded;
+
+    // If Ellen is not on the ground then send the vertical speed to the animator.
+    // This is so the vertical speed is kept when landing so the correct landing animation is played.
+    if (!m_IsGrounded)
+        m_Animator.SetFloat(m_HashAirborneVerticalSpeed, m_VerticalSpeed);
+
+    // Send whether or not Ellen is on the ground to the animator.
+    m_Animator.SetBool(m_HashGrounded, m_IsGrounded);
+}
+</code></pre>
+<p>That method is long enough that it should really have been split into multiple methods. The first part where it determines the <code>movement</code> based on whether the character is grounded or not would do well as a separate method called something like <code>GetMovementThisFrame</code> which simply returns the <code>Vector3</code>.</p>
+<h1 id="animancer">Animancer</h1>
+<ol>
+<li><a href="#setup-mixer">Setup Mixer</a></li>
+<li><a href="#fixed-update">Fixed Update</a></li>
+<li><a href="#on-animator-move-1">On Animator Move</a></li>
+</ol>
+<h1 id="setup-mixer">1. Setup Mixer</h1>
+<p>The Animancer character uses a <a href="../../../../../manual/blending/mixers">Mixer State</a> in place of the Blend Tree:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">LinearMixerState.Transition</a> _LocomotionMixer;
+
+private void OnEnable()
+{
+    Animancer.Play(_LocomotionMixer);
+}
+</code></pre>
+<p><img src="locomotion-mixer.png" class="img-responsive"></p>
+<p>There are a few notable differences between this Mixer and the original Blend Tree (pictured in <a href="#blend-tree">2. Blend Tree</a> above):</p>
+<ul>
+<li>It is defined in the Inspector instead of in an Animator Controller.</li>
+<li>It has the <a href="../../../../../manual/blending/mixers#synchronisation">Synchronisation</a> toggle disabled for the <em>Idle</em> animation where the Blend Tree will always synchronise all its animations.</li>
+<li>It only has 3 animations and <code>Extrapolate Speed</code> enabled instead of the 4 used in the Blend Tree. The Character's <code>Max Speed</code> is set to 8, which is slightly above the threshold of the 3rd animation (~7). The Blend Tree used another copy of the <em>EllenRunForward</em> animation with its speed set to 2 and its threshold twice as high (~14) so that when the parameter reaches 8 it will essentially just be playing that animation slightly faster than normal. We could do the exact same thing in the Mixer, but the <code>Extrapolate Speed</code> toggle allows it to automatically achieve the same result without manually adding a copy of the last animation.</li>
+</ul>
+<h1 id="fixed-update">2. Fixed Update</h1>
+<p>We also have a <code>FixedUpdate</code> method like the Mecanim character, but instead of one massive method that does lots of different things depending on your state this one only gets called while the character is in this state so its logic is much easier to understand:</p>
+<p>It starts with the same calls to <code>Creature.CheckMotionState</code> and <code>UpdateSpeedControl</code> that the <a href="../../idle#check-motion-state">Idle</a> state used:</p>
+<pre><code class="language-cs">private void FixedUpdate()
+{
+    if (Creature.CheckMotionState())
+        return;
+
+    Creature.UpdateSpeedControl();
+</code></pre>
+<p>After updating the creature's speed according to its <code>Brain</code>, we send that value to the Mixer so it can control the blending:</p>
+<pre><code class="language-cs">    _LocomotionMixer.State.Parameter = Creature.ForwardSpeed;
+</code></pre>
+<p>The rest of the <code>FixedUpdate</code> method concerns <a href="../turning">Turning</a> and audio.</p>
+<h1 id="on-animator-move-1">3. On Animator Move</h1>
+<p>We want to modify the way <a href="https://docs.unity3d.com/Manual/RootMotion">Root Motion</a> controls the character so we need a script with an <code>OnAnimatorMove</code> method attached to the same <code>GameObject</code> as the <code>Animator</code> component. But having all our main scripts on the character model itself would mean there are lots of scripts on that object and if we wanted to change the model to something else we would not be able to simply swap something else in without manually copying all the components over. So we use a simple script to redirect the root motion from the model to our <code>Creature</code> script on another object (the <a href="../../../locomotion/root-motion">Root Motion</a> example goes into more detail about this topic):</p>
+<pre><code class="language-cs">public sealed class RootMotionRedirect : MonoBehaviour
+{
+    [SerializeField]
+    private Creature _Creature;
+
+    private void OnAnimatorMove()
+    {
+        _Creature.OnAnimatorMove();
+    }
+}
+</code></pre>
+<p>The <code>Creature.OnAnimatorMove</code> method is fairly similar to the Mecanim one in <a href="#on-animator-move">step #3</a> above, except that it has been split into several methods to be much easier to understand:</p>
+<pre><code class="language-cs">public void OnAnimatorMove()
+{
+    var movement = GetRootMotion();
+    CheckGround(ref movement);
+    UpdateGravity(ref movement);
+    _CharacterController.Move(movement);
+
+    transform.rotation *= _Animancer.Animator.deltaRotation;
+}
+</code></pre>
+<h2 id="get-root-motion">Get Root Motion</h2>
+<p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
+<p>But since each of our states is a separate class, we can use the power of <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> to give the base <code>CreatureState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
+<pre><code class="language-cs">// In CreatureState:
+public virtual Vector3 <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Animancer.Animator.deltaPosition;
+</code></pre>
+<p>Then any states that want different behaviour such as the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> can <code>override</code> that property:</p>
+<pre><code class="language-cs">// In AirborneState:
+public override Vector3 <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
+</code></pre>
+<p>And now the <code>Creature</code> class can just access that property on whatever the current state happens to be, without having any specific knowledge about that state:</p>
+<pre><code class="language-cs">private Vector3 GetRootMotion() =&gt; StateMachine.CurrentState.RootMotion;
+</code></pre>
+<p>Note that there is actually more to the <code>GetRootMotion</code> method than just that. See <a href="#full-movement-control">Full Movement Control</a> below.</p>
+<h2 id="check-ground">Check Ground</h2>
+<p>Once we have the desired movement, we use a raycast to determine the orientation of the ground and rotate the movement onto that plane so we can move at a consistent speed up and down hills. This method is essentially the same as the first part of the Mecanim <code>PlayerController.OnAnimatorMove</code> method.</p>
+<pre><code class="language-cs">private void CheckGround(ref Vector3 movement)
+{
+    if (!CharacterController.isGrounded)
+        return;
+
+    const float GroundedRayDistance = 1f;
+
+    var ray = new Ray(transform.position + Vector3.up * GroundedRayDistance * 0.5f, -Vector3.up);
+    if (Physics.Raycast(ray, out var hit, GroundedRayDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+    {
+        // Rotate the movement to lie along the ground vector.
+        movement = Vector3.ProjectOnPlane(movement, hit.normal);
+
+        // Store the current walking surface so the correct audio is played.
+        var groundRenderer = hit.collider.GetComponentInChildren&lt;Renderer&gt;();
+        GroundMaterial = groundRenderer ? groundRenderer.sharedMaterial : null;
+    }
+    else
+    {
+        GroundMaterial = null;
+    }
+}
+</code></pre>
+<p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code>LocomotionState</code> and <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
+<h2 id="update-gravity">Update Gravity</h2>
+<p>The Mecanim <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
+<p>Instead, we are using <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>
+<pre><code class="language-cs">// CreatureState.cs:
+public virtual bool StickToGround =&gt; true;
+
+// AirborneState.cs:
+public override bool StickToGround =&gt; false;
+</code></pre>
+<p>Now <code>Creature.UpdateGravity</code> can just check that property when needed:</p>
+<pre><code class="language-cs">private void UpdateGravity(ref Vector3 movement)
+{
+    if (CharacterController.isGrounded &amp;&amp; StateMachine.CurrentState.StickToGround)
+        VerticalSpeed = -_Stats.Gravity * _Stats.StickingGravityProportion;
+    else
+        VerticalSpeed -= _Stats.Gravity * Time.deltaTime;
+
+    movement.y += VerticalSpeed * Time.deltaTime;
+}
+</code></pre>
+<p>Note how the grounded speed is constantly set using <code>=</code> while the airborne speed accelerates downwards every frame using <code>-=</code>.</p>
+<h1 id="full-movement-control">Full Movement Control</h1>
+<p>The Mecanim character continues playing the forward movement animations while turning (not quick turning), meaning that their root motion moves the character around in an arc towards the direction the player actually wants to go. This means that not only do you move in a direction you do not want to go during the turn, but also that you can't reliably predict which direction that will actually be because it could choose to turn either way, which is especially bad when changing direction repeatedly. The resulting movement is very frustrating for the player because it imposes an arbitrary lack of control on the character. This is the largest <a href="../../problems#locomotion">problem with the Mecanim Character</a>.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Mecanim (raw root motion)</th>
+    <th style="width:50%">Animancer (full movement control)</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td colspan="2">The following videos were recorded using the exact same inputs scripted to move left and right repeatedly, swapping every 0.5 seconds and not using any forward or backward input at all. The Mecanim character clearly moves forward with each cycle while the Animancer character simply moves back and forth along the starting line. Note that the same phenomenon also occurs when the character is <em>Airborne</em> due to the way they implemented movement even though it is entirely scripted.</td>
+    </tr>
+    <tr>
+      <td><img src="no-movement-control.gif" class="img-responsive"></td>
+      <td><img src="full-movement-control.gif" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td colspan="2">In the worst case with the right input timing the character might run almost entirely perpendicular to the direction you want to go because each change is within about 90 degrees of the target direction so it does not cross the ~145 degree threshold required to trigger a <a href="../turning#quick-turns">Quick Turn</a> animation. Again, this is simulating only left and right input with no forward input.</td>
+    </tr>
+    <tr>
+      <td><img src="no-movement-control-worst.gif" class="img-responsive"></td>
+      <td><img src="full-movement-control-worst.gif" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<p>The Animancer character solves this issue in the <code>Creature.GetRootMotion</code> method by making it so that most states will only apply root motion in the exact direction the <code>Creature.Brain</code> is actually trying to go and ignore any portion of the movement which is perpendicular to that direction. The result is a far more responsive character, but in exchange the root motion is not exactly what the animations would normally apply so it is trading visual realism for smoother controls.</p>
+<pre><code class="language-cs">// Inspector toggle so you can easily compare raw root motion with controlled motion.
+[SerializeField]
+private bool _FullMovementControl = true;
+
+private Vector3 GetRootMotion()
+{
+    var motion = StateMachine.CurrentState.RootMotion;
+    
+    if (!_FullMovementControl ||// If Full Movement Control is disabled in the Inspector.
+        !StateMachine.CurrentState.FullMovementControl)// Or the current state does not want it.
+        return motion;// Return the raw Root Motion.
+    
+    // If the Brain is not trying to move, we do not move.
+    var direction = _Brain.Movement;
+    direction.y = 0;
+    if (direction == Vector3.zero)
+        return Vector3.zero;
+    
+    // Otherwise calculate the Root Motion only in the specified direction.
+    direction.Normalize();
+    var magnitude = Vector3.Dot(direction, motion);
+    return direction * magnitude;
+}
+</code></pre>
+<h1 id="acceleration">Acceleration</h1>
+<p>The way acceleration is handled by the Mecanim character is somewhat strange and this example simply replicates that aspect of its behaviour to avoid diverging too much from it.</p>
+<ul>
+<li>One of the main reasons people use a <code>CharacterController</code> instead of a <code>Rigidbody</code> is to give the player perfect control over their character, allowing them to start and stop moving immediately instead of using forces to accelerate gradually. But then the <code>PlayerController</code> script implements its own acceleration anyway in the <code>CalculateForwardMovement</code> method.</li>
+<li>The forward speed only gets used in the <em>Locomotion</em> and <em>Airborne</em> states, but since <code>CalculateForwardMovement</code> runs every <code>FixedUpdate</code> regardless of what state the Animator Controller is actually in, the speed keeps getting updated behind the scenes when it isn't being used. So if you are <em>Idle</em> and you start moving, it will transition to the <em>Locomotion</em> Blend Tree and at the same time it will gradually increase the <code>ForwardSpeed</code> parameter towards the desired speed. But if you are moving at full speed and perform an <em>Attack</em>, the <code>ForwardSpeed</code> parameter will still stay at the desired speed (and accelerate towards a new value if it changes) during the attack animation so that when it ends and transitions back to <em>Locomotion</em> you are already at that speed even though you weren't really moving during the attack. The gradual transition between animations in both cases makes this effect a bit hard to spot, but it means that visually, accelerating from <em>Idle</em> happens slower than accelerating from an <em>Attack</em> (or any other action).</li>
+</ul>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/forum">Unity Forum</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>
