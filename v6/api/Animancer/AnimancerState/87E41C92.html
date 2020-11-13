@@ -149,6 +149,8 @@
 			<li class="header">Method Members</li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/190A3278">AppendDescription<wbr>(StringBuilder, <wbr>int, <wbr>string)<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/7CDABA25">AppendDetails<wbr>(StringBuilder, <wbr>string)<wbr></a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/CE0ED083">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>IPlayableWrapper)<wbr></a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/53D4F2B5">ApplyParentIK<wbr>()<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/7366C13A">CancelSetTime<wbr>()<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/DAFE670C">CreatePlayable<wbr>()<wbr></a></li>
@@ -178,6 +180,8 @@
 			<li class="header">Property Members</li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/85733842">ApplyAnimatorIK</a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/491B2595">ApplyFootIK</a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/B346A95B">AverageVelocity</a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/A8AF7E6B">ChildCount</a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/A6878A73">Clip</a></li>
@@ -237,8 +241,8 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-     The number of seconds the animation will take to reach the <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current
-     <code class="cs">Animancer.AnimancerNode.Speed</code>.
+     The number of seconds this state will take to go from its current <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to the
+     <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current <code class="cs">Animancer.AnimancerNode.EffectiveSpeed</code>.
      </div>
 
 		<div class="panel panel-default">
@@ -261,23 +265,21 @@
 	<pre><code>public float RemainingDuration { get; set; }</code></pre>
 
 	<h1 id="Examples">Examples</h1>
-	<div>
-     <pre><code class="cs"> void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
+	<div><pre><code class="cs"> void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
  {
      var state = animancer.Play(clip);
 
      state.RemainingDuration = 1;// Play from the current time to the end in 1 second.
      state.RemainingDuration = 2;// Play from the current time to the end in 2 seconds.
      state.RemainingDuration = 0.5f;// Play from the current time to the end in half a second.
-     state.RemainingDuration = -1;// Play backwards from the current time to the end in 1 second.
- }</code></pre>
-     </div>
+     state.RemainingDuration = -1;// Play from the current time away from the end.
+ }</code></pre></div>
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
-     For the time it would take to play fully from the start, use <code class="cs">Animancer.AnimancerState.Duration</code> instead.
+     For the time it would take to play fully from the start, use the <code class="cs">Animancer.AnimancerState.Duration</code> instead.
      <p></p>
-     Setting this value modifies the <code class="cs">Animancer.AnimancerNode.Speed</code>, not the <code class="cs">Animancer.AnimancerState.Length</code>.
+     Setting this value modifies the <code class="cs">Animancer.AnimancerNode.EffectiveSpeed</code>, not the <code class="cs">Animancer.AnimancerState.Length</code>.
      <p></p>
      <em>Animancer Lite does not allow this value to be changed in runtime builds.</em>
      </div>

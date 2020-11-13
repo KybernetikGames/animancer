@@ -207,7 +207,6 @@
 				<li><a href="/animancer/v6/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
 				<li><a href="/animancer/v6/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
-				<li><a href="/animancer/v6/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IHasKey">IHasKey</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
@@ -277,9 +276,9 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/v6/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>								
 											<li><a href="/animancer/v6/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>								
 											<li><a href="/animancer/v6/api/Animancer/Float2ControllerState">Float2<wbr>Controller<wbr>State</a></li>								
+											<li><a href="/animancer/v6/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>								
 									</ul>
 								</dd>			
 							
@@ -305,12 +304,12 @@
 	click Interface4 "/animancer/v6/api/Animancer/IAnimationClipCollection"
 	Type["ControllerState"]
 class Type type-node
-	Derived0["Float3ControllerState"]--&gt;Type
-	click Derived0 "/animancer/v6/api/Animancer/Float3ControllerState"
-	Derived1["Float1ControllerState"]--&gt;Type
-	click Derived1 "/animancer/v6/api/Animancer/Float1ControllerState"
-	Derived2["Float2ControllerState"]--&gt;Type
-	click Derived2 "/animancer/v6/api/Animancer/Float2ControllerState"
+	Derived0["Float1ControllerState"]--&gt;Type
+	click Derived0 "/animancer/v6/api/Animancer/Float1ControllerState"
+	Derived1["Float2ControllerState"]--&gt;Type
+	click Derived1 "/animancer/v6/api/Animancer/Float2ControllerState"
+	Derived2["Float3ControllerState"]--&gt;Type
+	click Derived2 "/animancer/v6/api/Animancer/Float3ControllerState"
 
 						</div>
 					</div>
@@ -374,18 +373,34 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/491B2595">ApplyFootIK</a></td>
+								<td><a href="/animancer/v6/api/Animancer/ControllerState/CA1D420A">ApplyFootIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether this node and its children are applying IK to the character's feet.
-    The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code>.
-    <p></p>
-    This is equivalent to the "Foot IK" toggle in Animator Controller states.
-    <p></p>
-    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
+									<div>IK cannot be dynamically enabled on a <code class="cs">Animancer.ControllerState</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNode.Parent</code> also set this node's <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> to match it?
+    Default is true.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNode.Parent</code> also set this node's <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> to match it?
+    Default is true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -437,7 +452,7 @@ class Type type-node
 								<td>
 									<div>
      The number of seconds the animation will take to play fully at its current
-     <code class="cs">Animancer.AnimancerNode.Speed</code>.
+     <code class="cs">Animancer.AnimancerNode.EffectiveSpeed</code>.
      </div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -712,8 +727,8 @@ class Type type-node
 								<td>float</td>
 								<td>
 									<div>
-     The number of seconds the animation will take to reach the <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current
-     <code class="cs">Animancer.AnimancerNode.Speed</code>.
+     The number of seconds this state will take to go from its current <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to the
+     <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current <code class="cs">Animancer.AnimancerNode.EffectiveSpeed</code>.
      </div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -730,13 +745,7 @@ class Type type-node
 								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></td>
 								<td>float</td>
 								<td>
-									<div>[Pro-Only]
-     How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame.
-     <p></p>
-     1 is the normal speed.
-     <p></p>
-     A negative value will play the animation backwards.
-     </div>
+									<div>[Pro-Only] How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame (default 1).</div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
@@ -814,6 +823,22 @@ class Type type-node
 								<td>
 									<div>Called by <code class="cs">Animancer.AnimancerNode.AppendDescription(System.Text.StringBuilder,System.Int32,System.String)</code> to append the details of this node.</div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/CE0ED083">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>IPlayableWrapper)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div></div>
+											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/ControllerState/EB84AC40">ApplyParentIK<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>IK cannot be dynamically enabled on a <code class="cs">Animancer.ControllerState</code>.</div>
 								</td>
 							</tr>
 							<tr>

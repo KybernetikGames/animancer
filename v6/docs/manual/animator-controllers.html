@@ -79,6 +79,8 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#usage">Usage</a></p>
 <p><a href="#manual-creation">Manual Creation</a></p>
 <p><a href="#parameter-controller-states">Parameter Controller States</a></p>
+<p><a href="#controller-state-generator">Controller State Generator</a></p>
+<p><a href="#generating-transitions">Generating Transitions</a></p>
 <p><a href="#the-animator-controller-field">The Animator Controller Field</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -314,7 +316,7 @@
                     <a href="/animancer/v6/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/manual/tools/move-sprite-borders">Move Sprite Borders</a></li>
+                <li><a href="/animancer/v6/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
@@ -488,7 +490,104 @@
 <ul>
 <li>This has the added benefit of verifying that the parameter actually exists on startup to make it easier to detect bugs.</li>
 <li>Using their <a href="transitions/types#controller-transitions">Transitions</a> gives you a helpful dropdown menu in the Inspector for selecting the parameter name(s) instead of hard-coding them as <a href="../introduction/mecanim-vs-animancer/why#magic-strings">Magic Strings</a>. The <a href="../examples/locomotion/linear-blending#parameter-controller">Linear Blending</a> example demonstrates the use of a <code><a href="/animancer/v6/api/Animancer/Transition">Float1ControllerState.Transition</a></code>.</li>
-<li>You can easily make your own copies of the scripts containing these classes if you want to adapt them for other parameter types and purposes.</li>
+<li>You can easily make your own copies of the scripts containing these classes if you want to adapt them for other parameter types and purposes or you can use the <a href="#controller-state-generator">Controller State Generator</a> to create a dedicated class for a specific Animator Controller.</li>
+</ul>
+<h1 id="controller-state-generator">Controller State Generator</h1>
+<p><a href="/weaver">Weaver</a> is another Unity Plugin developed by Kybernetik which contains a system for procedurally generating C# scripts (among many other features). It can procedurally generate a class for Animancer which inherits from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> and contains properties for directly accessing the parameters of a specific Animator Controller asset.</p>
+<ol>
+<li>Download <a href="https://assetstore.unity.com/packages/tools/utilities/weaver-lite-60305?aid=1100l8ah5">Weaver Lite</a> or <a href="https://assetstore.unity.com/packages/tools/utilities/weaver-pro-60304?aid=1100l8ah5">Weaver Pro</a>.</li>
+<li>Select the Animator Controller asset you want to generate a class for.</li>
+<li>Open the context menu via the cog icon in the top right of the Inspector and execute the <code>Generate Controller <a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> function.</li>
+<li>Choose where to save the generated script.</li>
+</ol>
+<p></p><details><summary>Here is the class it would generate if you used that function on the <em>Basic Locomotion</em> Animator Controller from the <a href="../examples/basics/hybrid">Hybrid Basics</a> example:</summary><p>
+</p><pre><code class="language-cs">#pragma warning disable // All.
+
+/// &lt;summary&gt;An &lt;see cref="Animancer.ControllerState"/&gt; for the 'Basic Locomotion' Animator Controller.&lt;/summary&gt;
+public sealed class BasicLocomotionState : Animancer.ControllerState
+{
+    #region Hash Constants
+
+    /// &lt;summary&gt;Idle&lt;/summary&gt;
+    public const int IdleHash = 2081823275;
+
+    /// &lt;summary&gt;Walk&lt;/summary&gt;
+    public const int WalkHash = 765711723;
+
+    /// &lt;summary&gt;Run&lt;/summary&gt;
+    public const int RunHash = 1748754976;
+
+    /// &lt;summary&gt;IsWalking&lt;/summary&gt;
+    public const int IsWalkingHash = 1282839668;
+
+    #endregion
+
+    #region Parameter Wrappers
+
+    /// &lt;summary&gt;Creates a new &lt;see cref="BasicLocomotionState"/&gt;.&lt;/summary&gt;
+    public BasicLocomotionState(UnityEngine.RuntimeAnimatorController controller, bool keepStateOnStop = false)
+        : base(controller, keepStateOnStop)
+    {
+#if UNITY_EDITOR
+        new Animancer.ControllerState.ParameterID("IsWalking", IsWalkingHash).ValidateHasParameter(controller, UnityEngine.AnimatorControllerParameterType.Bool);
+#endif
+    }
+
+    /// &lt;summary&gt;The value of the 'IsWalking' parameter in the Animator Controller.&lt;/summary&gt;
+    public bool IsWalking
+    {
+        get =&gt; Playable.GetBool(IsWalkingHash);
+        set =&gt; Playable.SetBool(IsWalkingHash, value);
+    }
+
+    /// &lt;summary&gt;ParameterCount&lt;/summary&gt;
+    public override int ParameterCount
+    {
+        get =&gt; 1;
+    }
+
+    /// &lt;summary&gt;GetParameterHash&lt;/summary&gt;
+    public override int GetParameterHash(int index)
+    {
+        switch (index)
+        {
+            case 0: return IsWalkingHash;// IsWalking.
+            default: throw new System.ArgumentOutOfRangeException(nameof(index));
+        }
+    }
+
+    #endregion
+
+    #region Transition
+
+    /// &lt;summary&gt;A serializable &lt;see cref="Animancer.ITransition"/&gt; which can create a &lt;see cref="BasicLocomotionState"/&gt; when passed into &lt;see cref="Animancer.AnimancerPlayable.Play(Animancer.ITransition)"/&gt;.&lt;/summary&gt;
+    [System.SerializableAttribute]
+    public new class Transition : Transition&lt;BasicLocomotionState&gt;
+    {
+        /// &lt;summary&gt;Creates and returns a new &lt;see cref="BasicLocomotionState"/&gt;.&lt;/summary&gt;
+        public override BasicLocomotionState CreateState() =&gt; <a href="/animancer/v6/api/Animancer.FSM/State">State</a> = new BasicLocomotionState(Controller, KeepStateOnStop);
+
+#if UNITY_EDITOR
+
+        /// &lt;summary&gt;[Editor-Only] Draws the Inspector GUI for a &lt;see cref="Transition"/&gt;.&lt;/summary&gt;
+        [UnityEditor.CustomPropertyDrawer(typeof(Transition), true)]
+        public new class Drawer : Animancer.ControllerState.Transition.Drawer
+        {
+        }
+
+#endif
+    }
+
+    #endregion
+}
+</code></pre>
+<p></p></details><p></p>
+<p>The source code of the generator script is located at <em>Assets/Plugins/Weaver/Procedural Assets/Animations/ControllerStateGenerator.cs</em>.</p>
+<h1 id="generating-transitions">Generating Transitions</h1>
+<p>If you have an Animator Controller which you want to replace with Animancer, you can select any of its states and use the cog icon in the top right of the Inspector to execute the <code>Generate Transition</code> function which will create Animancer <a href="transitions/types#transition-assets">Transition Assets</a> for each of those states:</p>
+<ul>
+<li>A regular state will create a <code><a href="/animancer/v6/api/Animancer/ClipTransition">ClipTransition</a></code>.</li>
+<li>A Blend Tree will create an equivalent <a href="blending/mixers">Mixer State</a> depending on its Blend Type according to the <a href="blending/mixers/#choosing-a-mixer">Choosing a Mixer</a> table.</li>
 </ul>
 <h1 id="the-animator-controller-field">The Animator Controller Field</h1>
 <p>The <code>Animator</code> component has a <code>Controller</code> field in the Inspector where you would normally assign the Animator Controller asset you want it to use. Since that system does not work nicely with the Playables API that Animancer uses, adding an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to an object will automatically clear that <code>Controller</code> field. If you assign something to that field afterwards, Animancer will not clear it again because it is actually possible to use it alongside Animancer with a few limitations:</p>

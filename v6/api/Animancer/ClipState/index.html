@@ -207,7 +207,6 @@
 				<li><a href="/animancer/v6/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
 				<li><a href="/animancer/v6/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
-				<li><a href="/animancer/v6/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IHasKey">IHasKey</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>
 				<li><a href="/animancer/v6/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
@@ -261,7 +260,6 @@
 											<li>IEnumerator</li>								
 											<li><a href="/animancer/v6/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
 											<li><a href="/animancer/v6/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
-											<li><a href="/animancer/v6/api/Animancer/IHasIK">IHasIK</a></li>								
 									</ul>
 								</dd>
 							
@@ -296,8 +294,6 @@
 	click Interface3 "/animancer/v6/api/Animancer/IPlayableWrapper"
 	Type-.-&gt;Interface4["IAnimationClipCollection"]
 	click Interface4 "/animancer/v6/api/Animancer/IAnimationClipCollection"
-	Type-.-&gt;Interface5["IHasIK"]
-	click Interface5 "/animancer/v6/api/Animancer/IHasIK"
 	Type["ClipState"]
 class Type type-node
 
@@ -309,7 +305,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>public sealed class ClipState : AnimancerState, IKeyedListItem, IEnumerable&lt;AnimancerState&gt;, 
-    IEnumerator, IPlayableWrapper, IAnimationClipCollection, IHasIK</code></pre>
+    IEnumerator, IPlayableWrapper, IAnimationClipCollection</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
@@ -357,14 +353,9 @@ class Type type-node
 								<td><a href="/animancer/v6/api/Animancer/ClipState/E1F99E7F">ApplyAnimatorIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object while this
-    node and its children are active. The initial value is determined by
-    <code class="cs">Animancer.AnimancerPlayable.DefaultApplyAnimatorIK</code>.
-    <p></p>
-    This is equivalent to the "IK Pass" toggle in Animator Controller layers.
-    <p></p>
-    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
+									<div>
+    Should Unity call <code class="cs">OnAnimatorIK</code> on the animated object while this object and its children have any
+    <code class="cs">Weight</code>?
     </div>
 								</td>
 							</tr>
@@ -372,14 +363,31 @@ class Type type-node
 								<td><a href="/animancer/v6/api/Animancer/ClipState/DB9B9026">ApplyFootIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether this node and its children are applying IK to the character's feet.
-    The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code>.
-    <p></p>
-    This is equivalent to the "Foot IK" toggle in Animator Controller states.
-    <p></p>
-    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
+									<div>Should this object and its children apply IK to the character's feet?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNode.Parent</code> also set this node's <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> to match it?
+    Default is true.
     </div>
+											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNode.Parent</code> also set this node's <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> to match it?
+    Default is true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -412,7 +420,7 @@ class Type type-node
 								<td>
 									<div>
      The number of seconds the animation will take to play fully at its current
-     <code class="cs">Animancer.AnimancerNode.Speed</code>.
+     <code class="cs">Animancer.AnimancerNode.EffectiveSpeed</code>.
      </div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -661,8 +669,8 @@ class Type type-node
 								<td>float</td>
 								<td>
 									<div>
-     The number of seconds the animation will take to reach the <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current
-     <code class="cs">Animancer.AnimancerNode.Speed</code>.
+     The number of seconds this state will take to go from its current <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to the
+     <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current <code class="cs">Animancer.AnimancerNode.EffectiveSpeed</code>.
      </div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>
@@ -679,13 +687,7 @@ class Type type-node
 								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></td>
 								<td>float</td>
 								<td>
-									<div>[Pro-Only]
-     How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame.
-     <p></p>
-     1 is the normal speed.
-     <p></p>
-     A negative value will play the animation backwards.
-     </div>
+									<div>[Pro-Only] How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame (default 1).</div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
@@ -754,6 +756,27 @@ class Type type-node
 								<td>
 									<div>Called by <code class="cs">Animancer.AnimancerNode.AppendDescription(System.Text.StringBuilder,System.Int32,System.String)</code> to append the details of this node.</div>
 											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/CE0ED083">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>IPlayableWrapper)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div></div>
+											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerNode/53D4F2B5">ApplyParentIK<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Copies the <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> and <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> settings from the
+    <code class="cs">Animancer.AnimancerNode.Parent</code> if <code class="cs">Animancer.AnimancerNode.ApplyParentAnimatorIK</code> and <code class="cs">Animancer.AnimancerNode.ApplyParentFootIK</code> are true
+    respectively.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>

@@ -81,6 +81,7 @@
 <p><a href="#blending">Blending</a></p>
 <p><a href="#humanoids">Humanoids</a></p>
 <p><a href="#fsm">Finite State Machines</a></p>
+<p><a href="#tools">Animancer Tools</a></p>
 <p><a href="#compatibility">Compatibility</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -316,7 +317,7 @@
                     <a href="/animancer/v6/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/manual/tools/move-sprite-borders">Move Sprite Borders</a></li>
+                <li><a href="/animancer/v6/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
@@ -423,19 +424,7 @@
 			<h1>Features</h1>
 		</section>
 	<section class="content">
-		<p>There are several different animation systems available in Unity:</p>
-<ul>
-<li><a href="https://docs.unity3d.com/Manual/MecanimFAQ.html"><strong>Mecanim</strong></a> is Unity’s main animation system. It uses the <code>Animator</code> component with an <code>AnimatorController</code> asset which is configured using the Animator window and controlled by scripts using <a href="mexanim-vs-animancer/why#magic-strings">Magic Strings</a>.</li>
-<li><a href="https://docs.unity3d.com/Manual/Animations.html"><strong>Legacy</strong></a> is Unity’s old animation system. It uses the <code>Animation</code> component which is primarily configured via the Inspector and controlled by scripts using <a href="mexanim-vs-animancer/why#magic-strings">Magic Strings</a>.</li>
-<li><a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki"><strong>Simple Animation</strong></a> (Abandoned) is another animation system built by Unity as a minor side project which demonstrates how the Playables API can be used. It attempted to replicate the features of the Legacy animation system and was partially successful, but had several significant issues which were never fixed before the project was abandoned.</li>
-<li><strong>Animancer</strong> is also built upon the Playables API and focuses on giving scripts full control over the animations they use to allow for better management of responsibilities and dependencies.
-<ul>
-<li><strong>Animancer Lite</strong> is the free version of Animancer which allows you to try out all the features for free in the Unity Editor, but disables many of them in runtime builds (indicated by <a href="#pro-only">[1]</a> in the table below).</li>
-</ul>
-</li>
-<li>The <a href="https://docs.unity3d.com/Manual/Playables.html"><strong>Playables API</strong></a> itself is not included in the table because it is so low-level that it doesn't really qualify as an animation system. It allows you to build animation systems like Animancer, but isn't easily useful on its own.</li>
-</ul>
-<style>
+		<style>
 
 .pane
 {
@@ -475,7 +464,25 @@ summary
     padding: 0;
 }
 
+.details
+{
+    border: 1px solid #aaa;
+    padding: .5em .5em 0;
+}
+
+.summary
+{
+    margin: -.5em -.5em 0;
+    padding: .5em;
+}
+
 </style>
+<p>There are several different animation systems available in Unity:</p>
+<p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/MecanimFAQ.html">Mecanim</a></strong> is Unity’s main animation system.</summary><p>It uses the <code>Animator</code> component with an <code>AnimatorController</code> asset which is configured using the Animator window and controlled by scripts using <a href="mecanim-vs-animancer/why#magic-strings">Magic Strings</a>.</p></details><p></p>
+<p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/Animations.html">Legacy</a></strong> is Unity’s old animation system.</summary><p>It uses the <code>Animation</code> component which is primarily configured via the Inspector and controlled by scripts using <a href="mecanim-vs-animancer/why#magic-strings">Magic Strings</a>.</p></details><p></p>
+<p></p><details class="details"><summary class="summary"><strong><a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki">Simple Animation</a></strong> is an abandoned side-project developed by Unity.</summary><p>It attempted to replicate the features of the Legacy animation system using the Playables API and was partially successful, but had several significant issues which were never fixed before the project was abandoned.</p></details><p></p>
+<p></p><details class="details"><summary class="summary"><strong><a href="/animancer">Animancer</a></strong> is a Unity plugin developed by Kybernetik.</summary><p>Animancer is also built upon the Playables API and focuses on giving scripts full control over the animations they use to allow for better management of responsibilities and dependencies.</p><p>Animancer Lite is the free version of Animancer which allows you to try out all the features for free in the Unity Editor, but disables some of them in runtime builds (indicated by <a href="#pro-only">[1]</a> in the table below).</p></details><p></p>
+<p></p><details class="details"><summary class="summary">The <strong><a href="https://docs.unity3d.com/Manual/Playables.html">Playables API</a></strong> is the low level API all these systems are built on (except Legacy).</summary><p>It isn't included in the table because it's so low-level that it doesn't really qualify as an animation system. It allows you to build animation systems like Animancer, but isn't easily useful on its own and is very poorly documented.</p></details><p></p>
 <table class="demo-fixed table table-bordered">
   <thead><tr>
     <th style="font-size:2em">Animation System Feature Comparison</th>
@@ -884,10 +891,61 @@ animancer.Play("Attack");
     </td><td class="n">
     </td><td class="n">
   </td></tr>
+  <tr class="section"><td colspan="6"><h1 id="tools">Animancer Tools</h1></td></tr>
+  
+  <tr>
+    <td><details><summary>Modify the rect, pivot, alignment, and borders of many Sprites at once.</summary>
+      Unity's <a href="https://docs.unity3d.com/Manual/SpriteEditor.html">Sprite Editor</a> allows you to edit the details of individual <code>Sprite</code>s, but is very tedious to use if you have to perform the same modification to lots of them so the <a href="../manual/tools/modify-sprites">Modify Sprites</a> tool allows you to edit many at once. It can set the <code>rect</code>, <code>pivot</code>, <code>alignment</code>, and <code>border</code> of a <code>Sprite</code>. The <a href="../manual/tools/rename-sprites">Rename Sprites</a> tool handles their names.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>Rename multiple Sprites at once.</summary>
+      When Unity's <a href="https://docs.unity3d.com/Manual/SpriteEditor.html">Sprite Editor</a> creates <code>Sprite</code>s from an image asset, it gives them all the same name as the image with a number on the end which is not very helpful if you have lots of them. The <a href="../manual/tools/rename-sprites">Rename Sprites</a> tool allows you to rename multiple <code>Sprite</code>s at once instead of doing them one at a time.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>Generate animations from Sprites based on their names.</summary>
+      Unity's inbuilt method for creating <code>Sprite</code> animations is to <a href="../manual/tools/generate-sprite-animations#drag-and-drop">Drag and Drop</a> them into the Hierarchy window which is somewhat tedious if you need to create multiple animations, so the <a href="../manual/tools/generate-sprite-animations">Generate Sprite Animations</a> tool allows you to instantly generate animations from <code>Sprite</code>s based on their names. If you haven't given your <code>Sprite</code>s useful names yet, the <a href="../manual/tools/rename-sprites">Rename Sprites</a> tool makes it easy to do so.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>Change an animation to use different Sprites.</summary>
+      The <a href="../manual/tools/remap-sprite-animation">Remap Sprite Animation</a> tool allows you to change an animation to use different <code>Sprite</code>s. You can assign each <code>Sprite</code> individually, or drag and drop a whole group onto the <code>New Sprites</code> list to assign them all in one go. Otherwise you would need to change them one by one in Unity's Animation window.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+  </td></tr>
+  
+  <tr>
+    <td><details><summary>Change the Hierarchy paths used by an animation.</summary>
+      Animations store the names of each of the objects in the Hierarchy that they animate so that they can figure out what to control when they are played, but if an object is renamed then the animation will no longer have the correct name so it won't control that object anymore. The <a href="../manual/tools/remap-animation-bindings">Remap Animation Bindings</a> tool allows you to change the object names used by an animation. Unity doesn't provide any inbuilt way to do this without writing your own Editor script.</details></td>
+    <td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="n">
+    </td><td class="y">
+  </td></tr>
   
   </tbody>
 </table>
-<p id="pro-only"><strong>[1]</strong> Animancer Lite includes these features in the Unity Editor so you can try them out, but they will not be available in runtime builds unless you purchase Animancer Pro. All Pro-Only features are commented as such and using them will log a message to make sure you are aware of the restriction.</p>
+<p id="pro-only"><strong>[1]</strong> Animancer Lite includes these features in the Unity Editor so you can try them out, but they will not be available in runtime builds unless you purchase Animancer Pro. All Pro-Only features are commented as such and using them will log a message in the Console to make sure you are aware of the restriction.</p>
 <p id="animator-controller"><strong>[2]</strong> While Animancer itself does not have these features, you can still use them while configuring an Animator Controller for use in a <a href="../manual/animator-controllers">Controller State</a> (Pro-Only, see <a href="#pro-only">[1]</a>).</p>
 <h1 id="compatibility">Compatibility</h1>
 <p>Animancer is based on the Playables API, which means most systems developed for regular Mecanim Animator Controllers should work with it.</p>
@@ -913,7 +971,7 @@ animancer.Play("Attack");
 <tr>
 <td><code>OnAnimatorIK</code></td>
 <td>Yes</td>
-<td>You can enable IK by setting <code>AnimancerLayer.ApplyAnimatorIK = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. Note that the layer index will always be 0. See <a href="../manual/ik">Inverse Kinematics</a> for more details.</td>
+<td>You can enable IK by setting <code><a href="/animancer/v6/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a> = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. Note that the layer index will always be 0. See <a href="../manual/ik">Inverse Kinematics</a> for more details.</td>
 </tr>
 <tr>
 <td>Unity's <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@latest/index">Animation Rigging</a> package</td>

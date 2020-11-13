@@ -78,6 +78,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Value">Value</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -149,6 +150,8 @@
 			<li class="header">Property Members</li>
 				<li class="selected"><a href="/animancer/v6/api/Animancer/ClipState/E1F99E7F">ApplyAnimatorIK</a></li>
 				<li><a href="/animancer/v6/api/Animancer/ClipState/DB9B9026">ApplyFootIK</a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></li>
 				<li><a href="/animancer/v6/api/Animancer/ClipState/54014823">AverageVelocity</a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/A8AF7E6B">ChildCount</a></li>
 				<li><a href="/animancer/v6/api/Animancer/ClipState/9A8CEFEE">Clip</a></li>
@@ -186,6 +189,8 @@
 			<li class="header">Method Members</li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/190A3278">AppendDescription<wbr>(StringBuilder, <wbr>int, <wbr>string)<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/7CDABA25">AppendDetails<wbr>(StringBuilder, <wbr>string)<wbr></a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/CE0ED083">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>IPlayableWrapper)<wbr></a></li>
+				<li><a href="/animancer/v6/api/Animancer/AnimancerNode/53D4F2B5">ApplyParentIK<wbr>()<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/7366C13A">CancelSetTime<wbr>()<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></li>
 				<li><a href="/animancer/v6/api/Animancer/ClipState/4D0EF351">CreatePlayable<wbr>(Playable)<wbr></a></li>
@@ -238,14 +243,9 @@
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object while this
-    node and its children are active. The initial value is determined by
-    <code class="cs">Animancer.AnimancerPlayable.DefaultApplyAnimatorIK</code>.
-    <p></p>
-    This is equivalent to the "IK Pass" toggle in Animator Controller layers.
-    <p></p>
-    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
+	<div class="lead">
+    Should Unity call <code class="cs">OnAnimatorIK</code> on the animated object while this object and its children have any
+    <code class="cs">Weight</code>?
     </div>
 
 		<div class="panel panel-default">
@@ -268,6 +268,16 @@
 	<pre><code>public override bool ApplyAnimatorIK { get; set; }</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    This is equivalent to the "IK Pass" toggle in Animator Controller layers.
+    <p></p>
+    This value starts false by default, but can be automatically changed by <code class="cs">ApplyParentIK</code> when
+    the <code class="cs">Animancer.IPlayableWrapper.Parent</code> is set.
+    <p></p>
+    IK only takes effect while at least one <code class="cs">Animancer.ClipState</code> has a <code class="cs">Weight</code> above zero.
+    Other node types either store the value to apply to their children or don't support IK.
+    </div>
 
 
 

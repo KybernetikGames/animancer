@@ -76,7 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#alpha-2">Alpha 2</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#alpha-3">Alpha 3</a></p>
+<p><a href="#alpha-2">Alpha 2</a></p>
 <p><a href="#alpha-1">Alpha 1</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -312,7 +313,7 @@
                     <a href="/animancer/v6/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/manual/tools/move-sprite-borders">Move Sprite Borders</a></li>
+                <li><a href="/animancer/v6/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
                 <li><a href="/animancer/v6/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
@@ -431,8 +432,8 @@
   <tbody>
     <tr>
       <td><ul>
-<li><a href="http://bit.ly/38hxswEAnimancerLitev6-0p2Unity2018-4">Animancer Lite for Unity 2018.4+</a></li>
-<li><a href="http://bit.ly/38e8E8U-AnimancerLitev6-0p2Unity2018-4">Animancer Lite for Unity 2019.4+</a></li>
+<li><a href="https://bit.ly/AnimancerLite6-0a3Unity2018-4">Animancer Lite for Unity 2018.4+</a></li>
+<li><a href="https://bit.ly/AnimancerLite6-0a3Unity2019-4">Animancer Lite for Unity 2019.4+</a></li>
       </ul></td>
       <td>Email the Invoice Number from your <strong><a href="https://kybernetik.itch.io/animancer-pro">itch.io</a></strong> or <strong><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store</a></strong> purchase to <a href="mailto:animancer@kybernetik.com.au?Subject=Animancer">animancer@kybernetik.com.au</a>.</td>
     </tr>
@@ -442,6 +443,65 @@
 <li><strong>Upgrading from earlier versions will be free as always</strong>.</li>
 <li><strong><a href="https://forum.unity.com/threads/790868">Work In Progress</a></strong>: watch this thread to receive notifications about any new test releases.</li>
 <li><strong><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></strong>: create an issue if you have any questions, bug reports, feature suggestions, etc.</li>
+</ul>
+<h1 id="alpha-3">Alpha 3</h1>
+<blockquote class="blockquote">
+<p>Released 2020-11-13</p>
+</blockquote>
+<ul>
+<li>Added <a href="../../../manual/animator-controllers#controller-state-generator">Controller State Generator</a> to <a href="/weaver">Weaver</a> which can procedurally generate a class that inherits from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> with properties for directly accessing the parameters of a specific Animator Controller asset.</li>
+<li>Added <code>Generate Transition</code> context menu functions on states and Blend Trees inside Animator Controllers which will generate Transition Assets from them.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> to properly account for the End Time.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/87E41C92">AnimancerState.RemainingDuration</a></code> to properly account for the End Time and negative speeds and not give different results for looping animations since End Events don't work any differently for them.</li>
+<li>Changed <code>AnimancerUtilities.Wrap01</code> and <code>AnimancerUtilities.Wrap</code> to not be extension methods since they aren't used that often.</li>
+<li>Fixed <code>AnimancerUtilities.Wrap01</code> and <code>Wrap</code> to never return the maximum value (unlike <code>Mathf.Repeat</code>).</li>
+<li>Fixed <code>AnimancerGUI.DoOptionalTimeToggle</code> to properly indicate when the selected objects have different values.</li>
+<li>Removed the ability to <code>Ctrl + Shift + Click</code> on states in the Inspector to queue them to Cross Fade in a sequence (and the context menu function) since it was more complex to maintain than its usefulness warranted.</li>
+<li>Animancer Events:
+<ul>
+<li>Optimised <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> methods that search for a particular item.</li>
+<li>The <code><a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></code> context menu now shows the details of all Animancer Events instead of only the End Events.</li>
+<li>Added a <code>startIndex</code> parameter to <code>AnimancerEvent.Sequence.IndexOf</code> and <code>IndexOfRequired</code> (default value 0).</li>
+<li>Added equality operators to <code><a href="/animancer/v6/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>.</li>
+<li>Added <code>AnimancerEvent.Sequence.Serializable.SetNormalizedEndTime</code>.</li>
+<li>Added <code><a href="/animancer/v6/api/Animancer/ITransitionDetailed/29148A66">ITransitionDetailed.Events</a></code> and <code>SerializedEvents</code>.</li>
+<li>Added context menu functions to the <code><a href="/animancer/v6/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> for all the functions that can be executed via keyboard controls.</li>
+<li>Removed the Inspector toggle from event times which was previously used to remove them.</li>
+<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code><a href="/animancer/v6/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>.</li>
+<li>Changed the Add Event button in the Inspector into an <code>X</code> to remove the selected event (while one is selected).</li>
+<li>Changed <code>AnimancerEvent.Sequence.SetCallback</code> to trigger <code>OptionalWarning.DuplicateEvent</code> if necessary.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> methods that modify callbacks to throw an <code>ArgumentNullException</code> if the callback is null rather than just logging an assertion.</li>
+<li>Fixed <code>AnimancerState.EventRunner</code> to allow events to be assigned before the <code><a href="/animancer/v6/api/Animancer/AnimancerNode/F1D5A1C8">AnimancerNode.Root</a></code> is set.</li>
+<li>Fixed <code><a href="/animancer/v6/api/Animancer.Editor/EventSequenceDrawer">EventSequenceDrawer</a></code> to avoid causing errors when multiple objects are selected with different values.</li>
+<li>Fixed <code>AnimancerEvent.Sequence.Serializable.OnBeforeSerialize</code> to not cause an exception if called when there is no <code>Editor.EventSequenceDrawer.Context.Current</code>.</li>
+</ul>
+</li>
+<li>State Machines:
+<ul>
+<li>Added <code><a href="/animancer/v6/api/Animancer.FSM/StateSelector">StateMachine&lt;TState&gt;.StateSelector</a></code> system for managing a prioritised list of potential states.</li>
+<li>Restored the commented out <code><a href="/animancer/v6/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> methods that you can copy into a base state class to implement <code>IOwnedState</code> without the generic argument inference problems the extension methods have.</li>
+<li>Removed <code>StateExtensions.CanEnterState</code> since it is too similar to the <code><a href="/animancer/v6/api/Animancer.FSM/IState/55695B9D">IState.CanEnterState</a></code> property.</li>
+<li>Changed the <code>StateMachine&lt;TState&gt;.InputBuffer.StateMachine</code> to a readonly field.</li>
+</ul>
+</li>
+<li>Animancer Tools:
+<ul>
+<li>Changed <code>AnimancerToolsWindow.MoveSpriteBorders</code> into <code>ModifySprites</code> and added fields for changing the <code>Pivot</code>, <code>Alignment</code>, and <code>Borders</code>.</li>
+<li>Changed <code>AnimancerToolsWindow.ModifySprites</code> to only show the details that will actually be modified.</li>
+<li>Fixed <code>AnimancerToolsWindow.ModifySprites</code> to not allow <code>Sprite</code>s to be moved out of the texture bounds.</li>
+<li>Fixed <code>AnimancerToolsWindow.RenameSprites</code> to work properly.</li>
+<li>Fixed <code>AnimancerToolsWindow.RemapAnimationBindings</code> to not use cached bindings since they can be out of date.</li>
+</ul>
+</li>
+<li>Inverse Kinematics:
+<ul>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>, <code><a href="/animancer/v6/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>, and <code><a href="/animancer/v6/api/Animancer/MixerState">MixerState</a></code> to store whatever IK flags you set (<code>ApplyAnimatorIK</code> and <code>ApplyFootIK</code>) so that when a child is added it can get the same flags.</li>
+<li>You can disable the static <code><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">AnimancerNode.ApplyParentAnimatorIK</a></code> and <code>ApplyParentFootIK</code> properties to prevent children from receiving their parent's flags.</li>
+<li>Added the IK flags to <code>AnimancerNode.AppendDescription</code>.</li>
+<li>Removed <code>IHasIK</code> and merged it into <code><a href="/animancer/v6/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></code>.</li>
+<li>Removed <code>AnimancerPlayable.DefaultApplyAnimatorIK</code> and <code>DefaultApplyFootIK</code>.</li>
+</ul>
+</li>
 </ul>
 <h1 id="alpha-2">Alpha 2</h1>
 <blockquote class="blockquote">
