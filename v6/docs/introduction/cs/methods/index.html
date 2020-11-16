@@ -106,11 +106,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -194,7 +213,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -428,7 +456,7 @@
 	<section class="content">
 		<p><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods">Methods</a> are where you define the instructions you want your script to execute.</p>
 <p>Executing a method is referred to as "calling" it.</p>
-<p>The description in the above link is slightly misleading because while the Unity Engine itself does presumably use a <code>Main</code> method internally as the main entry point for the application as described in the above link, your scripts will instead use various <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour Messages</a> which are methods you can define that Unity will execute in response to certain events.</p>
+<p>The description in the above link is slightly misleading for development in Unity because while the Unity Engine itself does presumably use a <code>Main</code> method internally as the main entry point for the application as described, your scripts will instead use various <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour Messages</a> which are methods you can define that Unity will execute in response to certain events.</p>
 <p>Also note that the first two sentences on the <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour"><code>MonoBehaviour</code></a> page as of this writing are <strong>false</strong> ("<em>MonoBehaviour is the base class from which <strong>every</strong> Unity script derives. When you use C#, you <strong>must</strong> explicitly derive from MonoBehaviour.</em>"). Scripts that you want to attach to a <code>GameObject</code> in the scene do need to <a href="inheritance">Inherit</a> from <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour"><code>MonoBehaviour</code></a>, but there are lots of situations where you do not need to do so. Animancer for example has around 80 scripts (excluding the examples) but only 8 of them inherit from <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour"><code>MonoBehaviour</code></a>.</p>
 <p>Methods are executed sequentially from the top down one step at a time. Calling another method will execute it entirely before continuing to execute the calling method. For example:</p>
 <pre><code class="language-cs"><a href="organisation#namespaces">using UnityEngine;</a>
@@ -513,7 +541,7 @@ public class Example : <a href="https://docs.unity3d.com/ScriptReference/MonoBeh
     }
 }
 </code></pre>
-<p>Both of the above methods do the same thing so they can be reasonably given the same name and when you call it the parameters you use will determine which overload actually gets called. Another example can be seen in Animancer itself where the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class has multiple <a href="../../../manual/playing#play-methods">Play Methods</a> to give different options for how you want to determine which animation to play and whether you want it to fade in over time or not.</p>
+<p>Both of the above methods do the same thing so they can be reasonably given the same name and when you call it the parameters you use will determine which overload actually gets called. Another example can be seen in Animancer itself where the <code>AnimancerComponent</code> class has multiple <a href="../../../manual/playing#play-methods">Play Methods</a> to give different options for how you want to determine which animation to play and whether you want it to fade in over time or not.</p>
 <h1 id="return-values">Return Values</h1>
 <p>Similar to how <a href="#parameters">Parameters</a> allow the caller to pass values into a method, <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods#return-values">Return Values</a> allow the method to return a value back to the caller. For example:</p>
 <pre><code class="language-cs"><a href="organisation#namespaces">using UnityEngine;</a>
@@ -628,7 +656,7 @@ public void Example()
   </tbody>
 </table>
 <p>Properties are very useful for validating input values or reacting to changes, for example:</p>
-<pre><code class="language-cs">public class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> : MonoBehaviour
+<pre><code class="language-cs">public class Health : MonoBehaviour
 {
     private int _CurrentHealth;
 
@@ -731,7 +759,7 @@ var jim = new Person("Jim", john.LastName);
 <pre><code class="language-cs">using System;// For System.Action.
 using UnityEngine;// For UnityEngine.MonoBehaviour.
 
-public class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> : MonoBehaviour
+public class Health : MonoBehaviour
 {
     public <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/event">event</a> Action onDeath;
 
@@ -762,11 +790,11 @@ public class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platfor
 public class Creature : MonoBehaviour
 {
     [<a href="../variables#serialized-fields">SerializeField</a>]
-    private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> _Health;
+    private Health _Health;
 
     private void Awake()
     {
-        // Register our Die method for the <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> component to call.
+        // Register our Die method for the Health component to call.
         _Health.onDeath += Die;
     }
 
@@ -787,12 +815,12 @@ public class Creature : MonoBehaviour
 </ul>
 <h2 id="inline-delegates">Inline Delegates</h2>
 <p>If you do not already have a method you want a delegate to point to, you can use an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/delegate-operator">Anonymous Method</a> or <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions">Lambda Expression</a> to define the target method in the same place where you assign it:</p>
-<pre><code class="language-cs">// Using the <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> class from the above example.
+<pre><code class="language-cs">// Using the Health class from the above example.
 
 public class Creature : MonoBehaviour
 {
     [<a href="../variables#serialized-fields">SerializeField</a>]
-    private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> _Health;
+    private Health _Health;
 
     private void Awake()
     {
@@ -862,10 +890,10 @@ public string GetFullName() =&gt; firstName + " " + lastName;
 <p>Read-Only <a href="#properties">Properties</a> can also have expression bodies, which is particularly useful for providing a <a href="../organisation#access-modifiers">public</a> accessor for a non-public <a href="../variables#serialized-fields">Serialized Field</a>, for example:</p>
 <pre><code class="language-cs">// Private serialized field.
 [SerializeField]
-private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 // Public accessor so that other types can get the value but not set it.
-public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+public AnimancerComponent Animancer =&gt; _Animancer;
 </code></pre>
 
 	</section>

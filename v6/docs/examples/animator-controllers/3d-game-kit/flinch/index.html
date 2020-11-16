@@ -102,11 +102,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -190,7 +209,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -530,9 +558,9 @@ void Damaged(Damageable.DamageMessage damageMessage)
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/FlinchState">FlinchState</a> : CreatureState
+public sealed class FlinchState : CreatureState
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition2D">MixerState.Transition2D</a> _Animation;
+    [SerializeField] private MixerState.Transition2D _Animation;
     [SerializeField] private LayerMask _EnemyLayers;
     [SerializeField] private float _EnemyCheckRadius = 1;
 
@@ -548,7 +576,7 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.AnimatorContro
 
     private void OnEnable()
     {
-        <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
+        Creature.ForwardSpeed = 0;
         Creature.Animancer.Play(_Animation);
 
         var direction = DetermineHitDirection();
@@ -615,7 +643,7 @@ private Vector3 DetermineHitDirection()
 <p>So when we enter this state we can get that direction and use some <a href="../../../../introduction/cs/vectors#dot-product">Dot Products</a> to determine how much of it lies along the <code>right</code> and <code>forward</code> axes of the character's model:</p>
 <pre><code class="language-cs">private void OnEnable()
 {
-    <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
+    Creature.ForwardSpeed = 0;
     Creature.Animancer.Play(_Animation);
 
     var direction = DetermineHitDirection();

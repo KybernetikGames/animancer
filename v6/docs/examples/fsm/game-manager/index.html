@@ -98,11 +98,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -186,7 +205,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li class="selected"><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview active selected">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -418,21 +446,74 @@
 			<h1>01 Game Manager</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p><strong>Difficulty</strong>: <a href="../../../introduction/glossary#example-difficulty">Intermediate</a> - Recommended after <a href="../../basics/quick-play">Quick Play</a></p>
+		
+<blockquote class="blockquote">
+<p><strong>Difficulty</strong>: <a href="../../../introduction/glossary#example-difficulty">Intermediate</a> - Recommended after <a href="../../events/golf">Golf Events</a></p>
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/06 State Machines/01 Game Manager</em></p>
-<p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.StateMachines.GameManager"><code>Animancer.Examples.StateMachines.GameManager</code></a></p>
+<p><strong>Namespace</strong>: <code><a href="../../../api/Animancer.Examples.StateMachines.GameManager">Animancer.Examples.StateMachines.GameManager</a></code></p>
 </blockquote>
-<p>This example demonstrates how you can implement a simple enum-based system for managing the state of a game and then how you can use Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system to achieve the same result. In general, enum-based systems are easy to use for simple tasks while proper FSM systems require more initial effort to set up but are much easier to maintain and expand, which is important for more complex scenarios.</p>
-<p><img src="game-manager.gif" class="img-responsive"></p>
-<p><details><summary><code>Creature</code> is the core of any character which holds references to their other components:</summary><p>
-<pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
-using System;
-using UnityEngine;
 
-</code></pre>
-</p></details></p>
+<p>This example demonstrates how you can implement a simple enum-based system for managing the state of a game and then how you can use Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system to achieve the same result. In general, enum-based systems are easy to use for simple tasks while proper FSM systems require more initial effort to set up but are much easier to maintain and expand, which is important for more complex scenarios.</p>
+
+<p><img src="game-manager.gif" class="img-responsive"></p>
+
+<p>The "game" consists of several states:</p>
+
+<table class="table">
+  <thead>
+    <th>State</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Introduction</strong></td>
+      <td>The camera orbits around the character. When the player clicks the mouse, go to <strong>Ready</strong>.</td>
+    </tr>
+    <tr>
+      <td><strong>Ready</strong></td>
+      <td>The camera moves behind the character and put them into a pose ready to hit the ball. When the player clicks the mouse, go to <strong>Action</strong>.</td>
+    </tr>
+    <tr>
+      <td><strong>Action</strong></td>
+      <td>The camera looks towards the ball as the character swings and hits it using the <code>GolfHitControllerAnimancerHybrid</code> script from the <a href="../../events/golf">Golf Events</a> example. When the swing is complete and the ball stops moving, go to <strong>Fade Out</strong>.</td>
+    </tr>
+    <tr>
+      <td><strong>Fade Out</strong></td>
+      <td>The screen gradually darkens. When it becomes fully black, go to <strong>Fade In</strong>.</td>
+    </tr>
+    <tr>
+      <td><strong>Fade In</strong></td>
+      <td>The camera and character reset to the <strong>Ready<strong> positions while the screen is still black, then it fades back in. When it has fully faded in, go to <strong>Ready</strong>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As the first <a href="../">State Machines</a> example, the explanations of each implementation go into quite a bit of detail so they are separated onto their own pages:</p>
+
+			<div class="box">
+				<div class="box-body no-padding">
+					<table class="table table-striped table-hover two-cols-alt table-responsive">
+						
+						<tbody>
+								<tr>
+									<td><strong><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></strong></td>
+									<td>
+The enum-based Game Manager implementation.									</td>
+								</tr>
+								<tr>
+									<td><strong><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></strong></td>
+									<td>
+The same mechanics implemented using Animancer&#x27;s Finite Staate Machine system.									</td>
+								</tr>
+								<tr>
+									<td><strong><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></strong></td>
+									<td>
+An overview of the advantages and disadvantages of each approach.									</td>
+								</tr>
+						</tbody>				
+					</table>
+				</div>
+			</div> 
 
 	</section>
                 

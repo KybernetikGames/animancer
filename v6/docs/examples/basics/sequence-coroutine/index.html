@@ -106,11 +106,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -194,7 +213,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -442,7 +470,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private TextMesh _Text;
     [SerializeField] private ClipState.Transition[] _Animations;
 
@@ -471,7 +499,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
         Play(0);
     }
 
-    private <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(int index)
+    private AnimancerState Play(int index)
     {
         var animation = _Animations[index];
         _Text.text = animation.Clip.name;
@@ -487,7 +515,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <ol>
 <li>Create a new script called <code>SequenceCoroutineTutorial</code> and open it up.</li>
 <li>Put <code>using Animancer;</code> at the top of the script.</li>
-<li>Give it serialized <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code>AnimationClip[]</code> fields for the animations in the sequence.</li>
+<li>Give it serialized <code>AnimancerComponent</code> and <code>AnimationClip[]</code> fields for the animations in the sequence.</li>
 <li>Use the <code>OnEnable</code> method to play the first clip in the sequence.</li>
 </ol>
 <p></p><details><summary>The script looks like this so far:</summary><p>
@@ -496,7 +524,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip[] _Animations;
 
     private void OnEnable()
@@ -551,7 +579,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip[] _Animations;
 
     private void OnEnable()
@@ -583,7 +611,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <p>Save the script and go back to the Unity scene so we can see it in action.</p>
 <ol>
 <li>Add the <code>SequenceCoroutineTutorial</code> script we just created to the <em>DefaultHumanoid</em> in the scene. It would work regardless of which object we put it on, but there is the most convenient.</li>
-<li>Assign the <em>DefaultHumanoid</em>'s <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to the <code>Animancer</code> field on the component we just added.</li>
+<li>Assign the <em>DefaultHumanoid</em>'s <code>AnimancerComponent</code> to the <code>Animancer</code> field on the component we just added.</li>
 <li>Assign the animations you want in your sequence to the <code>Animations</code> array, starting with an <em>Idle</em> animation.</li>
 </ol>
 <p><img src="basic-sequence-inspector.png" class="img-responsive"></p>
@@ -633,7 +661,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private TextMesh _Text;
     [SerializeField] private AnimationClip[] _Animations;
 
@@ -687,8 +715,8 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 yield return new WaitForSeconds(_Animations[i].length);
 </code></pre>
 <p>That would definitely get the job done for this situation, but it is not necessarily the best way to do it. For example, if something else started a different animation or changed the speed of this one, the coroutine would still be waiting for the original fixed amount of time.</p>
-<p>Instead, we can change our <code>Play</code> method to return the <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> it gets from <code>_Animancer.Play</code> and use that state as the <code>yield</code> instruction. This will wait until that state either reaches the end or stops playing for any reason, including any interruptions, speed changes, or even direct manipulation of its <code>Time</code> property:</p>
-<pre><code class="language-cs">private <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(int index)
+<p>Instead, we can change our <code>Play</code> method to return the <code>AnimancerState</code> it gets from <code>_Animancer.Play</code> and use that state as the <code>yield</code> instruction. This will wait until that state either reaches the end or stops playing for any reason, including any interruptions, speed changes, or even direct manipulation of its <code>Time</code> property:</p>
+<pre><code class="language-cs">private AnimancerState Play(int index)
 {
     var animation = _Animations[index];
     _Text.text = animation.name;
@@ -708,7 +736,7 @@ using UnityEngine.UI;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private TextMesh _Text;
     [SerializeField] private AnimationClip[] _Animations;
 
@@ -734,7 +762,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
         Play(0);
     }
 
-    private <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(int index)
+    private AnimancerState Play(int index)
     {
         var animation = _Animations[index];
         _Text.text = animation.name;
@@ -767,7 +795,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private TextMesh _Text;
     [SerializeField] private float _LoopDuration = 3;
     [SerializeField] private AnimationClip[] _Animations;
@@ -798,7 +826,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
         Play(0);
     }
 
-    private <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(int index)
+    private AnimancerState Play(int index)
     {
         var animation = _Animations[index];
         _Text.text = animation.name;
@@ -816,7 +844,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
 <p>This is where <a href="../../../manual/transitions">Transitions</a> come in. They are serializable classes that package additional fields along with each <code>AnimationClip</code>.</p>
 <p>So let's make a few changes to the script:</p>
 <ol>
-<li>Change the <code>_Animations</code> field type to <code>ClipState.Transition[]</code>. A <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> is a type of <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> that is used to play a single <code>AnimationClip</code> so we want transitions that will create <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code>s when we play them.</li>
+<li>Change the <code>_Animations</code> field type to <code>ClipState.Transition[]</code>. A <code>ClipState</code> is a type of <code>AnimancerState</code> that is used to play a single <code>AnimationClip</code> so we want transitions that will create <code>ClipState</code>s when we play them.</li>
 <li>Remove the <code>_LoopDuration</code> field and change the coroutine back to just <code>yield return state;</code>.</li>
 <li>Change the <code>Play</code> method to get the animation name from <code>animation.Clip.name</code> instead of just <code>animation.name</code>. Since it already uses <code>var animation = ...</code> instead of specifying the exact type (<code>AnimationClip animation = ...</code>) we do not need to modify that part after changing the <code>_Animations</code> field.</li>
 </ol>
@@ -827,7 +855,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private TextMesh _Text;
     [SerializeField] private ClipState.Transition[] _Animations;
 
@@ -853,7 +881,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
         Play(0);
     }
 
-    private <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(int index)
+    private AnimancerState Play(int index)
     {
         var animation = _Animations[index];
         _Text.text = animation.Clip.name;
@@ -891,7 +919,7 @@ using UnityEngine;
 
 public sealed class SequenceCoroutineTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private TextMesh _Text;
     [SerializeField] private ClipState.Transition[] _Animations;
 
@@ -920,7 +948,7 @@ public sealed class SequenceCoroutineTutorial : MonoBehaviour
         Play(0);
     }
 
-    private <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(int index)
+    private AnimancerState Play(int index)
     {
         var animation = _Animations[index];
         _Text.text = animation.Clip.name;

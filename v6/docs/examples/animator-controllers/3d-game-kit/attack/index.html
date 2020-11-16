@@ -104,11 +104,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -192,7 +211,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -463,7 +491,7 @@ public sealed class AttackState : CreatureState
     [SerializeField] private ClipState.Transition[] _Animations;
 
     private int _AttackIndex = int.MaxValue;
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Attack;
+    private ClipState.Transition _Attack;
 
     private void Awake()
     {
@@ -486,7 +514,7 @@ public sealed class AttackState : CreatureState
 
         _Attack = _Animations[_AttackIndex];
         Creature.Animancer.Play(_Attack);
-        <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
+        Creature.ForwardSpeed = 0;
         _OnStart.Invoke();
     }
 
@@ -512,7 +540,7 @@ public sealed class AttackState : CreatureState
 <p></p></details><p></p>
 <p>Well, not quite <em>all</em> the logic:</p>
 <h1 id="buffered-input">Buffered Input</h1>
-<p>The initial input check is handled by the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/KeyboardAndMouseBrain">KeyboardAndMouseBrain</a></code> script.</p>
+<p>The initial input check is handled by the <code>KeyboardAndMouseBrain</code> script.</p>
 <p>It starts with a reference to the <em>Attack</em> state which is assigned in the Inspector.</p>
 <pre><code class="language-cs">[SerializeField] private CreatureState _Attack;
 </code></pre>
@@ -561,7 +589,7 @@ private ClipState.Transition[] _Animations;
 </table>
 <p>We also need some non-serialized fields to remember the index of the current attack (to play the next one in the sequence when the player attacks repeatedly) and keep a direct reference to that attack for use later on:</p>
 <pre><code class="language-cs">private int _AttackIndex = int.MaxValue;
-private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Attack;
+private ClipState.Transition _Attack;
 </code></pre>
 <h1 id="animations">Animations</h1>
 <img src="inspector-animations.png" class="img-responsive img-right">
@@ -572,14 +600,14 @@ private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a
 <p>Rather than using a separately animated mesh for the trails, most games generally use Unity's <a href="https://docs.unity3d.com/Manual/class-TrailRenderer">Trail Renderer</a> component (or a custom script that works similarly) to have the trail dynamically follow wherever the weapon goes. This would avoid the speed issue and require less effort to develop, but it does somewhat limit your creative control over the exact appearance of the effect.</p>
 <h2 id="attack-details">Attack Details</h2>
 <p>The 3D Game Kit Lite uses a very basic damage system where the player kills enemies and destroys objects in one hit and enemies cause the player to lose 1 health on contact. But many games allow different weapons to deal different amounts of damage, knock enemies away, and even cause them to <a href="../flinch">Flinch</a> for different amounts of time. Some games even allow individual attacks with the same weapon to use different stats such as having a sword deal <em>Slashing</em> damage with one attack then <em>Piercing</em> damage with the next or having a weak bash attack followed by a powerful overhead strike.</p>
-<p>Associating additional details like that with each animation can be done by creating a class that <a href="../../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
+<p>Associating additional details like that with each animation can be done by creating a class that <a href="../../../../introduction/cs/inheritance">Inherits</a> from <code>ClipState.Transition</code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
 <h2 id="adding-more-attacks">Adding More Attacks</h2>
 <p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this script to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time as you would when using Mecanim.</p>
 <h1 id="state-entry">State Entry</h1>
 <p>In this example, we only allow attacking while grounded:</p>
 <pre><code class="language-cs">public override bool CanEnterState =&gt; Creature.CharacterController.isGrounded;
 </code></pre>
-<p>Games often have different attacks they can use while <a href="../airborne">Airborne</a> as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it is for ground or air attacks and attaching two of them to the same <code>Creature</code>, or by giving it a second array of <code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code>s to use when airborne.</p>
+<p>Games often have different attacks they can use while <a href="../airborne">Airborne</a> as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it is for ground or air attacks and attaching two of them to the same <code>Creature</code>, or by giving it a second array of <code>ClipState.Transition</code>s to use when airborne.</p>
 <p>When entering this state, we start by determining which attack in the sequence we are up to. If the previous attack was the last one or it has already fully faded out, we want the first attack, but otherwise we can go to the next one in line:</p>
 <pre><code class="language-cs">private void OnEnable()
 {
@@ -597,7 +625,7 @@ private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a
 <p>Now that we know which attack is starting, we can play it:</p>
 <pre><code class="language-cs">    _Attack = _Animations[_AttackIndex];
     Animancer.Play(_Attack);
-    <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
+    Creature.ForwardSpeed = 0;
     _OnStart.Invoke();
 }
 </code></pre>

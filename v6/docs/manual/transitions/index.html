@@ -99,11 +99,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -187,7 +206,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -420,7 +448,7 @@
 		</section>
 	<section class="content">
 		<p>Instead of hard-coding your fade durations, start and end times, speeds, and events, it is often better to define those details in the Inspector using transitions which allow you to <a href="#previews">Preview</a> what they will look like in Edit Mode and can be easily modified by non-programmers without needing to edit and recompile any scripts.</p>
-<p>Each of the <a href="../playing/states">State</a> types that are included in Animancer has its own <a href="types">Transition Type</a> which contains various details relevant to it so that when it is passed into <code><a href="/animancer/v6/api/Animancer/AnimancerComponent/1709F62A">AnimancerComponent.Play(ITransition)</a></code> it will create that type of state. For example, a <code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code> will create a <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> to play a single <code>AnimationClip</code>:</p>
+<p>Each of the <a href="../playing/states">State</a> types that are included in Animancer has its own <a href="types">Transition Type</a> which contains various details relevant to it so that when it is passed into <code>AnimancerComponent.Play(ITransition)</code> it will create that type of state. For example, a <code>ClipState.Transition</code> will create a <code>ClipState</code> to play a single <code>AnimationClip</code>:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Example Script</th>
@@ -435,10 +463,10 @@ using UnityEngine;
 public class TransitionExample : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
 
     [SerializeField] 
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Animation;
+    private ClipState.Transition _Animation;
 
     private void OnEnable()
     {
@@ -453,7 +481,7 @@ public class TransitionExample : MonoBehaviour
 </table>
 <p>The <a href="../../examples/basics/sequence-coroutine">Sequence Coroutine</a> example demonstrates how to use transitions in more detail.</p>
 <h1 id="fields">Fields</h1>
-<p>The following table describes the fields in a <code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code>. See the <a href="types">Transition Types</a> page for details about the other types.</p>
+<p>The following table describes the fields in a <code>ClipState.Transition</code>. See the <a href="types">Transition Types</a> page for details about the other types.</p>
 <table class="table table-double-row-background">
   <thead>
     <tr><th>Name</th>
@@ -494,7 +522,7 @@ public class TransitionExample : MonoBehaviour
   </tr>
   <tr><td colspan="3">
     <p>If enabled, the animation time will immediately jump to this value when played.</p>
-    <p>Otherwise it will display a default value: 0x for positive speed or 1x for negative speed. If the animation is inactive (<code><a href="/animancer/v6/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a> == 0</code>) when you start the transition its time will start at that default value, but if the animation is active it will instead continue playing from its current time.</p>
+    <p>Otherwise it will display a default value: 0x for positive speed or 1x for negative speed. If the animation is inactive (<code>AnimancerNode.Weight == 0</code>) when you start the transition its time will start at that default value, but if the animation is active it will instead continue playing from its current time.</p>
     This <a href="#time-fields">Time Field</a> is always serialized as normalized time, regardless of which field you use to enter the value.
   </td></tr>
   <tr>

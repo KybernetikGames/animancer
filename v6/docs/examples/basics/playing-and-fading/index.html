@@ -107,11 +107,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -195,7 +214,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -447,12 +475,12 @@
 </tr>
 </tbody>
 </table>
-<p>The <a href="../scene-setup">Basic Scene Setup</a> is the same as the first example, but this time we are using the <code><a href="/animancer/v6/api/Animancer.Examples.Basics/PlayingAndFading">PlayingAndFading</a></code> script instead of <code><a href="/animancer/v6/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code>. The two scripts look quite similar, but instead of an <code>Update</code> method this one has a bunch of <code>public</code> methods which are called by <a href="../scene-setup#buttons">UI Buttons</a>.</p>
+<p>The <a href="../scene-setup">Basic Scene Setup</a> is the same as the first example, but this time we are using the <code>PlayingAndFading</code> script instead of <code>PlayAnimationOnClick</code>. The two scripts look quite similar, but instead of an <code>Update</code> method this one has a bunch of <code>public</code> methods which are called by <a href="../scene-setup#buttons">UI Buttons</a>.</p>
 <h1 id="script-setup">Script Setup</h1>
-<p>The start of the script is practically identical to the <code><a href="/animancer/v6/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code> script from the <a href="../quick-play">Quick Play</a> example:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.Basics/PlayingAndFading">PlayingAndFading</a> : MonoBehaviour
+<p>The start of the script is practically identical to the <code>PlayAnimationOnClick</code> script from the <a href="../quick-play">Quick Play</a> example:</p>
+<pre><code class="language-cs">public sealed class PlayingAndFading : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -478,7 +506,7 @@
 <li>The <em>GolfSwing</em> animation is not looping, meaning that it will play through once then freeze indefinitely on the last frame.</li>
 </ul>
 <p></p><details><summary>That method is so simple we could <em>almost</em> just have the UI Button play the animation directly.</summary><p>
-</p><p>The UI <code>Button</code> component uses a <code>UnityEvent</code> field to allow the user to specify what they want the button to do when clicked using the Inspector. Unfortunately, it does not allow methods with a non-void return type and since <code>AnimancerComponent.Play</code> returns the <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> of the animation being played, that means a <code>UnityEvent</code> will not allow that method to be selected.</p>
+</p><p>The UI <code>Button</code> component uses a <code>UnityEvent</code> field to allow the user to specify what they want the button to do when clicked using the Inspector. Unfortunately, it does not allow methods with a non-void return type and since <code>AnimancerComponent.Play</code> returns the <code>AnimancerState</code> of the animation being played, that means a <code>UnityEvent</code> will not allow that method to be selected.</p>
 <p>This limitation and various others can be avoided with a free plugin called <a href="https://kybernetik.com.au/ultevents">UltEvents</a> (also made by <a href="https://kybernetik.com.au/kailas-dierk/unity-assets">Kybernetik</a> like Animancer). Unfortunately, it is not possible to directly change the inbuilt <code>Button</code> component to use an <code>UltEvent</code> instead of a <code>UnityEvent</code>, but it has an <code>UltEventHolder</code> component which you could add to a <code>Button</code>. Have the <code>Button</code> call the <code>UltEventHolder</code>s <code>Invoke</code> method and configure the event you want in the <code>UltEventHolder</code> instead. It also means that you can use <code>UltEvent</code>s in your own scripts any time you would normally use a <code>UnityEvent</code> to make use of the superior features and improved Inspector interface.</p>
 <p></p></details><p></p>
 <h1 id="play-then-idle">Play then Idle</h1>
@@ -494,7 +522,7 @@
 <p>Clicking the button again after that plays it and returns to idle as expected and clicking it repeatedly doesn't interrupt the animation if it is already playing.</p>
 <p>Note that all events are <a href="../../../manual/events/animancer#auto-clear">Automatically Cleared</a> whenever a new animation is played. This ensures that the above <a href="#play">Play</a> method will not have to worry about any of these other methods that might have set their own events.</p>
 <h1 id="play-from-start">Play from Start</h1>
-<p>Often when triggering an animation you will want to ensure that it starts from the beginning, even if it was already playing. To do that, you can set the <code><a href="/animancer/v6/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> to 0:</p>
+<p>Often when triggering an animation you will want to ensure that it starts from the beginning, even if it was already playing. To do that, you can set the <code>AnimancerState.Time</code> to 0:</p>
 <pre><code class="language-cs">public void PlayFromStart()
 {
     _Animancer.Play(_Action).Time = 0;
@@ -520,9 +548,9 @@
     _Animancer.Play(_Action, 0.25f);
 }
 </code></pre>
-<p>The optional <code><a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a></code> parameter determines whether the specified <code>fadeDuration</code> is measured in seconds or as a portion of the animation's length. The default is seconds.</p>
+<p>The optional <code>FadeMode</code> parameter determines whether the specified <code>fadeDuration</code> is measured in seconds or as a portion of the animation's length. The default is seconds.</p>
 <p><img src="crossfade.gif" class="img-responsive"></p>
-<p>Note how the <code>Weight</code>s on the right of the Inspector change over time instead of snapping to their target value instantly. If you want to see it in slow motion, you can put a <code><a href="/animancer/v6/api/Animancer.Examples/TimeScale">TimeScale</a></code> component on any object in the scene to easily control the game's overall speed.</p>
+<p>Note how the <code>Weight</code>s on the right of the Inspector change over time instead of snapping to their target value instantly. If you want to see it in slow motion, you can put a <code>TimeScale</code> component on any object in the scene to easily control the game's overall speed.</p>
 <p>It is often better to use <a href="../../../manual/transitions">Transitions</a> so that you can edit the animation details in the Inspector and preview what it will look like instead of hard-coding everything in your scripts. However, the purpose of this example is to explain how things work internally so they will not be used here.</p>
 <h1 id="crossfade-then-idle">CrossFade then Idle</h1>
 <p>Same as with <a href="#play-then-idle">Play then Idle</a>, we want to go back to <em>Idle</em> once the <em>GolfSwing</em> ends, but this time we can do it smoothly:</p>
@@ -546,16 +574,16 @@
 }
 </code></pre>
 <p><img src="bad-crossfade-from-start.gif" class="img-responsive"></p>
-<p>This works fine when transitioning from another animation (<em>Idle</em> to <em>GolfSwing</em> is smooth), but instantly snapping the <code>Time</code> back to the start prevents it from executing a smooth transition back to the start of the same animation because an <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> only has one <code>Time</code> value. It can either be at its previous value or at the beginning, but not both and trying to interpolate between the two would mean it plays backwards for a moment which isn't very useful either.</p>
+<p>This works fine when transitioning from another animation (<em>Idle</em> to <em>GolfSwing</em> is smooth), but instantly snapping the <code>Time</code> back to the start prevents it from executing a smooth transition back to the start of the same animation because an <code>AnimancerState</code> only has one <code>Time</code> value. It can either be at its previous value or at the beginning, but not both and trying to interpolate between the two would mean it plays backwards for a moment which isn't very useful either.</p>
 <h1 id="good-crossfade-from-start">Good CrossFade from Start</h1>
-<p>Fortunately, the optional <code><a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a></code> parameter allows you to indicate that you want the fade to come from the start of the animation:</p>
+<p>Fortunately, the optional <code>FadeMode</code> parameter allows you to indicate that you want the fade to come from the start of the animation:</p>
 <pre><code class="language-cs">public void GoodCrossFadeFromStart()
 {
     _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
 }
 </code></pre>
 <p><img src="good-crossfade-from-start.gif" class="img-responsive"></p>
-<p>When <code>FadeMode.FromStart</code> tries to fade into an animation that is already playing it creates a second <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> to play the same <code>AnimationClip</code> so that the original can continue playing as it fades out while the new one fades in from the start. In this case it still looks rather silly because it doesn't make sense to interrupt a golf swing like that, but the point is that it transitions smoothly instead of snapping back to the start instantly.</p>
+<p>When <code>FadeMode.FromStart</code> tries to fade into an animation that is already playing it creates a second <code>AnimancerState</code> to play the same <code>AnimationClip</code> so that the original can continue playing as it fades out while the new one fades in from the start. In this case it still looks rather silly because it doesn't make sense to interrupt a golf swing like that, but the point is that it transitions smoothly instead of snapping back to the start instantly.</p>
 <p>If you click the button rapidly it will continue creating new states until it has 5, then it will throw an <code>ArgumentOutOfRangeException</code>. This is an intentional safety measure since it is unlikely that you would actually want that many copies of an animation playing at once so it is a likely indication of a bug in your code (and it certainly looks silly in this example). However, if you really do want to have many copies for whatever reason, you can simply call <code>AnimancerLayer.SetMaxStateDepth</code> to increase the value beforehand.</p>
 <h1 id="good-crossfade-from-start-then-idle">Good CrossFade from Start then Idle</h1>
 <p>Again for the sake of completeness, let's combine the two:</p>
@@ -566,7 +594,7 @@
 }
 </code></pre>
 <p><img src="good-crossfade-from-start-then-idle.gif" class="img-responsive"></p>
-<p>Note how we are not specifying a <code><a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a></code> for the return transition to <em>Idle</em> since we do not actually care what <code>Time</code> that animation is at and it's unlikely that we would try to transition back to idle repeatedly anyway.</p>
+<p>Note how we are not specifying a <code>FadeMode</code> for the return transition to <em>Idle</em> since we do not actually care what <code>Time</code> that animation is at and it's unlikely that we would try to transition back to idle repeatedly anyway.</p>
 
 	</section>
                 

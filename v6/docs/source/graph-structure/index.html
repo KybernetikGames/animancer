@@ -99,11 +99,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -187,7 +206,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -422,9 +450,9 @@
 		<p>The Playables API which Animancer is built around works using a tree-like structure of nodes known as a <code>PlayableGraph</code>. The following diagram shows how Animancer arranges the graph connections:</p>
 <p><img src="playable-graph.png" class="img-responsive"></p>
 <ul>
-<li>The root <code><a href="/animancer/v6/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> can have multiple <code><a href="/animancer/v6/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>s connected to it.</li>
-<li>Each <code><a href="/animancer/v6/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> can have multiple <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code>s connected to it.</li>
-<li><code><a href="/animancer/v6/api/Animancer/MixerState">MixerState</a></code>s are a type of <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> which can have other states connected to them, including other mixers.</li>
+<li>The root <code>AnimancerPlayable</code> can have multiple <code>AnimancerLayer</code>s connected to it.</li>
+<li>Each <code>AnimancerLayer</code> can have multiple <code>AnimancerState</code>s connected to it.</li>
+<li><code>MixerState</code>s are a type of <code>AnimancerState</code> which can have other states connected to them, including other mixers.</li>
 <li>Most of the time a new state is connected to its parent when created, but if you need to you can use <code>AnimancerState.SetParent</code> to reconfigure the graph dynamically.</li>
 </ul>
 <h1 id="playable-graph-visualizer">Playable Graph Visualizer</h1>
@@ -438,7 +466,7 @@
     </div>
 </div><p></p>
 <h1 id="iterating">Iterating</h1>
-<p>All of the core classes in Animancer implement <code>IEnumerable&lt;<a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a>&gt;</code>, meaning that you can use them in <code>foreach</code> loops to iterate through their child states:</p>
+<p>All of the core classes in Animancer implement <code>IEnumerable&lt;AnimancerState&gt;</code>, meaning that you can use them in <code>foreach</code> loops to iterate through their child states:</p>
 <pre><code class="language-cs">private void LogAllStates(AnimancerComponent animancer)
 {
     Debug.Log("Logging all states in " + animancer);

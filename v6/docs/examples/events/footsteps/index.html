@@ -102,11 +102,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -190,7 +209,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -430,14 +458,14 @@
 <p><img src="footstep-events.gif" class="img-responsive img-right"> This example demonstrates how you can use <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/events/animation">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle. The <a href="../../../manual/events">Events</a> page summarises the differences between the two systems which are further demonstrated by the <a href="../golf">Golf Events</a> example.</p>
 <p>The actual example scene demonstrates both systems with one character each, playing a sound every time one of their feet touches the ground. But since the video shown here does not have sound, it instead shows a sphere around the foot associated with each event for a short time after that event occurs.</p>
 <p>The <a href="../../animator-controllers-3d-game-kit">3D Game Kit</a> example uses a similar system based on animation curves instead of events which also has different footstep sounds depending on the surface the character is standing on. An even more complex system could instead use <a href="../../../introduction/cs/vectors#raycasting">Raycasts</a> like in the <a href="../../ik/uneven-ground">Uneven Ground</a> example to determine when a character's feet touch down. That would allow it to work for all animations without manually adding events to them all and could do things like calculating the desired volume based on the velocity of the foot and playing different sounds based on where each foot actually lands rather than the character's center.</p>
-<p></p><details><summary>The base <code><a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script is used to demonstrate <a href="../../../manual/events/animancer">Animancer Events</a> and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The base <code>FootstepEvents</code> script is used to demonstrate <a href="../../../manual/events/animancer">Animancer Events</a> and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> : MonoBehaviour
+public class FootstepEvents : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Walk;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipState.Transition _Walk;
     [SerializeField] private AudioClip[] _Sounds;
 
     protected void OnEnable()
@@ -453,11 +481,11 @@ public class <a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a></code> script inherits from <code><a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> to demonstrate <a href="../../../manual/events/animation">Animation Events</a> instead and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The <code>FootstepEventsAnimation</code> script inherits from <code>FootstepEvents</code> to demonstrate <a href="../../../manual/events/animation">Animation Events</a> instead and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a> : <a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a>
+public sealed class FootstepEventsAnimation : FootstepEvents
 {
     [SerializeField] private AudioSource[] _FootSources;
 
@@ -478,10 +506,10 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.Events/Footste
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Walk;
+private ClipState.Transition _Walk;
 
 [SerializeField]
 private AudioClip[] _Sounds;
@@ -517,7 +545,7 @@ private AudioClip[] _Sounds;
 <li><details><summary>Click the "Preview" button to open the <a href="../../../manual/transitions#previews">Preview Window</a>:</summary><p><img src="open-preview.gif" class="img-responsive"></p></details></li>
 <li><details><summary>Click the "Add Event" button and adjust the time of the event. The <em>Humanoid-Walk</em> animation touches down at about 0.04x (normalized time):</summary><p><img src="add-event.gif" class="img-responsive"></p></details></li>
 <li><details><summary>Add a function to the callback:</summary><p><img src="add-function.gif" class="img-responsive"></p></details></li>
-<li><details><summary>Assign the <code><a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script as the target object:</summary><p><img src="assign-target.gif" class="img-responsive"></p></details></li>
+<li><details><summary>Assign the <code>FootstepEvents</code> script as the target object:</summary><p><img src="assign-target.gif" class="img-responsive"></p></details></li>
 <li><details><summary>Select its <code>PlaySound</code> method:</summary><p><img src="select-method.gif" class="img-responsive"></p></details></li>
 <li><details><summary>Since this is the event for the left foot, find the character's <em>Left Foot</em> object in the Hierarchy:</summary><p><img src="find-left-foot.gif" class="img-responsive"></p></details></li>
 <li><details><summary>Add an <code>AudioSource</code> component to the <em>Left Foot</em>:</summary><p><img src="add-audio-source.gif" class="img-responsive"></p></details></li>
@@ -538,9 +566,9 @@ private AudioClip[] _Sounds;
 <h2 id="audio-source">Audio Source</h2>
 <p>Another difference is that since the <code>AnimationClip</code> is an asset, it cannot reference scene objects because an asset can be used in any scene so those particular objects may not exist. This means the event cannot directly reference the <code>AudioSource</code>s that will be used to play each sound so we need to set it up differently:</p>
 <ol>
-<li>Create another script that <a href="../../../introduction/cs/inheritance">Inherits</a> from the <code><a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script.</li>
+<li>Create another script that <a href="../../../introduction/cs/inheritance">Inherits</a> from the <code>FootstepEvents</code> script.</li>
 </ol>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a> : <a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a>
+<pre><code class="language-cs">public sealed class FootstepEventsAnimation : FootstepEvents
 {
 </code></pre>
 <ol start="2">
@@ -552,7 +580,7 @@ private AudioClip[] _Sounds;
 </code></pre>
 <p><img src="footstep-events-animation.png" class="img-responsive"></p>
 <ol start="3">
-<li>Add a method which takes an <code>int</code> parameter to specify which foot and passes the associated <code>AudioSource</code> into the <code>PlaySound</code> method we <a href="../../../introduction/cs/inheritance">Inherited</a> from <code><a href="/animancer/v6/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code>:</li>
+<li>Add a method which takes an <code>int</code> parameter to specify which foot and passes the associated <code>AudioSource</code> into the <code>PlaySound</code> method we <a href="../../../introduction/cs/inheritance">Inherited</a> from <code>FootstepEvents</code>:</li>
 </ol>
 <pre><code class="language-cs">    private void Footstep(int foot)
     {

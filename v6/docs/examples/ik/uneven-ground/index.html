@@ -99,11 +99,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -187,7 +206,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -442,11 +470,11 @@
   </tbody>
 </table>
 <p>The actual implementation used here is not very good, the point is simply to prove that IK works essentially the same in Animancer as it does in Mecanim.</p>
-<p></p><details><summary>It uses a simple <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a></code> script to create a random series of objects and rearrange them each time the character moves far enough:</summary><p>
+<p></p><details><summary>It uses a simple <code>ObstacleTreadmill</code> script to create a random series of objects and rearrange them each time the character moves far enough:</summary><p>
 </p><pre><code class="language-cs">using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a> : MonoBehaviour
+public sealed class ObstacleTreadmill : MonoBehaviour
 {
     [SerializeField] private float _SpawnCount = 10;
     [SerializeField] private Material _ObstacleMaterial;
@@ -515,13 +543,13 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinemat
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>And the main <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>And the main <code>RaycastFootIK</code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a> : MonoBehaviour
+public sealed class RaycastFootIK : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Animation;
     [SerializeField] private float _RaycastOriginY = 0.5f;
     [SerializeField] private float _RaycastEndY = -0.2f;
@@ -529,7 +557,7 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinemat
     private Transform _LeftFoot;
     private Transform _RightFoot;
 
-    private <a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
+    private AnimatedFloat _FootWeights;
 
     public bool ApplyAnimatorIK
     {
@@ -595,8 +623,8 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinemat
 <p></p></details><p></p>
 <h1 id="ik-curves">IK Curves</h1>
 <p>Unlike the <a href="../puppet">Puppet</a> example, we do not want the character's feet to always be exactly at the target point. Instead, we want them to use the animation to lift their feet (0 IK weight) and start using the IK when their feet are actually supposed to be near the ground (1 IK weight). This example uses a copy of the usual <em>Walk</em> animation with two additional <code>AnimationCurves</code> (<em>LeftFootIK</em> and <em>RightFootIK</em>) which determine how much weight we want the IK to have at any given point in the animation.</p>
-<p>These custom curves can be accessed using Animancer's <code><a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> class which we initialise on startup:</p>
-<pre><code class="language-cs">private <a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
+<p>These custom curves can be accessed using Animancer's <code>AnimatedFloat</code> class which we initialise on startup:</p>
+<pre><code class="language-cs">private AnimatedFloat _FootWeights;
 
 private void Awake()
 {
@@ -638,7 +666,7 @@ private void Awake()
     _RightFoot = _Animancer.Animator.GetBoneTransform(HumanBodyBones.RightFoot);
 }
 </code></pre>
-<p>Then in <code>OnAnimatorIK</code> we simply use the <code><a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> objects to evaluate the target curves at the current animation time:</p>
+<p>Then in <code>OnAnimatorIK</code> we simply use the <code>AnimatedFloat</code> objects to evaluate the target curves at the current animation time:</p>
 <pre><code class="language-cs">private void OnAnimatorIK(int layerIndex)
 {
     UpdateFootIK(_LeftFoot, AvatarIKGoal.LeftFoot, _FootWeights[0], _Animancer.Animator.leftFeetBottomHeight);
@@ -697,13 +725,13 @@ private void UpdateFootIK(Transform footTransform, AvatarIKGoal goal, float weig
     _Animancer.Animator.SetIKPosition(goal, position);
 }
 </code></pre>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a></code> script looks like this:</summary><p>
+<p></p><details><summary>The full <code>RaycastFootIK</code> script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/RaycastFootIK">RaycastFootIK</a> : MonoBehaviour
+public sealed class RaycastFootIK : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Animation;
     [SerializeField] private float _RaycastOriginY = 0.5f;
     [SerializeField] private float _RaycastEndY = -0.2f;
@@ -711,7 +739,7 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinemat
     private Transform _LeftFoot;
     private Transform _RightFoot;
 
-    private <a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
+    private AnimatedFloat _FootWeights;
 
     public bool ApplyAnimatorIK
     {

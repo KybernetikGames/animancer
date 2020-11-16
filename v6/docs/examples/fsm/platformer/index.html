@@ -104,11 +104,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -192,7 +211,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -447,7 +475,7 @@
 <h1 id="introductions">Introductions</h1>
 <p>Many games play a special animation for the player when the scene starts which is not used again during regular gameplay. For example, Super Smash Bros. Ultimate:</p>
 <iframe width="480" height="270" src="https://www.youtube.com/embed/XXZpGWfi-ak?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-<p>Those animations could simply be created as a single <code>AnimationClip</code> (per character) so that it can be played like any other, but Unity's <a href="../../../manual/timeline">Timeline</a> package allows us to create animation sequences from multiple clips within Unity and then play the entire sequence using a <code><a href="/animancer/v6/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> in Animancer. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
+<p>Those animations could simply be created as a single <code>AnimationClip</code> (per character) so that it can be played like any other, but Unity's <a href="../../../manual/timeline">Timeline</a> package allows us to create animation sequences from multiple clips within Unity and then play the entire sequence using a <code>PlayableAssetState</code> in Animancer. This example uses a simple sequence of 3 animations: <em>Knight-ExpandFromPoint</em> and <em>Knight-Flip</em> are only used in this sequence, then they are followed by the regular <em>Knight-Attack</em> which is used during gameplay.</p>
 <p><img src="timeline.png" class="img-responsive"></p>
 <p>We could instead give our script an array of <code>AnimationClip</code>s and play them in sequence like the <a href="../../basics/sequence-coroutine">Sequence Coroutine</a> example, but this way the artists have full control over the sequence and the code is very simple:</p>
 <table class="table">
@@ -459,7 +487,7 @@
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private&nbsp;<a href="/animancer/v6/api/Animancer/Transition">PlayableAssetState.Transition</a>&nbsp;_Animation;
+private&nbsp;PlayableAssetState.Transition&nbsp;_Animation;
 
 [SerializeField]
 private bool _DestroyWhenDone;</code></pre>
@@ -485,7 +513,7 @@ private void Awake()
         {
             Creature.Idle.ForceEnterState();
 
-            // Destroy the <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> managing the sequence.
+            // Destroy the AnimancerState managing the sequence.
             Creature.Animancer.States.Destroy(_Animation);
 
             // Destroy this component as well.
@@ -498,10 +526,10 @@ private void Awake()
     }
 }
 </code></pre>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/TimelineState">TimelineState</a></code> script looks like this:</summary><p>
-</p><pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/TimelineState">TimelineState</a> : CreatureState
+<p></p><details><summary>The full <code>TimelineState</code> script looks like this:</summary><p>
+</p><pre><code class="language-cs">public sealed class TimelineState : CreatureState
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">PlayableAssetState.Transition</a> _Animation;
+    [SerializeField] private PlayableAssetState.Transition _Animation;
     [SerializeField] private bool _DestroyWhenDone;
 
     private void Awake()
@@ -531,11 +559,11 @@ private void Awake()
 <h1 id="idle">Idle</h1>
 <p>The <a href="../brains">Brains</a> example merged the <em>Walk</em> and <em>Run</em> animations into a single <code>LocomotionState</code> so that it could synchronise their timings, but kept that separate from the <code>IdleState</code>. This meant that in order to move, the brain had to set the <code>MovementDirection</code> and also attempt to enter the <code>LocomotionState</code>. It also meant that whenever a creature finished an action they returned to the <code>IdleState</code> at least momentarily, even if the brain was trying to move. We could have the <code>ReturnToIdle</code> callback determine which of those states to return to when an action finishes, but in this example we have merged them all into the <code>IdleState</code> so we are using the term "Idle" to mean "able to move freely" rather than specifically "standing still".</p>
 <p>This means that the brain can just control the <code>MovementDirection</code> and <code>IsRunning</code> properties then a creature in the <code>IdleState</code> will act accordingly. A creature will never have a non-zero <code>MovementDirection</code> while standing still just because the brain forgot to enter the <code>LocomotionState</code>.</p>
-<p></p><details><summary>This allows the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/LocalPlayerBrain">LocalPlayerBrain</a></code> script to be quite simple (we will be changing it a bit to implement <a href="#jumping">Jumping</a> later):</summary><p>
+<p></p><details><summary>This allows the <code>LocalPlayerBrain</code> script to be quite simple (we will be changing it a bit to implement <a href="#jumping">Jumping</a> later):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/LocalPlayerBrain">LocalPlayerBrain</a> : CreatureBrain
+public sealed class LocalPlayerBrain : CreatureBrain
 {
     [SerializeField] private CreatureState _Attack;
 
@@ -560,7 +588,7 @@ public virtual float MovementSpeed =&gt; 0;
 // IdleState uses either a run or walk speed:
 public override float MovementSpeed =&gt; Creature.Brain.IsRunning ? _RunSpeed : _WalkSpeed;
 
-// <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a> uses whatever speed the Idle state recommends:
+// JumpState uses whatever speed the Idle state recommends:
 public override float MovementSpeed =&gt; Creature.Idle.MovementSpeed;
 
 // Other states stick with the base 0 speed.
@@ -631,11 +659,11 @@ public bool IsGrounded { get; private set; }
     IsGrounded = false;
 }
 </code></pre>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a></code> script looks like this:</summary><p>
+<p></p><details><summary>The full <code>GroundDetector</code> script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> : MonoBehaviour
+public sealed class GroundDetector : MonoBehaviour
 {
     [SerializeField] private Collider2D _Collider;
     [SerializeField] private float _GripAngle = 45;
@@ -673,12 +701,12 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.
 <p></p></details><p></p>
 <p>With that script in place, we can give the <code>Creature</code> script a reference to it with a <a href="../../../introduction/cs/methods#properties">Property</a> for other scripts to access it:</p>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> _GroundDetector;
-public <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a> =&gt; _GroundDetector;
+private GroundDetector _GroundDetector;
+public GroundDetector GroundDetector =&gt; _GroundDetector;
 </code></pre>
 <p>Then anything can check if the creature is on the ground:</p>
 <pre><code class="language-cs">// You can only jump while grounded:
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a> : CreatureState
+public sealed class JumpState : CreatureState
 {
     public override bool CanEnterState =&gt; Creature.GroundDetector.IsGrounded;
 
@@ -724,13 +752,13 @@ public float CalculateJumpSpeed(float height)
 </code></pre>
 <p>This assumes gravity is negative (downwards), otherwise any force would give an infinite jump height.</p>
 <p>If we wanted to support gravity in any direction, we could replace <code>Physics2D.gravity.y</code> with a <a href="../../../introduction/cs/vectors#dot-product">Dot Product</a>: <code>Vector2.Dot(Physics2D.gravity, Creature.transform.up)</code>. We could have just done that here, but it is a bit less efficient and we do not need the complexity.</p>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/GroundDetector">GroundDetector</a></code> script looks like this:</summary><p>
-</p><pre><code class="language-cs">public class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a> : CreatureState
+<p></p><details><summary>The full <code>GroundDetector</code> script looks like this:</summary><p>
+</p><pre><code class="language-cs">public class JumpState : CreatureState
 {
     [SerializeField] private AnimationClip _Animation;
     [SerializeField] private float _Height = 3;
 
-    protected <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> { get; private set; }
+    protected AnimancerState AnimancerState { get; private set; }
 
     public override float MovementSpeed =&gt; Creature.Idle.MovementSpeed;
 
@@ -740,12 +768,12 @@ public float CalculateJumpSpeed(float height)
     {
         Creature.Rigidbody.velocity += new Vector2(0, CalculateJumpSpeed(_Height));
 
-        <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> = Creature.Animancer.Play(_Animation);
+        AnimancerState = Creature.Animancer.Play(_Animation);
     }
 
     protected virtual void FixedUpdate()
     {
-        if (Creature.GroundDetector.IsGrounded &amp;&amp; <a href="/animancer/v6/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a> &gt; 1)
+        if (Creature.GroundDetector.IsGrounded &amp;&amp; AnimancerState.NormalizedTime &gt; 1)
             Creature.Idle.ForceEnterState();
     }
 
@@ -760,14 +788,14 @@ public float CalculateJumpSpeed(float height)
 <h2 id="gravity">Gravity</h2>
 <p>Gravity on Earth applies approximately 9.81 meters per second of acceleration every second (9.81 meters per second per second, or 9.81 m/s^2), but characters in games can often jump far higher than people in real life (can you jump more than twice your own height while wearing armour like the character in this example?). This means that applying the same gravity acceleration often allows characters to float in the air for far longer than we want. The solution is obviously to increase gravity which can be done in the project's Physics settings (or Physics 2D in this case), but you might also want different multipliers for each character and since we do not want to modify your project's settings just for this example we have simply set the <code>Gravity Scale</code> of the <code>Rigidbody2D</code> component to 2 (which we already accounted for in the jump height calculation above).</p>
 <h2 id="variable-height">Variable Height</h2>
-<p>Many games allow the player to do a small jump by quickly tapping the key or jump higher by holding it down for a bit. Common enemies do not usually make use of this mechanic though, so rather than modifying our <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a></code> we are going to create another script which <a href="../../../introduction/cs/inheritance">Inherits</a> from it so players can use the new script while other creatures continue using the original <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a></code> script (not that there are any other creatures in this example).</p>
+<p>Many games allow the player to do a small jump by quickly tapping the key or jump higher by holding it down for a bit. Common enemies do not usually make use of this mechanic though, so rather than modifying our <code>JumpState</code> we are going to create another script which <a href="../../../introduction/cs/inheritance">Inherits</a> from it so players can use the new script while other creatures continue using the original <code>JumpState</code> script (not that there are any other creatures in this example).</p>
 <p>There are generally two ways to vary the jump height:</p>
 <ul>
 <li>Play a quick crouch animation before the jump and then choose whether to use the short or long jump height when the crouch finishes.</li>
 <li>Apply some extra upwards acceleration for a short time at the start of the jump until the player releases the button. This is the approach we are using because we do not have a crouch animation for this character.</li>
 </ul>
 <p>Unfortunately, applying acceleration over time makes it much harder to calculate the extra force needed to increase the total height by a specific amount, so instead we are simply going to enter the force value directly and let it be adjusted in the Inspector:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/AdvancedJumpState">AdvancedJumpState</a> : <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a>
+<pre><code class="language-cs">public sealed class AdvancedJumpState : JumpState
 {
     [SerializeField] private float _HoldForce = 20;
     [SerializeField] private float _HoldDuration = 0.25f;
@@ -791,16 +819,16 @@ public float CalculateJumpSpeed(float height)
     {
         base.FixedUpdate();
 
-        if (IsHolding &amp;&amp; <a href="/animancer/v6/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a> &lt;= _HoldDuration)
+        if (IsHolding &amp;&amp; AnimancerState.Time &lt;= _HoldDuration)
             Creature.Rigidbody.velocity += new Vector2(0, _HoldForce * Time.deltaTime);
     }
 }
 </code></pre>
-<p>Note that where the base <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/JumpState">JumpState</a></code> applied its force all at once in <code>OnEnable</code>, here we want to apply the force constantly over time so we multiply it by <code>Time.deltaTime</code>.</p>
-<p>The <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/LocalPlayerBrain">LocalPlayerBrain</a></code> already has a <code>CreatureState _Attack</code> field, but since we want to access that <code>IsHolding</code> property we will give it an <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/AdvancedJumpState">AdvancedJumpState</a> _Jump</code> field:</p>
+<p>Note that where the base <code>JumpState</code> applied its force all at once in <code>OnEnable</code>, here we want to apply the force constantly over time so we multiply it by <code>Time.deltaTime</code>.</p>
+<p>The <code>LocalPlayerBrain</code> already has a <code>CreatureState _Attack</code> field, but since we want to access that <code>IsHolding</code> property we will give it an <code>AdvancedJumpState _Jump</code> field:</p>
 <pre><code class="language-cs">// In LocalPlayerBrain:
 
-[SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/AdvancedJumpState">AdvancedJumpState</a> _Jump;
+[SerializeField] private AdvancedJumpState _Jump;
 
 private void Update()
 {
@@ -815,11 +843,11 @@ private void Update()
     ...
 }
 </code></pre>
-<p>The <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/AdvancedJumpState">AdvancedJumpState</a></code> could also support other mechanics which are not used by most creatures. For example, it could allow wall jumping by overriding <code>CanEnterState</code> to check if the character is currently in the air next to a wall.</p>
+<p>The <code>AdvancedJumpState</code> could also support other mechanics which are not used by most creatures. For example, it could allow wall jumping by overriding <code>CanEnterState</code> to check if the character is currently in the air next to a wall.</p>
 <h1 id="life">Life</h1>
-<p>This example does not actually have any hazards that can harm the player, but it includes a simple <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a></code> script for the sake of implementing <a href="#death">Death</a>:</p>
+<p>This example does not actually have any hazards that can harm the player, but it includes a simple <code>Health</code> script for the sake of implementing <a href="#death">Death</a>:</p>
 <p>We use a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> to allow the maximum health to be configured in the Inspector:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a> : MonoBehaviour
+<pre><code class="language-cs">public sealed class Health : MonoBehaviour
 {
     [SerializeField]
     private int _MaxHealth;
@@ -856,7 +884,7 @@ private void Update()
 }
 </code></pre>
 <h1 id="death">Death</h1>
-<p>With the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Platformer/Health">Health</a></code> script in place, we can implement our <code>DieState</code> which will not be activated by the brain like most other states but will instead register its own callback to the <code>OnHealthChanged</code> event to have the creature set it as the active state at 0 health:</p>
+<p>With the <code>Health</code> script in place, we can implement our <code>DieState</code> which will not be activated by the brain like most other states but will instead register its own callback to the <code>OnHealthChanged</code> event to have the creature set it as the active state at 0 health:</p>
 <pre><code class="language-cs">public sealed class DieState : CreatureState
 {
     [SerializeField] private AnimationClip _Animation;

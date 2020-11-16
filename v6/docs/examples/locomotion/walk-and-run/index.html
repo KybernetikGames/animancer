@@ -102,11 +102,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -190,7 +209,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -428,17 +456,17 @@
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Locomotion"><code>Animancer.Examples.Locomotion</code></a></p>
 </blockquote>
 <p>This example demonstrates a simple script which plays a <em>Walk</em> animation while you hold down a key and then extends that with another script which can also play a <em>Run</em> animation if you hold down a different key at the same time. It also ensures that those animations remain in sync when blending between them so that the transition looks natural.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v6/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code>AnimancerState.NormalizedTime</code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="walk-and-run.gif" class="img-responsive"></p>
-<p></p><details><summary>The character on the right uses the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The character on the right uses the <code>IdleAndWalk</code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a> : MonoBehaviour
+public class IdleAndWalk : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+    private AnimancerComponent _Animancer;
+    public AnimancerComponent Animancer =&gt; _Animancer;
 
     [SerializeField]
     private AnimationClip _Idle;
@@ -475,12 +503,12 @@ public class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWal
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>And the character on the left uses the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
-</p><p>Note how it <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a></code> instead of the usual <code>MonoBehaviour</code>.</p>
+<p></p><details><summary>And the character on the left uses the <code>IdleAndWalkAndRun</code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+</p><p>Note how it <a href="../../../introduction/cs/inheritance">Inherits</a> from <code>IdleAndWalk</code> instead of the usual <code>MonoBehaviour</code>.</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a> : <a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalk">IdleAndWalk</a>
+public class IdleAndWalkAndRun : IdleAndWalk
 {
     [SerializeField] private AnimationClip _Run;
 
@@ -515,7 +543,7 @@ using UnityEngine;
 
 public sealed class IdleAndWalkTutorial : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Walk;
 
@@ -538,9 +566,9 @@ public sealed class IdleAndWalkTutorial : MonoBehaviour
 <h1 id="adding-run">Adding Run</h1>
 <p>The <code>IdleAndWalkTutorial</code> script is not very extensible yet, but with a few changes we can easily allow another script to <a href="../../../introduction/cs/inheritance">Inherit</a> from it to add a <em>Run</em> animation.</p>
 <p>First we need to remove the <a href="../../../introduction/cs/inheritance#keywords"><code>sealed</code></a> keyword from the class and change the <code>Update</code> method to <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>. The <a href="../../../source/default-script-template#why-sealed">Default Script Template</a> page explains why we made it <a href="../../../introduction/cs/inheritance#keywords"><code>sealed</code></a> by default.</p>
-<p>The derived class will need access to the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code>_Walk</code> animation so let's add <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> read-only <a href="../../../introduction/cs/methods#properties">Properties</a> for them (we could make the fields <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>, but we do not particularly want the derived class to be able to change their values). For the sake of completeness we might as well add one for the <code>_Idle</code> animation as well even though we do not intend to use it.</p>
+<p>The derived class will need access to the <code>AnimancerComponent</code> and <code>_Walk</code> animation so let's add <a href="../../../introduction/cs/organisation#access-modifiers"><code>public</code></a> read-only <a href="../../../introduction/cs/methods#properties">Properties</a> for them (we could make the fields <a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a>, but we do not particularly want the derived class to be able to change their values). For the sake of completeness we might as well add one for the <code>_Idle</code> animation as well even though we do not intend to use it.</p>
 <pre><code class="language-cs">// These properties are read-only because they have "get" but not "set".
-public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+public AnimancerComponent Animancer =&gt; _Animancer;
 public AnimationClip Idle =&gt; _Idle;
 public AnimationClip Walk =&gt; _Walk;
 </code></pre>
@@ -552,8 +580,8 @@ using UnityEngine;
 public class IdleAndWalkTutorial : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+    private AnimancerComponent _Animancer;
+    public AnimancerComponent Animancer =&gt; _Animancer;
 
     [SerializeField]
     private AnimationClip _Idle;
@@ -626,7 +654,7 @@ else
     otherAnimation = _Run;
 }
 </code></pre>
-<p>Then we play the animation we want like before, but now we grab its <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code>:</p>
+<p>Then we play the animation we want like before, but now we grab its <code>AnimancerState</code>:</p>
 <pre><code class="language-cs">var playState = Animancer.Play(playAnimation, 0.25f);
 </code></pre>
 <p>Then we get the other animation's state and if it's still playing (because it hasn't finished fading out) we give its <code>NormalizedTime</code> to the animation we just started playing:</p>
@@ -687,8 +715,8 @@ using UnityEngine;
 public class IdleAndWalkTutorial : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+    private AnimancerComponent _Animancer;
+    public AnimancerComponent Animancer =&gt; _Animancer;
 
     [SerializeField]
     private AnimationClip _Idle;

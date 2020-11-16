@@ -78,6 +78,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Value">Value</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -233,13 +234,9 @@
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[<code class="cs">Animancer.IPlayableWrapper</code>]
-    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object for any
-    <code class="cs">Animancer.AnimancerPlayable.States</code>. The initial value is determined by <code class="cs">DefaultApplyAnimatorIK</code> when a new
-    state is created and setting this value will also set the default.
-    <p></p>
-    This is equivalent to the "IK Pass" toggle in Animator Controller layers, except that due to limitations in
-    the Playables API the <code class="cs">layerIndex</code> will always be zero.
+	<div class="lead">
+    Should Unity call <code class="cs">OnAnimatorIK</code> on the animated object while this object and its children have any
+    <code class="cs">Animancer.AnimancerNode.Weight</code>?
     </div>
 
 		<div class="panel panel-default">
@@ -262,6 +259,17 @@
 	<pre><code>public bool ApplyAnimatorIK { get; set; }</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    This is equivalent to the "IK Pass" toggle in Animator Controller layers, except that due to limitations in
+    the Playables API the <code class="cs">layerIndex</code> will always be zero.
+    <p></p>
+    This value starts false by default, but can be automatically changed by
+    <code class="cs">Animancer.AnimancerNode.ApplyParentIK</code> when the <code class="cs">Animancer.IPlayableWrapper.Parent</code> is set.
+    <p></p>
+    IK only takes effect while at least one <code class="cs">Animancer.ClipState</code> has a <code class="cs">Animancer.AnimancerNode.Weight</code>
+    above zero. Other node types either store the value to apply to their children or don't support IK.
+    </div>
 
 
 

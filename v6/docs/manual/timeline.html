@@ -98,11 +98,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -186,7 +205,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -420,18 +448,18 @@
 	<section class="content">
 		<p><em>This is a <a href="../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p>Unity's <a href="https://docs.unity3d.com/Manual/com.unity.timeline.html">Timeline</a> package is a sequencing system that can manage things like animations, audio, particle systems, and other events in order to develop things like cut-scenes and cinematics.</p>
-<p>Timeline Assets are normally played using a <code>PlayableDirector</code> but Animancer can also play them with a <code><a href="/animancer/v6/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>:</p>
+<p>Timeline Assets are normally played using a <code>PlayableDirector</code> but Animancer can also play them with a <code>PlayableAssetState</code>:</p>
 <table class="table">
 <thead>
 <tr>
 <th><code>PlayableDirector</code></th>
-<th><code><a href="/animancer/v6/api/Animancer/PlayableAssetState">PlayableAssetState</a></code></th>
+<th><code>PlayableAssetState</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Outside of Animancer, Timeline Assets are played using a <code>PlayableDirector</code> component as explained in the official <a href="https://learn.unity.com/tutorial/timeline">Timeline Tutorial</a>.</td>
-<td>Inside Animancer, Timeline Assets are played using a <code><a href="/animancer/v6/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> as explained in the <a href="../examples/fsm/platformer">Platformer</a> example.</td>
+<td>Inside Animancer, Timeline Assets are played using a <code>PlayableAssetState</code> as explained in the <a href="../examples/fsm/platformer">Platformer</a> example.</td>
 </tr>
 <tr>
 <td>Even with Animancer, this is still often the best way to play Timelines that control multiple characters.</td>
@@ -441,7 +469,7 @@
 </table>
 <h1 id="bindings">Bindings</h1>
 <p>Timelines can contain multiple "Tracks" which each control a different object in the scene. Since a <code>TimelineAsset</code> is an asset, it can't directly reference scene objects so whatever plays it needs to specify its <code>Bindings</code> to assign the object each track controls.</p>
-<p>If the first track of the <code>TimelineAsset</code> used in a <code><a href="/animancer/v6/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</p>
+<p>If the first track of the <code>TimelineAsset</code> used in a <code>PlayableAssetState</code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</p>
 
 	</section>
                 

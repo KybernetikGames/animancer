@@ -100,11 +100,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -188,7 +207,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -421,8 +449,8 @@
 		</section>
 	<section class="content">
 		<p>Directional Animation Sets are a convenient way of managing groups of <em>up/right/down/left</em> animations (including or excluding diagonals) with a standardised way of selecting which one you want.</p>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> class contains quite a bit of functionality, but at its core it is just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="../../../introduction/cs/vectors">Vector</a>:</summary><p>
-</p><pre><code class="language-cs">public class <a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> : ScriptableObject
+<p></p><details><summary>The <code>DirectionalAnimationSet</code> class contains quite a bit of functionality, but at its core it is just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="../../../introduction/cs/vectors">Vector</a>:</summary><p>
+</p><pre><code class="language-cs">public class DirectionalAnimationSet : ScriptableObject
 {
     [SerializeField] private AnimationClip _Up;
     [SerializeField] private AnimationClip _Right;
@@ -450,10 +478,10 @@
 </code></pre>
 <p>The full script is included in <a href="/animancer/lite">Animancer Lite</a> so you can modify it or make your own variations if you want to.</p>
 <p></p></details><p></p>
-<p><code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> so it has the same fields as well as another 4 for the diagonals and it <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a>s the <code>GetClip</code> method to choose from all 8 of its animations.</p>
+<p><code>DirectionalAnimationSet8</code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code>DirectionalAnimationSet</code> so it has the same fields as well as another 4 for the diagonals and it <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a>s the <code>GetClip</code> method to choose from all 8 of its animations.</p>
 <p>The <a href="../../../examples/directional-sprites">Directional Sprites</a> examples demonstrate how to use them.</p>
 <h1 id="creation">Creation</h1>
-<p><code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code>ScriptableObject</code>, meaning that you create them as assets for your scripts to reference. In this case, you can create them by Right Clicking in the Project window and using the <code>Create/Animancer/Directional Animation Set/...</code> menu functions:</p>
+<p><code>DirectionalAnimationSet</code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code>ScriptableObject</code>, meaning that you create them as assets for your scripts to reference. In this case, you can create them by Right Clicking in the Project window and using the <code>Create/Animancer/Directional Animation Set/...</code> menu functions:</p>
 <table class="table">
 <thead>
 <tr>
@@ -464,29 +492,29 @@
 <tbody>
 <tr>
 <td><code>4&nbsp;Directions</code></td>
-<td>Create an empty <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>.</td>
+<td>Create an empty <code>DirectionalAnimationSet</code>.</td>
 </tr>
 <tr>
 <td><code>8&nbsp;Directions</code></td>
-<td>Create an empty <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>.</td>
+<td>Create an empty <code>DirectionalAnimationSet8</code>.</td>
 </tr>
 <tr>
 <td><code>From&nbsp;Selection</code></td>
-<td>Select some <code>AnimationClip</code>s then use this function to create either a <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> or <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> which references those animations. This requires the animation names to be identical except for the words "<em>Up</em>", "<em>Right</em>", "<em>Down</em>", and "<em>Left</em>".</td>
+<td>Select some <code>AnimationClip</code>s then use this function to create either a <code>DirectionalAnimationSet</code> or <code>DirectionalAnimationSet8</code> which references those animations. This requires the animation names to be identical except for the words "<em>Up</em>", "<em>Right</em>", "<em>Down</em>", and "<em>Left</em>".</td>
 </tr>
 </tbody>
 </table>
 <p>Once you have created a set, you can assign animations to each of its fields manually or use its <code>Find Animations</code> context menu function to automatically assign animations with the same name (varying only by direction) in the same folder. For example, the video below shows a set called <em>Mage-Idle</em> which finds the animations called <em>Mage-IdleUp</em>, <em>Mage-IdleRight</em>, <em>Mage-IdleDown</em>, and <em>Mage-IdleLeft</em></p>
 <p><img src="find-animations.gif" class="img-responsive"></p>
-<p>Also note that <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s are not limited to only <code>Sprite</code> animations. For example, the <a href="../../../examples/locomotion/directional-blending">Directional Blending</a> example originally used a set to reference its movement animations before <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a> were implemented.</p>
+<p>Also note that <code>DirectionalAnimationSet</code>s are not limited to only <code>Sprite</code> animations. For example, the <a href="../../../examples/locomotion/directional-blending">Directional Blending</a> example originally used a set to reference its movement animations before <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a> were implemented.</p>
 <h1 id="usage">Usage</h1>
-<p>Using <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s in your scripts is very easy:</p>
+<p>Using <code>DirectionalAnimationSet</code>s in your scripts is very easy:</p>
 <ol>
 <li>Declare a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a>:</li>
 </ol>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Idles;
+<pre><code class="language-cs">[SerializeField] private DirectionalAnimationSet _Idles;
 </code></pre>
-<p>That gives you an Inspector field where you can assign any <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> asset. Since <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v6/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, you can assign either type of set to such a field without changing the script.</p>
+<p>That gives you an Inspector field where you can assign any <code>DirectionalAnimationSet</code> asset. Since <code>DirectionalAnimationSet8</code> <a href="../../../introduction/cs/inheritance">Inherits</a> from <code>DirectionalAnimationSet</code>, you can assign either type of set to such a field without changing the script.</p>
 <ol start="2">
 <li>Determine the direction you want from the set:</li>
 </ol>
@@ -502,8 +530,8 @@ var direction = DirectionalAnimationSet8.Direction.UpRight;
 <ol start="3">
 <li>Get the <code>AnimationClip</code> for that direction from the set and <code>Play</code> it normally:</li>
 </ol>
-<pre><code class="language-cs">// Assuming you also have a reference to an <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> somewhere:
-// [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+<pre><code class="language-cs">// Assuming you also have a reference to an AnimancerComponent somewhere:
+// [SerializeField] private AnimancerComponent _Animancer;
 
 var clip = _Idles.GetClip(direction);
 _Animancer.Play(clip);

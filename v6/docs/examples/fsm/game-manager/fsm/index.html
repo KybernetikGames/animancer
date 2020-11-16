@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/v6/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/v6/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Animator Controllers</title>
+        <title>Animancer - FSM</title>
         <link href="/animancer/v6/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/v6/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/v6/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -76,12 +76,15 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#usage">Usage</a></p>
-<p><a href="#manual-creation">Manual Creation</a></p>
-<p><a href="#parameter-controller-states">Parameter Controller States</a></p>
-<p><a href="#controller-state-generator">Controller State Generator</a></p>
-<p><a href="#generating-transitions">Generating Transitions</a></p>
-<p><a href="#the-animator-controller-field">The Animator Controller Field</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#main-script">Main Script</a></p>
+<p><a href="#partial-classes">Partial Classes</a></p>
+<p><a href="#base-state">Base State</a></p>
+<p><a href="#display-text">Display Text</a></p>
+<p><a href="#introduction-state">Introduction State</a></p>
+<p><a href="#ready-state">Ready State</a></p>
+<p><a href="#action-state">Action State</a></p>
+<p><a href="#fade-state">Fade State</a></p>
+<p><a href="#next">Next</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -103,11 +106,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -130,7 +152,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/v6/docs/examples">Examples</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -187,11 +209,20 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview active">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li class="selected"><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -256,7 +287,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/v6/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -309,7 +340,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/v6/docs/manual/fsm">Finite State Machines</a></li>
-                <li class="selected"><a href="/animancer/v6/docs/manual/animator-controllers">Animator Controllers</a></li>
+                <li><a href="/animancer/v6/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/v6/docs/manual/timeline">Timeline</a></li>
                 <li><a href="/animancer/v6/docs/manual/ik">Inverse Kinematics</a></li>
                 <li class="treeview">
@@ -420,188 +451,402 @@
 
 
 		<section class="content-header">
-			<h1>Animator Controllers</h1>
+			<h1>FSM</h1>
 		</section>
 	<section class="content">
-		<p><em>This is a <a href="../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
-<p>Animancer does not require the use of Animator Controllers, but it does allow you to use them if you want to via the <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> class (and its children). This means that instead of putting everything a character needs in one massive Animator Controller like you would in Mecanim, you have several other options for structuring your project which are demonstrated in various examples:</p>
-<table class="table">
-<thead>
-<tr>
-<th>Example</th>
-<th>Demonstrates</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../examples/basics/hybrid">Hybrid&nbsp;Basics</a></td>
-<td>How you can use a main Animator Controller for some tasks and individual separate <code>AnimationClips</code> for others.</td>
-</tr>
-<tr>
-<td><a href="../examples/animator-controllers/hybrid">Hybrid&nbsp;Mini&nbsp;Game</a></td>
-<td>A more complex form of the same thing as <a href="../examples/basics/hybrid">Hybrid&nbsp;Basics</a>.</td>
-</tr>
-<tr>
-<td><a href="../examples/locomotion/linear-blending">Linear&nbsp;Blending</a></td>
-<td>Compares the use of a Blend Tree inside an Animator Controller with the use of a <a href="blending/mixers">Mixer</a>.</td>
-</tr>
-<tr>
-<td><a href="../examples/animator-controllers/3d-game-kit">3D&nbsp;Game&nbsp;Kit</a></td>
-<td>How you can utilise multiple single purpose Animator Controllers alongside separate <code>AnimationClip</code>s, simply choosing whichever is more appripriate for each given task.</td>
-</tr>
-</tbody>
-</table>
-<h1 id="usage">Usage</h1>
-<p><code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code>s are usually set up in the Inspector using <a href="transitions/types#controller-transitions">Controller Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
-<p><img src="transitions/types/controller.png" class="img-responsive"></p>
-<p>Without Animancer, when using an Animator Controller you would access it via various methods on the <code>Animator</code> component such as <code>Play</code>, <code>CrossFade</code>, <code>GetCurrentAnimatorStateInfo</code>, and get/set for all parameter types. But when using a <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code>, you instead need to access it via the <code><a href="/animancer/v6/api/Animancer/ControllerState/199AFDE3">ControllerState.Playable</a></code>:</p>
-<pre><code class="language-cs">void ControllerStateExample(ControllerState state)
+		<blockquote class="blockquote">
+<p>This page is part of the <a href="../">Game Manager</a> example.</p>
+</blockquote>
+<p>This page explains how to implement the exact same mechanics as the <a href="../enum">Game Manager Enum</a> using Animancer's <a href="../../../../manual/fsm">Finite State Machine</a> system.</p>
+<h1 id="main-script">Main Script</h1>
+<p>Where the enum-based system stuck everything in one big script, this time we are using several smaller scripts.</p>
+<p></p><details><summary>The <code>GameManagerFSM</code> script contains the state machine and main references that are used by multiple states, but the rest of the fields from the <code>GameManagerEnum</code> script are instead contained in the scripts for the states where they are actually relevant:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using Animancer.FSM;
+using UnityEngine;
+using UnityEngine.UI;
+
+public sealed partial class GameManagerFSM : MonoBehaviour
 {
-    // Play the "Idle" state:
-    state.Playable.Play("Idle");
+    public static GameManagerFSM Instance { get; private set; }
 
-    // Transition to the "Walk" state over 0.25 seconds:
-    state.Playable.CrossFade("Walk", 0.25f);
+    [SerializeField] private Transform _Camera;
+    [SerializeField] private Text _Text;
+    [SerializeField] private Events.GolfHitController _Golfer;
 
-    // Set the "MoveSpeed" parameter:
-    state.Playable.SetFloat("MoveSpeed", 0.5f);
+    private StateMachine&lt;State&gt; _StateMachine;
 
-    // Set the "Attack" trigger:
-    state.Playable.SetTrigger("Attack");
-}
-</code></pre>
-<p>A <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> has a default <code>Controller</code> field and various methods to access its <code>Playable</code> more easily.</p>
-<p>If you are using a <code><a href="/animancer/v6/api/Animancer/Transition">ControllerState.Transition</a></code> you will need to access its playable via its state, i.e. <code>transition.State.Playable...</code>. Note that the <code><a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> will only be created the first time the transition is passed into the <code>AnimancerComponent.Play</code> method, so you will get a <code>NullReferenceException</code> if you attempt to use it before that.</p>
-<h1 id="manual-creation">Manual Creation</h1>
-<p>If you do not want to use a <a href="../transitions/types#controller-transitions">Controller Transition</a>, you can create one yourself using code:</p>
-<ol>
-<li>Create a <code>new <a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code>. All constructors require you to provide a <code>RuntimeAnimatorController</code> reference.</li>
-<li>Store a reference to that state in a field and/or set its <a href="playing/states#keys">Key</a> to register it in the internal dictionary. The <code>RuntimeAnimatorController</code> itself or its <code>name</code> would make an acceptable key.</li>
-<li>Play that state either by passing it into <code>AnimancerComponent.Play</code> if you have a reference to it or using the key you registered it with.</li>
-</ol>
-<h1 id="parameter-controller-states">Parameter Controller States</h1>
-<p>Animancer includes several classes which inherit from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> to wrap specific parameters of the <code>AnimatorController</code> in C# properties:</p>
-<ul>
-<li><code><a href="/animancer/v6/api/Animancer/Float1ControllerState">Float1ControllerState</a></code></li>
-<li><code><a href="/animancer/v6/api/Animancer/Float2ControllerState">Float2ControllerState</a></code></li>
-<li><code><a href="/animancer/v6/api/Animancer/Float3ControllerState">Float3ControllerState</a></code></li>
-</ul>
-<p>Using them is very similar to the base class, but you also specify which parameter(s) you want to target in the constructor and can then get and set those parameters via their <code>Parameter</code> properties.</p>
-<ul>
-<li>This has the added benefit of verifying that the parameter actually exists on startup to make it easier to detect bugs.</li>
-<li>Using their <a href="transitions/types#controller-transitions">Transitions</a> gives you a helpful dropdown menu in the Inspector for selecting the parameter name(s) instead of hard-coding them as <a href="../introduction/mecanim-vs-animancer/why#magic-strings">Magic Strings</a>. The <a href="../examples/locomotion/linear-blending#parameter-controller">Linear Blending</a> example demonstrates the use of a <code><a href="/animancer/v6/api/Animancer/Transition">Float1ControllerState.Transition</a></code>.</li>
-<li>You can easily make your own copies of the scripts containing these classes if you want to adapt them for other parameter types and purposes or you can use the <a href="#controller-state-generator">Controller State Generator</a> to create a dedicated class for a specific Animator Controller.</li>
-</ul>
-<h1 id="controller-state-generator">Controller State Generator</h1>
-<p><a href="/weaver">Weaver</a> is another Unity Plugin developed by Kybernetik which contains a system for procedurally generating C# scripts (among many other features). It can procedurally generate a class for Animancer which inherits from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> and contains properties for directly accessing the parameters of a specific Animator Controller asset.</p>
-<ol>
-<li>Download <a href="https://assetstore.unity.com/packages/tools/utilities/weaver-lite-60305?aid=1100l8ah5">Weaver Lite</a> or <a href="https://assetstore.unity.com/packages/tools/utilities/weaver-pro-60304?aid=1100l8ah5">Weaver Pro</a>.</li>
-<li>Select the Animator Controller asset you want to generate a class for.</li>
-<li>Open the context menu via the cog icon in the top right of the Inspector and execute the <code>Generate Controller <a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> function.</li>
-<li>Choose where to save the generated script.</li>
-</ol>
-<p></p><details><summary>Here is the class it would generate if you used that function on the <em>Basic Locomotion</em> Animator Controller from the <a href="../examples/basics/hybrid">Hybrid Basics</a> example:</summary><p>
-</p><pre><code class="language-cs">#pragma warning disable // All.
-
-/// &lt;summary&gt;An &lt;see cref="Animancer.ControllerState"/&gt; for the 'Basic Locomotion' Animator Controller.&lt;/summary&gt;
-public sealed class BasicLocomotionState : Animancer.ControllerState
-{
-    #region Hash Constants
-
-    /// &lt;summary&gt;Idle&lt;/summary&gt;
-    public const int IdleHash = 2081823275;
-
-    /// &lt;summary&gt;Walk&lt;/summary&gt;
-    public const int WalkHash = 765711723;
-
-    /// &lt;summary&gt;Run&lt;/summary&gt;
-    public const int RunHash = 1748754976;
-
-    /// &lt;summary&gt;IsWalking&lt;/summary&gt;
-    public const int IsWalkingHash = 1282839668;
-
-    #endregion
-
-    #region Parameter Wrappers
-
-    /// &lt;summary&gt;Creates a new &lt;see cref="BasicLocomotionState"/&gt;.&lt;/summary&gt;
-    public BasicLocomotionState(UnityEngine.RuntimeAnimatorController controller, bool keepStateOnStop = false)
-        : base(controller, keepStateOnStop)
+    private void Awake()
     {
-#if UNITY_EDITOR
-        new Animancer.ControllerState.ParameterID("IsWalking", IsWalkingHash).ValidateHasParameter(controller, UnityEngine.AnimatorControllerParameterType.Bool);
-#endif
+        Debug.Assert(Instance == null, $"The {nameof(GameManagerFSM)}.{nameof(Instance)} is already assigned.");
+        Instance = this;
+
+        _StateMachine = new StateMachine&lt;State&gt;(_Introduction);
+
+        if (FindObjectOfType&lt;GameManagerEnum&gt;() != null)
+            Debug.LogError(
+                $"Both the {nameof(GameManagerEnum)} and {nameof(GameManagerFSM)} are active. Exit Play Mode and disable one of them.");
     }
 
-    /// &lt;summary&gt;The value of the 'IsWalking' parameter in the Animator Controller.&lt;/summary&gt;
-    public bool IsWalking
+    private void Update()
     {
-        get =&gt; Playable.GetBool(IsWalkingHash);
-        set =&gt; Playable.SetBool(IsWalkingHash, value);
+        _StateMachine.CurrentState.Update();
     }
-
-    /// &lt;summary&gt;ParameterCount&lt;/summary&gt;
-    public override int ParameterCount
-    {
-        get =&gt; 1;
-    }
-
-    /// &lt;summary&gt;GetParameterHash&lt;/summary&gt;
-    public override int GetParameterHash(int index)
-    {
-        switch (index)
-        {
-            case 0: return IsWalkingHash;// IsWalking.
-            default: throw new System.ArgumentOutOfRangeException(nameof(index));
-        }
-    }
-
-    #endregion
-
-    #region Transition
-
-    /// &lt;summary&gt;A serializable &lt;see cref="Animancer.ITransition"/&gt; which can create a &lt;see cref="BasicLocomotionState"/&gt; when passed into &lt;see cref="Animancer.AnimancerPlayable.Play(Animancer.ITransition)"/&gt;.&lt;/summary&gt;
-    [System.SerializableAttribute]
-    public new class Transition : Transition&lt;BasicLocomotionState&gt;
-    {
-        /// &lt;summary&gt;Creates and returns a new &lt;see cref="BasicLocomotionState"/&gt;.&lt;/summary&gt;
-        public override BasicLocomotionState CreateState() =&gt; <a href="/animancer/v6/api/Animancer.FSM/State">State</a> = new BasicLocomotionState(Controller, KeepStateOnStop);
-
-#if UNITY_EDITOR
-
-        /// &lt;summary&gt;[Editor-Only] Draws the Inspector GUI for a &lt;see cref="Transition"/&gt;.&lt;/summary&gt;
-        [UnityEditor.CustomPropertyDrawer(typeof(Transition), true)]
-        public new class Drawer : Animancer.ControllerState.Transition.Drawer
-        {
-        }
-
-#endif
-    }
-
-    #endregion
 }
 </code></pre>
 <p></p></details><p></p>
-<p>The source code of the generator script is located at <em>Assets/Plugins/Weaver/Procedural Assets/Animations/ControllerStateGenerator.cs</em>.</p>
-<h1 id="generating-transitions">Generating Transitions</h1>
-<p>If you have an Animator Controller which you want to replace with Animancer, you can select any of its states and use the cog icon in the top right of the Inspector to execute the <code>Generate Transition</code> function which will create Animancer <a href="transitions/types#transition-assets">Transition Assets</a> for each of those states:</p>
+<h2 id="singleton">Singleton</h2>
+<p>Since we are using multiple scripts, we will need them to be able to access each other somehow. This example simplifies a few things, but even in a real game you would likely only ever have one <em>Game Manager</em> at a time so we are using a very basic singleton consisting of a <code>static</code> Read-Only <a href="../../../../introduction/cs/methods#auto-properties">Auto Property</a>:</p>
+<pre><code class="language-cs">public static GameManagerFSM Instance { get; private set; }
+</code></pre>
+<p>Which we can validate and assign in <code>Awake</code>:</p>
+<pre><code class="language-cs">    private void Awake()
+    {
+        Debug.Assert(Instance == null, $"The {nameof(GameManagerFSM)}.{nameof(Instance)} is already assigned.");
+        Instance = this;
+        ...
+</code></pre>
+<p>The <a href="../../../basics/sequence-coroutine#assertions">Sequence Coroutine</a> example has a quick explanation of <code>Debug.Assert</code>.</p>
+<p>If we didn't want to use a singleton, another approach would be to give our <a href="#base-state">Base State</a> class an <code>Initialise</code> method which we call on each state in <code>Awake</code> to pass <code>this</code> <code>GameManagerFSM</code> into the state so they can all access the shared fields like the <code>_Camera</code> and <code>_Text</code>.</p>
+<h2 id="serialized-fields">Serialized Fields</h2>
+<p>This script only has fields which are used by multiple states:</p>
+<pre><code class="language-cs">[SerializeField] private Transform _Camera;
+[SerializeField] private Text _Text;
+[SerializeField] private Events.GolfHitController _Golfer;
+</code></pre>
+<p>All the other <a href="../enum#serialized-fields">Serialized Fields from the enum-based implementation</a> are instead located in the states that actually use each of them.</p>
+<p><img src="inspector.png" class="img-responsive"></p>
+<h2 id="state-machine">State Machine</h2>
+<p>The state machine itself is just a field (non-serialized):</p>
+<pre><code class="language-cs">private StateMachine&lt;State&gt; _StateMachine;
+</code></pre>
+<p>Which we initialise in <code>Awake</code> to start in the <code>_Introduction</code> state:</p>
+<pre><code class="language-cs">private void Awake()
+{
+    ...
+    _StateMachine = new StateMachine&lt;State&gt;(_Introduction);
+    ...
+}
+</code></pre>
+<p>And <code>Update</code> the <code>CurrentState</code> every frame:</p>
+<pre><code class="language-cs">private void Update()
+{
+    _StateMachine.CurrentState.Update();
+}
+</code></pre>
+<p>The <a href="#base-state">Base State</a> section explains all that in more detail.</p>
+<h2 id="usage-warning">Usage Warning</h2>
+<p>With two implementations of the same thing in this example, we want to make sure that only one is active at a time. So the <code>GameManagerFSM</code> can just call <code>FindObjectOfType&lt;GameManagerEnum&gt;()</code> and log an error if it finds the other system:</p>
+<pre><code class="language-cs">private void Awake()
+{
+    ...
+
+    if (FindObjectOfType&lt;GameManagerEnum&gt;() != null)
+        Debug.LogError(
+            $"Both the {nameof(GameManagerEnum)} and {nameof(GameManagerFSM)} are active. Exit Play Mode and disable one o them.");
+}
+</code></pre>
+<p>The other system can still be in the scene as long as it is deactivated because <code>FindObjectOfType</code> doesn't find inactive objects.</p>
+<h1 id="partial-classes">Partial Classes</h1>
+<p>You might be wondering how that script can actually be used for anything since all its members (except the singleton <code>Instance</code>) are <code>private</code> and it doesn't seem to do much on its own. The answer is a combination of <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods">Partial Classes</a> and <a href="../../../../introduction/cs/organisation#nested-types">Nested Types</a>.</p>
+<p>If you look at the class declaration, you can see that it has the <code>partial</code> keyword:</p>
+<pre><code class="language-cs">public sealed partial class GameManagerFSM : MonoBehaviour
+</code></pre>
+<p>This means that you can have other scripts in your project which declare the same <code>partial</code> class and they will all get compiled into a single class and function as if everything were in a single script (as long as all the parts are under the same <a href="https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefinitionFiles.html">Assembly Definition</a>). For example, the <code>GameManagerFSM.IntroductionState</code> script contains the following:</p>
+<pre><code class="language-cs">// No need to repeat the details like public, sealed, or the inheritance from MonoBehaviour:
+partial class GameManagerFSM
+{
+    // Add the state as another serialized field to the GameManagerFSM class:
+    [SerializeField] private IntroductionState _Introduction;
+
+    // And declare the state as a nested class inside GameManagerFSM:
+    [Serializable]
+    public sealed class IntroductionState : State
+    {
+        [SerializeField] private float _OrbitSpeed = 45;
+        [SerializeField] private float _OrbitRadius = 3;
+
+        ...
+    }
+}
+</code></pre>
+<p>So with all the states declared as <a href="https://docs.unity3d.com/ScriptReference/Serializable.html">Serializable</a> classes and adding their own fields to the <code>GameManagerFSM</code>, we end up with a system that still only consists of a single component attached to an object in the scene, but this time the Inspector fields are automatically organised into groups according to what they are actually used for:</p>
+<p><img src="inspector.png" class="img-responsive"></p>
+<p>And since all those fields are part of the same class, the <code>Awake</code> method in the <code>GameManagerFSM.cs</code> script can initialise the state machine to start in the <code>_Introduction</code> state:</p>
+<pre><code class="language-cs">private void Awake()
+{
+    ...
+    _StateMachine = new StateMachine&lt;State&gt;(_Introduction);
+    ...
+}
+</code></pre>
+<h1 id="base-state">Base State</h1>
+<p>The first step for <a href="../../../manual/fsm#basic-usage">Basic Usage</a> of the system is to make a base state class which implements the <code>IState</code> <a href="../introduction/cs/inheritance#interfaces">Interface</a> (or <a href="../introduction/cs/inheritance">Inherits</a> from something that implements it such as <code>State</code> or <code>StateBehaviour</code>). If we implemented <code>IState</code> directly we would need to declare all 4 of its members ourselves, but since the only one that will actually have common functionality between all states is <code>OnEnterState</code>, we are instead making our <code>State</code> class inherit from <code>FSM.State</code> which just implements that interface with empty <code>virtual</code> methods so we only need to <code>override</code> the ones we want:</p>
+<pre><code class="language-cs">partial class GameManagerFSM
+{
+    public abstract class State : FSM.State
+    {
+        ...
+
+        public override void OnEnterState()
+        {
+            ...
+        }
+
+        ...
+</code></pre>
+<h2 id="updates">Updates</h2>
+<p>As mentioned in the <a href="../../../manual/fsm#design-rationale">Design Rationale</a> section, Animancer's state machine does not do anything on its own so it doesn't have an <code>Update</code> or <code>Tick</code> method like many other systems. Instead, it is a generic system which allows you to define your own <code>Update</code> method if you need one.</p>
+<p>That means we can utilise <a href="../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> by giving our base <code>State</code> class a <code>virtual</code> <code>Update</code> method (or it could be <code>abstract</code>, see the <a href="../../../introduction/cs/inheritance#keywords">Inheritance Keywords</a> section for more information):</p>
+<pre><code class="language-cs">        public virtual void Update() { }
+</code></pre>
+<p>Then any state that wants to do something every frame can simply <code>override</code> that method.</p>
+<p>And since the <code>StateMachine</code> we declared back in the main <code>GameManagerFSM</code> script uses this <code>State</code> class as its generic state type:</p>
+<pre><code class="language-cs">public sealed partial class GameManagerFSM : MonoBehaviour
+{
+   private StateMachine&lt;State&gt; _StateMachine;
+</code></pre>
+<p>That allows its <code>Update</code> method (which will be automatically called by Unity since it's a <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.html">MonoBehaviour Message</a>) to call the <code>CurrentState</code>'s <code>Update</code> method every frame:</p>
+<pre><code class="language-cs">private void Update()
+{
+    _StateMachine.CurrentState.Update();
+}
+</code></pre>
+<p>The state's <code>Update</code> method won't get automatically called by Unity because the <code>State</code> class doesn't inherit from <code>MonoBehaviour</code>. All of the other <a href="../../">State Machines</a> examples have their base state classes inherit from <code>StateBehaviour</code> (which inherits from <code>MonoBehaviour</code>) because it's usually so much more convenient to have Unity automatically call whatever update methods a particular state has. That way one state might have an <code>Update</code> method and another might have a <code>FixedUpdate</code> method without you needing to set up your state machine to call all of the supported methods.</p>
+<h1 id="display-text">Display Text</h1>
+<p>Instead of having each individual state call make its own call to <code>_Text.gameObject.SetActive(...);</code> and set the <code>_Text.text</code>, we can utilise <a href="../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again just like with the <code>Update</code> method.</p>
+<p>We start with a <code>virtual</code> property to define the state's <code>DisplayText</code> which will return <code>null</code> unless overridden by a state:</p>
+<pre><code class="language-cs">partial class GameManagerFSM
+{
+    public abstract class State : FSM.State
+    {
+        public virtual string DisplayText =&gt; null;
+</code></pre>
+<p>Then we can <code>override</code> the <code>OnEnterState</code> method we inherited from <code>FSM.State</code>:</p>
+<pre><code class="language-cs">        public override void OnEnterState()
+        {
+            base.OnEnterState();
+</code></pre>
+<p>The <code>OnEnterState</code> method in <code>FSM.State</code> is <code>virtual</code>, meaning that it contains its own implementation (where <code>abstract</code> means the base class has no implementation for it and every child class must <code>override</code> it). In this case, that base implementation is just an empty method so calling <code>base.OnEnterState();</code> will simply do nothing, but in other cases you will need to decide whether you want to replace the base implementation entirely or add other operations before and/or after it.</p>
+<p>To use that property we simply get its value:</p>
 <ul>
-<li>A regular state will create a <code><a href="/animancer/v6/api/Animancer/ClipTransition">ClipTransition</a></code>.</li>
-<li>A Blend Tree will create an equivalent <a href="blending/mixers">Mixer State</a> depending on its Blend Type according to the <a href="blending/mixers/#choosing-a-mixer">Choosing a Mixer</a> table.</li>
+<li>If it is not null then we want to show the <code>_Text</code> component (which we access through the <a href="#singleton">Singleton</a> <code>Instance</code>) and assign the string that we got from the property.</li>
+<li>Or if it is null (because whatever state this is didn't <code>override</code> it to return something else) then we just want to hide the <code>_Text</code> component.</li>
 </ul>
-<h1 id="the-animator-controller-field">The Animator Controller Field</h1>
-<p>The <code>Animator</code> component has a <code>Controller</code> field in the Inspector where you would normally assign the Animator Controller asset you want it to use. Since that system does not work nicely with the Playables API that Animancer uses, adding an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to an object will automatically clear that <code>Controller</code> field. If you assign something to that field afterwards, Animancer will not clear it again because it is actually possible to use it alongside Animancer with a few limitations:</p>
+<pre><code class="language-cs">            var displayText = DisplayText;
+            if (displayText != null)
+            {
+                Instance._Text.gameObject.SetActive(true);
+                Instance._Text.text = displayText;
+            }
+            else
+            {
+                Instance._Text.gameObject.SetActive(false);
+            }
+        }
+</code></pre>
+<h1 id="introduction-state">Introduction State</h1>
+<p></p><details><summary>The <code>GameManagerFSM.IntroductionState</code> script contains the equivalent of the <a href="../enum#introduction-state">Introduction State</a> from the enum-based system:</summary><p>
+</p><pre><code class="language-cs">partial class GameManagerFSM
+{
+    [SerializeField] private IntroductionState _Introduction;
+
+    [Serializable]
+    public sealed class IntroductionState : State
+    {
+        [SerializeField] private float _OrbitSpeed = 45;
+        [SerializeField] private float _OrbitRadius = 3;
+
+        public override string DisplayText =&gt; "Welcome to the Game Manager example\nClick to start playing";
+
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+            Instance._Golfer.EndSwing();
+        }
+
+        public override void Update()
+        {
+            var camera = Instance._Camera;
+
+            var euler = camera.eulerAngles;
+            euler.y += _OrbitSpeed * Time.deltaTime;
+            camera.eulerAngles = euler;
+
+            var lookAt = Instance._Golfer.transform.position;
+            lookAt.y += 1;
+            camera.position = lookAt - camera.forward * _OrbitRadius;
+
+            if (Input.GetMouseButtonUp(0))
+                Instance._StateMachine.TrySetState(Instance._Ready);
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
 <ul>
-<li>The Animator Controller will always be executed in the background even when its output is being completely overridden, which may be wasting performance.</li>
-<li>If the conditions listed below are met then you can blend between the Animator Controller and Animancer by directly setting the <code>Weight</code> property on individual <a href="blending/layers">Layers</a> or calling <code>StartFade</code> on them to <a href="blending/fading">Fade</a> fade between them over time.
+<li>Where the <code>_IntroductionOrbitSpeed</code> and <code>_IntroductionOrbitRadius</code> <a href="../enum#serialized-fields">Fields</a> from the enum-based system needed long names to make it clear what they are used for, here we can give them shorter names (<code>_OrbitSpeed</code> and <code>_OrbitRadius</code>) because we already know they are inside the <code>IntroductionState</code>.</li>
+<li>This <code>OnEnterState</code> method is a lot simpler than the <code>Introduction</code> case from the enum-based system because the <code>_Text</code> is already handled by the base <code>State</code> class and the <code>_FadeImage</code> is fully managed by the <a href="#fade-state">Fade State</a>.
 <ul>
-<li>Otherwise if the conditions are not met then the Animator Controller will take effect with all Animancer layers at 0 <code>Weight</code> but Animancer will completely override it at any other <code>Weight</code>.</li>
-<li>You must be using Unity 2019.1+.</li>
-<li>You must be using a Generic Rig, not Humanoid (Bug Report 1251106).</li>
-<li>You must be using multiple <a href="blending/layers">Layers</a> (Bug Report 1159548). But if not then you can simply call <code>animancer.Layers.RespectSingleLayerWeight();</code> to work around this issue.</li>
+<li>Also note that where our base <code>State</code> class <code>override</code>s the <code>OnEnterState</code> method it inherits from <code>FSM.State</code> and it doesn't matter if that <code>override</code> calls <code>base.OnEnterState();</code> because that base method is empty (as explained back in the <a href="#display-text">Display Text</a> section), this time when we <code>override</code> that method we definitely do want to call the base implementation because that's where we update the <a href="#display-text">Display Text</a>.</li>
+</ul>
+</li>
+<li>The <code>Update</code> method is basically the same but instead of changing to the <code>Ready</code> state by setting the <code>CurrentState</code> property, this time we call <code>Instance._StateMachine.TrySetState(Instance._Ready);</code>.
+<ul>
+<li>It's called <em><strong>Try</strong>SetState</em> becase it will only try to change to the specified state. All state changes are allowed in this example, but the <a href="../../interrupts">Interrupt Management</a> example explains how states can prevent the state machine from changing <em>to</em> them or changing away <em>from</em> them depending on the situation.</li>
 </ul>
 </li>
 </ul>
+<p><img src="../enum/introduction.gif" class="img-responsive"></p>
+<h1 id="ready-state">Ready State</h1>
+<p></p><details><summary>The <code>GameManagerFSM.ReadyState</code> script contains the equivalent of the <a href="../enum#ready-state">Ready State</a> from the enum-based system:</summary><p>
+</p><pre><code class="language-cs">using System;
+using UnityEngine;
+
+partial class GameManagerFSM
+{
+    [SerializeField] private ReadyState _Ready;
+
+    public sealed class ReadyState : State
+    {
+        [SerializeField] private Vector3 _CameraPosition;
+        [SerializeField] private Vector3 _CameraRotation;
+
+        public override string DisplayText =&gt; "Click to hit the ball";
+
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+            ResetCamera();
+            Instance._Golfer.enabled = true;
+        }
+
+        public void ResetCamera()
+        {
+            Instance._Camera.position = _CameraPosition;
+            Instance._Camera.eulerAngles = _CameraRotation;
+        }
+
+        public override void Update()
+        {
+            if (Instance._Golfer.CurrentState != Events.GolfHitController.State.Ready)
+                Instance._StateMachine.TrySetState(Instance._Action);
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p>This state has similar differences from the enum-based system as the <a href="#introduction-state">Introduction State</a> and has also moved the code to reset the camera into a separate <code>public</code> method from <code>OnEnterState</code> so that the <a href="#fade-state">Fade State</a> will be able to call it.</p>
+<p><img src="../enum/ready.png" class="img-responsive"></p>
+<h1 id="action-state">Action State</h1>
+<p></p><details><summary>The <code>GameManagerFSM.ActionState</code> script contains the equivalent of the <a href="../enum#action-state">Action State</a> from the enum-based system:</summary><p>
+</p><pre><code class="language-cs">using System;
+using Unity
+
+partial class GameManagerFSM
+{
+    [SerializeField] private ActionState _Action;
+
+    [Serializable]
+    public sealed class ActionState : State
+    {
+        [SerializeField] private float _CameraTurnSpeedFactor = 5;
+        [SerializeField] private Rigidbody _Ball;
+
+        public override string DisplayText
+            =&gt; $"Wait for the ball to stop\nCurrent Speed: {Instance._Ball.velocity.magnitude:0.00}m/s";
+
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+            Instance._Golfer.enabled = false;
+        }
+
+        public override void Update()
+        {
+            var ball = Instance._Ball;
+            var camera = Instance._Camera;
+            var targetRotation = Quaternion.LookRotation(ball.position - camera.position);
+            camera.rotation = Quaternion.Slerp(camera.rotation, targetRotation, _CameraTurnSpeedFactor * Time.deltaTime);
+
+            Instance._Text.text = DisplayText;
+
+            if (Instance._Golfer.CurrentState == Events.GolfHitController.State.Idle &amp;&amp;
+                ball.IsSleeping())
+                Instance._StateMachine.TrySetState(Instance._Fade);
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p>Similar stuff again there.</p>
+<p><img src="../enum/action.gif" class="img-responsive"></p>
+<h1 id="fade-state">Fade State</h1>
+<p></p><details><summary>The <code>GameManagerFSM.FadeState</code> script contains the equivalent of both the <a href="../enum#fade-out-state">Fade Out State</a> and <a href="../enum#fade-in-state">Fade In State</a> from the enum-based system:</summary><p>
+</p><pre><code class="language-cs">using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+partial class GameManagerFSM
+{
+    [SerializeField] private FadeState _Fade;
+
+    [Serializable]
+    public sealed class FadeState : State
+    {
+        [SerializeField] private Image _Image;
+        [SerializeField] private float _Speed = 2;
+
+        private bool _IsFadingOut;
+
+        public override void OnEnterState()
+        {
+            base.OnEnterState();
+            _Image.gameObject.SetActive(true);
+            _Image.color = new Color(0, 0, 0, 0);
+            _IsFadingOut = true;
+        }
+
+        public override void Update()
+        {
+            var targetAlpha = _IsFadingOut ? 1 : 0;
+
+            var color = _Image.color;
+            color.a = Mathf.MoveTowards(color.a, targetAlpha, _Speed * Time.deltaTime);
+            _Image.color = color;
+
+            if (color.a == targetAlpha)
+            {
+                if (_IsFadingOut)
+                {
+                    Instance._Ready.ResetCamera();
+                    Instance._Golfer.ReturnToReady();
+                    _IsFadingOut = false;
+                }
+                else
+                {
+                    Instance._StateMachine.TrySetState(Instance._Ready);
+                }
+            }
+        }
+
+        public override void OnExitState()
+        {
+            base.OnExitState();
+            _Image.gameObject.SetActive(false);
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<ul>
+<li>Where the enum-based system used two states (<code>FadeOut</code> and <code>FadeIn</code>), this time we are just using one <code>FadeState</code> for both with an <code>_IsFadingOut</code> field to remember which part we are at. That lets us avoid writing almost identical code multiple times.</li>
+<li>Where the enum-based system made all states set the <code>_FadeImage</code> to active or inactive because we didn't bother implementing an <code>OnExitState</code> method, here we can just <code>override</code> the <code>OnExitState</code> method that we already inherited from the base <code>FSM.State</code> so we can disable the <code>_Image</code> to avoid needing other states to worry about things that have nothing to do with them.</li>
+<li>This state has no <a href="#display-text">Display Text</a> so it doesn't bother overriding the <code>DisplayText</code> property.</li>
+</ul>
+<p><img src="fade.gif" class="img-responsive"></p>
+<h1 id="next">Next</h1>
+<p>The <a href="../comparison">Comparison</a> page gives a more general explanation of the differences between this approach and the enum-based approach.</p>
 
 	</section>
                 

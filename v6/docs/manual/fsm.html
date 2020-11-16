@@ -105,11 +105,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -193,7 +212,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -428,12 +456,12 @@
 		<h1 id="what-is-a-finite-state-machine">What is a Finite State Machine?</h1>
 <p>A Finite State Machine (often abbreviated as "<em>State Machine</em>" or "<em>FSM</em>") is a system which manages the current state of an object and the other states it can be in. For example, a treasure chest can either be open or closed; that's only two states so you might not bother setting up a full FSM for something that simple. But a character often has many states such as <em>idle</em>, <em>walk</em>, <em>run</em>, <em>jump</em>, <em>fall</em>, <em>attack</em>, and so on, therefore a FSM will often be a good choice for managing that behaviour.</p>
 <h1 id="overview">Overview</h1>
-<p>Many of the <a href="../introduction/mecanim-vs-animancer/why">problems with Unity's Animator Controller system</a> come from the fact that it is both an animation system and a state machine system combined, which limits its usefulness for either task. Animancer includes a general purpose FSM system which is entirely separate from the animation system and is flexible enough for most needs, but the systems are not tied to each other in any way so you can use one without the other if you want to.</p>
+<p>Many of the <a href="../introduction/mecanim-vs-animancer/why">problems with Unity's Animator Controller system</a> come from the fact that it is both an animation system and a state machine system combined, which limits its usefulness for either task. Animancer includes a general purpose FSM system which is flexible enough for most needs, but the systems are not tied to each other in any way so you can use one without the other if you want to.</p>
 <p>The system is located in the <a href="../../api/Animancer.FSM"><code>Animancer.FSM</code></a> namespace with its source scripts in the <em>Assets/Plugins/Animancer/Utilities/State Machine</em> folder (its full source code is included in both Animancer Lite and Pro).</p>
 <h2 id="basic-usage">Basic Usage</h2>
 <ol>
-<li>Make a base state class which implements the <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code> <a href="../introduction/cs/inheritance#interfaces">Interface</a>.</li>
-<li>Make a <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> field (where <code>TState</code> is the class you just made).</li>
+<li>Make a base state class which implements the <code>IState</code> <a href="../introduction/cs/inheritance#interfaces">Interface</a> (or <a href="../introduction/cs/inheritance">Inherits</a> from something that implements it such as <code>State</code> or <code>StateBehaviour</code>).</li>
+<li>Make a <code>StateMachine&lt;TState&gt;</code> field (where <code>TState</code> is the class you just made).</li>
 <li>Initialise that field with a <code>new StateMachine&lt;TState&gt;(startingState)</code>.</li>
 <li>Change the current state by calling <code>stateMachine.TrySetState(nextState)</code>.</li>
 <li>Access the current state using its <code>CurrentState</code> property.</li>
@@ -449,7 +477,7 @@
 <pre><code class="language-cs">using Animancer.FSM;
 using UnityEngine;
 
-public sealed class LoggerState : <a href="/animancer/v6/api/Animancer.FSM/IState">IState</a>
+public sealed class LoggerState : IState
 {
     public readonly string Name;
 
@@ -526,12 +554,12 @@ public sealed class StateMachineExample : MonoBehaviour
 </thead>
 <tbody>
 <tr>
-<td><code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code></td>
+<td><code>IState</code></td>
 <td>An interface with two properties (<code>CanEnterState</code> and <code>CanExitState</code>) that determine whether a particular state change will be allowed and two methods (<code>OnEnterState</code> and <code>OnExitState</code>) which notify the state when such a change occurs.</td>
 </tr>
 <tr>
-<td><code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code></td>
-<td>Basically just a reference to an <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code> with methods for accessing it and trying to change the state according to the properties in that interface.</td>
+<td><code>StateMachine&lt;TState&gt;</code></td>
+<td>Basically just a reference to an <code>IState</code> with methods for accessing it and trying to change the state according to the properties in that interface.</td>
 </tr>
 </tbody>
 </table>
@@ -572,20 +600,20 @@ public sealed class StateMachineExample : MonoBehaviour
 <h2 id="state-change-details">State Change Details</h2>
 <p>While a <code>StateMachine</code> is changing its state (throughout all of the <code>Can...</code> and <code>On...</code> methods), references to the previous and next state can be accessed in several ways:</p>
 <ul>
-<li>The static <code><a href="/animancer/v6/api/Animancer.FSM/StateChange_1/E42BA615">StateChange&lt;TState&gt;.PreviousState</a></code> and <code>NextState</code> properties can be accessed from anywhere.</li>
+<li>The static <code>StateChange&lt;TState&gt;.PreviousState</code> and <code>NextState</code> properties can be accessed from anywhere.</li>
 <li>If you have a reference to the <code>StateMachine</code> you can use its properties of the same name (i.e. <code>stateMachine.PreviousState</code>) to avoid needing to specify the <code>TState</code> generic argument.</li>
-<li>Inside a class that implements <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> defined in the <code><a href="/animancer/v6/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class.</li>
+<li>Inside a class that implements <code>IState</code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> defined in the <code>StateExtensions</code> class.</li>
 </ul>
 <p>All of those properties will return null if no state change is currently occurring.</p>
 <h2 id="examples">Examples</h2>
 <ul>
 <li>You cannot <code>Jump</code> if you are not on the ground so <code>Jump.CanEnterState</code> checks whether the character is on the ground (or asks whatever system is responsible for checking that).</li>
 <li>You cannot perform other actions during an <code>Attack</code> so <code>Attack.CanExitState</code> returns false.</li>
-<li><code>Attack</code>s can be interrupted if you get hit or killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code><a href="/animancer/v6/api/Animancer.FSM/StateChange_1/C03C45F6">StateChange&lt;TState&gt;.NextState</a></code> is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the priority of each state or type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some creatures but not others) yet they all use the same <code>CreatureAction.Attack</code> as their type. The <a href="../examples/fsm/interrupts">Interrupt Management</a> example goes into more detail about this.</li>
+<li><code>Attack</code>s can be interrupted if you get hit or killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code>StateChange&lt;TState&gt;.NextState</code> is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the priority of each state or type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some creatures but not others) yet they all use the same <code>CreatureAction.Attack</code> as their type. The <a href="../examples/fsm/interrupts">Interrupt Management</a> example goes into more detail about this.</li>
 <li>Once the <code>Attack</code> animation finishes, it needs to be able to return to <code>Idle</code>. This could be done by having <code>Attack.CanExitState</code> check the current animation time as well, but since the <code>Attack</code> state already knows it is ending and <code>Idle</code> is unlikely to impose any constraints on when it can be entered you could simply use <code>ForceSetState</code> to skip the check.</li>
 </ul>
 <h1 id="base-state-types">Base State Types</h1>
-<p>The only requirement for a class to be used as a state in this system is to implement <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code>, which means that states can be anything you want: <code>MonoBehaviour</code> components attached to a scene object or prefab, <code>ScriptableObject</code> assets in the project, or just regular C# classes. But rather than implementing the entire interface from scratch every time, there are several base classes that can make your implementation simpler:</p>
+<p>The only requirement for a class to be used as a state in this system is to implement <code>IState</code>, which means that states can be anything you want: <code>MonoBehaviour</code> components attached to a scene object or prefab, <code>ScriptableObject</code> assets in the project, or just regular C# classes. But rather than implementing the entire interface from scratch every time, there are several base classes that can make your implementation simpler:</p>
 <table class="table">
 <thead>
 <tr>
@@ -595,21 +623,21 @@ public sealed class StateMachineExample : MonoBehaviour
 </thead>
 <tbody>
 <tr>
-<td><code><a href="/animancer/v6/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code></td>
-<td><p><a href="../introduction/cs/inheritance">Inherits</a> from <code>MonoBehaviour</code> and implements <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code> to act as the base class for states that are attached as components on <code>GameObject</code>s. Its <code>OnEnterState</code> and <code>OnExitState</code> methods enable and disable itself respectively, allowing you to use the regular <a href="../introduction/cs/inheritance#monobehaviours">MonoBehaviour Messages</a> like <code>OnEnable</code> and <code>OnDisable</code> to implement your state transition logic, as well as other messages like <code>Update</code> or <code>FixedUpdate</code> depending on the needs of each individual state.</p>All of the <a href="../examples/fsm">State Machines</a> examples after <a href="../examples/fsm/game-manager">Game Manager</a> use State Behaviours.</td>
+<td><code>StateBehaviour</code></td>
+<td><p><a href="../introduction/cs/inheritance">Inherits</a> from <code>MonoBehaviour</code> and implements <code>IState</code> to act as the base class for states that are attached as components on <code>GameObject</code>s. Its <code>OnEnterState</code> and <code>OnExitState</code> methods enable and disable itself respectively, allowing you to use the regular <a href="../introduction/cs/inheritance#monobehaviours">MonoBehaviour Messages</a> like <code>OnEnable</code> and <code>OnDisable</code> to implement your state transition logic, as well as other messages like <code>Update</code> or <code>FixedUpdate</code> depending on the needs of each individual state.</p>All of the <a href="../examples/fsm">State Machines</a> examples after <a href="../examples/fsm/game-manager">Game Manager</a> use State Behaviours.</td>
 </tr>
 <tr>
-<td><code><a href="/animancer/v6/api/Animancer.FSM/State">State</a></code></td>
-<td><p>A basically empty class which implements <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code> using <code>virtual</code> members (the <code>Can...</code> properties return <code>true</code> and the <code>On...</code> methods do nothing) so that when you <a href="../introduction/cs/inheritance">Inherit</a> from it you only need to <code>override</code> the members you actually want to use.</p>The <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/State">GameManagerFSM.State</a></code> class from the <a href="../examples/fsm/game-manager">Game Manager</a> example inherits from this <code><a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> since the only member it actually needs to <code>override</code> is <code>OnEnterState</code>.</td>
+<td><code>State</code></td>
+<td><p>A basically empty class which implements <code>IState</code> using <code>virtual</code> members (the <code>Can...</code> properties return <code>true</code> and the <code>On...</code> methods do nothing) so that when you <a href="../introduction/cs/inheritance">Inherit</a> from it you only need to <code>override</code> the members you actually want to use.</p>The <code>GameManagerFSM.State</code> class from the <a href="../examples/fsm/game-manager">Game Manager</a> example inherits from this <code>State</code> since the only member it actually needs to <code>override</code> is <code>OnEnterState</code>.</td>
 </tr>
 <tr>
-<td><code><a href="/animancer/v6/api/Animancer.FSM/DelegateState">DelegateState</a></code></td>
-<td>Implements <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code>, but rather than defining its own logic it simply has a <a href="../introduction/cs/methods#delegates">Delegate</a> for each of the members of the interface so you can assign them when creating the state.</td>
+<td><code>DelegateState</code></td>
+<td>Implements <code>IState</code>, but rather than defining its own logic it simply has a <a href="../introduction/cs/methods#delegates">Delegate</a> for each of the members of the interface so you can assign them when creating the state.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="owned-states">Owned States</h2>
-<p></p><details><summary>States do not need a reference to the <code>StateMachine</code> they are used in for the system to function, however this makes them slightly less convenient to use so if your state type implements <code>IOwnedState<tstate></tstate></code> (which inherits from <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code>) then you can use the <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> in the <code><a href="/animancer/v6/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class with your states. For example:</summary><p>
+<p></p><details><summary>States do not need a reference to the <code>StateMachine</code> they are used in for the system to function, however this makes them slightly less convenient to use so if your state type implements <code>IOwnedState<tstate></tstate></code> (which inherits from <code>IState</code>) then you can use the <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> in the <code>StateExtensions</code> class with your states. For example:</summary><p>
 </p><pre><code class="language-cs">public abstract class CreatureState : StateBehaviour, IOwnedState&lt;CreatureState&gt;
 {
     [SerializeField]
@@ -673,13 +701,13 @@ public class CreatureBrain : MonoBehaviour
 <p>There are actually two <code>StateMachine</code> classes in this system:</p>
 <table class="table">
   <thead>
-    <tr><th style="width:50%">Keyless <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code></th>
-    <th style="width:50%">Keyed <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_2">StateMachine&lt;TKey, TState&gt;</a></code></th>
+    <tr><th style="width:50%">Keyless <code>StateMachine&lt;TState&gt;</code></th>
+    <th style="width:50%">Keyed <code>StateMachine&lt;TKey, TState&gt;</code></th>
   </tr></thead>
   <tbody>
     <tr>
       <td>Contains only a single reference to the <code>CurrentState</code> and requires you to provide a reference to any other state you try to enter.</td>
-      <td><a href="../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> and adds a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> which allows you to register states with their own keys so that you can later enter those states by providing their key without needing an actual reference to the state itself.</td>
+      <td><a href="../introduction/cs/inheritance">Inherits</a> from <code>StateMachine&lt;TState&gt;</code> and adds a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> which allows you to register states with their own keys so that you can later enter those states by providing their key without needing an actual reference to the state itself.</td>
     </tr>
     <tr>
       <td>Easy to create, extend, and debug. When you create a new state you only need to write the code that tries to enter it rather than also needing to make a key for it and modifying the initialisation code to initialise it with all the other states.</td>
@@ -690,12 +718,12 @@ public class CreatureBrain : MonoBehaviour
 <pre><code class="language-cs">public class Creature : MonoBehaviour
 {
   [SerializeField]
-  private <a href="/animancer/v6/api/Animancer.FSM/State">State</a> _Idle;
+  private State _Idle;
 
   // Need public access to the state.
-  public <a href="/animancer/v6/api/Animancer.FSM/State">State</a> Idle =&gt; _Idle;
+  public State Idle =&gt; _Idle;
 
-  public StateMachine&lt;<a href="/animancer/v6/api/Animancer.FSM/State">State</a>&gt;
+  public StateMachine&lt;State&gt;
     FSM { get; private set; }
 
   private void Awake()
@@ -703,7 +731,7 @@ public class CreatureBrain : MonoBehaviour
     // Initialise with the starting state.
     // It doesn't know about any other
     // states until they are used.
-    FSM = new StateMachine&lt;<a href="/animancer/v6/api/Animancer.FSM/State">State</a>&gt;(_Idle);
+    FSM = new StateMachine&lt;State&gt;(_Idle);
   }
 }
 
@@ -736,18 +764,18 @@ public class SomethingElse
 <pre><code class="language-cs">public class Creature : MonoBehaviour
 {
   [SerializeField]
-  private <a href="/animancer/v6/api/Animancer.FSM/State">State</a> _Idle;
+  private State _Idle;
 
   // No accessor needed with these keys.
-  public enum <a href="/animancer/v6/api/Animancer/Key">Key</a> { Idle, Walk }
+  public enum Key { Idle, Walk }
 
-  public StateMachine&lt;Key, <a href="/animancer/v6/api/Animancer.FSM/State">State</a>&gt;
+  public StateMachine&lt;Key, State&gt;
     FSM { get; private set; }
 
   private void Awake()
   {
     // Initialise the StateMachine.
-    FSM = new StateMachine&lt;Key, <a href="/animancer/v6/api/Animancer.FSM/State">State</a>&gt;();
+    FSM = new StateMachine&lt;Key, State&gt;();
 
     // Register the states with their key.
     // More can be registered later,
@@ -781,32 +809,32 @@ public class SomethingElse
     </tr>
   </tbody>
 </table>
-<p>The <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_2">StateMachine&lt;TKey, TState&gt;</a></code> class also has its own <a href="#input-buffers">Input Buffer</a> class and <code><a href="/animancer/v6/api/Animancer.FSM/KeyChange_1">KeyChange&lt;TKey&gt;</a></code> system for <a href="#state-change-details">State Changes</a>.</p>
+<p>The <code>StateMachine&lt;TKey, TState&gt;</code> class also has its own <a href="#input-buffers">Input Buffer</a> class and <code>KeyChange&lt;TKey&gt;</code> system for <a href="#state-change-details">State Changes</a>.</p>
 <h1 id="input-buffers">Input Buffers</h1>
 <p>Rather than simply attempting a state change and giving up if it isn't allowed, it is often desirable to keep trying for a short time. For example, if the player is attacking and they press the attack button again, you probably want the current animation to finish first and then start the next attack in a combo as long as the input didn't occur too long ago. Note that "input" in this case does not only mean "button presses from the player", it can be used for any sort of events that might try to control a state machine (such as AI).</p>
-<p>The <code><a href="/animancer/v6/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> class allows you to easily implement this sort of buffering:</p>
+<p>The <code>StateMachine&lt;TState&gt;.InputBuffer</code> class allows you to easily implement this sort of buffering:</p>
 <ol>
-<li>Construct a <code>new <a href="/animancer/v6/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> by passing in the target state machine.</li>
+<li>Construct a <code>new StateMachine&lt;TState&gt;.InputBuffer</code> by passing in the target state machine.</li>
 <li>Whenever you would normally call <code>TrySetState</code> on the state machine, call it on the buffer instead so that you can specify the desired <code>timeOut</code> duration.</li>
 <li>Call <code>Update</code> on the buffer every frame to have it try to enter the buffered state again (if there is one).</li>
 </ol>
 <p>The <a href="../examples/fsm/weapons#attack-input">Weapons</a> example demonstrates how to use it.</p>
 <p>This system only buffers a single state at a time. If the player presses the attack button while they are already attacking then presses the block button before the first attack ends, it will only execute the block rather than performing the entire second attack before blocking. This assumes the latest command is the only one that matters, which is often good for things like player input, but might not be best for all situations. If you want to ensure that all commands are executed in order, you could make a similar class (perhaps called <code>InputSequenceBuffer</code>) which manages a list of states instead of only a single <code>BufferedState</code>.</p>
 <h1 id="state-selectors">State Selectors</h1>
-<p>The <code><a href="/animancer/v6/api/Animancer.FSM/StateSelector">StateMachine&lt;TState&gt;.StateSelector</a></code> class provides an easy way to manage a prioritised list of potential states:</p>
+<p>The <code>StateMachine&lt;TState&gt;.StateSelector</code> class provides an easy way to manage a prioritised list of potential states:</p>
 <ol>
-<li>Construct a <code>new <a href="/animancer/v6/api/Animancer.FSM/StateSelector">StateMachine&lt;TState&gt;.StateSelector</a></code> by passing in the target state machine.</li>
+<li>Construct a <code>new StateMachine&lt;TState&gt;.StateSelector</code> by passing in the target state machine.</li>
 <li>Add states to the selector by calling its <code>Add</code> method, which requires you to give them each a priority value. If multiple states have the same priority, the most recently added will be treated as a higher priority.</li>
-<li>After you have added all the potential states you want it to choose from, call <code>TrySetState</code>, <code>TryResetState</code>, or <code>ForceSetState</code> to have it try to enter each of the states using the corresponding <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> method.</li>
+<li>After you have added all the potential states you want it to choose from, call <code>TrySetState</code>, <code>TryResetState</code>, or <code>ForceSetState</code> to have it try to enter each of the states using the corresponding <code>StateMachine&lt;TState&gt;</code> method.</li>
 <li>It attempts to enter each state you have added in order of priority (highest first).</li>
 <li>If it successfully enters a state, the selector is cleared.</li>
 </ol>
-<p>If you want to define the priority of a state as part of the state class itself (rather than as a second parameter every time you call the <code>Add</code> method), you can implement the <code><a href="/animancer/v6/api/Animancer.FSM/IPrioritizable">IPrioritizable</a></code> interface. The <code><a href="/animancer/v6/api/Animancer.FSM/IPrioritizable/3B395430">IPrioritizable.Priority</a></code> is usually implemented as an <code>abstract</code> or <code>virtual</code> property in your base state class so that each state can <code>override</code> it with their own priority.</p>
+<p>If you want to define the priority of a state as part of the state class itself (rather than as a second parameter every time you call the <code>Add</code> method), you can implement the <code>IPrioritizable</code> interface. The <code>IPrioritizable.Priority</code> is usually implemented as an <code>abstract</code> or <code>virtual</code> property in your base state class so that each state can <code>override</code> it with their own priority.</p>
 <h1 id="design-rationale">Design Rationale</h1>
 <p>The <code>Animancer.FSM</code> was designed to achieve the following goals:</p>
 <ul>
 <li><strong>Efficient</strong>: the system does no more than necessary to enforce the state change rules so it has very good performance.</li>
-<li><strong>Simple</strong>: <code><a href="/animancer/v6/api/Animancer.FSM/IState">IState</a></code> only has the bare minimum of members required for an FSM so you don't need to implement unneeded functions in basic scenarios and <code><a href="/animancer/v6/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> lets you manage states on-demand rather than pre-registering them all with their own <a href="#keys">Keys</a>.</li>
+<li><strong>Simple</strong>: <code>IState</code> only has the bare minimum of members required for an FSM so you don't need to implement unneeded functions in basic scenarios and <code>StateMachine&lt;TState&gt;</code> lets you manage states on-demand rather than pre-registering them all with their own <a href="#keys">Keys</a>.</li>
 <li><strong>Generic</strong>: you define your own base state type to suit your needs. For example, it does not automatically give every state an <code>Update</code> function, but if you put one in your base state type you will be able to call <code>stateMachine.CurrentState.Update()</code> as necessary. Or if you use <a href="#state-behaviours">State Behaviours</a> you can use the regular <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour">MonoBehaviour Messages</a> like <code>Update</code> and <code>FixedUpdate</code>.</li>
 <li><strong>Flexible</strong>: states can be anything: <code>MonoBehaviour</code> components, <code>ScriptableObject</code>s, or regular C# classes.</li>
 <li><strong>Open</strong>: the source code is included in both Animancer Lite and Pro so you can easily debug logic issues (one of the main <a href="../introduction/mecanim-vs-animancer/why">Problems with Animator Controllers</a> is that it's impossible to effectively debug their internal logic).</li>

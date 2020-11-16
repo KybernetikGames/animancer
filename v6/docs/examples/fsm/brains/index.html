@@ -105,11 +105,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -193,7 +212,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li class="selected"><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -443,8 +471,8 @@ using UnityEngine;
 public sealed class Creature : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+    private AnimancerComponent _Animancer;
+    public AnimancerComponent Animancer =&gt; _Animancer;
 
     [SerializeField]
     private CreatureState _Idle;
@@ -492,8 +520,7 @@ public abstract class CreatureBrain : MonoBehaviour
 using Animancer.FSM;
 using UnityEngine;
 
-public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
-    IOwnedState&lt;CreatureState&gt;
+public abstract class CreatureState : StateBehaviour, IOwnedState&lt;CreatureState&gt;
 {
 </code></pre>
 <p>We need a <code>public Creature Creature</code> property to allow other scripts to access the <code>private</code> serialized <code>_Creature</code>. We could make it <code>protected</code> to only allow inheriting scripts to access it, but that would also allow those scripts to set it accidentally and there is no reason why other scripts should not be able to check which creature owns a state:</p>
@@ -522,7 +549,7 @@ public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
     }
 #endif
 </code></pre>
-<p>Since every state has a reference to the creature that owns it, we can implement the <code>IOwnedState&lt;CreatureState&gt;</code> interface and give it a property to get its <code>OwnerStateMachine</code> so that we can use the various extension methods in the <code><a href="/animancer/v6/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class when working with these states. This means we will be able to call <code>Creature.Idle.TryEnterState()</code> instead of <code>Creature.StateMachine.TryEnterState(Creature.Idle)</code>. Both would do the same thing, but this is a bit shorter (see <a href="../../../manual/fsm#owned-states">Owned States</a> for more details).</p>
+<p>Since every state has a reference to the creature that owns it, we can implement the <code>IOwnedState&lt;CreatureState&gt;</code> interface and give it a property to get its <code>OwnerStateMachine</code> so that we can use the various extension methods in the <code>StateExtensions</code> class when working with these states. This means we will be able to call <code>Creature.Idle.TryEnterState()</code> instead of <code>Creature.StateMachine.TryEnterState(Creature.Idle)</code>. Both would do the same thing, but this is a bit shorter (see <a href="../../../manual/fsm#owned-states">Owned States</a> for more details).</p>
 <pre><code class="language-cs">    public StateMachine&lt;CreatureState&gt; OwnerStateMachine =&gt; _Creature.StateMachine;
 }
 </code></pre>
@@ -532,8 +559,7 @@ public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
 using Animancer.FSM;
 using UnityEngine;
 
-public abstract class CreatureState : StateBehaviour&lt;CreatureState&gt;,
-    IOwnedState&lt;CreatureState&gt;
+public abstract class CreatureState : StateBehaviour, IOwnedState&lt;CreatureState&gt;
 {
     [SerializeField]
     private Creature _Creature;
@@ -662,7 +688,7 @@ public sealed class LocomotionState : CreatureState
     [SerializeField] private AnimationClip _Run;
 }
 </code></pre>
-<p>Then in <code>Update</code> we want to play those animations and keep them synchronised exactly like the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWalkAndRun">IdleAndWalkAndRun</a></code> script in the <a href="../../locomotion/walk-and-run#synchronising-the-transition">Walk and Run</a> example, with two changes:</p>
+<p>Then in <code>Update</code> we want to play those animations and keep them synchronised exactly like the <code>IdleAndWalkAndRun</code> script in the <a href="../../locomotion/walk-and-run#synchronising-the-transition">Walk and Run</a> example, with two changes:</p>
 <ul>
 <li>We now check the <code>Creature.Brain.IsRunning</code> instead of directly checking <code>Input.GetButton("Fire3")</code> so that this script does not actually care why it is running, it just does whatever the brain wants. The brain manages input and this script only manages locomotion.</li>
 <li>We can also slow down the animation if the brain wants to walk even slower by using the <code>Creature.Brain.MovementDirection.magnitude</code> to set the <code>AnimancerState.Speed</code> of both animations.</li>
@@ -696,7 +722,7 @@ public sealed class LocomotionState : CreatureState
 }
 </code></pre>
 <h2 id="turning">Turning</h2>
-<p>So far the state can <em>Walk</em> and <em>Run</em> in one direction but cannot turn. Some games use additional animations to make the turning look more natural (such as leaning over if you turn while running) or the <a href="../../animator-controllers/3d-game-kit/locomotion/turning">Quick Turn</a> animations used in the <a href="../../animator-controllers/3d-game-kit">3D Game Kit</a> example, but for this example we are just going to rotate the model around the Y axis. We also want to do this in <code>Update</code>, so first we should split out the method we just wrote to keep the script organised:</p>
+<p>So far the state can <em>Walk</em> and <em>Run</em> in one direction but can't turn. Some games use additional animations to make the turning look more natural (such as leaning over if you turn while running) or the <a href="../../animator-controllers/3d-game-kit/locomotion/turning">Quick Turn</a> animations used in the <a href="../../animator-controllers/3d-game-kit">3D Game Kit</a> example, but for this example we are just going to rotate the model around the Y axis. We also want to do this in <code>Update</code>, so first we should split out the method we just wrote to keep the script organised:</p>
 <pre><code class="language-cs">private void Update()
 {
     UpdateAnimation();
@@ -821,7 +847,7 @@ public sealed class LocomotionState : CreatureState
 <h1 id="keyboard-brain">Keyboard Brain</h1>
 <p>We now have the components for a simple creature that can stand still and walk or run around, we just need a script to actually control it so it's time to implement a brain.</p>
 <p>The only standard state a <code>Creature</code> has is <code>Idle</code>. Since we want this brain to determine how it moves we start with a reference to the locomotion state:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a> : CreatureBrain
+<pre><code class="language-cs">public sealed class KeyboardBrain : CreatureBrain
 {
     [SerializeField] private CreatureState _Locomotion;
 </code></pre>
@@ -859,11 +885,11 @@ right.Normalize();
 <pre><code class="language-cs">IsRunning = Input.GetButton("Fire3");//Left Shift by default.
 </code></pre>
 <p>And lastly, we should clear the <code>Movement</code> vector when we return to <em>Idle</em> using <code>Movement = Vector3.zero;</code>.</p>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code> script looks like this</summary><p>
+<p></p><details><summary>The full <code>KeyboardBrain</code> script looks like this</summary><p>
 </p><pre><code class="language-cs">using Animancer.FSM;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a> : CreatureBrain
+public sealed class KeyboardBrain : CreatureBrain
 {
     [SerializeField] private CreatureState _Locomotion;
 
@@ -918,13 +944,13 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.
 <p><img src="creature-setup.gif" class="img-responsive"></p>
 <ol start="7">
 <li>Drag the <em>DefaultHumanoid</em> model (from <em>Assets/Plugins/Animancer/Examples/Art/Default Humanoid</em>) into the Hierarchy as a child of the <em>Creature</em> and make sure its position is at <code>(0, 0, 0)</code>.</li>
-<li>Add an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to the model and disable <code>Apply Root Motion</code>.</li>
+<li>Add an <code>AnimancerComponent</code> to the model and disable <code>Apply Root Motion</code>.</li>
 <li>Create another empty game object as a child of the <em>Creature</em> and rename it to "Brain".</li>
-<li>Add a <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code> and <code>LocomotionState</code> and assign their references.</li>
+<li>Add a <code>KeyboardBrain</code> and <code>LocomotionState</code> and assign their references.</li>
 <li>Go back to the root <em>Creature</em> and assign the <code>Brain</code> and <code>Animancer</code> references.</li>
 </ol>
 <p><img src="brain-setup.gif" class="img-responsive"></p>
-<p>Now we can enter Play Mode to see the character moving around in response to keyboard input and thanks to the <code><a href="/animancer/v6/api/Animancer.Examples/OrbitControls">OrbitControls</a></code> script on the camera we can Right Click and drag to rotate the camera to see that the controls always move the character relative to the camera:</p>
+<p>Now we can enter Play Mode to see the character moving around in response to keyboard input and thanks to the <code>OrbitControls</code> script on the camera we can Right Click and drag to rotate the camera to see that the controls always move the character relative to the camera:</p>
 <p><img src="keyboard-brain.gif" class="img-responsive"></p>
 
 	</section>

@@ -103,11 +103,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -191,7 +210,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -429,27 +457,27 @@
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.FineControl"><code>Animancer.Examples.FineControl</code></a></p>
 </blockquote>
 <p>This example demonstrates how you can make a robot that can wake up to move then go back to sleep by playing its awake animation backwards. The <a href="../../locomotion/directional-blending">Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to move in any direction.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/v6/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code>AnimancerState.NormalizedTime</code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
 <p>This example is implemented as two scripts which utilise <a href="../../../introduction/cs/inheritance">Inheritance</a>:</p>
-<p></p><details><summary>The base <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> script is an <code>abstract</code> class, meaning that it cannot be directly added to an object:</summary><p>
+<p></p><details><summary>The base <code>SpiderBot</code> script is an <code>abstract</code> class, meaning that it cannot be directly added to an object:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public abstract class <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a> : MonoBehaviour
+public abstract class SpiderBot : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+    private AnimancerComponent _Animancer;
+    public AnimancerComponent Animancer =&gt; _Animancer;
 
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _WakeUp;
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Sleep;
+    [SerializeField] private ClipState.Transition _WakeUp;
+    [SerializeField] private ClipState.Transition _Sleep;
 
     private bool _WasMoving;
 
     protected abstract bool IsMoving { get; }
 
-    protected abstract <a href="/animancer/v6/api/Animancer/ITransition">ITransition</a> MovementAnimation { get; }
+    protected abstract ITransition MovementAnimation { get; }
 
     protected virtual void Awake()
     {
@@ -489,21 +517,21 @@ public abstract class <a href="/animancer/v6/api/Animancer.Examples.FineControl/
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> script inherits from <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> to implement a simple movement animation which can be activated by pressing the <code>Space</code> key:</summary><p>
+<p></p><details><summary>The <code>SpiderBotSimple</code> script inherits from <code>SpiderBot</code> to implement a simple movement animation which can be activated by pressing the <code>Space</code> key:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a> : <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
+public sealed class SpiderBotSimple : SpiderBot
 {
     protected override bool IsMoving =&gt; Input.GetKey(KeyCode.Space);
 
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Move;
+    [SerializeField] private ClipState.Transition _Move;
 
-    protected override <a href="/animancer/v6/api/Animancer/ITransition">ITransition</a> MovementAnimation =&gt; _Move;
+    protected override ITransition MovementAnimation =&gt; _Move;
 }
 </code></pre>
 <p></p></details><p></p>
-<p>This setup allows the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> script in the <a href="../../locomotion/directional-blending">Directional Blending</a> example to also <a href="../../../introduction/cs/inheritance">Inherit</a> the same functionality from <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> while implementing a more complex movement system that allows it to move in any direction.</p>
+<p>This setup allows the <code>SpiderBotAdvanced</code> script in the <a href="../../locomotion/directional-blending">Directional Blending</a> example to also <a href="../../../introduction/cs/inheritance">Inherit</a> the same functionality from <code>SpiderBot</code> while implementing a more complex movement system that allows it to move in any direction.</p>
 <h1 id="fields">Fields</h1>
 <p>For this example we are going to use the same <code>AnimationClip</code> for both waking up and going back to sleep by simply playing it forwards or backwards as necessary. We could do that with a single <code>AnimationClip</code> <a href="../../../introduction/cs/variables#fields">Field</a>) and then hard code the <code>Speed</code> in our script, but then the script would only be usable for this specific situation. Instead, we use <a href="../../../manual/transitions">Transition</a> fields for each animation so that we <em>can</em> set their <code>Speed</code> in the Inspector and the script does not actually care whether they use the same animation or not.</p>
 <table class="table">
@@ -514,22 +542,22 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.FineControl/Sp
   <tbody>
     <tr>
       <td>
-<pre><code class="language-cs">class <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a> : MonoBehaviour
+<pre><code class="language-cs">class SpiderBot : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
     
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _WakeUp;
+    private ClipState.Transition _WakeUp;
     
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Sleep;
+    private ClipState.Transition _Sleep;
 }
 
-class <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a> : <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
+class SpiderBotSimple : SpiderBot
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Move;
+    private ClipState.Transition _Move;
 }
 </code></pre>
 <p>Note how the negative <code>Speed</code> in the <code>Sleep</code> field causes the <code>Start Time</code> to default to 1x (because its toggle is disabled), <code>End Time</code> to 0x, and the highlighted fade area in the timeline is displayed backwards (fading in from 1x then fading out below 0x). See the <a href="../../../manual/transitions#fields">Transitions</a> page for more details about those fields.</p>
@@ -538,42 +566,42 @@ class <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple"
     </tr>
   </tbody>
 </table>
-<p>This script is also used by the <a href="../../locomotion/directional-blending">Directional Blending</a> example which will need to access the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> so we expose a public read-only property for it using an <a href="../../../introduction/cs/methods#expression-bodied-members">Expression Body</a>:</p>
-<pre><code class="language-cs">public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+<p>This script is also used by the <a href="../../locomotion/directional-blending">Directional Blending</a> example which will need to access the <code>AnimancerComponent</code> so we expose a public read-only property for it using an <a href="../../../introduction/cs/methods#expression-bodied-members">Expression Body</a>:</p>
+<pre><code class="language-cs">public AnimancerComponent Animancer =&gt; _Animancer;
 </code></pre>
 <h1 id="abstraction">Abstraction</h1>
-<p>We want this example and <a href="../../locomotion/directional-blending">Directional Blending</a> to share the same logic for waking up and going back to sleep so that is what the base <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> class is for, but it needs to support two entirely different methods of movement:</p>
+<p>We want this example and <a href="../../locomotion/directional-blending">Directional Blending</a> to share the same logic for waking up and going back to sleep so that is what the base <code>SpiderBot</code> class is for, but it needs to support two entirely different methods of movement:</p>
 <ul>
-<li><code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> in this example just wants to play a single movement animation when you hold the <code>Space</code> key.</li>
-<li><code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> in the <a href="../../locomotion/directional-blending">Directional Blending</a> example wants to blend between multiple movement animations to allow movement in any direction to follow the mouse cursor around.</li>
+<li><code>SpiderBotSimple</code> in this example just wants to play a single movement animation when you hold the <code>Space</code> key.</li>
+<li><code>SpiderBotAdvanced</code> in the <a href="../../locomotion/directional-blending">Directional Blending</a> example wants to blend between multiple movement animations to allow movement in any direction to follow the mouse cursor around.</li>
 </ul>
-<p>That means that there are two things that <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> does not know directly but needs access to:</p>
+<p>That means that there are two things that <code>SpiderBot</code> does not know directly but needs access to:</p>
 <ol>
 <li>Whether or not it should be currently moving.</li>
 <li>What animation it should use when moving.</li>
 </ol>
-<p>This can very easily be done by giving <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> some <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> properties:</p>
+<p>This can very easily be done by giving <code>SpiderBot</code> some <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> properties:</p>
 <pre><code class="language-cs">protected abstract bool IsMoving { get; }
-protected abstract <a href="/animancer/v6/api/Animancer/ITransition">ITransition</a> MovementAnimation { get; }
+protected abstract ITransition MovementAnimation { get; }
 </code></pre>
 <ul>
-<li><a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a> because we only want <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> and any classes that <a href="../../../introduction/cs/inheritance">Inherit</a> from it to have access to these properties, but not other classes.</li>
+<li><a href="../../../introduction/cs/organisation#access-modifiers"><code>protected</code></a> because we only want <code>SpiderBot</code> and any classes that <a href="../../../introduction/cs/inheritance">Inherit</a> from it to have access to these properties, but not other classes.</li>
 <li><a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> because we do not want to actually define what they do in this class (note the empty <code>{ get; }</code>). Instead, we want to <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> their behaviour in each derived class:</li>
 </ul>
-<pre><code class="language-cs">// Inherit from <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a> instead of MonoBehaviour.
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a> : <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
+<pre><code class="language-cs">// Inherit from SpiderBot instead of MonoBehaviour.
+public sealed class SpiderBotSimple : SpiderBot
 {
     // Override the IsMoving property to return true whenever the Space key is held.
     protected override bool IsMoving =&gt; Input.GetKey(KeyCode.Space);
 
     // Add a transition field for the movement animation.
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Move;
+    [SerializeField] private ClipState.Transition _Move;
 
-    protected override <a href="/animancer/v6/api/Animancer/ITransition">ITransition</a> MovementAnimation =&gt; _Move;
+    protected override ITransition MovementAnimation =&gt; _Move;
 }
 </code></pre>
 <h1 id="initialisation">Initialisation</h1>
-<p>In <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> we want to make sure we start at the beginning of the <code>_WakeUp</code> animation, but we do not actually want to do anything yet so we play it, then immediately call <code>Evaluate</code> to apply it to the model then pause the graph:</p>
+<p>In <code>SpiderBot</code> we want to make sure we start at the beginning of the <code>_WakeUp</code> animation, but we do not actually want to do anything yet so we play it, then immediately call <code>Evaluate</code> to apply it to the model then pause the graph:</p>
 <pre><code class="language-cs">protected virtual void Awake()
 {
     _Animancer.Play(_WakeUp);
@@ -586,9 +614,9 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.FineControl/Sp
     _Sleep.Events.OnEnd = _Animancer.Playable.PauseGraph;
 }
 </code></pre>
-<p>Note that this method is <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> because <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> needs to add its own input code. An <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> member (property or method) does not have an implementation in the base class (<code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code>) so it must always be overridden in every child class while a <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> member does have a base implementation so child classes can optionally <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> it and optionally call <code>base.Awake()</code> if they want to use the base implementation as well.</p>
+<p>Note that this method is <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> because <code>SpiderBotAdvanced</code> needs to add its own input code. An <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> member (property or method) does not have an implementation in the base class (<code>SpiderBot</code>) so it must always be overridden in every child class while a <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> member does have a base implementation so child classes can optionally <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> it and optionally call <code>base.Awake()</code> if they want to use the base implementation as well.</p>
 <h1 id="input">Input</h1>
-<p>The <code>IsMoving</code> property allows the base <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> script to determine if it should be moving without being hard coded to check for a particular input method since <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> and <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> each use entirely different inputs. So each frame we simply check that property and make sure it is different from what we were already doing (so we do not try to wak up repeatedly):</p>
+<p>The <code>IsMoving</code> property allows the base <code>SpiderBot</code> script to determine if it should be moving without being hard coded to check for a particular input method since <code>SpiderBotSimple</code> and <code>SpiderBotAdvanced</code> each use entirely different inputs. So each frame we simply check that property and make sure it is different from what we were already doing (so we do not try to wak up repeatedly):</p>
 <pre><code class="language-cs">private bool _WasMoving;
 
 protected virtual void Update()

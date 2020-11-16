@@ -105,11 +105,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -193,7 +212,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -493,13 +521,13 @@
 <p><img src="club-skew.gif" class="img-responsive"></p>
 <p><img src="great-sword-skew.png" class="img-responsive"></p>
 <h1 id="attack-input">Attack Input</h1>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/AttackInput">AttackInput</a></code> script would normally be part of the <code>CreatureBrain</code>, but we have implemented it separately so that we can reuse the classes from the <a href="../more-brains">More Brains</a> example and have it work with both the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code> and <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a></code>:</summary><p>
+<p></p><details><summary>The <code>AttackInput</code> script would normally be part of the <code>CreatureBrain</code>, but we have implemented it separately so that we can reuse the classes from the <a href="../more-brains">More Brains</a> example and have it work with both the <code>KeyboardBrain</code> and <code>MouseBrain</code>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Examples.StateMachines.Brains;
 using Animancer.FSM;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/AttackInput">AttackInput</a> : MonoBehaviour
+public sealed class AttackInput : MonoBehaviour
 {
     [SerializeField] private CreatureState _Attack;
     [SerializeField] private float _AttackInputTimeOut = 0.5f;
@@ -555,42 +583,42 @@ private void Awake()
 </code></pre>
 <p>You could give each attack a different time out period, but using the same 0.5 second window for every attack tends to give more consistent gameplay where the player can get a feel for when they will need to press the button.</p>
 <h1 id="weapon">Weapon</h1>
-<p>The <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> script is simply a component which holds the animations relating to a weapon so that it can be attached to the weapon's model in the scene:</p>
+<p>The <code>Weapon</code> script is simply a component which holds the animations relating to a weapon so that it can be attached to the weapon's model in the scene:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> : MonoBehaviour
+public sealed class Weapon : MonoBehaviour
 {
     [SerializeField]
     private ClipState.Transition[] _AttackAnimations;
     public ClipState.Transition[] AttackAnimations =&gt; _AttackAnimations;
 
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _EquipAnimation;
-    public <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> EquipAnimation =&gt; _EquipAnimation;
+    private ClipState.Transition _EquipAnimation;
+    public ClipState.Transition EquipAnimation =&gt; _EquipAnimation;
 
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _UnequipAnimation;
-    public <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> UnequipAnimation =&gt; _UnequipAnimation;
+    private ClipState.Transition _UnequipAnimation;
+    public ClipState.Transition UnequipAnimation =&gt; _UnequipAnimation;
 }
 </code></pre>
 <p>In a real game, this class might have other details like damage, damage type, weapon category, etc. It could also inherit from a base Item class for things like weight, cost, and description.</p>
 <h1 id="equip-state">Equip State</h1>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a></code> script manages the currently equipped <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code>. It is a is a <code>CreatureState</code> so that other actions cannot be performed while it is playing the <code>EquipAnimation</code> and <code>UnequipAnimation</code> of the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> when it is changed:</summary><p>
+<p></p><details><summary>The <code>EquipState</code> script manages the currently equipped <code>Weapon</code>. It is a is a <code>CreatureState</code> so that other actions cannot be performed while it is playing the <code>EquipAnimation</code> and <code>UnequipAnimation</code> of the <code>Weapon</code> when it is changed:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Examples.StateMachines.Brains;
 using Animancer.FSM;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a> : CreatureState
+public sealed class EquipState : CreatureState
 {
     [SerializeField] private Transform _WeaponHolder;
-    [SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> _Weapon;
+    [SerializeField] private Weapon _Weapon;
 
-    private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> _EquippingWeapon;
+    private Weapon _EquippingWeapon;
     private Action _OnUnequipEnd;
 
-    public <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a>
+    public Weapon Weapon
     {
         get =&gt; _Weapon;
         set
@@ -682,12 +710,12 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.
 <p><img src="weapon-holder.png" class="img-responsive"></p>
 <pre><code class="language-cs">[SerializeField] private Transform _WeaponHolder;
 </code></pre>
-<p>We want other scripts (the <code>AttackState</code> in this example) to be able to access the currently equipped <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> and also try to change it (normally the <code>CreatureBrain</code> would handle that, but in this example we are just using <a href="../../basics/scene-setup#buttons">UI Buttons</a>) so we have <code>private</code> fields for the current weapon and the new one we want to equip with a <code>public</code> property that tries to put the <code>Creature</code> in this state when you set it:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> _Weapon;
+<p>We want other scripts (the <code>AttackState</code> in this example) to be able to access the currently equipped <code>Weapon</code> and also try to change it (normally the <code>CreatureBrain</code> would handle that, but in this example we are just using <a href="../../basics/scene-setup#buttons">UI Buttons</a>) so we have <code>private</code> fields for the current weapon and the new one we want to equip with a <code>public</code> property that tries to put the <code>Creature</code> in this state when you set it:</p>
+<pre><code class="language-cs">[SerializeField] private Weapon _Weapon;
 
-private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> _EquippingWeapon;
+private Weapon _EquippingWeapon;
 
-public <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a> <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a>
+public Weapon Weapon
 {
     get =&gt; _Weapon;
     set
@@ -707,11 +735,11 @@ private void Awake()
     ...
 }
 </code></pre>
-<p>We only want this state to be entered when you are actually changing to a different <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code>, so we <code>override</code> the <code>CanEnterState</code> property to enforce that restriction:</p>
+<p>We only want this state to be entered when you are actually changing to a different <code>Weapon</code>, so we <code>override</code> the <code>CanEnterState</code> property to enforce that restriction:</p>
 <pre><code class="language-cs">public override bool CanEnterState =&gt; _Weapon != _EquippingWeapon;
 </code></pre>
-<p>Note that if <code>CanEnterState</code> (or the <code>CanExitState</code> property of whatever state the <code>Creature</code> is currently in) returns <code>false</code>, the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> property simply undoes the change. This ensures that the character cannot change weapons in the middle of other actions that do not allow <a href="../interrupts">Interruptions</a> (such as attacks).</p>
-<p>When the creature does actually enter this state, we want to play the <code>UnequipAnimation</code> from the previous <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> if it has one and then swap to the new weapon:</p>
+<p>Note that if <code>CanEnterState</code> (or the <code>CanExitState</code> property of whatever state the <code>Creature</code> is currently in) returns <code>false</code>, the <code>Weapon</code> property simply undoes the change. This ensures that the character cannot change weapons in the middle of other actions that do not allow <a href="../interrupts">Interruptions</a> (such as attacks).</p>
+<p>When the creature does actually enter this state, we want to play the <code>UnequipAnimation</code> from the previous <code>Weapon</code> if it has one and then swap to the new weapon:</p>
 <pre><code class="language-cs">private void OnEnable()
 {
     if (_Weapon.UnequipAnimation.IsValid)
@@ -720,7 +748,7 @@ private void Awake()
         state.Events.OnEnd = _OnUnequipEnd;
     }
 </code></pre>
-<p>Or if there is no <code>UnequipAnimation</code>, we just swap to the new <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> immediately:</p>
+<p>Or if there is no <code>UnequipAnimation</code>, we just swap to the new <code>Weapon</code> immediately:</p>
 <pre><code class="language-cs">    else
     {
         OnUnequipEnd();
@@ -737,7 +765,7 @@ private void Awake()
     AttachWeapon();
 }
 </code></pre>
-<p>Once the <code>UnequipAnimation</code> ends (or is skipped because it was missing), we detach the previous <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> from the character's hand, assign and attach the new weapon, and then play the <code>EquipAnimation</code> of the new <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code>:</p>
+<p>Once the <code>UnequipAnimation</code> ends (or is skipped because it was missing), we detach the previous <code>Weapon</code> from the character's hand, assign and attach the new weapon, and then play the <code>EquipAnimation</code> of the new <code>Weapon</code>:</p>
 <pre><code class="language-cs">private void OnUnequipEnd()
 {
     DetachWeapon();
@@ -790,14 +818,14 @@ private void DetachWeapon()
 public override bool CanExitState =&gt; false;
 </code></pre>
 <h1 id="attack-state">Attack State</h1>
-<p></p><details><summary>The <code>AttackState</code> script simply plays the appropriate animations from the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState/E4895F2F">EquipState.Weapon</a></code>:</summary><p>
+<p></p><details><summary>The <code>AttackState</code> script simply plays the appropriate animations from the <code>EquipState.Weapon</code>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Examples.StateMachines.Brains;
 using UnityEngine;
 
 public sealed class AttackState : CreatureState
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a> _Equipment;
+    [SerializeField] private EquipState _Equipment;
 
     private int _AttackIndex = int.MaxValue;
 
@@ -848,8 +876,8 @@ public sealed class AttackState : CreatureState
 }
 </code></pre>
 <p></p></details><p></p>
-<p>It starts with a <a href="../../../introduction/cs/variables#serialized-fields">Serialized</a> reference to the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a></code> to be assigned in the Inspector:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a> _Equipment;
+<p>It starts with a <a href="../../../introduction/cs/variables#serialized-fields">Serialized</a> reference to the <code>EquipState</code> to be assigned in the Inspector:</p>
+<pre><code class="language-cs">[SerializeField] private EquipState _Equipment;
 </code></pre>
 <p>Normally that reference might go in the <code>Creature</code> class, but since that script comes from the <a href="../more-brains">More Brains</a> example we do not want to modify it.</p>
 <p>It is quite common for attack animations in games to cause the character to step forwards so the first thing we do when entering this state is enable <a href="https://docs.unity3d.com/Manual/RootMotion.html">Root Motion</a> (and disable it when exiting this state):</p>
@@ -864,7 +892,7 @@ private void OnDisable()
     Creature.Animancer.Animator.applyRootMotion = false;
 }
 </code></pre>
-<p>Since each <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> can have multiple attack animations which they perform in sequence, the next thing we need to do is determine which animation to use. Each time this state is entered we either start from the first animation or move onto the next one in the sequence:</p>
+<p>Since each <code>Weapon</code> can have multiple attack animations which they perform in sequence, the next thing we need to do is determine which animation to use. Each time this state is entered we either start from the first animation or move onto the next one in the sequence:</p>
 <pre><code class="language-cs">private int _AttackIndex = int.MaxValue;
 
 private void OnEnable()
@@ -909,7 +937,7 @@ private void OnEnable()
     state.Events.OnEnd = Creature.ForceEnterIdleState;
 }
 </code></pre>
-<p>And just like with the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a></code>, we do not want the character to move during this action or to allow other actions to <a href="../interrupts">Interrupt</a> it:</p>
+<p>And just like with the <code>EquipState</code>, we do not want the character to move during this action or to allow other actions to <a href="../interrupts">Interrupt</a> it:</p>
 <pre><code class="language-cs">private void FixedUpdate()
 {
     Creature.Rigidbody.velocity = Vector3.zero;
@@ -943,7 +971,7 @@ public sealed class RootMotionRedirect : MonoBehaviour
 <li>If you are using a different character model from the <em>DefaultHumanoid</em> included in Animancer, delete the existing model (a child of the <em>Creature</em> object) and drag your own into the same place in the hierarchy.
 <ul>
 <li>Make sure the new model has its position and rotation reset to zero.</li>
-<li>Add an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to it.</li>
+<li>Add an <code>AnimancerComponent</code> to it.</li>
 <li>Select the <em>Creature</em> and assign the new model as its <code>Animancer</code> reference.</li>
 </ul>
 </li>
@@ -968,7 +996,7 @@ public sealed class RootMotionRedirect : MonoBehaviour
 </tbody>
 </table>
 <h2 id="weapons-1">Weapons</h2>
-<p>Each of the <a href="#weapons">Weapons</a> is a model with a <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/Weapon">Weapon</a></code> script attached (except for <em>Unarmed</em> which has no model). They all start inactive (and <em>Unarmed</em> gets equipped on startup because it is assigned as the default).</p>
+<p>Each of the <a href="#weapons">Weapons</a> is a model with a <code>Weapon</code> script attached (except for <em>Unarmed</em> which has no model). They all start inactive (and <em>Unarmed</em> gets equipped on startup because it is assigned as the default).</p>
 <p>The <em>Unarmed</em> and <em>Great Sword</em> setups are fairly obvious:</p>
 <p></p><table class="table">
   <thead>
@@ -991,9 +1019,9 @@ public sealed class RootMotionRedirect : MonoBehaviour
 <p>Each of the other new scripts we made in this example can be attached to the <em>Brain</em> object:</p>
 <p><img src="attack-components.png" class="img-responsive"></p>
 <h2 id="buttons">Buttons</h2>
-<p>And finally, we can not use some <a href="../../basics/scene-setup#buttons">UI Buttons</a> to set the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState/E4895F2F">EquipState.Weapon</a></code> when the player clicks them:</p>
+<p>And finally, we can not use some <a href="../../basics/scene-setup#buttons">UI Buttons</a> to set the <code>EquipState.Weapon</code> when the player clicks them:</p>
 <p><img src="button.png" class="img-responsive"></p>
-<p>Note that if the <a href="#equip-state">Equip State</a> does not actually allow itself to be entered, the displayed text will still be changed. We could fix that by having the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Weapons/EquipState">EquipState</a></code> set the text rather than doing it in the <a href="../../basics/scene-setup#buttons">UI Button</a>, but that is not really relevant to the purpose of that script so we have kept it separate for this example.</p>
+<p>Note that if the <a href="#equip-state">Equip State</a> does not actually allow itself to be entered, the displayed text will still be changed. We could fix that by having the <code>EquipState</code> set the text rather than doing it in the <a href="../../basics/scene-setup#buttons">UI Button</a>, but that is not really relevant to the purpose of that script so we have kept it separate for this example.</p>
 <h1 id="final-result">Final Result</h1>
 <p>This all combines to create a character that can do everything from the <a href="../more-brains">More Brains</a> example as well as equip different weapons and attack with them.</p>
 <p><img src="weapons.gif" class="img-responsive"></p>

@@ -102,11 +102,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -190,7 +209,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -430,14 +458,14 @@
 <p>This example demonstrates how you can use <a href="../../manual/blending/layers">Layers</a> and masks to play multiple animations at the same time on different body parts. If the <em>Action</em> (a tennis swing) is performed while the character is <em>Idle</em>, it is played on the default layer so that it controls the full body. But if it is performed while the <em>Run</em> animation is playing, the <em>Action</em> is played on another layer which is masked to only affect the upper body, so the legs continue running while the upper body acts independantly without needing to actually make a <em>RunningTennisSwing</em> animation.</p>
 <p><em><a href="../../manual/blending/layers">Layers</a> are a <a href="../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="layers.gif" class="img-responsive"></p>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.Layers/LayerExample">LayerExample</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The <code>LayerExample</code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.Layers/LayerExample">LayerExample</a> : MonoBehaviour
+public sealed class LayerExample : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _BasicAnimancer;
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _LayeredAnimancer;
+    [SerializeField] private AnimancerComponent _BasicAnimancer;
+    [SerializeField] private AnimancerComponent _LayeredAnimancer;
 
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Run;
@@ -604,7 +632,7 @@ else
     state.Events.OnEnd = () =&gt; _LayeredAnimancer.Play(_Idle, FadeDuration);
 }
 </code></pre>
-<p>Doing that has one notable problem though: if it changes the layer while the animation is already playing (specifically, when its <code><a href="/animancer/v6/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> is not 0 so it is actually affecting the model) then it will not be able to blend smoothly from the previous pose. We can fix this by setting the optional <code><a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a></code> parameter of the <a href="../../../manual/playing#play-methods">Play Method</a> to <code>FadeMode.FromStart</code>:</p>
+<p>Doing that has one notable problem though: if it changes the layer while the animation is already playing (specifically, when its <code>AnimancerNode.Weight</code> is not 0 so it is actually affecting the model) then it will not be able to blend smoothly from the previous pose. We can fix this by setting the optional <code>FadeMode</code> parameter of the <a href="../../../manual/playing#play-methods">Play Method</a> to <code>FadeMode.FromStart</code>:</p>
 <pre><code class="language-cs">// In PerformAction:
 if (_IsRunning)
 {
@@ -617,14 +645,14 @@ else
     state.Events.OnEnd = () =&gt; _LayeredAnimancer.Play(_Idle, FadeDuration);
 }
 </code></pre>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.Layers/LayerExample">LayerExample</a></code> script now looks like this:</summary><p>
+<p></p><details><summary>The full <code>LayerExample</code> script now looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.Layers/LayerExample">LayerExample</a> : MonoBehaviour
+public sealed class LayerExample : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _BasicAnimancer;
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _LayeredAnimancer;
+    [SerializeField] private AnimancerComponent _BasicAnimancer;
+    [SerializeField] private AnimancerComponent _LayeredAnimancer;
 
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Run;

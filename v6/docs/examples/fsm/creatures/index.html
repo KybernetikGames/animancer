@@ -103,11 +103,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -191,7 +210,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li class="selected"><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -445,8 +473,8 @@ using UnityEngine;
 public class Creature : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
+    private AnimancerComponent _Animancer;
+    public AnimancerComponent Animancer =&gt; _Animancer;
 
     [SerializeField]
     private CreatureState _Idle;
@@ -485,7 +513,7 @@ public class Creature : MonoBehaviour
 using Animancer.FSM;
 using UnityEngine;
 
-public class CreatureState : StateBehaviour&lt;CreatureState&gt;
+public class CreatureState : StateBehaviour
 {
     [SerializeField] private Creature _Creature;
     [SerializeField] private AnimationClip _Animation;
@@ -502,15 +530,14 @@ public class CreatureState : StateBehaviour&lt;CreatureState&gt;
 <h1 id="creatures">Creatures</h1>
 <p>The <code>Creature</code> component is the core of any character, whether it be a player, enemy, NPC, person, animal, monster, or robot. A different term may be more suitable depending on the type of game you are making - for example, a strategy game might use "Unit" while a space game might use "Ship" - but the idea is always the same: all of the game's characters share the same core script which holds references to each of its other components:</p>
 <ul>
-<li>The animation system (an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> if you use Animancer, but otherwise it might just be an <code>Animator</code>).</li>
+<li>The animation system (an <code>AnimancerComponent</code> if you use Animancer, but otherwise it might just be an <code>Animator</code>).</li>
 <li>A state machine (this example uses Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system, but you can use any system you like).</li>
 <li>The default <em>Idle</em> state for other states to return to. Many systems require the state machine to be initialised with all its states in one place, but the <code>Animancer.FSM</code> does not.</li>
 <li>Any other details such as a <code>Rigidbody</code>, character attributes, health pool, and so on.</li>
 </ul>
-<p>Anything that wants to access one or more of a creature's components can do so via the core <code>Creature</code> component. So rather than a <code>Locomotion</code> state having a reference to the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (to play animations) and <code>Rigidbody</code> (to apply force) and <code>CreatureStats</code> (to determine how fast it can move), every state just references the <code>Creature</code> and accesses the parts it needs through that reference.</p>
+<p>Anything that wants to access one or more of a creature's components can do so via the core <code>Creature</code> component. So rather than a <code>Locomotion</code> state having a reference to the <code>AnimancerComponent</code> (to play animations) and <code>Rigidbody</code> (to apply force) and <code>CreatureStats</code> (to determine how fast it can move), every state just references the <code>Creature</code> and accesses the parts it needs through that reference.</p>
 <h1 id="state-machine">State Machine</h1>
-<p>This is the first example which demonstrates Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system.</p>
-<p>First we make a <a href="../../../introduction/cs/methods#properties">Read-Only Auto-Property</a> (public get, private set) so anything can access it and try to change its state, but other scripts can't set it to <code>null</code> or assign a different state machine to it by accident.</p>
+<p>The <a href="../game-manager">Game Manager</a> example used a <a href="../game-manager/fsm#partial-classes">Partial Class</a> to allow its states to be defined inside the main <code>GameManagerFSM</code> class and therefore have access to all its <code>private</code> members. But in this example our main <code>Creature</code> class is designed as a central access point for everything, it will have <code>public</code> accessors for everything so instead of storing the <code>StateMachine</code> in a <code>private</code> field we will use a <a href="../../../introduction/cs/methods#properties">Read-Only Auto-Property</a> to let anything access it and try to change its state, but prevent other scripts from accidentally setting it to <code>null</code> or assigning a different state machine to it by accident:</p>
 <pre><code class="language-cs">public StateMachine&lt;CreatureState&gt; StateMachine { get; private set; }
 </code></pre>
 <p>Then we just initialise it with the desired default state on startup:</p>
@@ -521,7 +548,7 @@ public class CreatureState : StateBehaviour&lt;CreatureState&gt;
 </code></pre>
 <p>Since we are using <code>CreatureState</code> as the <a href="../../../introduction/cs/organisation#generics">Generic Parameter</a>, this state machine will be able to use any instance of the <code>CreatureState</code> class or anything that <a href="../../../introduction/cs/inheritance">Inherits</a> from it. Nothing is inheriting from it in this example, but the <a href="../interrupts">Interrupt Management</a> example reuses this class as the base for its states.</p>
 <h1 id="actions">Actions</h1>
-<p>Much like how Animancer itself allows animations to come from anywhere instead of needing them to all be defined upfront, this state machine system also allows states to come from anywhere. For this example, we want to control the state machine using <a href="../../basics/scene-setup#buttons">UI Buttons</a> so we also need a <code>TrySetState</code> method for their <a href="../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a>s to call (where other scripts would normally just call <code>creature.StateMachine.TrySetState</code> directly):</p>
+<p>Much like how Animancer itself allows animations to be played on-demand without needing them to all be defined upfront, this state machine system also allows states to be entered on-demand. For this example, we want to control the state machine using <a href="../../basics/scene-setup#buttons">UI Buttons</a> so we also need a <code>TrySetState</code> method for their <a href="../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a>s to call (where other scripts would normally just call <code>creature.StateMachine.TrySetState</code> directly):</p>
 <pre><code class="language-cs">public void TrySetState(CreatureState state)
 {
     StateMachine.TrySetState(state);
@@ -580,8 +607,8 @@ private void AfterInspectorGUI()
 </code></pre>
 <p>Note that the <code>#if UNITY_EDITOR</code> isn't always necessary to use <code>AfterInspectorGUI</code>, but in this case we need it because we are using a class in the <code>UnityEditor</code> namespace which will not exist in runtime builds.</p>
 <h1 id="states">States</h1>
-<p>Normally the base <code>CreatureState</code> would be an <code>abstract</code> class which defines common logic for all states to <a href="../../../introduction/cs/inheritance">Inherit</a> when they implement their behaviour, but for this example all we want each state to do is play an animation so we only need one script for all of them.</p>
-<p>The purpose of inheriting from <code><a href="/animancer/v6/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> is described on the <a href="../../../manual/fsm">Finite State Machine</a> page. Basically, it gives our states basic functionality as components which are disabled by default and only get enabled when the state is entered. It does not really achieve anything useful in this example since the states do not do anything more than play an animation on entry, but in more complex systems this makes it easier to implement states that need <code>Update</code> or <code>FixedUpdate</code> methods to be called while that particular state is the current one.</p>
+<p>Normally the base <code>CreatureState</code> would be an <code>abstract</code> class which defines common logic for all states to <a href="../../../introduction/cs/inheritance">Inherit</a> when they implement their behaviour, but all states in this example will do the same thing (play an animation) so we only need one script for all of them.</p>
+<p>The purpose of inheriting from <code>StateBehaviour</code> is described on the <a href="../../../manual/fsm#base-state-types">Finite State Machine</a> page. Basically, it gives our states common functionality as components which are disabled by default and only get enabled when the state is entered. It does not really achieve anything useful in this example since the states do not do anything more than play an animation on entry, but in more complex systems this makes it easier to implement states that need <code>Update</code> or <code>FixedUpdate</code> methods to be called while that particular state is the current one.</p>
 <h2 id="walk-and-run">Walk and Run</h2>
 <p>The base <code>CreatureState</code> class would normally not even have an <code>_Animation</code> field because some states might have no animation or even multiple animations. For example, <em>Walk</em> and <em>Run</em> might both be handled by a single <code>Locomotion</code> state which has references to both animations so that it can synchronise their walk cycles as described in the <a href="../../locomotion/walk-and-run">Walk and Run</a> example. Such a state would simply choose which animation to play depending on whether the creature's <a href="../brains">Brain</a> says it should be running.</p>
 

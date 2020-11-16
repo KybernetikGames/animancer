@@ -101,11 +101,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -189,7 +208,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -428,15 +456,15 @@
 </blockquote>
 <p>This example demonstrates how you can use a custom <a href="../../../manual/transitions">Transition class</a> to determine whether each animation should use <a href="https://docs.unity3d.com/Manual/RootMotion.html">Root Motion</a> or not and redirect the Root Motion to a different object if you want to.</p>
 <p><img src="root-motion.gif" class="img-responsive"></p>
-<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The <code>RootMotion</code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> : MonoBehaviour
+public sealed class RootMotion : MonoBehaviour
 {
     [Serializable]
-    public class MotionTransition : <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a>
+    public class MotionTransition : ClipState.Transition
     {
         [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
         private bool _ApplyRootMotion;
@@ -448,7 +476,7 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/Roo
         }
     }
 
-    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private float _MaxDistance;
     [SerializeField] private MotionTransition[] _Animations;
 
@@ -573,12 +601,12 @@ public void Play(int index)
 <p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../ik">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can <a href="../../../introduction/cs/inheritance">Inherit</a> from so you do not have to do it all yourself:</p>
 <pre><code class="language-cs">// Replace the old MotionClip class with this.
 [Serializable]
-public class MotionTransition : <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a>
+public class MotionTransition : ClipState.Transition
 {
     [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
     private bool _ApplyRootMotion;
 </code></pre>
-<p><code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="../../../introduction/cs/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
+<p><code>ClipState.Transition</code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="../../../introduction/cs/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
 <pre><code class="language-cs">    public override void Apply(AnimancerState state)
     {
         base.Apply(state);

@@ -102,11 +102,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -190,7 +209,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li class="selected"><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -439,14 +467,14 @@
 <p>In simple situations, all that you might need to implement an interruption management system is a simple <code>bool</code> to indicate whether an animation can be interrupted. Instead of having your scripts call <code>AnimancerComponent.Play</code> directly, make your own method for them to call which handles the interruption check:</p>
 <pre><code class="language-cs">private bool _CanBeInterrupted;
 
-public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(AnimationClip clip, bool canBeInterrupted)
+public AnimancerState Play(AnimationClip clip, bool canBeInterrupted)
 {
     if (_CanBeInterrupted)
         ForcePlay(clip, canBeInterrupted);
 }
 
 // You may want to make this private, but it depends on your use case.
-public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> ForcePlay(AnimationClip clip, bool canBeInterrupted)
+public AnimancerState ForcePlay(AnimationClip clip, bool canBeInterrupted)
 {
     _CanBeInterrupted = canBeInterrupted;
     return _Animancer.Play(clip);
@@ -465,13 +493,13 @@ public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> F
 <p>Since we have defined the values in order from lowest to highest, we can make use of the fact that <code>enum</code>s are essentially just <code>int</code>s under the hood to check which priority is higher:</p>
 <pre><code class="language-cs">private Priority _Priority;
 
-public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(AnimationClip clip, Priority priority)
+public AnimancerState Play(AnimationClip clip, Priority priority)
 {
     if (_Priority &lt;= priority)
         ForcePlay(clip, priority);
 }
 
-public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> ForcePlay(AnimationClip clip, Priority priority)
+public AnimancerState ForcePlay(AnimationClip clip, Priority priority)
 {
     _Priority = priority;
     return _Animancer.Play(clip);
@@ -486,93 +514,37 @@ public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> F
     =&gt; StateChange&lt;CreatureState&gt;.NextState._Priority &gt;= _Priority;
 </code></pre>
 <p>In the <a href="../creatures#after-action">Creatures</a> example, we set up the <code>ForceIdleState</code> <a href="../../../introduction/cs/methods#delegates">Delegate</a> to use <code>ForceSetState</code> instead of <code>TrySetState</code> so that it will ignore the priority. When attempting to perform an action you want to make sure both the current state and target state will allow it, but when an action's animation ends you generally just want to return to <em>Idle</em> which is unlikely to have any additional requirements. Otherwise the state would need to both try to return to idle at the right time and have its <code>CanExitState</code> check the animation time as well to make sure the animation is finished (and ignore the priority if so).</p>
-<p>There are two scripts in this example:</p>
-<p></p><details><summary>This <code>Creature</code> is identical to the one from the <a href="../creatures">Creatures</a> example (but it needs to be a different script because it references the <code>CreatureState</code> class below instead of <code>Creatures.CreatureState</code>):</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
-using System;
+<p>This example reuses the <code>Creature</code> script from the <a href="../creatures">Creatures</a> example:</p>
+<p></p><details><summary>This example reuses the <code>Creature</code> script from the <a href="../creatures">Creatures</a> example and uses a new <code>CreatureState</code> class which inherits from the class with the same name from the <a href="../creatures">Creatures</a> example to use the same base functionality with the new <code>Priority</code> enum and <code>CanExitState</code> property:</summary><p>
+</p><pre><code class="language-cs">using Animancer.FSM;
 using UnityEngine;
 
-public sealed class Creature : MonoBehaviour
-{
-    [SerializeField]
-    private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    public <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
-
-    [SerializeField]
-    private CreatureState _Idle;
-    public CreatureState Idle =&gt; _Idle;
-
-    public StateMachine&lt;CreatureState&gt; StateMachine { get; private set; }
-
-    public Action ForceIdleState { get; private set; }
-
-    private void Awake()
-    {
-        ForceIdleState = () =&gt; StateMachine.ForceSetState(_Idle);
-
-        StateMachine = new StateMachine&lt;CreatureState&gt;(_Idle);
-    }
-
-    public void TrySetState(CreatureState state) =&gt; StateMachine.TrySetState(state);
-}
-</code></pre>
-<p></p></details><p></p>
-<p></p><details><summary>This <code>CreatureState</code> is also practically identical to the one from the <a href="../creatures">Creatures</a> example, but with the new <code>Priority</code> enum and <code>CanExitState</code> property:</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
-using System;
-using UnityEngine;
-
-public sealed class CreatureState : StateBehaviour&lt;CreatureState&gt;
-{
-    public enum Priority
-    {
-        Low,
-        Medium,
-        High,
-    }
-
-    [SerializeField] private Creature _Creature;
-    [SerializeField] private AnimationClip _Animation;
-    [SerializeField] private Priority _Priority;
-
-    private void OnEnable()
-    {
-        var state = _Creature.Animancer.Play(_Animation, 0.25f);
-        if (!_Animation.isLooping)
-            state.OnEnd = _Creature.ForceIdleState;
-    }
-
-    public override bool CanExitState
-        =&gt; StateChange&lt;CreatureState&gt;.NextState._Priority &gt;= _Priority;
-}
-</code></pre>
-<p></p></details><p></p>
-<p></p><details><summary>The similarities between those scripts and the ones from the <a href="../creatures">Creatures</a> example are so significant that we could have <em>almost</em> just implemented <code>CreatureState</code> to inherit from the <code>Creatures.CreatureState</code> one without duplicating all the code (and without needing a new <code>Creature</code> script).</summary><p>
-</p><p>Here is what the script could have looked like if we used inheritance (which would also require <code>Creatures.CreatureState</code> to not be <code>sealed</code>):</p>
-<pre><code class="language-cs">using Animancer;
-using Animancer.FSM;
-using System;
-using UnityEngine;
-
+// This class is in the Animancer.Examples.StateMachines.InterruptManagement namespace.
+// It inherits from the Animancer.Examples.StateMachines.Creatures.CreatureState class.
+// THey can both have the same name because they are in different namespaces.
 public sealed class CreatureState : Creatures.CreatureState
 {
     public enum Priority
     {
-        Low,
-        Medium,
-        High,
+        Low,// Could specify "Low = 0," if we want to be explicit.
+        Medium,// Medium = 1,
+        High,// High = 2,
     }
 
     [SerializeField] private Priority _Priority;
 
     public override bool CanExitState
-        =&gt; StateChange&lt;CreatureState&gt;.NextState._Priority &gt;= _Priority;
+    {
+        get
+        {
+            var nextState = (CreatureState)StateChange&lt;Creatures.CreatureState&gt;.NextState;
+            return nextState._Priority &gt;= _Priority;
+        }
+    }
 }
 </code></pre>
 <p></p></details><p></p>
-<p>Using those scripts with the same setup as the <a href="../creatures">Creatures</a> example allows us to assign a priority to each state:</p>
+<p>Using those scripts with the same setup as the <a href="../creatures">Creatures</a> example allows us to assign a priority to each state in the Inspector:</p>
 <ul>
 <li><em>Idle</em>, <em>Walk</em>, and <em>Run</em> are <code>Low</code> priority.</li>
 <li><em>Swing</em> is <code>Medium</code> priority.</li>
@@ -582,7 +554,7 @@ public sealed class CreatureState : Creatures.CreatureState
 <p><img src="interrupts.gif" class="img-responsive"></p>
 <h1 id="inheritance-based-priority">Inheritance Based Priority</h1>
 <p>Instead of giving each state a serialized <code>Priority</code> field which needs to be set in the Inspector every time you add it to an object, you could give the base state class a <code>virtual</code> or <code>abstract</code> property that can be overridden by the actual state classes that <a href="../../../introduction/cs/inheritance">Inherit</a> from it:</p>
-<pre><code class="language-cs">// In the base <a href="/animancer/v6/api/Animancer.FSM/State">State</a> class.
+<pre><code class="language-cs">// In the base State class.
 // Everything is low priority by default.
 public virtual Priority Priority =&gt; Priority.Low;
 

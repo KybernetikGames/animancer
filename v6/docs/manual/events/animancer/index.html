@@ -106,11 +106,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -194,7 +213,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -453,7 +481,7 @@
 <p>Animancer Events can also be configured using code like so:</p>
 <pre><code class="language-cs">// MeleeAttack.cs:
 
-[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 public void Attack()
@@ -496,8 +524,8 @@ public void Attack()
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary><code><a href="/animancer/v6/api/Animancer/AnimancerEvent/F8E79576">AnimancerEvent.CurrentEvent</a></code> and <code><a href="/animancer/v6/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code> allow you to access the event currently being triggered and the state triggering it:</summary><p>
-</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+<p></p><details><summary><code>AnimancerEvent.CurrentEvent</code> and <code>AnimancerEvent.CurrentState</code> allow you to access the event currently being triggered and the state triggering it:</summary><p>
+</p><pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 private void Awake()
@@ -515,7 +543,7 @@ public void OnEnd()
 <h2 id="shared-event-sequences">Shared Event Sequences</h2>
 <p>Every object that plays a particular <a href="../../transitions">Transition</a> will share the same event sequence, meaning that any modifications made by one object will affect the others as well. This usually happens when using <a href="../../transitions/types#transition-assets">Transition Assets</a> to share the same transition among multiple objects but still needing to give them events specific to each object. Animancer will log a warning if you add the same event to a sequence multiple times with a link leading here so you can try any of the following workarounds:</p>
 <p>The simplest workaround is to just <a href="https://docs.unity3d.com/ScriptReference/Object.Instantiate.html"><code>Instantiate</code></a> a copy of the <a href="../../transitions/types#transition-assets">Transition Asset</a> on startup:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+<pre><code class="language-cs">[SerializeField] private ClipTransition _Animation;
 
 private void Awake()
 {
@@ -525,10 +553,10 @@ private void Awake()
 </code></pre>
 <p>That gives each object a separate copy of the transition so they no longer share the same event sequence, but wastes some additional processing time and memory because all the other transition data gets duplicated as well.</p>
 <p>A more efficient solution is to make your own copy of the event sequence for each object:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/v6/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private ClipTransition _Animation;
 
-private <a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a> _Events;
+private AnimancerEvent.Sequence _Events;
 
 private void Awake()
 {
@@ -548,7 +576,7 @@ private void PlayAnimation()
 <p>Setting up <a href="#events-in-transitions">Events in Transitions</a> is usually the best way to configure their timing according to the animation, but setting up <a href="#events-in-code">Events in Code</a> is often better for creating reliable scripts and avoiding bugs. Fortunately, you can have the best of both approaches by using a <a href="#events-in-transitions">Transition</a> to configure the <code>Time</code> but simply leaving its <code>Callback</code> blank and assigning it in <a href="#events-in-code">Code</a> instead.</p>
 <p>The most reliable way to set up a hybrid event is generally to give it a <code>Name</code> in the Inspector so that you can identify it in code:</p>
 <p><img src="../../../examples/events/golf/animancer-hybrid-hit-event.png" class="img-responsive"></p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _GolfSwing;
+<pre><code class="language-cs">[SerializeField] private ClipState.Transition _GolfSwing;
 
 private void Awake()
 {
@@ -564,7 +592,7 @@ private void HitBall() { ... }
 <p>But that hard-codes the assumption that there will not be any other events before the one you want so it may cause a bug later on if you add more events to it.</p>
 <p>The <a href="../../../examples/events/golf">Golf Events</a> example demonstrates how to use this feature.</p>
 <h1 id="event-names">Event Names</h1>
-<p>The <code><a href="/animancer/v6/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> allows you to provide a specific set of names that events are allowed have, replacing the usual text field with a dropdown menu to avoid needing to type same event name in the script and in the Inspector.</p>
+<p>The <code>EventNamesAttribute</code> allows you to provide a specific set of names that events are allowed have, replacing the usual text field with a dropdown menu to avoid needing to type same event name in the script and in the Inspector.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Without Attribute</th>
@@ -578,13 +606,13 @@ private void HitBall() { ... }
   </tbody>
 </table>
 <p>Note that values selected using the dropdown menu are still stored as strings. Modifying the names in the script will NOT automatically update any values previously set in the Inspector.</p>
-<p>The <a href="../../../examples/events/golf#avoiding-magic-strings">Avoiding Magic Strings</a> section in the <a href="../../../examples/events/golf">Golf Events</a> example shows how to use it and API documentation for the <code><a href="/animancer/v6/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> gives more details about the various different ways it can be used.</p>
+<p>The <a href="../../../examples/events/golf#avoiding-magic-strings">Avoiding Magic Strings</a> section in the <a href="../../../examples/events/golf">Golf Events</a> example shows how to use it and API documentation for the <code>EventNamesAttribute</code> gives more details about the various different ways it can be used.</p>
 <h1 id="auto-clear">Auto Clear</h1>
 <p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states to ensure that you do not have to worry about other scripts that might have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
-<p>This usually means that only one state on each object will actually have events at any given time so <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>s are recycled in an <code><a href="/animancer/v6/api/Animancer/ObjectPool">ObjectPool</a></code>:</p>
+<p>This usually means that only one state on each object will actually have events at any given time so <code>AnimancerEvent.Sequence</code>s are recycled in an <code>ObjectPool</code>:</p>
 <ul>
-<li>Accessing the <code><a href="/animancer/v6/api/Animancer/AnimancerState/11AD60E8">AnimancerState.Events</a></code> property will get an event sequence from the pool if it does not already have one.</li>
-<li>You can assign your own <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> to that property and it will then be removed from the state when the events are cleared (but since you made the sequence it will not be cleared or added to the pool).</li>
+<li>Accessing the <code>AnimancerState.Events</code> property will get an event sequence from the pool if it does not already have one.</li>
+<li>You can assign your own <code>AnimancerEvent.Sequence</code> to that property and it will then be removed from the state when the events are cleared (but since you made the sequence it will not be cleared or added to the pool).</li>
 <li><a href="../../transitions">Transitions</a> each have their own sequence which they assign whenever they are played.</li>
 </ul>
 <p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, it will not want that animation to still have the old <a href="../end#events">End Event</a> that returns to <em>Idle</em>.</p>
@@ -592,7 +620,7 @@ private void HitBall() { ... }
 <h1 id="garbage">Garbage</h1>
 <p>Animancer Events use <a href="../../../introduction/cs/methods#delegates">Delegates</a> as a very convenient way to determine what each event actually does, however they also have the downside of needing to be <a href="../../../introduction/cs/other#garbage-collection">Garbage Collected</a> when they are no longer being used which happens quite often since events are <a href="#auto-clear">Automatically Cleared</a> whenever a new animation is played.</p>
 <p></p><details><summary>Garbage Collection can be avoided by "<em>caching</em>" your variables, which in this case means you simply create your delegates once (usually on startup) and reuse the same ones every time:</summary><p>
-</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+</p><pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 private System.Action _OnAnimationEnd;
@@ -610,8 +638,8 @@ void PlayAnimation()
 <p>The delegate stored in <code>_OnAnimationEnd</code> will not be garbage collected until either it is set to something else (<code>null</code> or a different method) or until the whole object that it is in gets garbage collected.</p>
 <p></p></details><p></p>
 <p></p><details><summary><a href="transitions">Transitions</a> have their own events which do not get cleared and are automatically assigned to the state whenever it is played, so adding your events to them is another form of caching which is often more convenient than having a separate field to store the delegate in:</summary><p>
-</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Animation;
+</p><pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private ClipState.Transition _Animation;
 
 void Awake()
 {
@@ -624,13 +652,13 @@ void PlayAnimation()
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>You can also make your own <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> like so:</summary><p>
+<p></p><details><summary>You can also make your own <code>AnimancerEvent.Sequence</code> like so:</summary><p>
 </p><pre><code class="language-cs">// MeleeAttack.cs:
 
-[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
-private <a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a> _Events;
+private AnimancerEvent.Sequence _Events;
 
 private void Awake()
 {
@@ -658,7 +686,7 @@ public void Attack()
 <li>On a <strong>Non-Looping</strong> animation they will be triggered once on the frame when it passes the specified time.</li>
 <li>On a <strong>Looping</strong> animation they will be triggered every loop on the frame when it passes the specified time.
 <ul>
-<li>If the animation is playing fast enough that multiple loops pass in a single frame, the event will be triggered the appropriate number of times. If you want to ensure that your callback only gets triggered once per frame, you can store the <code><a href="/animancer/v6/api/Animancer/AnimancerPlayable/EA98B55C">AnimancerPlayable.FrameID</a></code> and check if it has changed each time your method is called.</li>
+<li>If the animation is playing fast enough that multiple loops pass in a single frame, the event will be triggered the appropriate number of times. If you want to ensure that your callback only gets triggered once per frame, you can store the <code>AnimancerPlayable.FrameID</code> and check if it has changed each time your method is called.</li>
 <li>Looping Events must be within the range of <code>0 &lt;= normalizedTime &lt; 1</code> in order to function correctly. Events outside that range will cause an <code>ArgumentOutOfRangeException</code> during the next update.</li>
 <li><code>AnimationEvent.AlmostOne</code> is a constant containing the largest possible <code>float</code> value less than 1 in case you want to set an event right at the end of the loop.</li>
 </ul>
@@ -667,12 +695,12 @@ public void Attack()
 <h1 id="other-details">Other Details</h1>
 <p>This system has several other details worth mentioning:</p>
 <ul>
-<li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code><a href="/animancer/v6/api/Animancer/AnimancerEvent/F8E79576">AnimancerEvent.CurrentEvent</a></code> and <code><a href="/animancer/v6/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code>, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards.</li>
-<li>Changing the <code><a href="/animancer/v6/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> prevents that state from triggering any more events during that frame.</li>
-<li>The <code><a href="/animancer/v6/api/Animancer/AnimancerState/11AD60E8">AnimancerState.Events</a></code> sequence can not be modified by its own events.</li>
-<li>Animancer Events work with <a href="../../blending/mixers">Mixers</a>. Blend Trees will trigger regular Animation Events on all of the <code>AnimationClip</code>s they contain, but this allows events to be placed on the <code><a href="/animancer/v6/api/Animancer/MixerState">MixerState</a></code> itself so they get triggered according to the weighted average normalized time of the mixed states.</li>
-<li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> and do not check what the Animator Controller is doing internally.</li>
-<li>If you want to run your own code as part of the animation update, you can implement <code><a href="/animancer/v6/api/Animancer/IUpdatable">IUpdatable</a></code>.</li>
+<li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code>AnimancerEvent.CurrentEvent</code> and <code>AnimancerEvent.CurrentState</code>, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards.</li>
+<li>Changing the <code>AnimancerState.Time</code> prevents that state from triggering any more events during that frame.</li>
+<li>The <code>AnimancerState.Events</code> sequence can not be modified by its own events.</li>
+<li>Animancer Events work with <a href="../../blending/mixers">Mixers</a>. Blend Trees will trigger regular Animation Events on all of the <code>AnimationClip</code>s they contain, but this allows events to be placed on the <code>MixerState</code> itself so they get triggered according to the weighted average normalized time of the mixed states.</li>
+<li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code>ControllerState</code> and do not check what the Animator Controller is doing internally.</li>
+<li>If you want to run your own code as part of the animation update, you can implement <code>IUpdatable</code>.</li>
 </ul>
 <h1 id="ultevents">UltEvents</h1>
 <p>By default, this system uses <code>UnityEvent</code>s to define the event callbacks. However, it can be modified to use any other similar type of events. In particular, <a href="https://kybernetik.com.au/ultevents">UltEvents</a> have some <a href="https://kybernetik.com.au/ultevents/docs/ult-vs-unity/">significant advantages over UnityEvents</a> so if you want to use them you can do the following (this requires Animancer Pro):</p>

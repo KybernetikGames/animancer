@@ -103,11 +103,30 @@
                     <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/playing">Playing</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/waiting">Waiting</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/speed-and-time">Speed and Time</a></li>
-                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/weapon-animations">Weapon Animations</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -191,7 +210,16 @@
                     <a href="/animancer/v6/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a></li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/fsm/game-manager">01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/v6/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/v6/docs/examples/fsm/creatures">02 Creatures</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/v6/docs/examples/fsm/brains">04 Brains</a></li>
@@ -432,9 +460,9 @@
 <p>This concept can be applied to anything that might need to control a creature such as artificial intelligence for non-player characters, network messages in a multiplayer game, or pre-set events in a cutscene system.</p>
 <p><img src="brain-transplant.gif" class="img-responsive"></p>
 <h1 id="mouse-brain">Mouse Brain</h1>
-<p>We are going to create a single new script to control the character with the mouse like you might in a top down game. Instead of moving in response to constant input like the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code>, this time we are going to implement a system where you click somewhere to have your character walk there on their own. In a real game you might use a pathfinding algorithm to have the character avoid obstacles in their way, but for this example we will just walk straight towards the target.</p>
-<p>This script starts off the same as the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code> with a reference to the locomotion state:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a> : CreatureBrain
+<p>We are going to create a single new script to control the character with the mouse like you might in a top down game. Instead of moving in response to constant input like the <code>KeyboardBrain</code>, this time we are going to implement a system where you click somewhere to have your character walk there on their own. In a real game you might use a pathfinding algorithm to have the character avoid obstacles in their way, but for this example we will just walk straight towards the target.</p>
+<p>This script starts off the same as the <code>KeyboardBrain</code> with a reference to the locomotion state:</p>
+<pre><code class="language-cs">public sealed class MouseBrain : CreatureBrain
 {
     [SerializeField] private CreatureState _Locomotion;
 }
@@ -607,12 +635,12 @@ private void UpdateInput()
 }
 </code></pre>
 <p><img src="good-ray-target.gif" class="img-responsive"></p>
-<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a></code> script looks like this so far:</summary><p>
+<p></p><details><summary>The full <code>MouseBrain</code> script looks like this so far:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.FSM;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a> : CreatureBrain
+public sealed class MouseBrain : CreatureBrain
 {
     [SerializeField] private CreatureState _Locomotion;
     [SerializeField] private float _StopDistance = 0.2f;
@@ -691,14 +719,14 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.
 <h2 id="seeing-it-in-action">Seeing it in Action</h2>
 <p>We can now go back to the scene if we want to see it in action:</p>
 <ol>
-<li>Select the <em>Brain</em> object and disable the old <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code>.</li>
-<li>Add the new <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a></code> and assign its <code>Locomotion</code> reference.</li>
+<li>Select the <em>Brain</em> object and disable the old <code>KeyboardBrain</code>.</li>
+<li>Add the new <code>MouseBrain</code> and assign its <code>Locomotion</code> reference.</li>
 <li>Select the root <em>Creature</em> object and drag the <em>Brain</em> object into its <code>Brain</code> field to assign the new brain we just added.</li>
 </ol>
-<p>This gives us a character that we can steer around as long as we hold the mouse button and after we release they will continue moving to the past spot we were aiming. And we can still rotate the camera with Right Click thanks to the <code><a href="/animancer/v6/api/Animancer.Examples/OrbitControls">OrbitControls</a></code> script.</p>
+<p>This gives us a character that we can steer around as long as we hold the mouse button and after we release they will continue moving to the past spot we were aiming. And we can still rotate the camera with Right Click thanks to the <code>OrbitControls</code> script.</p>
 <p><img src="mouse-walk.gif" class="img-responsive"></p>
 <h1 id="running">Running</h1>
-<p>We could bind running to a key like the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/KeyboardBrain">KeyboardBrain</a></code>, but instead let's keep everything on the mouse by making the character run while we hold the button then walk once they get close to the destination or once the player releases the button.</p>
+<p>We could bind running to a key like the <code>KeyboardBrain</code>, but instead let's keep everything on the mouse by making the character run while we hold the button then walk once they get close to the destination or once the player releases the button.</p>
 <p>First we need a field to determine how close they should get before walking:</p>
 <pre><code class="language-cs">[SerializeField] private float _MinRunDistance = 1;
 </code></pre>
@@ -730,18 +758,18 @@ public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.
 </ul>
 <p>In this example we are going to swap between the two brain types we have made so far using simple <a href="../../basics/scene-setup#buttons">UI Buttons</a>.</p>
 <h2 id="mouse-brain-1">Mouse Brain</h2>
-<p>To get the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a></code> ready for the swap, we need to do one last thing: make sure the destination is cleared when it gets re-enabled (you may or may not want to do this in a real game):</p>
+<p>To get the <code>MouseBrain</code> ready for the swap, we need to do one last thing: make sure the destination is cleared when it gets re-enabled (you may or may not want to do this in a real game):</p>
 <pre><code class="language-cs">private void OnEnable()
 {
     _Destination = null;
 }
 </code></pre>
-<p></p><details><summary>So the final <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a></code> script looks like this:</summary><p>
+<p></p><details><summary>So the final <code>MouseBrain</code> script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.FSM;
 using UnityEngine;
 
-public sealed class <a href="/animancer/v6/api/Animancer.Examples.StateMachines.Brains/MouseBrain">MouseBrain</a> : CreatureBrain
+public sealed class MouseBrain : CreatureBrain
 {
     [SerializeField] private CreatureState _Locomotion;
     [SerializeField] private float _StopDistance = 0.2f;
