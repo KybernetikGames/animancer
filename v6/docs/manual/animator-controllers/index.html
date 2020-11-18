@@ -127,6 +127,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -452,7 +453,7 @@
 		</section>
 	<section class="content">
 		<p><em>This is a <a href="../../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
-<p>Animancer does not require the use of Animator Controllers, but it does allow you to use them if you want to via the <code>ControllerState</code> class (and its children). This means that instead of putting everything a character needs in one massive Animator Controller like you would in Mecanim, you have several other options for structuring your project which are demonstrated in various examples:</p>
+<p>Animancer does not require the use of Animator Controllers, but it does allow you to use them if you want to via the <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> class (and its children). This means that instead of putting everything a character needs in one massive Animator Controller like you would in Mecanim, you have several other options for structuring your project which are demonstrated in various examples:</p>
 <table class="table">
 <thead>
 <tr>
@@ -480,9 +481,9 @@
 </tbody>
 </table>
 <h1 id="usage">Usage</h1>
-<p><code>ControllerState</code>s are usually set up in the Inspector using <a href="../transitions/types#controller-transitions">Controller Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
+<p><code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code>s are usually set up in the Inspector using <a href="../transitions/types#controller-transitions">Controller Transitions</a>, but they can also be <a href="#manual-creation">created manually</a>.</p>
 <p><img src="../transitions/types/controller.png" class="img-responsive"></p>
-<p>Without Animancer, when using an Animator Controller you would access it via various methods on the <code>Animator</code> component such as <code>Play</code>, <code>CrossFade</code>, <code>GetCurrentAnimatorStateInfo</code>, and get/set for all parameter types. But when using a <code>ControllerState</code>, you instead need to access it via the <code>ControllerState.Playable</code>:</p>
+<p>Without Animancer, when using an Animator Controller you would access it via various methods on the <code>Animator</code> component such as <code>Play</code>, <code>CrossFade</code>, <code>GetCurrentAnimatorStateInfo</code>, and get/set for all parameter types. But when using a <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code>, you instead need to access it via the <code><a href="/animancer/v6/api/Animancer/ControllerState/199AFDE3">ControllerState.Playable</a></code>:</p>
 <pre><code class="language-cs">void ControllerStateExample(ControllerState state)
 {
     // Play the "Idle" state:
@@ -498,34 +499,34 @@
     state.Playable.SetTrigger("Attack");
 }
 </code></pre>
-<p>A <code>HybridAnimancerComponent</code> has a default <code>Controller</code> field and various methods to access its <code>Playable</code> more easily.</p>
-<p>If you are using a <code>ControllerState.Transition</code> you will need to access its playable via its state, i.e. <code>transition.State.Playable...</code>. Note that the <code>State</code> will only be created the first time the transition is passed into the <code>AnimancerComponent.Play</code> method, so you will get a <code>NullReferenceException</code> if you attempt to use it before that.</p>
+<p>A <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> has a default <code>Controller</code> field and various methods to access its <code>Playable</code> more easily.</p>
+<p>If you are using a <code><a href="/animancer/v6/api/Animancer/Transition">ControllerState.Transition</a></code> you will need to access its playable via its state, i.e. <code>transition.State.Playable...</code>. Note that the <code><a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> will only be created the first time the transition is passed into the <code>AnimancerComponent.Play</code> method, so you will get a <code>NullReferenceException</code> if you attempt to use it before that.</p>
 <h1 id="manual-creation">Manual Creation</h1>
 <p>If you do not want to use a <a href="../transitions/types#controller-transitions">Controller Transition</a>, you can create one yourself using code:</p>
 <ol>
-<li>Create a <code>new ControllerState</code>. All constructors require you to provide a <code>RuntimeAnimatorController</code> reference.</li>
+<li>Create a <code>new <a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code>. All constructors require you to provide a <code>RuntimeAnimatorController</code> reference.</li>
 <li>Store a reference to that state in a field and/or set its <a href="../playing/states#keys">Key</a> to register it in the internal dictionary. The <code>RuntimeAnimatorController</code> itself or its <code>name</code> would make an acceptable key.</li>
 <li>Play that state either by passing it into <code>AnimancerComponent.Play</code> if you have a reference to it or using the key you registered it with.</li>
 </ol>
 <h1 id="parameter-controller-states">Parameter Controller States</h1>
-<p>Animancer includes several classes which inherit from <code>ControllerState</code> to wrap specific parameters of the <code>AnimatorController</code> in C# properties:</p>
+<p>Animancer includes several classes which inherit from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> to wrap specific parameters of the <code>AnimatorController</code> in C# properties:</p>
 <ul>
-<li><code>Float1ControllerState</code></li>
-<li><code>Float2ControllerState</code></li>
-<li><code>Float3ControllerState</code></li>
+<li><code><a href="/animancer/v6/api/Animancer/Float1ControllerState">Float1ControllerState</a></code></li>
+<li><code><a href="/animancer/v6/api/Animancer/Float2ControllerState">Float2ControllerState</a></code></li>
+<li><code><a href="/animancer/v6/api/Animancer/Float3ControllerState">Float3ControllerState</a></code></li>
 </ul>
 <p>Using them is very similar to the base class, but you also specify which parameter(s) you want to target in the constructor and can then get and set those parameters via their <code>Parameter</code> properties.</p>
 <ul>
 <li>This has the added benefit of verifying that the parameter actually exists on startup to make it easier to detect bugs.</li>
-<li>Using their <a href="../transitions/types#controller-transitions">Transitions</a> gives you a helpful dropdown menu in the Inspector for selecting the parameter name(s) instead of hard-coding them as <a href="../../introduction/mecanim-vs-animancer/why#magic-strings">Magic Strings</a>. The <a href="../../examples/locomotion/linear-blending#parameter-controller">Linear Blending</a> example demonstrates the use of a <code>Float1ControllerState.Transition</code>.</li>
+<li>Using their <a href="../transitions/types#controller-transitions">Transitions</a> gives you a helpful dropdown menu in the Inspector for selecting the parameter name(s) instead of hard-coding them as <a href="../../introduction/mecanim-vs-animancer/why#magic-strings">Magic Strings</a>. The <a href="../../examples/locomotion/linear-blending#parameter-controller">Linear Blending</a> example demonstrates the use of a <code><a href="/animancer/v6/api/Animancer/Transition">Float1ControllerState.Transition</a></code>.</li>
 <li>You can easily make your own copies of the scripts containing these classes if you want to adapt them for other parameter types and purposes or you can use the <a href="#controller-state-generator">Controller State Generator</a> to create a dedicated class for a specific Animator Controller.</li>
 </ul>
 <h1 id="controller-state-generator">Controller State Generator</h1>
-<p><a href="/weaver">Weaver</a> is another Unity Plugin developed by Kybernetik which contains a system for procedurally generating C# scripts (among many other features). It can procedurally generate a class for Animancer which inherits from <code>ControllerState</code> and contains properties for directly accessing the parameters of a specific Animator Controller asset.</p>
+<p><a href="/weaver">Weaver</a> is another Unity Plugin developed by Kybernetik which contains a system for procedurally generating C# scripts (among many other features). It can procedurally generate a class for Animancer which inherits from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> and contains properties for directly accessing the parameters of a specific Animator Controller asset.</p>
 <ol>
 <li>Download <a href="https://assetstore.unity.com/packages/tools/utilities/weaver-lite-60305?aid=1100l8ah5">Weaver Lite</a> or <a href="https://assetstore.unity.com/packages/tools/utilities/weaver-pro-60304?aid=1100l8ah5">Weaver Pro</a>.</li>
 <li>Select the Animator Controller asset you want to generate a class for.</li>
-<li>Open the context menu via the cog icon in the top right of the Inspector and execute the <code>Generate Controller State</code> function.</li>
+<li>Open the context menu via the cog icon in the top right of the Inspector and execute the <code>Generate Controller <a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> function.</li>
 <li>Choose where to save the generated script.</li>
 </ol>
 <p><img src="generate-controller-state.png" class="img-responsive"></p>
@@ -594,7 +595,7 @@ public sealed class BasicLocomotionState : Animancer.ControllerState
     public new class Transition : Transition&lt;BasicLocomotionState&gt;
     {
         /// &lt;summary&gt;Creates and returns a new &lt;see cref="BasicLocomotionState"/&gt;.&lt;/summary&gt;
-        public override BasicLocomotionState CreateState() =&gt; State = new BasicLocomotionState(Controller, KeepStateOnStop);
+        public override BasicLocomotionState CreateState() =&gt; <a href="/animancer/v6/api/Animancer.FSM/State">State</a> = new BasicLocomotionState(Controller, KeepStateOnStop);
 
 #if UNITY_EDITOR
 
@@ -615,12 +616,12 @@ public sealed class BasicLocomotionState : Animancer.ControllerState
 <h1 id="generating-transitions">Generating Transitions</h1>
 <p>If you have an Animator Controller which you want to replace with Animancer, you can select any of its states and use the cog icon in the top right of the Inspector to execute the <code>Generate Transition</code> function which will create Animancer <a href="../transitions/types#transition-assets">Transition Assets</a> for each of those states:</p>
 <ul>
-<li>A regular state will create a <code>ClipTransition</code>.</li>
+<li>A regular state will create a <code><a href="/animancer/v6/api/Animancer/ClipTransition">ClipTransition</a></code>.</li>
 <li>A Blend Tree will create an equivalent <a href="../blending/mixers">Mixer State</a> depending on its Blend Type according to the <a href="../blending/mixers/#choosing-a-mixer">Choosing a Mixer</a> table.</li>
 </ul>
 <p><img src="generate-transition.gif" class="img-responsive"></p>
 <h1 id="the-animator-controller-field">The Animator Controller Field</h1>
-<p>The <code>Animator</code> component has a <code>Controller</code> field in the Inspector where you would normally assign the Animator Controller asset you want it to use. Since that system does not work nicely with the Playables API that Animancer uses, adding an <code>AnimancerComponent</code> to an object will automatically clear that <code>Controller</code> field. If you assign something to that field afterwards, Animancer will not clear it again because it is actually possible to use it alongside Animancer with a few limitations:</p>
+<p>The <code>Animator</code> component has a <code>Controller</code> field in the Inspector where you would normally assign the Animator Controller asset you want it to use. Since that system does not work nicely with the Playables API that Animancer uses, adding an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to an object will automatically clear that <code>Controller</code> field. If you assign something to that field afterwards, Animancer will not clear it again because it is actually possible to use it alongside Animancer with a few limitations:</p>
 <ul>
 <li>The Animator Controller will always be executed in the background even when its output is being completely overridden, which may be wasting performance.</li>
 <li>If the conditions listed below are met then you can blend between the Animator Controller and Animancer by directly setting the <code>Weight</code> property on individual <a href="../blending/layers">Layers</a> or calling <code>StartFade</code> on them to <a href="../blending/fading">Fade</a> fade between them over time.

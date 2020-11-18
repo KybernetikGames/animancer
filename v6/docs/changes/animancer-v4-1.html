@@ -125,6 +125,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -464,12 +465,12 @@
 <li>The <code>ExposedCurve</code> script can still be downloaded from the <a href="../manual/ik#exposed-curves">Inverse Kinematics</a> page if you need it. See the <a href="../help">Help</a> page for contact options if you believe it should be added back into Animancer itself.</li>
 </ul>
 </li>
-<li>Added <code>PlayableAssetState.SetBindings</code> and <code>PlayableAssetState.Transition.Bindings</code> to support Timelines with multiple tracks, including non-animation tracks.
+<li>Added <code>PlayableAssetState.SetBindings</code> and <code><a href="/animancer/v6/api/Animancer/Transition/B621A526">PlayableAssetState.Transition.Bindings</a></code> to support Timelines with multiple tracks, including non-animation tracks.
 <ul>
 <li>This feature is still fairly experimental so please use the contact options on the <a href="../help">Help</a> page if you have any issues with it.</li>
 </ul>
 </li>
-<li><code>AnimancerPlayable.KeepChildrenConnected</code> now defaults to true for Generic Rigs because it has better <a href="../introduction/mecanim-vs-animancer/performance#average-frame-rate">Performance</a> for <code>Sprite</code> animations (and is similarly efficient for other Generic animations).</li>
+<li><code><a href="/animancer/v6/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> now defaults to true for Generic Rigs because it has better <a href="../introduction/mecanim-vs-animancer/performance#average-frame-rate">Performance</a> for <code>Sprite</code> animations (and is similarly efficient for other Generic animations).</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
@@ -485,17 +486,17 @@
 <ul>
 <li><code>ObjectPool.Count</code> can now be set to pre-allocate items.</li>
 <li>Added <code>ObjectPool.SetMinCount</code> to easily pre-allocate items.</li>
-<li><code>AnimancerState</code> now exposes the <code>EventPoolCount</code> and <code>SetMinEventPoolCount</code> in addition to the existing <code>EventPoolCapacity</code>.</li>
+<li><code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> now exposes the <code>EventPoolCount</code> and <code>SetMinEventPoolCount</code> in addition to the existing <code>EventPoolCapacity</code>.</li>
 </ul>
 </li>
-<li><code>PlayableAssetState.Length</code> is now cached so it no longer allocates garbage all the time (not sure why Unity's <code>PlayableAsset.length</code> would do so in the first place though).</li>
+<li><code><a href="/animancer/v6/api/Animancer/PlayableAssetState/9466EAB9">PlayableAssetState.Length</a></code> is now cached so it no longer allocates garbage all the time (not sure why Unity's <code>PlayableAsset.length</code> would do so in the first place though).</li>
 <li>Added <code>AnimancerNode.CreatePlayable</code>, <code>RecreatePlayable</code>, and <code>RecreatePlayableRecursive</code> to standardise their initialisation.
 <ul>
 <li>The <code>TransitionPreviewWindow</code> now uses them instead of totally destroying and recreating the states to ensure that the playables are correct without losing their drawer state. <a href="https://github.com/KybernetikGames/animancer/issues/23">#23</a></li>
-<li>Added <code>AnimancerState.ChangeMainObject</code> to standardise the destruction and re-creation of playables when the <code>AnimancerState.MainObject</code> is changed.</li>
+<li>Added <code>AnimancerState.ChangeMainObject</code> to standardise the destruction and re-creation of playables when the <code><a href="/animancer/v6/api/Animancer/AnimancerState/8A80B66F">AnimancerState.MainObject</a></code> is changed.</li>
 </ul>
 </li>
-<li>Added <code>ITransitionDetailed.IsValid</code> to determine if a valid state can be created before use.</li>
+<li>Added <code><a href="/animancer/v6/api/Animancer/ITransitionDetailed/60799E51">ITransitionDetailed.IsValid</a></code> to determine if a valid state can be created before use.</li>
 <li>Added <code>Validate.CanBePlayed</code> to ensure that a node has a valid playable and parent.</li>
 <li>Improved the output of <code>AnimancerNode.AppendDetails</code>.</li>
 </ul>
@@ -504,18 +505,18 @@
 <li>Changed <code>AnimancerLayer.maxStateDepth</code> to a property with a conditional <code>SetMaxStateDepth</code> method so it can be properly removed when <code>UNITY_ASSERTIONS</code> is not defined.</li>
 <li>Renamed <code>AnimancerState.NewTime</code> to <code>RawTime</code>.</li>
 <li>Renamed <code>AnimancerState.EventUpdatable</code> to <code>EventRunner</code>.</li>
-<li>Moved the <code>AnimancerNode.IsValid</code> extension method from <code>AnimancerEditorUtilities</code> to <code>AnimancerUtilities</code>.</li>
-<li>Adjusted the area highlighted by the <code>TransitionDrawer</code> for the currently reviewing transition to include the foldout arrow.</li>
+<li>Moved the <code><a href="/animancer/v6/api/Animancer/AnimancerNode/7C52CF73">AnimancerNode.IsValid</a></code> extension method from <code><a href="/animancer/v6/api/Animancer.Editor/AnimancerEditorUtilities">AnimancerEditorUtilities</a></code> to <code><a href="/animancer/v6/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></code>.</li>
+<li>Adjusted the area highlighted by the <code><a href="/animancer/v6/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> for the currently reviewing transition to include the foldout arrow.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
-<li>Fixed <code>AnimancerEvent.Sequence</code> pooling to work correctly.</li>
+<li>Fixed <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> pooling to work correctly.</li>
 <li>Added <code>[CanEditMultipleObjects]</code> to <code>DummyObjectEditor</code>.</li>
 <li><code>TransitionPreviewWindow</code> now supports Scriptable Render Pipelines. <a href="https://github.com/KybernetikGames/animancer/issues/17">#17</a></li>
 <li>Fixed <code>AnimancerPlayable.LateUpdate.IsConnected</code> to properly disconnect it when set to false.</li>
-<li>The <code>AnimancerState.Time</code> setter now delays assigning the value to the playable until the next update since weights cannot be applied during the late update (so the time and weight could be out of sync for a frame if set during an event). <a href="https://github.com/KybernetikGames/animancer/issues/25">#25</a></li>
+<li>The <code><a href="/animancer/v6/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> setter now delays assigning the value to the playable until the next update since weights cannot be applied during the late update (so the time and weight could be out of sync for a frame if set during an event). <a href="https://github.com/KybernetikGames/animancer/issues/25">#25</a></li>
 <li>Fixed the 3D Game Kit example character to stand on moving platforms properly by only accessing the <code>CharacterController.isGrounded</code> flag once per frame right after moving and using that value for everything. <a href="https://github.com/KybernetikGames/animancer/issues/24">#24</a></li>
-<li>Destroyed <code>AnimancerNode</code>s no longer get updated.</li>
+<li>Destroyed <code><a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></code>s no longer get updated.</li>
 <li>Fixed potential <code>NullReferenceException</code> in <code>MixerState.ApplySynchroniseChildren</code>.</li>
 <li>Fixed errors in <code>TransitionPreviewWindow</code> when the target transition is not valid.</li>
 </ul>

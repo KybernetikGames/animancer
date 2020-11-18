@@ -126,6 +126,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -464,7 +465,7 @@
 </li>
 <li>[Pro-Only] Added <code>AnimatorControllerState</code> for playing <code>AnimatorController</code>s, as well as <code>FloatParameterControllerState</code> for wrapping a <code>float</code> parameter and similar classes for <code>Vector2</code> and <code>Vector3</code>.</li>
 <li>Added <code>AnimancerController.UpdateMode</code> to wrap <code>Animator.updateMode</code> for intercepting <code>UnscaledTime</code> mode.</li>
-<li>Added methods for enabling IK to <code>AnimancerState</code>.
+<li>Added methods for enabling IK to <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code>.
 <ul>
 <li>Added <code>ClipState.DefaultApplyFootIK</code> to disable foot IK by default since the Playables API has it enabled by default.</li>
 </ul>
@@ -479,7 +480,7 @@
 <li>Added <code>AnimancerState.OutputWeight</code> which multiplies the <code>Weight</code> of the state by the <code>Weight</code> of each of its parents to determine how much it affects the final output of the <code>PlayableGraph</code>.</li>
 <li>Added <code>AnimancerPlayable.FastComparer</code> to allow the dictionary of registered states to avoid the slow <code>UnityEngine.Object</code> overloaded equals operator.</li>
 <li>Added <code>AnimancerPlayable.Evaluate(float deltaTime)</code> and a wrapper in <code>AnimancerController</code>.</li>
-<li>Added <code>AnimancerState.RemainingDuration</code>.</li>
+<li>Added <code><a href="/animancer/v6/api/Animancer/AnimancerState/87E41C92">AnimancerState.RemainingDuration</a></code>.</li>
 <li>Added <code>AnimationMixer.NormalizeDurations</code> to average all child state durations.</li>
 <li>[Pro-Only] Added <code>public AnimancerLayer.Initialise</code> to re-initialise a layer after it has been disposed.</li>
 </ul>
@@ -496,26 +497,26 @@
 <h1 id="changes">Changes</h1>
 <ul>
 <li>Restructured the directory layout to put the editor scripts in the regular assembly (in an <code>Editor</code> namespace and #if UNITY_EDITOR regions) so that they can make use of <code>internal</code> members instead of leaving them <code>public</code>.</li>
-<li>Removed <code>WrapMode</code> support since it didn't work properly. <code>ClipState</code> now just uses the <code>AnimationClip.isLooping</code> property which is set in the model's import settings. If you want to emulate <code>WrapMode.Once</code> you can just stop the animation using the <code>OnEnd</code> event.</li>
+<li>Removed <code>WrapMode</code> support since it didn't work properly. <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> now just uses the <code>AnimationClip.isLooping</code> property which is set in the model's import settings. If you want to emulate <code>WrapMode.Once</code> you can just stop the animation using the <code>OnEnd</code> event.</li>
 <li>Split <code>AnimancerController</code> functionality for playing animations automatically into <code>LegacyAnimancerController</code> and combined it with <code>NamedAnimancerController</code>.</li>
 <li>Removed all calls to <code>AnimancerPlayable.PlayGraph</code> except the one in <code>AnimancerController.OnEnable</code>. If the user stops the graph they should be responsible for starting it again and this saves some performance.</li>
-<li>Changed <code>AnimancerState.Duration</code> to be "The amount of time the animation will take to play fully at its current <code>Speed</code>" instead of just a wrapper around the <code>AnimationClip.length</code>.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> to be "The amount of time the animation will take to play fully at its current <code>Speed</code>" instead of just a wrapper around the <code>AnimationClip.length</code>.</li>
 <li>Restructured all states to use constructors instead of <code>CreateState&lt;T&gt;</code> so they can have <code>readonly</code> fields.</li>
 <li>Changed the abstract <code>AnimancerState.Playable</code> to <code>GetPlayable()</code> so that derived classes can use the <code>Playable</code> member name for their specific <code>readonly</code> playable field.
 <ul>
 <li>Added <code>protected AnimancerState._BasePlayable</code> field which needs to be set in the child class constructor and removed all the Playable Casts methods.</li>
 </ul>
 </li>
-<li>Added <code>AnimancerState.MainAsset</code> to show the <code>AnimationClip</code> in the Inspector for <code>ClipState</code> and the <code>AnimatorController</code> for <code>AnimatorControllerState</code>.</li>
+<li>Added <code>AnimancerState.MainAsset</code> to show the <code>AnimationClip</code> in the Inspector for <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> and the <code>AnimatorController</code> for <code>AnimatorControllerState</code>.</li>
 <li>[Pro-Only] Changed <code>AnimancerLayer.AcquirePortIndex</code> to <code>AddChild</code> so it can't be called without using the acquired port correctly.</li>
-<li>Made <code>AnimancerState.Time</code> virtual so that most states do not cache their time since only <code>ClipStates</code> actually need to check it every update and so <code>AnimationMixer</code>s can propogate set time calls to their children.</li>
+<li>Made <code><a href="/animancer/v6/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> virtual so that most states do not cache their time since only <code>ClipStates</code> actually need to check it every update and so <code>AnimationMixer</code>s can propogate set time calls to their children.</li>
 <li>Added <code>AnimancerStateInspector</code> and <code>AnimancerState.GetInspector</code> so states can define their own overrides of the Inspector behaviour.</li>
 <li>Removed <code>AnimancerPlayable.OnGraphStart</code> and <code>OnGraphStop</code>.</li>
 <li>Removed <code>HashedAnimancerController</code> since it was unlikely to actually be used.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
-<li>Fixed <code>ClipState</code> Inspector time bar and slider to clamp when the animation is not looping.</li>
+<li>Fixed <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> Inspector time bar and slider to clamp when the animation is not looping.</li>
 <li>[Pro-Only] <code>AnimancerLayer.Stop</code> now sets the <code>Weight</code> to 0 for when a layer fade finishes.</li>
 </ul>
 

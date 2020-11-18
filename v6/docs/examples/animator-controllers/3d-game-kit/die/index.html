@@ -123,6 +123,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -487,7 +488,7 @@ public void Die(Damageable.DamageMessage damageMessage)
 }
 </code></pre>
 <ol>
-<li>The transition from <code>Any State</code> to <code>EllenDeath</code> occurs after the <code>"Death"</code> trigger parameter is set.</li>
+<li>The transition from <code>Any <a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> to <code>EllenDeath</code> occurs after the <code>"Death"</code> trigger parameter is set.</li>
 <li>When that animation finishes it transitions into the <code>BeginRespawn</code> state.</li>
 <li>That state has a <code>EllenRespawnEffect</code> script attached to it.</li>
 <li>That script's <code>OnStateEnter</code> method calls <code>PlayerController.Respawn</code>.</li>
@@ -551,7 +552,7 @@ using UnityEngine.Events;
 
 public sealed class DieState : CreatureState
 {
-    [SerializeField] private ClipState.Transition _Animation;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Animation;
     [SerializeField] private UnityEvent _OnEnterState;
     [SerializeField] private UnityEvent _OnExitState;
 
@@ -568,7 +569,7 @@ public sealed class DieState : CreatureState
     private void OnEnable()
     {
         Creature.Animancer.Play(_Animation);
-        Creature.ForwardSpeed = 0;
+        <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/224320DD">Creature.ForwardSpeed</a> = 0;
         _OnEnterState.Invoke();
     }
 

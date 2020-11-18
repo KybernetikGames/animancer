@@ -126,6 +126,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -501,9 +502,9 @@ private void Awake()
 <pre><code class="language-cs">using System;
 using UnityEngine;
 
-public sealed class RespawnState : CreatureState
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a> : CreatureState
 {
-    [SerializeField] private ClipState.Transition _Animation;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Animation;
     [SerializeField] private UnityEvent _OnEnterState;
     [SerializeField] private UnityEvent _OnExitState;
 
@@ -559,7 +560,7 @@ public sealed class RespawnState : CreatureState
 <pre><code class="language-cs">if (creature.StateMachine.CurrentState is RespawnState)
 if (creature.StateMachine.CurrentState == creature.Respawn)
 </code></pre>
-<p>That is a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI did not specifically depend on the <code>RespawnState</code> class or even particularly care <em>why</em> they are not allowed to chase the player at that time so it might be better to use <a href="../../../../introduction/cs/inheritance">Inheritance</a>:</p>
+<p>That is a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI did not specifically depend on the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> class or even particularly care <em>why</em> they are not allowed to chase the player at that time so it might be better to use <a href="../../../../introduction/cs/inheritance">Inheritance</a>:</p>
 <pre><code class="language-cs">// Set the default in the base CreatureState:
 public virtual bool CanBeChased =&gt; true;
 
@@ -579,7 +580,7 @@ if (creature.StateMachine.CurrentState.CanBeChased)
 </ol>
 <p>But to do the same with Animancer you could basically do the same thing without the last step:</p>
 <ol>
-<li>Remove the <code>RespawnState</code> component.</li>
+<li>Remove the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> component.</li>
 <li>Assign the <code>IdleState</code> component to the <code>Creature._Respawn</code> field in the Inspector (so the same state is assigned to both <em>Respawn</em> and <em>Idle</em>).</li>
 </ol>
 <p>We did not intentionally plan the Animancer setup to support creatures without a respawn animation, but we have the ability to do so anyway since we structured the code properly. Being able to try out ideas and adapt to changing requirements like this is extremely valuable in software development.</p>

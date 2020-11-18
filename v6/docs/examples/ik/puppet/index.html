@@ -126,6 +126,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -457,11 +458,11 @@
 </blockquote>
 <p>This example demonstrates how you can use Unity's <a href="../../../manual/ik">Inverse Kinematics</a> system to control a character's limbs like a puppet and have them look at a specific point.</p>
 <p><img src="puppet.gif" class="img-responsive"></p>
-<p></p><details><summary>We use a very simple <code>MouseDrag</code> script to allow the user to drag the IK targets around (it would work on any object with a <code>Collider</code> component, but the IK targets are the only objects in this scene that have them):</summary><p>
+<p></p><details><summary>We use a very simple <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script to allow the user to drag the IK targets around (it would work on any object with a <code>Collider</code> component, but the IK targets are the only objects in this scene that have them):</summary><p>
 </p><pre><code class="language-cs">using System;
 using UnityEngine;
 
-public sealed class MouseDrag : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a> : MonoBehaviour
 {
     private Transform _Dragging;
 
@@ -498,17 +499,17 @@ public sealed class MouseDrag : MonoBehaviour
 </code></pre>
 <p></p></details><p></p>
 <h1 id="enabling-ik">Enabling IK</h1>
-<p>As explained on the <a href="../../../manual/ik">Inverse Kinematics</a> page, you can enable IK in Animancer by setting <code>AnimancerLayer.ApplyAnimatorIK</code>:</p>
+<p>As explained on the <a href="../../../manual/ik">Inverse Kinematics</a> page, you can enable IK in Animancer by setting <code><a href="/animancer/v6/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a></code>:</p>
 <pre><code class="language-cs">private void Awake()
 {
     _Animancer.Layers[0].ApplyAnimatorIK = true;
 }
 </code></pre>
-<p>Unity actually implements this setting per state (in <code>AnimationClipPlayable</code>) rather than per layer (in <code>AnimationLayerMixerPlayable</code>), so Animancer simply propogates the value from <code>AnimancerLayer.ApplyAnimatorIK</code> to the <code>AnimancerState.ApplyAnimatorIK</code> of every state connected to that <a href="../../../manual/blending/layers">Layer</a> and also to the <code>AnimancerLayer.DefaultApplyAnimatorIK</code> which determines the value for any new states that are created. You can of course set the value for individual states yourself if necessary. The <code>ApplyFootIK</code> setting also works similarly and is demonstrated in the <a href="../uneven-ground">Uneven Ground</a> example.</p>
-<p>That is actually the only Animancer-specific thing in this example (other than the <code>NamedAnimancerComponent</code> in the scene to play the <em>Idle</em> animation). Everything else from here on works exactly the same as if you were using Mecanim.</p>
+<p>Unity actually implements this setting per state (in <code>AnimationClipPlayable</code>) rather than per layer (in <code>AnimationLayerMixerPlayable</code>), so Animancer simply propogates the value from <code><a href="/animancer/v6/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a></code> to the <code>AnimancerState.ApplyAnimatorIK</code> of every state connected to that <a href="../../../manual/blending/layers">Layer</a> and also to the <code>AnimancerLayer.DefaultApplyAnimatorIK</code> which determines the value for any new states that are created. You can of course set the value for individual states yourself if necessary. The <code>ApplyFootIK</code> setting also works similarly and is demonstrated in the <a href="../uneven-ground">Uneven Ground</a> example.</p>
+<p>That is actually the only Animancer-specific thing in this example (other than the <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> in the scene to play the <em>Idle</em> animation). Everything else from here on works exactly the same as if you were using Mecanim.</p>
 <h1 id="center-of-mass">Center of Mass</h1>
 <p>After we enable <code>ApplyAnimatorIK</code>, Unity will call the <code>OnAnimatorIK</code> method every frame in any scripts attached to the same object as the <code>Animator</code>. Note that due to limitations in the Playables API, Unity will only ever pass <code>layerIndex = 0</code> as the parameter, even if you are using multiple <a href="../../../manual/blending/layers">Layers</a>.</p>
-<p>The first thing we do in the <code>IKPuppet</code> script is use the <code>Transform</code> of a target object to control the position and rotation of the character's center of mass:</p>
+<p>The first thing we do in the <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppet">IKPuppet</a></code> script is use the <code>Transform</code> of a target object to control the position and rotation of the character's center of mass:</p>
 <pre><code class="language-cs">[SerializeField] private Transform _BodyTarget;
 
 private void OnAnimatorIK(int layerIndex)
@@ -521,7 +522,7 @@ private void OnAnimatorIK(int layerIndex)
 <p><img src="body-only.gif" class="img-responsive"></p>
 <h1 id="look-at">Look At</h1>
 <p>Then we want to control where the character is looking:</p>
-<pre><code class="language-cs">[SerializeField] private IKPuppetLookTarget _LookTarget;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget">IKPuppetLookTarget</a> _LookTarget;
 
 private void OnAnimatorIK(int layerIndex)
 {
@@ -530,10 +531,10 @@ private void OnAnimatorIK(int layerIndex)
     _LookTarget.UpdateAnimatorIK(_Animancer.Animator);
 }
 </code></pre>
-<p>The <code>IKPuppetLookTarget</code> is also quite simple:</p>
+<p>The <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget">IKPuppetLookTarget</a></code> is also quite simple:</p>
 <pre><code class="language-cs">using UnityEngine;
 
-public sealed class IKPuppetLookTarget : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget">IKPuppetLookTarget</a> : MonoBehaviour
 {
     [SerializeField, Range(0, 1)] private float _Weight = 1;
     [SerializeField, Range(0, 1)] private float _BodyWeight = 0.3f;
@@ -548,7 +549,7 @@ public sealed class IKPuppetLookTarget : MonoBehaviour
     }
 }
 </code></pre>
-<p>By attaching that script to an object with a <code>Collider</code> (so the <code>MouseDrag</code> script can let us move it around) we get the ability to control where the character looks, with various parameters in the Inspector to control its details:</p>
+<p>By attaching that script to an object with a <code>Collider</code> (so the <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script can let us move it around) we get the ability to control where the character looks, with various parameters in the Inspector to control its details:</p>
 <p><img src="body-and-look.gif" class="img-responsive"></p>
 <h1 id="hands-and-feet">Hands and Feet</h1>
 <p>Controlling the character's hands and feet is also quite simple. We just need an array of targets:</p>
@@ -567,7 +568,7 @@ private void OnAnimatorIK(int layerIndex)
 <p>And another simple script to hold their details (which are different from the look target):</p>
 <pre><code class="language-cs">using UnityEngine;
 
-public sealed class IKPuppetTarget : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppetTarget">IKPuppetTarget</a> : MonoBehaviour
 {
     [SerializeField] private AvatarIKGoal _Type;// Determines which limb this target applies to.
     [SerializeField, Range(0, 1)] private float _PositionWeight = 1;
@@ -585,15 +586,15 @@ public sealed class IKPuppetTarget : MonoBehaviour
 </code></pre>
 <p>So now we have control over the character's center of mass, head, hands, and feet:</p>
 <p><img src="puppet.gif" class="img-responsive"></p>
-<p></p><details><summary>The full <code>IKPuppet</code> script looks like this:</summary><p>
+<p></p><details><summary>The full <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppet">IKPuppet</a></code> script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class IKPuppet : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppet">IKPuppet</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private Transform _BodyTarget;
-    [SerializeField] private IKPuppetLookTarget _LookTarget;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget">IKPuppetLookTarget</a> _LookTarget;
     [SerializeField] private IKPuppetTarget[] _IKTargets;
 
     private void Awake()
@@ -617,11 +618,11 @@ public sealed class IKPuppet : MonoBehaviour
 </code></pre>
 <p></p></details><p></p>
 <h2 id="rotation">Rotation</h2>
-<p>You can also select any of the limb targets in the Hierarchy and use its Inspector to modify its details, including the weight with which it affects the position and rotation. By default, we set the <code>_RotationWeight = 0</code> since the <code>MouseDrag</code> script does not give us an easy way to visualise or control rotations, but if you would like to see it in action you can just increase the weight and use the <code>Transform</code> Inspector of the Scene view gizmo to rotate the object:</p>
+<p>You can also select any of the limb targets in the Hierarchy and use its Inspector to modify its details, including the weight with which it affects the position and rotation. By default, we set the <code>_RotationWeight = 0</code> since the <code><a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script does not give us an easy way to visualise or control rotations, but if you would like to see it in action you can just increase the weight and use the <code>Transform</code> Inspector of the Scene view gizmo to rotate the object:</p>
 <p><img src="hand-rotation.gif" class="img-responsive"></p>
 <h1 id="reset">Reset</h1>
 <p>This example also uses a really simple script to allow a <a href="../../basics/scene-setup#buttons">UI Button</a> to reset all the IK targets to their starting positions and rotations:</p>
-<pre><code class="language-cs">public sealed class TransformResetter : MonoBehaviour
+<pre><code class="language-cs">public sealed class <a href="/animancer/v6/api/Animancer.Examples.InverseKinematics/TransformResetter">TransformResetter</a> : MonoBehaviour
 {
     [SerializeField] private Transform[] _Transforms;
 

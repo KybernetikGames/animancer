@@ -125,6 +125,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -502,17 +503,17 @@
 <p></p></details><p></p>
 <p>After that method, <code>OnAnimatorMove</code> adds the <code>m_VerticalSpeed</code> to the movement it executes that frame and also sets it as the <code>AirborneVerticalSpeed</code> parameter in the Animator Controller to control the Blend Tree.</p>
 <h1 id="animancer">Animancer</h1>
-<p></p><details><summary>Animancer manages the above logic in the <code>AirborneState</code> script which uses a <a href="../../../../../manual/blending/mixers">Mixer</a> to achieve the same thing as that Blend Tree, allowing it to be set up in the Inspector instead of in an Animator Controller:</summary><p>
+<p></p><details><summary>Animancer manages the above logic in the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> script which uses a <a href="../../../../../manual/blending/mixers">Mixer</a> to achieve the same thing as that Blend Tree, allowing it to be set up in the Inspector instead of in an Animator Controller:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class AirborneState : CreatureState
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a> : CreatureState
 {
-    [SerializeField] private LinearMixerState.Transition _Animations;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">LinearMixerState.Transition</a> _Animations;
     [SerializeField] private float _JumpSpeed = 10;
     [SerializeField] private float _JumpAbortSpeed = 10;
     [SerializeField] private float _TurnSpeedProportion = 5.4f;
-    [SerializeField] private LandingState _LandingState;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a> _LandingState;
     [SerializeField] private UnityEvent _PlayAudio;
 
     private bool _IsJumping;
@@ -525,7 +526,7 @@ public sealed class AirborneState : CreatureState
 
     public override bool StickToGround =&gt; false;
 
-    public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
+    public override Vector3 <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
 
     private void FixedUpdate()
     {
@@ -548,7 +549,7 @@ public sealed class AirborneState : CreatureState
             }
 
             if (Creature.VerticalSpeed &gt; 0)
-                Creature.VerticalSpeed -= _JumpAbortSpeed * Time.deltaTime;
+                <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> -= _JumpAbortSpeed * Time.deltaTime;
         }
 
         _Animations.State.Parameter = Creature.VerticalSpeed;
@@ -571,7 +572,7 @@ public sealed class AirborneState : CreatureState
             Creature.StateMachine.TryResetState(this))
         {
             _IsJumping = true;
-            Creature.VerticalSpeed = _JumpSpeed;
+            <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> = _JumpSpeed;
 
             _PlayAudio.Invoke();
 
@@ -588,10 +589,10 @@ public sealed class AirborneState : CreatureState
 <p><img src="airborne-state.png" class="img-responsive"></p>
 <h1 id="updates">Updates</h1>
 <p>There are several aspects to this state every update.</p>
-<p>Firstly, we override the <code>StickToGround</code> property to always be false and the <code>RootMotion</code> property to go whichever direction the <code>Creature.Brain</code> is trying to move as explained on the <a href="../locomotion/movement#on-animator-move-1">Movement</a> page.</p>
+<p>Firstly, we override the <code>StickToGround</code> property to always be false and the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> property to go whichever direction the <code>Creature.Brain</code> is trying to move as explained on the <a href="../locomotion/movement#on-animator-move-1">Movement</a> page.</p>
 <pre><code class="language-cs">public override bool StickToGround =&gt; false;
 
-public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
+public override Vector3 <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
 </code></pre>
 <p>Then the <code>FixedUpdate</code> method executes the main logic of this state.</p>
 <p>It starts by making sure that when you jump, it does not start checking if you have landed until you stop going up:</p>
@@ -617,10 +618,10 @@ public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.For
                 return;
         }
 </code></pre>
-<p>Note that the <code>LandingState</code> isn't referenced by any other scripts. It is not a standard state that every <code>Creature</code> needs and nothing else needs to directly know about it.</p>
+<p>Note that the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> isn't referenced by any other scripts. It is not a standard state that every <code>Creature</code> needs and nothing else needs to directly know about it.</p>
 <p>Here we also apply some additional downward acceleration (on top of the regular gravity applied in <code>Creature.OnAnimatorMove</code>) if the player releases the jump button early (this is still inside the block where <code>_IsJumping</code> is false, meaning the jump was cancelled):</p>
 <pre><code class="language-cs">        if (Creature.VerticalSpeed &gt; 0)
-            Creature.VerticalSpeed -= _JumpAbortSpeed * Time.deltaTime;
+            <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> -= _JumpAbortSpeed * Time.deltaTime;
     }
 </code></pre>
 <p>Lastly, we send the vertical speed to the mixer parameter and update the <code>Creature</code>'s speed and turning. Since we do not have quick turn animations like the <code>LocomotionState</code>, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
@@ -651,7 +652,7 @@ public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.For
 </ol>
 <p>The Animancer implementation is much easier to follow:</p>
 <ol>
-<li><code>KeyboardAndMouseBrain</code> checks for a button press to call <code>Creature.Airborne.TryJump();</code>.</li>
+<li><code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/KeyboardAndMouseBrain">KeyboardAndMouseBrain</a></code> checks for a button press to call <code>Creature.Airborne.TryJump();</code>.</li>
 <li>That method clearly defines everything involved in jumping:</li>
 </ol>
 <p>You can only jump while grounded:</p>
@@ -662,11 +663,11 @@ public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.For
 <p>Then we try to enter this state. We did not override <code>CanEnterState</code> to check if the <code>Creature</code> is grounded because this state is also used if you walk off a ledge, so instead we only check that condition here when specifically attempting to jump. That means this state will always allow itself to be entered, so we are only depending on the previous state's <code>CanExitState</code> to return true. Unlike the Mecanim character, this method does not specifically care if the character is attacking, it simply lets the state machine ask if the previous state will allow the change. If you add some other ability or action that does not want to be interrupted, this method will continue working properly without needing to be modified.</p>
 <pre><code class="language-cs">        Creature.StateMachine.TryResetState(this))
 </code></pre>
-<p>If the state is changed, it will enable this script (because it inherits from <code>StateBehaviour</code>) which will call its <code>OnEnable</code> method.</p>
+<p>If the state is changed, it will enable this script (because it inherits from <code><a href="/animancer/v6/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code>) which will call its <code>OnEnable</code> method.</p>
 <p>Now that we are in this state, flag it as a jump (so it can be cancelled to apply additional downward acceleration), apply the jump speed, and play a jump sound:</p>
 <pre><code class="language-cs">    {
         _IsJumping = true;
-        Creature.VerticalSpeed = _JumpSpeed;
+        <a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/Creature/991407AC">Creature.VerticalSpeed</a> = _JumpSpeed;
         _PlayAudio.Invoke();
 </code></pre>
 <p>And finally, use the return value to indicate whether the jump was successful:</p>

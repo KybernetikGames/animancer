@@ -123,6 +123,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -448,17 +449,17 @@
 		</section>
 	<section class="content">
 		<p>Unity's inbuilt <a href="https://docs.unity3d.com/ScriptReference/AnimationEvent.html">Animation Event</a> system works the same when using Animancer as without it. The Unity Manual explains how to set up events using the <a href="https://docs.unity3d.com/Manual/AnimationEventsOnImportedClips.html">Animation Tab</a> of a model's import settings or the <a href="https://docs.unity3d.com/Manual/script-AnimationWindowEvent.html">Animation Window</a>. To receive the events, you simply attach a script to the same object as the <code>Animator</code> component and the engine will look for a method in that script with whatever <code>Function</code> name the event specifies. The <a href="../../../examples/events">Animation Events</a> examples demonstrate how to use them.</p>
-<p>It can be convenient to have your event listener script <a href="../../../introduction/cs/inheritance">Interit</a> from <code>AnimancerComponent</code> for organisational purposes (instead of having two separate components), but most events do not actually have any direct interaction with Animancer.</p>
+<p>It can be convenient to have your event listener script <a href="../../../introduction/cs/inheritance">Interit</a> from <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> for organisational purposes (instead of having two separate components), but most events do not actually have any direct interaction with Animancer.</p>
 <p>Note that any event with a <code>string</code> or <code>AnimationEvent</code> parameter will allocate some <a href="../../../introduction/cs/other#garbage-collection">Garbage</a> every time it is triggered, which can potentially cause performance issues.</p>
 <h1 id="simple-events">Simple Events</h1>
-<p><img src="simple-event.png" class="img-responsive img-right"> The <code>SimpleEventReceiver</code> component has an <code>OnEvent</code> callback which is triggered by Animation Events using the <code>Function</code> name <code>"Event"</code>. This means you can start an animation then register a callback for when its event occurs. It will automatically assert that the <code>AnimationClip</code> actually has an event with that name (while in the Unity Editor).</p>
-<p>The <code>SimpleEventReceiver</code> component mainly serves as an example of how you can implement your own events using the <code>AnimationEventReceiver</code> struct, but it could be useful in a simple game if you set up all of your animations with only one event each that uses <code>"Event"</code> as the <code>Function</code> name (<code>Attack</code> script uses the event to indicate the hit time, <code>Walk</code> script uses it to play footstep sounds, etc). The callback takes the triggering <code>AnimationEvent</code> as a parameter so you can access any of its values, including the <code>AnimationClip</code> that it comes from.</p>
-<p></p><details><summary>Using simple events in code is similar to using <a href="../../events/end#events">End Events</a>, you simply access <code>OnEvent</code> on the <code>SimpleEventReceiver</code> rather than the state:</summary><p>
+<p><img src="simple-event.png" class="img-responsive img-right"> The <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component has an <code>OnEvent</code> callback which is triggered by Animation Events using the <code>Function</code> name <code>"Event"</code>. This means you can start an animation then register a callback for when its event occurs. It will automatically assert that the <code>AnimationClip</code> actually has an event with that name (while in the Unity Editor).</p>
+<p>The <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component mainly serves as an example of how you can implement your own events using the <code><a href="/animancer/v6/api/Animancer/AnimationEventReceiver">AnimationEventReceiver</a></code> struct, but it could be useful in a simple game if you set up all of your animations with only one event each that uses <code>"Event"</code> as the <code>Function</code> name (<code>Attack</code> script uses the event to indicate the hit time, <code>Walk</code> script uses it to play footstep sounds, etc). The callback takes the triggering <code>AnimationEvent</code> as a parameter so you can access any of its values, including the <code>AnimationClip</code> that it comes from.</p>
+<p></p><details><summary>Using simple events in code is similar to using <a href="../../events/end#events">End Events</a>, you simply access <code>OnEvent</code> on the <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> rather than the state:</summary><p>
 </p><pre><code class="language-cs">[SerializeField]
-private AnimancerComponent _Animancer;
+private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
 [SerializeField]
-private SimpleEventReceiver _EventReceiver;
+private <a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a> _EventReceiver;
 
 ...
 
@@ -470,7 +471,7 @@ _EventReceiver.OnEvent.Set(state, ...);
 <p></p></details><p></p>
 <p>The <a href="../../../examples/events/golf#simple-event">Golf Events</a> example demonstrates the use of this feature.</p>
 <h1 id="end-animation-events">End Animation Events</h1>
-<p><img src="end-event.png" class="img-responsive img-right"> The <code>EndEventReceiver</code> component is similar to <code>SimpleEventReceiver</code>, except that it uses uses <code>"End"</code> as the <code>Function</code> name and instead of having its own callback, it triggers the <a href="../end">End Event</a> of the animation. You can already set <a href="../end">End Events</a> to occur at whatever time you want, so this is simply an alternative way of achieving the same thing.</p>
+<p><img src="end-event.png" class="img-responsive img-right"> The <code><a href="/animancer/v6/api/Animancer/EndEventReceiver">EndEventReceiver</a></code> component is similar to <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code>, except that it uses uses <code>"End"</code> as the <code>Function</code> name and instead of having its own callback, it triggers the <a href="../end">End Event</a> of the animation. You can already set <a href="../end">End Events</a> to occur at whatever time you want, so this is simply an alternative way of achieving the same thing.</p>
 <p>The <a href="../../../examples/events/golf#end-event">Golf Events</a> example demonstrates the use of this feature.</p>
 
 	</section>

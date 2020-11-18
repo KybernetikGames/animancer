@@ -129,6 +129,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -458,13 +459,13 @@
 <p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/10 Animation Jobs/02 Damping</em></p>
 <p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Jobs"><code>Animancer.Examples.Jobs</code></a></p>
 </blockquote>
-<p>This example demonstrates how the <code>DampingJob</code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer to apply physics based drag to some of a character's bones. That would normally be useful for things like hair or a tail, but since we don't have a character with those this example will just apply the effect to an arm of the <em>DefaultHumanoid</em> and the legs of the <em>SpiderBot</em>. This system could be used in a real project, however the <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@0.3/manual/index.html">Animation Rigging</a> package contains a much better <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@0.3/manual/constraints/DampedTransform.html">Damped Transform</a> system which also uses Animation Jobs and can be used alongside Animancer without any modification.</p>
+<p>This example demonstrates how the <code><a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer to apply physics based drag to some of a character's bones. That would normally be useful for things like hair or a tail, but since we don't have a character with those this example will just apply the effect to an arm of the <em>DefaultHumanoid</em> and the legs of the <em>SpiderBot</em>. This system could be used in a real project, however the <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@0.3/manual/index.html">Animation Rigging</a> package contains a much better <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@0.3/manual/constraints/DampedTransform.html">Damped Transform</a> system which also uses Animation Jobs and can be used alongside Animancer without any modification.</p>
 <p><img src="damping.gif" class="img-responsive"></p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <h1 id="scripts">Scripts</h1>
 <p>This example uses two scripts:</p>
 <ol>
-<li><details><summary>The job itself is a <code>struct</code> which implements the <a href="https://docs.unity3d.com/ScriptReference/Animations.IAnimationJob.html">IAnimationJob</a> interface. In this case, that's the <code>DampingJob</code> script from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Runtime/AnimationJobs/DampingJob.cs">Animation Jobs Samples</a>. The contents of this script will are mostly the same as the sample, except that the <code>ProcessRootMotion</code> method has been cleared because its original code was actually unnecessary and did not work as intended. Its functionality will not be explained here (beyond its original comments) since this example is about how to use jobs, not how to implement the damping itself.</summary><p>
+<li><details><summary>The job itself is a <code>struct</code> which implements the <a href="https://docs.unity3d.com/ScriptReference/Animations.IAnimationJob.html">IAnimationJob</a> interface. In this case, that's the <code><a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> script from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Runtime/AnimationJobs/DampingJob.cs">Animation Jobs Samples</a>. The contents of this script will are mostly the same as the sample, except that the <code>ProcessRootMotion</code> method has been cleared because its original code was actually unnecessary and did not work as intended. Its functionality will not be explained here (beyond its original comments) since this example is about how to use jobs, not how to implement the damping itself.</summary><p>
 </p><pre><code class="language-cs">using Unity.Collections;
 using UnityEngine;
 #if UNITY_2019_3_OR_NEWER
@@ -473,7 +474,7 @@ using UnityEngine.Animations;
 using UnityEngine.Experimental.Animations;
 #endif
 
-public struct DampingJob : IAnimationJob
+public struct <a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a> : IAnimationJob
 {
     public TransformStreamHandle rootHandle;
     public NativeArray&lt;TransformStreamHandle&gt; jointHandles;
@@ -604,15 +605,15 @@ public struct DampingJob : IAnimationJob
 }
 </code></pre>
 <p></p></details></li>
-<li><details><summary>Another script which creates the job and manages access to it. In this case, that's the <code>Damping</code> script which is a modified version of the sample <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">TwoBoneIK</a> script which has been adapted for use with Animancer:</summary><p>
+<li><details><summary>Another script which creates the job and manages access to it. In this case, that's the <code><a href="/animancer/v6/api/Animancer.Examples.Jobs/Damping">Damping</a></code> script which is a modified version of the sample <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">TwoBoneIK</a> script which has been adapted for use with Animancer:</summary><p>
 </p><pre><code class="language-cs">using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Experimental.Animations;
 
-public class Damping : MonoBehaviour
+public class <a href="/animancer/v6/api/Animancer.Examples.Jobs/Damping">Damping</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private Transform _EndBone;
     [SerializeField] private int _BoneCount = 1;
 
@@ -696,8 +697,8 @@ public class Damping : MonoBehaviour
         if (!_HasLoggedUnityVersionWarning &amp;&amp; !_Animancer.Animator.isHuman)
         {
             _HasLoggedUnityVersionWarning = true;
-            Debug.LogWarning("A bug in Unity versions older than 2019.1 prevents the Damping system from working on Generi Rigs." +
-                " The DampingJob relies on world positions but TransformStreamHandle.GetPosition returns local positions." this);
+            Debug.LogWarning("A bug in Unity versions older than 2019.1 prevents the <a href="/animancer/v6/api/Animancer.Examples.Jobs/Damping">Damping</a> system from working on Generi Rigs." +
+                " The <a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a> relies on world positions but TransformStreamHandle.GetPosition returns local positions." this);
         }
     }
 
@@ -707,7 +708,7 @@ public class Damping : MonoBehaviour
 <p></p></details></li>
 </ol>
 <h1 id="unity-version">Unity Version</h1>
-<p>Unfortunately, A bug in Unity versions older than 2019.1 prevents the Damping system from working on Generic Rigs. The <code>DampingJob</code> relies on world positions but <code>TransformStreamHandle.GetPosition</code> returns local positions. So we simply use <code>#if !UNITY_2019_1_OR_NEWER</code> (note the <code>!</code>) to write some warning code that will automatically be compiled out of newer versions (see <a href="https://docs.unity3d.com/Manual/PlatformDependentCompilation.html">Platform Dependent Compilation</a> for more details):</p>
+<p>Unfortunately, A bug in Unity versions older than 2019.1 prevents the Damping system from working on Generic Rigs. The <code><a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> relies on world positions but <code>TransformStreamHandle.GetPosition</code> returns local positions. So we simply use <code>#if !UNITY_2019_1_OR_NEWER</code> (note the <code>!</code>) to write some warning code that will automatically be compiled out of newer versions (see <a href="https://docs.unity3d.com/Manual/PlatformDependentCompilation.html">Platform Dependent Compilation</a> for more details):</p>
 <pre><code class="language-cs">#if !UNITY_2019_1_OR_NEWER
 
 private static bool _HasLoggedUnityVersionWarning;
@@ -717,8 +718,8 @@ private void Start()
     if (!_HasLoggedUnityVersionWarning &amp;&amp; !_Animancer.Animator.isHuman)
     {
         _HasLoggedUnityVersionWarning = true;
-        Debug.LogWarning("A bug in Unity versions older than 2019.1 prevents the Damping system from working on GeneriRigs." +
-            " The DampingJob relies on world positions but TransformStreamHandle.GetPosition returns local positions."this);
+        Debug.LogWarning("A bug in Unity versions older than 2019.1 prevents the <a href="/animancer/v6/api/Animancer.Examples.Jobs/Damping">Damping</a> system from working on GeneriRigs." +
+            " The <a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a> relies on world positions but TransformStreamHandle.GetPosition returns local positions."this);
     }
 }
 
@@ -726,7 +727,7 @@ private void Start()
 </code></pre>
 <p>We could have just put that code in the <code>Awake</code> method, but using <code>Start</code> allows us to keep it entirely separate from the rest of the script and avoid needing a separate <code>#if</code> around both the field and the contents of the method.</p>
 <h1 id="responsibilities">Responsibilities</h1>
-<p>Since the original <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">Damping</a> script was just a sample, it had most of the same <a href="../two-bone-ik#responsibilities">problems with Responsibilities as the Two Bone IK example</a> which are again fixed in our example implementation. The following table compares the differences between the original and the <code>Damping</code> script used in this example, excluding any that were already covered by the <a href="../two-bone-ik#responsibilities">Two Bone IK</a> example:</p>
+<p>Since the original <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">Damping</a> script was just a sample, it had most of the same <a href="../two-bone-ik#responsibilities">problems with Responsibilities as the Two Bone IK example</a> which are again fixed in our example implementation. The following table compares the differences between the original and the <code><a href="/animancer/v6/api/Animancer.Examples.Jobs/Damping">Damping</a></code> script used in this example, excluding any that were already covered by the <a href="../two-bone-ik#responsibilities">Two Bone IK</a> example:</p>
 <table class="table">
 <thead>
 <tr>
@@ -745,7 +746,7 @@ private void Start()
 </tr>
 <tr>
 <td>In addition to destroying the <code>PlayableGraph</code> in <code>OnDisable</code>, it also had to <code>Dispose</code> all the <code>NativeArray</code>s used by the job.</td>
-<td>Adds the arrays to the <code>AnimancerPlayable.Disposables</code> list for Animancer to <code>Dispose</code> them so we don't need an <code>OnDisable</code> method at all.</td>
+<td>Adds the arrays to the <code><a href="/animancer/v6/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list for Animancer to <code>Dispose</code> them so we don't need an <code>OnDisable</code> method at all.</td>
 </tr>
 <tr>
 <td>Had a separate field to store each of those <code>NativeArrays</code> for disposal.</td>
@@ -764,7 +765,7 @@ private void Start()
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private AnimancerComponent _Animancer;
+private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
 [SerializeField]
 private Transform _EndBone;
@@ -864,7 +865,7 @@ job.localPositions = ...;
                 break;
             }
 </code></pre>
-<p>If we reach the top of the Hierarchy without finding the root <code>Animator</code>, then the <code>_EndBone</code> is not a child of it and won't work with the <code>DampingJob</code> so we just clear it and log a warning:</p>
+<p>If we reach the top of the Hierarchy without finding the root <code>Animator</code>, then the <code>_EndBone</code> is not a child of it and won't work with the <code><a href="/animancer/v6/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> so we just clear it and log a warning:</p>
 <pre><code class="language-cs">            else if (bone == null)
             {
                 _EndBone = null;

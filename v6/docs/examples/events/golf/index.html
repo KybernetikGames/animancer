@@ -124,6 +124,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -456,24 +457,24 @@
 <p>This example expands upon the <a href="../../basics/quick-play">Quick Play</a> scene to demonstrate how you can utilise the various types of <a href="../../../manual/events">Events</a> supported by Animancer. It shows how you can have a character hit a ball at a specific time and adjust the end time of the animation to create a smoother transition. Both of these tasks are performed in several different ways using Unity's <a href="../../../manual/events/animation">Animation Events</a> and <a href="../../../manual/events/animancer">Animancer Events</a> so that you can compare the differences between those systems.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/blending/fading">custom Fade durations</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="golf-events.gif" class="img-responsive"></p>
-<p></p><details><summary>The base <code>GolfHitController</code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The base <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System;
 using UnityEngine;
 
-public abstract class GolfHitController : MonoBehaviour
+public abstract class <a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a> : MonoBehaviour
 {
-    [SerializeField] protected AnimancerComponent _Animancer;
-    [SerializeField] protected ClipState.Transition _Ready;
-    [SerializeField] protected ClipState.Transition _Swing;
-    [SerializeField] protected ClipState.Transition _Idle;
+    [SerializeField] protected <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] protected <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Ready;
+    [SerializeField] protected <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Swing;
+    [SerializeField] protected <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Idle;
     [SerializeField] private Rigidbody _Ball;
     [SerializeField] private Vector3 _HitVelocity;
     [SerializeField] private AudioSource _HitSound;
 
-    public enum State { Ready, Swing, Idle, }
+    public enum <a href="/animancer/v6/api/Animancer.FSM/State">State</a> { Ready, Swing, Idle, }
 
-    public State CurrentState { get; private set; }
+    public <a href="/animancer/v6/api/Animancer.FSM/State">State</a> CurrentState { get; private set; }
 
     private Vector3 _BallStartPosition;
 
@@ -549,7 +550,7 @@ public abstract class GolfHitController : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
-<p>To demonstrate the differences between the available event systems, this example consists of 4 other scripts which <a href="../../../introduction/cs/inheritance">Inherit</a> from <code>GolfHitController</code> so they can all share the same general logic but implement their own events for hitting the ball and determining when the next animation should start:</p>
+<p>To demonstrate the differences between the available event systems, this example consists of 4 other scripts which <a href="../../../introduction/cs/inheritance">Inherit</a> from <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> so they can all share the same general logic but implement their own events for hitting the ball and determining when the next animation should start:</p>
 <table class="table">
 <thead>
 <tr>
@@ -561,33 +562,33 @@ public abstract class GolfHitController : MonoBehaviour
 <tbody>
 <tr>
 <td>1</td>
-<td><code>GolfHitControllerAnimationSimple</code></td>
+<td><code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimationSimple">GolfHitControllerAnimationSimple</a></code></td>
 <td>Uses a <a href="../../../manual/events/animation#simple-events">Simple Animation Event</a> and <a href="../../../manual/events/animation#end-animation-events">End Animation Event</a>.</td>
 </tr>
 <tr>
 <td>2</td>
-<td><code>GolfHitControllerAnimation</code></td>
+<td><code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimation">GolfHitControllerAnimation</a></code></td>
 <td>Uses a regular <a href="../../../manual/events/animation">Animation Event</a> and <a href="../../../manual/events/animation#end-animation-events">End Animation Event</a>.</td>
 </tr>
 <tr>
 <td>3</td>
-<td><code>GolfHitControllerAnimancer</code></td>
+<td><code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code></td>
 <td>Uses <a href="../../../manual/events/animancer">Animancer Events</a> configured in the Inspector.</td>
 </tr>
 <tr>
 <td>4</td>
-<td><code>GolfHitControllerAnimancerHybrid</code></td>
+<td><code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code></td>
 <td>Uses <a href="../../../manual/events/animancer">Animancer Events</a> which have their times configured in the Inspector but their callbacks are left blank so that they can be assigned using code (without needing to hard-code the times).</td>
 </tr>
 </tbody>
 </table>
 <h1 id="base-script">Base Script</h1>
-<p>The base <code>GolfHitController</code> script is fairly simple so you may want to simply skip ahead to the <a href="#hit-events">Hit Events</a> section where it starts explaining the setup of the actual events.</p>
+<p>The base <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script is fairly simple so you may want to simply skip ahead to the <a href="#hit-events">Hit Events</a> section where it starts explaining the setup of the actual events.</p>
 <h2 id="fields">Fields</h2>
-<pre><code class="language-cs">[SerializeField] protected AnimancerComponent _Animancer;
-[SerializeField] protected ClipState.Transition _Ready;
-[SerializeField] protected ClipState.Transition _Swing;
-[SerializeField] protected ClipState.Transition _Idle;
+<pre><code class="language-cs">[SerializeField] protected <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] protected <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Ready;
+[SerializeField] protected <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Swing;
+[SerializeField] protected <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Idle;
 [SerializeField] private Rigidbody _Ball;
 [SerializeField] private Vector3 _HitVelocity;
 [SerializeField] private AudioSource _HitSound;
@@ -601,7 +602,7 @@ public abstract class GolfHitController : MonoBehaviour
   </tr></thead>
   <tbody>
     <tr>
-      <td><p><strong>1. Animation Simple</strong>: uses the <em>Humanoid-GolfSwing-WithEvents</em> animation with an additional reference to a <code>SimpleEventReceiver</code> for the <a href="#hit-events">Hit Event</a>.</p><img src="animation-simple-inspector.png" class="img-responsive"></td>
+      <td><p><strong>1. Animation Simple</strong>: uses the <em>Humanoid-GolfSwing-WithEvents</em> animation with an additional reference to a <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> for the <a href="#hit-events">Hit Event</a>.</p><img src="animation-simple-inspector.png" class="img-responsive"></td>
       <td><p><strong>3. Animancer</strong>: uses the <a href="../../../manual/events/animancer">Animancer Events</a> in the <a href="../../../manual/transitions">Transition</a> configured in the Inspector to trigger the <a href="#hit-events">Hit Event</a> and <a href="#end-events">End Event</a>.</p><img src="animancer-inspector.png" class="img-responsive"></td>
     </tr>
     <tr>
@@ -611,9 +612,9 @@ public abstract class GolfHitController : MonoBehaviour
   </tbody>
 </table>
 <p>It also has a simple <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> to represent the character's current state and another field to store the initial position of the ball:</p>
-<pre><code class="language-cs">public enum State { Ready, Swing, Idle, }
+<pre><code class="language-cs">public enum <a href="/animancer/v6/api/Animancer.FSM/State">State</a> { Ready, Swing, Idle, }
 
-public State CurrentState { get; private set; }
+public <a href="/animancer/v6/api/Animancer.FSM/State">State</a> CurrentState { get; private set; }
 
 private Vector3 _BallStartPosition;
 </code></pre>
@@ -706,7 +707,7 @@ private Vector3 _BallStartPosition;
 </code></pre>
 <p>For this example we are just using the regular <em>Humanoid-Idle</em> animation, which does not account for the golf club and ends up sticking it through the ground.</p>
 <h2 id="changing-scripts">Changing Scripts</h2>
-<p>Since we want all of the characters to use basically the same values for their <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> and Unity does not give us a way of copying values between different component types, we can use a serialization trick when we add a second component that inherits from <code>GolfHitController</code> to have Unity change the type of the existing script and immediately destroy the newly added script:</p>
+<p>Since we want all of the characters to use basically the same values for their <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> and Unity does not give us a way of copying values between different component types, we can use a serialization trick when we add a second component that inherits from <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> to have Unity change the type of the existing script and immediately destroy the newly added script:</p>
 <pre><code class="language-cs">protected void Reset()
 {
     AnimancerUtilities.IfMultiComponentThenChangeType(this);
@@ -716,10 +717,10 @@ private Vector3 _BallStartPosition;
 <h1 id="hit-events">Hit Events</h1>
 <p>The <code>HitBall</code> method <a href="#events">explained above</a> is called at some point during the <code>_Swing</code> animation in a different way for each event system.</p>
 <h2 id="simple-animation-events">1. Simple Animation Events</h2>
-<p>The <code>SimpleEventReceiver</code> script is set up to receive <a href="../../../manual/events/animation#simple-events">Animation Events with the Function Name "Event"</a> and invoke a <a href="../../../introduction/cs/methods#delegates">Delegate</a> in response, allowing you to use that same Function Name for every animation and register any method you want instead of needing to have your method on a script attached to the same <code>GameObject</code> as the <code>Animator</code> component. So the character is set up as follows:</p>
+<p>The <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> script is set up to receive <a href="../../../manual/events/animation#simple-events">Animation Events with the Function Name "Event"</a> and invoke a <a href="../../../introduction/cs/methods#delegates">Delegate</a> in response, allowing you to use that same Function Name for every animation and register any method you want instead of needing to have your method on a script attached to the same <code>GameObject</code> as the <code>Animator</code> component. So the character is set up as follows:</p>
 <ol>
-<li>The <code>SimpleEventReceiver</code> component is attached to the same <code>GameObject</code> as the <code>Animator</code> component so it can receive the event, but the <code>GolfHitControllerAnimationSimple</code> component does not need to be.</li>
-<li>The <code>GolfHitControllerAnimationSimple</code> script overrides its <code>StartSwing</code> method to register its <code>HitBall</code> method as the receiver delegate in the <code>SimpleEventReceiver</code> component:</li>
+<li>The <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component is attached to the same <code>GameObject</code> as the <code>Animator</code> component so it can receive the event, but the <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimationSimple">GolfHitControllerAnimationSimple</a></code> component does not need to be.</li>
+<li>The <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimationSimple">GolfHitControllerAnimationSimple</a></code> script overrides its <code>StartSwing</code> method to register its <code>HitBall</code> method as the receiver delegate in the <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component:</li>
 </ol>
 <pre><code class="language-cs">protected override void StartSwing()
 {
@@ -736,10 +737,10 @@ private Vector3 _BallStartPosition;
 <p><img src="simple-event-window.png" class="img-responsive"></p>
 <p><img src="simple-event-inspector.png" class="img-responsive"></p>
 <ol start="4">
-<li>When that event occurs, the <code>SimpleEventReceiver</code> component receives it and invoked the registered delegate (which is the <code>HitBall</code> method from step 2).</li>
+<li>When that event occurs, the <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component receives it and invoked the registered delegate (which is the <code>HitBall</code> method from step 2).</li>
 </ol>
 <h2 id="animation-events">2. Animation Events</h2>
-<p>The setup of the second character is very similar to the first, except that it does not have a <code>SimpleEventReceiver</code> so it instead has to receive the <code>"Event"</code> function directly by declaring a method with that name and being attached to the same <code>GameObject</code> as the <code>Animator</code> component:</p>
+<p>The setup of the second character is very similar to the first, except that it does not have a <code><a href="/animancer/v6/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> so it instead has to receive the <code>"Event"</code> function directly by declaring a method with that name and being attached to the same <code>GameObject</code> as the <code>Animator</code> component:</p>
 <pre><code class="language-cs">private void Event()
 {
     HitBall();
@@ -747,7 +748,7 @@ private Vector3 _BallStartPosition;
 </code></pre>
 <p>We could have avoided the need for that method by making another copy of the <em>Humanoid-GolfSwing</em> animation to use <code>"HitBall"</code> as the Function Name instead of <code>"Event"</code>. But that only demonstrates one of the weaknesses of <a href="../../../manual/events/animation">Animation Events</a>, which is that everything using an animation shares the same events so if you want different ones you need to duplicate the entire animation which is a waste of memory if nothing else.</p>
 <h2 id="animancer-events">3. Animancer Events</h2>
-<p>The <code>GolfHitControllerAnimancer</code> script is actually empty because the base <code>GolfHitController</code> already has everything we need to be able to set up <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector. The event callback is set up using a <a href="../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a> just like a <a href="../../basics/scene-setup#buttons">UI Button</a>:</p>
+<p>The <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code> script is actually empty because the base <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> already has everything we need to be able to set up <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector. The event callback is set up using a <a href="../../../introduction/cs/methods#unity-events"><code>UnityEvent</code></a> just like a <a href="../../basics/scene-setup#buttons">UI Button</a>:</p>
 <p><img src="animancer-hit-event.png" class="img-responsive"></p>
 <h2 id="hybrid-animancer-events">4. Hybrid Animancer Events</h2>
 <p>The last character also uses <a href="../../../manual/events/animancer">Animancer Events</a>, but this time a <a href="../../../manual/events/animancer#hybrid-events">Hybrid</a> approach:</p>
@@ -776,22 +777,22 @@ private Vector3 _BallStartPosition;
 </code></pre>
 <p>But that would hard-code the event time into the script instead of allowing us to use the <a href="../../../manual/transitions#previews">Transition Preview Window</a> to see what the animated model looks like while we adjust the event time.</p>
 <h2 id="avoiding-magic-strings">Avoiding Magic Strings</h2>
-<p>The <code>SetCallback</code> call above uses the <a href="../../../introduction/mecanim-vs-animancer/why#magic-strings">Magic String</a> <code>"Hit"</code>, which is not ideal because the Inspector would give no indication of what event name was expected and you would need to type the same name every time you add that script to an object. The <code>EventNamesAttribute</code> allows you to avoid that problem by replacing the regular text field used for the <code>Event Name</code> in the Inspector with a dropdown menu containing a specific set of allowed options:</p>
+<p>The <code>SetCallback</code> call above uses the <a href="../../../introduction/mecanim-vs-animancer/why#magic-strings">Magic String</a> <code>"Hit"</code>, which is not ideal because the Inspector would give no indication of what event name was expected and you would need to type the same name every time you add that script to an object. The <code><a href="/animancer/v6/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> allows you to avoid that problem by replacing the regular text field used for the <code>Event Name</code> in the Inspector with a dropdown menu containing a specific set of allowed options:</p>
 <p><img src="animancer-hybrid-hit-event-named.gif" class="img-responsive"></p>
-<p>In a real project, you would usually put the <code>EventNamesAttribute</code> on the specific transition field you want it to apply to:</p>
+<p>In a real project, you would usually put the <code><a href="/animancer/v6/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> on the specific transition field you want it to apply to:</p>
 <pre><code>[SerializeField]
 [EventNames(...)]
-private ClipState.Transition _Swing;
+private <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a> _Swing;
 </code></pre>
-<p>But since the <code>_Swing</code> field in this example is declared in the base <code>GolfHitController</code> script which is shared by all 4 characters, we have instead applied it to the <code>GolfHitControllerAnimancerHybrid</code> class which is only used for the hybrid character:</p>
+<p>But since the <code>_Swing</code> field in this example is declared in the base <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> script which is shared by all 4 characters, we have instead applied it to the <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code> class which is only used for the hybrid character:</p>
 <pre><code>[EventNames(...)]
-public sealed class GolfHitControllerAnimancerHybrid : GolfHitController
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a> : <a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a>
 {
 }
 </code></pre>
-<p>There are several different constructors you can use depending on how you want to specify the names which are explained in the API documentation for <code>EventNamesAttribute</code>, but in this case we are using a simple constant (<code>HitEventName</code>) so that we can reference the same value in both the attribute and when setting the callback:</p>
+<p>There are several different constructors you can use depending on how you want to specify the names which are explained in the API documentation for <code><a href="/animancer/v6/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code>, but in this case we are using a simple constant (<code>HitEventName</code>) so that we can reference the same value in both the attribute and when setting the callback:</p>
 <pre><code>[EventNames(HitEventName)]
-public sealed class GolfHitControllerAnimancerHybrid : GolfHitController
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a> : <a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a>
 {
     public const string HitEventName = "Hit";
 
@@ -824,7 +825,7 @@ public sealed class GolfHitControllerAnimancerHybrid : GolfHitController
 }
 </code></pre>
 <h2 id="simple-animation-events-and-2.animation-events">1. Simple Animation Events and 2. Animation Events</h2>
-<p>The <code>GolfHitControllerAnimation</code> and <code>GolfHitControllerAnimationSimple</code> scripts both have the exact same <code>Awake</code> method to assign <code>EndSwing</code> as the <code>OnEnd</code> callback of the <code>_Swing</code> animation:</p>
+<p>The <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimation">GolfHitControllerAnimation</a></code> and <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimationSimple">GolfHitControllerAnimationSimple</a></code> scripts both have the exact same <code>Awake</code> method to assign <code>EndSwing</code> as the <code>OnEnd</code> callback of the <code>_Swing</code> animation:</p>
 <pre><code class="language-cs">protected override void Awake()
 {
     base.Awake();
@@ -835,10 +836,10 @@ public sealed class GolfHitControllerAnimancerHybrid : GolfHitController
 <p><img src="end-event-window.png" class="img-responsive"></p>
 <p><img src="end-event-inspector.png" class="img-responsive"></p>
 <h2 id="animancer-events-1">3. Animancer Events</h2>
-<p>As with the <a href="#hit-events">Hit Event</a>, the <code>GolfHitControllerAnimancer</code> script is empty and has its events defined entirely in the Inspector:</p>
+<p>As with the <a href="#hit-events">Hit Event</a>, the <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code> script is empty and has its events defined entirely in the Inspector:</p>
 <p><img src="animancer-end-event.png" class="img-responsive"></p>
 <h2 id="hybrid-animancer-events-1">4. Hybrid Animancer Events</h2>
-<p>As with the <a href="#hit-events">Hit Event</a>, the <code>GolfHitControllerAnimancerHybrid</code> script has its time set in the Inspector with the callback left blank:</p>
+<p>As with the <a href="#hit-events">Hit Event</a>, the <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitControllerAnimancerHybrid">GolfHitControllerAnimancerHybrid</a></code> script has its time set in the Inspector with the callback left blank:</p>
 <p><img src="animancer-hybrid-end-event.png" class="img-responsive"></p>
 <p>Then it assigns <code>EndSwing</code> as the callback just like the first two characters did above:</p>
 <pre><code class="language-cs">protected override void Awake()

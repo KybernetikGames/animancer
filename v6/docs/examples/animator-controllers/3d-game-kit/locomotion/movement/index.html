@@ -131,6 +131,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -556,7 +557,7 @@
 </ol>
 <h1 id="setup-mixer">1. Setup Mixer</h1>
 <p>The Animancer character uses a <a href="../../../../../manual/blending/mixers">Mixer State</a> in place of the Blend Tree:</p>
-<pre><code class="language-cs">[SerializeField] private LinearMixerState.Transition _LocomotionMixer;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">LinearMixerState.Transition</a> _LocomotionMixer;
 
 private void OnEnable()
 {
@@ -612,11 +613,11 @@ private void OnEnable()
 <p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
 <p>But since each of our states is a separate class, we can use the power of <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> to give the base <code>CreatureState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
 <pre><code class="language-cs">// In CreatureState:
-public virtual Vector3 RootMotion =&gt; Animancer.Animator.deltaPosition;
+public virtual Vector3 <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Animancer.Animator.deltaPosition;
 </code></pre>
-<p>Then any states that want different behaviour such as the <code>AirborneState</code> can <code>override</code> that property:</p>
+<p>Then any states that want different behaviour such as the <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> can <code>override</code> that property:</p>
 <pre><code class="language-cs">// In AirborneState:
-public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
+public override Vector3 <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Creature.Brain.Movement * (Creature.ForwardSpeed * Time.deltaTime);
 </code></pre>
 <p>And now the <code>Creature</code> class can just access that property on whatever the current state happens to be, without having any specific knowledge about that state:</p>
 <pre><code class="language-cs">private Vector3 GetRootMotion() =&gt; StateMachine.CurrentState.RootMotion;
@@ -647,7 +648,7 @@ public override Vector3 RootMotion =&gt; Creature.Brain.Movement * (Creature.For
     }
 }
 </code></pre>
-<p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code>LocomotionState</code> and <code>LandingState</code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
+<p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code>LocomotionState</code> and <code><a href="/animancer/v6/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
 <h2 id="update-gravity">Update Gravity</h2>
 <p>The Mecanim <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
 <p>Instead, we are using <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>

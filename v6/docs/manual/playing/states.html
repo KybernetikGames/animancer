@@ -123,6 +123,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -447,7 +448,7 @@
 			<h1>States</h1>
 		</section>
 	<section class="content">
-		<p>When you play an <code>AnimationClip</code>, Animancer creates a <code>ClipState</code> to manage it and keep track of its progress. <code>ClipState</code> is the most common type of <code>AnimancerState</code>, but there are other types such as <a href="../animator-controllers">Controller States</a> and <a href="../blending/mixers">Mixer States</a> which manage multiple animations in a single state.</p>
+		<p>When you play an <code>AnimationClip</code>, Animancer creates a <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> to manage it and keep track of its progress. <code><a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> is the most common type of <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code>, but there are other types such as <a href="../animator-controllers">Controller States</a> and <a href="../blending/mixers">Mixer States</a> which manage multiple animations in a single state.</p>
 <p>The <code>AnimancerComponent.Play</code> method returns the state it plays:</p>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
@@ -480,7 +481,7 @@
     </tr>
     <tr>
       <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;new&nbsp;ClipState(animancer, clip);</code></pre></td>
-      <td>Create a new state without giving it a <a href="#keys">Key</a>. You can assign one using its <code>AnimancerState.Key</code> property.</td>
+      <td>Create a new state without giving it a <a href="#keys">Key</a>. You can assign one using its <code><a href="/animancer/v6/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> property.</td>
     </tr>
   </tbody>
 </table>
@@ -489,7 +490,7 @@
 <p>Usually when a state gets created it gets registered in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using a particular key so that it can later be retrieved using that key and reused.</p>
 <ul>
 <li>By default, the <code>AnimationClip</code> the state is playing will be used as its key, but the system allows you to use any <code>object</code> as a key (every variable in C# is an <code>object</code>).</li>
-<li>The <code>NamedAnimancerComponent</code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>. The <a href="../../examples/basics/named-animations">Named Animations</a> example explains how <code>string</code> names and other keys (such as enums) can be used in more detail.</li>
+<li>The <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>. The <a href="../../examples/basics/named-animations">Named Animations</a> example explains how <code>string</code> names and other keys (such as enums) can be used in more detail.</li>
 </ul>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
@@ -506,7 +507,7 @@
 }
 </code></pre>
 <ul>
-<li>You don't need to set the <code>AnimancerState.Key</code> if you don't want to. You can simply create a <code>new ClipState</code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
+<li>You don't need to set the <code><a href="/animancer/v6/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> if you don't want to. You can simply create a <code>new <a href="/animancer/v6/api/Animancer/ClipState">ClipState</a></code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
 <li>If you want to have multiple states playing the same clip (such as if you need to play it on multiple <a href="../blending/layers">Layers</a>) you will need to register them all with different keys (or not register them at all). <code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>
 </ul>
 <h2 id="enum-keys">Enum Keys</h2>
@@ -529,7 +530,7 @@
 <p>Initialising all or most of the states you will need on startup adds a bit of complexity and <em>can</em> improve performance, but only does so by putting a greater load upfront. That might be good during a loading screen, but if you instantiate a character during gameplay you have already paid a high performance cost for doing so, meaning that it might be better not to spend even more of that frame's time pre-initialising all the othe states as well. There are two main ways of initialising states upfront:</p>
 <ul>
 <li>Call <code>animancer.States.GetOrCreate</code> (or <code>Create</code>) in your startup code (such as an <code>Awake</code> or <code>Start</code> method).</li>
-<li>Use a <code>NamedAnimancerComponent</code> and assign the clips in question to its <code>Animations</code> array in the Inspector (or using a script). This simply calls <code>GetOrCreate</code> for each one in its <code>Awake</code> method.</li>
+<li>Use a <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> and assign the clips in question to its <code>Animations</code> array in the Inspector (or using a script). This simply calls <code>GetOrCreate</code> for each one in its <code>Awake</code> method.</li>
 </ul>
 <p>If you no longer need a state, you can call <code>AnimancerState.Destroy</code> to remove it. Both the destroying and subsequent <a href="../../introduction/cs/other#garbage-collection">Garbage Collection</a> also have a performance cost that may need to be managed.</p>
 <p>The <a href="../../introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a> section goes into further detail about the performance of Animancer.</p>

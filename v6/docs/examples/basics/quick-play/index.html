@@ -129,6 +129,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -466,22 +467,22 @@
 </ol>
 <p>If you just want to play a single animation without any scripting, check out the <a href="../../fine-control/solo-animation">Solo Animation</a> example.</p>
 <p><img src="quick-play.gif" class="img-responsive"></p>
-<p>It consists of one very simple script called <code>PlayAnimationOnClick</code>:</p>
+<p>It consists of one very simple script called <code><a href="/animancer/v6/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code>:</p>
 <ul>
-<li>It references an <code>AnimancerComponent</code> instead of referencing the <code>Animator</code> like you would without Animancer. Most interactions with Animancer are done via that component.</li>
+<li>It references an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> instead of referencing the <code>Animator</code> like you would without Animancer. Most interactions with Animancer are done via that component.</li>
 <li>It also references two <code>AnimationClip</code>s which contain the actual animation data that defines how the model will move over time.</li>
 <li>These references are all <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a>, meaning they can be assigned using the Inspector.</li>
 <li>The scene contains two copies of the same model with the same scripts attached, but different animations assigned to show how this simple script can be reused for different purposes.</li>
 <li>The <a href="../../events/golf">Golf Events</a> example is an extension of this one which shows how to trigger a function at a specific time during an animation to hit a ball and also how to adjust the transition back to idle to look more natural.</li>
 </ul>
 <h1 id="tutorial">Tutorial</h1>
-<p></p><details><summary>This tutorial takes you through a step by step process of implementing a <code>PlayAnimationOnClick</code> script and setting up a scene to see it in action. Since this is the first example, it covers the basics more thoroughly than the rest. Click here to see the full script.</summary><p>
+<p></p><details><summary>This tutorial takes you through a step by step process of implementing a <code><a href="/animancer/v6/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code> script and setting up a scene to see it in action. Since this is the first example, it covers the basics more thoroughly than the rest. Click here to see the full script.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class PlayAnimationOnClick : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -510,7 +511,7 @@ public sealed class PlayAnimationOnClick : MonoBehaviour
 <p></p></details><p></p>
 <p>Start by following the <a href="../scene-setup">Basic Scene Setup</a> instructions to create a new scene with the character in it.</p>
 <h1 id="new-script">New Script</h1>
-<p>Create a <a href="../../../introduction/cs/overview#new-scripts">New Script</a> by right clicking in the Project window and selecting <code>Create/C# Script</code>. Call it <code>PlayAnimationOnClickTutorial</code> and open it up in your <a href="../../../introduction/cs/overview#script-editors">IDE</a> (such as Visual Studio). The script included in the example is called <code>PlayAnimationOnClick</code> so we just put <code>Tutorial</code> on the end to avoid conflicts while you make the same script from scratch. Edit the script so that it looks like this:</p>
+<p>Create a <a href="../../../introduction/cs/overview#new-scripts">New Script</a> by right clicking in the Project window and selecting <code>Create/C# Script</code>. Call it <code>PlayAnimationOnClickTutorial</code> and open it up in your <a href="../../../introduction/cs/overview#script-editors">IDE</a> (such as Visual Studio). The script included in the example is called <code><a href="/animancer/v6/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code> so we just put <code>Tutorial</code> on the end to avoid conflicts while you make the same script from scratch. Edit the script so that it looks like this:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -528,20 +529,20 @@ public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 </ul>
 <h1 id="idle-animation">Idle Animation</h1>
 <p>Now let's get the idle animation working.</p>
-<p>The first thing the script needs is a reference to an <code>AnimancerComponent</code> which we could get using one of two main ways:</p>
+<p>The first thing the script needs is a reference to an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> which we could get using one of two main ways:</p>
 <ul>
 <li>The <a href="https://docs.unity3d.com/ScriptReference/Component.GetComponent"><code>GetComponent</code></a> method would get a component of the appropriate type attached to the same <code>GameObject</code>.</li>
 <li>A <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> would cause it to show a field in the Inspector so that we can assign an object of the appropriate type from anywhere in the scene.</li>
 </ul>
 <p>The <a href="../../../introduction/cs/inheritance#composition">Composition</a> section explains the differences between them in a bit more detail, including the reason why the Animancer examples favour <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a>.</p>
 <p>So we declare a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> inside the <code>class</code> like so:</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 </code></pre>
 <p>Or you can use multiple lines if you prefer:</p>
 <pre><code class="language-cs">[SerializeField]
-private AnimancerComponent _Animancer;
+private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 </code></pre>
-<p>Since <code>AnimancerComponent</code> is in the <code>Animancer</code> <a href="../../../introduction/cs/organisation#namespaces">Namespace</a>, we either need to put <code>using Animancer;</code> at the top of the script or we need to specify the full name of the type as <code>Animancer.AnimancerComponent</code>.</p>
+<p>Since <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> is in the <code>Animancer</code> <a href="../../../introduction/cs/organisation#namespaces">Namespace</a>, we either need to put <code>using Animancer;</code> at the top of the script or we need to specify the full name of the type as <code>Animancer.AnimancerComponent</code>.</p>
 <p>We also need a reference to the idle animation, so let's add another field:</p>
 <pre><code class="language-cs">[SerializeField] private AnimationClip _Idle;
 </code></pre>
@@ -558,7 +559,7 @@ using UnityEngine;
 
 public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Idle;
     
     private void OnEnable()
@@ -572,9 +573,9 @@ public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 <ol>
 <li>Select your character in the Hierarchy window (the root object with the <code>Animator</code> component).</li>
 <li>Make sure the <code>Apply Root Motion</code> toggle is deselected since we do not want any movement in this example.</li>
-<li>Add an <code>AnimancerComponent</code> if you didn't do so already as part of the <a href="../scene-setup">Basic Scene Setup</a>.</li>
+<li>Add an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> if you didn't do so already as part of the <a href="../scene-setup">Basic Scene Setup</a>.</li>
 <li>Add the <code>PlayAnimationOnClickTutorial</code> script you just created.</li>
-<li>Drag and drop the <code>AnimancerComponent</code> into the <code>Animancer</code> field in that component.</li>
+<li>Drag and drop the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> into the <code>Animancer</code> field in that component.</li>
 <li>Use the circular icon next to the <code>Idle</code> field to open the Object Picker window to find the <em>Idle</em> animation you want to use. The original example uses <em>Humanoid-GolfSwingReady</em>.</li>
 </ol>
 <p><img src="idle-setup.gif" class="img-responsive"></p>
@@ -621,7 +622,7 @@ using UnityEngine;
 
 public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
     
@@ -653,18 +654,18 @@ public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
     _Animancer.Play(_Idle);
 }
 </code></pre>
-<p>Then we can go back to the <code>Update</code> method, grab the <code>AnimancerState</code> returned by <code>Play</code>, and assign that new method as a callback to its <code>OnEnd</code> event:</p>
+<p>Then we can go back to the <code>Update</code> method, grab the <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> returned by <code>Play</code>, and assign that new method as a callback to its <code>OnEnd</code> event:</p>
 <pre><code class="language-cs">var state = _Animancer.Play(_Action);
 state.Events.OnEnd = OnActionEnd;
 </code></pre>
-<p>There are a couple of different ways we could have done that which are listed on the <code>AnimancerEvent.Sequence.OnEnd</code> page. The <a href="../../../manual/events/end">End Events</a> page also explains some alternative approaches instead of using the <code>OnEnd</code> callback.</p>
+<p>There are a couple of different ways we could have done that which are listed on the <code><a href="/animancer/v6/api/Animancer/Sequence/9FF5A569">AnimancerEvent.Sequence.OnEnd</a></code> page. The <a href="../../../manual/events/end">End Events</a> page also explains some alternative approaches instead of using the <code>OnEnd</code> callback.</p>
 <p></p><details><summary>The full script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -704,7 +705,7 @@ using UnityEngine;
 
 public sealed class PlayAnimationOnClickTutorial : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 

@@ -123,6 +123,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -495,8 +496,8 @@
 </tr>
 <tr>
 <td>The camera is orbiting faster than expected in the <em>Introduction</em> state.</td>
-<td>Make sure you only have one <code>GameManagerEnum</code> component in the scene.</td>
-<td>We already made the <code>GameManagerFSM</code> a <a href="../fsm#singleton">Singleton</a> so it would log an error if there were two of them in the scene.</td>
+<td>Make sure you only have one <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/GameManagerEnum">GameManagerEnum</a></code> component in the scene.</td>
+<td>We already made the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a></code> a <a href="../fsm#singleton">Singleton</a> so it would log an error if there were two of them in the scene.</td>
 </tr>
 <tr>
 <td>There is a typo in the text displayed during the <em>Ready</em> state.</td>
@@ -522,23 +523,23 @@
     
       <tr><td>Add a <code>FixedUpdate</code> method for some states to use.</td>
       <td><ol>
-        <li>Add a <code>FixedUpdate</code> method in <code>GameManagerEnum</code>.</li>
+        <li>Add a <code>FixedUpdate</code> method in <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/GameManagerEnum">GameManagerEnum</a></code>.</li>
         <li>Add the usual <code>switch</code> statement to do different things based on the current state.</li>
       </ol></td>
       <td><ol>
-        <li>Add a <code>virtual</code> <code>FixedUpdate</code> method in the base <code>GameManagerFSM.State</code> class.</li>
-        <li>Add a <code>FixedUpdate</code> method in <code>GameManagerFSM</code> which calls <code>_StateMachine.CurrentState.FixedUpdate();</code>.</li>
+        <li>Add a <code>virtual</code> <code>FixedUpdate</code> method in the base <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/State">GameManagerFSM.State</a></code> class.</li>
+        <li>Add a <code>FixedUpdate</code> method in <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a></code> which calls <code>_StateMachine.CurrentState.FixedUpdate();</code>.</li>
       </ol></td>
     </tr>
     
       <tr><td></td>
-      <td colspan="2">That would be even easier in the FSM system if the base <code>State</code> inherited from <code>StateBehaviour</code> because we could just put a regular <code>FixedUpdate</code> method in the state that needs it without modifying anything else.</td>
+      <td colspan="2">That would be even easier in the FSM system if the base <code><a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> inherited from <code><a href="/animancer/v6/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> because we could just put a regular <code>FixedUpdate</code> method in the state that needs it without modifying anything else.</td>
     </tr>
     <tr>
       <td>Add a <em>Game Over</em> state if the player takes too many swings.</td>
       <td><ol>
-        <li>Add a <code>GameOver</code> value to the <code>GameManagerEnum.State</code> enum.</li>
-        <li>Add any new fields is requires to the <code>GameManagerEnum</code> script.</li>
+        <li>Add a <code>GameOver</code> value to the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/State">GameManagerEnum.State</a></code> enum.</li>
+        <li>Add any new fields is requires to the <code><a href="/animancer/v6/api/Animancer.Examples.StateMachines.GameManager/GameManagerEnum">GameManagerEnum</a></code> script.</li>
         <li>Add a <code>case State.GameOver</code> to the <code>switch</code> in <code>OnStateEnter</code>.</li>
         <li>Add a <code>case State.GameOver</code> to the <code>switch</code> in <code>Update</code>.</li>
         <li>Edit the <code>FadeOut</code> case in <code>Update</code> to choose between <code>GameOver</code> or <code>FadeIn</code> as the next state.</li>

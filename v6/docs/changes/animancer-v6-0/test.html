@@ -124,6 +124,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -477,38 +478,38 @@
 <p>Released 2020-11-13</p>
 </blockquote>
 <ul>
-<li>Added <a href="../../../manual/animator-controllers#controller-state-generator">Controller State Generator</a> to <a href="/weaver">Weaver</a> which can procedurally generate a class that inherits from <code>ControllerState</code> with properties for directly accessing the parameters of a specific Animator Controller asset.</li>
+<li>Added <a href="../../../manual/animator-controllers#controller-state-generator">Controller State Generator</a> to <a href="/weaver">Weaver</a> which can procedurally generate a class that inherits from <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> with properties for directly accessing the parameters of a specific Animator Controller asset.</li>
 <li>Added <code>Generate Transition</code> context menu functions on states and Blend Trees inside Animator Controllers which will generate Transition Assets from them.</li>
-<li>Changed <code>AnimancerState.Duration</code> to properly account for the End Time.</li>
-<li>Changed <code>AnimancerState.RemainingDuration</code> to properly account for the End Time and negative speeds and not give different results for looping animations since End Events don't work any differently for them.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> to properly account for the End Time.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/87E41C92">AnimancerState.RemainingDuration</a></code> to properly account for the End Time and negative speeds and not give different results for looping animations since End Events don't work any differently for them.</li>
 <li>Changed <code>AnimancerUtilities.Wrap01</code> and <code>AnimancerUtilities.Wrap</code> to not be extension methods since they aren't used that often.</li>
 <li>Fixed <code>AnimancerUtilities.Wrap01</code> and <code>Wrap</code> to never return the maximum value (unlike <code>Mathf.Repeat</code>).</li>
 <li>Fixed <code>AnimancerGUI.DoOptionalTimeToggle</code> to properly indicate when the selected objects have different values.</li>
 <li>Removed the ability to <code>Ctrl + Shift + Click</code> on states in the Inspector to queue them to Cross Fade in a sequence (and the context menu function) since it was more complex to maintain than its usefulness warranted.</li>
 <li>Animancer Events:
 <ul>
-<li>Optimised <code>AnimancerEvent.Sequence</code> methods that search for a particular item.</li>
-<li>The <code>AnimancerNode</code> context menu now shows the details of all Animancer Events instead of only the End Events.</li>
+<li>Optimised <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> methods that search for a particular item.</li>
+<li>The <code><a href="/animancer/v6/api/Animancer/AnimancerNode">AnimancerNode</a></code> context menu now shows the details of all Animancer Events instead of only the End Events.</li>
 <li>Added a <code>startIndex</code> parameter to <code>AnimancerEvent.Sequence.IndexOf</code> and <code>IndexOfRequired</code> (default value 0).</li>
-<li>Added equality operators to <code>AnimancerEvent</code>.</li>
+<li>Added equality operators to <code><a href="/animancer/v6/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>.</li>
 <li>Added <code>AnimancerEvent.Sequence.Serializable.SetNormalizedEndTime</code>.</li>
-<li>Added <code>ITransitionDetailed.Events</code> and <code>SerializedEvents</code>.</li>
-<li>Added context menu functions to the <code>TimeRuler</code> for all the functions that can be executed via keyboard controls.</li>
+<li>Added <code><a href="/animancer/v6/api/Animancer/ITransitionDetailed/29148A66">ITransitionDetailed.Events</a></code> and <code>SerializedEvents</code>.</li>
+<li>Added context menu functions to the <code><a href="/animancer/v6/api/Animancer.Editor/TimeRuler">TimeRuler</a></code> for all the functions that can be executed via keyboard controls.</li>
 <li>Removed the Inspector toggle from event times which was previously used to remove them.</li>
-<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code>AnimancerEvent</code>.</li>
+<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code><a href="/animancer/v6/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>.</li>
 <li>Changed the Add Event button in the Inspector into an <code>X</code> to remove the selected event (while one is selected).</li>
 <li>Changed <code>AnimancerEvent.Sequence.SetCallback</code> to trigger <code>OptionalWarning.DuplicateEvent</code> if necessary.</li>
-<li>Changed <code>AnimancerEvent.Sequence</code> methods that modify callbacks to throw an <code>ArgumentNullException</code> if the callback is null rather than just logging an assertion.</li>
-<li>Fixed <code>AnimancerState.EventRunner</code> to allow events to be assigned before the <code>AnimancerNode.Root</code> is set.</li>
-<li>Fixed <code>EventSequenceDrawer</code> to avoid causing errors when multiple objects are selected with different values.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> methods that modify callbacks to throw an <code>ArgumentNullException</code> if the callback is null rather than just logging an assertion.</li>
+<li>Fixed <code>AnimancerState.EventRunner</code> to allow events to be assigned before the <code><a href="/animancer/v6/api/Animancer/AnimancerNode/F1D5A1C8">AnimancerNode.Root</a></code> is set.</li>
+<li>Fixed <code><a href="/animancer/v6/api/Animancer.Editor/EventSequenceDrawer">EventSequenceDrawer</a></code> to avoid causing errors when multiple objects are selected with different values.</li>
 <li>Fixed <code>AnimancerEvent.Sequence.Serializable.OnBeforeSerialize</code> to not cause an exception if called when there is no <code>Editor.EventSequenceDrawer.Context.Current</code>.</li>
 </ul>
 </li>
 <li>State Machines:
 <ul>
-<li>Added <code>StateMachine&lt;TState&gt;.StateSelector</code> system for managing a prioritised list of potential states.</li>
-<li>Restored the commented out <code>StateExtensions</code> methods that you can copy into a base state class to implement <code>IOwnedState</code> without the generic argument inference problems the extension methods have.</li>
-<li>Removed <code>StateExtensions.CanEnterState</code> since it is too similar to the <code>IState.CanEnterState</code> property.</li>
+<li>Added <code><a href="/animancer/v6/api/Animancer.FSM/StateSelector">StateMachine&lt;TState&gt;.StateSelector</a></code> system for managing a prioritised list of potential states.</li>
+<li>Restored the commented out <code><a href="/animancer/v6/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> methods that you can copy into a base state class to implement <code>IOwnedState</code> without the generic argument inference problems the extension methods have.</li>
+<li>Removed <code>StateExtensions.CanEnterState</code> since it is too similar to the <code><a href="/animancer/v6/api/Animancer.FSM/IState/55695B9D">IState.CanEnterState</a></code> property.</li>
 <li>Changed the <code>StateMachine&lt;TState&gt;.InputBuffer.StateMachine</code> to a readonly field.</li>
 </ul>
 </li>
@@ -523,10 +524,10 @@
 </li>
 <li>Inverse Kinematics:
 <ul>
-<li>Changed <code>AnimancerPlayable</code>, <code>AnimancerLayer</code>, and <code>MixerState</code> to store whatever IK flags you set (<code>ApplyAnimatorIK</code> and <code>ApplyFootIK</code>) so that when a child is added it can get the same flags.</li>
-<li>You can disable the static <code>AnimancerNode.ApplyParentAnimatorIK</code> and <code>ApplyParentFootIK</code> properties to prevent children from receiving their parent's flags.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>, <code><a href="/animancer/v6/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>, and <code><a href="/animancer/v6/api/Animancer/MixerState">MixerState</a></code> to store whatever IK flags you set (<code>ApplyAnimatorIK</code> and <code>ApplyFootIK</code>) so that when a child is added it can get the same flags.</li>
+<li>You can disable the static <code><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">AnimancerNode.ApplyParentAnimatorIK</a></code> and <code>ApplyParentFootIK</code> properties to prevent children from receiving their parent's flags.</li>
 <li>Added the IK flags to <code>AnimancerNode.AppendDescription</code>.</li>
-<li>Removed <code>IHasIK</code> and merged it into <code>IPlayableWrapper</code>.</li>
+<li>Removed <code>IHasIK</code> and merged it into <code><a href="/animancer/v6/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></code>.</li>
 <li>Removed <code>AnimancerPlayable.DefaultApplyAnimatorIK</code> and <code>DefaultApplyFootIK</code>.</li>
 </ul>
 </li>
@@ -538,7 +539,7 @@
 <ul>
 <li>Added <code>AnimancerEvent.Sequence.RemoveCallback</code>. <a href="https://github.com/KybernetikGames/animancer/issues/77">#77</a>
 <ul>
-<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code>AnimancerEvent.Sequence</code>.</li>
+<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>.</li>
 </ul>
 </li>
 <li>Added <code>FSM.StateChangeDebug</code> which performs Assert-Only checks to ensure that you access the correct <code>StateChange</code> type.

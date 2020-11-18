@@ -126,6 +126,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -467,14 +468,14 @@
 <p>In simple situations, all that you might need to implement an interruption management system is a simple <code>bool</code> to indicate whether an animation can be interrupted. Instead of having your scripts call <code>AnimancerComponent.Play</code> directly, make your own method for them to call which handles the interruption check:</p>
 <pre><code class="language-cs">private bool _CanBeInterrupted;
 
-public AnimancerState Play(AnimationClip clip, bool canBeInterrupted)
+public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(AnimationClip clip, bool canBeInterrupted)
 {
     if (_CanBeInterrupted)
         ForcePlay(clip, canBeInterrupted);
 }
 
 // You may want to make this private, but it depends on your use case.
-public AnimancerState ForcePlay(AnimationClip clip, bool canBeInterrupted)
+public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> ForcePlay(AnimationClip clip, bool canBeInterrupted)
 {
     _CanBeInterrupted = canBeInterrupted;
     return _Animancer.Play(clip);
@@ -493,13 +494,13 @@ public AnimancerState ForcePlay(AnimationClip clip, bool canBeInterrupted)
 <p>Since we have defined the values in order from lowest to highest, we can make use of the fact that <code>enum</code>s are essentially just <code>int</code>s under the hood to check which priority is higher:</p>
 <pre><code class="language-cs">private Priority _Priority;
 
-public AnimancerState Play(AnimationClip clip, Priority priority)
+public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> Play(AnimationClip clip, Priority priority)
 {
     if (_Priority &lt;= priority)
         ForcePlay(clip, priority);
 }
 
-public AnimancerState ForcePlay(AnimationClip clip, Priority priority)
+public <a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a> ForcePlay(AnimationClip clip, Priority priority)
 {
     _Priority = priority;
     return _Animancer.Play(clip);
@@ -554,7 +555,7 @@ public sealed class CreatureState : Creatures.CreatureState
 <p><img src="interrupts.gif" class="img-responsive"></p>
 <h1 id="inheritance-based-priority">Inheritance Based Priority</h1>
 <p>Instead of giving each state a serialized <code>Priority</code> field which needs to be set in the Inspector every time you add it to an object, you could give the base state class a <code>virtual</code> or <code>abstract</code> property that can be overridden by the actual state classes that <a href="../../../introduction/cs/inheritance">Inherit</a> from it:</p>
-<pre><code class="language-cs">// In the base State class.
+<pre><code class="language-cs">// In the base <a href="/animancer/v6/api/Animancer.FSM/State">State</a> class.
 // Everything is low priority by default.
 public virtual Priority Priority =&gt; Priority.Low;
 

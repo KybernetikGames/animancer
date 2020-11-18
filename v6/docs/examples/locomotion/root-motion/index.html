@@ -125,6 +125,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -456,15 +457,15 @@
 </blockquote>
 <p>This example demonstrates how you can use a custom <a href="../../../manual/transitions">Transition class</a> to determine whether each animation should use <a href="https://docs.unity3d.com/Manual/RootMotion.html">Root Motion</a> or not and redirect the Root Motion to a different object if you want to.</p>
 <p><img src="root-motion.gif" class="img-responsive"></p>
-<p></p><details><summary>The <code>RootMotion</code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System;
 using UnityEngine;
 
-public sealed class RootMotion : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> : MonoBehaviour
 {
     [Serializable]
-    public class MotionTransition : ClipState.Transition
+    public class MotionTransition : <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a>
     {
         [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
         private bool _ApplyRootMotion;
@@ -476,7 +477,7 @@ public sealed class RootMotion : MonoBehaviour
         }
     }
 
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private float _MaxDistance;
     [SerializeField] private MotionTransition[] _Animations;
 
@@ -601,12 +602,12 @@ public void Play(int index)
 <p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../ik">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can <a href="../../../introduction/cs/inheritance">Inherit</a> from so you do not have to do it all yourself:</p>
 <pre><code class="language-cs">// Replace the old MotionClip class with this.
 [Serializable]
-public class MotionTransition : ClipState.Transition
+public class MotionTransition : <a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a>
 {
     [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
     private bool _ApplyRootMotion;
 </code></pre>
-<p><code>ClipState.Transition</code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="../../../introduction/cs/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
+<p><code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="../../../introduction/cs/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
 <pre><code class="language-cs">    public override void Apply(AnimancerState state)
     {
         base.Apply(state);

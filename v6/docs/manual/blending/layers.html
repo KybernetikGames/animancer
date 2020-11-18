@@ -124,6 +124,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -451,8 +452,8 @@
 		<p><em><a href="../../introduction/features"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p>When you play an animation it stops all others (or <a href="fading">Fades them out</a>). More specifically, it stops all other animations <em>on the specified layer</em> without affecting animations on other layers. This allows you to play multiple separate animations at the same time, using the layers to determine how they combine to form the final output.</p>
 <h1 id="example">Example</h1>
-<p>Most operations involving layers are accessed via the <code>AnimancerComponent.Layers</code> property:</p>
-<pre><code class="language-cs">AnimancerComponent animancer;
+<p>Most operations involving layers are accessed via the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent/5A1697AB">AnimancerComponent.Layers</a></code> property:</p>
+<pre><code class="language-cs"><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
 AnimationClip clip;
 
 // Create a state on the default layer 0 and play it.
@@ -469,14 +470,14 @@ animancer.Layers[1].Play(clip);
 <h1 id="details">Details</h1>
 <ul>
 <li><strong>Max Layer Count</strong>: if you specify a layer that does not exist, it will automatically be created (along with every layer before it). By default, Animancer will throw an <code>ArgumentOutOfRangeException</code> if you try to create more than 4 layers, however this is only a general safety measure because most situations will not need more than that. If you do actually need more than that, you can simply set the <code>AnimancerCmponent.Layers.Capacity</code> to a higher value (or consider setting the static <code>AnimancerPlayable.LayerList.defaultCapacity</code> or using <code>SetMinDefaultCapacity</code>).</li>
-<li><strong>Changing Layers</strong>: if an <code>AnimancerState</code> already exists for the animation and you specify a different layer, the state will be moved to that layer. You can also move states to a different layer by setting their <code>AnimancerState.LayerIndex</code> property directly.</li>
+<li><strong>Changing Layers</strong>: if an <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> already exists for the animation and you specify a different layer, the state will be moved to that layer. You can also move states to a different layer by setting their <code><a href="/animancer/v6/api/Animancer/AnimancerState/CE927121">AnimancerState.LayerIndex</a></code> property directly.</li>
 <li><strong>Names</strong>: you can call <code>SetName</code> on a layer to give it a name that will be displayed in the Inspector, however these names do not exist at runtime so any calls to that method will be automatically compiled out of runtime builds.</li>
 <li>If you want to play an animation on multiple layers at once, you will need to create multiple states for it and register them with different <a href="../playing/states#keys">Dictionary Keys</a> (or not register them at all and simply keep references to them yourself).</li>
 </ul>
 <h1 id="blending">Blending</h1>
 <p>There are several different factors which determine how the output of each layer is combined to form the final result:</p>
 <ul>
-<li><strong>Weight</strong>: each layer has a <code>Weight</code> just like an <code>AnimancerState</code> and you can use their <code>StartFade</code> method to <a href="fading">Fade</a> them in and out over time.
+<li><strong>Weight</strong>: each layer has a <code>Weight</code> just like an <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> and you can use their <code>StartFade</code> method to <a href="fading">Fade</a> them in and out over time.
 <ul>
 <li><code>StartFade</code> only affects the layer you call it on and there is no <code>CrossFade</code> for layers because it is not common to swap them like that, however you can simply fade one in and the rest out if you need to.</li>
 <li>Layers start at <code>Weight = 0</code> by default. However, calling <code>AnimancerComponent.Play</code> targeting a layer at 0 weight will automatically set its <code>Weight = 1</code>. Similarly, <a href="../playing#cross-fade">Cross Fading</a> will actually <code>Play</code> the animation at <code>Weight = 1</code> immediately and fade the layer in instead of fading the animation.</li>

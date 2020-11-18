@@ -126,6 +126,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -461,14 +462,14 @@
 <h1 id="blend-tree">Blend Tree</h1>
 <p>This example uses an Animator Controller containing a Blend Tree which blends between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations:</p>
 <p><img src="blend-tree.png" class="img-responsive"></p>
-<p><a href="../../../manual/animator-controllers">Controller States</a> are used to play Animator Controllers inside Animancer. Rather than using a <code>RuntimeAnimatorController</code> field to assign the Animator Controller and then creating a <code>new ControllerState</code> manually, we can just use a <a href="../../../manual/transitions">Transition</a> (specifically a <code>ControllerState.Transition</code>) which will handle that all for us:</p>
+<p><a href="../../../manual/animator-controllers">Controller States</a> are used to play Animator Controllers inside Animancer. Rather than using a <code>RuntimeAnimatorController</code> field to assign the Animator Controller and then creating a <code>new <a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> manually, we can just use a <a href="../../../manual/transitions">Transition</a> (specifically a <code><a href="/animancer/v6/api/Animancer/Transition">ControllerState.Transition</a></code>) which will handle that all for us:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class LinearBlendTreeLocomotion : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private ControllerState.Transition _Controller;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/Transition">ControllerState.Transition</a> _Controller;
     
     private void OnEnable()
     {
@@ -478,7 +479,7 @@ public sealed class LinearBlendTreeLocomotion : MonoBehaviour
 </code></pre>
 <p><img src="controller-transition.png" class="img-responsive"></p>
 <h1 id="parameter-controller">Parameter Controller</h1>
-<p>In this case, the only thing in the Animator Controller is a Blend Tree controlled by a <code>float</code> parameter, so rather than hard coding the script to use <code>...SetFloat("Speed", value)</code> to control it we can instead use a <code>Float1ControllerState.Transition</code> to wrap that parameter for us:</p>
+<p>In this case, the only thing in the Animator Controller is a Blend Tree controlled by a <code>float</code> parameter, so rather than hard coding the script to use <code>...SetFloat("Speed", value)</code> to control it we can instead use a <code><a href="/animancer/v6/api/Animancer/Transition">Float1ControllerState.Transition</a></code> to wrap that parameter for us:</p>
 <p><img src="float-controller-transition.png" class="img-responsive"></p>
 <p>Note the new <code>Parameter Name</code> field which gives us a dropdown menu to select the name of any float parameter in the assigned <code>Controller</code>. This allows us to get and set that parameter using <code>_Controller.State.Parameter</code>. For this example, we want to control it using a <a href="#slider">UI Slider</a> so we need a public property (or method) for it:</p>
 <pre><code class="language-cs">public float Speed
@@ -493,10 +494,10 @@ public sealed class LinearBlendTreeLocomotion : MonoBehaviour
 <h1 id="transition-asset">Transition Asset</h1>
 <p>Since we want to have multiple characters using the exact same setup we can give them all references to the same <a href="../../../manual/transitions/types#transition-assets">Transition Asset</a> rather than each one having its own transition. This requires a few modifications to the script.</p>
 <p>First we change the <code>_Controller</code> field type:</p>
-<pre><code class="language-cs">[SerializeField] private Float1ControllerTransition _Controller;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/Float1ControllerTransition">Float1ControllerTransition</a> _Controller;
 </code></pre>
-<p>The <code>State</code> property will only hold the state that was most recently played from that transition. Previously each object had its own transition so it was not a problem, but now that they are all sharing the same one we cannot rely on that property anymore. Instead, we can just store the state in another field right after it is played:</p>
-<pre><code class="language-cs">private Float1ControllerState _State;
+<p>The <code><a href="/animancer/v6/api/Animancer.FSM/State">State</a></code> property will only hold the state that was most recently played from that transition. Previously each object had its own transition so it was not a problem, but now that they are all sharing the same one we cannot rely on that property anymore. Instead, we can just store the state in another field right after it is played:</p>
+<pre><code class="language-cs">private <a href="/animancer/v6/api/Animancer/Float1ControllerState">Float1ControllerState</a> _State;
 
 private void OnEnable()
 {
@@ -510,17 +511,17 @@ public float Speed
     set =&gt; _State.Parameter = value;
 }
 </code></pre>
-<p>Note that a <code>Float1ControllerState</code> is just a <code>ScriptableObject</code> with a <code>Float1ControllerState.Transition</code> field, so we now need to use <code>_Controller.Transition.State</code> rather than just <code>_Controller.State</code>.</p>
+<p>Note that a <code><a href="/animancer/v6/api/Animancer/Float1ControllerState">Float1ControllerState</a></code> is just a <code>ScriptableObject</code> with a <code><a href="/animancer/v6/api/Animancer/Transition">Float1ControllerState.Transition</a></code> field, so we now need to use <code>_Controller.Transition.State</code> rather than just <code>_Controller.State</code>.</p>
 <p></p><details><summary>The final script looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class LinearBlendTreeLocomotion : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private Float1ControllerTransition _Controller;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/Float1ControllerTransition">Float1ControllerTransition</a> _Controller;
 
-    private Float1ControllerState _State;
+    private <a href="/animancer/v6/api/Animancer/Float1ControllerState">Float1ControllerState</a> _State;
 
     private void OnEnable()
     {
@@ -540,7 +541,7 @@ public sealed class LinearBlendTreeLocomotion : MonoBehaviour
 <ol>
 <li>Right Click in the Project window and use <code>Create -&gt; Animancer -&gt; Controller Transition -&gt; Float 1</code>.</li>
 <li>Assign the desired Animator Controller to the newly created asset and select the <code>Parameter Name</code> you want it to wrap.</li>
-<li>Assign that asset to the <code>Controller</code> field in the <code>LinearBlendTreeLocomotion</code> script.</li>
+<li>Assign that asset to the <code>Controller</code> field in the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a></code> script.</li>
 </ol>
 <p>This means that the character's Inspector now only has a single field to reference the asset while the asset itself contains the details that will be used to create a state at runtime:</p>
 <table class="table">
@@ -563,16 +564,16 @@ public sealed class LinearBlendTreeLocomotion : MonoBehaviour
 <h1 id="mixer-state">Mixer State</h1>
 <p><a href="../../../manual/blending/mixers">Mixer States</a> are essentially just Blend Trees which are constructed using code at runtime instead of being configured in the Unity Editor as part of an Animator Controller. Specifically, they <em>can</em> be constructed using code and you <em>can</em> access their internal details even though in this example we are just using a <a href="../../../manual/transitions">Transition</a>.</p>
 <p></p><details><summary>They are so similar that the script to use a mixer looks almost identical to the one using an Animator Controller:</summary><p>
-</p><p>The only differences are the class name and the change from <code>Float1ControllerTransition _Controller</code> to <code>LinearMixerTransition _Mixer</code>.</p>
+</p><p>The only differences are the class name and the change from <code><a href="/animancer/v6/api/Animancer/Float1ControllerTransition">Float1ControllerTransition</a> _Controller</code> to <code><a href="/animancer/v6/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer</code>.</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class LinearMixerLocomotion : MonoBehaviour
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/LinearMixerLocomotion">LinearMixerLocomotion</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private LinearMixerTransition _Mixer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
 
-    private LinearMixerState _State;
+    private <a href="/animancer/v6/api/Animancer/LinearMixerState">LinearMixerState</a> _State;
 
     private void OnEnable()
     {

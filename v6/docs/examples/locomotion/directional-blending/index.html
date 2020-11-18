@@ -127,6 +127,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -459,11 +460,11 @@
 <p>This example expands upon the <a href="../../fine-control/spider-bot">Spider Bot</a> example with a 2D <a href="../../../manual/blending/mixers">Mixer</a> to allow movement in any direction and a <code>Rigidbody</code> so that the bot can follow the mouse cursor around.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/blending/mixers">Mixers</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
-<p></p><details><summary>This example is implemented by the <code>SpiderBotAdvanced</code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
+<p></p><details><summary>This example is implemented by the <code><a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a></code> script which looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class SpiderBotAdvanced : SpiderBot
+public sealed class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a> : <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
 {
     [SerializeField] private Rigidbody _Body;
     [SerializeField] private float _TurnSpeed = 90;
@@ -471,9 +472,9 @@ public sealed class SpiderBotAdvanced : SpiderBot
     [SerializeField] private float _SprintMultiplier = 2;
 
     [SerializeField]
-    private MixerState.Transition2D _Move;
+    private <a href="/animancer/v6/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
 
-    protected override ITransition MovementAnimation =&gt; _Move;
+    protected override <a href="/animancer/v6/api/Animancer/ITransition">ITransition</a> MovementAnimation =&gt; _Move;
 
     private Vector3 _MovementDirection;
 
@@ -548,7 +549,7 @@ public sealed class SpiderBotAdvanced : SpiderBot
   <tbody>
     <tr>
       <td>
-<pre><code class="language-cs">class SpiderBotAdvanced : SpiderBot
+<pre><code class="language-cs">class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/SpiderBotAdvanced">SpiderBotAdvanced</a> : <a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a>
 {
     [SerializeField]
     private Rigidbody _Body;
@@ -563,14 +564,14 @@ public sealed class SpiderBotAdvanced : SpiderBot
     private float _SprintMultiplier = 2;
 
     [SerializeField]
-    private MixerState.Transition2D _Move;
+    private <a href="/animancer/v6/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
 }
 </code></pre>
-<p><a href="../../../introduction/cs/inheritance">Inheriting</a> from <code>SpiderBot</code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more:</p>
+<p><a href="../../../introduction/cs/inheritance">Inheriting</a> from <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more:</p>
 <ul>
 <li>We add a <code>Rigidbody</code> component to the character so we can control its movements.</li>
 <li>There are several speed related fields to set how fast it goes.</li>
-<li>And instead of a <code>ClipState.Transition</code> like <code>SpiderBotSimple</code> used to play a single <code>AnimationClip</code>, this time we are using a <a href="../../../manual/blending/mixers">Mixer</a> to allow blending between multiple animations on two axes (forward/back and left/right).</li>
+<li>And instead of a <code><a href="/animancer/v6/api/Animancer/Transition">ClipState.Transition</a></code> like <code><a href="/animancer/v6/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> used to play a single <code>AnimationClip</code>, this time we are using a <a href="../../../manual/blending/mixers">Mixer</a> to allow blending between multiple animations on two axes (forward/back and left/right).</li>
 </ul>
 </td>
       <td><img src="inspector.png" class="img-responsive"></td>
@@ -578,11 +579,11 @@ public sealed class SpiderBotAdvanced : SpiderBot
   </tbody>
 </table>
 <h1 id="abstractions">Abstractions</h1>
-<p>This time we <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> the <code>MovementAnimation</code> to return the <code>MixerState.Transition2D</code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
+<p>This time we <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> the <code>MovementAnimation</code> to return the <code><a href="/animancer/v6/api/Animancer/Transition2D">MixerState.Transition2D</a></code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
 <pre><code class="language-cs">[SerializeField]
-private MixerState.Transition2D _Move;
+private <a href="/animancer/v6/api/Animancer/Transition2D">MixerState.Transition2D</a> _Move;
 
-protected override ITransition MovementAnimation =&gt; _Move;
+protected override <a href="/animancer/v6/api/Animancer/ITransition">ITransition</a> MovementAnimation =&gt; _Move;
 
 private Vector3 _MovementDirection;
 

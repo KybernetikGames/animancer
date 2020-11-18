@@ -125,6 +125,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
                 <li><a href="/animancer/v6/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
 
                     </ul>
@@ -450,15 +451,15 @@
 		</section>
 	<section class="content">
 		
-<p>After you have <a href="../../download">Downloaded Animancer</a>, you can add an <code>AnimancerComponent</code> to your model and control it with a script:</p>
+<p>After you have <a href="../../download">Downloaded Animancer</a>, you can add an <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to your model and control it with a script:</p>
 
 <ol>
-  <li>Add a reference to the <code>AnimancerComponent</code> (let’s call it <code>animancer</code>).</li>
+  <li>Add a reference to the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (let’s call it <code>animancer</code>).</li>
   <li>Add a reference to the <code>AnimationClip</code> asset you want to play (let’s call it <code>clip</code>).</li>
   <li>Then you simply call <code>animancer.Play(clip)</code>.</li>
 </ol>
 
-<p><code>AnimancerController.Play</code> returns an <code>AnimancerState</code> that can be used to access and control the animation details such as <code>Speed</code> and <code>Time</code>.</p>
+<p><code>AnimancerController.Play</code> returns an <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> that can be used to access and control the animation details such as <code>Speed</code> and <code>Time</code>.</p>
 
 
 
@@ -472,7 +473,7 @@ using UnityEngine;
 
 public sealed class PlayAnimation : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Clip;
 
     private void OnEnable()
@@ -502,7 +503,7 @@ public sealed class PlayAnimation : MonoBehaviour
 
 <h1 id="play-methods">Play Methods</h1>
 
-<p>The <code>AnimancerComponent</code> class has several <code>Play</code> methods with different parameter sets depending on what you want to do.</p>
+<p>The <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class has several <code>Play</code> methods with different parameter sets depending on what you want to do.</p>
 
 
 
@@ -523,12 +524,12 @@ Play(AnimancerState state)</code></pre>
 
 <h2 id="cross-fade">Cross Fade</h2>
 
-<pre><code class="language-cs">Play(AnimationClip clip,   float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)
-Play(AnimancerState state, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</code></pre>
+<pre><code class="language-cs">Play(AnimationClip clip,   float fadeDuration, <a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)
+Play(AnimancerState state, float fadeDuration, <a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
 <p>These methods <em>fade</em> the new animation in over time and <em>fade</em> the old animation out at the same time, which is known as <a href="../blending/fading">Cross Fading</a>. This is often much better for <a href="https://en.wikipedia.org/wiki/Skeletal_animation">Skeletal Animations</a> because it allows a character model to smoothly transition from the ending pose of one animation into the starting pose of another animation without requiring both poses to be exactly the same. It also means that the transition can still be smooth if an animation is interrupted at any time. The <a href="../../examples/basics/playing-and-fading">Playing and Fading</a> example demonstrates the differences between playing animations immediately and cross fading between them.</p>
 
-<p>Note that the <code>FadeMode</code> parameter is optional so the following two lines will both do the same thing:</p>
+<p>Note that the <code><a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a></code> parameter is optional so the following two lines will both do the same thing:</p>
 
 <pre><code class="language-cs">animancer.Play(clip, 0.25f)
 animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)</code></pre>
@@ -540,7 +541,7 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)</code></pre>
 <h2 id="transition">Transition</h2>
 
 <pre><code class="language-cs">Play(ITransition transition)
-Play(ITransition transition, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</code></pre>
+Play(ITransition transition, float fadeDuration, <a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
 These methods allow <a href="../transitions">Transitions</a> to apply all their details in a single call. This includes the <code>fadeDuration</code> (unless you use the second method to specify it yourself) as well as any other details defined in the <code>transition</code> such as <em>Speed</em>, <em>Start Time</em>, and any <a href="../events/animancer">Animancer Events</a> which can all be configured in the Inspector when using the inbuilt transition types instead of hard coding those details into your script.
 
@@ -551,7 +552,7 @@ These methods allow <a href="../transitions">Transitions</a> to apply all their 
 <h2 id="try-play">Try Play</h2>
 
 <pre><code class="language-cs">TryPlay(object key)
-TryPlay(object key, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</code></pre>
+TryPlay(object key, float fadeDuration, <a href="/animancer/v6/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
 <p>Unlike the other methods, these ones use the <code>key</code> to find an existing <a href="states">State</a> to play but can't create new ones if they aren't yet registered (trying to do so will throw an exception). Once the state is found, they simply call the corresponding <a href="#play-immediately">Play Immediately</a> or <a href="#cross-fade">Cross Fade</a> method.</p>
 
@@ -570,7 +571,7 @@ using UnityEngine;
 
 public sealed class PausingExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Clip;
 
     // Freeze a single animation on its current frame:
@@ -625,7 +626,7 @@ public sealed class PausingExample : MonoBehaviour
 
 <p>The simplest way to use this feature is with the <code>MonoBehaviour.OnValidate</code> event message which gets called by the Unity Editor in Edit Mode whenever an instance of the script is loaded or a value is changed in the inspector. So you can simply use it to call <code>AnimancerUtilities.EditModePlay</code>:</p>
 
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Idle;
 
 private void OnValidate()
