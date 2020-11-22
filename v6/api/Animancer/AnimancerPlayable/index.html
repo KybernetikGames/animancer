@@ -370,7 +370,7 @@ class Type type-node
 								<td>int</td>
 								<td>
 									<div>
-    The number of times the <code class="cs">Animancer.AnimancerPlayable.StateDictionary.Current</code> has changed. By storing this
+    The number of times the <code class="cs">Animancer.AnimancerLayer.CurrentState</code> has changed on layer 0. By storing this
     value and later comparing the stored value to the current value, you can determine whether the state has
     been changed since then, even it has changed back to the same state.
     </div>
@@ -459,6 +459,17 @@ class Type type-node
 								<td><a href="/animancer/v6/api/Animancer/LayerList">AnimancerPlayable<wbr>.LayerList</a></td>
 								<td>
 									<div>The <code class="cs">Animancer.AnimancerLayer</code>s which each manage their own set of animations.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/v6/api/Animancer/AnimancerPlayable/E95D153B">SkipFirstFade</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Normally the first animation on the Base Layer should not fade in because there is nothing fading out. But
+    sometimes that is undesirable, such as if the <code class="cs">UnityEngine.Animator.runtimeAnimatorController</code> is assigned
+    since Animancer can blend with that.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -820,7 +831,6 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>[Internal]
-    Called by the <code class="cs">UnityEngine.Playables.PlayableGraph</code> before the rest of the <code class="cs">UnityEngine.Playables.Playable</code>s are evaluated.
     Calls <code class="cs">Animancer.IUpdatable.EarlyUpdate</code> and <code class="cs">Animancer.AnimancerNode.Update(System.Boolean@)</code> on everything
     that needs it.
     </div>
@@ -870,9 +880,7 @@ class Type type-node
 								<td><a href="/animancer/v6/api/Animancer/AnimancerPlayable/3BF2A2F6">SetOutput<wbr>(Animator, <wbr>IAnimancerComponent)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>
-    Plays this playable on the specified `animator`.
-    </div>
+									<div>Plays this playable on the specified `animator` and sets the <code class="cs">Animancer.AnimancerPlayable.Component</code>.</div>
 								</td>
 							</tr>
 							<tr>
@@ -880,7 +888,8 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>
-    Plays this playable on the <code class="cs">Animancer.IAnimancerComponent.Animator</code>.
+    Plays this playable on the <code class="cs">Animancer.IAnimancerComponent.Animator</code> and sets the
+    <code class="cs">Animancer.AnimancerPlayable.Component</code>.
     </div>
 								</td>
 							</tr>

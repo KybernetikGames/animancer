@@ -82,7 +82,6 @@
 <p><a href="#humanoids">Humanoids</a></p>
 <p><a href="#fsm">Finite State Machines</a></p>
 <p><a href="#tools">Animancer Tools</a></p>
-<p><a href="#compatibility">Compatibility</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -164,7 +163,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -245,9 +243,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -280,6 +279,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -507,7 +518,7 @@ summary
 
 </style>
 <p>There are several different animation systems available in Unity:</p>
-<p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/MecanimFAQ.html">Mecanim</a></strong> is Unity’s main animation system.</summary><p>It uses the <code>Animator</code> component with an <code>AnimatorController</code> asset which is configured using the Animator window and controlled by scripts using <a href="mecanim-vs-animancer/why#magic-strings">Magic Strings</a>.</p></details><p></p>
+<p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/MecanimFAQ.html">Mecanim</a></strong> is Unity’s main animation system.</summary><p>It uses the <code>Animator</code> component with an <code>AnimatorController</code> asset which is configured using the Animator window and controlled by scripts using <a href="mecanim-vs-animancer/why#magic-strings">Magic Strings</a>.</p><p>The <a href="mecanim-vs-animancer">Mecanim vs. Animancer</a> section explains the differences between it and Animancer in great detail and the <a href="mecanim-vs-animancer/conversion">Conversion</a> page explains how the various features of Animator Controllers correspond to Animancer.</p></details><p></p>
 <p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/Animations.html">Legacy</a></strong> is Unity’s old animation system.</summary><p>It uses the <code>Animation</code> component which is primarily configured via the Inspector and controlled by scripts using <a href="mecanim-vs-animancer/why#magic-strings">Magic Strings</a>.</p></details><p></p>
 <p></p><details class="details"><summary class="summary"><strong><a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki">Simple Animation</a></strong> is an abandoned side-project developed by Unity.</summary><p>It attempted to replicate the features of the Legacy animation system using the Playables API and was partially successful, but had several significant issues which were never fixed before the project was abandoned.</p></details><p></p>
 <p></p><details class="details"><summary class="summary"><strong><a href="/animancer">Animancer</a></strong> is a Unity plugin developed by Kybernetik.</summary><p>Animancer is also built upon the Playables API and focuses on giving scripts full control over the animations they use to allow for better management of responsibilities and dependencies.</p><p>Animancer Lite is the free version of Animancer which allows you to try out all the features for free in the Unity Editor, but disables some of them in runtime builds (indicated by <a href="#pro-only">[1]</a> in the table below).</p></details><p></p>
@@ -976,49 +987,6 @@ animancer.Play("Attack");
 </table>
 <p id="pro-only"><strong>[1]</strong> Animancer Lite includes these features in the Unity Editor so you can try them out, but they will not be available in runtime builds unless you purchase Animancer Pro. All Pro-Only features are commented as such and using them will log a message in the Console to make sure you are aware of the restriction.</p>
 <p id="animator-controller"><strong>[2]</strong> While Animancer itself does not have these features, you can still use them while configuring an Animator Controller for use in a <a href="../manual/animator-controllers">Controller State</a> (Pro-Only, see <a href="#pro-only">[1]</a>).</p>
-<h1 id="compatibility">Compatibility</h1>
-<p>Animancer is based on the Playables API, which means most systems developed for regular Mecanim Animator Controllers should work with it.</p>
-<table class="table">
-<thead>
-<tr>
-<th>Feature</th>
-<th>Works</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>AnimationClip</code>s</td>
-<td>Yes</td>
-<td>Any <code>AnimationClip</code> that can be played in an Animator Controller (<code>Humanoid</code> or <code>Generic</code>) can also be played in Animancer so any source of animations or animation editor will be fully compatible. See the <a href="../manual/getting">Getting Animations</a> page for a list of common ways to get and create them.</td>
-</tr>
-<tr>
-<td><code>LateUpdate</code></td>
-<td>Yes</td>
-<td>Scripts that modify the animated objects separately from the animations will work exactly the same as usual. This includes plugins like <a href="https://assetstore.unity.com/packages/tools/animation/final-ik-14290?aid=1100l8ah5">Final IK</a> and <a href="https://assetstore.unity.com/packages/tools/animation/dynamic-bone-16743?aid=1100l8ah5">Dynamic Bone</a>.</td>
-</tr>
-<tr>
-<td><code>OnAnimatorIK</code></td>
-<td>Yes</td>
-<td>You can enable IK by setting <code><a href="/animancer/v6/api/Animancer/AnimancerLayer/BE711327">AnimancerLayer.ApplyAnimatorIK</a> = true</code> instead of enabling the <code>IK Pass</code> toggle in an Animator Controller. Note that the layer index will always be 0. See <a href="../manual/ik">Inverse Kinematics</a> for more details.</td>
-</tr>
-<tr>
-<td>Unity's <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@latest/index">Animation Rigging</a> package</td>
-<td>Yes</td>
-<td>Seems to work out of the box, but the package is currently in preview so anything could change. The official <a href="https://learn.unity.com/tutorial/working-with-animation-rigging">Working with Animation Rigging</a> tutorial explains how to use it.</td>
-</tr>
-<tr>
-<td>Curve Driven Parameters</td>
-<td>No</td>
-<td>Anything that uses an Animator Controller Parameter to access the value of an animation curve at runtime will not work directly, but the same can be achieved by using an <code>ExposedCurve</code> to extract the curve from the <code>AnimationClip</code> in the Unity Editor so that it can be accessed at runtime. See the <a href="../manual/ik#exposed-curves">Exposed Curves</a> section for more details.</td>
-</tr>
-<tr>
-<td><code>StateMachineBehaviour</code></td>
-<td>No</td>
-<td><code>StateMachineBehaviour</code>s will not work with Animancer unless you use a <code><a href="/animancer/v6/api/Animancer/ControllerState">ControllerState</a></code> to play an actual <a href="../manual/animator-controllers">Animator Controller</a>. See <a href="../manual/fsm">Finite State Machines</a> for details about the state machine system included with Animancer.</td>
-</tr>
-</tbody>
-</table>
 
 	</section>
                 

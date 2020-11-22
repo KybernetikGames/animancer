@@ -159,7 +159,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -240,9 +239,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -275,6 +275,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -487,7 +499,7 @@
 </table>
 <p>The <a href="../../examples/fine-control">Fine Control</a> examples demonstrate how you can manipulate animation states in more detail.</p>
 <h1 id="keys">Keys</h1>
-<p>Usually when a state gets created it gets registered in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using a particular key so that it can later be retrieved using that key and reused.</p>
+<p>When <code>AnimancerComponent.Play</code> creates a state, it registers it in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using a particular key so that it can later be retrieved using that key and reused.</p>
 <ul>
 <li>By default, the <code>AnimationClip</code> the state is playing will be used as its key, but the system allows you to use any <code>object</code> as a key (every variable in C# is an <code>object</code>).</li>
 <li>The <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>. The <a href="../../examples/basics/named-animations">Named Animations</a> example explains how <code>string</code> names and other keys (such as enums) can be used in more detail.</li>

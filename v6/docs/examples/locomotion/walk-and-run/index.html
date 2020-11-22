@@ -162,7 +162,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -243,9 +242,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -278,6 +278,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -496,11 +508,6 @@ public class <a href="/animancer/v6/api/Animancer.Examples.Locomotion/IdleAndWal
     {
         _Animancer.Play(_Walk, 0.25f);
     }
-
-    protected virtual void Reset()
-    {
-        AnimancerUtilities.IfMultiComponentThenChangeType(this);
-    }
 }
 </code></pre>
 <p></p></details><p></p>
@@ -626,17 +633,7 @@ public class IdleAndWalkAndRunTutorial : IdleAndWalkTutorial
     }
 }
 </code></pre>
-<p>We could now remove the <code>IdleAndWalkTutorial</code> component from the character and add our new <code>IdleAndWalkAndRunTutorial</code> instead, but then we would need to reassign all the references. Right now that's only 3 fields and we only need to do it once, but in a more complex system that could become quite tedious if we frequently needed to swap between similar components. Fortunately Animancer has a simple solution to the problem: all we have to do is add this method to the base <code>IdleAndWalkTutorial</code> class:</p>
-<pre><code class="language-cs">// Reset is called when we add a new component in Edit Mode.
-protected virtual void Reset()
-{
-    // If there is already a component that inherits from IdleAndWalkTutorial,
-    // change the type of that component and destroy this new one immediately.
-    AnimancerUtilities.IfMultiComponentThenChangeType(this);
-}
-</code></pre>
-<p>Then we can just use the <em>Add Component</em> menu to add a <code>IdleAndWalkAndRunTutorial</code> component to the same object as the base <code>IdleAndWalkTutorial</code> and it will change the type of the existing component instead of adding the new one separately.</p>
-<p>And once we assign the <em>Run</em> animation in the Inspector, we get a character that can <em>Idle</em>, <em>Walk</em>, and <em>Run</em>.</p>
+<p>Then we can use the <em>Add Component</em> menu to add that <code>IdleAndWalkAndRunTutorial</code> component to the character and remove the <code>IdleAndWalkTutorial</code> component and once we assign the fields in the Inspector, we get a character that can <em>Idle</em>, <em>Walk</em>, and <em>Run</em>.</p>
 <p><img src="walk-run-basic.gif" class="img-responsive"></p>
 <h1 id="synchronising-the-transition">Synchronising the Transition</h1>
 <p>We now have a functional script, but the transition between <em>Walk</em> and <em>Run</em> isn't quite perfect. Each time we start running is starts at the beginning of that animation, regardless of where we are at in the walk cycle so if you watch the arms or legs closely you can sometimes see an unnatural change in direction during the transition. Fortunately this is easy to solve by synchronising their <code>NormalizedTime</code>s during the transition since both animations contain exactly one walk cycle (one step with each leg). If you want this synchronisation to be performed automatically, you can use <a href="../../../manual/blending/mixers">Mixers</a> or <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> which are both demonstrated in the <a href="../linear-blending">Linear Blending</a> example.</p>
@@ -744,11 +741,6 @@ public class IdleAndWalkTutorial : MonoBehaviour
     protected virtual void PlayMove()
     {
         _Animancer.Play(_Walk, 0.25f);
-    }
-
-    protected virtual void Reset()
-    {
-        AnimancerUtilities.IfMultiComponentThenChangeType(this);
     }
 }
 </code></pre>

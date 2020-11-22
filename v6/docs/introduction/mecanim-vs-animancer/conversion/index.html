@@ -77,6 +77,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#animator-controllers">Animator Controllers</a></p>
+<p><a href="#animation-clips">Animation Clips</a></p>
 <p><a href="#states">States</a></p>
 <p><a href="#transitions">Transitions</a></p>
 <p><a href="#parameters">Parameters</a></p>
@@ -85,7 +86,8 @@
 <p><a href="#layers">Layers</a></p>
 <p><a href="#state-machine-behaviours">State Machine Behaviours</a></p>
 <p><a href="#inverse-kinematics">Inverse Kinematics</a></p>
-<p><a href="#scripting-api">Scripting API</a></p>
+<p><a href="#late-update">Late Update</a></p>
+<p><a href="#animator-api">Animator API</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -167,7 +169,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -248,9 +249,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -283,6 +285,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -459,14 +473,17 @@
 		<p>Mecanim and Animancer are extremely different systems so directly converting between them is not possible, but this page explains how the features of Animator Controllers correspond to the features of Animancer.</p>
 <h1 id="animator-controllers">Animator Controllers</h1>
 <p><img src="animator-controller.png" class="img-responsive"></p>
+<p>There are two main options regarding Animator Controllers in Animancer:</p>
+<ol>
+<li>Play them alongside Animancer as described on the <a href="../../../manual/animator-controllers">Animator Controllers</a> page.</li>
+<li>Replace them with Animancer features as described on this page.</li>
+</ol>
 <ul>
 <li>The <a href="../../../examples">Examples</a> demonstrate how to play animations without Animator Controllers.</li>
-<li>The <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> allows you to play an Animator Controller and mix it with separate animations as demonstrated in the <a href="../../../examples/basics/hybrid">Hybrid Basics</a> and <a href="../../../examples/animator-controllers/hybrid">Hybrid Mini Game</a> examples.</li>
-<li>You can also use <a href="../../../manual/animator-controllers">Controller States</a> to manage them yourself and even blend between multiple Animator Controllers on the same character.</li>
-<li>You can manage the behaviour of your characters using Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system or with any system you like really. Animancer doesn't force you to use any particular system for managing your logic.</li>
-<li>You can also use <a href="../../../manual/animator-controllers">Controller States</a> to manage them yourself and even blend between multiple Animator Controllers on the same character.</li>
 <li>The <a href="../../../manual/animator-controllers#generating-transitions">Generate Transition</a> context menu functions on everything inside Animator Controllers (states, transitions, etc.) allow you to extract <em>some</em> of the details into <a href="../../../manual/transitions/types#transition-assets">Transition Assets</a>. This includes transition durations, speeds, exit times, and the configuration of <a href="../../../manual/blending/mixers">Mixer States</a> from Blend Trees, but it does not include any logic like parameters or transition conditions because those things are handled entirely in scripts when using Animancer.</li>
 </ul>
+<h1 id="animation-clips">Animation Clips</h1>
+<p>Any <code>AnimationClip</code> that can be played in an Animator Controller (<code>Humanoid</code> or <code>Generic</code>) can also be played in Animancer. The <a href="../../../manual/getting">Getting Animations</a> page lists the most common ways to get and create them.</p>
 <h1 id="states">States</h1>
 <p><img src="state.png" class="img-responsive"></p>
 <ul>
@@ -499,9 +516,10 @@ void MeleeAttack()
 <h1 id="parameters">Parameters</h1>
 <p><img src="parameters.png" class="img-responsive"></p>
 <p>Animancer has no direct equivalent to parameters since all the control logic is handled by your scripts. So if you want to choose between animations based on an <code>int</code>, you can just put an <code>int</code> field in your script then set it and check its value like any other variable.</p>
+<p>If you have a custom curve in your animation which you want to access in a script, you can use an <a href="../../../manual/ik#animated-properties">Animated Property</a>.</p>
 <h1 id="blend-trees">Blend Trees</h1>
 <p><img src="blend-tree.png" class="img-responsive"></p>
-<p>Animancer can play Blend Trees inside <a href="../../../manual/animator-controllers">Controller States</a>, but it also has <a href="../../../manual/blending/mixers">Mixer States</a> which serve the same purpose but have significant differences in their implementation as described in the <a href="../../../manual/blending/mixers#blend-trees-vs.mixers">Blend Trees vs. Mixers</a> section.</p>
+<p>Animancer can play Blend Trees inside <a href="../../../manual/animator-controllers#states">Controller States</a>. It also has <a href="../../../manual/blending/mixers">Mixer States</a> which serve the same purpose but have significant differences in their implementation as described in the <a href="../../../manual/blending/mixers#blend-trees-vs.mixers">Blend Trees vs. Mixers</a> section.</p>
 <h1 id="sub-state-machines">Sub-State Machines</h1>
 <p><img src="sub-state-machine.png" class="img-responsive"></p>
 <p>Sub-State Machines are often used in Animator Controllers to simply group states visually in order to keep them organised rather than as actual logical constructs. In that case, they are unnecessary in Animancer since you can already arrange your animation references however you like. Using Unity's <a href="https://docs.unity3d.com/ScriptReference/HeaderAttribute.html"><code>[Header]</code></a> attribute or a <a href="https://docs.unity3d.com/ScriptReference/Serializable.html"><code>[Serializable]</code></a> type can be useful for organisation.</p>
@@ -514,11 +532,14 @@ void MeleeAttack()
 <p>Animancer's animation system has nothing like <code>StateMachineBehaviour</code>s because it is not supposed to manage your logic, but its <a href="../../../manual/fsm">Finite State Machine</a> system allows you to define your states as individual scripts which can be used to implement anything you would have done with a <code>StateMachineBehaviour</code>.</p>
 <h1 id="inverse-kinematics">Inverse Kinematics</h1>
 <p><img src="ik.png" class="img-responsive"></p>
-<p>Turning on <a href="../../../manual/ik">Inverse Kinematics</a> is different in Animancer, but after that everything basically works the same. Unfortunately, due to limitations in the Playables API Unity will only ever call <code>OnAnimatorIK</code> with the <code>layerIndex = 0</code>.</p>
-<h1 id="scripting-api">Scripting API</h1>
+<p>Turning on <a href="../../../manual/ik">Inverse Kinematics</a> is different in Animancer, but after that everything basically works the same. Unfortunately, due to limitations in the Playables API Unity will only ever call <code>OnAnimatorIK</code> with the <code>layerIndex</code> parameter set to <code>0</code>.</p>
+<h1 id="late-update">Late Update</h1>
+<p>Any system that uses a <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.LateUpdate.html"><code>LateUpdate</code></a> method to modify things after the animation is applied but before the frame is rendered will work exactly the same with Animancer.</p>
+<h1 id="animator-api">Animator API</h1>
 <p>The <code><a href="/animancer/v6/api/Animancer/AnimancerComponent/091C3FB0">AnimancerComponent.Animator</a></code> property allows you to access the <code>Animator</code> component directly if you need to, however many of its members do not work with Animancer (in most cases they are simply not relevant).</p>
 <p>The following members <strong>work normally</strong>:</p>
 <ul>
+<li><code>runtimeAnimatorController</code> - Used to play <a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers, in which case all of the <code>Animator</code> members work normally in regards to the Animator Controller (but not for any separate animations played through Animancer).</li>
 <li>Root Motion: <code>angularVelocity</code>, <code>ApplyBuiltinRootMotion</code>, <code>applyRootMotion</code>, <code>bodyPosition</code>, <code>bodyRotation</code>, <code>deltaPosition</code>, <code>deltaRotation</code>, <code>gravityWeight</code>, <code>hasRootMotion</code>, <code>isHuman</code>, <code>pivotPosition</code>, <code>rootPosition</code>, <code>rootRotation</code>, <code>velocity</code></li>
 <li><code>avatar</code>, <code>humanScale</code>, <code>isOptimizable</code></li>
 <li><code>cullingMode</code>, <code>updateMode</code></li>
@@ -528,11 +549,7 @@ void MeleeAttack()
 <li><code>isInitialized</code></li>
 <li><code>hasBoundPlayables</code>, <code>playableGraph</code></li>
 <li><code>Rebind</code></li>
-<li><code>StringToHash</code>
-<ul>
-<li>Works, but serves no purpose since Animancer doesn't rely on hash codes.</li>
-</ul>
-</li>
+<li><code>StringToHash</code> - Works, but serves no purpose since Animancer doesn't rely on hash codes.</li>
 </ul>
 <p>The following members <strong>do not work</strong> directly:</p>
 <table class="table">
@@ -566,10 +583,6 @@ void MeleeAttack()
 <tr>
 <td><code>linearVelocityBlending</code></td>
 <td>Never worked properly anyway, but <a href="../../blending/mixers">Mixers</a> can usually achieve linear blending by disabling <a href="../../blending/mixers#synchronisation">Synchronisation</a> on any non-locomotion states (such as <em>Idle</em> or <em>Attack</em>) when blending them with locomotion states (such as <em>Walk</em> or <em>Run</em>).</td>
-</tr>
-<tr>
-<td><code>runtimeAnimatorController</code></td>
-<td>Usually best to use a <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> as demonstrated in the <a href="../../../examples/basics/hybrid">Hybrid Basics</a> example. But <a href="../../../manual/animator-controllers#the-animator-controller-field">The Animator Controller Field</a> can be used with a few limitations if you want to.</td>
 </tr>
 <tr>
 <td><code>speed</code></td>

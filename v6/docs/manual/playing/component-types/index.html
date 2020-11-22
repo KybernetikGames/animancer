@@ -76,9 +76,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#changing-components">Changing Components</a></p>
-<hr class="infobar-hidden">
-</div>
+    <div id="infobar-headings"></div>
 
                 </section>
                 <section class="sidebar">    
@@ -158,7 +156,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -239,9 +236,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -274,6 +272,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -465,7 +475,7 @@
 <td><img src="named.png"></td>
 </tr>
 <tr>
-<td><p><code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code></p><p><a href="../../../examples/basics/hybrid">Hybrid Basics</a></p><p><a href="../../../examples/animator-controllers/hybrid">Hybrid Mini Game</a></p><p>Has an <a href="../../animator-controllers">Animator Controller</a> and most of the same functions that are normally found on an <code>Animator</code> (such as <code>Play</code>, <code>CrossFade</code>, <code>GetCurrentAnimatorStateInfo</code>, <code>SetFloat</code>, etc.) so you can have some animations in that Animator Controller while still making use of Animancer's ability to play other <code>AnimationClip</code>s directly.</p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase Animancer Pro. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></td>
+<td><p><code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code></p><p><a href="../../../examples/animator-controllers/basics">Hybrid Basics</a></p><p><a href="../../../examples/animator-controllers/mini-game">Hybrid Mini Game</a></p><p>Has an <a href="../../animator-controllers">Animator Controller</a> and most of the same functions that are normally found on an <code>Animator</code> (such as <code>Play</code>, <code>CrossFade</code>, <code>GetCurrentAnimatorStateInfo</code>, <code>SetFloat</code>, etc.) so you can have some animations in that Animator Controller while still making use of Animancer's ability to play other <code>AnimationClip</code>s directly.</p><em><a href="/animancer/pro"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase Animancer Pro. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></td>
 <td><img src="hybrid.png"></td>
 </tr>
 <tr>
@@ -474,21 +484,13 @@
 </tr>
 </tbody>
 </table>
-<p>When using the <code>Add Component</code> menu in the Unity Editor, all Animancer components are located in the <code>Animancer</code> sub-menu.</p>
-<p>These components are located in the <code>Assets/Plugins/Animancer</code> folder and they are even included in Animancer Lite, so you can modify or <a href="../../../introduction/cs/inheritance">Inherit</a> from them to implement your own variations. For example:</p>
+<p><img src="add-component.png" class="img-responsive img-right"> When using the <code>Add Component</code> menu in the Unity Editor, all Animancer components are located in the <code>Animancer</code> sub-menu.</p>
+<p>These components are located in the <code>Assets/Plugins/Animancer</code> folder and they are even included in Animancer Lite, so you can modify or <a href="../../../introduction/cs/inheritance">Inherit</a> from them to implement your own variations. For example, you could:</p>
 <ul>
 <li>Inherit from <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and add a <code>SpriteRenderer</code> or <code>SkinnedMeshRenderer</code> field so you can reference it alongside the animations.</li>
 <li>Make a <code>CharacterAnimationSet</code> class which inherits from <code>ScriptableObject</code> to define a set of animations for each character and then make a <code>CharacterAnimancer</code> class which inherits from <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to allow a character to reference one of those animation sets in the same place as the rest of the animation functionality.</li>
 <li>Inherit from <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> and add an array of <code>string</code>s so that you can specify a custom name for each animation rather than always using the exact <code>AnimationClip.name</code>.</li>
 <li>Inherit from <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and add some <code><a href="/animancer/v6/api/Animancer/AnimationEventReceiver">AnimationEventReceiver</a></code>s to listen for certain <a href="../../events/animation">Animation Events</a>.</li>
-</ul>
-<h1 id="changing-components">Changing Components</h1>
-<p>You can easily change which type of <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> you are using by simply adding a component of the new type to the same object (using the Unity Editor, not using a script).</p>
-<p><img src="changing-components.gif" class="img-responsive"></p>
-<ul>
-<li>Any custom class you make that <a href="../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> will also inherit this feature.</li>
-<li>This uses a serialization trick to have the Unity Editor change the old component's type and immediately destroy the newly added component which allows it to retain the values of all its fields that are shared by both types (such as the <code>Animator</code> reference) and any references to that component from elsewhere will also be retained (if possible based on the types involved).</li>
-<li>This feature is implemented by calling <code>AnimancerUtilities.IfMultiComponentThenChangeType</code> in <code>AnimancerComponent.Reset</code>, so you can use it in your own scripts by calling that method.</li>
 </ul>
 
 	</section>

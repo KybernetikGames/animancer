@@ -76,8 +76,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#foot-ik">Foot IK</a></p>
-<p><a href="#ik-pass">IK Pass</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#ik-pass">IK Pass</a></p>
+<p><a href="#foot-ik">Foot IK</a></p>
 <p><a href="#animated-properties">Animated Properties</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -160,7 +160,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -241,9 +240,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -276,6 +276,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -454,39 +466,14 @@
 <p>Animancer allows you to use Unity's inbuilt <a href="https://docs.unity3d.com/Manual/InverseKinematics.html">Humanoid IK</a> system in mostly the same way you would with Mecanim. The main difference is that you enable it by setting <code><a href="/animancer/v6/api/Animancer/AnimancerNode/491B2595">AnimancerNode.ApplyFootIK</a></code> or <code><a href="/animancer/v6/api/Animancer/AnimancerNode/85733842">AnimancerNode.ApplyAnimatorIK</a></code> on a state or layer instead of enabling it with toggles in an Animator Controller.</p>
 <p>You can also enable/disable IK using the <a href="../playing/inspector#context-menus">Context Menu Functions</a> in the <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector for testing purposes (the setting will not be stored in the scene or prefab, so you will always need to enable Ik with a script to use it at runtime).</p>
 <p>The <a href="../../examples/ik">Inverse Kinematics</a> examples demonstrate the use of this feature.</p>
-<h1 id="foot-ik">Foot IK</h1>
-<p><em>Foot IK</em> allows Unity to make the character's feet more closely match the original animation's positions after retargeting it from the animation's rig to the model's rig. This can help reduce foot sliding caused by differing rig proportions, but it also often has undesirable results so it should be selected on a case by case basis.</p>
-<pre><code class="language-cs">void EnableFootIK(AnimancerComponent animancer, AnimationClip clip)
-{
-    // Enable Foot IK for all new states by default:
-    animancer.Playable.DefaultApplyFootIK = true;
-
-    // Enable Foot IK for all states and set the default:
-    animancer.Playable.ApplyFootIK = true;
-
-    // Enable Foot IK for a specific layer:
-    animancer.Layers[0].ApplyFootIK = true;
-
-    // Enable Foot IK for a specific state (and any children if it is a mixer):
-    var state = animancer.States.GetOrCreate(clip);
-    state.ApplyFootIK = true;
-}
-</code></pre>
-<p></p><details><summary>This is equivalent to the <code>Foot IK</code> toggle in an Animator Controller state:</summary><p>
-<img src="foot-ik.png" class="img-responsive">
-</p></details><p></p>
-<p>Internally, when Unity creates an <code>AnimationClipPlayable</code> it actually starts with the <em>Foot IK</em> enabled by default. Unity Support says this is "by design" since they believe it looks better, however this default is not mentioned anywhere in the Unity Manual and many users complained about the foot pose being different from the original animation when using Animancer so it simply disables <em>Foot IK</em> when the playable is created (unless you set <code>AnimancerPlayable.DefaultApplyFootIK = true</code> beforehand).</p>
 <h1 id="ik-pass">IK Pass</h1>
-<p>The <em>IK Pass</em> causes Unity to call the <code>OnAnimatorIK(int layerIndex)</code> method every frame in any scripts attached to the same object as the <code>Animator</code>. Unfortunately, due to limitations in the Playables API Unity will only ever call <code>OnAnimatorIK</code> with the <code>layerIndex = 0</code>.</p>
+<p>The <em>IK Pass</em> causes Unity to call the <code>OnAnimatorIK(int layerIndex)</code> method every frame in any scripts attached to the same object as the <code>Animator</code>.</p>
 <pre><code class="language-cs">void EnableIKPass(AnimancerComponent animancer, AnimationClip clip)
 {
-    // Enable IK Pass for all new states by default:
-    animancer.Playable.DefaultApplyAnimatorIK = true;
-
-    // Enable IK Pass for all states and set the default:
+    // Enable IK Pass for all states:
     animancer.Playable.ApplyAnimatorIK = true;
 
-    // Enable IK Pass for a specific layer:
+    // Enable IK Pass for all states on a specific layer:
     animancer.Layers[0].ApplyAnimatorIK = true;
 
     // Enable IK Pass for a specific state (and any children if it is a mixer):
@@ -497,37 +484,61 @@
 <p></p><details><summary>This is equivalent to the <code>IK Pass</code> toggle in an Animator Controller layer, except that due to limitations in the Playables API the <code>layerIndex</code> Unity passes into <code>OnAnimatorIK</code> will always be zero:</summary><p>
 <img src="ik-pass.gif" class="img-responsive">
 </p></details><p></p>
+<p>By default, states will automatically be given the IK Pass setting from their parent when it is assigned (such as when creating a new state or moving it to a different layer). This can be prevented by setting <code><a href="/animancer/v6/api/Animancer/AnimancerNode/0151926F">AnimancerNode.ApplyParentAnimatorIK</a> = false;</code> before changing the parent.</p>
+<h1 id="foot-ik">Foot IK</h1>
+<p><em>Foot IK</em> allows Unity to make the character's feet more closely match the original animation's positions after retargeting it from the animation's rig to the model's rig. This can help reduce foot sliding caused by differing rig proportions, but it also often has undesirable results so it should be selected on a case by case basis.</p>
+<pre><code class="language-cs">void EnableFootIK(AnimancerComponent animancer, AnimationClip clip)
+{
+    // Enable Foot IK for all states:
+    animancer.Playable.ApplyFootIK = true;
+
+    // Enable Foot IK for all states on a specific layer:
+    animancer.Layers[0].ApplyFootIK = true;
+
+    // Enable Foot IK for a specific state (and any children if it is a mixer):
+    var state = animancer.States.GetOrCreate(clip);
+    state.ApplyFootIK = true;
+}
+</code></pre>
+<p></p><details><summary>This is equivalent to the <code>Foot IK</code> toggle in an Animator Controller state:</summary><p>
+<img src="foot-ik.png" class="img-responsive">
+</p></details><p></p>
+<p>By default, states will automatically be given the Foot IK setting from their parent when it is assigned (such as when creating a new state or moving it to a different layer). This can be prevented by setting <code><a href="/animancer/v6/api/Animancer/AnimancerNode/67BADAA5">AnimancerNode.ApplyParentFootIK</a> = false;</code> before changing the parent.</p>
 <h1 id="animated-properties">Animated Properties</h1>
 <p><em>This is a <a href="../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
-<p>It is quite common to use an <code>AnimationCurve</code> in an <code>AnimationClip</code> to control the weight of the IK so that some parts of the animation use more IK than others. 0 means the limb will be fully controlled by the animation while 1 means the IK system will be fully in control, with anything inbetween giving a proportional amount of control.</p>
-<ul>
-<li>If the animation is imported as part of a model, you can add custom curves in the <span class="text-nowrap"><a href="https://docs.unity3d.com/Manual/AnimationCurvesOnImportedClips.html">Import Settings -&gt; Animation Tab -&gt; Curves (foldout near the bottom)</a>.</span></li>
-<li>Otherwise you can add custom curves using the Animation window.</li>
-</ul>
-<p>Normally to access a custom curve at runtime you would add a float parameter with the same name to your <a href="../animator-controllers">Animator Controller</a> so that Unity will automatically update it and you can then read the value from that parameter to control the weight of the IK each frame. In Animancer, this is done using an <code>AnimatedProperty</code> instead:</p>
+<p>The <code><a href="/animancer/v6/api/Animancer/AnimatedBool">AnimatedBool</a></code>, <code><a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a></code>, and <code><a href="/animancer/v6/api/Animancer/AnimatedInt">AnimatedInt</a></code> classes allow you to access the values of custom curves in your animations at runtime. This is often used to control the weight of the IK so that some parts of the animation use more IK than others. 0 means the limb will be fully controlled by the animation while 1 means the IK system will be fully in control, with anything inbetween giving a proportional amount of control.</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
-// Requires Unity 2019.1+. See below for details.
-private AnimatedProperty _LeftFootWeight;
+private <a href="/animancer/v6/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
 
 private void Awake()
 {
     _Animancer.Layers[0].ApplyAnimatorIK = true;
 
-    _LeftFootWeight = new AnimatedProperty(_Animancer, AnimatedProperty.Type.Float, "LeftFootIK");
+    _FootWeights = new AnimatedFloat(_Animancer, "LeftFootIK", "RightFootIK");
 }
 
 private void OnAnimatorIK(int layerIndex)
 {
-    float currentWeight = _LeftFootWeight.FloatValue;
+    // [0] is the first name we passed into the constructor:
+    float currentLeftFootWeight = _FootWeights[0];
+
+    // [1] is the second name we passed into the constructor:
+    float currentRightFootWeight = _FootWeights[1];
 
     ...
 }
 </code></pre>
 <p>The <a href="../../examples/ik/uneven-ground">Uneven Ground</a> example demonstrates the use of this feature in more detail.</p>
+<p>Adding custom curves to an animation is done differently depending on where it's located:</p>
+<ul>
+<li>If the animation is imported as part of a model, you can add custom curves in the <span class="text-nowrap"><a href="https://docs.unity3d.com/Manual/AnimationCurvesOnImportedClips.html">Import Settings -&gt; Animation Tab -&gt; Curves (foldout near the bottom)</a>.</span></li>
+<li>Otherwise you can add custom curves using the Animation window.</li>
+</ul>
+<p>In an <a href="../animator-controllers">Animator Controller</a>, you can access custom curves by giving it parameters with the same names so that Unity will automatically update those parameters with the curve's value every frame and you can then read the value from that parameter.</p>
 <h2 id="exposed-curves">Exposed Curves</h2>
 <img src="exposed-curve.png" class="img-responsive img-right">
-<p>The <code>AnimatedProperty</code> class uses the Animation Job system introduced in Unity 2019.1 and there is no straightforward way of accessing custom curves at runtime in older versions of Unity. Previous versions of Animancer worked around this problem using an <code>ExposedCurve</code> class which can now be <a href="ExposedCurve.cs">downloaded from here</a>. That class avoids problem by extracting a chosen curve from an <code>AnimationClip</code> in the Unity Editor and serializing it in the <code>ExposedCurve</code> so it can be evaluated at runtime:</p>
+<p>Before <a href="#animated-properties">Animated Properties</a> were implemented, previous versions of Animancer allowed access to custom curves by using using an <code>ExposedCurve</code> class to extract a curve from the <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed directly at runtime. That class can now be <a href="ExposedCurve.cs">downloaded from here</a> and using it is fairly straightforward:</p>
 <ol>
 <li>Create an <code>ExposedCurve</code> using <em>Assets/Create/Animancer/Exposed Curve</em>.</li>
 <li>Assign the <code>AnimationClip</code> containing the curve and enter the <code>Property Name</code> of the curve.</li>
@@ -535,16 +546,16 @@ private void OnAnimatorIK(int layerIndex)
 <li>Reference that asset in your script and evaluate it during <code>OnAnimatorIK</code> to determine how much weight to give the IK system during each frame:</li>
 </ol>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private ExposedCurve _LeftFootWeight;
+[SerializeField] private ExposedCurve _RightFootWeight;
 
 private void OnAnimatorIK(int layerIndex)
 {
-    var currentWeight = _LeftFootWeight.Evaluate(_Animancer);
+    var currentWeight = _RightFootWeight.Evaluate(_Animancer);
 
     ...
 }
 </code></pre>
-<p>Note that an <code>ExposedCurve</code> can only evaluate the target curve from a single animation where an <code>AnimatedProperty</code> will automatically <a href="../blending">Blend</a> the value according to all the animations currently playing.</p>
+<p>Note that an <code>ExposedCurve</code> can only evaluate the target curve from a single animation where an <a href="#animated-properties">Animated Property</a> will automatically <a href="../blending">Blend</a> the value according to all the animations currently playing.</p>
 
 	</section>
                 

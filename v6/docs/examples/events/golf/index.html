@@ -160,7 +160,6 @@
                 <li><a href="/animancer/v6/docs/examples/basics/playing-and-fading">02 Playing and Fading</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/sequence-coroutine">03 Sequence Coroutine</a></li>
                 <li><a href="/animancer/v6/docs/examples/basics/named-animations">04 Named Animations</a></li>
-                <li><a href="/animancer/v6/docs/examples/basics/hybrid">05 Hybrid Basics</a></li>
 
                     </ul>
                 </li>
@@ -241,9 +240,10 @@
                     <a href="/animancer/v6/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/v6/docs/examples/animator-controllers/hybrid">01 Hybrid Mini Game</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/basics">01 Hybrid Basics</a></li>
+                <li><a href="/animancer/v6/docs/examples/animator-controllers/mini-game">02 Hybrid Mini Game</a></li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit">03 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -276,6 +276,18 @@
                 <li><a href="/animancer/v6/docs/examples/jobs/two-bone-ik">01 Two Bone IK</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/damping">02 Damping</a></li>
                 <li><a href="/animancer/v6/docs/examples/jobs/lean">03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/v6/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
                 </li>
@@ -542,11 +554,6 @@ public abstract class <a href="/animancer/v6/api/Animancer.Examples.Events/GolfH
         var fadeDuration = EndEventReceiver.GetFadeOutDuration();
         _Animancer.Play(_Idle, fadeDuration);
     }
-
-    protected void Reset()
-    {
-        AnimancerUtilities.IfMultiComponentThenChangeType(this);
-    }
 }
 </code></pre>
 <p></p></details><p></p>
@@ -627,7 +634,7 @@ private Vector3 _BallStartPosition;
     _Ball.isKinematic = true;
 }
 </code></pre>
-<p>We also want to make sure the character is in the <code>Ready</code> state on startup. It would be fine to do that in <code>Awake</code> for this example, but the <a href="../../animator-controllers/hybrid">Hybrid Mini Game</a> example reuses this script and deactivates it while the Mini Game is not being played so we want to always enter the ready state when the Mini Game starts:</p>
+<p>We also want to make sure the character is in the <code>Ready</code> state on startup. It would be fine to do that in <code>Awake</code> for this example, but the <a href="../../animator-controllers/mini-game">Hybrid Mini Game</a> example reuses this script and deactivates it while the Mini Game is not being played so we want to always enter the ready state when the Mini Game starts:</p>
 <pre><code class="language-cs">protected void OnEnable()
 {
     ReturnToReady();
@@ -706,14 +713,6 @@ private Vector3 _BallStartPosition;
 }
 </code></pre>
 <p>For this example we are just using the regular <em>Humanoid-Idle</em> animation, which does not account for the golf club and ends up sticking it through the ground.</p>
-<h2 id="changing-scripts">Changing Scripts</h2>
-<p>Since we want all of the characters to use basically the same values for their <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> and Unity does not give us a way of copying values between different component types, we can use a serialization trick when we add a second component that inherits from <code><a href="/animancer/v6/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> to have Unity change the type of the existing script and immediately destroy the newly added script:</p>
-<pre><code class="language-cs">protected void Reset()
-{
-    AnimancerUtilities.IfMultiComponentThenChangeType(this);
-}
-</code></pre>
-<p>That allows us to set up one character, copy it, and change the controller script on each of the copies without losing their serialized values.</p>
 <h1 id="hit-events">Hit Events</h1>
 <p>The <code>HitBall</code> method <a href="#events">explained above</a> is called at some point during the <code>_Swing</code> animation in a different way for each event system.</p>
 <h2 id="simple-animation-events">1. Simple Animation Events</h2>
