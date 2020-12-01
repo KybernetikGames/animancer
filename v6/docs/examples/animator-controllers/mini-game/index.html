@@ -286,7 +286,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
@@ -310,6 +310,7 @@
                         
                 <li><a href="/animancer/v6/docs/manual/getting/mixamo">Mixamo</a></li>
                 <li><a href="/animancer/v6/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/animation-window">Animation Window</a></li>
 
                     </ul>
                 </li>
@@ -478,7 +479,7 @@
 <h1 id="animator-controller">Animator Controller</h1>
 <p>The Animator Controller only contains a <em>Locomotion</em> Blend Tree for movement since that is all this example needs, but if you were using a hybrid approach in a real game you would put all your character's regular gameplay animations in it:</p>
 <p><img src="animator-controller.png" class="img-responsive"></p>
-<p>To play it, we use a <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> instead of a regular <code><a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>. It inherits the <code>Animations</code> array from <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> and also adds a <code>Controller</code> field where we can assign the Animator Controller which it will automatically play on startup (unless you assign a different <code>AnimationClip</code> to the <code>Play Automatically</code> field).</p>
+<p>Since we are using a <code>Humanoid</code> Rig and we want to blend between the Animator Controller and Animancer, we can't use a <a href="../../../manual/animator-controller#native">Native Animator Controller</a> and must instead use a <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>. It inherits the <code>Animations</code> array from <code><a href="/animancer/v6/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> and also adds a <code>Controller</code> field where we can assign the Animator Controller which it will automatically play on startup (unless you assign a different <code>AnimationClip</code> to the <code>Play Automatically</code> field).</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Animator</th>
@@ -486,8 +487,12 @@
   </tr></thead>
   <tbody>
     <tr>
-      <td><p><img src="animator.png" class="img-responsive"></p>Note that the <code>Controller</code> field in the <code>Animator</code> component is blank. You must assign it in the <code><a href="/animancer/v6/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to use it with Animancer.</td>
+      <td><img src="animator.png" class="img-responsive"></td>
       <td><img src="hybrid-animancer-component.png" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td>The <code>Controller</code> field here is blank.</td>
+      <td>The Animator Controller is assigned to this <code>Controller</code> instead.</td>
     </tr>
   </tbody>
 </table>

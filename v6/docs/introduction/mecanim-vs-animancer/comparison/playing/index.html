@@ -281,7 +281,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
@@ -305,6 +305,7 @@
                         
                 <li><a href="/animancer/v6/docs/manual/getting/mixamo">Mixamo</a></li>
                 <li><a href="/animancer/v6/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/animation-window">Animation Window</a></li>
 
                     </ul>
                 </li>
@@ -468,8 +469,8 @@
   <tr>
     <td><ol>
       <li>Create an <code>AnimatorController</code> asset somewhere in your project and open it.</li>
-      <li>Assign the asset to the <code>Controller</code> field of the <code>Animator</code> component on your model.</li>
       <li>Create a state and assign the desired <code>AnimationClip</code> to it.</li>
+      <li>Assign the asset to the <code>Controller</code> field of the <code>Animator</code> component on your model.</li>
       <li>Enter Play Mode and your animation will play.</li>
     </ol></td>
     <td><ol>
@@ -504,7 +505,7 @@ public class PlayOnClick : MonoBehaviour
   {
     if (Input.GetMouseButtonDown(0))
     {
-      _Animator.CrossFade("Action", 0.25f);
+      _Animator.Play("Action");
     }
   }
 }
@@ -539,14 +540,9 @@ public class PlayOnClick : MonoBehaviour
   {
     if (Input.GetMouseButtonDown(0))
     {
-      _Animancer.Play(_Action, 0.25f)
-        .Events.OnEnd = OnActionEnd;
+      var state = _Animancer.Play(_Action);
+      state.Events.OnEnd = OnEnable;
     }
-  }
-
-  private void OnActionEnd()
-  {
-    _Animancer.Play(_Idle, 0.25f);
   }
 }
 </code></pre>
@@ -560,13 +556,7 @@ public class PlayOnClick : MonoBehaviour
 <blockquote class="blockquote">
 <p>What do you need to look at to understand how a character works?</p>
 </blockquote>
-<p>Imagine you want to look at a character someone else has set up to figure out how it works or maybe you have just forgotten exactly how a character works because you haven't worked on them in a while. There are plenty of reasons you might want to do this:</p>
-<ul>
-<li>To add a new action.</li>
-<li>To track down a bug.</li>
-<li>Maybe you are just curious.</li>
-</ul>
-<p>Where do you need to look to figure out what the character can do?</p>
+<p>Imagine you want to look at a character someone else has set up to figure out how it works or maybe you have just forgotten exactly how a character works because you haven't worked on them in a while. Maybe you want to add a new action they can perform or need to track down and fix a bug.</p>
 <table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
   <tr>
     <td><ol>
@@ -610,7 +600,9 @@ public class PlayOnClick : MonoBehaviour
   </tr>
 </tbody></table>
 <p>That's pretty simple so far, but consider what happens after that.</p>
+<blockquote class="blockquote">
 <p>What if you want to add another action?</p>
+</blockquote>
 <table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
   <tr>
     <td><ol>
@@ -624,7 +616,9 @@ public class PlayOnClick : MonoBehaviour
     </ol></td>
   </tr>
 </tbody></table>
+<blockquote class="blockquote">
 <p>What if you just want to rename an action?</p>
+</blockquote>
 <table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
   <tr>
     <td><ol>
@@ -639,9 +633,10 @@ public class PlayOnClick : MonoBehaviour
     </ol></td>
   </tr>
 </tbody></table>
-<p>There's a clear pattern here. The Animator Controller is useless without the script, but looking at it can't tell you which script that is. The Mecanim script is also useless without the controller, but looking at it can't tell you which controller it needs either. The script simply hopes that a state called <code>"Action"</code> actually exists and then gives up responsibility for what happens after the animation is started without giving any indication that it expects the controller to automatically return to <em>Idle</em> afterwards. Every time you want to change anything to do with the Mecanim character, it involves modifying the script and then manually finding every Animator Controller it is used for and making the corresponding modifications there.</p>
-<p>Mecanim even allows you to use parameters to control transitions instead of calling <code>CrossFade</code> with the state name directly. But that only makes the problem worse. More things to manually repeat for every Animator Controller. More chances for something to go wrong. More of a disconnect between what the script expects to happen and what will actually happen.</p>
+<p>Aside from the obvious difference in the number of steps required to do anything, there's a clear pattern here. The Animator Controller is useless without the script, but looking at it can't tell you which script that is. The Mecanim script is also useless without the controller, but looking at it can't tell you which controller it needs either. The script simply hopes that a state called <code>"Action"</code> actually exists and then gives up responsibility for what happens after the animation is started without giving any indication that it expects the controller to automatically return to <em>Idle</em> afterwards. Every time you want to change anything to do with the Mecanim character, it involves modifying the script and then manually finding every Animator Controller it is used for and making the corresponding modifications there.</p>
+<p>Mecanim even allows you to use parameters to control transitions instead of calling <code>Play</code> with the state name directly, but that only makes the problem worse by giving you more things to manually repeat for every Animator Controller, more chances for something to go wrong, and more of a disconnect between what the script expects to happen and what will actually happen.</p>
 <p>The Animancer script on the other hand dictates exactly how everything works. When you add it to an object you get to see exactly which animations it will use in the Inspector. When it plays an animation it takes responsibility for whatever it expects to happen once it is done. And when you make a modification you do not need to manually go through all the assets it touches to make corresponding modifications.</p>
+<p>The <a href="../why/adaptability">Adaptability</a> page goes into more detail about these issues.</p>
 
 	</section>
                 

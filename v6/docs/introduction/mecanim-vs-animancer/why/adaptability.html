@@ -279,7 +279,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
@@ -303,6 +303,7 @@
                         
                 <li><a href="/animancer/v6/docs/manual/getting/mixamo">Mixamo</a></li>
                 <li><a href="/animancer/v6/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/animation-window">Animation Window</a></li>
 
                     </ul>
                 </li>
@@ -462,7 +463,7 @@
 	<section class="content">
 		<p>There's a programming concept known as <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">Separation of Concerns</a> which encourages you to <em>separate</em> your code into distinct sections which each cover different <em>concerns</em> (things the program needs to do). For example, if your game contains a <em>player</em> and <em>enemies</em> which can move around similarly but are controlled differently, instead of simply having one script for "everything the player does" and another for "everything an enemy does", you could separate the functionality for "moving a character" from the logic of "deciding where a character wants to move". This would allow you to modify the way characters move and have that change apply consistently to all characters or you could add a new type of enemy that uses different logic for deciding where to move without needing to implement the same movement code again.</p>
 <p>In theory, Mecanim attempts to utilise this concept by separating the structure of states, transitions, and parameters in an Animator Controller from the rest of the game logic in scripts. But in practice, it is separating the wrong things. Those concerns often need to be coupled far too tightly for that forced separation to provide any benefit so you just end up wasting time coordinating between things that should not be separate in the first place.</p>
-<p>In addition to forcibly separating your concerns in the wrong way, it also prevents you from separating them in useful ways. Imagine if you could split a large Animator Controller into several smaller ones with more specific responsibilities. Well, you can actually do that with Animancer since it can <a href="../../../manual/animator-controllers">play Animator Controllers just like any other state</a>.</p>
+<p>In addition to forcibly separating your concerns in the wrong way, it also prevents you from separating them in useful ways. Imagine if you could split a large Animator Controller into several smaller ones with more specific responsibilities. Well, you can actually do that with Animancer since it can <a href="../../../manual/animator-controllers#states">play Animator Controllers just like any other state</a>.</p>
 <h1 id="example">Example</h1>
 <p><a href="https://docs.unity3d.com/Manual/StateMachineBasics.html"><img src="state-machine-diagram.png" width="50%" class="img-right" style="padding-top:4px"></a>This state diagram taken straight from the <a href="https://docs.unity3d.com/Manual/StateMachineBasics.html">Unity Manual</a> actually illustrates one of the problems with Mecanim quite effectively. To transition from the <em>Walk</em> state to the <em>Fall</em> state, a transition must be set up between those states so that a script can detect when the character is no longer on the ground and trigger it. Then when the script detects that the character is back on the ground it can try to go back to <em>Idle</em>, except there is no transition from <em>Fall</em> to <em>Idle</em> so nothing will happen. Development time was originally spent creating the state machine and the code logic separately, and now even more time needs to be spent figuring out whether the problem is a bug in the ground detection code or in the state machine (or both) and then fixing it without breaking anything else. The code is useless without the specific Animator Controller structure it expects and the Animator Controller is useless without code that specifically knows how to control it. Both sides are very tightly coupled to each other, but Mecanim forces them to be separate so you have to waste time getting them to work together and ensuring that changes to one do not break the other.</p>
 <p>That problem would never occur with Animancer. You still need to detect when the creature leaves and returns to the ground, but when you tell it to play an animation it will simply play that animation. The script wants something done, so it tells Animancer exactly what to do.</p>

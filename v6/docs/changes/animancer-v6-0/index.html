@@ -283,7 +283,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
@@ -307,6 +307,7 @@
                         
                 <li><a href="/animancer/v6/docs/manual/getting/mixamo">Mixamo</a></li>
                 <li><a href="/animancer/v6/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/animation-window">Animation Window</a></li>
 
                     </ul>
                 </li>
@@ -466,8 +467,8 @@
 	<section class="content">
 		<blockquote class="blockquote">
 <p><a href="test">This version is currently under development and is available for testing.</a></p>
-<p>Planned Release 2020-12-??</p>
-<p>This page was last updated on 2020-11-09</p>
+<p>Planned Release 2020-12-04</p>
+<p>This page was last updated on 2020-12-01</p>
 </blockquote>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p><a href="../../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
@@ -579,6 +580,7 @@
 <ul>
 <li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/BAA47882">AnimancerState.Duration</a></code> to properly account for the End Time.</li>
 <li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/87E41C92">AnimancerState.RemainingDuration</a></code> to properly account for the End Time and negative speeds and not give different results for looping animations since End Events don't work any differently for them.</li>
+<li>Changed <code><a href="/animancer/v6/api/Animancer/AnimancerState/24DFEA05">AnimancerState.IsPlaying</a></code> to not be <code>virtual</code> and added <code>OnSetIsPlaying</code> instead since only the setter should ever be overridden.</li>
 <li>Changed <code>AnimancerUtilities.Wrap01</code> and <code>AnimancerUtilities.Wrap</code> to not be extension methods since they aren't used that often.</li>
 <li>Renamed <code>AnimancerNode.EditorName</code> to <code>DebugName</code> and made it available in Development Builds as well as in the Unity Editor.</li>
 <li><a href="../../manual/fsm">State Machines</a>:
@@ -596,7 +598,7 @@
 <li>Changed the Add Event button in the Inspector into an <code>X</code> to remove the selected event (while one is selected).</li>
 <li>Changed <code>AnimancerEvent.Sequence.SetCallback</code> to trigger <code>OptionalWarning.DuplicateEvent</code> if necessary.</li>
 <li>Changed <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> methods that modify callbacks to throw an <code>ArgumentNullException</code> if the callback is null rather than just logging an assertion.</li>
-<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code><a href="/animancer/v6/api/Animancer/AnimancerEvent">AnimancerEvent</a></code>.</li>
+<li>Moved <code>AnimancerEvent.Sequence.Serializable.DummyCallback</code> out to <code><a href="/animancer/v6/api/Animancer/AnimancerEvent">AnimancerEvent</a></code> and added a <code>Dummy</code> method so that it has a proper name instead of a compiler generated name for an anonymous method..</li>
 </ul>
 </li>
 <li><a href="../../manual/ik">Inverse Kinematics</a>:
@@ -622,6 +624,14 @@
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
+<li>Improved <a href="../../manual/timeline">Timeline</a> track binding support:
+<ul>
+<li>Added <code>OptionalWarning.PlayableAssetAnimatorBinding</code> in case a <code><a href="/animancer/v6/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> tries to bind to the same <code>Animator</code> as Animancer.</li>
+<li>The <code>IsPlaying</code> state is now propogated onto all tracks.</li>
+<li>Tracks which don't require an object to bind will now properly create their output and are shown in the Inspector as a simple label without an <code>Object</code> field.</li>
+<li>If a binding has the wrong type, it is now highlighted as a warning in the Inspector.</li>
+</ul>
+</li>
 <li>Optimised <code><a href="/animancer/v6/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> methods that search for a particular item.</li>
 <li>Added <code>Remove</code> function to the event sub-menus of the <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> Inspector context menu.</li>
 <li>Improved the <code><a href="/animancer/v6/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code> to be able to gather clips and transitions separately.</li>
@@ -660,6 +670,7 @@
 <li>Fixed <code>UnityVersionChecker</code> to get properly removed when overriding Animancer Lite with Animancer Pro by moving it into the <code>ReadMe.cs</code> file.</li>
 <li>Fixed the <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> Inspector context menu to disable the <code>Invoke</code> function for events using the <code>AnimancerEvent.DummyCallback</code>.</li>
 <li>Fixed <code>TransitionPreviewWindow.GetCurrentState</code> to not throw an exception if the state doesn't exist.</li>
+<li>Fixed the <code>AssemblyInfo.cs</code> file to be properly included in Animancer Pro.</li>
 </ul>
 
 	</section>

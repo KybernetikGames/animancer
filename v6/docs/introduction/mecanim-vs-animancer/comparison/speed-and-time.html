@@ -76,8 +76,10 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#speed">Speed</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#fixed-speed">Fixed Speed</a></p>
+<p><a href="#dynamic-speed">Dynamic Speed</a></p>
 <p><a href="#time">Time</a></p>
+<p><a href="#constant-time-control">Constant Time Control</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -279,7 +281,7 @@
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/v6/docs/examples/integration">11 Integration</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/v6/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/v6/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
@@ -303,6 +305,7 @@
                         
                 <li><a href="/animancer/v6/docs/manual/getting/mixamo">Mixamo</a></li>
                 <li><a href="/animancer/v6/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/v6/docs/manual/getting/animation-window">Animation Window</a></li>
 
                     </ul>
                 </li>
@@ -460,8 +463,8 @@
 			<h1>Speed and Time</h1>
 		</section>
 	<section class="content">
-		<p><em>Note that Animancer Lite only allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>. See the <a href="../features">Feature Comparison</a> for more information.</em></p>
-<h1 id="speed">Speed</h1>
+		<p><em>Note that Animancer Lite only allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>. See the <a href="../../features">Feature Comparison</a> for more information.</em></p>
+<h1 id="fixed-speed">Fixed Speed</h1>
 <p>Setting the speed you want an animation to play at is fairly simple in both systems.</p>
 <table class="table"><thead><tr><th>Mecanim</th><th>Animancer</th></tr></thead><tbody>
   <tr>
@@ -486,7 +489,7 @@ void PlayAnimation()
     state.Speed = 2;
 }
 </code></pre>
-<p>Or use a <a href="../../manual/transitions">Transition</a> so it can be set in the Inspector alongside the <code>AnimationClip</code>:</p>
+<p>Or use a <a href="../../../manual/transitions">Transition</a> so it can be set in the Inspector alongside the <code>AnimationClip</code>:</p>
 <pre><code class="language-cs">[SerializeField]
 <a href="/animancer/v6/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
@@ -498,11 +501,12 @@ void PlayAnimation()
     _Animancer.Play(_Animation);
 }
 </code></pre>
-<img src="../../manual/transitions/types/clip.png" class="img-responsive">
+<img src="../../../manual/transitions/types/clip.png" class="img-responsive">
 </td>
   </tr>
 </tbody></table>
-<p>Sometimes you also need to modify the speed dynamically at runtime, such as to modify a character's attack speed in response to a buff. As usual, Animancer simply allows you to get straight to the point while Mecanim requires a bunch of additional setup steps:</p>
+<h1 id="dynamic-speed">Dynamic Speed</h1>
+<p>Sometimes you also need to modify the speed dynamically at runtime, such as to modify a character's attack speed in response to a buff. As usual, Mecanim requires a bunch of additional setup steps while Animancer simply allows you to get straight to the point:</p>
 <table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
   <tr>
     <td>
@@ -520,7 +524,6 @@ void LudicrousSpeed()
     _Animator.SetFloat("ParameterName", 9000);
 }
 </code></pre>
-<p>It is also possible to set the <code>speed</code> property on the <code>Animator</code> component itself, however this is generally not recommended because it affects all animations at once. Transitioning from a fast animation into a slow one would either play them both fast or both slow or gradually blend the speed, but it could not simply allow one to play fast while the other plays slowly.</p>
 </td>
     <td>
 <ol>
@@ -555,6 +558,10 @@ void LudicrousSpeed()
 </code></pre>
 </td>
   </tr>
+  <tr>
+    <td>It is also possible to set the <code>speed</code> property on the <code>Animator</code> component itself, however this is generally not recommended because it affects all animations at once. Transitioning from a fast animation into a slow one would either play them both fast or both slow or gradually blend the speed, but it could not simply allow one to play fast while the other plays slowly.</td>
+    <td>You can set the <code>_Animancer.Playable.Speed</code> to affect all animations, just like with Mecanim. You can also set the speed of a particular layer with <code>_Animancer.Layers[x].Speed</code>.</td>
+  </tr>
 </tbody></table>
 <h1 id="time">Time</h1>
 <p>Both systems also allow you to control the animation time directly:</p>
@@ -571,25 +578,7 @@ void SkipToHalfTime()
     _Animator.Play("Action", 0, 0.5f);
 }
 </code></pre>
-<p>You can call <code>Play</code> again while the animation is already playing to jump to a different time.</p>
-<p>You can also use a parameter to control the normalized time much like the speed:</p>
-<ol>
-<li>Create a new <code>Float Parameter</code> in the Animator Controller.</li>
-<li>Select the animation's state.</li>
-<li>Tick the <code>Parameter</code> toggle next to the <code>Normalized Time</code> field.</li>
-<li>Select the parameter you just created from the dropdown menu.</li>
-<li>Now you can set the parameter by calling <code>Animator.SetFloat("ParameterName", value)</code> which will control the normalized time of the animation.</li>
-</ol>
-<pre><code class="language-cs">[SerializeField]
-Animator _Animator;
-
-void SkipToHalfTime()
-{
-    _Animator.SetFloat("ParameterName", 0.5f);
-}
-</code></pre>
-<p><strong>Warning</strong>: doing this will cause the parameter to control the state constantly. It will no longer play normally unless you manually update the parameter every frame.</p>
-<p>Also note that both of these options set the normalized time (0 to 1 range). Mecanim does not allow you to set the raw time of an animation (in seconds).</p>
+<p>You can call <code>Play</code> again while the animation is already playing to jump to a different time, but this can cause <a href="../why/reliability">Reliability</a> issues.</p>
 </td>
     <td>
 <p>Again, basically the same as the first example above. Just get the <code><a href="/animancer/v6/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> method and modify its <code>Time</code> or <code>NormalizedTime</code>.</p>
@@ -608,9 +597,45 @@ void PlayAnimation()
 
     // Skip halfway through.
     state.NormalizedTime = 0.5f;
+
+    // Or do it in one line:
+    _Animancer.Play(_Clip).Time = 1;
 }
 </code></pre>
 </td>
+  </tr>
+</tbody></table>
+<h1 id="constant-time-control">Constant Time Control</h1>
+<p>It's also possible to take full control over the state's time so that you can set it to whatever you want and it won't advance on its own:</p>
+<table class="table"><thead><tr><th width="50%">Mecanim</th><th width="50%">Animancer</th></tr></thead><tbody>
+  <tr>
+    <td>
+<ol>
+<li>Create a new <code>Float Parameter</code> in the Animator Controller.</li>
+<li>Select the animation's state.</li>
+<li>Tick the <code>Parameter</code> toggle next to the <code>Normalized Time</code> field.</li>
+<li>Select the parameter you just created from the dropdown menu.</li>
+<li>Now you can set the parameter by calling <code>Animator.SetFloat("ParameterName", value)</code> which will control the normalized time of the animation.</li>
+</ol>
+<pre><code class="language-cs">[SerializeField]
+Animator _Animator;
+
+void SkipToHalfTime()
+{
+    _Animator.SetFloat("ParameterName", 0.5f);
+}
+</code></pre>
+</td>
+    <td>
+<ol>
+<li>Set the state's <code>Speed</code> to 0 as above.</li>
+<li>Set the state's <code>Time</code> or <code>NormalizedTime</code> as above.</li>
+</ol>
+</td>
+  </tr>
+  <tr>
+    <td>If you want it to play normally, you need to update the parameter every frame.</td>
+    <td>If you want it to play normally, you can just set the <code>Speed</code> back to 1.</td>
   </tr>
 </tbody></table>
 
