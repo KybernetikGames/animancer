@@ -56,18 +56,25 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20" style="position:relative; left:-7px; top:-1px;"> Features</a></li>
-        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20" style="position:relative; left:-7px; top:-1px;"> Download</a></li>
-        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20" style="position:relative; left:-5px; top:-1px;"> Documentation</a></li>
-        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20" style="position:relative; left:-4px; top:-1px;"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20" style="position:relative; left:-3px; top:-1px;"> API v5.3</a></li>
-        <li><a href="https://kybernetik.com.au/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20" style="position:relative; left:-2px; top:-1px;"> Other Assets</a></li>
- 
-                        </ul>       
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v6.0</a></li>
+        <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>
                     </div>
                     <!-- /.navbar-collapse -->
                 
-                    <!-- Navbar Right Menu --></nav><a href="/animancer/v6/docs/changes/animancer-v6-0" style="font-size:1.42em; color:white"><strong>Animancer v6.0 is currently available for testing.</strong></a>
+                    <!-- Navbar Right Menu -->
+                </nav>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -204,7 +211,6 @@
 				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
 				<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
 				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
-				<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>
 				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
 				<li><a href="/animancer/api/Animancer/IKeyedListItem">IKeyedListItem</a></li>
 				<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>
@@ -261,7 +267,6 @@
 											<li>IEnumerator</li>								
 											<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
 											<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
-											<li><a href="/animancer/api/Animancer/IHasIK">IHasIK</a></li>								
 									</ul>
 								</dd>
 							
@@ -293,8 +298,6 @@
 	click Interface3 "/animancer/api/Animancer/IPlayableWrapper"
 	Type-.-&gt;Interface4["IAnimationClipCollection"]
 	click Interface4 "/animancer/api/Animancer/IAnimationClipCollection"
-	Type-.-&gt;Interface5["IHasIK"]
-	click Interface5 "/animancer/api/Animancer/IHasIK"
 	Type["AnimancerLayer"]
 class Type type-node
 
@@ -306,7 +309,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>public sealed class AnimancerLayer : AnimancerNode, IKeyedListItem, IEnumerable&lt;AnimancerState&gt;, 
-    IEnumerator, IPlayableWrapper, IAnimationClipCollection, IHasIK</code></pre>
+    IEnumerator, IPlayableWrapper, IAnimationClipCollection</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
@@ -335,34 +338,44 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/85733842">ApplyAnimatorIK</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/BE711327">ApplyAnimatorIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether <code class="cs">OnAnimatorIK(int layerIndex)</code> will be called on the animated object while this
-    node and its children are active. The initial value is determined by
-    <code class="cs">Animancer.AnimancerPlayable.DefaultApplyAnimatorIK</code>.
-    <p></p>
-    This is equivalent to the "IK Pass" toggle in Animator Controller layers.
-    <p></p>
-    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
+									<div>
+    Should Unity call <code class="cs">OnAnimatorIK</code> on the animated object while this object and its children have any
+    <code class="cs">Animancer.AnimancerNode.Weight</code>?
     </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/491B2595">ApplyFootIK</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/0A02E3C9">ApplyFootIK</a></td>
 								<td>bool</td>
 								<td>
-									<div>[<code class="cs">Animancer.IHasIK</code>]
-    Determines whether this node and its children are applying IK to the character's feet.
-    The initial value is determined by <code class="cs">Animancer.AnimancerPlayable.DefaultApplyFootIK</code>.
-    <p></p>
-    This is equivalent to the "Foot IK" toggle in Animator Controller states.
-    <p></p>
-    Note that this property only applies to <code class="cs">Animancer.ClipState</code>s.
+									<div>Should this object and its children apply IK to the character's feet?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNode.Parent</code> also set this node's <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> to match it?
+    Default is true.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNode.Parent</code> also set this node's <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> to match it?
+    Default is true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -408,14 +421,6 @@ class Type type-node
     <p></p>
     Each time this property changes, the <code class="cs">Animancer.AnimancerLayer.CommandCount</code> is incremented.
     </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/612FDF60">EditorName</a></td>
-								<td>string</td>
-								<td>
-									<div>[Editor-Only] The Inspector display name of this node.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -499,13 +504,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></td>
 								<td>float</td>
 								<td>
-									<div>[Pro-Only]
-     How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame.
-     <p></p>
-     1 is the normal speed.
-     <p></p>
-     A negative value will play the animation backwards.
-     </div>
+									<div>[Pro-Only] How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame (default 1).</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
@@ -581,6 +580,30 @@ class Type type-node
 								<td>void</td>
 								<td>
 									<div>Called by <code class="cs">Animancer.AnimancerNode.AppendDescription(System.Text.StringBuilder,System.Int32,System.String)</code> to append the details of this node.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/CE0ED083">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>IPlayableWrapper)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Appends the details of <code class="cs">Animancer.IPlayableWrapper.ApplyAnimatorIK</code> and
+    <code class="cs">Animancer.IPlayableWrapper.ApplyFootIK</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/7AA1C9D3">CopyIKFlags<wbr>(AnimancerNode)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Copies the <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> and <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> settings from the
+    <code class="cs">Animancer.AnimancerNode.Parent</code> if <code class="cs">Animancer.AnimancerNode.ApplyParentAnimatorIK</code> and <code class="cs">Animancer.AnimancerNode.ApplyParentFootIK</code> are true
+    respectively.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -826,12 +849,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerLayer/84F1613D">Play<wbr>(AnimancerState)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>
-    Stops all other animations, plays the `state`, and returns it.
-    <p></p>
-    The animation will continue playing from its current <code class="cs">Animancer.AnimancerState.Time</code>.
-    If you wish to force it back to the start, you can simply set the `state`s time to 0.
-    </div>
+									<div>Stops all other animations, plays the `state`, and returns it.</div>
 								</td>
 							</tr>
 							<tr>
@@ -841,14 +859,6 @@ class Type type-node
 									<div>
     Starts fading in the `state` over the course of the `fadeDuration` while fading out all others in this
     layer. Returns the `state`.
-    <p></p>
-    If the `state` was already playing and fading in with less time remaining than the `fadeDuration`, this
-    method will allow it to complete the existing fade rather than starting a slower one.
-    <p></p>
-    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will fade in the layer itself
-    and simply <code class="cs">Animancer.AnimancerState.Play</code> the `state`.
-    <p></p>
-    <em>Animancer Lite only allows the default `fadeDuration` (0.25 seconds) in runtime builds.</em>
     </div>
 								</td>
 							</tr>
@@ -856,12 +866,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerLayer/7F34533F">Play<wbr>(AnimationClip)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>
-    Stops all other animations, plays the `clip`, and returns its state.
-    <p></p>
-    The animation will continue playing from its current <code class="cs">Animancer.AnimancerState.Time</code>.
-    To restart it from the beginning you can use <code class="cs">...Play(clip).Time = 0;</code>.
-    </div>
+									<div>Stops all other animations, plays the `clip`, and returns its state.</div>
 								</td>
 							</tr>
 							<tr>
@@ -871,14 +876,6 @@ class Type type-node
 									<div>
     Starts fading in the `clip` over the course of the `fadeDuration` while fading out all others in the same
     layer. Returns its state.
-    <p></p>
-    If the `state` was already playing and fading in with less time remaining than the `fadeDuration`, this
-    method will allow it to complete the existing fade rather than starting a slower one.
-    <p></p>
-    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will fade in the layer itself
-    and simply <code class="cs">Animancer.AnimancerState.Play</code> the `state`.
-    <p></p>
-    <em>Animancer Lite only allows the default `fadeDuration` (0.25 seconds) in runtime builds.</em>
     </div>
 								</td>
 							</tr>
@@ -901,38 +898,6 @@ class Type type-node
     Creates a state for the `transition` if it didn't already exist, then calls
     <code class="cs">Animancer.AnimancerLayer.Play(Animancer.AnimancerState)</code> or <code class="cs">Animancer.AnimancerLayer.Play(Animancer.AnimancerState,System.Single,Animancer.FadeMode)</code>
     depending on the <code class="cs">Animancer.ITransition.FadeDuration</code>.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerLayer/01D33684">Play<wbr>(Object)<wbr></a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
-								<td>
-									<div>
-    Stops all other animations, plays the animation registered with the `key`, and returns that
-    state. If no state is registered with the `key`, this method does nothing and returns null.
-    <p></p>
-    The animation will continue playing from its current <code class="cs">Animancer.AnimancerState.Time</code>.
-    If you wish to force it back to the start, you can simply set the returned state's time to 0.
-    on the returned state.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerLayer/843EA13C">Play<wbr>(Object, <wbr>float, <wbr>FadeMode)<wbr></a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
-								<td>
-									<div>
-    Starts fading in the animation registered with the `key` over the course of the `fadeDuration` while fading
-    out all others in the same layer. Returns the animation's state (or null if none was registered).
-    <p></p>
-    If the `state` was already playing and fading in with less time remaining than the `fadeDuration`, this
-    method will allow it to complete the existing fade rather than starting a slower one.
-    <p></p>
-    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will fade in the layer itself
-    and simply <code class="cs">Animancer.AnimancerState.Play</code> the `state`.
-    <p></p>
-    <em>Animancer Lite only allows the default `fadeDuration` (0.25 seconds) in runtime builds.</em>
     </div>
 								</td>
 							</tr>
@@ -964,10 +929,10 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/A15E4245">SetEditorName<wbr>(string)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/AAFFB745">SetDebugName<wbr>(string)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>[Editor-Conditional]
+									<div>[Assert-Conditional]
     Sets the Inspector display name of this node. <code class="cs">Animancer.AnimancerNode.ToString</code> returns the name.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
@@ -1040,6 +1005,27 @@ class Type type-node
 								<td>string</td>
 								<td>
 									<div>The Inspector display name of this layer.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/5EB934E8">TryPlay<wbr>(Object)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>
+    Stops all other animations on the same layer, plays the animation registered with the `key`, and returns
+    that state. Or if no state is registered with that `key`, this method does nothing and returns null.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/85DEB961">TryPlay<wbr>(Object, <wbr>float, <wbr>FadeMode)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>
+    Starts fading in the animation registered with the `key` while fading out all others in the same layer
+    over the course of the `fadeDuration`. Or if no state is registered with that `key`, this method does
+    nothing and returns null.
+    </div>
 								</td>
 							</tr>
 					</tbody></table>
