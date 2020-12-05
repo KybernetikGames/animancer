@@ -380,6 +380,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
+                <li><a href="/animancer/docs/bugs/animator-controller-speed">Animator Controller Speed</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
                 <li><a href="/animancer/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
@@ -479,6 +480,7 @@
 <th>Method</th>
 <th>Summary</th>
 <th>Advantages</th>
+<th>Disadvantages</th>
 </tr>
 </thead>
 <tbody>
@@ -486,21 +488,25 @@
 <td><strong><a href="../../introduction/mecanim-vs-animancer/conversion">Conversion</a></strong></td>
 <td>Entirely replace the Animator Controller with Animancer features.</td>
 <td>Easiest to use and gives the best resulting flexibility and workflow.</td>
+<td>It can take a lot of effort to replace a complex Animator Controller with script code.</td>
 </tr>
 <tr>
 <td><strong><a href="#native">Native</a></strong></td>
 <td>Use the <code>Controller</code> field on the <code>Animator</code> component and control it exactly as you normally would. <a href="../blending">Blending</a> only works for <code>Humanoid</code> Rigs.</td>
 <td>Fully compatible with existing code that controls an <code>Animator</code> such as third party plugins and character controllers.</td>
+<td>Doesn't support <a href="../blending">Blending</a> on <code>Humanoid</code> Rigs.</td>
 </tr>
 <tr>
 <td><strong><a href="#hybrid">Hybrid</a></strong></td>
 <td>Use a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> and control it using similar methods to the ones you would normally use on an <code>Animator</code> component.</td>
 <td>Supports <a href="../blending">Blending</a> on all Rig types.</td>
+<td><a href="../../bugs/animator-controller-speed">Doesn't allow you to directly control the speed of the Animator Controller.</a></td>
 </tr>
 <tr>
 <td><strong><a href="#states">States</a></strong></td>
 <td>Create a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> to manage the Animator Controller like any other <a href="../playing/states">State</a> in Animancer.</td>
 <td>Supports <a href="../blending">Blending</a> on all Rig types and you can make as many <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s as you want to mix and blend between multiple Animator Controllers.</td>
+<td><a href="../../bugs/animator-controller-speed">Doesn't allow you to directly control the speed of the Animator Controller.</a></td>
 </tr>
 </tbody>
 </table>
@@ -600,6 +606,7 @@ void HybridControllerExample()
 }
 </code></pre>
 <p>The <a href="../../examples/animator-controllers/mini-game">Hybrid Mini Game</a> example demonstrates this approach in more detail.</p>
+<p>Unfortunately, <a href="../../bugs/animator-controller-speed">it is not possible to directly control the speed of the Animator Controller</a> when using a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</p>
 <h1 id="states">States</h1>
 <img src="../transitions/types/controller.png" class="img-responsive img-right">
 <p><code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s are a type of <a href="../playing/states">State</a> in Animancer which plays a whole Animator Controller where a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> plays a single <code>AnimationClip</code>. This allows you to fully control how they blend with other animations and can even be used to play multiple Animator Controllers on the same character.</p>
@@ -643,6 +650,7 @@ void ControllerTransitionExample()
 }
 </code></pre>
 <p>If you are using a <code><a href="/animancer/api/Animancer/Transition">ControllerState.Transition</a></code> you will need to access its playable via its state, i.e. <code>transition.State.Playable...</code>. Note that the <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> will only be created the first time the transition is passed into the <code>AnimancerComponent.Play</code> method, so it will be <code>null</code> if you attempt to use it before that. If the transition is being used by multiple objects, its <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> will be the most recently played one.</p>
+<p>Unfortunately, <a href="../../bugs/animator-controller-speed">it is not possible to directly control the speed of the Animator Controller</a> when using a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>.</p>
 <h1 id="manual-creation">Manual Creation</h1>
 <p>If you do not want to use a <a href="../transitions/types#controller-transitions">Controller Transition</a>, you can create <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s yourself using code:</p>
 <ol>
