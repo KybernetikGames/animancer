@@ -83,6 +83,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Value">Value</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -186,6 +187,7 @@
 				<li><a href="/animancer/api/Animancer/AnimancerNode/491B2595">ApplyFootIK</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/9FC6E73B">Automatically<wbr>Clear<wbr>Events</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerState/B346A95B">AverageVelocity</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerNode/A8AF7E6B">ChildCount</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerState/A6878A73">Clip</a></li>
@@ -246,13 +248,6 @@
 	<div class="lead">
     A list of <code class="cs">Animancer.AnimancerEvent</code>s that will occur while this state plays as well as one that
     specifically defines when this state ends.
-    <p></p>
-    Accessing this property will acquire a spare <code class="cs">Animancer.AnimancerEvent.Sequence</code> from the
-    <code class="cs">Animancer.ObjectPool</code> if none was already assigned. You can use <code class="cs">Animancer.AnimancerState.HasEvents</code> to check
-    beforehand.
-    <p></p>
-    <em>Animancer Lite does not allow the use of events in runtime builds, except for
-    <see cref="P:Animancer.AnimancerEvent.Sequence.OnEnd">.</see></em>
     </div>
 
 		<div class="panel panel-default">
@@ -275,6 +270,18 @@
 	<pre><code>public AnimancerEvent.Sequence Events { get; set; }</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    Accessing this property will acquire a spare <code class="cs">Animancer.AnimancerEvent.Sequence</code> from the
+    <code class="cs">Animancer.ObjectPool</code> if none was already assigned. You can use <code class="cs">Animancer.AnimancerState.HasEvents</code> to check
+    beforehand.
+    <p></p>
+    These events will automatically be cleared by <code class="cs">Animancer.AnimancerState.Play</code>, <code class="cs">Animancer.AnimancerState.Stop</code>, and
+    <code class="cs">Animancer.AnimancerState.OnStartFade</code> (unless <code class="cs">AnimancerEvent.ClearAutomatically</code> is disabled).
+    <p></p>
+    <em>Animancer Lite does not allow the use of events in runtime builds, except for
+    <see cref="P:Animancer.AnimancerEvent.Sequence.OnEnd">.</see></em>
+    </div>
 
 
 

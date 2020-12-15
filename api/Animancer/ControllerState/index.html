@@ -205,6 +205,7 @@
 				<li><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">Sprite<wbr>Renderer<wbr>Texture<wbr>Swap</a></li>
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/TimeSynchronisationGroup">Time<wbr>Synchronisation<wbr>Group</a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
@@ -281,9 +282,9 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/Float2ControllerState">Float2<wbr>Controller<wbr>State</a></li>								
-											<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>								
 											<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>								
+											<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>								
+											<li><a href="/animancer/api/Animancer/Float2ControllerState">Float2<wbr>Controller<wbr>State</a></li>								
 									</ul>
 								</dd>			
 							
@@ -309,12 +310,12 @@
 	click Interface4 "/animancer/api/Animancer/IAnimationClipCollection"
 	Type["ControllerState"]
 class Type type-node
-	Derived0["Float2ControllerState"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/Float2ControllerState"
+	Derived0["Float1ControllerState"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/Float1ControllerState"
 	Derived1["Float3ControllerState"]--&gt;Type
 	click Derived1 "/animancer/api/Animancer/Float3ControllerState"
-	Derived2["Float1ControllerState"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/Float1ControllerState"
+	Derived2["Float2ControllerState"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/Float2ControllerState"
 
 						</div>
 					</div>
@@ -409,6 +410,18 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/9FC6E73B">Automatically<wbr>Clear<wbr>Events</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should the <code class="cs">Animancer.AnimancerState.Events</code> be cleared automatically whenever <code class="cs">Animancer.AnimancerState.Play</code>, <code class="cs">Animancer.AnimancerState.Stop</code>,
+    or <code class="cs">Animancer.AnimancerState.OnStartFade</code> are called? Default true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/B346A95B">AverageVelocity</a></td>
 								<td>Vector3</td>
 								<td>
@@ -489,7 +502,7 @@ class Type type-node
 								<td>int</td>
 								<td>
 									<div>
-    The capacity of the internal list in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventRunner</code>.
+    The capacity of the internal list in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventDispatcher</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 											<div><small><em>static</em></small></div>
@@ -500,7 +513,7 @@ class Type type-node
 								<td>int</td>
 								<td>
 									<div>
-    The number of spare items in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventRunner</code>.
+    The number of spare items in the <code class="cs">Animancer.ObjectPool`1</code> for <code class="cs">Animancer.AnimancerState.EventDispatcher</code>.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 											<div><small><em>static</em></small></div>
@@ -513,13 +526,6 @@ class Type type-node
 									<div>
     A list of <code class="cs">Animancer.AnimancerEvent</code>s that will occur while this state plays as well as one that
     specifically defines when this state ends.
-    <p></p>
-    Accessing this property will acquire a spare <code class="cs">Animancer.AnimancerEvent.Sequence</code> from the
-    <code class="cs">Animancer.ObjectPool</code> if none was already assigned. You can use <code class="cs">Animancer.AnimancerState.HasEvents</code> to check
-    beforehand.
-    <p></p>
-    <em>Animancer Lite does not allow the use of events in runtime builds, except for
-    <see cref="P:Animancer.AnimancerEvent.Sequence.OnEnd">.</see></em>
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
 								</td>

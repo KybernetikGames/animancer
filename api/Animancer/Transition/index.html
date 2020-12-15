@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - LinearMixerState.LinearMixerState.Transition Class</title>
+        <title>Animancer - API - PlayableAssetState.PlayableAssetState.Transition Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -204,6 +204,7 @@
 				<li><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">Sprite<wbr>Renderer<wbr>Texture<wbr>Swap</a></li>
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/TimeSynchronisationGroup">Time<wbr>Synchronisation<wbr>Group</a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
@@ -237,15 +238,15 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>.</h3>
-	<h1>LinearMixerState<wbr>.Transition <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a>.</h3>
+	<h1>PlayableAssetState<wbr>.Transition <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    A serializable <code class="cs">Animancer.ITransition</code> which can create a <code class="cs">Animancer.LinearMixerState</code> when
+    A serializable <code class="cs">Animancer.ITransition</code> which can create a <code class="cs">Animancer.PlayableAssetState</code> when
     passed into <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code>.
     </div>
 
@@ -274,9 +275,7 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>Object</li>								
-											<li><a href="/animancer/api/Animancer/Transition_1">AnimancerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Transition_1">ManualMixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Transition_2">MixerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>, <wbr>float&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/Transition_1">AnimancerState<wbr>.Transition</a><wbr>&lt;<a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
@@ -286,10 +285,8 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["MixerState.Transition&lt;LinearMixerState, float&gt;"]
-	Base0--&gt;Base1["ManualMixerState.Transition&lt;LinearMixerState&gt;"]
-	Base1--&gt;Base2["AnimancerState.Transition&lt;LinearMixerState&gt;"]
-	Base2--&gt;Base3["Object"]
+	Type--&gt;Base0["AnimancerState.Transition&lt;PlayableAssetState&gt;"]
+	Base0--&gt;Base1["Object"]
 	Type-.-&gt;Interface0["ITransitionDetailed"]
 	click Interface0 "/animancer/api/Animancer/ITransitionDetailed"
 	Type-.-&gt;Interface1["ITransition"]
@@ -298,7 +295,7 @@
 	click Interface2 "/animancer/api/Animancer/IHasKey"
 	Type-.-&gt;Interface3["IAnimationClipCollection"]
 	click Interface3 "/animancer/api/Animancer/IAnimationClipCollection"
-	Type["LinearMixerState.Transition"]
+	Type["PlayableAssetState.Transition"]
 class Type type-node
 
 						</div>
@@ -309,7 +306,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[Serializable]
-public class LinearMixerState.Transition : MixerState.Transition&lt;LinearMixerState, float&gt;, 
+public class PlayableAssetState.Transition : AnimancerState.Transition&lt;PlayableAssetState&gt;, 
     ITransitionDetailed, ITransition, IHasKey, IAnimationClipCollection</code></pre>
 
 
@@ -319,8 +316,6 @@ public class LinearMixerState.Transition : MixerState.Transition&lt;LinearMixerS
     identical names, so only one <code class="cs">Transition</code> class will actually have a documentation page.
     <p></p>
     Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/transitions">Transitions</a>
-    <p></p>
-    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/blending/mixers">Mixers</a>
     </div>
 
 	<h1 id="Attributes">Attributes</h1>
@@ -359,12 +354,80 @@ public class LinearMixerState.Transition : MixerState.Transition&lt;LinearMixerS
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Transition/4101BEB9">ExtrapolateSpeed</a></td>
+								<td><a href="/animancer/api/Animancer/Transition/7543C468">Asset</a></td>
+								<td>PlayableAsset</td>
+								<td>
+									<div>[<code class="cs">UnityEngine.SerializeField</code>] The asset to play.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/B621A526">Bindings</a></td>
+								<td>Object[]</td>
+								<td>
+									<div>[<code class="cs">UnityEngine.SerializeField</code>] The objects controlled by each of the tracks in the Timeline Asset.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/31DF90FC">FadeMode</a></td>
+								<td><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></td>
+								<td>
+									<div>
+    If this transition will set the <code class="cs">Animancer.AnimancerState.NormalizedTime</code>, then it needs to use
+    <code class="cs">Animancer.FadeMode.FromStart</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/81193DA5">IsValid</a></td>
 								<td>bool</td>
 								<td>
+									<div>Indicates whether this transition can create a valid <code class="cs">Animancer.AnimancerState</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/836C8208">Key</a></td>
+								<td>Object</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.PlayableAssetState.Transition.Asset</code> will be used as the <code class="cs">Animancer.AnimancerState.Key</code> for the created state to
+    be registered with.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/8C0335BC">MainObject</a></td>
+								<td>Object</td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerState.MainObject</code> that the created state will have.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/BE1E5600">MaximumDuration</a></td>
+								<td>float</td>
+								<td>
+									<div>[<code class="cs">Animancer.ITransitionDetailed</code>]
+    The maximum amount of time the animation is expected to take (in seconds).
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/F195F206">NormalizedStartTime</a></td>
+								<td>float</td>
+								<td>
 									<div>[<code class="cs">UnityEngine.SerializeField</code>]
-    Should setting the <code class="cs">Animancer.MixerState`1.Parameter</code> above the highest threshold increase the
-    <code class="cs">Animancer.AnimancerNode.Speed</code> of the mixer proportionally?
+    Determines what <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to start the animation at.
+    <p></p>
+    The default value is <code class="cs">System.Single.NaN</code> which indicates that this value is not used so the
+    animation will continue from its current time.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Transition/DFE74D65">Speed</a></td>
+								<td>float</td>
+								<td>
+									<div>[<code class="cs">UnityEngine.SerializeField</code>]
+    Determines how fast the animation plays (1x = normal speed, 2x = double speed).
     </div>
 								</td>
 							</tr>
@@ -385,35 +448,26 @@ public class LinearMixerState.Transition : MixerState.Transition&lt;LinearMixerS
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Transition/21288335">Apply<wbr>(AnimancerState)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Transition/422D9212">Apply<wbr>(AnimancerState)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div></div>
+									<div>[<code class="cs">Animancer.ITransition</code>]
+    Sets the <code class="cs">Animancer.AnimancerState.Transition`1.BaseState</code> and applies any other modifications to the `state`.
+    </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Transition/0584FC95">CreateState<wbr>()<wbr></a></td>
-								<td><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></td>
+								<td><a href="/animancer/api/Animancer/Transition/EE6B41C4">CreateState<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></td>
 								<td>
 									<div>
-    Creates and returns a new <code class="cs">Animancer.LinearMixerState</code>.
+    Creates and returns a new <code class="cs">Animancer.PlayableAssetState</code>.
     <p></p>
     Note that using methods like <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code> will also call
     <code class="cs">Animancer.ITransition.Apply(Animancer.AnimancerState)</code>, so if you call this method manually you may want to call that method
     as well. Or you can just use <code class="cs">Animancer.AnimancerUtilities.CreateStateAndApply(Animancer.ITransition,Animancer.AnimancerPlayable)</code>.
     <p></p>
     This method also assigns it as the <code class="cs">Animancer.AnimancerState.Transition`1.State</code>.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Transition/2AB5987A">SortByThresholds<wbr>()<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Sorts all states so that their thresholds go from lowest to highest.
-    <p></p>
-    This method uses Bubble Sort which is inefficient for large numbers of states.
     </div>
 								</td>
 							</tr>

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - ObjectPool.ObjectPool.Disposable Class</title>
+        <title>Animancer - API - ObjectPool&lt;T&gt;.ObjectPool&lt;T&gt;.Disposable Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -201,6 +201,7 @@
 				<li><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></li>
 				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">Sprite<wbr>Renderer<wbr>Texture<wbr>Swap</a></li>
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/TimeSynchronisationGroup">Time<wbr>Synchronisation<wbr>Group</a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
@@ -234,14 +235,17 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a>.</h3>
-	<h1>ObjectPool<wbr>.Disposable <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer/ObjectPool_1">ObjectPool</a><wbr>&lt;<a href="/animancer/api/Animancer/ObjectPool_1#typeparam-T">T</a>&gt;<wbr>.</h3>
+	<h1>ObjectPool<wbr>&lt;T&gt;<wbr><wbr>.Disposable <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">Convenience wrappers for <code class="cs">Animancer.ObjectPool`1.Disposable</code>.</div>
+	<div class="lead">
+    An <code class="cs">System.IDisposable</code> system to allow pooled objects to be acquired and released within <code class="cs">using</code>
+    statements instead of needing to manually release everything.
+    </div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">
@@ -254,6 +258,12 @@
 								<dt>Namespace</dt>
 								<dd><a href="/animancer/api/Animancer">Animancer</a></dd>
 											
+								<dt>Interfaces</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li>IDisposable</li>								
+									</ul>
+								</dd>
 							
 								<dt>Base Types</dt>
 								<dd>
@@ -269,7 +279,8 @@
 						<div class="mermaid">
 							graph BT
 	Type--&gt;Base0["Object"]
-	Type["ObjectPool.Disposable"]
+	Type-.-&gt;Interface0["IDisposable"]
+	Type["ObjectPool&lt;T&gt;.Disposable"]
 class Type type-node
 
 						</div>
@@ -279,7 +290,7 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public static class ObjectPool.Disposable</code></pre>
+	<pre><code>public sealed class ObjectPool&lt;T&gt;.Disposable : IDisposable</code></pre>
 
 
 
@@ -303,34 +314,12 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Disposable/16B1705F">Acquire<wbr>&lt;T&gt;<wbr><wbr>(T)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Disposable/6EAC1861">Acquire<wbr>(T, <wbr>Action<wbr>&lt;T&gt;<wbr>)<wbr></a></td>
 								<td>IDisposable</td>
 								<td>
 									<div>
-    Calls <code class="cs">Animancer.ObjectPool`1.Disposable.Acquire(`0@,System.Action{`0})</code> to get a spare <code class="cs">System.Collections.Generic.List`1</code> if
-    there are any or create a new one.
-    </div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Disposable/A6E72D51">AcquireList<wbr>&lt;T&gt;<wbr><wbr>(List<wbr>&lt;T&gt;<wbr>)<wbr></a></td>
-								<td>IDisposable</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.ObjectPool`1.Disposable.Acquire(`0@,System.Action{`0})</code> to get a spare <code class="cs">System.Collections.Generic.List`1</code> if
-    there are any or create a new one.
-    </div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Disposable/61E818DB">AcquireSet<wbr>&lt;T&gt;<wbr><wbr>(HashSet<wbr>&lt;T&gt;<wbr>)<wbr></a></td>
-								<td>IDisposable</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.ObjectPool`1.Disposable.Acquire(`0@,System.Action{`0})</code> to get a spare <code class="cs">System.Collections.Generic.HashSet`1</code> if
-    there are any or create a new one.
+    Calls <code class="cs">Animancer.ObjectPool`1.Acquire</code> to set the `item` and returns an <code class="cs">System.IDisposable</code>
+    that will call <code class="cs">Animancer.ObjectPool`1.Release(`0)</code> on the `item` when disposed.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
