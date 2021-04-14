@@ -469,19 +469,19 @@
 			<h1>States</h1>
 		</section>
 	<section class="content">
-		<p>When you play an <code>AnimationClip</code>, Animancer creates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to manage it and keep track of its progress. <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> is the most common type of <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>, but there are other types such as <a href="../animator-controllers">Controller States</a> and <a href="../blending/mixers">Mixer States</a> which manage multiple animations in a single state.</p>
-<p>The <code>AnimancerComponent.Play</code> method returns the state it plays:</p>
+		<p>When you play an <code>AnimationClip</code>, Animancer creates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to manage it and keep track of its progress. Then if you play the same animation again later, it will reuse that same state.</p>
+<p><code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> is the most common type of <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>, but there are other types such as <a href="../animator-controllers">Controller States</a> and <a href="../blending/mixers">Mixer States</a> which manage multiple animations in a single state.</p>
+<p>The easiest way to access a state is usually to get the reference returned by the <code>AnimancerComponent.Play</code> method:</p>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
-    // Play the animation and control its state:
     var state = animancer.Play(clip);
     state.Time = ...
     state.NormalizedTime = ...
     state.Speed = ...
-    state.OnEnd = ...
+    state.Events.OnEnd = ...
 }
 </code></pre>
-<p>You can also access and create states on your own without immediately playing them:</p>
+<p>There are also various other ways of accessing and creating states:</p>
 <table class="table">
   <thead>
     <tr><th>Code</th>
@@ -489,20 +489,36 @@
   </tr></thead>
   <tbody>
     <tr>
-      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States.GetOrCreate(clip);</code></pre></td>
-      <td>Access a state without playing it (the <code>Play</code> method uses this internally).</td>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States.Current;</code></pre></td>
+      <td>This property stores the state that was most recently returned by the <code>Play</code> method. If you are using multiple <a href="../blending/layers">Layers</a>, this property refers to the base layer.</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.Layers[x].CurrentState;</code></pre></td>
+      <td>This property stores the state that was most recently returned by the <code>Play</code> method of <a href="../blending/layers">Layer</a> <code>x</code>.</td>
     </tr>
     <tr>
       <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States[clip];</code></pre></td>
-      <td>Get the state if it exists (otherwise null).</td>
+      <td>If a state for the <code>clip</code> already exists, this <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/">Indexer</a> returns it. Otherwise it throws a <code>KeyNotFoundException</code>.</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">animancer.States.TryGet(clip, out var state);</code></pre></td>
+      <td>If a state for the <code>clip</code> already exists, this method assigns it to the <code>state</code> <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out-parameter-modifier">out Parameter</a> and returns <code>true</code>. Otherwise the <code>state</code> will be null and the method returns <code>false</code>.</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States.GetOrCreate(clip);</code></pre></td>
+      <td>If a state for the <code>clip</code> already exists, this method returns it. Otherwise it creates and returns a new one. The <code>Play(clip)</code> method uses this internally.</td>
     </tr>
     <tr>
       <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;animancer.States.Create(key, clip);</code></pre></td>
-      <td>Create a new state even if one already existed for that animation. Note that you must provide a different <a href="#keys">Key</a> for each state.</td>
+      <td>Creates a new state even if one already existed for that animation. Note that each state must have a different <a href="#keys">Key</a> or it will throw an <code>ArgumentException</code>.</td>
     </tr>
     <tr>
-      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;new&nbsp;ClipState(animancer, clip);</code></pre></td>
-      <td>Create a new state without giving it a <a href="#keys">Key</a>. You can assign one using its <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> property.</td>
+      <td><pre><code class="language-cs">var&nbsp;state&nbsp;=&nbsp;new&nbsp;ClipState(clip);</code></pre></td>
+      <td>Create a new state without giving it a <a href="#keys">Key</a>.</td>
+    </tr>
+    <tr>
+      <td><pre><code class="language-cs">animancer.States.Destroy(clip);</code></pre></td>
+      <td>If a state for the <code>clip</code> exists, this method destroys it and returns <code>true</code>. Otherwise it returns <code>false</code>.</td>
     </tr>
   </tbody>
 </table>
@@ -516,11 +532,11 @@
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
     // Trying to play an animation before registering it does nothing.
-    animancer.Play("Attack");
+    animancer.TryPlay("Attack");
 
     // But if you create a state with a key first, then you only need that key to play it later on.
     animancer.States.Create("Attack", clip);
-    animancer.Play("Attack");
+    animancer.TryPlay("Attack");
 
     // Or you can create the state and set its key manually:
     var state = new ClipState(clip);
