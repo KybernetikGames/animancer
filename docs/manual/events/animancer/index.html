@@ -83,6 +83,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#events-in-transitions">Events in Transitions</a></p>
 <p><a href="#events-in-code">Events in Code</a></p>
+<p><a href="#shared-event-sequences">Shared Event Sequences</a></p>
 <p><a href="#hybrid-events">Hybrid Events</a></p>
 <p><a href="#event-names">Event Names</a></p>
 <p><a href="#clear-automatically">Clear Automatically</a></p>
@@ -564,7 +565,10 @@ public void OnEnd()
 }
 </code></pre>
 <p></p></details><p></p>
-<h2 id="shared-event-sequences">Shared Event Sequences</h2>
+<h1 id="shared-event-sequences">Shared Event Sequences</h1>
+<blockquote class="blockquote">
+<p>The problem described here can be avoided using the new <a href="https://github.com/KybernetikGames/animancer/issues/112">UnShared system</a>. Please try it out and give some feedback to ensure that it works well before it gets included in a future version of Animancer.</p>
+</blockquote>
 <p>Every object that plays a particular <a href="../../transitions">Transition</a> will share the same <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>, meaning that any modifications made by one object will affect the others as well. This usually happens when using <a href="../../transitions/types#transition-assets">Transition Assets</a> to share the same transition among multiple objects but still needing to give them events specific to each object. Animancer will log a warning if you add the same event to a sequence multiple times with a link leading here so you can try any of the following workarounds:</p>
 <p>The simplest workaround is to just <a href="https://docs.unity3d.com/ScriptReference/Object.Instantiate.html"><code>Instantiate</code></a> a copy of the <a href="../../transitions/types#transition-assets">Transition Asset</a> on startup:</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
@@ -575,8 +579,8 @@ private void Awake()
     // Now you can modify the _Animation.Transition.Events as necessary.
 }
 </code></pre>
-<p>That gives each object a separate copy of the transition so they no longer share the same event sequence, but wastes some additional processing time and memory because all the other transition data gets duplicated as well.</p>
-<p>A more efficient solution is to make your own copy of the event sequence for each object:</p>
+<p>That gives each object a separate copy of the transition so they no longer share the same <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code>, but wastes some additional processing time and memory because all the other transition data gets duplicated as well.</p>
+<p>A more efficient solution is to make your own copy of the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> for each object:</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
 
@@ -596,6 +600,9 @@ private void PlayAnimation()
     state.Events = _Events;
 }
 </code></pre>
+<blockquote class="blockquote">
+<p>The new <a href="https://github.com/KybernetikGames/animancer/issues/112">UnShared system</a> automatically handles the duplicate <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> for you. Please try it out and give some feedback to ensure that it works well before it gets included in a future version of Animancer.</p>
+</blockquote>
 <h1 id="hybrid-events">Hybrid Events</h1>
 <p>Setting up <a href="#events-in-transitions">Events in Transitions</a> is usually the best way to configure their timing according to the animation, but setting up <a href="#events-in-code">Events in Code</a> is often better for creating reliable scripts and avoiding bugs. Fortunately, you can have the best of both approaches by using a <a href="#events-in-transitions">Transition</a> to configure the <code>Time</code> but simply leaving its <code>Callback</code> blank and assigning it in <a href="#events-in-code">Code</a> instead.</p>
 <p>The most reliable way to set up a hybrid event is generally to give it a <code>Name</code> in the Inspector so that you can identify it in code:</p>
