@@ -83,6 +83,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#start-event-only-triggers-once">Start Event Only Triggers Once</a></p>
 <p><a href="#most-recent-event-is-not-repeated-when-setting-playable-time">Most recent event is not repeated when setting playable time</a></p>
+<p><a href="#setting-a-playables-time-exactly-onto-an-animation-event-triggers-it-even-if-the-playable-is-paused">Setting a Playable's time exactly onto an Animation Event triggers it even if the Playable is paused</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -295,6 +296,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/docs/examples/no-video-tutorials">No Video Tutorials</a></li>
 
                     </ul>
                 </li>
@@ -492,6 +494,16 @@
 </li>
 <li>Calling <code>SetTime</code> twice in a row avoids triggering the events, so this bug doesn't really affect Animancer (because we don't want <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> to trigger events anyway).</li>
 <li>Bug Report Case Number: <a href="https://issuetracker.unity3d.com/product/unity/issues/guid/1230810">1230810</a></li>
+</ul>
+<h1 id="setting-a-playables-time-exactly-onto-an-animation-event-triggers-it-even-if-the-playable-is-paused">Setting a Playable's time exactly onto an Animation Event triggers it even if the Playable is paused</h1>
+<ul>
+<li>If an animation has an event at time <code>x</code> and you set the time to exactly <code>x</code>, the event will be triggered during the next animation update even if the animation is paused and you call <code>SetTime</code> twice (which is supposed to avoid triggering events).
+<ul>
+<li>The problem is most easily seen with an event at time <code>0</code>. When you play something else the old animation is stopped and set back to time <code>0</code> which causes the event to trigger even though that animation is no longer playing. In this case, you can work around the issue by changing the event time to a very small value instead of exactly 0 as described above.</li>
+</ul>
+</li>
+<li>Bug Report Case Number: <a href="https://issuetracker.unity3d.com/product/unity/issues/guid/1326589">1326589</a></li>
+<li>This issue is reportedly fixed in Unity 2021.2.0a1.</li>
 </ul>
 
 	</section>
