@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Adaptability</title>
+        <title>Animancer - Sprite Renderer Texture Swap</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -82,7 +82,6 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#example">Example</a></p>
-<p><a href="#parameters">Parameters</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -95,22 +94,22 @@
                         
 
                 <li><a href="/animancer/docs/download">Download</a></li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/introduction/features">Features</a></li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
-                <li class="selected"><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
                 <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
@@ -299,7 +298,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -356,7 +355,7 @@
                 <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
                 <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
                 <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -366,7 +365,7 @@
                 <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
                 <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
                 <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
-                <li><a href="/animancer/docs/manual/tools/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li class="selected"><a href="/animancer/docs/manual/tools/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
 
                     </ul>
                 </li>
@@ -469,38 +468,18 @@
 
 
 		<section class="content-header">
-			<h1>Adaptability</h1>
+			<h1>Sprite Renderer Texture Swap</h1>
 		</section>
 	<section class="content">
-		<p>There's a programming concept known as <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">Separation of Concerns</a> which encourages you to <em>separate</em> your code into distinct sections which each cover different <em>concerns</em> (things the program needs to do). For example, if your game contains a <em>player</em> and <em>enemies</em> which can move around similarly but are controlled differently, instead of simply having one script for "everything the player does" and another for "everything an enemy does", you could separate the functionality for "moving a character" from the logic of "deciding where a character wants to move". This would allow you to modify the way characters move and have that change apply consistently to all characters or you could add a new type of enemy that uses different logic for deciding where to move without needing to implement the same movement code again.</p>
-<p>In theory, Mecanim attempts to utilise this concept by separating the structure of states, transitions, and parameters in an Animator Controller from the rest of the game logic in scripts. But in practice, it is separating the wrong things. Those concerns often need to be coupled far too tightly for that forced separation to provide any benefit so you just end up wasting time coordinating between things that should not be separate in the first place.</p>
-<p>In addition to forcibly separating your concerns in the wrong way, it also prevents you from separating them in useful ways. Imagine if you could split a large Animator Controller into several smaller ones with more specific responsibilities. Well, you can actually do that with Animancer since it can <a href="../../../manual/animator-controllers#states">play Animator Controllers just like any other state</a>.</p>
+		<p><em>Unlike everything else in this section of the documentation, this feature is not part of the Animancer Tools window and is <strong>fully included in both <a href="/animancer/lite">Animancer Lite</a> and <a href="/animancer/pro">Animancer Pro</a></strong>.</em></p>
+<p>If multiple characters share the exact same sprite layout on different textures, you can use the <code><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">SpriteRendererTextureSwap</a></code> component to avoid needing to configure all of their <code>Sprite</code>s and create the same animations for all of them. All you need to do is create the <code>Sprite</code>s and animations for one of them then play those same animations on every character and set that component to use a different texture.</p>
+<p>Note that the <code><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">SpriteRendererTextureSwap</a></code> script is not specific to Animancer and will work with any animation system, though if you want to remove the rest of Animancer from your project you will need to open the script and remove the <code>[AddComponentMenu]</code> and <code>[HelpURL]</code> attributes because they use constants from Animancer's <code><a href="/animancer/api/Animancer/Strings">Strings</a></code> class.</p>
 <h1 id="example">Example</h1>
-<p><a href="https://docs.unity3d.com/Manual/StateMachineBasics.html"><img src="state-machine-diagram.png" width="50%" class="img-right" style="padding-top:4px"></a>This state diagram taken straight from the <a href="https://docs.unity3d.com/Manual/StateMachineBasics.html">Unity Manual</a> actually illustrates one of the problems with Mecanim quite effectively. To transition from the <em>Walk</em> state to the <em>Fall</em> state, a transition must be set up between those states so that a script can detect when the character is no longer on the ground and trigger it. Then when the script detects that the character is back on the ground it can try to go back to <em>Idle</em>, except there is no transition from <em>Fall</em> to <em>Idle</em> so nothing will happen. Development time was originally spent creating the state machine and the code logic separately, and now even more time needs to be spent figuring out whether the problem is a bug in the ground detection code or in the state machine (or both) and then fixing it without breaking anything else. The code is useless without the specific Animator Controller structure it expects and the Animator Controller is useless without code that specifically knows how to control it. Both sides are very tightly coupled to each other, but Mecanim forces them to be separate so you have to waste time getting them to work together and ensuring that changes to one do not break the other.</p>
-<p>That problem would never occur with Animancer. You still need to detect when the creature leaves and returns to the ground, but when you tell it to play an animation it will simply play that animation. The script wants something done, so it tells Animancer exactly what to do.</p>
-<h1 id="parameters">Parameters</h1>
-<p><a href="../../../examples/animator-controllers/3d-game-kit/attack"><img src="../../../examples/animator-controllers/3d-game-kit/attack/combo.gif" class="img-right img-responsive" style="padding-top:4px"></a>Another aspect of this problem is the way parameters work. In theory, they provide a useful abstraction between commands and actions. For example, to have a character perform a series of attacks as long as the player keeps pressing the attack button, you might create a trigger parameter which causes each transition to the next attack and have your script set that trigger every time the button is pressed. But in practice that creates a multitude of issues:</p>
-<ul>
-<li>Triggers stay active until a transition uses them, so if the player tries to attack while casting a spell or getting knocked over or performing some other action, they will wait until that action is done and then attack, possibly several seconds after they pressed the button (meaning the player does not necessarily still want to attack, so the controls would feel unresponsive).
-<ul>
-<li>This is generally solved by having your script manually reset the trigger after setting it, which means you need to wait for at least one frame and thus greatly increases the complexity of what would otherwise be very simple code.</li>
-<li>You also need to make sure to reset the triggers for all other actions whenever you perform a new one. So when you attack, you need to reset the triggers for jump, dodge, block, interact, cast spell, dance, etc.</li>
-</ul>
-</li>
-<li>Code almost always needs to know what state the character is in to determine things like whether they can move or whether other characters can talk to them. The script can't simply tell the Animator Controller to "Attack", it also needs to check if the current state is "Attack 1" or "Attack 2" or "Attack 3" or "Attack 4", up to however many attacks the character has. So the theoretical separation of the "Attack" command from its effects is now ruined because the script needs to explicitly know about all the states involved anyway.</li>
-<li>The user interface is missing many features that are standard in all code editing programs (IDEs like Visual Studio):
-<ul>
-<li>You can't rename a state or parameter and have it automatically update everything using it.</li>
-<li>You can't view a list of all transitions that use a particular parameter.</li>
-<li>You can't view a list of all scripts that use a particular parameter.</li>
-<li>You can't select two transitions to view them side by side.</li>
-<li>You can't easily ensure that similar animations have similar state and transition settings (left/right or armed/unarmed pairs, up/down/left/right groups, etc).</li>
-<li>When you look at a script, it won't give a clear indication of which parameters or states it intends to use. You need to read the whole script to find out its requirements and then you still need to figure out which <code>AnimatorController</code>s it is actually used with.</li>
-</ul>
-</li>
-<li>Scripts can't easily validate their requirements upfront, such as checking if a required parameter exists when you add the script to an object, or even on startup. The only indication you get that it doesn't exist is when you run the game and try to actually set the parameter. This means that instead of getting a clear indication immediately when something has an issue, you have to test everything extensively. To be clear: extensive testing is good, but it should be your last line of defence against bugs, not your only defence.</li>
-</ul>
-<p>In Animancer, the same mechanic could be implemented using a simple array of animations and an index to remember the current one. All the details you need about a character's attacks are right there in your script so you can directly access anything you need. The <a href="../../../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example contains a practical demonstration of this idea.</p>
+<p>Here's a copy of the <em>Mage</em> texture used in the <a href="../../examples/directional-sprites/basic-movement">Basic Movement</a> example with its colours changed:</p>
+<p><img src="light-mage.png" class="img-responsive"></p>
+<p>And here it is with the <code><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">SpriteRendererTextureSwap</a></code> in action:</p>
+<p><img src="sprite-renderer-texture-swap.gif" class="img-responsive"></p>
+<p>Note that the <em>Light Mage</em> texture does not need any <code>Sprite</code>s to be configured, it only needs the desired texture settings (in this case the <code>Filter</code> mode is set to <code>Point (no filter)</code> and the <code>Compression</code> is set to <code>none</code>). The <em>Light Mage Walk Down X</em> sprites shown in the above video are generated by the <code><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">SpriteRendererTextureSwap</a></code> script at runtime.</p>
 
 	</section>
                 
