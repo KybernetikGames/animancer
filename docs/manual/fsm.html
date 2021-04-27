@@ -627,7 +627,13 @@ public sealed class StateMachineExample : MonoBehaviour
 <ul>
 <li>The static <code><a href="/animancer/api/Animancer.FSM/StateChange_1/E42BA615">StateChange&lt;TState&gt;.PreviousState</a></code> and <code>NextState</code> properties can be accessed from anywhere.</li>
 <li>If you have a reference to the <code>StateMachine</code> you can use its properties of the same name (i.e. <code>stateMachine.PreviousState</code>) to avoid needing to specify the <code>TState</code> generic argument.</li>
-<li>Inside a class that implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> defined in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class.</li>
+<li>Inside a class that implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> defined in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class.
+<ul>
+<li>Using those <a href="../introduction/cs/methods#extension-methods">Extension Methods</a> without specifying the generic <code>TState</code> parameter relies on the compiler to infer the parameter which can sometimes lead to it accessing the wrong type and therefore not working properly.</li>
+<li>For example, if you have a <code>StateMachine&lt;CreatureState&gt;</code> then you obviously need to check <code>StateChange&lt;CreatureState&gt;</code>, but if an <code>IdleState</code> calls <code>this.GetPreviousState()</code> the compiler will infer the generic type as <code>IdleState</code> and try to access <code>StateChange&lt;IdleState&gt;</code> which will be empty and cause it to throw an <code>InvalidOperationException: StateChange&lt;...&gt; is not currently active</code>.</li>
+<li>This can be avoided by specifying the generic parameter yourself: <code>this.GetPreviousState&lt;CreatureState&gt;()</code>.</li>
+</ul>
+</li>
 </ul>
 <p>All of those properties will return null if no state change is currently occurring.</p>
 <h2 id="examples">Examples</h2>
