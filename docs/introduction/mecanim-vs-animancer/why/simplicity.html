@@ -492,7 +492,7 @@
 <h1 id="complexity">Complexity</h1>
 <p>It is also important to consider how effectively a system can be used in more complicated situations and the following image of an Animator Controller practically speaks for itself:</p>
 <p><img src="nightmare-controller.png" class="img-responsive"></p>
-<p>That monstrosity was part of an official Unity Blog post ironically titled "<a href="https://blogs.unity3d.com/2016/10/11/building-for-reuse-mecanim-on-recore">Building for Reuse</a>". In smaller situations it could potentially provide a useful visualisation of a character's capabilities, but as complexity increases it inevitably devolves into a convoluted mess that can't be easily organised without then needing to waste time fixing all the bugs you cause. Programming patterns and other techniques that could normally be used to effectively develop something that complex simply cannot be used when everything is constrained by Animator Controllers.</p>
+<p>That monstrosity was part of an official Unity Blog post ironically titled "<a href="https://blogs.unity3d.com/2016/10/11/building-for-reuse-mecanim-on-recore">Building for Reuse</a>". In smaller situations it could potentially provide a useful visualisation of a character's capabilities, but as complexity increases it inevitably devolves into a convoluted mess that can't be easily organised without then needing to waste time fixing all the bugs you cause. Programming patterns and other techniques that could normally be used to effectively develop something that complex are simply impossible to use when everything is constrained by Animator Controllers.</p>
 <p>If you are interested in a direct practical comparison between the two systems, the <a href="../../../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example is dedicated to the process of converting an Animator Controller based character to use Animancer instead.</p>
 <h1 id="control">Control</h1>
 <p>Animator Controllers strictly limit the ways you can control them. They can only be configured in the Unity Editor, then their structure is mostly fixed in place and either cannot be changed at runtime or requires some additional setup to make certain changes possible where Animancer lets you just do those things directly:</p>
@@ -508,7 +508,7 @@
 <tr>
 <td>Play an animation that isn't already set up on a character.</td>
 <td><ol><li>Create a state with an animation you want to override (it can't be empty).</li><li>Make an <a href="https://docs.unity3d.com/ScriptReference/AnimatorOverrideController.html">Animator Override Controller</a>.</li><li>Assign it to the <code>Animator</code> component in place of the regular Animator Controller.</li><li>Set it to override the old animation name with the new animation.</li><ol></ol></ol></td>
-<td><p>Either:</p><ul><li>Just play it.</li><li>Or get an existing <a href="../../../manual/playing/states">State</a> and set its <code>Clip</code>.</li></ul></td>
+<td><p>Either:</p><ul><li>Just play it. You can play an animation from anywhere without any additional setup steps.</li><li>Or get an existing <a href="../../../manual/playing/states">State</a> and set its <code>Clip</code>.</li></ul></td>
 </tr>
 <tr>
 <td>Modify the details of a transition.</td>
@@ -517,7 +517,7 @@
 </tr>
 <tr>
 <td>Dynamically change the <a href="../examples/speed-and-time#speed">animation speed</a>.</td>
-<td>Create a parameter and link the state's speed to it, then set the parameter.</td>
+<td><ol><li>Create a float parameter.</li><li>Link the state's speed to it.</li><li>Set that parameter.</li></ol></td>
 <td>Get a <a href="../../../manual/playing/states">State</a> and set its <code>Speed</code>.</td>
 </tr>
 <tr>
@@ -528,7 +528,7 @@
 <tr>
 <td>Get or set the weight of a specific animation.</td>
 <td><ol><li>Put it inside a <a href="https://docs.unity3d.com/Manual/BlendTree-DirectBlending.html">Direct Blend Tree</a>.</li><li>Create a float parameter for it.</li><li>Get or set that parameter.</li></ol></td>
-<td>Just get or set the <code>state.Weight</code>.</td>
+<td>Get a <a href="../../../manual/playing/states">State</a> and set its <code>Weight</code>.</td>
 </tr>
 <tr>
 <td>Fade a layer in or out over time.</td>
@@ -563,7 +563,7 @@
 <tr>
 <td>Log the name of a state for debugging.</td>
 <td>Impossible.</td>
-<td><code>AnimancerNode.DebugName</code> (in the Unity Editor and Development Builds only).</td>
+<td><code>AnimancerNode.DebugName</code> (in the Unity Editor and Development Builds only) or <code><a href="/animancer/api/Animancer/AnimancerState/A6878A73">AnimancerState.Clip</a></code> if you just want the name of the animation or <code>AnimancerNode.GetDescription()</code> if you want a list of all its details.</td>
 </tr>
 <tr>
 <td>Manually play an animation on a character.</td>
