@@ -81,9 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#damped-transform">Damped Transform</a></p>
-<p><a href="#multi-parent-constraint">Multi Parent Constraint</a></p>
-<p><a href="#inverse-kinematics">Inverse Kinematics</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#ik-targets">IK Targets</a></p>
+<p><a href="#features">Features</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -205,6 +204,7 @@
                         
                 <li><a href="/animancer/docs/examples/events/footsteps">01 Footstep Events</a></li>
                 <li><a href="/animancer/docs/examples/events/golf">02 Golf Events</a></li>
+                <li><a href="/animancer/docs/examples/events/utilities">03 Event Utilities</a></li>
 
                     </ul>
                 </li>
@@ -379,7 +379,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
-                <li><a href="/animancer/docs/bugs/rigging-ik">Animation Rigging IK</a></li>
                 <li><a href="/animancer/docs/bugs/animator-controller-speed">Animator Controller Speed</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
@@ -475,12 +474,21 @@
 	<section class="content">
 		<p>Unity's <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@latest/index"><strong>Animation Rigging</strong></a> package allows you to set up rigs that dynamically modify your animations with things like <em>Multi-Parent Constraints</em> and <em>Inverse Kinematics</em> (which works on both Generic and Humanoid Rigs where Unity's inbuilt IK system only works on Humanoids).</p>
 <p>The official <a href="https://learn.unity.com/tutorial/working-with-animation-rigging">Working with Animation Rigging</a> tutorial explains how to use it. Using it with Animancer is no different from using it with Animator Controllers.</p>
+<h1 id="ik-targets">IK Targets</h1>
+<p>When using the <a href="../../../manual/ik">Inverse Kinematics</a> system from the Animation Rigging package, it is important that your IK Target and Hint objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
+<p><img src="ik-configuration.png" class="img-responsive"></p>
+<p>Otherwise if the IK Target and Hint objects are children of the <code>Animator</code>, they will automatically get reset to their starting position and rotation at certain times. The reason for this is that every time a <code>Playable</code> is connected or disconnected, the system performs a "rebind" which resets all of the <code>Animator</code>'s child <code>Transform</code>s back to their starting values. This happens frequently in Animancer:</p>
+<ul>
+<li>If <code><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> is false (the default for Humanoid Rigs), it happens whenever you play or stop an animation (specifically, when an <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> becomes 0 it gets disconnected and at any other value it gets connected).</li>
+<li>If <code><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> is true (the default for Generic Rigs), it only happens when you create a new state such as by playing an animation that hasn't been played yet.</li>
+</ul>
+<h1 id="features">Features</h1>
 <p>Here are some of its features:</p>
-<h1 id="damped-transform">Damped Transform</h1>
+<h2 id="damped-transform">Damped Transform</h2>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/DampedTransform.html"><img src="damped-transform.gif" class="img-responsive"></a></p>
-<h1 id="multi-parent-constraint">Multi Parent Constraint</h1>
+<h2 id="multi-parent-constraint">Multi Parent Constraint</h2>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/MultiParentConstraint.html"><img src="multi-parent-constraint.gif" class="img-responsive"></a></p>
-<h1 id="inverse-kinematics">Inverse Kinematics</h1>
+<h2 id="inverse-kinematics">Inverse Kinematics</h2>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/TwoBoneIKConstraint.html"><img src="two-bone-ik.gif" class="img-responsive"></a></p>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/ChainIKConstraint.html"><img src="chain-ik.gif" class="img-responsive"></a></p>
 
