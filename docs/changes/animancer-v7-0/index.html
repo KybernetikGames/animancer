@@ -145,7 +145,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organisation">Organisation</a></li>
+                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
                 <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
@@ -157,6 +157,7 @@
                 <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
                 <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
                 <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
+                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
                 <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
                 <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
                 <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
@@ -313,6 +314,7 @@
                 <li><a href="/animancer/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
                 <li><a href="/animancer/docs/examples/integration/final-ik">Final IK</a></li>
                 <li><a href="/animancer/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/docs/examples/integration/lod">Level of Detail (LOD)</a></li>
                 <li><a href="/animancer/docs/examples/integration/puppet-master">Puppet Master</a></li>
 
                     </ul>
@@ -509,7 +511,7 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p><strong>Planned Release 2021-07-??</strong> (this page was last updated on 2021-07-10). Some links on this page may be broken because they refer to new or moved pages in the rest of the documentation which has not been updated yet.</p>
+<p><strong>Planned Release 2021-07-??</strong> (this page was last updated on 2021-07-20). Some links may be broken because they refer to new or moved pages in the rest of the documentation which has not been updated yet.</p>
 </blockquote>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>See the <a href="animancer-v6-0#upgrade-guide">Animancer v6.0 Upgrade Guide</a> if you are upgrading from a version older than that, then follow the <a href="#upgrade-process">Upgrade Process</a> explained below to upgrade to this version.</p>
@@ -641,16 +643,22 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Shows a button to easily open the Animation window.</li>
 <li>Shows <a href="../../manual/events/animation">Animation Events</a>.</li>
 <li>Shows the details of each frame in a <code>Sprite</code> animation.</li>
-<li>Automatically initialises the preview for <code>Sprite</code> animations so you don't need to manually drag and drop an object with an <code>Animator</code> and <code>SpriteRenderer</code> into the preview area.</li>
+<li>Automatically initializes the preview for <code>Sprite</code> animations so you don't need to manually drag and drop an object with an <code>Animator</code> and <code>SpriteRenderer</code> into the preview area.</li>
 </ul>
 <p><img src="animation-clip-editor.gif" class="img-responsive"></p>
+<h2 id="runtime-events-display">Runtime Events Display</h2>
+<ul>
+<li>Added <code>Events</code> display to the Live Inspector for states that have Animancer Events.</li>
+<li>Added <code>Runtime Events</code> display to Transitions that have initialized their  <code>AnimancerEvent.Sequence</code>.</li>
+</ul>
 <h1 id="examples">Examples</h1>
 <ul>
-<li>Removed the Sequence Coroutine example since it was really long, spent lots of time explaining coroutines (there are plenty of other tutorials for that), and wasted time explaining several different approaches which are all worse than simply using a <code>ClipTransitionSequence</code>.</li>
 <li>Added <a href="../../examples/basics/transitions">Transitions</a> example.</li>
 <li>Added <a href="../../examples/events/utilities">Event Utilities</a> example.</li>
-<li>Updated the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example to use the new <a href="../../manual/transitions/assets#unshared">UnShared Transition Asset</a> system.</li>
+<li>Removed the <del>Sequence Coroutine</del> example since it was really long, spent lots of time explaining coroutines (there are plenty of other tutorials for that), and wasted time explaining several different approaches which are all worse than simply using a <code>ClipTransitionSequence</code>.</li>
+<li>Removed the <code>PixelPerfectPositioning</code> script since Unity's <a href="https://docs.unity3d.com/Manual/com.unity.2d.pixel-perfect.html">2D Pixel Perfect</a> package is better.</li>
 <li>Renamed everything with <code>Creature</code> in its name to <code>Character</code>.</li>
+<li>Changed the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example to use the new <a href="../../manual/transitions/assets#unshared">UnShared Transition Asset</a> system.</li>
 <li>Changed all <code>[DefaultExecutionOrder]</code> attributes to use constants so they can directly reference each other's values if they are related.</li>
 <li>Fixed the <em>Humanoid-GolfSwingReady</em> animation to have 0 length (somehow it was <code>0.000000059604645</code> seconds long).</li>
 </ul>
@@ -687,12 +695,33 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Fixed <code>Serialization.PropertyAccessor.ResetValue</code> to run the constructor of the field's current type so that it can reset <code>[SerializeReference]</code> fields to the defaults of the current type instead of null.</li>
 </ul>
 </li>
-<li>[Lite-Only] Added <code>Disable Pro Only Warnings</code> toggle to <code>AnimancerSettings</code>.</li>
+<li>Improved <a href="../../manual/previews">Transition Preview Window</a>:
+<ul>
+<li>While playing, the preview time indicator in the <code>TimelineGUI</code> is now properly updated.</li>
+<li>Fixed time scrubbing for negative speeds.</li>
+<li>Modifying any <a href="#time-fields">Time Field</a> in a <a href="../../manual/transitions">Transition</a>'s Inspector now sets the preview to that time (if the modified <a href="../../manual/transitions">Transition</a> is the one being previewed).</li>
+<li>Modifying any field in a <a href="../../manual/transitions">Transition</a> now updates the preview to show the change.</li>
+<li>Added <code>TemporarySettings.PreviewModels</code> so it can remember scene objects used for previews as long as they still exist.</li>
+<li>It now shows a warning when the selected model has no <code>Animator</code> component.</li>
+<li>Added <code>Preview</code> Context Menu Function to <code>AnimationClip</code> assets so they can be previewed directly without needing a Transition.</li>
+</ul>
+</li>
+<li>Improved <code>[EventNames]</code> attribute to allow it to be placed on the transition class itself. For example, every <code>ProjectileAttackTransition</code> in the <a href="/platformer">Platformer Game Kit</a> should have a <code>"Fire"</code> event, so putting the attribute on that class avoids the need to put it on every <code>ProjectileAttackTransition</code> field.</li>
 </ul>
 <h1 id="changes">Changes</h1>
 <ul>
-<li>Renamed <code>IUpdatable.EarlyUpdate</code>, <code>LateUpdate</code>, and <code>OnDestroy</code> to <code>PreUpdate</code>, <code>PostUpdate</code>, and <code>OnDestroyGraph</code> to avoid confusion with <code>MonoBehaviour</code> messages.</li>
+<li>Changed the default <code>NormalizedStartTime</code> for <a href="../../manual/transitions">Transitions</a> to be <code>0</code> (start at beginning) instead of <code>NaN</code> (continue from current time).</li>
+<li>Reworked <code>IUpdatable</code>:
+<ul>
+<li>Merged <code>EarlyUpdate</code> and <code>LateUpdate</code> into <code>Update</code>.</li>
+<li>Removed <code>OnDestroy</code> since it was only used by <code>AnimancerState.EventDispatcher</code>. Destroying the graph while events are in use will simply allow the dispatcher to be garbage collected instead of going out of its way to ensure that they always get object-pooled. Destroying the graph will generally only happen when the object is destroyed, so there is going to already be a bunch of garbage collection anyway.</li>
+<li>The time it gets called is chosen by using either <code>AnimancerPlayable.RequirePreUpdate</code> or <code>RequirePostUpdate</code>.</li>
+<li><code>AnimancerNode</code> now implements <code>IUpdatable</code> so it can use the same loop as custom objects instead of needing separate loops.</li>
+<li><code>AnimancerState.EventDispatcher</code> now stores the previous time at the end of its (post) <code>Update</code> instead of doing it in <code>PreUpdate</code> (which was why both methods used to be separate).</li>
+</ul>
+</li>
 <li>Renamed <code>TimeRuler</code> to <code>TimelineGUI</code>.</li>
+<li>Renamed <code>AnimancerEvent.Sequence.Serializable.Sequence</code> to <code>Events</code>.</li>
 <li>Moved <code>AnimancerState.EffectiveWeight</code> to <code>AnimancerNode</code>.</li>
 <li>Moved <code>IKeyedListItem</code> into <code>Key</code> and renamed it to <code>IListItem</code>.</li>
 <li>Moved <code>AnimationBindings.IsChangingPlayMode</code> into <code>AnimancerEditorUtilities</code> since it's also used by the <a href="../../manual/previews">Transition Preview Window</a>.</li>
@@ -707,20 +736,23 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Removed various methods in <code>AnimancerEditorUtilities</code> which are no longer being used: <code>ShouldAllowReference</code>, <code>Invoke</code>, <code>RegisterNonCriticalIssue</code>, <code>RegisterNonCriticalMissingType</code>, <code>RegisterNonCriticalMissingMember</code>, <code>AppendNonCriticalIssues</code>.</li>
 <li>Removed <code>AnimancerEvent.Sequence.RemoveAll</code> since it is unlikely to be useful (it was the same as <code>Clear</code> without removing the end event).</li>
 <li>Removed <code>GUIElementWidth</code> since it wasn't used much and didn't offer much benefit.</li>
-<li>Replaced the <code>AnimancerGUI.TempContent</code> method with a disposable <code>TempContent</code> struct which implements an Unnatural Stack to allow nested usage.</li>
+<li>Removed <code>AnimancerEditorUtilities.GetCachedResult</code> and replaced it with manual caching.</li>
 <li>Made <code>ConversionCache</code> Editor-Only.</li>
-<li>Optimized the usage of <code>AnimancerPlayable.LayerList._Layers</code> so it doesn't need to be null-checked. This also means that to set the starting <code>Capacity</code> you should set the <code>AnimancerPlayable.LayerList.DefaultCapacity</code> before the <code>LayerList</code> gets created so that it doesn't create an array in the constructor then disard it as garbage when allocating a new one for the new capacity.</li>
-<li>Reduced the interface and generic constraints on <code>AnimancerTransition</code>.
-<ul>
-<li>Removed <code>ITransitionDetailed</code> members including <code>Events</code> and <code>State</code> since you should generally be using the new <a href="../../manual/transitions/assets#unshared">UnShared Transition Asset</a> system if you're accessing those properties on <a href="../../manual/transitions/assets">Transition Assets</a> (and if not, you can just access them through the <code>Transition</code> property.</li>
-</ul>
-</li>
 <li>Removed usage of the <code>new()</code> generic constraint where possible because it is actually quite inefficient.
 <ul>
 <li>Removed <code>AnimancerUtilities.NewIfNull</code>. Unfortunately, Unity doesn't yet support the <code>??=</code> operator.</li>
 </ul>
 </li>
 <li>Removed <code>AnimancerPlayable.StateDictionary.Create&lt;T&gt;</code> and <code>AnimancerLayer.CreateState&lt;T&gt;</code> since they didn't do much more than <code>new T()</code> anyway.</li>
+<li>Removed <code>maxChildDepth</code> parameters from <code>AnimancerNode.GetDescription</code> and <code>AppendDescription</code> methods since they were basically pointless.</li>
+<li>Replaced <code>AnimancerGUI.TempContent</code> with <code>ObjectPool.Disposable.AcquireContent</code>.</li>
+<li>Optimized the usage of <code>AnimancerPlayable.LayerList._Layers</code> so it doesn't need to be null-checked. This also means that to set the starting <code>Capacity</code> you should set the <code>AnimancerPlayable.LayerList.DefaultCapacity</code> before the <code>LayerList</code> gets created so that it doesn't create an array in the constructor then disard it as garbage when allocating a new one for the new capacity.</li>
+<li>Reduced the interface and generic constraints on <code>AnimancerTransition</code>.
+<ul>
+<li>Removed <code>ITransitionDetailed</code> members including <code>Events</code> and <code>State</code> since you should generally be using the new <a href="../../manual/transitions/assets#unshared">UnShared Transition Asset</a> system if you're accessing those properties on <a href="../../manual/transitions/assets">Transition Assets</a> (and if not, you can just access them through the <code>Transition</code> property.</li>
+<li>Added <code>ITransitionWithEvents</code>.</li>
+</ul>
+</li>
 <li>Cleaned up the <code>ObjectPool</code> system:
 <ul>
 <li>Standardised methods so all categories (object, list, set) have <code>T Acquire()</code>, <code>void Acquire(out T)</code>, <code>Release(T)</code>, and <code>Release(ref T)</code> methods.</li>
@@ -735,12 +767,18 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Removed <code>AnimancerState.EventPoolCapacity</code>, <code>EventPoolCount</code>, and <code>SetMinEventPoolCount</code> since <code>ObjectPool&lt;AnimancerState.EventDispatcher&gt;</code> can now be accessed directly.</li>
 </ul>
 </li>
+<li>Refactored <code>AnimancerEditorUtilities.GetComponentInHierarchy</code>:
+<ul>
+<li>Moved it to <code>AnimancerUtilities</code>.</li>
+<li>Renamed it to <code>GetComponentInParentOrChildren</code>.</li>
+<li>Changed it into a <code>GameObject</code> Extension Method.</li>
+</ul>
+</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
 <li>Improved the way Inspector field widths in Mixer Transitions adjust to large windows. <a href="https://github.com/KybernetikGames/animancer/issues/90">#90</a></li>
 <li>Replaced empty array creation with <code>Array.Empty</code>.</li>
-<li>Improved <code>[EventNames]</code> attribute to allow it to be placed on the transition class itself. For example, every <code>ProjectileAttackTransition</code> in the <a href="/platformer">Platformer Game Kit</a> should have a <code>"Fire"</code> event, so putting the attribute on that class avoids the need to put it on every <code>ProjectileAttackTransition</code> field.</li>
 <li>Improved enumerator implementations:
 <ul>
 <li>Added <code>FastEnumerator&lt;T&gt;</code> to replace custom <code>IEnumerabl&lt;T&gt;</code> implementations.</li>
@@ -753,13 +791,17 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 </ul>
 </li>
 <li>Reworked <code>ReadMe</code> to be inheritable (so the <a href="/platformer">Platformer Game Kit</a> can use the same structure).</li>
+<li>Added <code>AnimancerUtilities.IsNullOrEmpty</code> and <code>SetLength</code> for arrays.</li>
 <li>Added <code>IsValid</code> properties for Mixer Transitions.</li>
 <li>Added <code>IPlayableWrapper.Weight</code>.</li>
 <li>Added <code>IWrapper</code> for <a href="../../manual/transitions/assets">Transition Assets</a> and <a href="../../manual/transitions/assets#unshared">UnShared</a> references to use the details of their transition without re-declaring all the members and restricting the allowed generic arguments.</li>
-<li>Added specific <code>NullReferenceException</code> to <code>AnimancerTransition.Events</code> if the <code>SerialilzedEvents</code> is null.</li>
+<li>Added a specific <code>NullReferenceException</code> to <code>AnimancerTransition.Events</code> if the <code>SerialilzedEvents</code> is null.</li>
+<li>Added <code>AnimancerEditorUtilities.ToStringCached</code> for reducing garbage when converting <code>float</code>s to <code>string</code>s.</li>
+<li>Added <code>AnimationGatherer.logExceptions</code> to control whether exceptions during gathering should be logged (default is to ignore them). This replaces the old system which kept all exceptions in a list so that the <a href="../../manual/previews">Transition Preview Window</a> could display them.</li>
 <li>Replaced most <code>GUI.enabled</code> access with <code>EditorGUI.DisabledScope</code>.</li>
 <li><code>OptionalWarning</code>:
 <ul>
+<li>Added <code>Validate.PermanentlyDisabledWarnings</code> which can be accessed manually in the Settings panel of the <a href="../../manual/tools">Animancer Tools Window</a> or the Inspector of the <code>AnimancerSettings</code> asset.</li>
 <li>Improved the warning message for <code>OptionalWarning.DuplicateEvent</code>.</li>
 <li>Added <code>OptionalWarning.UselessEvent</code> for detecting empty events.</li>
 <li>Added <code>OptionalWarning.NativeControllerHumanoid</code> for when an Animator's Controller field is assigned on a Humanoid Rig and <code>NativeControllerHybrid</code> for when an Animator's Controller field is assigned while also using a <code>HybridAnimancerComponent</code>.</li>
@@ -767,19 +809,14 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 </li>
 <li>Improved the formatting of <code>AnimancerEvent.ToString</code> and <code>AppendDetails</code>.</li>
 <li>Improved the formatting of <code>AnimancerEvent.Sequence.DeepToString</code>.</li>
-<li>Added <code>AnimationGatherer.logExceptions</code> to control whether exceptions during gathering should be logged (default is to ignore them). This replaces the old system which kept all exceptions in a list so that the <a href="../../manual/previews">Transition Preview Window</a> could display them.</li>
 <li>Removed the <code>AnimancerSettings</code> creation message since it wasn't very useful and could easily distract new users.</li>
-<li>Removed <code>maxChildDepth</code> parameters from <code>AnimancerNode.GetDescription</code> and <code>AppendDescription</code> methods since they were basically pointless.</li>
-<li>Added <code>AnimancerEditorUtilities.ToStringCached</code> for reducing garbage when converting <code>float</code>s to <code>string</code>s.</li>
-<li>Improved <a href="../../manual/previews">Transition Preview Window</a>:
+<li>Improved <code>AnimancerEvent.Sequence</code>:
 <ul>
-<li>While playing, the preview time indicator in the <code>TimelineGUI</code> is now properly updated.</li>
-<li>Fixed time scrubbing for negative speeds.</li>
-<li>Modifying any <a href="#time-fields">Time Field</a> in a <a href="../../manual/transitions">Transition</a>'s Inspector now sets the preview to that time (if the modified <a href="../../manual/transitions">Transition</a> is the one being previewed).</li>
-<li>Modifying any field in a <a href="../../manual/transitions">Transition</a> now updates the preview to show the change.</li>
-<li>Added <code>TemporarySettings.PreviewModels</code> so it can remember scene objects used for previews as long as they still exist.</li>
-<li>It now shows a warning when the selected model has no <code>Animator</code> component.</li>
-<li>Added <code>Preview</code> Context Menu Function to <code>AnimationClip</code> assets so they can be previewed directly without needing a Transition.</li>
+<li>Improved the formatting of <code>AnimancerEvent.Sequence.DeepToString</code>.</li>
+<li>Un-<code>sealed</code> <code>AnimancerEvent.Sequence</code> and <code>AnimancerEvent.Sequence.Serializable</code>.</li>
+<li>Added <code>AnimancerEvent.Sequence.IndexOf(AnimancerEvent)</code> (and <code>IndexOfRequired</code>).</li>
+<li>Added <code>AnimancerEvent.Sequence.SetNormalizedTime</code>.</li>
+<li>Added <code>AnimancerEvent.Sequence.Serializable.NormalizedTimes</code>, <code>Callbacks</code>, and <code>Names</code> for <code>public</code> access.</li>
 </ul>
 </li>
 </ul>
@@ -829,17 +866,26 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>[Lite-Only] Added <code>FixProjectDefinition</code> to prevent the C# project files generated by Unity 2020+ from referencing the Runtime-Only Lite DLLs.</li>
 <li>Fixed <code>PlayableAssetState</code> to not cause exceptions in Unity 2021.1 due to its Playable duration not being set.</li>
 <li>Fixed <code>AnimancerPlayable.KeepChildrenConnected</code> to properly apply to the <code>AnimancerPlayable.PostUpdate</code>.</li>
-<li>Fixed <code>AnimancerEvent.GetFadeOutDuration</code> to properly account for speed.</li>
 <li>Fixed <code>ArgumentOutOfRangeException</code> in <code>EventSequenceDrawer</code> when dragging the end event if there were no other events and it was previously at its default value.</li>
 <li>Fixed <code>NullReferenceException</code> caused by accessing <code>AnimancerGUI</code> during a static constructor since it tried to access <code>EditorStyles.miniButton</code>.</li>
 <li>Fixed <code>SpriteEditor</code> to properly display newly applied values.</li>
 <li>Fixed <code>PlayableAssetTransition.FadeMode</code> to always use <code>FixedSpeed</code> because <code>FromStart</code> is only supported for <code>ClipState</code>s.</li>
+<li>Fixed <code>EventNamesAttribute</code> to consider the type of each value in the property chain.</li>
+<li>Fixed <code>AnimancerEvent.GetFadeOutDuration</code> to properly account for speed.</li>
 <li>Fixed <code>AnimancerEvent.Sequence.SetName</code> to allocate the full <code>Capacity</code> when expanding the array.</li>
 <li>Fixed <code>AnimancerEvent.Sequence.Add</code> and <code>Remove</code> to properly manage the <code>Names</code> array.</li>
+<li>Fixed <code>AnimancerEvent.Sequence.Remove</code> to correctly clear the name when removing the last event.</li>
+<li>Fixed <code>AnimancerEvent.Sequence.SetCallback</code> to give an error message when attempting to set it to <code>null</code> to explain that <code>AnimancerEvent.DummyCallback</code> can be used instead.</li>
+<li>Fixed <code>AnimancerEvent.Sequence.Serializable</code> to always ensure its event data is sorted even when not set by the GUI.</li>
+<li>Fixed <code>AnimancerEvent.Sequence.Serializable.Events</code> to not be cleared continuously when viewed in the Inspector and to be properly updated when making modifications.</li>
+<li>Fixed adding persistent calls to an <code>AnimancerEvent</code> to properly assign its <code>Invoke</code> method to the runtime sequence in place of <code>AnimancerEvent.Dummy</code>.</li>
+<li>Fixed <code>SerializableEventSequenceDrawer</code> so that modifying event names properly modifies the runtime sequence.</li>
+<li>Fixed potential <code>NullReferenceException</code> in <code>AnimancerEvent.Sequence.Insert</code>.</li>
 <li>Fixed potential <code>NullReferenceException</code> in <code>AnimancerPlayable.GetKey</code>.</li>
 <li>Fixed <code>AnimancerPlayable.SetOutput</code> to throw an exception if the specified <code>Animator</code> component is null or if it's a prefab.</li>
 <li>Fixed <code>AnimancerUtilities.EditModePlay</code> to do nothing if the target is a prefab.</li>
 <li>Fixed <code>ManualMixerTransition.Apply</code> to call <code>Apply</code> on any child states created by transitions.</li>
+<li>Fixed the <code>LinearMixerState</code> threshold calculation function <code>Evenly Spaced</code> to give usable thresholds if the first and last have the same value.</li>
 <li>Fixed <code>ControllerState.ValidateHasParameter</code> to skip Animator Controllers loaded from Asset Bundles because they don't contain the editor-only data needed to perform the validation. <a href="https://github.com/KybernetikGames/animancer/issues/123">#123</a></li>
 <li>Fixed <code>EventSequenceDrawer.DoTimeGUI</code> to not cause End Time fields to set the preview time when they are deselected.</li>
 <li>Fixed various issues in <code>TimelineGUI</code>:
@@ -860,7 +906,6 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Fixed <code>TransitionDrawer</code> and <code>TransitionPreviewWindow</code> to support <code>[SerializeReference]</code> fields.</li>
 <li>Fixed Transitions to allow <a href="https://kybernetik.com.au/inspector-gadgets/docs/script-inspector/object-reference-fields#nested-inspector">Inspector Gadgets Nested Object Inspectors</a> for their main asset (the <code>AnimationClip</code> for a <code>ClipTransition</code>, the <code>AnimatorController</code> for a <code>ControllerTransition</code>, etc.).</li>
 <li>Fixed dragging <a href="../../manual/events/animancer">Animancer Events</a> in Unity 2019.4+ to keep the correct event selected when they get sorted (because they need to be ordered by time).</li>
-<li>Fixed <code>AnimancerEvent.Sequence.Serializable</code> to always ensure its event data is sorted even when not set by the GUI.</li>
 <li>Fixed fade duration not being affected by <code>Time.timeScale</code> in Unity 2021. <a href="https://github.com/KybernetikGames/animancer/issues/129">#129</a></li>
 <li>Fixed <code>SoloAnimation</code> to only play when enabled rather than in <code>Awake</code>.</li>
 <li>Fixed several bugs in <code>Key.KeyedList</code> and improved comments.</li>
@@ -868,7 +913,9 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Fixed <code>AnimancerToolsWindow.PackTextures</code> to not throw an exception if any of the textures in the list are <code>null</code>.</li>
 <li>Fixed <code>AnimancerToolsWindow.SpriteModifierPanel</code> to work for <code>SpriteImportMode.Single</code>.</li>
 <li>Fixed <code>ClipTransitionSequence</code> to account for the full sequence in <code>IsValue</code>, <code>IsLooping</code>, <code>MaximumDuration</code>, <code>AverageAngularSpeed</code>, <code>AverageVelocity</code>, and <code>GatherAnimationClips</code>.</li>
-<li>Fixed the <code>LinearMixerState</code> threshold calculation function <code>Evenly Spaced</code> to give usable thresholds if the first and last have the same value.</li>
+<li>Fixed <code>ClipTransitionSequence</code> to allow for the possibility that the first transition's End Event could be set and reassign that callback to the last transition instead.</li>
+<li>Fixed <code>ClipTransitionSequence</code> to properly initialize its end events in case the runtime sequence gets initialized multiple times.</li>
+<li>Fixed the <code>Door</code> example script to be usable in prefabs.</li>
 </ul>
 
 	</section>
