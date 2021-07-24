@@ -547,7 +547,7 @@ private void OnAnimatorIK(int layerIndex)
 <li>If the animation is imported as part of a model, you can add custom curves in the <span class="text-nowrap"><a href="https://docs.unity3d.com/Manual/AnimationCurvesOnImportedClips.html">Import Settings -&gt; Animation Tab -&gt; Curves (foldout near the bottom)</a>.</span></li>
 <li>Otherwise you can add custom curves using the Animation window.</li>
 </ul>
-<p>In an <a href="../animator-controllers">Animator Controller</a>, you can access custom curves by giving it parameters with the same names so that Unity will automatically update those parameters with the curve's value every frame and you can then read the value from that parameter.</p>
+<p>In an <a href="../animator-controllers">Animator Controller</a>, you can access a custom curve by <a href="https://docs.unity3d.com/Manual/AnimationParameters.html">creating a Float Parameter</a> with the same name as the curve. Then it will automatically update that parameter every frame with the value of the curve at the current time so you can access it in a script using <code>animator.GetFloat("Parameter Name")</code>.</p>
 <h2 id="exposed-curves">Exposed Curves</h2>
 <img src="exposed-curve.png" class="img-responsive img-right">
 <p>Before <a href="#animated-properties">Animated Properties</a> were implemented, previous versions of Animancer allowed access to custom curves by using using an <code>ExposedCurve</code> class to extract a curve from the <code>AnimationClip</code> in the Unity Editor and serialize it separately so that it can be accessed directly at runtime. That class can now be <a href="ExposedCurve.cs">downloaded from here</a> and using it is fairly straightforward:</p>

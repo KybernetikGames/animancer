@@ -226,7 +226,6 @@
                 <li><a href="/animancer/docs/examples/fsm/brains">04 Brains</a></li>
                 <li><a href="/animancer/docs/examples/fsm/more-brains">05 More Brains</a></li>
                 <li><a href="/animancer/docs/examples/fsm/weapons">06 Weapons</a></li>
-                <li><a href="/animancer/docs/examples/fsm/platformer">07 Platformer</a></li>
 
                     </ul>
                 </li>
@@ -378,7 +377,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
-                <li><a href="/animancer/docs/bugs/rigging-ik">Animation Rigging IK</a></li>
                 <li><a href="/animancer/docs/bugs/animator-controller-speed">Animator Controller Speed</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
                 <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
@@ -494,12 +492,16 @@
   </tr>
   </tbody>
 </table>
-<p>The actual implementation used here is not very good, the point is simply to prove that IK works essentially the same in Animancer as it does in Mecanim.</p>
-<p></p><details><summary>It uses a simple <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a></code> script to create a random series of objects and rearrange them each time the character moves far enough:</summary><p>
+<p>The actual implementation used here is not very good, the point is simply to prove that IK works essentially the same in Animancer as it does in Mecanim, with only two notable differences:</p>
+<ul>
+<li>The way that IK is enabled (as explained in the <a href="../../../manual/ik#ik-pass">IK Pass</a> section).</li>
+<li>The way that the value of the <a href="#ik-curves">IK Curves</a> are accessed by the script (as explained in the <a href="../../../manual/ik#animated-properties">Animated Properties</a> section).</li>
+</ul>
+<p></p><details><summary>It uses a simple <code>ObstacleTreadmill</code> script to create a random series of objects and rearrange them each time the character moves far enough:</summary><p>
 </p><pre><code class="language-cs">using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a> : MonoBehaviour
+public sealed class ObstacleTreadmill : MonoBehaviour
 {
     [SerializeField] private float _SpawnCount = 10;
     [SerializeField] private Material _ObstacleMaterial;
@@ -647,8 +649,10 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
 </code></pre>
 <p></p></details><p></p>
 <h1 id="ik-curves">IK Curves</h1>
-<p>Unlike the <a href="../puppet">Puppet</a> example, we do not want the character's feet to always be exactly at the target point. Instead, we want them to use the animation to lift their feet (0 IK weight) and start using the IK when their feet are actually supposed to be near the ground (1 IK weight). This example uses a copy of the usual <em>Walk</em> animation with two additional <code>AnimationCurves</code> (<em>LeftFootIK</em> and <em>RightFootIK</em>) which determine how much weight we want the IK to have at any given point in the animation.</p>
-<p>These custom curves can be accessed using Animancer's <code><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> class which we initialise on startup:</p>
+<p>Unlike the <a href="../puppet">Puppet</a> example, we do not want the character's feet to always be exactly at the target point. Instead, we want them to use the animation to lift their feet (<code>0</code> IK weight) and start using the IK when their feet are actually supposed to be near the ground (<code>1</code> IK weight). This example uses a copy of the usual <em>Walk</em> animation with two additional <code>AnimationCurves</code> (<em>LeftFootIK</em> and <em>RightFootIK</em>) which determine how much weight we want the IK to have at any given point in the animation.</p>
+<p>Rather than going fully to 0 weight, the curves used in this example only go down to <code>0.2</code> so that the height the foot reaches when fully lifted up is still slightly influenced (<code>20%</code>) by the IK rather than being fully driven by the animation. The exact dimensions and shape of the curve would need to be adjusted to suit each animation and character in a real game.</p>
+<p><img src="ik-curve.gif" class="img-responsive"></p>
+<p>These custom curves can be accessed using Animancer's <code><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> class which we initialize on startup:</p>
 <pre><code class="language-cs">private <a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
 
 private void Awake()
@@ -663,7 +667,7 @@ private void Awake()
 <pre><code class="language-cs">    _Animancer.Play(_Animation);
 </code></pre>
 <ol start="2">
-<li>Enable IK so that Unity will call <code>OnAnimatorIK</code> and apply it to the character. Normally we could just set <code>ApplyAnimatorIK</code> directly, but for this example we want a UI Toggle to turn it on and off so we need a <code>public</code> <a href="../../../introduction/cs/methods#properties">Property</a> for it to access:</li>
+<li>Enable IK so that Unity will call <code>OnAnimatorIK</code> and apply it to the character. Normally we could just set <code>ApplyAnimatorIK</code> directly, but for this example we want a UI Toggle to turn it on and off so we need a <code>public</code> <a href="../../../introduction/cs/methods/properties">Property</a> for it to access:</li>
 </ol>
 <pre><code class="language-cs">public bool ApplyAnimatorIK
 {
