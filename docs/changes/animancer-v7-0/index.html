@@ -205,10 +205,9 @@
                     <a href="/animancer/docs/examples/locomotion">03 Locomotion</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/examples/locomotion/walk-and-run">01 Walk and Run</a></li>
-                <li><a href="/animancer/docs/examples/locomotion/root-motion">02 Root Motion</a></li>
-                <li><a href="/animancer/docs/examples/locomotion/linear-blending">03 Linear Blending</a></li>
-                <li><a href="/animancer/docs/examples/locomotion/directional-blending">04 Directional Blending</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/root-motion">01 Root Motion</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/linear-blending">02 Linear Blending</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/directional-blending">03 Directional Blending</a></li>
 
                     </ul>
                 </li>
@@ -248,7 +247,7 @@
                 <li><a href="/animancer/docs/examples/fsm/characters">02 Characters</a></li>
                 <li><a href="/animancer/docs/examples/fsm/interrupts">03 Interrupt Management</a></li>
                 <li><a href="/animancer/docs/examples/fsm/brains">04 Brains</a></li>
-                <li><a href="/animancer/docs/examples/fsm/more-brains">05 More Brains</a></li>
+                <li><a href="/animancer/docs/examples/fsm/brain-transplants">05 Brain Transplants</a></li>
                 <li><a href="/animancer/docs/examples/fsm/weapons">06 Weapons</a></li>
 
                     </ul>
@@ -408,6 +407,15 @@
 
                     </ul>
                 </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -511,47 +519,118 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p><strong>Planned Release 2021-07-??</strong> (this page was last updated on 2021-07-20). Some links may be broken because they refer to new or moved pages in the rest of the documentation which has not been updated yet.</p>
+<p><strong>Planned Release 2021-08-??</strong> (this page was last updated on 2021-07-26). Some links may be broken because they refer to new or moved pages in the rest of the documentation which has not been updated yet.</p>
 </blockquote>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>See the <a href="animancer-v6-0#upgrade-guide">Animancer v6.0 Upgrade Guide</a> if you are upgrading from a version older than that, then follow the <a href="#upgrade-process">Upgrade Process</a> explained below to upgrade to this version.</p>
-<p>Support for Unity 2018.4 has been dropped. <strong>The minimum supported version is now 2019.4</strong> (though it might still work on earlier 2019 versions).</p>
-<p>This version has <strong>Major API Changes</strong> for <a href="../../manual/transitions">Transitions</a> in order to support the <code>[SerializeReference]</code> system introduced in Unity 2019 as explained in <a href="https://github.com/KybernetikGames/animancer/issues/132">#132</a> (<a href="https://github.com/KybernetikGames/animancer/issues/132#issuecomment-876290199">particularly this comment</a>).</p>
+<h2 id="major-changes">Major Changes</h2>
 <ul>
-<li>All <a href="../../manual/transitions/types">Transition</a> classes have been moved from the <em>Internal</em> folder to the <em>Utilities/Transitions</em> folder.
+<li>Support for Unity 2018.4 has been dropped. <strong>The minimum supported version is now 2019.4</strong> (though it might still work on earlier 2019 versions).</li>
+<li>All <a href="../../manual/transitions/types">Transition Scripts</a> have been moved and renamed (see the <a href="#renaming">Renaming</a> table).</li>
+<li><a href="../../manual/transitions/assets">Transition Assets</a> now use <a href="https://docs.unity3d.com/ScriptReference/SerializeReference.html"><code>[SerializeReference]</code></a> fields. Unfortunately, this means that <strong>all Transition Assets will lose their data</strong> when upgrading from an earlier version of Animancer.</li>
+</ul>
+<p></p><details><summary>Click here for more information about these changes and why they were necessary:</summary><p>
+</p><p>Why drop support for Unity 2018?</p>
 <ul>
-<li>This means they are now outside of the <code>Animancer.Lite.dll</code> used by Animancer Lite so that the assembly they are in doesn't change when upgrading to Animancer Pro (because if it changed then all <code>[SerializeReference]</code> fields containing transitions would lose their data and give errors).</li>
-<li>It also means that their source code is now included in Animancer Lite.</li>
+<li>The <a href="https://docs.unity3d.com/ScriptReference/SerializeReference.html"><code>[SerializeReference]</code></a> system was only introduced in Unity 2019. Continuing to support 2018 would be possible using <a href="https://docs.unity3d.com/Manual/PlatformDependentCompilation.html">Platform Dependent Compilation</a>, but would significantly complicate certain sections of code as well as the testing and releasse process of Animancer as a whole (much moreso than simply adding another supported version would).</li>
+<li>Animancer v7.0 is already being specifically tested in 3 other versions of Unity:
+<ul>
+<li>2019.4 (LTS)</li>
+<li>2020.3 (LTS)</li>
+<li>2021.1 (Latest Stable)</li>
 </ul>
 </li>
-<li>Since they are now in a different assembly from the <a href="../../manual/playing/states">State</a> classes, the <a href="../../manual/transitions/types">Transition</a> classes can no longer be nested inside them and had to be renamed. They now use the following convention:
+<li>Unity 2018.4 is currently still listed in Unity Hub, but it has already exceeded its 2 year LTS lifespan so new projects should not be started with it. Existing projects will either need to stay on an older version of Animancer or update to a newer version of Unity first.</li>
+</ul>
+<p>What benefits have the change brought?</p>
 <ul>
-<li><a href="../../manual/transitions">Transitions</a> have been renamed from <code>???State.Transition</code> to <code>???Transition</code> (e.g. <code>ClipState.Transition</code> to <code>ClipTransition</code>).</li>
-<li><a href="../../manual/transitions/assets">Transition Assets</a> have been renamed from <code>???Transition</code> to <code>???TransitionAsset</code> (e.g. <code>ClipTransition</code> to <code>ClipTransitionAsset</code>).</li>
+<li>The <a href="../../manual/transitions/types#serialized-references">Serialized References</a> section explains the increased flexibility that the change allows.</li>
 </ul>
-</li>
-<li>The <code>Transition</code> field in <a href="../../manual/transitions/assets">Transition Assets</a> has also been changed to a <code>[SerializeReference]</code> field. This means all <a href="../../manual/transitions/assets">Transition Assets</a> will lose their data if the <a href="#upgrade-process">Upgrade Process</a> is not followed.</li>
+<p>Why were the <a href="../../manual/transitions/types">Transition Scripts</a> moved?</p>
+<ul>
+<li><a href="https://docs.unity3d.com/ScriptReference/SerializeReference.html"><code>[SerializeReference]</code></a> fields store the full type and assembly name of the value they are assigned.</li>
+<li>Previously, those classes were compiled into <code>Animancer.Lite.dll</code> for Animancer Lite while Animancer Pro included them as regular scripts.</li>
+<li>That meant upgrading from Lite to Pro would change the assembly name, causing all <a href="https://docs.unity3d.com/ScriptReference/SerializeReference.html"><code>[SerializeReference]</code></a> fields to both lose their data and log errors about it in the console, which is unacceptable. The upgrade process from Lite to Pro must be as seamless as possible.</li>
+<li>So all <a href="../../manual/transitions/types">Transition Scripts</a> have been moved to the <em>Utilities/Transitions</em> folder and their source code is now included in Animancer Lite.</li>
 </ul>
+<p>Why were the <a href="../../manual/transitions/types">Transition Scripts</a> renamed?</p>
+<ul>
+<li>Since they are now in a different assembly from the <a href="../../manual/playing/states">State</a> classes, the <a href="../../manual/transitions/types">Transition</a> classes can no longer be nested inside them.</li>
+<li>With <code>ClipState.Transition</code> no longer being inside <code>ClipState</code> it obviously can't just be called <code>Transition</code> so the logical choice is <code>ClipTransition</code>.</li>
+<li>Unfortunately, <code>ClipTransition</code> was previously the <a href="../../manual/transitions/assets">Transition Asset</a> type, so it also had to be renamed to <code>ClipTransitionAsset</code>.</li>
+<li>All transition types follow the same naming convention, which is listed in the <a href="#renaming">Renaming</a> table.</li>
+</ul>
+<p></p></details><p></p>
 <h2 id="upgrade-process">Upgrade Process</h2>
+<p>You might want to avoid updating Animancer in the middle of the project. Steps #5 and #6 in particular could take a long time.</p>
 <ol>
 <li>See the <a href="animancer-v6-0#upgrade-guide">Animancer v6.0 Upgrade Guide</a> if you are upgrading from a version older than that.</li>
 <li><strong>Backup your project</strong>.</li>
-<li>Make sure you are using Unity 2019.4 or newer.</li>
-<li>Download and import this Upgrader Script (To Do).</li>
-<li>It will run automatically to do the following things:</li>
+<li>Update your project to Unity 2019.4 or newer.</li>
+<li>Delete your previous version of Animancer (located at <em>Assets/Plugins/Animancer</em> by default). This will cause compile errors in any of your scripts that reference Animancer.</li>
+<li>Go through your scripts and change the names of Animancer classes according to the <a href="#renaming">Renaming</a> table.</li>
 </ol>
-<ul>
-<li>Store all your <a href="../../manual/transitions/assets">Transition Asset</a> data.</li>
-<li>Show a confirmation dialogue to <a href="../download">delete your previous version of Animancer</a> and procedurally edit all of your scripts to use the new <a href="../../manual/transitions">Transition</a> naming convention outlined above.
-<ul>
-<li>This should cause compile errors in any of your code that references the <a href="../../manual/transitions">Transition</a> classes.</li>
-</ul>
-</li>
-</ul>
-<ol start="6">
+<p></p><details><summary>6. If you have any <a href="../../manual/transitions/assets">Transition Assets</a>, you can manually edit them with a text editor to prevent them from losing their data.</summary><p>
+</p><p>The issue is that the <a href="https://docs.unity3d.com/ScriptReference/SerializeField.html"><code>[SerializeField]</code></a> stores its data in a slightly different format to <a href="https://docs.unity3d.com/ScriptReference/SerializeReference.html"><code>[SerializeReference]</code></a> and Unity doesn't support conversion between them. However, the format is relatively simple so you can open any <a href="../../manual/transitions/assets">Transition Asset</a> files with any text editor and make the following change. This can be much easier with a file comparison tool in a version control system.</p>
+<p>The old format looks like this:</p>
+<pre><code>  _Transition:
+    _FadeDuration: 0.25
+    // ... Other fields in the transition.
+</code></pre>
+<p>And the new format looks like this:</p>
+<pre><code>  _Transition:// The actual field
+    id: 0// The index of the reference
+  references:// The list of all references
+    version: 1
+    00000000:// The id: 0 refers to this reference
+      type: {class: ClipTransition, ns: Animancer, asm: Animancer}// The assigned type
+      data:// The actual data all looks the same
+        _FadeDuration: 0.25
+        // ... Other fields in the transition.
+</code></pre>
+<p>So there are 3 changes to make:</p>
+<ol>
+<li>Replace the <code>_Transition:</code> line with:</li>
+</ol>
+<pre><code>  _Transition:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: ClipTransition, ns: Animancer, asm: Animancer}
+      data:
+</code></pre>
+<ol start="2">
+<li>Replace that <code>ClipTransition</code> with the appropriate type for the asset.</li>
+<li>Add 4 spaces to the start of every line after that (starting with the <code>_FadeDuration:</code>) because the indentation is important.</li>
+</ol>
+<p></p></details><p></p>
+<ol start="7">
 <li><a href="../download">Download and import the new version of Animancer.</a></li>
-<li>The Upgrader Script will automatically restore all your <a href="../../manual/transitions/assets">Transition Asset</a> data and delete itself.</li>
+<li>If you still have any compile errors, use <code>Ctrl + F</code> to search this page for any relevant changes.</li>
 </ol>
+<h2 id="renaming">Renaming</h2>
+<p>Make sure you rename <a href="../../manual/transitions/assets">Transition Assets</a> first (<code>ClipTransition</code> to <code>ClipTransitionAsset</code>) before doing any regular <a href="../../manual/transitions">Transitions</a> (<code>ClipState.Transition</code> to <code>ClipTransition</code>) to avoid confusion.</p>
+<table class="table">
+<thead>
+<tr>
+<th>Old Name</th>
+<th>New Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ClipTransition</code><br><code>ControllerTransition</code><br><code>Float1ControllerTransition</code><br><code>Float2ControllerTransition</code><br><code>Float3ControllerTransition</code><br><code>LinearMixerTransition</code><br><code>ManualMixerTransition</code><br><code>MixerTransition2D</code><br><code>PlayableAssetTransition</code></td>
+<td><code>ClipTransitionAsset</code><br><code>ControllerTransitionAsset</code><br><code>Float1ControllerTransitionAsset</code><br><code>Float2ControllerTransitionAsset</code><br><code>Float3ControllerTransitionAsset</code><br><code>LinearMixerTransitionAsset</code><br><code>ManualMixerTransitionAsset</code><br><code>MixerTransition2DAsset</code><br><code>PlayableAssetTransitionAsset</code></td>
+</tr>
+<tr>
+<td><code>ClipState.Transition</code><br><code>ControllerState.Transition</code><br><code>Float1ControllerState.Transition</code><br><code>Float2ControllerState.Transition</code><br><code>Float3ControllerState.Transition</code><br><code>LinearMixerState.Transition</code><br><code>ManualMixerState.Transition</code><br><code>MixerState.Transition2D</code><br><code>PlayableAssetState.Transition</code></td>
+<td><code>ClipTransition</code><br><code>ControllerTransition</code><br><code>Float1ControllerTransition</code><br><code>Float2ControllerTransition</code><br><code>Float3ControllerTransition</code><br><code>LinearMixerTransition</code><br><code>ManualMixerTransition</code><br><code>MixerTransition2D</code><br><code>PlayableAssetTransition</code></td>
+</tr>
+</tbody>
+</table>
+<p>Everything in the <a href="../../examples">Examples</a> with <code>Creature</code> in its name has been renamed to <code>Character</code>.</p>
+<p>Various other things have been renamed but they are generally minor and/or internal so much less likely to be referenced by user code. If you get such errors after importing the new version of Animancer, simply use <code>Ctrl + F</code> to search this page.</p>
 <h1 id="major-features">Major Features</h1>
 <h2 id="platformer">Platformer</h2>
 <p>Removed the old Platformer example and created a much more extensive <a href="/platformer">Platformer Game Kit</a> which has much better character physics, wall jumping, moving platforms, a hit box system, various enemies with different behaviours, and more. It's free and works with <a href="/animancer/lite">Animancer Lite</a>, though it does use some Pro-Only features (<a href="/platformer/docs/overview">explained here</a>).</p>
@@ -563,7 +642,7 @@
   <tbody>
     <tr>
       <td><img src="old-platformer.gif" class="img-responsive"></td>
-      <td><a href="/platformer"><img src="/platformer/images/platformer.gif" class="img-responsive"></a></td>
+      <td><a href="/platformer"><img src="platformer.gif" class="img-responsive"></a></td>
     </tr>
   </tbody>
 </table>
@@ -572,7 +651,7 @@
 <p>Improved the way <a href="../../manual/transitions#time-fields">Transition Time Fields</a> are drawn in the Inspector:</p>
 <ul>
 <li>Added a Frame field so they now show their value as Normalized, Seconds, and Frames.</li>
-<li>Standardised the implementation in a base <a href="#multi-unit-float=attribute"><code>[MultiUnitFloat]</code></a>) attribute with <code>[AnimationTimeField]</code> and <code>[AnimationSpeedField]</code>subclasses.</li>
+<li>Standardised the implementation in a base <a href="#units-attribute">Units Attribute</a> with <code>[AnimationTime]</code> and <code>[AnimationSpeed]</code>subclasses.</li>
 <li>Used the same implementation for the Normalized/Pixel fields in the <a href="../../manual/tools/sprite-editor">Sprite Editor</a>.</li>
 <li>Added options in <code>AnimancerSettings</code> to choose which fields are shown.</li>
 <li>These fields now show <a href="../../manual/transitions#approximations">Approximations</a> if there is not enough room to show the full value. For example, <code>1.111111</code> could instead show <code>1.111~</code>.</li>
@@ -580,31 +659,15 @@
 <li>Improved the tooltips on all <a href="../../manual/transitions#fields">Transition Fields</a>.</li>
 </ul>
 <p><img src="transition-tooltips.gif" class="img-responsive"></p>
-<h2 id="multi-unit-float-attribute">Multi Unit Float Attribute</h2>
-<p>The <code>[MultiUnitFloat]</code> attribute can also be used on regular <code>float</code> fields to give them a simple suffix. For example, the <a href="/platformer">Platformer Game Kit</a> uses the following:</p>
-<pre><code class="language-cs">public sealed class MetersAttribute : MultiUnitFloatAttribute
-{
-    public MetersAttribute() : base(" m") { }
-}
-
-public sealed class MetersPerSecondAttribute : MultiUnitFloatAttribute
-{
-    public MetersPerSecondAttribute() : base(" m/s") { }
-}
-
-public sealed class SecondsAttribute : MultiUnitFloatAttribute
-{
-    public SecondsAttribute() : base(" s") { }
-}
-</code></pre>
-<pre><code class="language-cs">[SerializeField, Meters]          private float _StepHeight;
-[SerializeField, MetersPerSecond] private float _HorizontalSpeed;
-[SerializeField, Seconds]         private float _Smoothing;
-
-// You can also use [MultiUnitFloat] directly: 
-[SerializeField, MultiUnitFloat(" s")] private float _Smoothing;
-</code></pre>
-<p><img src="air-character-movement.png" class="img-responsive"></p>
+<h2 id="units-attributes">Units Attributes</h2>
+<p>The <a href="../../manual/other/units">Units Attributes</a> can be used on <code>float</code> fields to give them a suffix indicating what kind of units they represent.</p>
+<p><img src="../../manual/other/units/basics.gif" class="img-responsive"></p>
+<p>They allow the value to be displayed in multiple units at the same time:</p>
+<p><img src="../../manual/other/units/multi.gif" class="img-responsive"></p>
+<p>You can Middle Click to reset the field to its <code>[DefaultValue]</code>:</p>
+<p><img src="../../manual/other/units/default.gif" class="img-responsive"></p>
+<p>And you can specify a <code>Validate.Value</code> rule to limit the allowed values:</p>
+<p><img src="../../manual/other/units/rule.gif" class="img-responsive"></p>
 <h2 id="weight-fields">Weight Fields</h2>
 <p>Improved the way abbreviated weight labels are displayed in the <code>AnimancerComponent</code> Inspector. In particular, small values near <code>0</code> which aren't exactly <code>0</code> will show as <em><code>~0</code></em> instead of <em><code>0.0</code></em>. The same applies to values near <code>1</code>. <a href="https://github.com/KybernetikGames/animancer/issues/131">#131</a></p>
 <h2 id="unshared-transition-assets">UnShared Transition Assets</h2>
@@ -655,12 +718,19 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <ul>
 <li>Added <a href="../../examples/basics/transitions">Transitions</a> example.</li>
 <li>Added <a href="../../examples/events/utilities">Event Utilities</a> example.</li>
+<li>Added <a href="#units-attributes">Units Attributes</a> to the example scripts where appropriate.</li>
 <li>Removed the <del>Sequence Coroutine</del> example since it was really long, spent lots of time explaining coroutines (there are plenty of other tutorials for that), and wasted time explaining several different approaches which are all worse than simply using a <code>ClipTransitionSequence</code>.</li>
+<li>Removed the <del>Walk and Run</del> example since <a href="../../examples/locomotion/linear-blending">Linear Blending</a> does the same job better.</li>
 <li>Removed the <code>PixelPerfectPositioning</code> script since Unity's <a href="https://docs.unity3d.com/Manual/com.unity.2d.pixel-perfect.html">2D Pixel Perfect</a> package is better.</li>
+<li>Renamed the More Brains example to <a href="../../examples/fsm/brain-transplants">Brain Transplants</a>.</li>
 <li>Renamed everything with <code>Creature</code> in its name to <code>Character</code>.</li>
 <li>Changed the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example to use the new <a href="../../manual/transitions/assets#unshared">UnShared Transition Asset</a> system.</li>
+<li>Changed the <a href="../../examples/fsm/brains">Brains</a> example <code>LocomotionState</code> to use a <a href="../../manual/blending/mixers">Linear Mixer</a> instead of manually synchronizing the <em>Walk</em> and <em>Run</em> animations.</li>
 <li>Changed all <code>[DefaultExecutionOrder]</code> attributes to use constants so they can directly reference each other's values if they are related.</li>
+<li>Improved the <a href="../../examples/layers">Layers</a> script to allow the running state to be toggled without interrupting the action.</li>
 <li>Fixed the <em>Humanoid-GolfSwingReady</em> animation to have 0 length (somehow it was <code>0.000000059604645</code> seconds long).</li>
+<li>Fixed the <code>Door</code> example script to be usable in prefabs.</li>
+<li>Fixed the <a href="../../examples/animator-controllers/basics">Hybrid Basics</a> example to disable <code>OptionalWarning.NativeControllerHumanoid</code>.</li>
 </ul>
 <h1 id="minor-features">Minor Features</h1>
 <ul>
@@ -695,6 +765,7 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Fixed <code>Serialization.PropertyAccessor.ResetValue</code> to run the constructor of the field's current type so that it can reset <code>[SerializeReference]</code> fields to the defaults of the current type instead of null.</li>
 </ul>
 </li>
+<li>Added <code>AnimancerEditorUtilities.GetNameCS</code> for displaying user-friendly type names.</li>
 <li>Improved <a href="../../manual/previews">Transition Preview Window</a>:
 <ul>
 <li>While playing, the preview time indicator in the <code>TimelineGUI</code> is now properly updated.</li>
@@ -915,7 +986,11 @@ public sealed class SecondsAttribute : MultiUnitFloatAttribute
 <li>Fixed <code>ClipTransitionSequence</code> to account for the full sequence in <code>IsValue</code>, <code>IsLooping</code>, <code>MaximumDuration</code>, <code>AverageAngularSpeed</code>, <code>AverageVelocity</code>, and <code>GatherAnimationClips</code>.</li>
 <li>Fixed <code>ClipTransitionSequence</code> to allow for the possibility that the first transition's End Event could be set and reassign that callback to the last transition instead.</li>
 <li>Fixed <code>ClipTransitionSequence</code> to properly initialize its end events in case the runtime sequence gets initialized multiple times.</li>
-<li>Fixed the <code>Door</code> example script to be usable in prefabs.</li>
+<li>Fixed <code>TransitionDrawer</code> to only target <code>ITransitionDetailed</code> rather than <code>ITransition</code> since it needs the extra details.</li>
+<li>Fixed <code>TransitionPreviewWindow</code> auto-close to not cause GUI errors.</li>
+<li>Fixed <code>Validate.AssertPlayable</code> to destroy an invalid node.</li>
+<li>Fixed potential <code>NullReferenceException</code> in <code>Serialization.PropertyReference</code>.</li>
+<li>Fixed <code>BoolPref</code> to properly load its value if it gets shown in a menu before being accessed.</li>
 </ul>
 
 	</section>
