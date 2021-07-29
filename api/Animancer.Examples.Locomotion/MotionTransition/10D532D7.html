@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v6.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.0</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -81,7 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Syntax">Syntax</a></p>
+	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
+<p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Parameters">Parameters</a></p>
 <p><a href="#ReturnValue">Return Value</a></p>
 <hr class="infobar-hidden">
@@ -151,21 +153,22 @@
 		<li role="separator" class="divider"></li>
 			<li class="header">Method Members</li>
 				<li class="selected"><a href="/animancer/api/Animancer.Examples.Locomotion/MotionTransition/10D532D7">Apply<wbr>(AnimancerState)<wbr></a></li>
-				<li><a href="/animancer/api/Animancer/Transition/274420DB">CreateState<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/D62800EB">CreateState<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/EA687305">GatherAnimationClips<wbr>(ICollection<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></li>
 			<li class="header">Property Members</li>
-				<li><a href="/animancer/api/Animancer/Transition/FDAE4802">AverageAngularSpeed</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/1BB826D5">AverageVelocity</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/EB09CD27">Clip</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/C36DA0DF">FadeMode</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/3EF4DFE7">IsLooping</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/7654E84C">IsValid</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/B2CB4402">Key</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/2371D0BF">MainObject</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/663F13B7">MaximumDuration</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/3FB59604">NormalizedStartTime</a></li>
-				<li><a href="/animancer/api/Animancer/Transition/E0DCA2EB">Speed</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/BF9B0E9E">AverageAngularSpeed</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/90D1F9DB">AverageVelocity</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/3EDB8A2D">Clip</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/EAF5CA1F">FadeMode</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/CA06ADA5">IsLooping</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/09D01C9C">IsValid</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/3C393845">Key</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/D4354205">MainObject</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/ED56CCB9">MaximumDuration</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/7D80D098">NormalizedStartTime</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition/69BD111D">Speed</a></li>
 			<li class="header">NamedType Members</li>
-				<li><a href="/animancer/api/Animancer/Drawer">ClipState<wbr>.Transition<wbr>.Drawer</a></li>
+				<li><a href="/animancer/api/Animancer/Drawer">ClipTransition<wbr>.Drawer</a></li>
 
 
                     </ul>
@@ -187,7 +190,11 @@
 <section class="content">
 	
 	
-	
+		<h1 id="Summary">Summary</h1>
+	<div class="lead">
+    Called by <code class="cs">Animancer.AnimancerPlayable.Play(Animancer.ITransition)</code> to apply any modifications to the `state`.
+    </div>
+
 		<div class="panel panel-default">
   			<div class="panel-body">	
 				<dl class="dl-horizontal">	
@@ -208,6 +215,11 @@
 	<pre><code>public override void Apply(AnimancerState state)</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    Unlike <code class="cs">Animancer.ITransition.CreateState</code>, this method is called every time the transition is used so it can do
+    things like set the <code class="cs">Animancer.AnimancerState.Events</code> or starting <code class="cs">Animancer.AnimancerState.Time</code>.
+    </div>
 
 
 

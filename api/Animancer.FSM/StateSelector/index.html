@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v6.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.0</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -83,10 +83,9 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Examples">Examples</a></p>
 <p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Constructors">Constructors</a></p>
-<p><a href="#fields">Fields</a></p>
-<p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -153,12 +152,14 @@
 		<li role="separator" class="divider"></li>
 			<li class="header">Class Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/DelegateState">DelegateState</a></li>
+				<li><a href="/animancer/api/Animancer.FSM/ReverseComparer_1">ReverseComparer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/State">State</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine<wbr>&lt;TKey, <wbr>TState&gt;<wbr></a></li>
 			<li class="header">Interface Types</li>
+				<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IOwnedState_1">IOwnedState<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IPrioritizable">IPrioritizable</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IState">IState</a></li>
@@ -203,7 +204,7 @@
 								<dt>Base Types</dt>
 								<dd>
 									<ul class="list-unstyled">										
-											<li>Object</li>								
+											<li>SortedList<wbr>&lt;float, <wbr><a href="/animancer/api/Animancer.FSM/StateMachine_1#typeparam-TState">TState</a>&gt;<wbr></li>								
 									</ul>
 								</dd>				
 							
@@ -213,7 +214,7 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["Object"]
+	Type--&gt;Base0["SortedList&lt;float, TState&gt;"]
 	Type["StateMachine&lt;TState&gt;.StateSelector"]
 class Type type-node
 
@@ -224,8 +225,29 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public class StateMachine&lt;TState&gt;.StateSelector</code></pre>
+	<pre><code>public class StateMachine&lt;TState&gt;.StateSelector : SortedList&lt;float, TState&gt;</code></pre>
 
+	<h1 id="Examples">Examples</h1>
+	<div><pre><code class="cs">public StateMachine&lt;CharacterState&gt; stateMachine;
+public CharacterState run;
+public CharacterState idle;
+
+private readonly StateMachine&lt;CharacterState&gt;.StateSelector
+    Selector = new StateMachine&lt;CharacterState&gt;.StateSelector();
+
+private void Awake()
+{
+    Selector.Add(1, run);
+    Selector.Add(0, idle);
+}
+
+public void RunOrIdle()
+{
+    stateMachine.TrySetState(Selector.Values);
+    // The "run" state has the highest priority so this will enter it if "run.CanEnterState" returns true.
+    // Otherwise if "idle.CanEnterState" returns true it will enter that state instead.
+    // If neither allows the transition, nothing happens and "stateMachine.TrySetState" returns false.
+}</code></pre></div>
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
@@ -247,8 +269,8 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/B14519B9">StateSelector<wbr>(StateMachine<wbr>&lt;TState&gt;<wbr>, <wbr>int)<wbr></a></td>
-									<td>Creates a new <code class="cs">Animancer.FSM.StateMachine`1.StateSelector</code>.</td>
+								<td><a href="/animancer/api/Animancer.FSM/StateSelector/6EF0CC44">StateSelector<wbr>()<wbr></a></td>
+									<td></td>
 							</tr>
 					</tbody></table>
 				</div>
@@ -256,58 +278,7 @@ class Type type-node
 		
 
 
-			<h1 id="fields">Fields</h1>
-			<div class="box">
-				<div class="box-body no-padding table-responsive">
-					<table class="table table-striped table-hover three-cols">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Constant Value</th>
-								<th>Summary</th>
-							</tr>
-						</thead>
-							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/0B1972FA">StateMachine</a></td>
-								<td></td>
-								<td>
-									<div>The <code class="cs">Animancer.FSM.StateMachine`1</code> this selector is controlling.</div>
-								</td>
-							</tr>
-					</tbody></table>
-				</div>
-			</div>
-		
 
-			<h1 id="Properties">Properties</h1>
-			<div class="box">
-				<div class="box-body no-padding table-responsive">
-					<table class="table table-striped table-hover three-cols">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Value</th>
-								<th>Summary</th>
-							</tr>
-						</thead>
-							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/1A4C390B">Capacity</a></td>
-								<td>int</td>
-								<td>
-									<div>The number of states this selector can hold before its internal arrays need to be expanded.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/7DDA764B">Count</a></td>
-								<td>int</td>
-								<td>
-									<div>The number of states currently in this selector.</div>
-								</td>
-							</tr>
-					</tbody></table>
-				</div>
-			</div>
-		
 
 			<h1 id="Methods">Methods</h1>
 			<div class="box">
@@ -321,66 +292,10 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/58066100">Add<wbr>(float, <wbr>TState)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Adds the `state` to this selector with the specified `priority`.</div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateSelector/BD20573F">Add<wbr>&lt;<wbr>T<wbr>Prioritizable&gt;<wbr><wbr>(TPrioritizable)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>Adds the `state` to this selector with its <code class="cs">Animancer.FSM.IPrioritizable.Priority</code>.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/DBC417A9">CanSetState<wbr>()<wbr></a></td>
-								<td>bool</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.FSM.StateMachine`1.CanSetState(`0)</code> for each state in this selector in order of
-    priority (highest first) until one returns true. Otherwise this method returns false.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/BC73FA06">Clear<wbr>()<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Removes all states from this selector.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/94847E15">ForceSetState<wbr>()<wbr></a></td>
-								<td>bool</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.FSM.StateMachine`1.ForceSetState(`0)</code> for the highest priority state in this selector
-    and returns true. Or does nothing and returns false if there are no states.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/0377F40E">TryResetState<wbr>()<wbr></a></td>
-								<td>bool</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.FSM.StateMachine`1.TryResetState(`0)</code> for each state in this selector in order of
-    priority (highest first). If one of them returns true, this method calls <code class="cs">Animancer.FSM.StateMachine`1.StateSelector.Clear</code> and
-    returns true. Otherwise it returns false.
-    </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateSelector/C000E22A">TrySetState<wbr>()<wbr></a></td>
-								<td>bool</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.FSM.StateMachine`1.TrySetState(`0)</code> for each state in this selector in order of
-    priority (highest first). If one of them returns true, this method calls <code class="cs">Animancer.FSM.StateMachine`1.StateSelector.Clear</code> and
-    returns true. Otherwise it returns false.
-    </div>
 								</td>
 							</tr>
 					</tbody></table>

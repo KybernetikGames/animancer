@@ -514,18 +514,18 @@
 	<section class="content">
 		<p><em>This is a <a href="../introduction/features"><strong>Pro-Only Feature</strong></a>: you can try it out in the Unity Editor with <a href="/animancer/lite">Animancer Lite</a>, but it will not be available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <p>Unity's <a href="https://docs.unity3d.com/Manual/com.unity.timeline.html">Timeline</a> package is a sequencing system that can manage things like animations, audio, particle systems, and other events in order to develop things like cut-scenes and cinematics.</p>
-<p>Timeline Assets are normally played using a <code>PlayableDirector</code> but Animancer can also play them with a <code>PlayableAssetState</code>:</p>
+<p>Timeline Assets are normally played using a <code>PlayableDirector</code> but Animancer can also play them with a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>:</p>
 <table class="table">
 <thead>
 <tr>
 <th><code>PlayableDirector</code></th>
-<th><code>PlayableAssetState</code></th>
+<th><code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Outside of Animancer, Timeline Assets are played using a <code>PlayableDirector</code> component as explained in the official <a href="https://learn.unity.com/tutorial/timeline">Timeline Tutorial</a>.</td>
-<td>Inside Animancer, Timeline Assets are played using a <code>PlayableAssetState</code> as explained in the <a href="../examples/fsm/platformer">Platformer</a> example.</td>
+<td>Inside Animancer, Timeline Assets are played using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> as explained in the <a href="../examples/fsm/platformer">Platformer</a> example.</td>
 </tr>
 <tr>
 <td>Even with Animancer, this is still often the best way to play Timelines that control multiple characters.</td>
@@ -536,7 +536,7 @@
 <h1 id="example">Example</h1>
 <p>Instructions for creating Timeline Assets can be found in the <a href="https://docs.unity3d.com/Manual/com.unity.timeline.html">Timeline Documentation</a> and the official <a href="https://learn.unity.com/tutorial/timeline">Timeline Tutorial</a> so it will not be explained here.</p>
 <p><img src="timeline.png" class="img-responsive"></p>
-<p>Once you have created a Timeline Asset, using it in Animancer is just as easy as playing a single <code>AnimationClip</code>. You simply use a <code>PlayableAssetTransition</code> or <code>PlayableAssetState</code> instead of the usual <code>ClipTransition</code> or <code>ClipState</code>.</p>
+<p>Once you have created a Timeline Asset, using it in Animancer is just as easy as playing a single <code>AnimationClip</code>. You simply use a <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code> or <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> instead of the usual <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> or <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>.</p>
 <table class="table">
   <thead>
     <tr><th>Code</th>
@@ -546,10 +546,10 @@
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private&nbsp;AnimancerComponent&nbsp;_Animancer;
+private&nbsp;<a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a>&nbsp;_Animancer;
 
 [SerializeField]
-private&nbsp;PlayableAssetTransition&nbsp;_Animation;
+private&nbsp;<a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a>&nbsp;_Animation;
 
 private void Awake()
 {
@@ -563,8 +563,8 @@ private void Awake()
 <p>The <a href="/platformer">Platformer Game Kit</a> uses a Timeline for its <a href="/platformer/docs/characters/states/introduction">Introduction State</a>.</p>
 <h1 id="bindings">Bindings</h1>
 <p>Timelines can contain multiple "Tracks" which each control a different object in the scene. Since a <code>TimelineAsset</code> is an asset, it can't directly reference scene objects so whatever plays it needs to specify its bindings to assign the object each track controls.</p>
-<p>The easiest way to assign the bindings is to use a <code>PlayableAssetTransition</code> which shows fields for them in the Inspector, but you can also access the <code>PlayableAssetState.Bindings</code> list in scripts.</p>
-<p>If the first track of the <code>TimelineAsset</code> used in a <code>PlayableAssetState</code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</p>
+<p>The easiest way to assign the bindings is to use a <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code> which shows fields for them in the Inspector, but you can also access the <code><a href="/animancer/api/Animancer/PlayableAssetState/E60CE120">PlayableAssetState.Bindings</a></code> list in scripts.</p>
+<p>If the first track of the <code>TimelineAsset</code> used in a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</p>
 
 	</section>
                 

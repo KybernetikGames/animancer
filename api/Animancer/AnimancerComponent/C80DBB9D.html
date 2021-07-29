@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li class="active"><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v6.1</a></li>
+        <li class="active"><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.0</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -83,6 +83,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Parameters">Parameters</a></p>
 <p><a href="#ReturnValue">Return Value</a></p>
 <hr class="infobar-hidden">
@@ -150,11 +151,13 @@
 		<li class="header">Type</li>
 		<li><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></li>
 		<li role="separator" class="divider"></li>
+			<li class="header">Field Members</li>
+				<li><a href="/animancer/api/Animancer/AnimancerComponent/CB089022">Default<wbr>Execution<wbr>Order</a></li>
 			<li class="header">Property Members</li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/5383BFD3">ActionOnDisable</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/091C3FB0">Animator</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/62516EAF">InitialUpdateMode</a></li>
-				<li><a href="/animancer/api/Animancer/AnimancerComponent/4FA46F1C">Is<wbr>Playable<wbr>Initialised</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerComponent/C09FBE13">Is<wbr>Playable<wbr>Initialized</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/5A1697AB">Layers</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/7C86D75E">Playable</a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/478CDD7C">States</a></li>
@@ -167,9 +170,8 @@
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/DBA6EB70">~AnimancerComponent<wbr>()<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/76D51F30">GatherAnimationClips<wbr>(ICollection<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/E5FC8FE6">GetAnimationClips<wbr>(List<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></li>
-				<li><a href="/animancer/api/Animancer/AnimancerComponent/453879A0">GetEnumerator<wbr>()<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/89FA83CF">GetKey<wbr>(AnimationClip)<wbr></a></li>
-				<li><a href="/animancer/api/Animancer/AnimancerComponent/C927F093">InitialisePlayable<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerComponent/030CE56F">InitializePlayable<wbr>()<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/4A841AF6">IsPlaying<wbr>(AnimationClip)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/04AA048F">IsPlaying<wbr>(IHasKey)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/AnimancerComponent/3DC15A40">IsPlaying<wbr>(Object)<wbr></a></li>
@@ -217,14 +219,6 @@
 	<div class="lead">
     Starts fading in the `state` while fading out all others in the same layer over the course of the
     `fadeDuration`. Returns the `state`.
-    <p></p>
-    If the `state` was already playing and fading in with less time remaining than the `fadeDuration`, this
-    method will allow it to complete the existing fade rather than starting a slower one.
-    <p></p>
-    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will fade in the layer itself
-    and simply <code class="cs">AnimancerState.Play(AnimancerState)</code> the `state`.
-    <p></p>
-    <em>Animancer Lite only allows the default `fadeDuration` (0.25 seconds) in runtime builds.</em>
     </div>
 
 		<div class="panel panel-default">
@@ -247,6 +241,18 @@
 	<pre><code>public AnimancerState Play(AnimancerState state, float fadeDuration, FadeMode mode = FixedSpeed)</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    If the `state` was already playing and fading in with less time remaining than the `fadeDuration`, this
+    method will allow it to complete the existing fade rather than starting a slower one.
+    <p></p>
+    If the layer currently has 0 <code class="cs">Animancer.AnimancerNode.Weight</code>, this method will fade in the layer itself
+    and simply <code class="cs">Animancer.AnimancerState.Play</code> the `state`.
+    <p></p>
+    This method is safe to call repeatedly without checking whether the `state` was already playing.
+    <p></p>
+    <em>Animancer Lite only allows the default `fadeDuration` (0.25 seconds) in runtime builds.</em>
+    </div>
 
 
 

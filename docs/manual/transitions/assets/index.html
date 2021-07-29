@@ -521,20 +521,20 @@
 </thead>
 <tbody>
 <tr>
-<td><code>ClipState</code></td>
+<td><code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code></td>
 <td>The most common type of <a href="../../playing/states">State</a>. Manages the runtime details of an <code>AnimationClip</code> such as its <code>Time</code>, <code>Speed</code>, <code>Events</code>, etc.</td>
 </tr>
 <tr>
-<td><code>ClipTransition</code></td>
-<td>A serializable class which allows the above details to be defined in the Inspector and will create a <code>ClipState</code> when played (see <a href="../">Transitions</a> for more information).</td>
+<td><code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code></td>
+<td>A serializable class which allows the above details to be defined in the Inspector and will create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> when played (see <a href="../">Transitions</a> for more information).</td>
 </tr>
 <tr>
-<td><code>ClipTransitionAsset</code></td>
-<td>A <code>ScriptableObject</code> with a <code>ClipTransition</code> field.</td>
+<td><code><a href="/animancer/api/Animancer/ClipTransitionAsset">ClipTransitionAsset</a></code></td>
+<td>A <code>ScriptableObject</code> with a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> field.</td>
 </tr>
 <tr>
-<td><code>ClipTransitionAsset</code><br><code>.UnShared</code></td>
-<td>A serializable class with a <code>ClipTransitionAsset</code> field and its own copy of the transition's <code>‌State</code> and <code>Events</code> in order to avoid conflicts between characters who share the same asset. See the <a href="#unshared">UnShared</a> section for more information.</td>
+<td><code><a href="/animancer/api/Animancer/ClipTransitionAsset">ClipTransitionAsset</a></code><br><code>.UnShared</code></td>
+<td>A serializable class with a <code><a href="/animancer/api/Animancer/ClipTransitionAsset">ClipTransitionAsset</a></code> field and its own copy of the transition's <code>‌State</code> and <code>Events</code> in order to avoid conflicts between characters who share the same asset. See the <a href="#unshared">UnShared</a> section for more information.</td>
 </tr>
 </tbody>
 </table>
@@ -556,7 +556,7 @@ using UnityEngine;
 public class TransitionExample : MonoBehaviour
 {
     [SerializeField] 
-    private ClipTransition _Animation;
+    private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
 }
 </code></pre>
 </td>
@@ -567,7 +567,7 @@ using UnityEngine;
 public class TransitionExample : MonoBehaviour
 {
     [SerializeField] 
-    private ClipTransition _Animation;
+    private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
 }
 </code></pre>
 </td>
@@ -587,8 +587,8 @@ public class TransitionExample : MonoBehaviour
 </table>
 <h1 id="unshared">UnShared</h1>
 <p>After you play a transition, its <code>‌State</code> property stores a reference to the <a href="../../playing/states">Animancer State</a> it created. More specifically, a single transition can be used to create multiple states (usually on different characters who share the same transition asset) so the <code>‌State</code> property actually only references the most recently created or played state. This leads to a problem where each character wants to access their own state, but because the asset can only remember one state at a time each character needs to store their own state in another field beside their reference to the transition.</p>
-<p>Any <a href="../../events/animancer">Animancer Events</a> stored in the transition's <code>Events</code> property suffer from the same limitation. Each transition only has one <code>AnimancerEvent.Sequence</code> containing one list of event times and callbacks, but each character sharing the same transition will usually want to assign their own callbacks to it.</p>
-<p>These problems can be avoided by using the <code>UnShared</code> class nested inside each transition asset class (e.g. <code>ClipTransitionAsset.UnShared</code>) instead of directly referencing the transition asset itself (e.g. <code>ClipTransition</code>). <code>UnShared</code> is a serializable class which holds a reference to the transition asset and also keeps its own reference to the <code>‌State</code> and its own copy of the <code>Events</code> for each character.</p>
+<p>Any <a href="../../events/animancer">Animancer Events</a> stored in the transition's <code>Events</code> property suffer from the same limitation. Each transition only has one <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> containing one list of event times and callbacks, but each character sharing the same transition will usually want to assign their own callbacks to it.</p>
+<p>These problems can be avoided by using the <code>UnShared</code> class nested inside each transition asset class (e.g. <code><a href="/animancer/api/Animancer/UnShared">ClipTransitionAsset.UnShared</a></code>) instead of directly referencing the transition asset itself (e.g. <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>). <code>UnShared</code> is a serializable class which holds a reference to the transition asset and also keeps its own reference to the <code>‌State</code> and its own copy of the <code>Events</code> for each character.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Direct</th>
@@ -607,13 +607,13 @@ using UnityEngine;
 public class SharedExample : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
     [SerializeField] 
-    private LinearMixerTransition _Mixer;
+    private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
 
     // Store the state separately.
-    private LinearMixerState _State;
+    private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _State;
 
     private void OnEnable()
     {
@@ -639,11 +639,11 @@ using UnityEngine;
 public class UnSharedExample : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
     [SerializeField]
     private
-LinearMixerTransitionAsset.UnShared _Mixer;
+<a href="/animancer/api/Animancer/UnShared">LinearMixerTransitionAsset.UnShared</a> _Mixer;
 
     // No additional field.
 

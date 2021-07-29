@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v6.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.0</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -154,12 +154,14 @@
 		<li role="separator" class="divider"></li>
 			<li class="header">Class Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/DelegateState">DelegateState</a></li>
+				<li><a href="/animancer/api/Animancer.FSM/ReverseComparer_1">ReverseComparer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/State">State</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine<wbr>&lt;TState&gt;<wbr></a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine<wbr>&lt;TKey, <wbr>TState&gt;<wbr></a></li>
 			<li class="header">Interface Types</li>
+				<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IOwnedState_1">IOwnedState<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IPrioritizable">IPrioritizable</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IState">IState</a></li>
@@ -202,6 +204,7 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine</a><wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>&gt;<wbr></li>								
 											<li>IDictionary<wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>, <wbr><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a>&gt;<wbr></li>								
 									</ul>
 								</dd>
@@ -222,7 +225,8 @@
 							graph BT
 	Type--&gt;Base0["StateMachine&lt;TState&gt;"]
 	Base0--&gt;Base1["Object"]
-	Type-.-&gt;Interface0["IDictionary&lt;TKey, TState&gt;"]
+	Type-.-&gt;Interface0["IKeyedStateMachine&lt;TKey&gt;"]
+	Type-.-&gt;Interface1["IDictionary&lt;TKey, TState&gt;"]
 	Type["StateMachine&lt;TKey, TState&gt;"]
 class Type type-node
 
@@ -234,7 +238,8 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[HelpURL(StateExtensions.APIDocumentationURL + nameof(StateMachine&lt;TState&gt;) + "_2")]
-public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDictionary&lt;TKey, TState&gt; 
+public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKeyedStateMachine&lt;TKey&gt;, 
+    IDictionary&lt;TKey, TState&gt;
     where TState : class, IState</code></pre>
 
 
@@ -244,7 +249,7 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
     See <code class="cs">Animancer.FSM.StateMachine`1</code> for a system that does not bother keeping track of any states other than
     the active one.
     <p></p>
-    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/fsm">Finite State Machines</a>
+    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/fsm/keys">Keyed State Machines</a>
     </div>
 
 	<h1 id="Attributes">Attributes</h1>
@@ -356,7 +361,7 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/DB77EB62">CurrentKey</a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a></td>
 								<td>
-									<div>The current state.</div>
+									<div>The key which identifies the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.</div>
 								</td>
 							</tr>
 							<tr>
@@ -364,13 +369,6 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td>IDictionary<wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>, <wbr><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a>&gt;<wbr></td>
 								<td>
 									<div>The collection of states mapped to a particular key.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/DB449344">IsReadOnly</a></td>
-								<td>bool</td>
-								<td>
-									<div>Indicates whether the <code class="cs">Animancer.FSM.StateMachine`2.Dictionary</code> is read-only.</div>
 								</td>
 							</tr>
 							<tr>
@@ -384,21 +382,21 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/1C028CB6">NextKey</a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a></td>
 								<td>
-									<div>Returns the <code class="cs">Animancer.FSM.KeyChange`1.NextKey</code>.</div>
+									<div>The <code class="cs">Animancer.FSM.KeyChange`1.NextKey</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/57283CA3">PreviousKey</a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a></td>
 								<td>
-									<div>Returns the <code class="cs">Animancer.FSM.KeyChange`1.PreviousKey</code>.</div>
+									<div>The <code class="cs">Animancer.FSM.KeyChange`1.PreviousKey</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/33B33093">this[TKey]</a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
-									<div>Gets or sets a particular state in the <code class="cs">Animancer.FSM.StateMachine`2.Dictionary</code>.</div>
+									<div>The state registered with the `key` in the <code class="cs">Animancer.FSM.StateMachine`2.Dictionary</code>.</div>
 								</td>
 							</tr>
 							<tr>
@@ -478,8 +476,9 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
 									<div>
-    Uses <code class="cs">Animancer.FSM.StateMachine`2.ForceSetState(`0,`1)</code> to change to the state mapped to the `key`. If nothing is mapped,
-    it changes to default(TState).
+    Uses <code class="cs">Animancer.FSM.StateMachine`2.ForceSetState(`0,`1)</code> to change to the state registered with the `key`. If nothing
+    is registered, it use <code class="cs">null</code> and will throw an exception unless
+    <code class="cs">Animancer.FSM.StateMachine`1.AllowNullStates</code> is enabled.
     </div>
 								</td>
 							</tr>
@@ -488,12 +487,8 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td>void</td>
 								<td>
 									<div>
-    Calls <code class="cs">Animancer.FSM.IState.OnExitState</code> on the current state then changes to the specified key and
-    state and calls <code class="cs">Animancer.FSM.IState.OnEnterState</code> on it.
-    <p></p>
-    Note that this method does not check <code class="cs">Animancer.FSM.IState.CanExitState</code> or
-    <code class="cs">Animancer.FSM.IState.CanEnterState</code>. To do that, you should use
-    <code class="cs">Animancer.FSM.StateMachine`2.TrySetState(`0,`1)</code> instead.
+    Calls <code class="cs">Animancer.FSM.IState.OnExitState</code> on the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code> then changes
+    to the specified `key` and `state` and calls <code class="cs">Animancer.FSM.IState.OnEnterState</code> on it.
     </div>
 								</td>
 							</tr>
@@ -508,9 +503,7 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/8E1BFD78">GetState<wbr>(TKey)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
-									<div>
-    Returns the state associated with the specified `key`, or null if none is present.
-    </div>
+									<div>Returns the state registered with the specified `key`, or null if none is present.</div>
 								</td>
 							</tr>
 							<tr>
@@ -531,7 +524,9 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/72F51D1C">SetFakeKey<wbr>(TKey)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Sets the <code class="cs">Animancer.FSM.StateMachine`2.CurrentKey</code> without actually changing the state.</div>
+									<div>
+    Sets the <code class="cs">Animancer.FSM.StateMachine`2.CurrentKey</code> without changing the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -548,56 +543,35 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IDic
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/434B26D6">TryGetValue<wbr>(TKey, <wbr>TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>Gets the state associated with the specified `key` in the <code class="cs">Animancer.FSM.StateMachine`2.Dictionary</code>.</div>
+									<div>Gets the state registered with the specified `key` in the <code class="cs">Animancer.FSM.StateMachine`2.Dictionary</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/24D1665B">TryResetState<wbr>(TKey)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
-									<div>
-    Attempts to enter the specified state associated with the specified `key` and returns it if successful.
-    <p></p>
-    This method does not check if the `key` is already the <code class="cs">Animancer.FSM.StateMachine`2.CurrentKey</code>. To do so, use
-    <code class="cs">Animancer.FSM.StateMachine`2.TrySetState(`0)</code> instead.
-    </div>
+									<div>Attempts to enter the state registered with the specified `key` and returns it if successful.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/8AA31107">TryResetState<wbr>(TKey, <wbr>TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Attempts to enter the specified `state` and returns true if successful.
-    <p></p>
-    This method does not check if the `state` is already the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.
-    To do so, use <code class="cs">Animancer.FSM.StateMachine`2.TrySetState(`0,`1)</code> instead.
-    </div>
+									<div>Attempts to enter the specified `state` and returns true if successful.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/01145A43">TrySetState<wbr>(TKey)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
-									<div>
-    Attempts to enter the specified state associated with the specified `key` and returns it if successful.
-    <p></p>
-    This method returns true immediately if the specified `key` is already the <code class="cs">Animancer.FSM.StateMachine`2.CurrentKey</code>. To
-    allow directly re-entering the same state, use <code class="cs">Animancer.FSM.StateMachine`2.TryResetState(`0)</code> instead.
-    </div>
+									<div>Attempts to enter the state registered with the specified `key` and returns it if successful.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/157875A0">TrySetState<wbr>(TKey, <wbr>TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Attempts to enter the specified `state` and returns true if successful.
-    <p></p>
-    This method returns true immediately if the specified `state` is already the
-    <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>. To allow directly re-entering the same state, use
-    <code class="cs">Animancer.FSM.StateMachine`2.TryResetState(`0,`1)</code> instead.
-    </div>
+									<div>Attempts to enter the specified `state` and returns true if successful.</div>
 								</td>
 							</tr>
 					</tbody></table>

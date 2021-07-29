@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v6.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.0</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -153,12 +153,14 @@
 		<li role="separator" class="divider"></li>
 			<li class="header">Class Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/DelegateState">DelegateState</a></li>
+				<li><a href="/animancer/api/Animancer.FSM/ReverseComparer_1">ReverseComparer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/State">State</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine<wbr>&lt;TKey, <wbr>TState&gt;<wbr></a></li>
 			<li class="header">Interface Types</li>
+				<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IOwnedState_1">IOwnedState<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IPrioritizable">IPrioritizable</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IState">IState</a></li>
@@ -227,34 +229,33 @@ class Type type-node
 public static class StateExtensions</code></pre>
 
 	<h1 id="Examples">Examples</h1>
-	<div>
-    <pre><code class="cs">public class Creature : MonoBehaviour
+	<div><pre><code class="cs">public class Character : MonoBehaviour
 {
-    public StateMachine&lt;CreatureState&gt; StateMachine { get; private set; }
+    public StateMachine&lt;CharacterState&gt; StateMachine { get; private set; }
 }
 
-public class CreatureState : StateBehaviour, IOwnedState&lt;CreatureState&gt;
+public class CharacterState : StateBehaviour, IOwnedState&lt;CharacterState&gt;
 {
     [SerializeField]
-    private Creature _Creature;
-    public Creature Creature =&gt; _Creature;
+    private Character _Character;
+    public Character Character =&gt; _Character;
     
-    public StateMachine&lt;CreatureState&gt; OwnerStateMachine =&gt; _Creature.StateMachine;
+    public StateMachine&lt;CharacterState&gt; OwnerStateMachine =&gt; _Character.StateMachine;
 }
 
-public class CreatureBrain : MonoBehaviour
+public class CharacterBrain : MonoBehaviour
 {
-    [SerializeField] private Creature _Creature;
-    [SerializeField] private CreatureState _Jump;
+    [SerializeField] private Character _Character;
+    [SerializeField] private CharacterState _Jump;
     
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // Normally you would need to refer to both the state machine and the state:
-            _Creature.StateMachine.TrySetState(_Jump);
+            _Character.StateMachine.TrySetState(_Jump);
             
-            // But since CreatureState implements IOwnedState you can use these extension methods:
+            // But since CharacterState implements IOwnedState you can use these extension methods:
             _Jump.TryEnterState();
         }
     }
@@ -269,12 +270,12 @@ public class CreatureBrain : MonoBehaviour
     'StateType' to 'Animancer.FSM.IOwnedState&lt;StateType&gt;'.</em>
     <p></p>
     For example, you might want to access members of a derived state class like this <code class="cs">SetTarget</code> method:
-    <p></p><pre><code class="cs">public class AttackState : CreatureState
+    <p></p><pre><code class="cs">public class AttackState : CharacterState
 {
     public void SetTarget(Transform target) { }
 }
 
-public class CreatureBrain : MonoBehaviour
+public class CharacterBrain : MonoBehaviour
 {
     [SerializeField] private AttackState _Attack;
     
@@ -284,28 +285,26 @@ public class CreatureBrain : MonoBehaviour
         {
             _Attack.SetTarget(...)
             // Can't do _Attack.TryEnterState();
-            _Attack.TryEnterState&lt;CreatureState&gt;();
+            _Attack.TryEnterState&lt;CharacterState&gt;();
         }
     }
 }</code></pre>
     Unlike the <code class="cs">_Jump</code> example, the <code class="cs">_Attack</code> field is an <code class="cs">AttackState</code> rather than the base
-    <code class="cs">CreatureState</code> so we can call <code class="cs">_Attack.SetTarget(...)</code> but that causes problems with these extension
+    <code class="cs">CharacterState</code> so we can call <code class="cs">_Attack.SetTarget(...)</code> but that causes problems with these extension
     methods.
     <p></p>
     Calling the method without specifying its generic argument automatically uses the variable's type as the
     argument so both of the following calls do the same thing:
     <p></p><pre><code class="cs">_Attack.TryEnterState();
 _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
-    <p></p>
     The problem is that <code class="cs">AttackState</code> inherits the implementation of <code class="cs">IOwnedState</code> from the base
-    <code class="cs">CreatureState</code> class. But since that implementation is <code class="cs">IOwnedState&lt;CreatureState&gt;</code>, rather
+    <code class="cs">CharacterState</code> class. But since that implementation is <code class="cs">IOwnedState&lt;CharacterState&gt;</code>, rather
     than <code class="cs">IOwnedState&lt;AttackState&gt;</code> that means <code class="cs">TryEnterState&lt;AttackState&gt;</code> does not satisfy
     that method's generic constraints: <code class="cs">where TState : class, IOwnedState&lt;TState&gt;</code>
     <p></p>
     That is why you simply need to specify the base class which implements <code class="cs">IOwnedState</code> as the generic
     argument to prevent it from inferring the wrong type:
-    <p></p><pre><code class="cs">_Attack.TryEnterState&lt;CreatureState&gt;();</code></pre>  
-    </div>
+    <p></p><pre><code class="cs">_Attack.TryEnterState&lt;CharacterState&gt;();</code></pre></div>
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
@@ -375,7 +374,7 @@ _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/5B0E6FCF">ForceEnterState<wbr>&lt;TState&gt;<wbr><wbr>(TState)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>
+									<div>[Animancer Extension]
     Calls <code class="cs">Animancer.FSM.IState.OnExitState</code> on the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code> then
     changes to the specified `state` and calls <code class="cs">Animancer.FSM.IState.OnEnterState</code> on it.
     <p></p>
@@ -389,7 +388,7 @@ _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/9B52059D">GetNextState<wbr>&lt;TState&gt;<wbr><wbr>(TState)<wbr></a></td>
 								<td>TState</td>
 								<td>
-									<div>Returns the <code class="cs">Animancer.FSM.StateChange`1.NextState</code>.</div>
+									<div>[Animancer Extension] Returns the <code class="cs">Animancer.FSM.StateChange`1.NextState</code>.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -397,7 +396,7 @@ _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/3AC16A55">GetPreviousState<wbr>&lt;TState&gt;<wbr><wbr>(TState)<wbr></a></td>
 								<td>TState</td>
 								<td>
-									<div>Returns the <code class="cs">Animancer.FSM.StateChange`1.PreviousState</code>.</div>
+									<div>[Animancer Extension] Returns the <code class="cs">Animancer.FSM.StateChange`1.PreviousState</code>.</div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -405,7 +404,7 @@ _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/F4A1CFFA">IsCurrentState<wbr>&lt;TState&gt;<wbr><wbr>(TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
+									<div>[Animancer Extension]
     Checks if the specified `state` is the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code> in its
     <code class="cs">Animancer.FSM.IOwnedState`1.OwnerStateMachine</code>.
     </div>
@@ -416,7 +415,7 @@ _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/6D69868A">TryEnterState<wbr>&lt;TState&gt;<wbr><wbr>(TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
+									<div>[Animancer Extension]
     Attempts to enter the specified `state` and returns true if successful.
     <p></p>
     This method returns true immediately if the specified `state` is already the
@@ -430,7 +429,7 @@ _Attack.TryEnterState&lt;AttackState&gt;();</code></pre>
 								<td><a href="/animancer/api/Animancer.FSM/StateExtensions/828B07B9">TryReEnterState<wbr>&lt;TState&gt;<wbr><wbr>(TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
+									<div>[Animancer Extension]
     Attempts to enter the specified `state` and returns true if successful.
     <p></p>
     This method does not check if the `state` is already the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.

@@ -549,34 +549,34 @@
   </tbody>
 </table>
 <h1 id="details">Details</h1>
-<p>While a <code>StateMachine</code> is changing its state (throughout all of the <code>Can...</code> and <code>On...</code> methods in the <code>IState</code> interface), references to the <code>PreviousState</code> and <code>NextState</code> can be accessed in several ways:</p>
+<p>While a <code>StateMachine</code> is changing its state (throughout all of the <code>Can...</code> and <code>On...</code> methods in the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface), references to the <code>PreviousState</code> and <code>NextState</code> can be accessed in several ways:</p>
 <ul>
-<li>The static <code>StateChange&lt;TState&gt;.PreviousState</code> and <code>NextState</code> properties can be accessed from anywhere.</li>
+<li>The static <code><a href="/animancer/api/Animancer.FSM/StateChange_1/E42BA615">StateChange&lt;TState&gt;.PreviousState</a></code> and <code>NextState</code> properties can be accessed from anywhere.</li>
 <li>If you have a reference to the <code>StateMachine</code> you can use its properties of the same name (i.e. <code>stateMachine.PreviousState</code>) to avoid needing to specify the <code>TState</code> generic argument.</li>
-<li>Inside a class that implements <code>IState</code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../../introduction/cs/methods/extension">Extension Methods</a> defined in the <code>StateExtensions</code> class.
+<li>Inside a class that implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../../introduction/cs/methods/extension">Extension Methods</a> defined in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class.
 <ul>
 <li>Using those <a href="../../introduction/cs/methods/extension">Extension Methods</a> without specifying the generic <code>TState</code> parameter relies on the compiler to infer the parameter which can sometimes lead to it accessing the wrong type and therefore not working properly.</li>
-<li>For example, if you have a <code>StateMachine&lt;CharacterState&gt;</code> then you obviously need to check <code>StateChange&lt;CharacterState&gt;</code>, but if an <code>IdleState</code> calls <code>this.GetPreviousState()</code> the compiler will infer the generic type as <code>IdleState</code> and try to access <code>StateChange&lt;IdleState&gt;</code> which will be empty and cause it to throw an <code>InvalidOperationException: Attempted to access StateChange&lt;...&gt; but no StateMachine of that type is currently changing its State</code>.</li>
+<li>For example, if you have a <code>StateMachine&lt;CharacterState&gt;</code> then you obviously need to check <code>StateChange&lt;CharacterState&gt;</code>, but if an <code>IdleState</code> calls <code>this.GetPreviousState()</code> the compiler will infer the generic type as <code>IdleState</code> and try to access <code>StateChange&lt;IdleState&gt;</code> which will be empty and cause it to throw an <code>InvalidOperationException: Attempted to access StateChange&lt;...&gt; but no StateMachine of that type is currently changing its <a href="/animancer/api/Animancer.FSM/State">State</a></code>.</li>
 <li>This can be avoided by specifying the generic parameter yourself: <code>this.GetPreviousState&lt;CharacterState&gt;()</code>.</li>
 </ul>
 </li>
 </ul>
-<p>All of those properties will throw an exception if no state change is currently occurring (which can be checked using <code>StateChange&lt;TState&gt;.IsActive</code>).</p>
+<p>All of those properties will throw an exception if no state change is currently occurring (which can be checked using <code><a href="/animancer/api/Animancer.FSM/StateChange_1/4C55264A">StateChange&lt;TState&gt;.IsActive</a></code>).</p>
 <h1 id="examples">Examples</h1>
 <ul>
 <li>You cannot <code>Jump</code> if you are not on the ground so <code>Jump.CanEnterState</code> checks whether the character is on the ground (or asks whatever system is responsible for checking that).</li>
 <li>You cannot perform other actions during an <code>Attack</code> so <code>Attack.CanExitState</code> returns false.</li>
-<li><code>Attack</code>s can be interrupted if you get hit or killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code>StateChange&lt;TState&gt;.NextState</code> is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the priority of each state or type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some characters but not others) yet they all use the same <code>CharacterAction.Attack</code> as their type. The <a href="../../examples/fsm/interrupts">Interrupt Management</a> example goes into more detail about this.</li>
+<li><code>Attack</code>s can be interrupted if you get hit or killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code><a href="/animancer/api/Animancer.FSM/StateChange_1/C03C45F6">StateChange&lt;TState&gt;.NextState</a></code> is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the priority of each state or type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some characters but not others) yet they all use the same <code>CharacterAction.Attack</code> as their type. The <a href="../../examples/fsm/interrupts">Interrupt Management</a> example goes into more detail about this.</li>
 <li>Once the <code>Attack</code> animation finishes, it needs to be able to return to <code>Idle</code>. This could be done by having <code>Attack.CanExitState</code> check the current animation time as well, but since the <code>Attack</code> state already knows it is ending and <code>Idle</code> is unlikely to impose any constraints on when it can be entered you could simply use <code>ForceSetState</code> to skip the check.</li>
 </ul>
 <p>The <a href="../../examples/fsm">State Machines</a> examples go into more detail and demonstrate these ideas in action.</p>
 <h1 id="initialisation">Initialisation</h1>
 <p>A <code>StateMachine</code> can be created and have its state changed at any time so the system is very flexible, but when multiple scripts are all interacting with the same <code>StateMachine</code> it can be easy to cause bugs if you don't pay close attention to their execution order. The following initialisation pattern is often useful to avoid those problems:</p>
 <pre><code class="language-cs">[SerializeField]
-private State _Idle;
+private <a href="/animancer/api/Animancer.FSM/State">State</a> _Idle;
 
-public readonly StateMachine&lt;State&gt;
-    StateMachine = new StateMachine&lt;State&gt;();
+public readonly StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;
+    StateMachine = new StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;();
 
 private void Awake()
 {
@@ -596,41 +596,41 @@ private void Awake()
 <p></p><details><summary>Here are some of the other approaches that could be used and a summary of their problems:</summary><p>
 </p><h2 id="create-in-awake">Create in Awake</h2>
 <pre><code class="language-cs">[SerializeField]
-private State _Idle;
+private <a href="/animancer/api/Animancer.FSM/State">State</a> _Idle;
 
-public StateMachine&lt;State&gt; StateMachine { get; private set; }
+public StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt; StateMachine { get; private set; }
 
 private void Awake()
 {
-    StateMachine = new StateMachine&lt;State&gt;(_Idle);
+    StateMachine = new StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;(_Idle);
 }
 </code></pre>
 <p>If another script executes before this <code>Awake</code> method gets called, the <code>StateMachine</code> will still be null.</p>
 <h2 id="initialize-in-field-initializer">Initialize in Field Initializer</h2>
 <pre><code class="language-cs">[SerializeField]
-private State _Idle;
+private <a href="/animancer/api/Animancer.FSM/State">State</a> _Idle;
 
-public readonly StateMachine&lt;State&gt;
-    StateMachine = new StateMachine&lt;State&gt;(_Idle);
+public readonly StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;
+    StateMachine = new StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;(_Idle);
 </code></pre>
 <p>This gives a compiler error because <a href="../../introduction/cs/variables#field-initializers">Field Initializers</a> can't access instance fields (<code>_Idle</code> is an instance field).</p>
 <h2 id="initialize-in-constructor">Initialize in Constructor</h2>
 <pre><code class="language-cs">[SerializeField]
-private State _Idle;
+private <a href="/animancer/api/Animancer.FSM/State">State</a> _Idle;
 
-public readonly StateMachine&lt;State&gt; StateMachine;
+public readonly StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt; StateMachine;
 
 public MyClass()
 {
-    StateMachine = new StateMachine&lt;State&gt;(_Idle);
+    StateMachine = new StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;(_Idle);
 }
 </code></pre>
 <p>This will compile and run fine, but <a href="../../introduction/cs/methods/constructors">Constructors</a> are executed immediately when the object is created which is before Unity's <a href="../../introduction/cs/variables#serialized-fields">Serialization</a> system can deserialize its fields, meaning that the <code>_Idle</code> field will still be <code>null</code>.</p>
 <p></p></details><p></p>
 <h1 id="default-states">Default States</h1>
-<p>A regular <code>StateMachine&lt;TState&gt;</code> doesn't keep track of any states other than the <code>CurrentState</code>, but it is often useful to have a particular state that it can return to by default if nothing else is active so the <code>StateMachine&lt;TState&gt;.WithDefault</code> class allows you to do that:</p>
+<p>A regular <code><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> doesn't keep track of any states other than the <code>CurrentState</code>, but it is often useful to have a particular state that it can return to by default if nothing else is active so the <code><a href="/animancer/api/Animancer.FSM/WithDefault">StateMachine&lt;TState&gt;.WithDefault</a></code> class allows you to do that:</p>
 <ul>
-<li>It inherits from the base <code>StateMachine&lt;TState&gt;</code>, meaning it has the usual <code>CurrentState</code> property and methods for <a href="changing-states">Changing States</a>.</li>
+<li>It inherits from the base <code><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code>, meaning it has the usual <code>CurrentState</code> property and methods for <a href="changing-states">Changing States</a>.</li>
 <li>It has a <code>DefaultState</code> property. If there is no <code>CurrentState</code> when you set the default, the state machine will immediately enter that state.</li>
 <li>It also has a <code>ForceSetDefaultState</code> callback which is useful for <a href="../events/end">End Events</a> if you want to return to the default state when an animation ends.</li>
 </ul>
@@ -638,8 +638,8 @@ public MyClass()
 <pre><code class="language-cs">public sealed class Character : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
-    public AnimancerComponent Animancer =&gt; _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 	
     [SerializeField]
     private CharacterState _Idle;
@@ -654,7 +654,7 @@ public MyClass()
 }
 </code></pre>
 <p>Then other states can use its <code>ForceSetDefaultState</code> callback for their <a href="../events/end">End Events</a>:</p>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
 {
     [SerializeField]
     private Character _Character;
@@ -674,11 +674,11 @@ public sealed class AttackState : CharacterState
 }
 </code></pre>
 <h1 id="design-rationale">Design Rationale</h1>
-<p>The state change system might seem a bit complicated compared to simply passing the change details into the <code>IState</code> methods as parameters, but there are several main advantages to this design in terms of minimising <a href="https://en.wikipedia.org/wiki/Boilerplate_code">Boilerplate Code</a> and maximising the flexibility of the system:</p>
+<p>The state change system might seem a bit complicated compared to simply passing the change details into the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> methods as parameters, but there are several main advantages to this design in terms of minimising <a href="https://en.wikipedia.org/wiki/Boilerplate_code">Boilerplate Code</a> and maximising the flexibility of the system:</p>
 <ul>
-<li>It allows the <code>IState</code> interface to avoid needing the state type as a generic parameter, which simplifies its usage throughout the system.</li>
+<li>It allows the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface to avoid needing the state type as a generic parameter, which simplifies its usage throughout the system.</li>
 <li>It avoids the need to declare the parameters in every state because most of the time state changes are dependent on other factors so the parameters would be unused. In particular, while <code>CanEnterState</code> will sometimes base its decision on the previous state, it's much less likely to be relevant in <code>OnEnterState</code> but the parameter would still need to be included in every implementation of that method just in case it's needed.</li>
-<li>It allows states in <a href="keys">Keyed State Machines</a> to access the key change as well as the state change without requiring them to be based on an entirely different <code>IState</code> interface (which would need to pass both the key and state into every method, meaning even more useless code when they aren't used).</li>
+<li>It allows states in <a href="keys">Keyed State Machines</a> to access the key change as well as the state change without requiring them to be based on an entirely different <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface (which would need to pass both the key and state into every method, meaning even more useless code when they aren't used).</li>
 </ul>
 <p>Here's a comparison of what various implementations would look like with either approach:</p>
 <table class="table">
@@ -689,7 +689,7 @@ public sealed class AttackState : CharacterState
 <tbody>
 <tr>
 <td>
-<pre><code class="language-cs">public interface IState
+<pre><code class="language-cs">public interface <a href="/animancer/api/Animancer.FSM/IState">IState</a>
 {
     bool CanEnterState { get; }
     bool CanExitState { get; }
@@ -711,7 +711,7 @@ public sealed class AttackState : CharacterState
 </tr>
 <tr>
 <td>
-<pre><code class="language-cs">public abstract class StateBehaviour : MonoBehaviour, IState
+<pre><code class="language-cs">public abstract class <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a> : MonoBehaviour, <a href="/animancer/api/Animancer.FSM/IState">IState</a>
 {
     public virtual bool CanEnterState ...
     public virtual bool CanExitState ...
@@ -733,7 +733,7 @@ public sealed class AttackState : CharacterState
 </tr>
 <tr>
 <td>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour ...
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a> ...
 </code></pre>
 </td>
 <td>
