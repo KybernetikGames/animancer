@@ -426,6 +426,7 @@
                 <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
                 <li><a href="/animancer/docs/bugs/animator-controller-speed">Animator Controller Speed</a></li>
                 <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/reorderable-array-height">Reorderable Array Height</a></li>
                 <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
                 <li><a href="/animancer/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
                 <li><a href="/animancer/docs/bugs/timeline">Timeline</a></li>
@@ -673,8 +674,8 @@
 <h2 id="unshared-transition-assets">UnShared Transition Assets</h2>
 <p>Added <a href="../../manual/transitions/assets#unshared">UnShared</a> classes to solve issues with the <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> and <code>Events</code> on shared <a href="../../manual/transitions/assets">Transition Asset</a>. <a href="https://github.com/KybernetikGames/animancer/issues/112">#112</a></p>
 <h2 id="serialized-references">Serialized References</h2>
-<p>Added <code><a href="/animancer/api/Animancer/IPolymorphic">IPolymorphic</a></code>, <code>[Polymorphic]</code>, and <code><a href="/animancer/api/Animancer.Editor/PolymorphicDrawer">PolymorphicDrawer</a></code> to allow the type of a <code>[SerializeReference]</code> field to be selected. These are used by <a href="../../manual/transitions">Transitions</a>, but you can also use them in your own code to avoid needing to write custom drawers.</p>
-<p>Changed <a href="../../manual/transitions/assets">Transition Assets</a> to use a <code>[SerializeReference]</code> for their <code>Transition</code> field so that child types can be used without requiring their own Transition Asset and [UnShared] classes.</p>
+<p>Added <a href="../../manual/other/polymorphic">Polymorphic Drawer</a> system to allow the type of a <code>[SerializeReference]</code> field to be selected. These are used by <a href="../../manual/transitions">Transitions</a>, but you can also use them in your own code to avoid needing to write custom drawers.</p>
+<p>Changed <a href="../../manual/transitions/assets">Transition Assets</a> to use a <code>[SerializeReference]</code> for their <code>Transition</code> field so that child types can be used without requiring their own <a href="../../manual/transitions/assets">Transition Asset</a> and <a href="../../manual/transitions/assets#unshared">UnShared</a> classes.</p>
 <p><img src="serialize-reference-transitions.gif" class="img-responsive"></p>
 <p>Also added <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code> interfaces for each state type. For example:</p>
 <ul>
@@ -721,7 +722,7 @@
 <li>Added <a href="#units-attributes">Units Attributes</a> to the example scripts where appropriate.</li>
 <li>Removed the <del>Sequence Coroutine</del> example since it was really long, spent lots of time explaining coroutines (there are plenty of other tutorials for that), and wasted time explaining several different approaches which are all worse than simply using a <code><a href="/animancer/api/Animancer/ClipTransitionSequence">ClipTransitionSequence</a></code>.</li>
 <li>Removed the <del>Walk and Run</del> example since <a href="../../examples/locomotion/linear-blending">Linear Blending</a> does the same job better.</li>
-<li>Removed the <code>PixelPerfectPositioning</code> script since Unity's <a href="https://docs.unity3d.com/Manual/com.unity.2d.pixel-perfect.html">2D Pixel Perfect</a> package is better.</li>
+<li>Removed the <code>PixelPerfectPositioning</code> script since Unity's <a href="https://docs.unity3d.com/Manual/com.unity.2d.pixel-perfect.html">2D Pixel Perfect</a> package is better (now that they have inbuilt <a href="../../manual/blending/mixers#synchronization">Time Synchronization</a>).</li>
 <li>Renamed the More Brains example to <a href="../../examples/fsm/brain-transplants">Brain Transplants</a>.</li>
 <li>Renamed everything with <code>Creature</code> in its name to <code>Character</code>.</li>
 <li>Changed the <a href="../../examples/locomotion/linear-blending">Linear Blending</a> example to use the new <a href="../../manual/transitions/assets#unshared">UnShared Transition Asset</a> system.</li>
@@ -746,7 +747,6 @@
 <li>Added <code><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></code> system. <a href="https://github.com/KybernetikGames/animancer/issues/117">#117</a></li>
 <li>Added <code>AnimancerPlayable.UpdatableCount</code> and <code>GetUpdatable</code>.</li>
 <li>Added <code>AnimancerUtilities.Assert</code> which throws an exception (unlike <code>Debug.Assert</code>) and used it where appropriate.</li>
-<li>Added <code>[DefaultValue]</code> attribute and used it in all <a href="../../manual/transitions">Transition</a> fields so you can now Mddle Click them to set them to their default value. Most fields also have a secondary value which is used if the current value is already equal to the primary default, for example: resetting a <code>Fade Duration</code> field will set it to <code>0.25</code>, but if it was already <code>0.25</code> then it will instead be set to <code>0</code>.</li>
 <li>Added <code>AnimancerState.MoveTime</code> which sets the <code>Time</code> and applies any Root Motion and <a href="../../manual/events/animation">Animation Events</a> (but not <a href="../../manual/events/animancer">Animancer Events</a>) between the old and new time. <a href="https://github.com/KybernetikGames/animancer/issues/120">#120</a></li>
 <li>Added support for <a href="../../manual/events/animancer">Animancer Events</a> on states in <a href="../../manual/blending/mixers">Mixers</a>.</li>
 <li>Changed <code><a href="/animancer/api/Animancer/AnimancerPlayable/C552B8EA">AnimancerPlayable.DefaultFadeDuration</a></code> to a property instead of a constant so it can be modified externally.
