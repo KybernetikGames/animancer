@@ -581,7 +581,7 @@
 </ul>
 <ol start="3">
 <li>Make sure all states have been assigned thresholds to determine the parameter values where they will be used and how they will blend in relation to other states. This can be done using optional parameters in the <code>Initialize</code> and <code>CreateChild</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
-<li>Optionally call <code>SetName</code> to give it a more descriptive display name to show in the Inspector.</li>
+<li>Optionally call <code>SetDebugName</code> to give it a more descriptive display name to show in the Inspector.</li>
 <li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
 </ol>
 <p></p><details><summary>The following example script uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
@@ -647,7 +647,7 @@ public sealed class LinearMixerExample : MonoBehaviour
 <h2 id="nesting">Nesting</h2>
 <p>Mixers can have any type of <a href="../../playing/states">State</a> as their children, including other mixers:</p>
 <ol>
-<li>Use <code>mixer.Initialize(portCount)</code> to specify the number of states you want.</li>
+<li>Use <code>mixer.Initialize(childCount)</code> to specify the number of states you want.</li>
 <li>Put the mixers you want to nest into the <code>mixer.States</code> array.</li>
 <li>Use <code>mixer.SetThreshold</code> (or any of the other threshold methods) to specify the parameter values you want them to blend at.</li>
 </ol>
@@ -678,23 +678,26 @@ public sealed class NestedMixerExample : MonoBehaviour
 
         // Allocate 2 child states.
         _MovementMixer.Initialize(2);
-        _MovementMixer.SetName("Movement Mixer");
+        
+        // Create Child [0] using the Regular Movement transition with a Threshold of 0.
+        // Create Child [1] using the Injured Movement transition with a Threshold of 1.
+        _MovementMixer.CreateChild(0, _RegularMovement, 0);
+        _MovementMixer.CreateChild(1, _InjuredMovement, 1);
 
-        // Create the state from the _RegularMovement transition and connect it to port 0.
-        var state = _RegularMovement.CreateState();
-        state.SetName("Regular Movement");
-        _MovementMixer.CreateChild(0, state, 0);
-
-        // Create the state from the _InjuredMovement transition and connect it to port 1.
-        var state = _InjuredMovement.CreateState();
-        state.SetName("Injured Movement");
-        _MovementMixer.CreateChild(0, state, 0);
+        // Optionally give the mixers names to show in the Inspector:
+        _MovementMixer.SetDebugName("Movement");
+        _RegularMovement.BaseState.SetDebugName("Regular Movement");
+        _InjuredMovement.BaseState.SetDebugName("Injured Movement");
 
         _Animancer.Play(_MovementMixer);
     }
 
     private void Update()
     {
+        // The _MovementMixer.Parameter corresponds to the Thresholds assigned above:
+        // 0   = Regular.
+        // 0.5 = Halfway between Regular and Injured.
+        // 1   = Injured.
         _MovementMixer.Parameter = _InjuryLevel;
 
         var movement = new Vector2(_MovementX, _MovementY);

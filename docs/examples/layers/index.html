@@ -698,8 +698,8 @@ private void OnEnable()
 
     _LayeredAnimancer.Layers[ActionLayer].SetMask(_ActionMask);
 </code></pre>
-<p>Since we set a mask it will use the name of the mask in the Inspector by default. But we can also replace it with a custom name. Either way, layer names are only used in the Inspector and any calls to <code>SetName</code> will be compiled out of runtime builds so they have no effect on performance (because that method has a [<a href="https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.conditionalattribute"><code>Conditional</code>]</a> attribute applied to it):</p>
-<pre><code class="language-cs">    _LayeredAnimancer.Layers[ActionLayer].SetName("Action Layer");
+<p>Since we set a mask it will use the name of the mask in the Inspector by default. But we can also replace it with a custom name. Either way, layer names are only used in the Inspector and any calls to <code>SetDebugName</code> will be compiled out of runtime builds so they have no effect on performance (because that method has a [<a href="https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.conditionalattribute"><code>Conditional</code>]</a> attribute applied to it):</p>
+<pre><code class="language-cs">    _LayeredAnimancer.Layers[ActionLayer].SetDebugName("Action Layer");
 }
 </code></pre>
 <p>Now we have a character that can perform an action with their upper body while their lower body continues doing whatever it was previously doing:</p>
