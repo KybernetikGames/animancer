@@ -398,7 +398,6 @@
                 <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
                 <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
                 <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
-                <li><a href="/animancer/docs/manual/tools/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
 
                     </ul>
                 </li>
@@ -406,7 +405,9 @@
                     <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/manual/other/animation-clip-inspector">Animation Clip Inspector</a></li>
                 <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
                 <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
 
                     </ul>
@@ -519,7 +520,7 @@
 <p>The <code><a href="/animancer/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> class allows you to easily implement this sort of buffering:</p>
 <ol>
 <li>Construct a <code>new <a href="/animancer/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> by passing in the target state machine.</li>
-<li>Whenever you would normally call <code>TrySetState</code> on the state machine, call <code>Buffer</code> on the buffer instead so that you can specify the desired <code>timeOut</code> duration.</li>
+<li>Whenever you would normally call <code>TrySetState(state)</code> on the state machine, call <code>Buffer(state, timeOut)</code> on the input buffer instead. It will call <code>TrySetState</code> and if it fails, then it will store the <code>state</code> to try again later.</li>
 <li>Call <code>Update</code> on the buffer every frame to have it try to enter the buffered state again (if there is one).</li>
 </ol>
 <p>The <a href="../../examples/fsm/weapons#attack-input">Weapons</a> example demonstrates how to use this system.</p>
