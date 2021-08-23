@@ -368,7 +368,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer">Animancer Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/manual/events/end">End Events</a></li>
 
                     </ul>
@@ -598,7 +609,7 @@ public class TransitionExample : MonoBehaviour
 <h1 id="unshared">UnShared</h1>
 <p>After you play a transition, its <code>‌State</code> property stores a reference to the <a href="../../playing/states">Animancer State</a> it created. More specifically, a single transition can be used to create multiple states (usually on different characters who share the same transition asset) so the <code>‌State</code> property actually only references the most recently created or played state. This leads to a problem where each character wants to access their own state, but because the asset can only remember one state at a time each character needs to store their own state in another field beside their reference to the transition.</p>
 <p>Any <a href="../../events/animancer">Animancer Events</a> stored in the transition's <code>Events</code> property suffer from the same limitation. Each transition only has one <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> containing one list of event times and callbacks, but each character sharing the same transition will usually want to assign their own callbacks to it.</p>
-<p>These problems can be avoided by using the <code>UnShared</code> class nested inside each transition asset class (e.g. <code><a href="/animancer/api/Animancer/UnShared">ClipTransitionAsset.UnShared</a></code>) instead of directly referencing the transition asset itself (e.g. <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>). <code>UnShared</code> is a serializable class which holds a reference to the transition asset and also keeps its own reference to the <code>‌State</code> and its own copy of the <code>Events</code> for each character.</p>
+<p>These problems can be avoided by using the <code>UnShared</code> class nested inside each transition asset class (e.g. <code><a href="/animancer/api/Animancer/UnShared">ClipTransitionAsset.UnShared</a></code>) instead of directly referencing the transition asset itself (e.g. <code><a href="/animancer/api/Animancer/ClipTransitionAsset">ClipTransitionAsset</a></code>). <code>UnShared</code> is a serializable class which holds a reference to the transition asset and also keeps its own reference to the <code>‌State</code> and its own copy of the <code>Events</code> for each character.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Direct</th>
@@ -606,7 +617,7 @@ public class TransitionExample : MonoBehaviour
   </tr></thead>
 <tbody>
 <tr>
-  <td>This is what the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example used to look like before <code>UnShared</code> transitions were implemented.</td>
+  <td>This is what the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example looked like before <code>UnShared</code> transitions were implemented.</td>
   <td>And this is what it looks like now.</td>
 </tr>
 <tr>

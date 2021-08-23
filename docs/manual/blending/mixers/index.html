@@ -373,7 +373,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer">Animancer Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="/animancer/docs/manual/events/end">End Events</a></li>
 
                     </ul>
@@ -817,7 +828,7 @@ public void BlendMixerParameter(float parameter, float duration)
 <tr>
 <td><a href="#synchronization">Synchronization</a></td>
 <td>Time and <a href="#foot-phase-synchronization">Foot Phase Synchronization</a>, but it is always on for all states.</td>
-<td>Time synchronization only and you control which states are synchronised.</td>
+<td>Time synchronization only and you control which states are synchronized.</td>
 </tr>
 <tr>
 <td>Customisation</td>
@@ -827,12 +838,12 @@ public void BlendMixerParameter(float parameter, float duration)
 </tbody>
 </table>
 <h1 id="synchronization">Synchronization</h1>
-<p>When mixing animations of different lengths, they will get out of sync if left to play normally. For example, it could end up with a <em>Walk</em> animation having the left foot on the ground while the <em>Run</em> animation has the right foot on the ground, which would not give a realistic result when simply interpolating between them. This causes obvious issues as you can see in the video below (adapted from the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example) when the speed slider is about 75% to the right and the character is walking fine about half the time while the cycles are close to each other but every few steps he does a strange shuffle that looks very unnatural. The solution to this problem is to synchronise the times of each of the states so that they are always at equivalent poses.</p>
+<p>When mixing animations of different lengths, they will get out of sync if left to play normally. For example, it could end up with a <em>Walk</em> animation having the left foot on the ground while the <em>Run</em> animation has the right foot on the ground, which would not give a realistic result when simply interpolating between them. This causes obvious issues as you can see in the video below (adapted from the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example) when the speed slider is about 75% to the right and the character is walking fine about half the time while the cycles are close to each other but every few steps he does a strange shuffle that looks very unnatural. The solution to this problem is to synchronize the times of each of the states so that they are always at equivalent poses.</p>
 <p><img src="synchronization.gif" class="img-responsive"></p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">No Synchronization</th>
-    <th style="width:50%">Synchronise Walk and Run</th>
+    <th style="width:50%">Synchronize Walk and Run</th>
   </tr></thead>
   <tbody>
     <tr>
@@ -850,25 +861,24 @@ public void BlendMixerParameter(float parameter, float duration)
 <blockquote class="blockquote">
 <p>Synchronization is good for movement but should usually be disabled for <em>Idle</em> animations.</p>
 </blockquote>
-<p>Blend Trees always synchronise their states, however this is not always ideal so Mixers allow you to choose which states are synchronised. The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronise the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
-<p>When using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, the <code>Sync</code> toggles on the right side of the Inspector allow you to choose which of its states are synchronised.</p>
+<p>Blend Trees always synchronize their states, however this is not always ideal so Mixers allow you to choose which states are synchronized. The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronize the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
+<p>When using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, the <code>Sync</code> toggles on the right side of the Inspector allow you to choose which of its states are synchronized.</p>
 <p>In code, you can control child synchronization like this:</p>
-<pre><code class="language-cs">// Reference whatever mixer you are using.
-// This could be the _MovementMixer from the Manual Creation example above.
-<a href="/animancer/api/Animancer/MixerState">MixerState</a> mixer;
+<pre><code class="language-cs">public static void OptionalSynchronizationExample(MixerState mixer)
+{
+    // By default, all children are synchronized but you can prevent that if you want:
+    // Note that this only affects children added to a mixer after you set it.
+    <a href="/animancer/api/Animancer/MixerState/9EE3DC2C">MixerState.AutoSynchronizeChildren</a> = false;
 
-// By default, all children are synchronised but you can prevent that if you want:
-// Note that this only affects children added to a mixer after you set it.
-MixerState.AutoSynchroniseChildren = false;
+    // Disable synchronization for all children.
+    mixer.DontSynchronizeChildren();
 
-// Disable synchronization for all children.
-mixer.DontSynchronizeChildren();
+    // Or for a specific child.
+    mixer.DontSynchronize(mixer.GetChild(0));
 
-// Or for a specific child.
-mixer.DontSynchronise(mixer.GetChild(0));
-
-// Or enable it for a specific child (if you set AutoSynchroniseChildren = false).
-mixer.Synchronise(mixer.GetChild(1));
+    // Or enable it for a specific child (if you set AutoSynchronizeChildren = false).
+    mixer.Synchronize(mixer.GetChild(1));
+}
 </code></pre>
 <h2 id="foot-phase-synchronization">Foot Phase Synchronization</h2>
 <p>Blend Trees also use a more complex synchronization technique for Humanoid animations known as Foot Phase Synchronization which is described in the following video at 17:10. Essentially, each animation is broken down into phases (right foot down, right foot up, etc.) so that it can properly support animations with irregular walk cycles such as a character with a limp and animations that contain different numbers of walk cycles.</p>
