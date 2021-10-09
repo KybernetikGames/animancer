@@ -485,9 +485,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/6DDF4D99">IsValid</a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Returns true as long as the <code class="cs">UnityEngine.Playables.PlayableGraph</code> hasn't been destroyed (such as by <code class="cs">Animancer.AnimancerPlayable.Destroy</code>).
-    </div>
+									<div>Is this <code class="cs">Animancer.AnimancerPlayable</code> currently usable (not destroyed)?</div>
 								</td>
 							</tr>
 							<tr>
@@ -608,7 +606,7 @@ class Type type-node
 									<div>
     Creates a new <code class="cs">UnityEngine.Playables.PlayableGraph</code> containing an <code class="cs">Animancer.AnimancerPlayable</code>.
     <p></p>
-    The caller is responsible for calling <code class="cs">Animancer.AnimancerPlayable.Destroy</code> on the returned object, except in Edit Mode
+    The caller is responsible for calling <code class="cs">Animancer.AnimancerPlayable.DestroyGraph</code> on the returned object, except in Edit Mode
     where it will be called automatically.
     <p></p>
     Consider calling <code class="cs">Animancer.AnimancerPlayable.SetNextGraphName(System.String)</code> before this method to give it a name.
@@ -617,10 +615,45 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/B4AD2E30">Destroy<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/13BF4D2D">Create<wbr>(PlayableGraph)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></td>
+								<td>
+									<div>Creates an <code class="cs">Animancer.AnimancerPlayable</code> in an existing <code class="cs">UnityEngine.Playables.PlayableGraph</code>.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/D929F929">CreateOutput<wbr>(Animator, <wbr>IAnimancerComponent)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Destroys the <code class="cs">UnityEngine.Playables.PlayableGraph</code>. This operation cannot be undone.</div>
+									<div>Plays this playable on the specified `animator` and sets the <code class="cs">Animancer.AnimancerPlayable.Component</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/C24FD6EF">CreateOutput<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Plays this playable on the <code class="cs">Animancer.IAnimancerComponent.Animator</code> and sets the
+    <code class="cs">Animancer.AnimancerPlayable.Component</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/CD18577F">DestroyGraph<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">Animancer.AnimancerPlayable.Graph</code>. This operation cannot be undone.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/712618A6">DestroyOutput<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Destroys the <code class="cs">UnityEngine.Playables.PlayableOutput</code> connected to this <code class="cs">Animancer.AnimancerPlayable</code> and returns
+    true if it was found. Otherwise returns false.
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -681,7 +714,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/95B74542">GetTotalWeight<wbr>()<wbr></a></td>
 								<td>float</td>
 								<td>
-									<div>Calculates the total <code class="cs">Animancer.AnimancerNode.Weight</code> of all states in this playable.</div>
+									<div>Calculates the total <code class="cs">Animancer.AnimancerNode.Weight</code> of all states in all layers.</div>
 								</td>
 							</tr>
 							<tr>
@@ -899,23 +932,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/3BF2A2F6">SetOutput<wbr>(Animator, <wbr>IAnimancerComponent)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Plays this playable on the specified `animator` and sets the <code class="cs">Animancer.AnimancerPlayable.Component</code>.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerPlayable/E6ABCE6A">SetOutput<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Plays this playable on the <code class="cs">Animancer.IAnimancerComponent.Animator</code> and sets the
-    <code class="cs">Animancer.AnimancerPlayable.Component</code>.
-    </div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerPlayable/83BF8DF1">Stop<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -960,6 +976,16 @@ class Type type-node
 								<td>string</td>
 								<td>
 									<div>[Editor-Only] Returns "AnimancerPlayable (Graph Name)".</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerPlayable/63696C84">TryGetOutput<wbr>(PlayableOutput)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Outputs the <code class="cs">UnityEngine.Playables.PlayableOutput</code> connected to the <code class="cs">Animancer.AnimancerPlayable</code> and returns true
+    if it was found. Otherwise returns false.
+    </div>
 								</td>
 							</tr>
 							<tr>
