@@ -532,7 +532,17 @@
 <h1 id="animation-list">Animation List</h1>
 <p>Normally the window would get its animations from the Animator Controller, but if you select an object with an <code>Animator</code> and <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> with the Animation window open it will automatically try to find all animations in components in the same hierarchy as that object to show in the list of animations for you to choose from (including direct references to <code>AnimationClip</code>s as well as <a href="../transitions">Transitions</a>):</p>
 <p><img src="animation-list.png" class="img-responsive"></p>
-<p>This is implemented using the <code>IAnimationClipSource</code> interface in the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class.</p>
+<p>It gathers animations from the following sources:</p>
+<ul>
+<li>States on that <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (anything played on it since entering Play Mode).</li>
+<li>Animations in any components on the same character. Specifically:
+<ul>
+<li><code><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/96511118">AnimancerEditorUtilities.FindRoot(GameObject)</a></code> determines which <code>GameObject</code> is the character's <em>"Root"</em>.</li>
+<li>Animations are gathered from all fields in all components on that object and its children (recursively).</li>
+</ul>
+</li>
+</ul>
+<p>This logic is implemented starting with the <code>IAnimationClipSource</code> interface in the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class.</p>
 <h1 id="creating-new-animations">Creating New Animations</h1>
 <p>Creating new animations using the Animation window will automatically create a new Animator Controller which is not needed when using Animancer, so you can either delete it or use the <code>Assets/Create/Animation</code> menu function instead to create just an Animation Clip.</p>
 
