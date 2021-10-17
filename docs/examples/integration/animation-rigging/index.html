@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.2</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -81,8 +81,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#ik-targets">IK Targets</a></p>
-<p><a href="#features">Features</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#limitations">Limitations</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -460,6 +459,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
@@ -530,16 +530,7 @@
 	<section class="content">
 		<p>Unity's <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@latest/index"><strong>Animation Rigging</strong></a> package allows you to set up rigs that dynamically modify your animations with things like <em>Multi-Parent Constraints</em> and <em>Inverse Kinematics</em> (which works on both Generic and Humanoid Rigs where Unity's inbuilt IK system only works on Humanoids).</p>
 <p>The official <a href="https://learn.unity.com/tutorial/working-with-animation-rigging">Working with Animation Rigging</a> tutorial explains how to use it. Using it with Animancer is no different from using it with Animator Controllers.</p>
-<h1 id="ik-targets">IK Targets</h1>
-<p>When using the <a href="../../../manual/ik">Inverse Kinematics</a> system from the Animation Rigging package, it is important that your IK Target and Hint objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
-<p><img src="ik-configuration.png" class="img-responsive"></p>
-<p>Otherwise if the IK Target and Hint objects are children of the <code>Animator</code>, they will automatically get reset to their starting position and rotation at certain times. The reason for this is that every time a <code>Playable</code> is connected or disconnected, the system performs a "rebind" which resets all of the <code>Animator</code>'s child <code>Transform</code>s back to their starting values. This happens frequently in Animancer:</p>
-<ul>
-<li>If <code><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> is false (the default for Humanoid Rigs), it happens whenever you play or stop an animation (specifically, when an <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> becomes 0 it gets disconnected and at any other value it gets connected).</li>
-<li>If <code><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> is true (the default for Generic Rigs), it only happens when you create a new state such as by playing an animation that hasn't been played yet.</li>
-</ul>
-<h1 id="features">Features</h1>
-<p>Here are some of its features:</p>
+<details><summary>Click here to see some of its features.</summary>
 <h2 id="damped-transform">Damped Transform</h2>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/DampedTransform.html"><img src="damped-transform.gif" class="img-responsive"></a></p>
 <h2 id="multi-parent-constraint">Multi Parent Constraint</h2>
@@ -547,6 +538,61 @@
 <h2 id="inverse-kinematics">Inverse Kinematics</h2>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/TwoBoneIKConstraint.html"><img src="two-bone-ik.gif" class="img-responsive"></a></p>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/ChainIKConstraint.html"><img src="chain-ik.gif" class="img-responsive"></a></p>
+</details>
+<h1 id="limitations">Limitations</h1>
+<h2 id="background">Background</h2>
+<img src="ik-weight.png" class="img-responsive img-right">
+<p>The way the Animation Rigging system reads properties like the <code>Weight</code> of its constraint components causes them to be treated like animated properties, meaning that calling <code>Animator.Rebind</code> will reset those properties to their starting values.</p>
+<p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> property:</p>
+<table class="table">
+<thead>
+<tr>
+<th><code>KeepChildrenConnected</code></th>
+<th>When does <code>Animator.Rebind</code> get called?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>true</code><br>Default for Generic Rigs</td>
+<td>When you create a new state such as by playing an animation that hasn't been played on that character yet.</td>
+</tr>
+<tr>
+<td><code>false</code><br>Default for Humanoid Rigs</td>
+<td>As above, and also whenever you play or stop an animation (specifically, when an <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> becomes 0 it gets disconnected and at any other value it gets connected).</td>
+</tr>
+</tbody>
+</table>
+<p>This isn't a problem for Animator Controllers because they simply don't allow their structure to be changed at runtime.</p>
+<h2 id="workarounds">Workarounds</h2>
+<p>There are two general workarounds for this issue, but unfortunately neither of them is particularly convenient:</p>
+<ul>
+<li><strong>Avoid modifying the graph</strong> by setting <code>animancerComponent.Playable.KeepChildrenConnected = true</code> and creating states for all the animations you might need on startup using methods like <code>animancerComponent.States.GetOrCreate</code>.</li>
+<li><strong>Manually store and restore the values that were reset</strong> every time you do something that might connect or disconnect a <code>Playable</code> by storing the constraint values you want, calling <code>animancerComponent.Animator.Rebind();</code> to force the required reset immediately, then applying the stored values back to the constraint components.</li>
+</ul>
+<h2 id="ik-targets">IK Targets</h2>
+<p>The position and rotation of Target and Hint objects used by the Inverse Kinematics system from the Animation Rigging package are affected by the same resetting effect explained above, but fortunately it can be avoided by ensuring those objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
+<p><img src="ik-configuration.png" class="img-responsive"></p>
+<h2 id="paused-graph">Paused Graph</h2>
+<p>Normally, Animancer creates a <code>PlayableGraph</code> and the Animation Rigging system creates another one which reads its inputs from the previous one. This allows it to avoid interfering with the main animation system so it can work the same regardless of whether the primary graph is managed by an Animator Controller or Animancer or any other system that uses the Playables API.</p>
+<p>Unfortunately, manually calling <code>Evaluate</code> on a <code>PlayableGraph</code> (like in the <a href="../../fine-control/update-rate">Update Rate</a> example) only evluates that graph on its own and there doesn't seem to be any way to make them both update in sequence as they would during a regular animation update. This causes the Animation Rigging system to completely fail if you try to manually evaluate the graph.</p>
+<p>This can be solved by initializing Animancer to use the same <code>PlayableGraph</code> as the Animation Rigging system with a script like this:</p>
+<pre><code class="language-cs">using Animancer;
+using UnityEngine;
+using UnityEngine.Animations.Rigging;
+
+[DefaultExecutionOrder(1000)]// Awake after the RigBuilder creates its PlayableGraph.
+public sealed class AnimancerUseRiggingGraph : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private RigBuilder _RigBuilder;
+
+    private void Awake()
+    {
+        _Animancer.InitializePlayable(_RigBuilder.graph);
+    }
+}
+</code></pre>
+<p>Then you can simply call <code>_Animancer.Playable.Evaluate()</code> normally and it will evaluate both Animancer and the Animation Rigging system properly.</p>
 
 	</section>
                 

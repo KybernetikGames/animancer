@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.2</a></li>
         <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -83,6 +83,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#example">Example</a></p>
 <p><a href="#bindings">Bindings</a></p>
+<p><a href="#help-and-feedback">Help and Feedback</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -460,6 +461,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
@@ -541,11 +543,11 @@
 <tbody>
 <tr>
 <td>Outside of Animancer, Timeline Assets are played using a <code>PlayableDirector</code> component as explained in the official <a href="https://learn.unity.com/tutorial/timeline">Timeline Tutorial</a>.</td>
-<td>Inside Animancer, Timeline Assets are played using a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> as explained in the <a href="../examples/fsm/platformer">Platformer</a> example.</td>
+<td>Inside Animancer, Timeline Assets are played using <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>s as explained in the <a href="/platformer/docs/characters/states/introduction">Introduction state of the Platformer Game Kit</a>.</td>
 </tr>
 <tr>
-<td>Even with Animancer, this is still often the best way to play Timelines that control multiple characters.</td>
-<td><p>This is the recommended approach for Timelines that only control a single character that is already being controlled using Animancer since it fits right in with that character's other animation states.</p>As with all other <a href="playing/states">States</a>, you can get a <code>PlayableAsset&nbsp;timeline;</code> and manually create a <code>new&nbsp;PlayableAssetState(timeline);</code>, but <a href="transitions/types#basic-transitions">Transitions</a> are often easier to use.</td>
+<td>Even with Animancer, this is still often the best way to play Timelines that control multiple characters since there is usually no need for such things to interact directly with Animancer.</td>
+<td><p>This is the recommended approach for Timelines that only control a single character that is already being controlled using Animancer since it fits right in with that character's other animation states.</p>As with all other <a href="playing/states">States</a>, you can get a <code>PlayableAsset&nbsp;timeline;</code> and manually create a <code>new&nbsp;PlayableAssetState(timeline);</code>, but <a href="transitions/types#basic-transitions">Transitions</a> (specifically <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code>) are often easier to use, especially if the Timeline has tracks that require <a href="#bindings">Bindings</a>.</td>
 </tr>
 </tbody>
 </table>
@@ -579,8 +581,14 @@ private void Awake()
 <p>The <a href="/platformer">Platformer Game Kit</a> uses a Timeline for its <a href="/platformer/docs/characters/states/introduction">Introduction State</a>.</p>
 <h1 id="bindings">Bindings</h1>
 <p>Timelines can contain multiple "Tracks" which each control a different object in the scene. Since a <code>TimelineAsset</code> is an asset, it can't directly reference scene objects so whatever plays it needs to specify its bindings to assign the object each track controls.</p>
-<p>The easiest way to assign the bindings is to use a <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code> which shows fields for them in the Inspector, but you can also access the <code><a href="/animancer/api/Animancer/PlayableAssetState/E60CE120">PlayableAssetState.Bindings</a></code> list in scripts.</p>
-<p>If the first track of the <code>TimelineAsset</code> used in a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</p>
+<ul>
+<li>The easiest way to assign the bindings is to use a <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code> which shows fields for them in the Inspector, but you can also access the <code><a href="/animancer/api/Animancer/PlayableAssetState/E60CE120">PlayableAssetState.Bindings</a></code> list in scripts.</li>
+<li>The <code>Animator</code> component being used by Animancer should never be assigned as a binding because that would take control away from Animancer and not return it afterwards. The system will log a warning if this happens.</li>
+<li>If the first track of the <code>TimelineAsset</code> used in a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> is an Animation Track, it will automatically be applied to the <code>Animator</code> playing that state so you do not need to set a Binding for it.</li>
+<li>Using a Markers track requires a <code>PlayableDirector</code> component to be attached to the same object as the <code>Animator</code> even though the Timeline is being played through Animancer.</li>
+</ul>
+<h1 id="help-and-feedback">Help and Feedback</h1>
+<p>Unfortunately, Timeline was not really designed for use outside of the <code>PlayableDirector</code> component and the limited documentation doesn't make any mention of how it should be handled, meaning that Animancer's implementation is based on quite a bit of guesswork (particularly the <a href="#bindings">Bindings</a> system). So feel free to use any of the <a href="../../help">Help</a> links to ask questions or report bugs, but keep in mind that some issues simply can't be solved by Animancer.</p>
 
 	</section>
                 
