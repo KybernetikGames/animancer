@@ -139,37 +139,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -456,8 +426,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -635,7 +603,7 @@ public sealed class AttackState : CharacterState
 </ul>
 <p>Instead of trying to replicate that setup, the Animancer character instead uses Animancer's <a href="../../../../manual/fsm/utilities#input-buffers">Input Buffering</a> system in exactly the same way it was used in the <a href="../../../fsm/weapons#attack-input">Weapons</a> example.</p>
 <h1 id="fields">Fields</h1>
-<p>Now that we have taken care of getting the character into the <code>AttackState</code>, we can make some <a href="../../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> to show in the Inspector:</p>
+<p>Now that we have taken care of getting the character into the <code>AttackState</code>, we can make some <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a> to show in the Inspector:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Code</th>
@@ -678,12 +646,12 @@ private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _At
 <img src="inspector-animations.png" class="img-responsive img-right">
 <p>Expanding the foldout arrow next to each of the <a href="../../../../manual/transitions">Transitions</a> allows us to customise the <code>Fade Duration</code> and <code>End Time</code> of each attack.</p>
 <h2 id="weapon-trails">Weapon Trails</h2>
-<p>Whenever we play one of the attack animations, we also want to show a trail of blue light behind the weapon swing. This is handled by the <code>TimeEffect</code> script from the 3D Game Kit Lite which the <a href="../problems#script-referencing">Script Referencing</a> issue prevents us from using directly. But rather than adding a <code>UnityEvent</code> field as we have in other cases, we can make use of the fact that <a href="../../../../manual/transitions">Transitions</a> already have built in <a href="../../../../manual/events/animancer">Animancer Events</a> by simply creating an event at time 0 and using its <a href="../../../../introduction/cs/methods/delegates#unity-events">Unity Event</a> to call the <code>TimeEffect.Activate</code>.</p>
+<p>Whenever we play one of the attack animations, we also want to show a trail of blue light behind the weapon swing. This is handled by the <code>TimeEffect</code> script from the 3D Game Kit Lite which the <a href="../problems#script-referencing">Script Referencing</a> issue prevents us from using directly. But rather than adding a <code>UnityEvent</code> field as we have in other cases, we can make use of the fact that <a href="../../../../manual/transitions">Transitions</a> already have built in <a href="../../../../manual/events/animancer">Animancer Events</a> by simply creating an event at time 0 and using its <a href="/cs-unity/docs/introduction/methods/delegates#unity-events">Unity Event</a> to call the <code>TimeEffect.Activate</code>.</p>
 <p>In this case the trails are separately animated meshes so if we wanted the ability to tweak the <code>Speed</code> of the attack animation, we would also need to pass that speed onto the trail so it gets shown correctly in relation to the character.</p>
 <p>Rather than using a separately animated mesh for the trails, most games generally use Unity's <a href="https://docs.unity3d.com/Manual/class-TrailRenderer">Trail Renderer</a> component (or a custom script that works similarly) to have the trail dynamically follow wherever the weapon goes. This would avoid the speed issue and require less effort to develop, but it does somewhat limit your creative control over the exact appearance of the effect.</p>
 <h2 id="attack-details">Attack Details</h2>
 <p>The 3D Game Kit Lite uses a very basic damage system where the player kills enemies and destroys objects in one hit and enemies cause the player to lose 1 health on contact. But many games allow different weapons to deal different amounts of damage, knock enemies away, and even cause them to <a href="../flinch">Flinch</a> for different amounts of time. Some games even allow individual attacks with the same weapon to use different stats such as having a sword deal <em>Slashing</em> damage with one attack then <em>Piercing</em> damage with the next or having a weak bash attack followed by a powerful overhead strike.</p>
-<p>Associating additional details like that with each animation can be done by creating a class that <a href="../../../../introduction/cs/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
+<p>Associating additional details like that with each animation can be done by creating a class that <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
 <h2 id="adding-more-attacks">Adding More Attacks</h2>
 <p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this script to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time as you would when using Mecanim.</p>
 <h1 id="state-entry">State Entry</h1>

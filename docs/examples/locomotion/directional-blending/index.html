@@ -138,37 +138,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -455,8 +425,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -660,7 +628,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Spider
     </tr>
   </tbody>
 </table>
-<p><a href="../../../introduction/cs/inheritance">Inheriting</a> from <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more:</p>
+<p><a href="/cs-unity/docs/introduction/inheritance">Inheriting</a> from <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> gives us the same base fields as in the <a href="../../fine-control/spider-bot">Spider Bot</a> example and allows us to add more:</p>
 <ul>
 <li>We add a <code>Rigidbody</code> component to the character so we can control its movements.</li>
 <li>There are several speed related fields to set how fast it goes.</li>
@@ -668,7 +636,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Spider
 <li>And instead of a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> like <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBotSimple">SpiderBotSimple</a></code> used to play a single <code>AnimationClip</code>, this time we are using a <a href="../../../manual/blending/mixers">Mixer</a> to allow blending between multiple animations on two axes (forward/back and left/right).</li>
 </ul>
 <h1 id="abstractions">Abstractions</h1>
-<p>This time we <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> the <code>MovementAnimation</code> to return the <code><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
+<p>This time we <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>override</code></a> the <code>MovementAnimation</code> to return the <code><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></code> and we have a <code>private Vector3 _MovementDirection</code> which will be set in the <code>Update</code> method so that <code>IsMoving</code> can determine if it currently wants to move:</p>
 <pre><code class="language-cs">[SerializeField]
 private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _Move;
 
@@ -686,9 +654,9 @@ protected override bool IsMoving =&gt; _MovementDirection != default;
     Animancer.States.GetOrCreate(_Move);
 }
 </code></pre>
-<p>Note that the base <code>SpiderBot.Awake</code> method is <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> and has its own implementation which we still want to use, so we call <code>base.Awake()</code> in our <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a>.</p>
+<p>Note that the base <code>SpiderBot.Awake</code> method is <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>virtual</code></a> and has its own implementation which we still want to use, so we call <code>base.Awake()</code> in our <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>override</code></a>.</p>
 <h1 id="input">Input</h1>
-<p>Rather than using keyboard input to control the bot (which would be limited to 8 directions), we are having it follow the mouse cursor to demonstrate movement in any direction. Using some <a href="../../../introduction/cs/vectors">Vector Math</a> and <a href="../../../introduction/cs/vectors#raycasting">Raycasting</a>.</p>
+<p>Rather than using keyboard input to control the bot (which would be limited to 8 directions), we are having it follow the mouse cursor to demonstrate movement in any direction. Using some <a href="/cs-unity/docs/introduction/vectors">Vector Math</a> and <a href="/cs-unity/docs/introduction/vectors#raycasting">Raycasting</a>.</p>
 <ol>
 <li>Get a ray from the main camera in the direction of the mouse cursor:</li>
 </ol>
@@ -703,7 +671,7 @@ protected override bool IsMoving =&gt; _MovementDirection != default;
         return default;
 </code></pre>
 <ol start="3">
-<li>If the ray did hit something, the <code>out raycastHit</code> parameter will contain the details of the hit so we can calculate the horizontal direction from the bot to that point using simple <a href="../../../introduction/cs/vectors#difference">Vector Subtraction</a> then zeroing the <code>y</code> (vertical) value:</li>
+<li>If the ray did hit something, the <code>out raycastHit</code> parameter will contain the details of the hit so we can calculate the horizontal direction from the bot to that point using simple <a href="/cs-unity/docs/introduction/vectors#difference">Vector Subtraction</a> then zeroing the <code>y</code> (vertical) value:</li>
 </ol>
 <pre><code class="language-cs">    var direction = raycastHit.point - transform.position;
     direction.y = 0;
@@ -718,7 +686,7 @@ protected override bool IsMoving =&gt; _MovementDirection != default;
     }
 </code></pre>
 <ol start="5">
-<li>Otherwise if it is not close to the destination, <a href="../../../introduction/cs/vectors#normalization">Normalize</a> the direction so that we do not change speed based on distance. Calling <code>direction.Normalize()</code> would do the same thing, but that would need to calculate the magnitude again so this is simply more efficient:</li>
+<li>Otherwise if it is not close to the destination, <a href="/cs-unity/docs/introduction/vectors#normalization">Normalize</a> the direction so that we do not change speed based on distance. Calling <code>direction.Normalize()</code> would do the same thing, but that would need to calculate the magnitude again so this is simply more efficient:</li>
 </ol>
 <pre><code class="language-cs">    else
     {
@@ -727,7 +695,7 @@ protected override bool IsMoving =&gt; _MovementDirection != default;
 }
 </code></pre>
 <h1 id="update">Update</h1>
-<p>Like with <code>Awake</code>, we want to <a href="../../../introduction/cs/inheritance#keywords"><code>override</code></a> the base <code>SpiderBot.Update</code> method to add some additional code.</p>
+<p>Like with <code>Awake</code>, we want to <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>override</code></a> the base <code>SpiderBot.Update</code> method to add some additional code.</p>
 <ol>
 <li>Determine the direction we want to move using the method we just made and store it in the <code>_MovementDirection</code> field so that the <code>IsMoving</code> property can also check it:</li>
 </ol>
@@ -755,7 +723,7 @@ protected override bool IsMoving =&gt; _MovementDirection != default;
         transform.eulerAngles = eulerAngles;
 </code></pre>
 <ol start="5">
-<li>The movement direction is in world space, so we need to convert it to local space to be appropriate for the current rotation. There are various different ways this calculation could be performed, but a simple one is to use <a href="../../../introduction/cs/vectors#dot-product">Dot Products</a> to determine how much of the <code>_MovementDirection</code> lies along each of the bot's local axes (<code>transform.right</code> and <code>transform.forward</code>). Then we can just apply that value to the Mixer's <code>Parameter</code>:</li>
+<li>The movement direction is in world space, so we need to convert it to local space to be appropriate for the current rotation. There are various different ways this calculation could be performed, but a simple one is to use <a href="/cs-unity/docs/introduction/vectors#dot-product">Dot Products</a> to determine how much of the <code>_MovementDirection</code> lies along each of the bot's local axes (<code>transform.right</code> and <code>transform.forward</code>). Then we can just apply that value to the Mixer's <code>Parameter</code>:</li>
 </ol>
 <pre><code class="language-cs">        _Move.State.Parameter = new Vector2(
             Vector3.Dot(transform.right, _MovementDirection),
@@ -792,7 +760,7 @@ protected override bool IsMoving =&gt; _MovementDirection != default;
     _Body.velocity = _MovementDirection * _Move.State.Speed * _MovementSpeed;
 }
 </code></pre>
-<p>The <code>Rigidbody.velocity</code> is the direction the object is moving with the <a href="../../../introduction/cs/vectors#magnitude">Magnitude</a> of the vector determining its speed (distance moved per second).</p>
+<p>The <code>Rigidbody.velocity</code> is the direction the object is moving with the <a href="/cs-unity/docs/introduction/vectors#magnitude">Magnitude</a> of the vector determining its speed (distance moved per second).</p>
 <p>This all combines to give us a bot that can chase the mouse cursor around the scene as long as it is pointing at an object with a collider for the raycast to hit (the ground plane) and will rotate itself to match the camera (Right Click and drag to rotate the camera using the <a href="../../basics/scene-setup#orbit-controls">Orbit Controls</a> script):</p>
 <p><img src="spider-bot.gif" class="img-responsive"></p>
 

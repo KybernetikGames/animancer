@@ -135,37 +135,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -452,8 +422,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -626,7 +594,7 @@ public abstract class <a href="/animancer/api/Animancer.Examples.Events/GolfHitC
 }
 </code></pre>
 <p></p></details><p></p>
-<p>To demonstrate the differences between the available event systems, this example consists of 4 other scripts which <a href="../../../introduction/cs/inheritance">Inherit</a> from <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> so they can all share the same general logic but implement their own events for hitting the ball and determining when the next animation should start:</p>
+<p>To demonstrate the differences between the available event systems, this example consists of 4 other scripts which <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> so they can all share the same general logic but implement their own events for hitting the ball and determining when the next animation should start:</p>
 <table class="table">
 <thead>
 <tr>
@@ -669,7 +637,7 @@ public abstract class <a href="/animancer/api/Animancer.Examples.Events/GolfHitC
 [SerializeField] private Vector3 _HitVelocity;
 [SerializeField] private AudioSource _HitSound;
 </code></pre>
-<p>Normally it would be good to make <a href="../../../introduction/cs/methods/properties">Read-Only Properties</a> to wrap fields you want other classes to access so that those classes do not accidentally change any of the fields this script does not expect to change. But for this example, it is easier to just let the <a href="../../../introduction/cs/inheritance">Inheriting</a> classes access <a href="../../../introduction/cs/organization#access-modifiers"><code>protected</code></a> fields directly.</p>
+<p>Normally it would be good to make <a href="/cs-unity/docs/introduction/methods/properties">Read-Only Properties</a> to wrap fields you want other classes to access so that those classes do not accidentally change any of the fields this script does not expect to change. But for this example, it is easier to just let the <a href="/cs-unity/docs/introduction/inheritance">Inheriting</a> classes access <a href="/cs-unity/docs/introduction/organization#access-modifiers"><code>protected</code></a> fields directly.</p>
 <p>The fields are given mostly the same values for each of the characters except for the <code>_Swing</code> <a href="../../../manual/transitions">Transition</a> where the ones using <a href="../../../manual/events/animation">Animation Events</a> need to use a duplicate of the original <em>Humanoid-GolfSwing</em> animation with the events added to it:</p>
 <table class="table">
   <thead>
@@ -696,7 +664,7 @@ private Vector3 _BallStartPosition;
 </code></pre>
 <p>The <code>CurrentState</code> could have been a <code>private</code> field for this example, but we will be reusing this script in the <a href="../../fsm/game-manager">Game Manager</a> example and will need to check its value from another class.</p>
 <h2 id="startup">Startup</h2>
-<p>When the scene starts, we store the position of the ball so we can teleport it back there later and make sure its <code>Rigidbody</code> is <a href="https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic">Kinematic</a> so that it does not roll away before the character hits it. The <code>Awake</code> method is <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> in case any inheriting scripts need to do anything else on startup.</p>
+<p>When the scene starts, we store the position of the ball so we can teleport it back there later and make sure its <code>Rigidbody</code> is <a href="https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic">Kinematic</a> so that it does not roll away before the character hits it. The <code>Awake</code> method is <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>virtual</code></a> in case any inheriting scripts need to do anything else on startup.</p>
 <pre><code class="language-cs">protected virtual void Awake()
 {
     _BallStartPosition = _Ball.position;
@@ -710,9 +678,9 @@ private Vector3 _BallStartPosition;
 }
 </code></pre>
 <p>The contents of the <code>ReturnToReady</code> method could simply be here instead of needing a separate method, but when other methods (like <code>Update</code>) call it we would rather be clear that we specifically want to "return to the ready state" instead of some arbitrary "do what we did on startup".</p>
-<p>Also note that this method is <a href="../../../introduction/cs/organization#access-modifiers"><code>protected</code></a> instead of <a href="../../../introduction/cs/organization#access-modifiers"><code>private</code></a>. Being <a href="../../../introduction/cs/organization#access-modifiers"><code>protected</code></a> allows <a href="../../../introduction/cs/inheritance">Inheriting</a> classes to call it which we do not want, but it also means that if such a class tries to declare its own <code>OnEnable</code> method the compiler will give them a warning that this method already exists so they can come and make this method <a href="../../../introduction/cs/inheritance#keywords"><code>virtual</code></a> if necessary. Otherwise Unity would call the <code>OnEnable</code> method in the derived class but not this one, which would very likely lead to errors that can be annoying to track down.</p>
+<p>Also note that this method is <a href="/cs-unity/docs/introduction/organization#access-modifiers"><code>protected</code></a> instead of <a href="/cs-unity/docs/introduction/organization#access-modifiers"><code>private</code></a>. Being <a href="/cs-unity/docs/introduction/organization#access-modifiers"><code>protected</code></a> allows <a href="/cs-unity/docs/introduction/inheritance">Inheriting</a> classes to call it which we do not want, but it also means that if such a class tries to declare its own <code>OnEnable</code> method the compiler will give them a warning that this method already exists so they can come and make this method <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>virtual</code></a> if necessary. Otherwise Unity would call the <code>OnEnable</code> method in the derived class but not this one, which would very likely lead to errors that can be annoying to track down.</p>
 <h2 id="input">Input</h2>
-<p>Using an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> to represent the character's current state means we can easily have them go to the next state whenever the player clicks the mouse using a <a href="../../../introduction/cs/methods/flow-control"><code>switch</code></a> statement:</p>
+<p>Using an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> to represent the character's current state means we can easily have them go to the next state whenever the player clicks the mouse using a <a href="/cs-unity/docs/introduction/methods/flow-control"><code>switch</code></a> statement:</p>
 <pre><code class="language-cs">protected void Update()
 {
     if (Input.GetMouseButtonDown(0))
@@ -785,7 +753,7 @@ private Vector3 _BallStartPosition;
 <h1 id="hit-events">Hit Events</h1>
 <p>The <code>HitBall</code> method <a href="#events">explained above</a> is called at some point during the <code>_Swing</code> animation in a different way for each event system.</p>
 <h2 id="simple-animation-events">1. Simple Animation Events</h2>
-<p>The <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> script is set up to receive <a href="../../../manual/events/animation#simple-events">Animation Events with the Function Name "Event"</a> and invoke a <a href="../../../introduction/cs/methods/delegates">Delegate</a> in response, allowing you to use that same Function Name for every animation and register any method you want instead of needing to have your method on a script attached to the same <code>GameObject</code> as the <code>Animator</code> component. So the character is set up as follows:</p>
+<p>The <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> script is set up to receive <a href="../../../manual/events/animation#simple-events">Animation Events with the Function Name "Event"</a> and invoke a <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> in response, allowing you to use that same Function Name for every animation and register any method you want instead of needing to have your method on a script attached to the same <code>GameObject</code> as the <code>Animator</code> component. So the character is set up as follows:</p>
 <ol>
 <li>The <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component is attached to the same <code>GameObject</code> as the <code>Animator</code> component so it can receive the event, but the <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimationSimple">GolfHitControllerAnimationSimple</a></code> component does not need to be.</li>
 <li>The <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimationSimple">GolfHitControllerAnimationSimple</a></code> script overrides its <code>StartSwing</code> method to register its <code>HitBall</code> method as the receiver delegate in the <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component:</li>
@@ -816,7 +784,7 @@ private Vector3 _BallStartPosition;
 </code></pre>
 <p>We could have avoided the need for that method by making another copy of the <em>Humanoid-GolfSwing</em> animation to use <code>"HitBall"</code> as the Function Name instead of <code>"Event"</code>. But that only demonstrates one of the weaknesses of <a href="../../../manual/events/animation">Animation Events</a>, which is that everything using an animation shares the same events so if you want different ones you need to duplicate the entire animation which is a waste of memory if nothing else.</p>
 <h2 id="animancer-events">3. Animancer Events</h2>
-<p>The <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code> script is actually empty because the base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> already has everything we need to be able to set up <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector. The event callback is set up using a <a href="../../../introduction/cs/methods/delegates#unity-events"><code>UnityEvent</code></a> just like a <a href="../../basics/scene-setup#buttons">UI Button</a>:</p>
+<p>The <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitControllerAnimancer">GolfHitControllerAnimancer</a></code> script is actually empty because the base <code><a href="/animancer/api/Animancer.Examples.Events/GolfHitController">GolfHitController</a></code> already has everything we need to be able to set up <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector. The event callback is set up using a <a href="/cs-unity/docs/introduction/methods/delegates#unity-events"><code>UnityEvent</code></a> just like a <a href="../../basics/scene-setup#buttons">UI Button</a>:</p>
 <p><img src="animancer-hit-event.png" class="img-responsive"></p>
 <h2 id="hybrid-animancer-events">4. Hybrid Animancer Events</h2>
 <p>The last character also uses <a href="../../../manual/events/animancer">Animancer Events</a>, but this time a <a href="../../../manual/events/animancer#hybrid-events">Hybrid</a> approach:</p>

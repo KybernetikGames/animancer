@@ -138,37 +138,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -455,8 +425,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -563,7 +531,7 @@
 }
 </code></pre>
 <p>Note that we used <code>GetMouseButton</code> rather than <code>GetMouseButtonDown</code> so that it will continue recalculating the target point every frame while the button is held.</p>
-<p>In order to find the world position the mouse cursor is actually pointing at we need to use a <a href="../../../introduction/cs/vectors#raycasting">Raycast</a>:</p>
+<p>In order to find the world position the mouse cursor is actually pointing at we need to use a <a href="/cs-unity/docs/introduction/vectors#raycasting">Raycast</a>:</p>
 <pre><code class="language-cs">var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 RaycastHit raycastHit;
@@ -572,9 +540,9 @@ if (Physics.Raycast(ray, out raycastHit))
     _Destination = raycastHit.point;
 }
 </code></pre>
-<p>We want that ray to hit terrain but not the player (or any other characters). Normally you might have characters on their own layer and make a <code>LayerMask</code> as a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> to pass into the <code>Raycast</code> so you can use the Inspector to choose which layers it can hit. But since we do not want to mess with your project's layer settings just for this example, we can just go to the scene and set the <em>Character</em> to the <code>Ignore Raycast</code> layer using the dropdown menu in the top right of the Inspector.</p>
+<p>We want that ray to hit terrain but not the player (or any other characters). Normally you might have characters on their own layer and make a <code>LayerMask</code> as a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> to pass into the <code>Raycast</code> so you can use the Inspector to choose which layers it can hit. But since we do not want to mess with your project's layer settings just for this example, we can just go to the scene and set the <em>Character</em> to the <code>Ignore Raycast</code> layer using the dropdown menu in the top right of the Inspector.</p>
 <p><img src="ignore-raycast.png" class="img-responsive"></p>
-<p>That raycast will tell us where the mouse cursor is pointing on the terrain (specifically, on any objects with <code>Collider</code> components on layers that are included in whatever <code>LayerMask</code> we use) but it cannot help us if the mouse is pointing out the edge of the scene so the ray doesn't hit any collider, which we can visualise using some <a href="../../../introduction/cs/vectors#debug-lines">Debug Lines</a>:</p>
+<p>That raycast will tell us where the mouse cursor is pointing on the terrain (specifically, on any objects with <code>Collider</code> components on layers that are included in whatever <code>LayerMask</code> we use) but it cannot help us if the mouse is pointing out the edge of the scene so the ray doesn't hit any collider, which we can visualise using some <a href="/cs-unity/docs/introduction/vectors#debug-lines">Debug Lines</a>:</p>
 <pre><code class="language-cs">if (Physics.Raycast(ray, out raycastHit))
 {
     _Destination = raycastHit.point;
@@ -638,7 +606,7 @@ private void UpdateMovement()
     // TODO.
 }
 </code></pre>
-<p>So far we have a destination point, but the <code>MovementDirection</code> needs to actually be the direction from the character to the destination. At a basic level, that only requires a simple <a href="../../../introduction/cs/vectors#difference">Vector Subtraction</a>:</p>
+<p>So far we have a destination point, but the <code>MovementDirection</code> needs to actually be the direction from the character to the destination. At a basic level, that only requires a simple <a href="/cs-unity/docs/introduction/vectors#difference">Vector Subtraction</a>:</p>
 <pre><code class="language-cs">MovementDirection = _Destination - Character.Rigidbody.position;
 </code></pre>
 <p>The last thing we need to do is tell the character to enter the locomotion state:</p>
@@ -661,7 +629,7 @@ private void UpdateMovement()
     {
         var fromCurrentToDestination = _Destination.Value - Character.Rigidbody.position;
 </code></pre>
-<p>Then we compare the magnitude of that vector (its length) to the <code>_StopDistance</code>. As noted in the <a href="../../../introduction/cs/vectors#magnitude">Vector Magnitude</a> section, calculating the squared magnitude is faster than calculating the actual magnitude so we can use that because we only need to see which is greater:</p>
+<p>Then we compare the magnitude of that vector (its length) to the <code>_StopDistance</code>. As noted in the <a href="/cs-unity/docs/introduction/vectors#magnitude">Vector Magnitude</a> section, calculating the squared magnitude is faster than calculating the actual magnitude so we can use that because we only need to see which is greater:</p>
 <pre><code class="language-cs">        if (fromCurrentToDestination.sqrMagnitude &gt; _StopDistance * _StopDistance)
         {
 </code></pre>
@@ -670,7 +638,7 @@ private void UpdateMovement()
 <pre><code class="language-cs">            MovementDirection = fromCurrentToDestination;
             _Locomotion.TryEnterState();
 </code></pre>
-<p>We can also use another <a href="../../../introduction/cs/vectors#debug-lines">Debug Line</a> to draw a line from the character to its destination in case we ever need to see where a character is going:</p>
+<p>We can also use another <a href="/cs-unity/docs/introduction/vectors#debug-lines">Debug Line</a> to draw a line from the character to its destination in case we ever need to see where a character is going:</p>
 <pre><code class="language-cs">            Debug.DrawLine(Character.Rigidbody.position, _Destination.Value, Color.cyan);
 </code></pre>
 <p>Lastly we just need to <code>return</code> to end the method early if the destination is far enough away that we still want to be in the <em>Locomotion</em> state, but otherwise we want to make sure everything is cleared and try to return to <em>Idle</em>:</p>

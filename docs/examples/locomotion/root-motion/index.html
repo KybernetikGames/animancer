@@ -136,37 +136,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -453,8 +423,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -620,7 +588,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/RootMo
 <p>We use a <a href="../../../manual/other/units"><code>[Meters]</code></a> attribute for the distance field to indicate the units it is measured in:</p>
 <pre><code class="language-cs">[SerializeField, Meters] private float _MaxDistance;
 </code></pre>
-<p>Then we need to store the start position. We could use a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> to specify the position in the Inspector, but instead it will be more convenient if we just use whatever position the character is at when the scene starts. So we need a serialized field to specify how far away they can get, a non-serialized field to store the position, and an <code>OnEnable</code> method to set that value on startup:</p>
+<p>Then we need to store the start position. We could use a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> to specify the position in the Inspector, but instead it will be more convenient if we just use whatever position the character is at when the scene starts. So we need a serialized field to specify how far away they can get, a non-serialized field to store the position, and an <code>OnEnable</code> method to set that value on startup:</p>
 <pre><code class="language-cs">private Vector3 _Start;
 
 private void OnEnable()
@@ -652,7 +620,7 @@ private void OnEnable()
 [SerializeField] private bool[] _AnimationsApplyRootMotion;
 </code></pre>
 <p>But those approaches are messy and require extra effort every time they are used.</p>
-<p>Instead, we can make a class with a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute"><code>System.Serializable</code></a> attribute so that it can be used as a <a href="../../../introduction/cs/variables#serialized-fields">Serialized Field</a> to hold both fields next to each other:</p>
+<p>Instead, we can make a class with a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute"><code>System.Serializable</code></a> attribute so that it can be used as a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> to hold both fields next to each other:</p>
 <pre><code class="language-cs">[Serializable]
 public class MotionClip
 {
@@ -671,7 +639,7 @@ public void Play(MotionClip motion)
 }
 </code></pre>
 <p>Now we can just call <code>Play(_Idle)</code> or <code>Play(_Walk)</code> and we could use a <code>MotionClip</code> in any script without manually adding a <code>bool</code> alongside every <code>AnimationClip</code>.</p>
-<p>Since we want to control this particular example with <a href="../../basics/scene-setup#buttons">UI Buttons</a>, we instead use an array of <code>MotionClip</code>s so we can add an <a href="../../../introduction/cs/methods/overloads">Overload</a> of the <code>Play</code> method which just takes an <code>int</code> parameter:</p>
+<p>Since we want to control this particular example with <a href="../../basics/scene-setup#buttons">UI Buttons</a>, we instead use an array of <code>MotionClip</code>s so we can add an <a href="/cs-unity/docs/introduction/methods/overloads">Overload</a> of the <code>Play</code> method which just takes an <code>int</code> parameter:</p>
 <pre><code class="language-cs">[SerializeField] private MotionClip[] _Animations;
 
 public void Play(int index)
@@ -682,7 +650,7 @@ public void Play(int index)
 <p>That gives us a simple grouping in the Inspector (and in code) where the metadata is managed alongside the <code>AnimationClip</code> reference:</p>
 <p><img src="serializables.png" class="img-responsive"></p>
 <h1 id="transitions">Transitions</h1>
-<p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../ik">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can <a href="../../../introduction/cs/inheritance">Inherit</a> from so you do not have to do it all yourself:</p>
+<p>There are plenty of other kinds of metadata that you could add with this approach such as transition duration, start time, speed, a toggle for <a href="../../../ik">Inverse Kinematics</a>, or information more specific to your particular game like a "poise" value to indicate how easily each animation can be interrupted by enemy attacks. Fortunately, Animancer already has some inbuilt <a href="../../../manual/transitions">Transitions</a> which we can <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from so you do not have to do it all yourself:</p>
 <pre><code class="language-cs">// Replace the old MotionClip class with this.
 [Serializable]
 public class MotionTransition : <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a>
@@ -690,7 +658,7 @@ public class MotionTransition : <a href="/animancer/api/Animancer/ClipTransition
     [SerializeField, Tooltip("Determines if Root Motion should be enabled when this animation plays")]
     private bool _ApplyRootMotion;
 </code></pre>
-<p><code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="../../../introduction/cs/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
+<p><code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> already has the <code>AnimationClip</code>, transition duration, start time, and speed, so all we need to add is the Root Motion <code>bool</code>. Then <a href="/cs-unity/docs/introduction/inheritance"><code>override</code></a> its <code>Apply</code> method to set the <code>Animator.applyRootMotion</code> property accordingly:</p>
 <pre><code class="language-cs">    public override void Apply(AnimancerState state)
     {
         base.Apply(state);

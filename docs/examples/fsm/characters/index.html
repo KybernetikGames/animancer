@@ -138,37 +138,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -455,8 +425,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -619,7 +587,7 @@ public class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehavio
 </ul>
 <p>Anything that wants to access one or more of a character's components can do so via the core <code>Character</code> component. So rather than a <code>Locomotion</code> state having a reference to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (to play animations) and <code>Rigidbody</code> (to apply force) and <code>CharacterStats</code> (to determine how fast it can move), every state just references the <code>Character</code> and accesses the parts it needs through that reference.</p>
 <h1 id="state-machine">State Machine</h1>
-<p>The <a href="../game-manager">Game Manager</a> example used a <a href="../game-manager/fsm#partial-classes">Partial Class</a> to allow its states to be defined inside the main <code><a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a></code> class and therefore have access to all its <code>private</code> members. But in this example our main <code>Character</code> class is designed as a central access point for everything, it will have <code>public</code> accessors for everything so instead of storing the <code>StateMachine</code> in a <code>private</code> field we will use a <a href="../../../introduction/cs/methods/properties">Read-Only Auto-Property</a> to let anything access it and try to change its state, but prevent other scripts from accidentally setting it to <code>null</code> or assigning a different state machine to it by accident:</p>
+<p>The <a href="../game-manager">Game Manager</a> example used a <a href="../game-manager/fsm#partial-classes">Partial Class</a> to allow its states to be defined inside the main <code><a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a></code> class and therefore have access to all its <code>private</code> members. But in this example our main <code>Character</code> class is designed as a central access point for everything, it will have <code>public</code> accessors for everything so instead of storing the <code>StateMachine</code> in a <code>private</code> field we will use a <a href="/cs-unity/docs/introduction/methods/properties">Read-Only Auto-Property</a> to let anything access it and try to change its state, but prevent other scripts from accidentally setting it to <code>null</code> or assigning a different state machine to it by accident:</p>
 <pre><code class="language-cs">public StateMachine&lt;CharacterState&gt; StateMachine { get; private set; }
 </code></pre>
 <p>Then we just initialize it with the desired default state on startup:</p>
@@ -628,9 +596,9 @@ public class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehavio
     StateMachine = new StateMachine&lt;CharacterState&gt;(_Idle);
 }
 </code></pre>
-<p>Since we are using <code>CharacterState</code> as the <a href="../../../introduction/cs/organization#generics">Generic Parameter</a>, this state machine will be able to use any instance of the <code>CharacterState</code> class or anything that <a href="../../../introduction/cs/inheritance">Inherits</a> from it. Nothing is inheriting from it in this example, but the <a href="../interrupts">Interrupt Management</a> example reuses this class as the base for its states.</p>
+<p>Since we are using <code>CharacterState</code> as the <a href="/cs-unity/docs/introduction/organization#generics">Generic Parameter</a>, this state machine will be able to use any instance of the <code>CharacterState</code> class or anything that <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from it. Nothing is inheriting from it in this example, but the <a href="../interrupts">Interrupt Management</a> example reuses this class as the base for its states.</p>
 <h1 id="actions">Actions</h1>
-<p>Much like how Animancer itself allows animations to be played on-demand without needing them to all be defined upfront, this state machine system also allows states to be entered on-demand. For this example, we want to control the state machine using <a href="../../basics/scene-setup#buttons">UI Buttons</a> so we also need a <code>TrySetState</code> method for their <a href="../../../introduction/cs/methods/delegates#unity-events"><code>UnityEvent</code></a>s to call (where other scripts would normally just call <code>character.StateMachine.TrySetState</code> directly):</p>
+<p>Much like how Animancer itself allows animations to be played on-demand without needing them to all be defined upfront, this state machine system also allows states to be entered on-demand. For this example, we want to control the state machine using <a href="../../basics/scene-setup#buttons">UI Buttons</a> so we also need a <code>TrySetState</code> method for their <a href="/cs-unity/docs/introduction/methods/delegates#unity-events"><code>UnityEvent</code></a>s to call (where other scripts would normally just call <code>character.StateMachine.TrySetState</code> directly):</p>
 <pre><code class="language-cs">public void TrySetState(CharacterState state)
 {
     StateMachine.TrySetState(state);
@@ -640,7 +608,7 @@ public class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehavio
 <p><img src="walk-button.gif" class="img-responsive"></p>
 <p>The <a href="../brains">Brains</a> example goes into more detail about controlling character actions.</p>
 <h1 id="after-action">After Action</h1>
-<p>Animancer's <a href="../../../manual/events/end">End Events</a> use <a href="../../../introduction/cs/methods/delegates">Delegates</a> which are very convenient for setting up methods to be called later on (when the animation ends in this case), but unfortunately they get <a href="../../../introduction/cs/other#garbage-collection">Garbage Collected</a> once they are no longer needed which can sometimes lead to performance problems. So rather than having every state create more garbage every time they want to return to the <em>Idle</em> state after an animation finishes, the core <code>Character</code> class is a good place to cache that delegate:</p>
+<p>Animancer's <a href="../../../manual/events/end">End Events</a> use <a href="/cs-unity/docs/introduction/methods/delegates">Delegates</a> which are very convenient for setting up methods to be called later on (when the animation ends in this case), but unfortunately they get <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a> once they are no longer needed which can sometimes lead to performance problems. So rather than having every state create more garbage every time they want to return to the <em>Idle</em> state after an animation finishes, the core <code>Character</code> class is a good place to cache that delegate:</p>
 <pre><code class="language-cs">// Character.cs.
 public Action ForceIdleState { get; private set; }
 
@@ -689,7 +657,7 @@ private void AfterInspectorGUI()
 </code></pre>
 <p>Note that the <code>#if UNITY_EDITOR</code> isn't always necessary to use <code>AfterInspectorGUI</code>, but in this case we need it because we are using a class in the <code>UnityEditor</code> namespace which will not exist in runtime builds.</p>
 <h1 id="states">States</h1>
-<p>Normally the base <code>CharacterState</code> would be an <code>abstract</code> class which defines common logic for all states to <a href="../../../introduction/cs/inheritance">Inherit</a> when they implement their behaviour, but all states in this example will do the same thing (play an animation) so we only need one script for all of them.</p>
+<p>Normally the base <code>CharacterState</code> would be an <code>abstract</code> class which defines common logic for all states to <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> when they implement their behaviour, but all states in this example will do the same thing (play an animation) so we only need one script for all of them.</p>
 <p>The purpose of inheriting from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> is described on the <a href="../../../manual/fsm/state-types">Finite State Machine</a> page. Basically, it gives our states common functionality as components which are disabled by default and only get enabled when the state is entered. It does not really achieve anything useful in this example since the states do not do anything more than play an animation on entry, but in more complex systems this makes it easier to implement states that need <code>Update</code> or <code>FixedUpdate</code> methods to be called while that particular state is the current one.</p>
 <h2 id="walk-and-run">Walk and Run</h2>
 <p>The base <code>CharacterState</code> class would normally not even have an <code>_Animation</code> field because some states might have no animation or even multiple animations. For example, <em>Walk</em> and <em>Run</em> might both be handled by a single <code>Locomotion</code> state which has references to both animations so that it can synchronise their walk cycles as described in the <a href="../../locomotion/walk-and-run">Walk and Run</a> example. Such a state would simply choose which animation to play depending on whether the character's <a href="../brains">Brain</a> says it should be running.</p>

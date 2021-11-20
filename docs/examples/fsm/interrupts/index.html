@@ -137,37 +137,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -454,8 +424,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -595,7 +563,7 @@ public <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> Forc
 <pre><code class="language-cs">public override bool CanExitState
     =&gt; StateChange&lt;CharacterState&gt;.NextState._Priority &gt;= _Priority;
 </code></pre>
-<p>In the <a href="../characters#after-action">Characters</a> example, we set up the <code>ForceIdleState</code> <a href="../../../introduction/cs/methods/delegates">Delegate</a> to use <code>ForceSetState</code> instead of <code>TrySetState</code> so that it will ignore the priority. When attempting to perform an action you want to make sure both the current state and target state will allow it, but when an action's animation ends you generally just want to return to <em>Idle</em> which is unlikely to have any additional requirements. Otherwise the state would need to both try to return to idle at the right time and have its <code>CanExitState</code> check the animation time as well to make sure the animation is finished (and ignore the priority if so).</p>
+<p>In the <a href="../characters#after-action">Characters</a> example, we set up the <code>ForceIdleState</code> <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> to use <code>ForceSetState</code> instead of <code>TrySetState</code> so that it will ignore the priority. When attempting to perform an action you want to make sure both the current state and target state will allow it, but when an action's animation ends you generally just want to return to <em>Idle</em> which is unlikely to have any additional requirements. Otherwise the state would need to both try to return to idle at the right time and have its <code>CanExitState</code> check the animation time as well to make sure the animation is finished (and ignore the priority if so).</p>
 <p>This example reuses the <code>Character</code> script from the <a href="../characters">Characters</a> example:</p>
 <p></p><details><summary>This example reuses the <code>Character</code> script from the <a href="../characters">Characters</a> example and uses a new <code>CharacterState</code> class which inherits from the class with the same name from the <a href="../characters">Characters</a> example to use the same base functionality with the new <code>Priority</code> enum and <code>CanExitState</code> property:</summary><p>
 </p><pre><code class="language-cs">using Animancer.FSM;
@@ -635,7 +603,7 @@ public sealed class CharacterState : Characters.CharacterState
 <p>This means the character can <em>Swing</em> at any time while they are moving around, but if they <em>Flinch</em> because an enemy hits them with an attack they won't be able to start another action until it finishes.</p>
 <p><img src="interrupts.gif" class="img-responsive"></p>
 <h1 id="inheritance-based-priority">Inheritance Based Priority</h1>
-<p>Instead of giving each state a serialized <code>Priority</code> field which needs to be set in the Inspector every time you add it to an object, you could give the base state class a <code>virtual</code> or <code>abstract</code> property that can be overridden by the actual state classes that <a href="../../../introduction/cs/inheritance">Inherit</a> from it:</p>
+<p>Instead of giving each state a serialized <code>Priority</code> field which needs to be set in the Inspector every time you add it to an object, you could give the base state class a <code>virtual</code> or <code>abstract</code> property that can be overridden by the actual state classes that <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from it:</p>
 <pre><code class="language-cs">// In the base <a href="/animancer/api/Animancer.FSM/State">State</a> class.
 // Everything is low priority by default.
 public virtual Priority Priority =&gt; Priority.Low;

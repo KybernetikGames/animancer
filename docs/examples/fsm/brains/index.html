@@ -140,37 +140,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -457,8 +427,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -580,7 +548,7 @@ public sealed class Character : MonoBehaviour
     }
 }
 </code></pre>
-<p>And the <code>CharacterBrain</code> is a simple <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a> class to define what a brain needs to specify, i.e. the direction it wants to move and whether or not it wants to run:</p>
+<p>And the <code>CharacterBrain</code> is a simple <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>abstract</code></a> class to define what a brain needs to specify, i.e. the direction it wants to move and whether or not it wants to run:</p>
 <pre><code class="language-cs">using UnityEngine;
 
 public abstract class CharacterBrain : MonoBehaviour
@@ -597,7 +565,7 @@ public abstract class CharacterBrain : MonoBehaviour
 <p>Note that the actual scripts have setters for <code>Character.Brain</code> and <code>CharacterBrain.Character</code> which are used by the <a href="../brain-transplants#live-brain-transplants">Brain Transplants</a> example to change the assigned brain at runtime.</p>
 <h1 id="base-state">Base State</h1>
 <p>Now that we actually want to implement useful behaviour in the states, we need the base <code>CharacterState</code> to be a different from the previous <code>Characters.CharacterState</code>.</p>
-<p>The class is now <a href="../../../introduction/cs/inheritance#keywords"><code>abstract</code></a>. It does not make sense to attach a <code>CharacterState</code> component to an object because it will not do anything. You should only be able to attach components that <a href="../../../introduction/cs/inheritance">Inherit</a> from it like <code>IdleState</code> or <code>LocomotionState</code>.</p>
+<p>The class is now <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>abstract</code></a>. It does not make sense to attach a <code>CharacterState</code> component to an object because it will not do anything. You should only be able to attach components that <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from it like <code>IdleState</code> or <code>LocomotionState</code>.</p>
 <pre><code class="language-cs">using Animancer;
 using Animancer.FSM;
 using UnityEngine;
@@ -671,7 +639,7 @@ public abstract class CharacterState : StateBehaviour, IOwnedState&lt;CharacterS
 </code></pre>
 <p></p></details><p></p>
 <h1 id="idle">Idle</h1>
-<p>With that base class in place, we can create <code>IdleState</code> to <a href="../../../introduction/cs/inheritance">Inherit</a> from it. This state only needs to do two things:</p>
+<p>With that base class in place, we can create <code>IdleState</code> to <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from it. This state only needs to do two things:</p>
 <ol>
 <li>Play an animation when the state is entered, just like the <code>BasicCharacterState</code> from the <a href="../characters">Characters</a> example:</li>
 </ol>
@@ -706,7 +674,7 @@ public sealed class IdleState : CharacterState
 <p>For example, with the <strong>Ask</strong> approach you could have your base <code>Brain</code> class expose a <code>DesiredState</code> property which it can set as necessary, then have the <code>Character</code> attempt to enter that state every <code>Update</code>. This is often not ideal because it makes it a bit harder to verify that the desired state has actually been entered, so the <strong>Tell</strong> approach may be better. Simply give the <code>Brain</code> access to the character's <code>StateMachine</code> so it can call <code>TrySetState</code> whenever it wants to and check whether it returns <code>true</code> if it needs to make sure the state was entered.</p>
 <p>However, for something like a movement direction vector the other approach may be better. <strong>Tell</strong>ing the character's current state which direction to move would mean that every state has its own movement vector even though only one will be used at a time and most states do not use it anyway. You could put the movement vector on the <code>Character</code>, but if for whatever reason the <code>Brain</code> got destroyed, that would leave the movement vector at its current value (unless you also clear it). In this case, it would likely make more sense to just put the movement vector in the <code>Brain</code> class and have states like <code>Locomotion</code> <strong>Ask</strong> the brain which way to move each frame.</p>
 <h1 id="stats">Stats</h1>
-<p>To implement locomotion (the ability for the character to move around), we will need some <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a> to specify the speeds we can move at: walking, running, and turning. There are generally two places that would be appropriate for those fields, each with different advantages:</p>
+<p>To implement locomotion (the ability for the character to move around), we will need some <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a> to specify the speeds we can move at: walking, running, and turning. There are generally two places that would be appropriate for those fields, each with different advantages:</p>
 <table class="table">
   <thead><tr>
     <th style="width:50%;">In the "Locomotion" state itself</th>

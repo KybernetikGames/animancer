@@ -137,37 +137,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -454,8 +424,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -539,7 +507,7 @@
 </blockquote>
 <p><img src="footstep-events.gif" class="img-responsive img-right"> This example demonstrates how you can use <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/events/animation">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle. The <a href="../../../manual/events">Events</a> page summarises the differences between the two systems which are further demonstrated by the <a href="../golf">Golf Events</a> example.</p>
 <p>The actual example scene demonstrates both systems with one character each, playing a sound every time one of their feet touches the ground. But since the video shown here does not have sound, it instead shows a sphere around the foot associated with each event for a short time after that event occurs.</p>
-<p>The <a href="../../animator-controllers-3d-game-kit">3D Game Kit</a> example uses a similar system based on animation curves instead of events which also has different footstep sounds depending on the surface the character is standing on. An even more complex system could instead use <a href="../../../introduction/cs/vectors#raycasting">Raycasts</a> like in the <a href="../../ik/uneven-ground">Uneven Ground</a> example to determine when a character's feet touch down. That would allow it to work for all animations without manually adding events to them all and could do things like calculating the desired volume based on the velocity of the foot and playing different sounds based on where each foot actually lands rather than the character's center.</p>
+<p>The <a href="../../animator-controllers-3d-game-kit">3D Game Kit</a> example uses a similar system based on animation curves instead of events which also has different footstep sounds depending on the surface the character is standing on. An even more complex system could instead use <a href="/cs-unity/docs/introduction/vectors#raycasting">Raycasts</a> like in the <a href="../../ik/uneven-ground">Uneven Ground</a> example to determine when a character's feet touch down. That would allow it to work for all animations without manually adding events to them all and could do things like calculating the desired volume based on the velocity of the foot and playing different sounds based on where each foot actually lands rather than the character's center.</p>
 <p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script is used to demonstrate <a href="../../../manual/events/animancer">Animancer Events</a> and looks like this (with the comments removed since we're about to explain how it works):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -648,7 +616,7 @@ private AudioClip[] _Sounds;
 <h2 id="audio-source">Audio Source</h2>
 <p>Another difference is that since the <code>AnimationClip</code> is an asset, it cannot reference scene objects because an asset can be used in any scene so those particular objects may not exist. This means the event cannot directly reference the <code>AudioSource</code>s that will be used to play each sound so we need to set it up differently:</p>
 <ol>
-<li>Create another script that <a href="../../../introduction/cs/inheritance">Inherits</a> from the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script.</li>
+<li>Create another script that <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script.</li>
 </ol>
 <pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a> : <a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a>
 {
@@ -662,7 +630,7 @@ private AudioClip[] _Sounds;
 </code></pre>
 <p><img src="footstep-events-animation.png" class="img-responsive"></p>
 <ol start="3">
-<li>Add a method which takes an <code>int</code> parameter to specify which foot and passes the associated <code>AudioSource</code> into the <code>PlaySound</code> method we <a href="../../../introduction/cs/inheritance">Inherited</a> from <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code>:</li>
+<li>Add a method which takes an <code>int</code> parameter to specify which foot and passes the associated <code>AudioSource</code> into the <code>PlaySound</code> method we <a href="/cs-unity/docs/introduction/inheritance">Inherited</a> from <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code>:</li>
 </ol>
 <pre><code class="language-cs">    private void Footstep(int foot)
     {

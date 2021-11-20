@@ -138,37 +138,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -455,8 +425,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -539,7 +507,7 @@
 <p>The character implemented in this example is directly based on the player character from the 3D Game Kit Lite, but it is not an exact copy because the Mecanim character had several problems which we want to avoid.</p>
 <h1 id="script-referencing">Script Referencing</h1>
 <p>In order to avoid causing errors when the 3D Game Kit Lite is not in your project, the scripts in this example cannot directly reference any of the scripts from the 3D Game Kit Lite. This is not a problem with the Game Kit itself, just a general logistical issue.</p>
-<p>So to avoid needing identical copies of all those scripts, this example uses <a href="../../../../introduction/cs/methods/delegates#unity-events">UnityEvents</a> where interaction between systems is required even though you would probably not want to set it up like that in a real project.</p>
+<p>So to avoid needing identical copies of all those scripts, this example uses <a href="/cs-unity/docs/introduction/methods/delegates#unity-events">UnityEvents</a> where interaction between systems is required even though you would probably not want to set it up like that in a real project.</p>
 <p>This mostly applies to scripts that want to play sounds using the <code>RandomAudioPlayer</code> script, so instead of:</p>
 <pre><code class="language-cs">[SerializeField]
 private RandomAudioPlayer _SomeSound;
@@ -612,7 +580,7 @@ public bool canPlay;
 <ul>
 <li>The <code>[HideInInspector]</code> attribute does what it says: it prevents the field from appearing in the Inspector. But it does not actually prevent the value from being saved as part of the scene. This means a script could set the value in the Unity Editor and you would never know why it was in the wrong state on startup (and it would waste performance loading that value). Instead, the <code>[NonSerialized]</code> attribute should have been used to prevent them from being saved at all.
 <ul>
-<li>Alternatively, they could have been <a href="../../../../introduction/cs/methods/properties#auto-properties">Auto-Properties</a> which do not get serialized anyway: <code>public bool Playing { get; set; }</code>.</li>
+<li>Alternatively, they could have been <a href="/cs-unity/docs/introduction/methods/properties#auto-properties">Auto-Properties</a> which do not get serialized anyway: <code>public bool Playing { get; set; }</code>.</li>
 </ul>
 </li>
 <li>But the real issue is that they should not even be in this class in the first place. The <code>RandomAudioPlayer</code> class does not use them itself and of the several dozen places throughout the project that use it, the only place that actually uses these two fields is in the <code>PlayerController.PlayAudio</code> method for the footstep sounds so there is no reason for them not to be in that class instead.</li>

@@ -136,37 +136,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -453,8 +423,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -575,7 +543,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Click
     }
 }
 </code></pre>
-<p>You can simply add a <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component to any object in the scene so that whenever you click the mouse it will look for any component that implements the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> on the clicked object or any of its parents or children (in that order) and call <code>Interact</code> on the first one it finds.</p>
+<p>You can simply add a <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component to any object in the scene so that whenever you click the mouse it will look for any component that implements the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> on the clicked object or any of its parents or children (in that order) and call <code>Interact</code> on the first one it finds.</p>
 <p></p></details><p></p>
 <p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code> script implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> to demonstrate the main purpose of this example:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -636,7 +604,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Door"
 <p></p></details><p></p>
 <h1 id="interaction-system">Interaction System</h1>
 <p>We could have just hard coded the interaction system in the <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code> script or controlled it using UI <code>Button</code>s, but in the interest of encouraging good practices rather than simply getting the job done quickly this example uses a more modular approach.</p>
-<p>The <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component is a somewhat hacky substitute for whatever mechanism you might use to trigger interactions in a real game. It has a fairly simple <code>Update</code> method which waits for the user to Left Click then uses a raycast to determine what they clicked on and tries to find a component that implements the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> attached to that object or any of its parents. If it finds something, it calls the <code>Interact</code> method on that component, whatever it may be.</p>
+<p>The <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component is a somewhat hacky substitute for whatever mechanism you might use to trigger interactions in a real game. It has a fairly simple <code>Update</code> method which waits for the user to Left Click then uses a raycast to determine what they clicked on and tries to find a component that implements the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> attached to that object or any of its parents. If it finds something, it calls the <code>Interact</code> method on that component, whatever it may be.</p>
 <p>This allows the interaction system to be decoupled from the actual interactable objects. It has no idea what kinds of things can be interacted with or what they will do, it just tells them when it's interacting with them. We could add more different types of interactable objects without touching the interaction system or we could change the interaction system without touching the interactable objects. For example, First Person Shooter games wouldn't want Left Click to trigger interactions, they commonly use <code>E</code> instead (since it's near <code>WASD</code> on a QWERTY keyboard) and instead of using an infinite length raycast they commonly limit interactions to a short distance in front of the player. But <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code>s do not need to know about either of those changes, they just open and close when something tells them to.</p>
 <p></p><details><summary>We could test this system by writing a very simple script that implements the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface to log a message and putting it on a cube in the scene (or any object with a <code>Collider</code>):</summary><p>
 </p><pre><code class="language-cs">using UnityEngine;
@@ -652,9 +620,9 @@ namespace Animancer.Examples.FineControl
     }
 }
 </code></pre>
-<p>The <a href="../../../introduction/cs/organization#namespaces">Namespace</a> is necessary because the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> is located in that namespace. Alternatively, you could put <code>using Animancer.Examples.FineControl;</code> at the top of the script, or specify the full name of <code>Animancer.Examples.FineControl.IInteractable</code> when refering to it.</p>
+<p>The <a href="/cs-unity/docs/introduction/organization#namespaces">Namespace</a> is necessary because the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> is located in that namespace. Alternatively, you could put <code>using Animancer.Examples.FineControl;</code> at the top of the script, or specify the full name of <code>Animancer.Examples.FineControl.IInteractable</code> when refering to it.</p>
 <p></p></details><p></p>
-<p>A more complex interaction system might give the <code>Interact</code> method a parameter for details about the triggering object. For example, in addition to the animation it uses on itself, a <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code> could have a <em>Humanoid-OpenDoor</em> animation which it plays on the character who interacts with it. A <code>Lever</code> might do something similar to allow people to pull it. And so on, all without the character needing to hold interaction animations for every possible object. Or the responsibility could be reversed: still give the <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code> or <code>Lever</code> its corresponding humanoid animation, but simply expose it as an <code>InteractionAnimation</code> property in the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> so that when a character triggers the interaction they can also check if there's an animation they need to play.</p>
+<p>A more complex interaction system might give the <code>Interact</code> method a parameter for details about the triggering object. For example, in addition to the animation it uses on itself, a <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code> could have a <em>Humanoid-OpenDoor</em> animation which it plays on the character who interacts with it. A <code>Lever</code> might do something similar to allow people to pull it. And so on, all without the character needing to hold interaction animations for every possible object. Or the responsibility could be reversed: still give the <code><a href="/animancer/api/Animancer.Examples.FineControl/Door">Door</a></code> or <code>Lever</code> its corresponding humanoid animation, but simply expose it as an <code>InteractionAnimation</code> property in the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> so that when a character triggers the interaction they can also check if there's an animation they need to play.</p>
 <h1 id="basic-door">Basic Door</h1>
 <p>The <em>OpenDoor</em> animation rotates the door from closed to open and we do not have a second animation to close it again. So to create a system that can both open and close we just need to manipulate the animation's <code>Speed</code> to play forwards or backwards.</p>
 <p>First we need a new script to implement the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> interface and reference the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the <code>AnimationClip</code>:</p>
@@ -670,8 +638,8 @@ namespace Animancer.Examples.FineControl
     }
 }
 </code></pre>
-<p>As with the simple <code>ClickMe</code> example above, the <a href="../../../introduction/cs/organization#namespaces">Namespace</a> is necessary because the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> is located in that namespace. Alternatively, you could put <code>using Animancer.Examples.FineControl;</code> at the top of the script, or specify the full name of <code>Animancer.Examples.FineControl.IInteractable</code> when refering to it.</p>
-<p>That will give us a compiler error because the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="../../../introduction/cs/inheritance#interfaces">Interface</a> requires the implementer to have an <code>Interact</code> method. So let us add a <a href="../../../introduction/cs/variables#fields">Field</a> to keep track of whether it is open or not and implement the <code>Interact</code> method to toggle the state and play the animation with the appropriate speed:</p>
+<p>As with the simple <code>ClickMe</code> example above, the <a href="/cs-unity/docs/introduction/organization#namespaces">Namespace</a> is necessary because the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> is located in that namespace. Alternatively, you could put <code>using Animancer.Examples.FineControl;</code> at the top of the script, or specify the full name of <code>Animancer.Examples.FineControl.IInteractable</code> when refering to it.</p>
+<p>That will give us a compiler error because the <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> requires the implementer to have an <code>Interact</code> method. So let us add a <a href="/cs-unity/docs/introduction/variables#fields">Field</a> to keep track of whether it is open or not and implement the <code>Interact</code> method to toggle the state and play the animation with the appropriate speed:</p>
 <pre><code class="language-cs">private bool _IsOpen;
 
 public void Interact()

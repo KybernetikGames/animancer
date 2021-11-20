@@ -137,37 +137,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -454,8 +424,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -570,9 +538,9 @@
 <ul>
 <li>The static <code><a href="/animancer/api/Animancer.FSM/StateChange_1/E42BA615">StateChange&lt;TState&gt;.PreviousState</a></code> and <code>NextState</code> properties can be accessed from anywhere.</li>
 <li>If you have a reference to the <code>StateMachine</code> you can use its properties of the same name (i.e. <code>stateMachine.PreviousState</code>) to avoid needing to specify the <code>TState</code> generic argument.</li>
-<li>Inside a class that implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="../../introduction/cs/methods/extension">Extension Methods</a> defined in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class.
+<li>Inside a class that implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> you can use <code>this.GetPreviousState()</code> and <code>this.GetNextState()</code> which are <a href="/cs-unity/docs/introduction/methods/extension">Extension Methods</a> defined in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class.
 <ul>
-<li>Using those <a href="../../introduction/cs/methods/extension">Extension Methods</a> without specifying the generic <code>TState</code> parameter relies on the compiler to infer the parameter which can sometimes lead to it accessing the wrong type and therefore not working properly.</li>
+<li>Using those <a href="/cs-unity/docs/introduction/methods/extension">Extension Methods</a> without specifying the generic <code>TState</code> parameter relies on the compiler to infer the parameter which can sometimes lead to it accessing the wrong type and therefore not working properly.</li>
 <li>For example, if you have a <code>StateMachine&lt;CharacterState&gt;</code> then you obviously need to check <code>StateChange&lt;CharacterState&gt;</code>, but if an <code>IdleState</code> calls <code>this.GetPreviousState()</code> the compiler will infer the generic type as <code>IdleState</code> and try to access <code>StateChange&lt;IdleState&gt;</code> which will be empty and cause it to throw an <code>InvalidOperationException: Attempted to access StateChange&lt;...&gt; but no StateMachine of that type is currently changing its <a href="/animancer/api/Animancer.FSM/State">State</a></code>.</li>
 <li>This can be avoided by specifying the generic parameter yourself: <code>this.GetPreviousState&lt;CharacterState&gt;()</code>.</li>
 </ul>
@@ -603,7 +571,7 @@ private void Awake()
 </code></pre>
 <ul>
 <li>The <code>StateMachine</code> is <code>public</code> so other scripts can access it but <code>readonly</code> so they can't assign a different <code>StateMachine</code> or set it to <code>null</code>.</li>
-<li>The <code>StateMachine</code> is created using a <a href="../../introduction/cs/variables#field-initializers">Field Initializer</a> so that it is always accessible, even if another script executes before this one.</li>
+<li>The <code>StateMachine</code> is created using a <a href="/cs-unity/docs/introduction/variables#field-initializers">Field Initializer</a> so that it is always accessible, even if another script executes before this one.</li>
 <li>The <code>Awake</code> method makes sure there is no <code>CurrentState</code> before entering the first state in case another script executed before this one and already set the state.
 <ul>
 <li>For example, an <em>Introduction</em> state could set itself as the active state on startup and it wouldn't matter whether that happens before or after this <code>Awake</code> method is called. That way the rest of the system wouldn't have to know or care whether there is an <em>Introduction</em> state or not. If there is an <em>Introduction</em> script attached to the character it will enter itself, but otherwise the character will start in the <em>Idle</em> state.</li>
@@ -630,7 +598,7 @@ private <a href="/animancer/api/Animancer.FSM/State">State</a> _Idle;
 public readonly StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;
     StateMachine = new StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;(_Idle);
 </code></pre>
-<p>This gives a compiler error because <a href="../../introduction/cs/variables#field-initializers">Field Initializers</a> can't access instance fields (<code>_Idle</code> is an instance field).</p>
+<p>This gives a compiler error because <a href="/cs-unity/docs/introduction/variables#field-initializers">Field Initializers</a> can't access instance fields (<code>_Idle</code> is an instance field).</p>
 <h2 id="initialize-in-constructor">Initialize in Constructor</h2>
 <pre><code class="language-cs">[SerializeField]
 private <a href="/animancer/api/Animancer.FSM/State">State</a> _Idle;
@@ -642,7 +610,7 @@ public MyClass()
     StateMachine = new StateMachine&lt;<a href="/animancer/api/Animancer.FSM/State">State</a>&gt;(_Idle);
 }
 </code></pre>
-<p>This will compile and run fine, but <a href="../../introduction/cs/methods/constructors">Constructors</a> are executed immediately when the object is created which is before Unity's <a href="../../introduction/cs/variables#serialized-fields">Serialization</a> system can deserialize its fields, meaning that the <code>_Idle</code> field will still be <code>null</code>.</p>
+<p>This will compile and run fine, but <a href="/cs-unity/docs/introduction/methods/constructors">Constructors</a> are executed immediately when the object is created which is before Unity's <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialization</a> system can deserialize its fields, meaning that the <code>_Idle</code> field will still be <code>null</code>.</p>
 <p></p></details><p></p>
 <h1 id="default-states">Default States</h1>
 <p>A regular <code><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> doesn't keep track of any states other than the <code>CurrentState</code>, but it is often useful to have a particular state that it can return to by default if nothing else is active so the <code><a href="/animancer/api/Animancer.FSM/WithDefault">StateMachine&lt;TState&gt;.WithDefault</a></code> class allows you to do that:</p>

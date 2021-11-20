@@ -141,37 +141,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -458,8 +428,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -797,7 +765,7 @@ private GameObject _GolfControls;
     </tr>
   </tbody>
 </table>
-<p>It also has some non-<a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a>:</p>
+<p>It also has some non-<a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a>:</p>
 <ul>
 <li>The starting position and rotation of the <em>GolfClub</em> which we store on startup:</li>
 </ul>
@@ -874,11 +842,11 @@ private <a href="/animancer/api/Animancer.FSM/State">State</a> _State;
 <p>As the character moves, it is very unlikely that they will ever reach the exact target position so we first calculate how far they will <code>step</code> in this single update:</p>
 <pre><code class="language-cs">    var step = Character.Stats.GetMoveSpeed(false) * Time.deltaTime;
 </code></pre>
-<p>Use the <a href="../../../introduction/cs/vectors#difference">Difference</a> between the <code>Character</code>'s position and the destination to get a vector pointing between them then get its <code>magnitude</code> which represents the <code>distance</code> between those two points:</p>
+<p>Use the <a href="/cs-unity/docs/introduction/vectors#difference">Difference</a> between the <code>Character</code>'s position and the destination to get a vector pointing between them then get its <code>magnitude</code> which represents the <code>distance</code> between those two points:</p>
 <pre><code class="language-cs">    var direction = destination - Character.Rigidbody.position;
     var distance = direction.magnitude;
 </code></pre>
-<p>We do not want the <code>Character</code>'s speed to vary based on the remaining distance so we <a href="../../../introduction/cs/vectors#normalization">Normalize</a> it by dividing by the <code>distance</code>;</p>
+<p>We do not want the <code>Character</code>'s speed to vary based on the remaining distance so we <a href="/cs-unity/docs/introduction/vectors#normalization">Normalize</a> it by dividing by the <code>distance</code>;</p>
 <pre><code class="language-cs">    MovementDirection = direction / distance;
 </code></pre>
 <p>And then we return <code>true</code> if the <code>Character</code> is within one <code>step</code> of the destination (otherwise <code>false</code>):</p>

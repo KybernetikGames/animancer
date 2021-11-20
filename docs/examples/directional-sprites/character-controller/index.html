@@ -139,37 +139,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -456,8 +426,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -653,8 +621,8 @@ public sealed class <a href="/animancer/api/Animancer.Examples.DirectionalSprite
 [SerializeField] private Vector2 _Facing = Vector2.down;
 </code></pre>
 <ul>
-<li>We have quite a few <a href="../../../introduction/cs/variables#serialized-fields">Serialized Fields</a>, so the <code>[Header]</code> attribute allows us to group them under an appropriate headding in the Inspector.</li>
-<li><code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="../../../introduction/cs/inheritance">Inherits</a> from the base <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> so either type of asset can be assigned to the <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> fields. This allows the same script to be used for both the Medical Examiner (4 directions) and Pirate (8 directions).</li>
+<li>We have quite a few <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a>, so the <code>[Header]</code> attribute allows us to group them under an appropriate headding in the Inspector.</li>
+<li><code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from the base <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> so either type of asset can be assigned to the <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> fields. This allows the same script to be used for both the Medical Examiner (4 directions) and Pirate (8 directions).</li>
 </ul>
 <table class="table">
   <thead>
@@ -709,7 +677,7 @@ private void Play(DirectionalAnimationSet animations)
 </ul>
 <p>This way we avoid putting too many responsibilities in a single method.</p>
 <h2 id="push">Push</h2>
-<p>When moving, <em>Push</em> logically takes priority over the other two if you are moving against a solid object so start by detecting if that is currently happening. We need to know what the character is touching so we want to use <code>_Collider.GetContacts</code> to get the current contact details. Unity 2019.1 added an <a href="../../../introduction/cs/methods/overloads">Overload</a> of the <code>GetContacts</code> method which takes a <a href="../../../introduction/cs/variables#lists">List</a> parameter that it can automatically resize as necessary for the current number of contact points, but since Animancer still supports older Unity versions we still need to use the <a href="../../../introduction/cs/variables#arrays">Array</a> based methods. In order to avoid creating <a href="../../../introduction/cs/other#garbage-collection">Garbage</a>, we want to pre-allocate an array large enough to fit all the contact points we might have. 4 contacts is plenty for this example, but even a large number like 64 would be fine as long as we avoid making a new array every time we need to get the contacts. The <a href="../../fsm/platformer#ground-detector">Platformer</a> example even implements its own expanding array that works like a list.</p>
+<p>When moving, <em>Push</em> logically takes priority over the other two if you are moving against a solid object so start by detecting if that is currently happening. We need to know what the character is touching so we want to use <code>_Collider.GetContacts</code> to get the current contact details. Unity 2019.1 added an <a href="/cs-unity/docs/introduction/methods/overloads">Overload</a> of the <code>GetContacts</code> method which takes a <a href="/cs-unity/docs/introduction/variables#lists">List</a> parameter that it can automatically resize as necessary for the current number of contact points, but since Animancer still supports older Unity versions we still need to use the <a href="/cs-unity/docs/introduction/variables#arrays">Array</a> based methods. In order to avoid creating <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage</a>, we want to pre-allocate an array large enough to fit all the contact points we might have. 4 contacts is plenty for this example, but even a large number like 64 would be fine as long as we avoid making a new array every time we need to get the contacts. The <a href="../../fsm/platformer#ground-detector">Platformer</a> example even implements its own expanding array that works like a list.</p>
 <pre><code class="language-cs">private static readonly ContactPoint2D[] Contacts = new ContactPoint2D[4];
 
 private void UpdateMovementState()
@@ -827,7 +795,7 @@ private void Awake()
 _Movement = _CurrentAnimationSet.Snap(_Movement);
 </code></pre>
 <p>Using the <code>_CurrentAnimationSet</code> to snap the direction has the added benefit of allowing individual actions to have differing numbers of supported directions. For example, your character might have 8 directions for most actions but only 4 for interacting with a specific object. Or you could even make a <code>DirectionalAnimationSet1</code> if you only have a single animation for an object that always has the same orientation such as pushing open a large boss door which will always be facing straight at the screen.</p>
-<p>Holding multiple directions on a keyboard to move diagonally gives you a longer input vector than only holding a single direction (<code>(1, 0)</code> has a <a href="../../../introduction/cs/vectors#magnitude">Magnitude</a> of 1 while <code>(1, 1)</code> has a <a href="../../../introduction/cs/vectors#magnitude">Magnitude</a> of about ~1.414... This would cause the character to move faster diagonally than other directions which we do not want, so we can simply use <a href="https://docs.unity3d.com/ScriptReference/Vector2.ClampMagnitude"><code>Vector2.ClampMagnitude</code></a> to shorten the input vector if it is too long:</p>
+<p>Holding multiple directions on a keyboard to move diagonally gives you a longer input vector than only holding a single direction (<code>(1, 0)</code> has a <a href="/cs-unity/docs/introduction/vectors#magnitude">Magnitude</a> of 1 while <code>(1, 1)</code> has a <a href="/cs-unity/docs/introduction/vectors#magnitude">Magnitude</a> of about ~1.414... This would cause the character to move faster diagonally than other directions which we do not want, so we can simply use <a href="https://docs.unity3d.com/ScriptReference/Vector2.ClampMagnitude"><code>Vector2.ClampMagnitude</code></a> to shorten the input vector if it is too long:</p>
 <pre><code class="language-cs">_Movement = Vector2.ClampMagnitude(_Movement, 1);
 </code></pre>
 <p>Now that we know which direction we want to move we just need to do it. Physical movement is something that should be as consistent as possible, so we want to update it at a fixed rate rather than allowing it to vary based on the rendering frame rate. Using a <code>Rigidbody2D</code> means Unity will already update it at a fixed rate so the following code could simply go at the end of the <code>Update</code> method and would achieve the exact same result. The distinction is much more important if you are applying gradual acceleration which will give slight differences depending on how you apply it.</p>

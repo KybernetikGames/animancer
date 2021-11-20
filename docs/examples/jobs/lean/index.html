@@ -139,37 +139,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -456,8 +426,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -549,7 +517,7 @@
 <p><a href="https://github.com/KybernetikGames/animancer/issues/48#issuecomment-632336377">This example is based on an implementation by ted-hou on GitHub</a>.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/pro">Animancer Pro</a>.</em></p>
 <h1 id="architecture">Architecture</h1>
-<p>This example uses two scripts like the previous <a href="../">Animation Jobs</a> examples, but this time we are writing the entire job from scratch so we can organise things to be a bit more reusable. Instead of using one script for a job struct and one for a component that initializes the job, this time we will be using three <a href="../../../introduction/cs/organization#types">Types</a>:</p>
+<p>This example uses two scripts like the previous <a href="../">Animation Jobs</a> examples, but this time we are writing the entire job from scratch so we can organise things to be a bit more reusable. Instead of using one script for a job struct and one for a component that initializes the job, this time we will be using three <a href="/cs-unity/docs/introduction/organization#types">Types</a>:</p>
 <ul>
 <li>The <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> class inherits from <code>AnimancerJob</code> as a wrapper around the job to provide a clean API for other scripts to access the job.</li>
 <li>The <code>Job</code> struct is nested inside the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> class and contains the actual <code>IAnimationJob</code> implementation.</li>
@@ -730,7 +698,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">
     {
         get =&gt; _Job.axis;
 </code></pre>
-<p>But since the job is a <a href="../../../introduction/cs/organization#values-and-references">Value Type</a>, simply modifying the values stored in the <code>_Job</code> field will not actually modify the values of the job inside the <code>AnimationScriptPlayable</code> in the <code>PlayableGraph</code> so after we make any modifications we need to use <code>AnimationScriptPlayable.SetJobData</code> to give it the new data. That method is not very efficient because it needs to copy the value of every field in the <code>Job</code> struct even though we are only actually changing one of them. In a real project, this sort of effect is not likely to need to change the axis which the bones are rotated around so that overhead is not a big deal for this:</p>
+<p>But since the job is a <a href="/cs-unity/docs/introduction/organization#values-and-references">Value Type</a>, simply modifying the values stored in the <code>_Job</code> field will not actually modify the values of the job inside the <code>AnimationScriptPlayable</code> in the <code>PlayableGraph</code> so after we make any modifications we need to use <code>AnimationScriptPlayable.SetJobData</code> to give it the new data. That method is not very efficient because it needs to copy the value of every field in the <code>Job</code> struct even though we are only actually changing one of them. In a real project, this sort of effect is not likely to need to change the axis which the bones are rotated around so that overhead is not a big deal for this:</p>
 <pre><code class="language-cs">        set
         {
             if (_Job.axis == value)

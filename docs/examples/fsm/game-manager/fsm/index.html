@@ -141,37 +141,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -458,8 +428,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -579,7 +547,7 @@ public sealed partial class <a href="/animancer/api/Animancer.Examples.StateMach
 </code></pre>
 <p></p></details><p></p>
 <h2 id="singleton">Singleton</h2>
-<p>Since we are using multiple scripts, we will need them to be able to access each other somehow. This example simplifies a few things, but even in a real game you would likely only ever have one <em>Game Manager</em> at a time so we are using a very basic singleton consisting of a <code>static</code> Read-Only <a href="../../../../introduction/cs/methods/auto-properties">Auto Property</a>:</p>
+<p>Since we are using multiple scripts, we will need them to be able to access each other somehow. This example simplifies a few things, but even in a real game you would likely only ever have one <em>Game Manager</em> at a time so we are using a very basic singleton consisting of a <code>static</code> Read-Only <a href="..//cs-unity/docs/introduction/methods/auto-properties">Auto Property</a>:</p>
 <pre><code class="language-cs">public static <a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a> Instance { get; private set; }
 </code></pre>
 <p>Which we can validate and assign in <code>Awake</code>:</p>
@@ -589,7 +557,7 @@ public sealed partial class <a href="/animancer/api/Animancer.Examples.StateMach
         Instance = this;
         ...
 </code></pre>
-<p>The <a href="../../../../introduction/cs/methods/conditional#assertions">Assertions</a> section explains what <code>Debug.Assert</code> does.</p>
+<p>The <a href="..//cs-unity/docs/introduction/methods/conditional#assertions">Assertions</a> section explains what <code>Debug.Assert</code> does.</p>
 <p>If we didn't want to use a singleton, another approach would be to give our <a href="#base-state">Base State</a> class an <code>Initialize</code> method which we call on each state in <code>Awake</code> to pass <code>this</code> <code><a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a></code> into the state so they can all access the shared fields like the <code>_Camera</code> and <code>_Text</code>.</p>
 <h2 id="serialized-fields">Serialized Fields</h2>
 <p>This script only has fields which are used by multiple states:</p>
@@ -631,7 +599,7 @@ private void Awake()
 </code></pre>
 <p>The other system can still be in the scene as long as it is deactivated because <code>FindObjectOfType</code> doesn't find inactive objects.</p>
 <h1 id="partial-classes">Partial Classes</h1>
-<p>You might be wondering how that script can actually be used for anything since all its members (except the singleton <code>Instance</code>) are <code>private</code> and it doesn't seem to do much on its own. The answer is a combination of <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods">Partial Classes</a> and <a href="../../../../introduction/cs/organization#nested-types">Nested Types</a>.</p>
+<p>You might be wondering how that script can actually be used for anything since all its members (except the singleton <code>Instance</code>) are <code>private</code> and it doesn't seem to do much on its own. The answer is a combination of <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods">Partial Classes</a> and <a href="..//cs-unity/docs/introduction/organization#nested-types">Nested Types</a>.</p>
 <p>If you look at the class declaration, you can see that it has the <code>partial</code> keyword:</p>
 <pre><code class="language-cs">public sealed partial class <a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a> : MonoBehaviour
 </code></pre>
@@ -664,7 +632,7 @@ partial class <a href="/animancer/api/Animancer.Examples.StateMachines.GameManag
 }
 </code></pre>
 <h1 id="base-state">Base State</h1>
-<p>The first step for <a href="../../../manual/fsm#basic-usage">Basic Usage</a> of the system is to make a base state class which implements the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> <a href="../introduction/cs/inheritance#interfaces">Interface</a> (or <a href="../introduction/cs/inheritance">Inherits</a> from something that implements it such as <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> or <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code>). If we implemented <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> directly we would need to declare all 4 of its members ourselves, but since the only one that will actually have common functionality between all states is <code>OnEnterState</code>, we are instead making our <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> class inherit from <code>FSM.State</code> which just implements that interface with empty <code>virtual</code> methods so we only need to <code>override</code> the ones we want:</p>
+<p>The first step for <a href="../../../manual/fsm#basic-usage">Basic Usage</a> of the system is to make a base state class which implements the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> (or <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from something that implements it such as <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> or <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code>). If we implemented <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> directly we would need to declare all 4 of its members ourselves, but since the only one that will actually have common functionality between all states is <code>OnEnterState</code>, we are instead making our <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> class inherit from <code>FSM.State</code> which just implements that interface with empty <code>virtual</code> methods so we only need to <code>override</code> the ones we want:</p>
 <pre><code class="language-cs">partial class <a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a>
 {
     public abstract class <a href="/animancer/api/Animancer.FSM/State">State</a> : FSM.State
@@ -680,7 +648,7 @@ partial class <a href="/animancer/api/Animancer.Examples.StateMachines.GameManag
 </code></pre>
 <h2 id="updates">Updates</h2>
 <p>As mentioned in the <a href="../../../manual/fsm/overview#design-rationale">Design Rationale</a> section, Animancer's state machine does not do anything on its own so it doesn't have an <code>Update</code> or <code>Tick</code> method like many other systems. Instead, it is a generic system which allows you to define your own <code>Update</code> method if you need one.</p>
-<p>That means we can utilise <a href="../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> by giving our base <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> class a <code>virtual</code> <code>Update</code> method (or it could be <code>abstract</code>, see the <a href="../../../introduction/cs/inheritance#keywords">Inheritance Keywords</a> section for more information):</p>
+<p>That means we can utilise <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> by giving our base <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> class a <code>virtual</code> <code>Update</code> method (or it could be <code>abstract</code>, see the <a href="/cs-unity/docs/introduction/inheritance#keywords">Inheritance Keywords</a> section for more information):</p>
 <pre><code class="language-cs">        public virtual void Update() { }
 </code></pre>
 <p>Then any state that wants to do something every frame can simply <code>override</code> that method.</p>
@@ -698,7 +666,7 @@ partial class <a href="/animancer/api/Animancer.Examples.StateMachines.GameManag
 </code></pre>
 <p>The state's <code>Update</code> method won't get automatically called by Unity because the <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> class doesn't inherit from <code>MonoBehaviour</code>. All of the other <a href="../../">State Machines</a> examples have their base state classes inherit from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> (which inherits from <code>MonoBehaviour</code>) because it's usually so much more convenient to have Unity automatically call whatever update methods a particular state has. That way one state might have an <code>Update</code> method and another might have a <code>FixedUpdate</code> method without you needing to set up your state machine to call all of the supported methods.</p>
 <h1 id="display-text">Display Text</h1>
-<p>Instead of having each individual state call make its own call to <code>_Text.gameObject.SetActive(...);</code> and set the <code>_Text.text</code>, we can utilise <a href="../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again just like with the <code>Update</code> method.</p>
+<p>Instead of having each individual state call make its own call to <code>_Text.gameObject.SetActive(...);</code> and set the <code>_Text.text</code>, we can utilise <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> again just like with the <code>Update</code> method.</p>
 <p>We start with a <code>virtual</code> property to define the state's <code>DisplayText</code> which will return <code>null</code> unless overridden by a state:</p>
 <pre><code class="language-cs">partial class <a href="/animancer/api/Animancer.Examples.StateMachines.GameManager/GameManagerFSM">GameManagerFSM</a>
 {

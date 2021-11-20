@@ -134,37 +134,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -451,8 +421,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -608,7 +576,7 @@
 <li>If you want to have multiple states playing the same clip (such as if you need to play it on multiple <a href="../blending/layers">Layers</a>) you will need to register them all with different keys (or not register them at all). <code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>
 </ul>
 <h2 id="enum-keys">Enum Keys</h2>
-<p>Unfortunately, since <code>object</code> is a <a href="../../introduction/cs/organization#values-and-references">Reference Type</a>, using a <a href="../../introduction/cs/organization#values-and-references">Value Type</a> like an <code>enum</code> in those methods implicitly creates a <code>new object</code> to hold the value. This is called <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing">Boxing</a> and has a notable impact on performance, particularly since the <code>new object</code> is immediately discarded after the call and needs to be <a href="../../introduction/cs/other#garbage-collection">Garbage Collected</a>. This does not mean enums should not be used, just that you should be aware of the inefficiency.</p>
+<p>Unfortunately, since <code>object</code> is a <a href="/cs-unity/docs/introduction/organization#values-and-references">Reference Type</a>, using a <a href="/cs-unity/docs/introduction/organization#values-and-references">Value Type</a> like an <code>enum</code> in those methods implicitly creates a <code>new object</code> to hold the value. This is called <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing">Boxing</a> and has a notable impact on performance, particularly since the <code>new object</code> is immediately discarded after the call and needs to be <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a>. This does not mean enums should not be used, just that you should be aware of the inefficiency.</p>
 <h2 id="object-keys">Object Keys</h2>
 <p>Another approach is to use actual <code>object</code>s as keys. Rather than an <code>enum</code> you could make a <code>class</code> like this:</p>
 <pre><code class="language-cs">public static class CharacterAction
@@ -629,7 +597,7 @@
 <li>Call <code>animancer.States.GetOrCreate</code> (or <code>Create</code>) in your startup code (such as an <code>Awake</code> or <code>Start</code> method).</li>
 <li>Use a <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> and assign the clips in question to its <code>Animations</code> array in the Inspector (or using a script). This simply calls <code>GetOrCreate</code> for each one in its <code>Awake</code> method.</li>
 </ul>
-<p>If you no longer need a state, you can call <code>AnimancerState.Destroy</code> to remove it. Both the destroying and subsequent <a href="../../introduction/cs/other#garbage-collection">Garbage Collection</a> also have a performance cost that may need to be managed.</p>
+<p>If you no longer need a state, you can call <code>AnimancerState.Destroy</code> to remove it. Both the destroying and subsequent <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collection</a> also have a performance cost that may need to be managed.</p>
 <p>The <a href="../../introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a> section goes into further detail about the performance of Animancer.</p>
 
 	</section>

@@ -134,37 +134,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -451,8 +421,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -530,8 +498,8 @@
 		</section>
 	<section class="content">
 		<p>Unity's inbuilt <a href="https://docs.unity3d.com/ScriptReference/AnimationEvent.html">Animation Event</a> system works the same when using Animancer as without it. The Unity Manual explains how to set up events using the <a href="https://docs.unity3d.com/Manual/AnimationEventsOnImportedClips.html">Animation Tab</a> of a model's import settings or the <a href="https://docs.unity3d.com/Manual/script-AnimationWindowEvent.html">Animation Window</a>. To receive the events, you simply attach a script to the same object as the <code>Animator</code> component and the engine will look for a method in that script with whatever <code>Function</code> name the event specifies. The <a href="../../../examples/events">Animation Events</a> examples demonstrate how to use them.</p>
-<p>It can be convenient to have your event listener script <a href="../../../introduction/cs/inheritance">Interit</a> from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> for organizational purposes (instead of having two separate components), but most events do not actually have any direct interaction with Animancer.</p>
-<p>Note that any event with a <code>string</code> or <code>AnimationEvent</code> parameter will allocate some <a href="../../../introduction/cs/other#garbage-collection">Garbage</a> every time it is triggered, which can potentially cause performance issues.</p>
+<p>It can be convenient to have your event listener script <a href="/cs-unity/docs/introduction/inheritance">Interit</a> from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> for organizational purposes (instead of having two separate components), but most events do not actually have any direct interaction with Animancer.</p>
+<p>Note that any event with a <code>string</code> or <code>AnimationEvent</code> parameter will allocate some <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage</a> every time it is triggered, which can potentially cause performance issues.</p>
 <h1 id="simple-events">Simple Events</h1>
 <p><img src="simple-event.png" class="img-responsive img-right"> The <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component has an <code>OnEvent</code> callback which is triggered by Animation Events using the <code>Function</code> name <code>"Event"</code>. This means you can start an animation then register a callback for when its event occurs. It will automatically assert that the <code>AnimationClip</code> actually has an event with that name (while in the Unity Editor).</p>
 <p>The <code><a href="/animancer/api/Animancer/SimpleEventReceiver">SimpleEventReceiver</a></code> component mainly serves as an example of how you can implement your own events using the <code><a href="/animancer/api/Animancer/AnimationEventReceiver">AnimationEventReceiver</a></code> struct, but it could be useful in a simple game if you set up all of your animations with only one event each that uses <code>"Event"</code> as the <code>Function</code> name (<code>Attack</code> script uses the event to indicate the hit time, <code>Walk</code> script uses it to play footstep sounds, etc). The callback takes the triggering <code>AnimationEvent</code> as a parameter so you can access any of its values, including the <code>AnimationClip</code> that it comes from.</p>

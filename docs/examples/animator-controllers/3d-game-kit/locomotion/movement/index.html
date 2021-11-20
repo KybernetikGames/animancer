@@ -142,37 +142,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs">C# in Unity</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/overview">Scripting Overview</a></li>
-                <li><a href="/animancer/docs/introduction/cs/organization">Organization</a></li>
-                <li><a href="/animancer/docs/introduction/cs/variables">Variables</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/introduction/cs/methods">Methods</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/introduction/cs/methods/parameters">Parameters</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/flow-control">Flow Control</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/return">Return Values</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/constructors">Constructors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/properties">Properties</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/overloads">Overloads</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/messages">Messages</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/delegates">Delegates</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/extension">Extension Methods</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/conditional">Conditional Compilation</a></li>
-                <li><a href="/animancer/docs/introduction/cs/methods/expression-bodied">Expression Bodied Members</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/introduction/cs/inheritance">Inheritance</a></li>
-                <li><a href="/animancer/docs/introduction/cs/vectors">Vectors</a></li>
-                <li><a href="/animancer/docs/introduction/cs/other">Other Topics</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
 
                     </ul>
                 </li>
@@ -459,8 +429,6 @@
                 <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
                 <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
                 <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
-                <li><a href="/animancer/docs/source/coding-standard">Coding Standard</a></li>
-                <li><a href="/animancer/docs/source/default-script-template">Default Script Template</a></li>
 
                     </ul>
                 </li>
@@ -692,7 +660,7 @@ private void OnEnable()
 </code></pre>
 <h2 id="get-root-motion">Get Root Motion</h2>
 <p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
-<p>But since each of our states is a separate class, we can use the power of <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> to give the base <code>CharacterState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
+<p>But since each of our states is a separate class, we can use the power of <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> to give the base <code>CharacterState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
 <pre><code class="language-cs">// In CharacterState:
 public virtual Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Animancer.Animator.deltaPosition;
 </code></pre>
@@ -732,7 +700,7 @@ public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/Ro
 <p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code>LocomotionState</code> and <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
 <h2 id="update-gravity">Update Gravity</h2>
 <p>The Mecanim <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
-<p>Instead, we are using <a href="../../../../../introduction/cs/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>
+<p>Instead, we are using <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>
 <pre><code class="language-cs">// CharacterState.cs:
 public virtual bool StickToGround =&gt; true;
 
