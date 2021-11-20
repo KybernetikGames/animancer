@@ -61,7 +61,7 @@
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
         <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.2</a></li>
-        <li><a href="/kailas-dierk/unity-assets"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
 <form class="search-form" name="search" action="/animancer/search">
@@ -548,17 +548,20 @@
 <thead>
 <tr>
 <th><code>KeepChildrenConnected</code></th>
-<th>When does <code>Animator.Rebind</code> get called?</th>
+<th>Event</th>
+<th>Common Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>true</code><br>Default for Generic Rigs</td>
-<td>When you create a new state such as by playing an animation that hasn't been played on that character yet.</td>
+<td>A state's layer is set.</td>
+<td>Playing an animation that hasn't been played on that character yet will create a new state for it and connect that state to a layer (usually the default base layer).</td>
 </tr>
 <tr>
 <td><code>false</code><br>Default for Humanoid Rigs</td>
-<td>As above, and also whenever you play or stop an animation (specifically, when an <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> becomes 0 it gets disconnected and at any other value it gets connected).</td>
+<td>A state's layer is set or its <code>Weight</code> changes to or from 0.</td>
+<td>Playing an animation sets its <code>Weight</code> to 1 (or fades it in) which connects it to its layer and stopping an animation sets its <code>Weight</code> to 0 which disconnects it from its layer.</td>
 </tr>
 </tbody>
 </table>
@@ -566,8 +569,21 @@
 <h2 id="workarounds">Workarounds</h2>
 <p>There are two general workarounds for this issue, but unfortunately neither of them is particularly convenient:</p>
 <ul>
-<li><strong>Avoid modifying the graph</strong> by setting <code>animancerComponent.Playable.KeepChildrenConnected = true</code> and creating states for all the animations you might need on startup using methods like <code>animancerComponent.States.GetOrCreate</code>.</li>
-<li><strong>Manually store and restore the values that were reset</strong> every time you do something that might connect or disconnect a <code>Playable</code> by storing the constraint values you want, calling <code>animancerComponent.Animator.Rebind();</code> to force the required reset immediately, then applying the stored values back to the constraint components.</li>
+<li><strong>Fully configure the graph on startup</strong>:
+<ul>
+<li>Set <code>animancerComponent.Playable.KeepChildrenConnected = true</code>.</li>
+<li>Call <code>animancerComponent.Layers[x].GetOrCreateState</code> for every animation the character might want to play.</li>
+<li>Don't create or destroy any states after that.</li>
+</ul>
+</li>
+<li><strong>Manually store and restore the values that were reset</strong>:
+<ul>
+<li>Find everywhere your code does something that might connect or disconnect a <code>Playable</code> such as playing a new animation.</li>
+<li>Store the values of all constraints that you want.</li>
+<li>Call <code>animancerComponent.Animator.Rebind();</code> to force the required reset immediately.</li>
+<li>Apply the stored values back to the constraint components.</li>
+</ul>
+</li>
 </ul>
 <h2 id="ik-targets">IK Targets</h2>
 <p>The position and rotation of Target and Hint objects used by the Inverse Kinematics system from the Animation Rigging package are affected by the same resetting effect explained above, but fortunately it can be avoided by ensuring those objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
