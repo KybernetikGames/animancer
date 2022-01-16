@@ -593,7 +593,7 @@ public abstract class CharacterState : StateBehaviour, IOwnedState&lt;CharacterS
 </code></pre>
 <p>To save a bit of effort when adding new states to an object, we use the <code>Reset</code> method to look for a reference to a character in any parent or child of the current <code>GameObject</code>. Unity calls <code>Reset</code> when you first add a component to an object in Edit Mode so this will usually save us from needing to assign the <code>Character</code> manually in the Inspector:</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
-    protected void Reset()
+    protected virtual void Reset()
     {
         _Character = gameObject.GetComponentInParentOrChildren&lt;Character&gt;();
     }
@@ -627,9 +627,8 @@ public abstract class CharacterState : StateBehaviour, IOwnedState&lt;CharacterS
     }
 
 #if UNITY_EDITOR
-    protected override void Reset()
+    protected virtual void Reset()
     {
-        base.Reset();
         _Character = gameObject.GetComponentInParentOrChildren&lt;Character&gt;();
     }
 #endif
