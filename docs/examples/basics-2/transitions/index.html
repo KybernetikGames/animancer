@@ -1,0 +1,981 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - 01-04 Transitions</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.2</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+<p><a href="#cross-fading">Cross Fading</a></p>
+<p><a href="#rapid-fire">Rapid Fire</a></p>
+<p><a href="#workflow-problem">Workflow Problem</a></p>
+<p><a href="#transitions">Transitions</a></p>
+<p><a href="#events-in-transitions">Events in Transitions</a></p>
+<p><a href="#what-next">What Next</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/docs/download">Download</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/examples">Examples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview active">
+                    <a href="/animancer/docs/examples/basics-2">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/basics-2/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/docs/examples/basics-2/input">Input</a></li>
+                <li><a href="/animancer/docs/examples/basics-2/quick-play">01-01 Quick Play</a></li>
+                <li><a href="/animancer/docs/examples/basics-2/simple-movement">01-02 Simple Movement</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/basics-2/simple-action">01-03 Simple Action</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/basics-2/simple-action/holding">Holding a Pistol</a></li>
+
+                    </ul>
+                </li>
+                <li class="selected"><a href="/animancer/docs/examples/basics-2/transitions">01-04 Transitions</a></li>
+                <li><a href="/animancer/docs/examples/basics-2/simple-character">01-05 Simple Character</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/fine-control/named-animations">02-01 Named Animations</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/speed-and-time">02-02 Speed and Time</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/doors">02-03 Doors</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">02-04 Update Rate</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/solo-animation">02-05 Solo Animation</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/locomotion">03 Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/locomotion/root-motion">03-01 Root Motion</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/linear-blending">03-02 Linear Blending</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/directional-blending">03-03 Directional Blending</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/directional-sprites">04 Directional Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/directional-sprites/basic-movement">04-01 Basic Movement</a></li>
+                <li><a href="/animancer/docs/examples/directional-sprites/character-controller">04-02 Character Controller</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/events/footsteps">05-01 Footstep Events</a></li>
+                <li><a href="/animancer/docs/examples/events/golf">05-02 Golf Events</a></li>
+                <li><a href="/animancer/docs/examples/events/utilities">05-03 Event Utilities</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/fsm/game-manager">06-01 Game Manager</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/fsm/game-manager/enum">Enum</a></li>
+                <li><a href="/animancer/docs/examples/fsm/game-manager/fsm">FSM</a></li>
+                <li><a href="/animancer/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/fsm/characters">06-02 Characters</a></li>
+                <li><a href="/animancer/docs/examples/fsm/interrupts">06-03 Interrupt Management</a></li>
+                <li><a href="/animancer/docs/examples/fsm/brains">06-04 Brains</a></li>
+                <li><a href="/animancer/docs/examples/fsm/brain-transplants">06-05 Brain Transplants</a></li>
+                <li><a href="/animancer/docs/examples/fsm/weapons">06-06 Weapons</a></li>
+                <li><a href="/animancer/docs/examples/fsm/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/layers">07 Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/ik/puppet">08-01 Puppet</a></li>
+                <li><a href="/animancer/docs/examples/ik/uneven-ground">08-02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/basics">09-01 Hybrid Basics</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/mini-game">09-02 Hybrid Mini Game</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers/3d-game-kit">09-03 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">10-02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">10-03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/docs/examples/integration/lod">Level of Detail (LOD)</a></li>
+                <li><a href="/animancer/docs/examples/integration/odin-inspector">Odin Inspector</a></li>
+                <li><a href="/animancer/docs/examples/integration/puppet-master">Puppet Master</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/no-video-tutorials">No Video Tutorials</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/docs/manual/getting/animation-window">Animation Window</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
+                <li><a href="/animancer/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
+                <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/fading">Fading</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/events/end">End Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/overview">Overview</a></li>
+                <li><a href="/animancer/docs/manual/fsm/changing-states">Changing States</a></li>
+                <li><a href="/animancer/docs/manual/fsm/state-types">State Types</a></li>
+                <li><a href="/animancer/docs/manual/fsm/keys">Keys</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities">Utilities</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
+                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/tools/pack-textures">Pack Textures</a></li>
+                <li><a href="/animancer/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/other/animation-clip-inspector">Animation Clip Inspector</a></li>
+                <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
+                <li><a href="/animancer/docs/bugs/animator-controller-speed">Animator Controller Speed</a></li>
+                <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/reorderable-array-height">Reorderable Array Height</a></li>
+                <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
+                <li><a href="/animancer/docs/bugs/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/bugs/timing">Timing</a></li>
+                <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v6-0">Animancer v6.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v6-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/help">Help and FAQ</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/help/debugging">Debugging</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>01-04 Transitions</h1>
+		</section>
+	<section class="content">
+		<blockquote class="blockquote">
+<p><strong>Difficulty</strong>: <a href="../../../introduction/glossary#example-difficulty">Beginner</a> - Recommended after <a href="../simple-action">Simple Action</a></p>
+<p><strong>Location</strong>: <em>Assets/Plugins/Animancer/Examples/01 Basics/04 Transitions</em></p>
+<p><strong>Namespace</strong>: <a href="../../../../api/Animancer.Examples.Basics"><code>Animancer.Examples.Basics</code></a></p>
+</blockquote>
+<p>This example implements the same behaviour as the <a href="../simple-action">Simple Action</a> example, but with smooth blending between animations (i.e. <a href="../../../manual/blending/fading">Cross Fading</a>) instead of instantly snapping between them. It also introduces <a href="../../../manual/transitions">Transitions</a> which allow the animation details (such as the fade duration) to easily be configured and previewed in the Inspector.</p>
+<p><img src="rapid-fire-smooth.gif" class="img-responsive"></p>
+<p>Note that while the fade duration is a core feature of <a href="../../../manual/transitions">Transitions</a>, it is by no means their only purpose so they can still be very useful in situations where you don't want to smoothly blend between animations (such as if you are using <code>Sprite</code> animations).</p>
+<h1 id="overview">Overview</h1>
+<p></p><details><summary>The <code>PlayAnimationOnClick</code> script from the <a href="../simple-action">Simple Action</a> example goes through several revisions throughout this example to become <code>PlayTransitionOnClick</code>, but is still quite simple overall.</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class PlayTransitionOnClick : MonoBehaviour
+{
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Idle;
+    [SerializeField] private ClipTransition _Action;
+
+    private void OnEnable()
+    {
+        _Action.Events.OnEnd = OnActionEnd;
+
+        _Animancer.Play(_Idle);
+    }
+
+    private void OnActionEnd()
+    {
+        _Animancer.Play(_Idle);
+    }
+
+    private void Update()
+    {
+        if (ExampleInput.LeftMouseUp)
+        {
+            _Animancer.Play(_Action);
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<h1 id="cross-fading">Cross Fading</h1>
+<p>The character in the <a href="../simple-action">Simple Action</a> example is playing the animations we want, but changing between them instantly snaps the character's pose instead of moving smoothly from the previous pose. This can be easily solved by <a href="../../../manual/blending/fading">Cross Fading</a> between the animations.</p>
+<p>All you need to do is add another parameter to the <code>Play</code> call to tell it how long you want the transition to take:</p>
+<pre><code class="language-cs">_Animancer.Play(_Action);// Play instantly.
+_Animancer.Play(_Action, 0.25f);// Cross Fade over 0.25 seconds.
+</code></pre>
+<p>Note that <a href="/animancer/redirect/lite">Animancer Lite</a> only allows a fade duration of 0.25 seconds. You can try out any duration you want in the Unity Editor, but it will always use the default duration in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</p>
+<p></p><details><summary>The full script now looks like this:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class PlayTransitionOnClick : MonoBehaviour
+{
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private AnimationClip _Idle;
+    [SerializeField] private AnimationClip _Action;
+
+    private void OnEnable()
+    {
+        _Animancer.Play(_Idle, 0.25f);
+    }
+
+    private void Update()
+    {
+        if (ExampleInput.LeftMouseUp)
+        {
+            AnimancerState state = _Animancer.Play(_Action, 0.25f);
+            state.Time = 0;
+            state.Events.OnEnd = OnEnable;
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p>Note how the <code>OnEnable</code> method includes a fade duration because we're using it as the <a href="../../../manual/events/end">End Event</a> or the <code>_Action</code> animation. When Unity first calls it on startup, nothing else is playing yet so Animancer will ignore the fade duration and simply play the <code>_Idle</code> animation immediately, but then when the <code>_Action</code> ends it will fade as intended.</p>
+<p>Here's what it looks like in Play Mode:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Play Immediately</th>
+    <th style="width:50%">Cross Fade</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="../simple-action/action-end.gif" class="img-responsive"></td>
+      <td><img src="fade.gif" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rapid-fire">Rapid Fire</h1>
+<p>Specifying a fade duration gives nice smooth blending between two different animations, but doesn't automatically allow an animation to transition into itself because each animation state can only have one <code>Time</code> value and setting it will immediately snap it to the new value.</p>
+<p><img src="rapid-fire-snap.gif" class="img-responsive"></p>
+<p>This issue is addressed by <a href="../../../manual/blending/fading/modes">Fade Modes</a> which can be specified as another optional parameter in the <code>Play</code> method. In this case, we want to use <code>FadeMode.FromStart</code> so that it will always fade in from the start of the animation.</p>
+<pre><code class="language-cs">AnimancerState state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
+state.Events.OnEnd = OnEnable;
+</code></pre>
+<p>Note that we no longer need to set the <code>state.Time = 0</code> because <code>FadeMode.FromStart</code> already does that.</p>
+<p></p><details><summary>The full script now looks like this:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class PlayTransitionOnClick : MonoBehaviour
+{
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private AnimationClip _Idle;
+    [SerializeField] private AnimationClip _Action;
+
+    private void OnEnable()
+    {
+        _Animancer.Play(_Idle, 0.25f);
+    }
+
+    private void Update()
+    {
+        if (ExampleInput.LeftMouseUp)
+        {
+            AnimancerState state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
+            state.Events.OnEnd = OnEnable;
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p><img src="rapid-fire-smooth.gif" class="img-responsive"></p>
+<h1 id="workflow-problem">Workflow Problem</h1>
+<p>We now have the behaviour we want, but there is a slight problem with the development workflow. Specifying the fade duration in code like this makes it clear exactly what the code is doing, but also has several disadvantages:</p>
+<ul>
+<li>You can't easily preview the fade. If you want to see what it will look like you have to enter Play Mode and get to a point where that code is actually executed.</li>
+<li>Non-programmers can't easily modify the fade duration and even programmers still have to go through a tedious process of finding the right line of code, picking a new value that might be better, recompiling, and going into Play Mode to test it again.</li>
+</ul>
+<p>Adding a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> to specify the fade duration in the Inspector would help a bit, but <a href="../../../manual/transitions">Transitions</a> are usually a much better solution.</p>
+<h1 id="transitions">Transitions</h1>
+<p>Instead of having an <code>AnimationClip</code> field to directly reference an animation, you can make a <code>ClipTransition</code> field which contains an <code>AnimationClip</code> as well as various other details about how you want it to be played such as a <code>Fade Duration</code> and <code>Start Time</code>.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Animation Clips (Old)</th>
+    <th style="width:50%">Clip Transitions (New)</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private AnimancerComponent _Animancer;
+
+[SerializeField]
+private AnimationClip _Idle;
+
+[SerializeField]
+private AnimationClip _Action;
+</code></pre>
+</td>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private AnimancerComponent _Animancer;
+
+[SerializeField]
+private ClipTransition _Idle;
+
+[SerializeField]
+private ClipTransition _Action;
+</code></pre>
+</td>
+    </tr>
+    <tr>
+      <td><img src="../simple-action/inspector.png" class="img-responsive"></td>
+      <td><img src="inspector.gif" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<img src="inspector.png" class="img-responsive img-right">
+<p>We won't be using it here, but the eye icon on the right side of the Inspector for each transition field allows you to <a href="../../../manual/transitions/previews">Preview</a> it in Edit Mode so you can see what it looks like while tweaking the values.</p>
+<p>In this case, we are only interested in two of the fields (the <a href="../../../manual/transitions">Transitions</a> page explains them all in detail):</p>
+<h2 id="fade-duration">Fade Duration</h2>
+<p>We are still using the same fade duration of 0.25 seconds on both the <em>Idle</em> and <em>Action</em> animations, but you can see that same value being displayed in other units as well. The <a href="../../../manual/transitions#time-fields">Time Fields</a> section explains how they work.</p>
+<h2 id="start-time">Start Time</h2>
+<ul>
+<li>The <code>Idle</code> animation's <code>Start Time</code> toggle is unticked, meaning that if it was already playing it will simply continue from its current time. This will use the default <code>FadeMode.FixedSpeed</code>.</li>
+<li>The <code>Action</code> animation's <code>Start Time</code> toggle is ticked, meaning that it will always be set to the specified value (0 in this case) when you play it. This will use <code>FadeMode.FromStart</code> as described above (in the <a href="#rapid-fire">Rapid Fire</a> section).</li>
+</ul>
+<h1 id="events-in-transitions">Events in Transitions</h1>
+<p>The way that <a href="../../../manual/events/end">End Events</a> (and other <a href="../../../manual/events/animancer">Animancer Events</a>) work is slightly different depending on whether you directly play an <code>AnimationClip</code> or use a <a href="../../../manual/transitions">Transition</a>. Specifically, this affects the way they are <a href="../../../manual/events/animancer/behaviour#clear-automatically">Cleared Automatically</a> when you play another animation. That page explains the system in detail, but in summary:</p>
+<ul>
+<li>Without a transition, you need to initialize any events every time you play the animation.</li>
+<li>But a transition has its own events so you should instead initialize them only once on startup.
+<ul>
+<li>The state is given a direct reference to the transition's events, which means that any events added to the state will get stored in the transition so that next time you play it the old events are still there and you add more copies of the same events (unless you specifically check if they were already there before adding them).</li>
+<li>Initializing on startup is also better for performance because it avoids allocating memory every time you play the animation that would need to be <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a> later on.</li>
+</ul>
+</li>
+</ul>
+<p>This means that after we replace the <code>AnimationClip</code> fields with <code>ClipTransition</code>s we have a few other changes to make as well.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Animation Clips (Old)</th>
+    <th style="width:50%">Clip Transitions (New)</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private AnimancerComponent _Animancer;
+
+[SerializeField]
+private AnimationClip _Idle;
+
+[SerializeField]
+private AnimationClip _Action;
+</code></pre>
+</td>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private AnimancerComponent _Animancer;
+
+[SerializeField]
+private ClipTransition _Idle;
+
+[SerializeField]
+private ClipTransition _Action;
+</code></pre>
+</td>
+    </tr>
+    <tr>
+      <td>Previously, all we did on startup was play the <code>_Idle</code> animation.</td>
+      <td>We add the <a href="../../../manual/events/end">End Event</a> to the <code>_Action</code> transition on startup instead of to its state when playing it.</td>
+    </tr>
+    <tr>
+<td>
+<pre><code class="language-cs">private void OnEnable()
+{
+    _Animancer.Play(_Idle, 0.25f);
+}
+</code></pre>
+</td>
+<td>
+<pre><code class="language-cs">private void OnEnable()
+{
+    _Action.Events.OnEnd = OnActionEnd;
+
+    _Animancer.Play(_Idle);
+}
+</code></pre>
+</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>The <code>OnEnable</code> method now does more than just play the <code>_Idle</code> animation so we need another method to do just that.</td>
+    </tr>
+    <tr>
+      <td></td>
+<td>
+<pre><code class="language-cs">private void OnActionEnd()
+{
+    _Animancer.Play(_Idle);
+}
+</code></pre>
+</td>
+    </tr>
+    <tr>
+      <td>When we play the <code>_Action</code>, we need to specify its fade duration, fade mode, and end event.</td>
+      <td>When we play the <code>_Action</code>, we've already set up everything else we need.</td>
+    </tr>
+    <tr>
+<td>
+<pre><code class="language-cs">private void Update()
+{
+    if (ExampleInput.LeftMouseUp)
+    {
+        AnimancerState state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
+        state.Events.OnEnd = OnEnable;
+    }
+}
+</code></pre>
+</td>
+<td>
+<pre><code class="language-cs">private void Update()
+{
+    if (ExampleInput.LeftMouseUp)
+    {
+        _Animancer.Play(_Action);
+    }
+}
+</code></pre>
+</td>
+    </tr>
+  </tbody>
+</table>
+<p></p><details><summary>The full script now looks like this:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class PlayTransitionOnClick : MonoBehaviour
+{
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Idle;
+    [SerializeField] private ClipTransition _Action;
+
+    private void OnEnable()
+    {
+        _Action.Events.OnEnd = OnActionEnd;
+
+        _Animancer.Play(_Idle);
+    }
+
+    private void OnActionEnd()
+    {
+        _Animancer.Play(_Idle);
+    }
+
+    private void Update()
+    {
+        if (ExampleInput.LeftMouseUp)
+        {
+            _Animancer.Play(_Action);
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p>In the end, the script using <code>AnimationClip</code>s was slightly shorter, but the one using <code>ClipTransition</code>s has a much better development workflow because it keeps purely visual details like the fade duration out of the code for easier customization.</p>
+<h1 id="what-next">What Next</h1>
+<table class="table">
+<thead>
+<tr>
+<th>Example</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../simple-character">Simple Character</a></td>
+<td>Combining this example with <a href="../simple-movement">Simple Movement</a>.</td>
+</tr>
+</tbody>
+</table>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>
