@@ -212,25 +212,22 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/examples/fsm/characters">06-01 Characters</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/examples/fsm/game-manager">06-01 Game Manager</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/examples/fsm/game-manager/enum">Enum</a></li>
-                <li><a href="/animancer/docs/examples/fsm/game-manager/fsm">FSM</a></li>
-                <li><a href="/animancer/docs/examples/fsm/game-manager/comparison">Comparison</a></li>
-
-                    </ul>
-                </li>
-                <li><a href="/animancer/docs/examples/fsm/interrupts">06-03 Interrupt Management</a></li>
-                <li><a href="/animancer/docs/examples/fsm/brains">06-04 Brains</a></li>
-                <li><a href="/animancer/docs/examples/fsm/brain-transplants">06-05 Brain Transplants</a></li>
-                <li><a href="/animancer/docs/examples/fsm/weapons">06-06 Weapons</a></li>
+                <li><a href="/animancer/docs/examples/fsm/interruptions">06-02 Interruptions</a></li>
+                <li><a href="/animancer/docs/examples/fsm/brains">06-03 Brains</a></li>
+                <li><a href="/animancer/docs/examples/fsm/weapons">06-04 Weapons</a></li>
                 <li><a href="/animancer/docs/examples/fsm/platformer">Platformer Game Kit</a></li>
 
                     </ul>
                 </li>
-                <li><a href="/animancer/docs/examples/layers">07 Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/layers">07 Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/layers/basic">07-01 Basic Layers</a></li>
+                <li><a href="/animancer/docs/examples/layers/dynamic">07-02 Dynamic Layers</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -530,15 +527,15 @@
 		</section>
 	<section class="content">
 		<h2 id="to-do-before-release">To Do Before Release</h2>
-<p>This page was last updated 2022-05-12.</p>
+<p>This page was last updated 2022-06-29.</p>
 <ul>
-<li>Document the changes to the <a href="../../examples/events">Events</a> examples (listed in the <a href="#examples">Examples</a> section.</li>
-<li>Redo the <a href="../../examples/fsm">FSM</a> examples.</li>
-<li>Add code architecture diagrams to the remaining examples (currently up to <a href="../../examples/events">Events</a>).</li>
+<li>Add code architecture diagrams to the remaining examples (currently up to <a href="../../examples/layers">Layers</a>).</li>
+<li>The IK and Animation Jobs examples should only need minor cleanup.</li>
+<li>The Animator Controllers examples will likely each require a bit of work.</li>
 <li>Allow the user to specify a prefab (or maybe a scene) to use as the environment of the <a href="../../manual/transitions/previews">Transition Preview Window</a> so you can set up lighting and other props if you want. <a href="https://github.com/KybernetikGames/animancer/issues/199">#199</a></li>
 </ul>
 <blockquote class="blockquote">
-<p>Planned Release 2022-06-??</p>
+<p>Planned Release 2022-07-??</p>
 </blockquote>
 <p><a href="../../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
 <p>See the <a href="animancer-v7-0#upgrade-guide">Animancer v7.0 Upgrade Guide</a> if you are upgrading from a version older than that.</p>
@@ -564,6 +561,7 @@
 </li>
 </ul>
 <h1 id="examples">Examples</h1>
+<h2 id="all-examples">All Examples</h2>
 <ul>
 <li>Improved the information blocks at the start of each example:
 <ul>
@@ -587,12 +585,18 @@
   </tbody>
 </table>
 <ul>
+<li>Added code architecture diagrams to all examples.</li>
 <li><a href="../../examples/basics-2/input">Added support for the new Input System Package in the examples (as well as the legacy Input Manager).</a></li>
 <li>Added a <em>Humanoid-PistolShoot</em> animation and a <em>Pistol</em> model for various examples.</li>
 <li>Cleaned up the <em>Humanoid-Walk</em>, <em>Humanoid-Run</em>, and <em>Spider Bot</em> animations a bit.</li>
 <li>Removed the <em>GolfPutt</em> and <em>Tennis</em> animations and models.</li>
+<li>Cleaned up all example UI canvases.</li>
 <li>All example objects now have materials so they can get properly updated by SRP (because apparently the default material can't).</li>
-<li>Completely replaced the <a href="../../examples/basics-2">Basics</a> examples:
+<li>Fixed example scene lighting to use a Spot Light instead of Directional because it's attached to the camera and having a continually moving Directional Light was causing warnings in Unity 2022.</li>
+</ul>
+<h2 id="specific-examples">Specific Examples</h2>
+<ul>
+<li><a href="../../examples/basics-2">Basics</a>:
 <ul>
 <li><a href="../../examples/basics-2/quick-play">Quick Play</a> now only covers the scene setup and plays a single animation on startup.</li>
 <li><a href="../../examples/basics-2/simple-movement">Simple Movement</a> swaps between <em>Idle</em> and <em>Move</em> animations based on whether a key is being held.</li>
@@ -600,21 +604,43 @@
 <li><a href="../../examples/basics-2/transitios">Transitions</a> implements the same logic as Simple Action but with Fading between animations.</li>
 <li><a href="../../examples/basics-2/simple-character">Simple Character</a> combines <a href="../../examples/basics-2/simple-movement">Simple Movement</a> and <a href="../../examples/basics-2/transitios">Transitions</a> to explain some of the issues that arise when you start implementing more complex behaviours.</li>
 <li>Playing and Fading has been removed since its main points are now covered by <a href="../../examples/basics-2/transitios">Transitions</a>.</li>
-<li><a href="../../examples/fine-control/named-animations">Named Animations</a> has been moved to the <a href="../../examples/fine-control">Fine Control</a> group since it is not necessary to understand how to use Animancer.</li>
+<li>Moved <a href="../../examples/fine-control/named-animations">Named Animations</a> to the <a href="../../examples/fine-control">Fine Control</a> group since it isn't necessary to understand how to use Animancer.</li>
 </ul>
 </li>
-<li>Renamed the Spider Bot example to <a href="../../examples/fine-control/speed-and-time">Speed and Time</a>.
+<li><a href="../../examples/fine-control">Fine Control</a>:
+<ul>
+<li>Renamed <del>Spider Bot</del> to <a href="../../examples/fine-control/speed-and-time">Speed and Time</a>.
 <ul>
 <li>It no longer involves inheritance since it was confusing for beginners.</li>
-<li>Instead, it uses a <code>[SerializeReference]</code> for its <em>Move</em> animation so that the <a href="../../manual/other/polymorphic">Polymorphic Drawer</a> system can allow the <a href="../../examples/locomotion/directional-blending">Directional Blending</a> example to reuse the same script with a 2D Mixer.</li>
+<li>Instead, it uses a <code>[SerializeReference]</code> for its <em>Move</em> animation so that the <a href="../../manual/other/polymorphic">Polymorphic Drawer</a> system can allow the <a href="../../examples/locomotion/directional-blending">Directional Blending</a> to reuse the same script with a 2D Mixer.</li>
 </ul>
 </li>
-<li>Greatly simplified the <code>OnValidate</code> method in the <a href="../../examples/fine-control/doors">Doors example</a>.</li>
+<li>Greatly simplified the <code>OnValidate</code> method in <a href="../../examples/fine-control/doors">Doors</a>.</li>
+</ul>
+</li>
+<li><a href="../../examples/events">Events</a>:
+<ul>
 <li>Changed <code>FootstepEvents</code> to be <code>sealed</code> and have <code>FootstepEventsAnimation</code> reference it with a field instead of inheriting because it was confusing to beginners.</li>
-<li>Simplified the <a href="../../examples/events/golf">Golf Events</a> example to only explain Hybrid Animancer Events and Simple Animation Events instead of also re-explaining the regular ways of using each system that were already explained in <a href="../../examples/events/footsteps">Footstep Events</a>.</li>
-<li>Completely replaced the <a href="../../examples/fsm/characters">Characters</a> example to re-implement the same behaviour as the <a href="../../examples/basics-2/simple-character">Simple Character</a> example using <a href="../../manual/fsm">Animancer's Finite State Machine</a>.</li>
-<li>Removed the <del>Game Manager</del> example. It was supposed to be a short introduction to demonstrate how Animancer's FSM could be used for a non-animation situation, but it ended up being way too long by explaining all the other irrelevant details like enums, switches, camera movement, text formatting, etc. so now the Characters example does the job much better anyway.</li>
-<li>Added <a href="../../examples/fsm/modularity">Modularity</a> example to demonstrate the flexibility you gain by splitting your logic into multiple scripts.</li>
+<li>Simplified <a href="../../examples/events/golf">Golf Events</a> to only contain one character demonstrating hybrid Animancer Events instead of also re-explaining the regular ways of using each system that were already explained in <a href="../../examples/events/footsteps">Footstep Events</a>.</li>
+</ul>
+</li>
+<li><a href="../../examples/fsm">State Machines</a>:
+<ul>
+<li>Removed <del>Game Manager</del>. It was supposed to be a short introduction to demonstrate how Animancer's FSM could be used for a non-animation situation, but it ended up being way too long by explaining all the other irrelevant details like enums, switches, camera movement, text formatting, etc. so now <a href="../../examples/fsm/characters">Characters</a> does the job much better anyway.</li>
+<li>Removed <del>Brain Transplants</del> because it spent far too long explaining things that weren't directly relevant to Animancer or even how to use the FSM system.</li>
+<li>Renamed <del>Interrupt Management</del> to <a href="../../examples/fsm/interruptions">Interruptions</a>.</li>
+<li>Completely replaced <a href="../../examples/fsm/characters">Characters</a> to re-implement the same behaviour as <a href="../../examples/basics-2/simple-character">Simple Character</a> using <a href="../../manual/fsm">Animancer's Finite State Machine</a>.</li>
+<li>Changed <a href="../../examples/fsm/brains">Brains</a>, <a href="../../examples/fsm/interruptions">Interruptions</a>, and <a href="../../examples/fsm/weapons">Weapons</a> to directly reuse the same scripts from <a href="../../examples/fsm/characters">Characters</a> instead of having their own slightly different copies. This just means the <a href="../../examples/fsm/characters">Characters</a> scripts have some parts which aren't explained until later examples.</li>
+<li>Included an example scene for <a href="../../examples/fsm/weapons">Weapons</a>. It isn't very good since the example animations are limited, but it works as a proof of concept while the documentation shows what it could look like with a proper character and animations.</li>
+</ul>
+</li>
+<li><a href="../../examples/layers">Layers</a>:
+<ul>
+<li>Split the old example into two which are based on the behaviour of <a href="../../examples/basics-2/simple-character">Simple Character</a> instead of using UI buttons.</li>
+<li><a href="../../examples/layers/basic">Basic Layers</a> for playing and masking.</li>
+<li><a href="../../examples/layers/dynamic">Dynamic Layers</a> for playing the <em>Action</em> on the whole body if the character would be <em>Idle</em> or just the upper body while they <em>Walk</em>.</li>
+</ul>
+</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
@@ -649,6 +675,7 @@
 <li>Added overloads of <code>EndEventReceiver.GetFadeOutDuration</code> which take an <code>AnimancerState</code>.</li>
 <li>Added <code>AnimancerState.DelayedPause</code>. <a href="https://github.com/KybernetikGames/animancer/issues/207">#207</a></li>
 <li>Added non-generic <code>IStateMachine</code> interface.</li>
+<li>Added keyed <code>StateMachine&lt;TKey, TState&gt;.WithDefault</code>.</li>
 </ul>
 <h1 id="changes">Changes</h1>
 <ul>
@@ -670,12 +697,23 @@
 <ul>
 <li>Moved it into the <code>Animancer.Editor.Tools</code> namespace.</li>
 <li>Moved the panels out of it so they are no longer nested classes.</li>
-<li>It now uses reflection to gether the tools rather than hard coding them as individual fields so new tools can be added without modifying the window.</li>
+<li>It now uses reflection to gather the tools rather than hard coding them as individual fields so new tools can be added without modifying the window.</li>
+</ul>
+</li>
+<li>Removed the exception for adding a new layer beyond the <code>AnimancerPlayable.LayerList.Capacity</code>. It now just doubles the capacity like a regular list.</li>
+<li>Removed the standard Animation Event names systems (<code>SimpleEventReceiver</code> and <code>EndEventReceiver</code>).
+<ul>
+<li><code>SimpleEventReceiver</code> was inefficient due to requiring an <code>AnimationEvent</code> parameter (which allocates garbage every time an event is triggered) to backtrack and try to figure out which animation the event actually came from to avoid triggering the callback in response to an event from the wrong state.</li>
+<li><code>EndEventReceiver</code> was unreliable because it relied on registering your callback as an End Event but didn't actually prevent Animancer from checking and triggering that End Event like it normally would, meaning you might as well just use an End Event.</li>
+<li>Those scripts were originally created before Animancer Events were implemented and have been removed because they don't facilitate an effective workflow for any common use case.</li>
+<li>If you still want to use those scripts, they're available on request (simply use any of the contact methods listed on the <a href="../../help">Help</a> page).</li>
+<li><code>ExitEvent</code> is still included because it serves a notably different purpose (though its use is generally not encouraged).</li>
 </ul>
 </li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
+<li>Fixed <code>AnimancerPlayable</code> to not give compile warnings in Unity 2022.1. <a href="https://github.com/KybernetikGames/animancer/issues/208">#208</a></li>
 <li>Fixed <code>InvalidCastException</code> in <code>ControllerState.ValidateHasParameter</code>, <code>AnimancerPlayableDrawer.DoNativeAnimatorControllerGUI</code>, and <code>ControllerTransition.Drawer.DoChildPropertyGUI</code> when using an Animator Controller loaded from an Asset Bundle.</li>
 <li>Fixed potential <code>InvalidCastException</code> in <code>SpriteEditor</code>.</li>
 <li>Fixed <code>AnimancerPlayable.TryGetOutput</code> to actually work.</li>
@@ -694,6 +732,15 @@
 <li>Fixed <code>ControllerState.RawTime</code> to allow the time to be set while it is paused. <a href="https://github.com/KybernetikGames/animancer/issues/207">#207</a></li>
 <li>Fixed <code>AnimationBindings</code> to not clear its cache every time the hierarchy is changed.</li>
 <li>Fixed <code>EndEventReceiver.TryInvokeOnEndEvent</code> to not complain about a missing receiver if it found one that has no events.</li>
+<li>Fixed possible <code>ArgumentException</code> in <code>AnimancerEvent.Sequence.Insert</code>.</li>
+<li>Fixed the "playing at 0 weight" Inspector warning to not appear when the state is fading.</li>
+<li>Fixed <code>SerializableEventSequenceDrawer</code> height to only take up one line when showing the "Multi-object editing message".</li>
+<li>Fixed mixer transitions to not allow their Animations to be edited when multiple objects are selected with different values. Previously, one of the objects would immediately overwrite the others.</li>
+<li>Fixed <code>ClipTransitionSequence.IsLooping</code> to not cause infinite recursion when there is only one clip.</li>
+<li>Fixed the base <code>UnShared.Asset</code> property setter to clear the cached <code>State</code> and <code>Events</code>.</li>
+<li>Fixed "Identifier uniqueness violation" issues in the Modify Sprites and Rename Sprites tools by adding support for the 2D Sprite package.</li>
+<li>Fixed the fade duration to be calculated correctly for a layer if its state is already mid-fade.</li>
+<li>Fixed several incorrect values in <code>[DefaultValue]</code> attributes (<code>0</code> instead of <code>0f</code>).</li>
 </ul>
 
 	</section>
