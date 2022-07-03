@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - API - PlayableAssetState.AppendDetails(StringBuilder, string) Method</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.3</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Parameters">Parameters</a></p>
+<p><a href="#ReturnValue">Return Value</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    	
+	    <script src="/animancer/assets/js/lunr.min.js"></script>
+    <script src="/animancer/assets/js/searchIndex.js"></script>
+    <div class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search Types...">
+            <span class="input-group-btn">
+                <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </div>
+    <div id="search-results">
+    </div>
+    <script>
+        function runSearch(query){
+            $("#search-results").empty();			
+            if( query.length < 2 ){
+                return;
+            }			
+            var results = searchModule.search("*" + query + "*");
+            var listHtml = "<ul class='sidebar-menu'>";	
+            listHtml += "<li class='header'>Type Results</li>";	
+            if(results.length == 0 ){
+                listHtml += "<li>No results found</li>";
+            } else {					
+                for(var i = 0; i < results.length; ++i){
+                    var res = results[i];
+                    listHtml += "<li><a href='" + res.url + "'>" + htmlEscape(res.title) + "</a></li>";
+                }				
+            }
+            listHtml += "</ul>";				
+            $("#search-results").append(listHtml);
+        }
+
+        $(document).ready(function(){
+            $("#search").on('input propertychange paste', function() {
+                runSearch($("#search").val());
+            });
+        });
+
+        function htmlEscape(html) {
+            return document.createElement('div')
+                .appendChild(document.createTextNode(html))
+                .parentNode
+                .innerHTML;
+        }
+    </script>
+	
+    <hr>
+
+                    <ul class="sidebar-menu">
+                        
+			<li class="header">Assembly</li>
+		<li><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></li>
+		<li class="header">Namespace</li>
+		<li><a href="/animancer/api/Animancer">Animancer</a></li>
+		<li class="header">Type</li>
+		<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>
+		<li role="separator" class="divider"></li>
+			<li class="header">Constructors</li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/0AE10140">PlayableAssetState<wbr>(PlayableAsset)<wbr></a></li>
+			<li class="header">NamedType Members</li>
+				<li><a href="/animancer/api/Animancer/DelayedPause">AnimancerState<wbr>.DelayedPause</a></li>
+				<li><a href="/animancer/api/Animancer/EventDispatcher">AnimancerState<wbr>.EventDispatcher</a></li>
+				<li><a href="/animancer/api/Animancer/IListItem">Key<wbr>.IListItem</a></li>
+				<li><a href="/animancer/api/Animancer/ITransition">PlayableAssetState<wbr>.ITransition</a></li>
+				<li><a href="/animancer/api/Animancer/KeyedList_1">Key<wbr>.KeyedList<wbr>&lt;T&gt;<wbr></a></li>
+			<li class="header">Property Members</li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/7C3F4A2E">ApplyAnimatorIK</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/1CB2FBE9">ApplyFootIK</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/6B73F228">Asset</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/9FC6E73B">Automatically<wbr>Clear<wbr>Events</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/B346A95B">AverageVelocity</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/E60CE120">Bindings</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/A8AF7E6B">ChildCount</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/A6878A73">Clip</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/659DB369">DebugName</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/BAA47882">Duration</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/AACBC52A">EffectiveSpeed</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/ABAB3565">EffectiveWeight</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/11AD60E8">Events</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">FadeSpeed</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/58114E95">HasEvents</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/DB78AEB6">Index</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/A2D2518E">IsActive</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/DBAA38E1">IsLooping</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/24DFEA05">IsPlaying</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/2AA4B570">IsStopped</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/7C52CF73">IsValid</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/D16FF160">Keep<wbr>Children<wbr>Connected</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">Key</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/AF796608">Layer</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/CE927121">LayerIndex</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/9466EAB9">Length</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/E9045143">MainObject</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/3EB84580">NormalizedEndTime</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/617EFC91">NormalizedTime</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/149A6986">Parent</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/BD79217C">RawTime</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/87E41C92">RemainingDuration</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/F1D5A1C8">Root</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">Speed</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">TargetWeight</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">Time</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/EDAE5156">TraceConstructor</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/99393827">Unsupported<wbr>Events<wbr>Message</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/C675A969">Unsupported<wbr>Speed<wbr>Message</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">Weight</a></li>
+			<li class="header">Method Members</li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/441F1F40">AppendDescription<wbr>(StringBuilder, <wbr>string)<wbr></a></li>
+				<li class="selected"><a href="/animancer/api/Animancer/PlayableAssetState/A3D499DD">AppendDetails<wbr>(StringBuilder, <wbr>string)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/CE0ED083">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>IPlayableWrapper)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/9E18D446">ApplyWeight<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/23E873A2">Assert<wbr>Connection<wbr>Weight<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/81A19547">Assert<wbr>Connection<wbr>Weight<wbr>Recursive<wbr>(IPlayableWrapper)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/7366C13A">CancelSetTime<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/1F3AC8B6">CopyIKFlags<wbr>(AnimancerNode)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/70FF863A">CreatePlayable<wbr>(Playable)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/DAFE670C">CreatePlayable<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/2C9D147A">Destroy<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/D707FF1B">DestroyPlayable<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/9060A2FC">~AnimancerNode<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/F7FA71C2">GatherAnimationClips<wbr>(ICollection<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/BECB8408">GetBindingDetails<wbr>(PlayableBinding, <wbr>string, <wbr>Type, <wbr>bool)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/AF703B25">GetChild<wbr>(int)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/47EF8077">GetDescription<wbr>(string)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/CF810134">GetEnumerator<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/E462689D">GetPath<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Key/EE93DB40">IndexOf<wbr>(Key)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Key/C82B71F8">IsInList<wbr>(Key)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/67F20929">MoveTime<wbr>(float, <wbr>bool)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/057FFBCF">OnAddChild<wbr>(IList<wbr>&lt;<wbr>Animancer<wbr>State&gt;<wbr>, <wbr>AnimancerState)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/AAFECE96">OnSetIsPlaying<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/76CD1A2C">Play<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/531570FA">RecreatePlayable<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/F6B6D11D">Recreate<wbr>Playable<wbr>Recursive<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/F21BAAA0">RequireUpdate<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState/361B64E1">SetBindings<wbr>(Object[])<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/AAFFB745">SetDebugName<wbr>(string)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/4F4E76C3">SetParent<wbr>(AnimancerNode, <wbr>int)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/88069733">SetRoot<wbr>(AnimancerPlayable)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/6AE2B168">SetWeight<wbr>(float)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/EC9AB439">StartFade<wbr>(float)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode/5B696066">StartFade<wbr>(float, <wbr>float)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/7A05C5CB">Stop<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState/6DEF8ADE">ToString<wbr>()<wbr></a></li>
+			<li class="header">Field Members</li>
+				<li><a href="/animancer/api/Animancer/Key/F996EF9F">NotInList</a></li>
+
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+<section class="content-header">
+			<h3><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a>.</h3>
+	<h1>AppendDetails<wbr>(StringBuilder, <wbr>string)<wbr> <small>Method</small></h1>
+</section>
+<section class="content">
+	
+	
+	
+		<div class="panel panel-default">
+  			<div class="panel-body">	
+				<dl class="dl-horizontal">	
+						<dt>Assembly</dt>
+						<dd><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></dd>
+						
+						<dt>Namespace</dt>
+						<dd><a href="/animancer/api/Animancer">Animancer</a></dd>
+					
+						<dt>Containing Type</dt>
+						<dd><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></dd>		
+					
+				</dl>
+  			</div>
+		</div>
+
+	<h1 id="Syntax">Syntax</h1>
+	<pre><code>protected override void AppendDetails(StringBuilder text, string separator)</code></pre>
+
+
+
+
+
+	<h1 id="Parameters">Parameters</h1>
+	<div class="box">
+		<div class="box-body no-padding table-responsive">
+			<table class="table table-striped table-hover three-cols">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+					<tbody><tr>
+						<td>text</td>
+						<td>StringBuilder</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>separator</td>
+						<td>string</td>
+						<td></td>
+					</tr>
+			</tbody></table>
+		</div>
+	</div>	
+
+	<h1 id="ReturnValue">Return Value</h1>
+	<div class="box">
+		<div class="box-body no-padding table-responsive">
+			<table class="table table-striped table-hover two-cols">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody><tr>
+					<td>void</td>
+					<td></td>
+				</tr>
+			</tbody></table>
+		</div>
+	</div>	
+
+
+	
+</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -160,11 +160,13 @@
 				<li><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine<wbr>&lt;TState&gt;<wbr></a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine<wbr>&lt;TKey, <wbr>TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer.FSM/StateMachineUtilities">State<wbr>Machine<wbr>Utilities</a></li>
 			<li class="header">Interface Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IOwnedState_1">IOwnedState<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IPrioritizable">IPrioritizable</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IState">IState</a></li>
+				<li><a href="/animancer/api/Animancer.FSM/IStateMachine">IStateMachine</a></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/KeyChange_1">KeyChange<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateChange_1">StateChange<wbr>&lt;TState&gt;<wbr></a></li>
@@ -204,6 +206,7 @@
 								<dt>Interfaces</dt>
 								<dd>
 									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer.FSM/IStateMachine">IStateMachine</a></li>								
 											<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine</a><wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>&gt;<wbr></li>								
 											<li>IDictionary<wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>, <wbr><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a>&gt;<wbr></li>								
 									</ul>
@@ -217,6 +220,12 @@
 									</ul>
 								</dd>				
 							
+								<dt>Derived Types</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer.FSM/WithDefault">StateMachine<wbr>&lt;TKey, <wbr>TState&gt;<wbr><wbr>.WithDefault</a></li>								
+									</ul>
+								</dd>			
 							
 						</dl>
 					</div>		
@@ -225,10 +234,14 @@
 							graph BT
 	Type--&gt;Base0["StateMachine&lt;TState&gt;"]
 	Base0--&gt;Base1["Object"]
-	Type-.-&gt;Interface0["IKeyedStateMachine&lt;TKey&gt;"]
-	Type-.-&gt;Interface1["IDictionary&lt;TKey, TState&gt;"]
+	Type-.-&gt;Interface0["IStateMachine"]
+	click Interface0 "/animancer/api/Animancer.FSM/IStateMachine"
+	Type-.-&gt;Interface1["IKeyedStateMachine&lt;TKey&gt;"]
+	Type-.-&gt;Interface2["IDictionary&lt;TKey, TState&gt;"]
 	Type["StateMachine&lt;TKey, TState&gt;"]
 class Type type-node
+	Derived0["StateMachine&lt;TKey, TState&gt;.WithDefault"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer.FSM/WithDefault"
 
 						</div>
 					</div>
@@ -238,8 +251,9 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[HelpURL(StateExtensions.APIDocumentationURL + nameof(StateMachine&lt;TState&gt;) + "_2")]
-public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKeyedStateMachine&lt;TKey&gt;, 
-    IDictionary&lt;TKey, TState&gt;
+[Serializable]
+public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IStateMachine, 
+    IKeyedStateMachine&lt;TKey&gt;, IDictionary&lt;TKey, TState&gt;
     where TState : class, IState</code></pre>
 
 
@@ -248,6 +262,8 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKey
     This class allows states to be registered with a particular key upfront and then accessed later using that key.
     See <code class="cs">Animancer.FSM.StateMachine`1</code> for a system that does not bother keeping track of any states other than
     the active one.
+    <p></p>
+    See <code class="cs">Animancer.FSM.StateMachine`2.InitializeAfterDeserialize</code> if using this class in a serialized field.
     <p></p>
     Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/fsm/keys">Keyed State Machines</a>
     </div>
@@ -264,6 +280,10 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKey
 				</thead>
 					<tbody><tr>
 						<td>HelpURLAttribute</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Serializable<wbr>Attribute</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -372,6 +392,13 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKey
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/C43BEA7B">GUILineCount</a></td>
+								<td>int</td>
+								<td>
+									<div>[Editor-Only] The number of standard size lines that <code class="cs">Animancer.FSM.StateMachine`1.DoGUI</code> will use.</div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/FB0F3285">Keys</a></td>
 								<td>ICollection<wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>&gt;<wbr></td>
 								<td>
@@ -472,6 +499,13 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKey
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/01CD53B9">DoGUI<wbr>(Rect)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only] Draws GUI fields to display the status of this state machine in the given `area`.</div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/9D7C7A87">ForceSetState<wbr>(TKey)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
@@ -504,6 +538,13 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKey
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a></td>
 								<td>
 									<div>Returns the state registered with the specified `key`, or null if none is present.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_2/E67B225C">Initialize<wbr>After<wbr>Deserialize<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Call this after deserializing to properly initialize the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.</div>
 								</td>
 							</tr>
 							<tr>
@@ -616,7 +657,7 @@ public class StateMachine&lt;TKey, TState&gt; : StateMachine&lt;TState&gt;, IKey
 <div>
 <p>Contact</p>
 <p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
-<p><a href="/animancer/forum">Unity Forum</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
 <p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
 </div>
 

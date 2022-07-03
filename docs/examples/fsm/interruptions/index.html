@@ -1,0 +1,982 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - 06-02 Interruptions</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.3</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#controls">Controls</a></p>
+<p><a href="#overview">Overview</a></p>
+<p><a href="#health-pool">Health Pool</a></p>
+<p><a href="#flinch-state">Flinch State</a></p>
+<p><a href="#interrupt-behaviour">Interrupt Behaviour</a></p>
+<p><a href="#can-exit-state">Can Exit State</a></p>
+<p><a href="#priority-int">Priority Int</a></p>
+<p><a href="#priority-enum">Priority Enum</a></p>
+<p><a href="#self-interruption">Self Interruption</a></p>
+<p><a href="#action-type">Action Type</a></p>
+<p><a href="#serialized-field">Serialized Field</a></p>
+<p><a href="#conclusion">Conclusion</a></p>
+<p><a href="#what-next">What Next?</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/docs/download">Download</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/conversion">Conversion</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/examples">Examples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/basics">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/basics/quick-play">01-01 Quick Play</a></li>
+                <li><a href="/animancer/docs/examples/basics/movement">01-02 Basic Movement</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/basics/action">01-03 Basic Action</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/basics/action/holding">Holding a Pistol</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/basics/transitions">01-04 Transitions</a></li>
+                <li><a href="/animancer/docs/examples/basics/character">01-05 Basic Character</a></li>
+                <li><a href="/animancer/docs/examples/basics/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/docs/examples/basics/input">Input</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/fine-control/named-animations">02-01 Named Animations</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/speed-and-time">02-02 Speed and Time</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/doors">02-03 Doors</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/update-rate">02-04 Update Rate</a></li>
+                <li><a href="/animancer/docs/examples/fine-control/solo-animation">02-05 Solo Animation</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/locomotion">03 Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/locomotion/root-motion">03-01 Root Motion</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/linear-blending">03-02 Linear Blending</a></li>
+                <li><a href="/animancer/docs/examples/locomotion/directional-blending">03-03 Directional Blending</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/directional-sprites">04 Directional Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/directional-sprites/basics">04-01 Directional Basics</a></li>
+                <li><a href="/animancer/docs/examples/directional-sprites/character">04-02 Directional Character</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/events/footsteps">05-01 Footstep Events</a></li>
+                <li><a href="/animancer/docs/examples/events/golf">05-02 Golf Events</a></li>
+                <li><a href="/animancer/docs/examples/events/utilities">05-03 Event Utilities</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/examples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/fsm/characters">06-01 Characters</a></li>
+                <li class="selected"><a href="/animancer/docs/examples/fsm/interruptions">06-02 Interruptions</a></li>
+                <li><a href="/animancer/docs/examples/fsm/brains">06-03 Brains</a></li>
+                <li><a href="/animancer/docs/examples/fsm/weapons">06-04 Weapons</a></li>
+                <li><a href="/animancer/docs/examples/fsm/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/layers">07 Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/layers/basic">07-01 Basic Layers</a></li>
+                <li><a href="/animancer/docs/examples/layers/dynamic">07-02 Dynamic Layers</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/ik/puppet">08-01 Puppet</a></li>
+                <li><a href="/animancer/docs/examples/ik/uneven-ground">08-02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/basics">09-01 Hybrid Basics</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/character">09-02 Hybrid Character</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers/3d-game-kit">09-03 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/docs/examples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/examples/jobs/damping">10-02 Damping</a></li>
+                <li><a href="/animancer/docs/examples/jobs/lean">10-03 Lean</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/examples/integration">Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/examples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/docs/examples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/docs/examples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/docs/examples/integration/lod">Level of Detail (LOD)</a></li>
+                <li><a href="/animancer/docs/examples/integration/odin-inspector">Odin Inspector</a></li>
+                <li><a href="/animancer/docs/examples/integration/puppet-master">Puppet Master</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/examples/no-video-tutorials">No Video Tutorials</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/docs/manual/getting/animation-window">Animation Window</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
+                <li><a href="/animancer/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
+                <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/fading">Fading</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/events/end">End Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/overview">Overview</a></li>
+                <li><a href="/animancer/docs/manual/fsm/state-types">1. State Types</a></li>
+                <li><a href="/animancer/docs/manual/fsm/initialization">2. Initialization</a></li>
+                <li><a href="/animancer/docs/manual/fsm/changing-states">3. Changing States</a></li>
+                <li><a href="/animancer/docs/manual/fsm/keys">Keys</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm/utilities">Utilities</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/utilities/input-buffer">Input Buffers</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/state-selector">State Selectors</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/owned-states">Owned States</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a></li>
+                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/tools/pack-textures">Pack Textures</a></li>
+                <li><a href="/animancer/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/other/animation-clip-inspector">Animation Clip Inspector</a></li>
+                <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/bugs/events">Animation Events</a></li>
+                <li><a href="/animancer/docs/bugs/animator-controller-speed">Animator Controller Speed</a></li>
+                <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/reorderable-array-height">Reorderable Array Height</a></li>
+                <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/docs/bugs/stabilize-feet">Stabilize Feet</a></li>
+                <li><a href="/animancer/docs/bugs/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/bugs/timing">Timing</a></li>
+                <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v6-0">Animancer v6.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v6-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/help">Help and FAQ</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/help/debugging">Debugging</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>06-02 Interruptions</h1>
+		</section>
+	<section class="content">
+		<blockquote class="blockquote">
+<p><i class="emw fa fa-folder"></i> <strong>Location</strong>: <em><span class="mini">Assets/Plugins/Animancer/</span>Examples/06 State Machines/02 Interruptions</em></p>
+<p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../characters">Characters</a> and <a href="../../fine-control/doors">Doors</a></p>
+<p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
+<p><i class="emw fa fa-lightbulb-o"></i> How a modular state machine setup makes it easy to add new states.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to control which states can interrupt each other.</p>
+</blockquote>
+<img src="interruptions.gif" class="img-responsive img-right">
+<p>This example expands upon the <a href="../characters">Characters</a> example to add a <code>FlinchState</code> and demonstrates several different ways you can control which states can interrupt each other.</p>
+<p>The video to the right shows how the <em>Action</em> (shooting the pistol) can interrupt <em>Idle</em> or <em>Walk</em> and clicking on the character to make them <em>Flinch</em> can interrupt any of those, but clicking elsewhere during the <em>Flinch</em> isn't allowed to start the <em>Action</em>.</p>
+<h1 id="controls">Controls</h1>
+<ul>
+<li>W = Walk</li>
+<li>Left Click on the character = Get Hit</li>
+<li>Left Click elsewhere = Shoot</li>
+</ul>
+<h1 id="overview">Overview</h1>
+<p>This example explains various different ways of controlling which states can interrupt each other, including the <code><a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a></code> enum used in the actual scripts. But the states in the <a href="../characters">Characters</a> example are a bit too simple to really explore that concept so before it can do that it explains how to implement a <code>FlinchState</code> which interrupts a character's other actions. A state like that would normally be triggered when the character gets hit by an attack, but rather than getting sidetracked implementing a proper attack and damage system, this example just reuses the interaction system from the <a href="../../fine-control/doors">Doors</a> example:</p>
+<ul>
+<li>On startup, <code>FlinchState</code> gets the character's <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> and registers a callback in its <code>OnHitReceived</code> event. That callback will tell the character to enter the <code>FlinchState</code>.</li>
+<li><code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> looks for a component that implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> attached to whatever object is clicked. If it finds one, it calls <code>Interact</code> on it.</li>
+<li>The character's <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> component implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code>. Its <code>Interact</code> method invokes an <code>OnHitReceived</code> event as if the character had taken damage.</li>
+</ul>
+<p>The general code structure is the same as the <a href="../characters">Characters</a> example with a few additions. The modular design of the character's scripts allows the new state to be added without modifying any of the previous scripts.</p>
+<p><img src="architecture.png" class="img-responsive" id="architecture"></p>
+<p></p><details><summary>Click here to show the code structure from the <a href="../characters">Characters</a> example:</summary>
+<p><img src="../characters/architecture.png" class="img-responsive"></p>
+</details><p></p>
+<p>Note how nothing directly references the <code>FlinchState</code>. It registers itself to the event that will activate it so it's entirely self-contained and nothing else needs to know whether it's there or not. That means determining whether a character will flinch when they take damage is as simple as adding or removing that one component.</p>
+<h1 id="health-pool">Health Pool</h1>
+<p>The <code>Character</code> class has a field to reference a <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> which wasn't used in the <a href="../characters">Characters</a> example, but will be used here:</p>
+<pre><code class="language-cs">public sealed class Character : MonoBehaviour
+{
+    ...
+
+    [SerializeField]
+    private <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> _Health;
+    public <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> Health =&gt; _Health;
+</code></pre>
+<img src="health-inspector.png" class="img-responsive img-right" style="max-width:40%">
+<p>The <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> class is very simple:</p>
+<ul>
+<li>It has an <a href="/cs-unity/docs/introduction/methods/delegates">Event Delegate</a> called <code>OnHitReceived</code> which would normally be triggered when the character is hit by an attack.</li>
+<li>But since we don't have a hit/damage system (and implementing one would be very off-topic), it implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> from the <a href="../../fine-control/doors">Doors</a> example using its <code>Interact</code> method to invoke the event.</li>
+<li>There is also a <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component in the scene which will call that <code>Interact</code> method when the user clicks on the character.</li>
+</ul>
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> : MonoBehaviour, <a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a>
+{
+    public event Action OnHitReceived;
+
+    public void Interact()
+    {
+        OnHitReceived?.Invoke();
+    }
+}
+</code></pre>
+<p>Normally, that class would also have fields like maximum health and current health to keep track of how much damage the character takes.</p>
+<p>Using events and interfaces allows this class to do its job without knowing what's interacting with it or what's reacting to it getting hit. The <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component wasn't written with <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> in mind and <code>FlinchState</code> doesn't know or care what's causing the character to get hit, they all just fit together while operating independently.</p>
+<img src="flinch-inspector.png" class="img-responsive img-right" style="max-width:40%">
+<h1 id="flinch-state">Flinch State</h1>
+<p>The <code>FlinchState</code> script is very similar to the <a href="../characters#action-state">Action State</a>:</p>
+<ul>
+<li>Has a <a href="../../../manual/transitions">Transition</a> field.</li>
+<li>Sets its <a href="../../../manual/events/end">End Event</a> return to the default state (<em>Idle</em>) when the animation finishes.</li>
+<li>Plays that <a href="../../../manual/transitions">Transition</a> when the state is entered.</li>
+</ul>
+<pre><code class="language-cs">public sealed class FlinchState : CharacterState
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+
+    private void Awake()
+    {
+        _Animation.Events.OnEnd = Character.StateMachine.ForceSetDefaultState;
+
+        ...
+    }
+
+    private void OnEnable()
+    {
+        Character.Animancer.Play(_Animation);
+    }
+</code></pre>
+<p>The other properties determine which states it can interrupt and which ones it can be interrupted by, <a href="#interrupt-behaviour">which will be explained soon</a>:</p>
+<pre><code class="language-cs">    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.High;
+    
+    public override bool CanInterruptSelf =&gt; true;
+}
+</code></pre>
+<p>And the bit that allows it to operate independently is that it also registers a <a href="/cs-unity/docs/introduction/methods/delegates#inline-delegates">Lambda Expression</a> delegate to the <code>OnHitReceived</code> event in the <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> component. When that event is triggered, it will invoke the registered delegate which tries to enter this state:</p>
+<pre><code class="language-cs">    private void Awake()
+    {
+        ...
+
+        Character.Health.OnHitReceived += () =&gt; Character.StateMachine.TryResetState(this);
+    }
+</code></pre>
+<p>It uses <code>TryResetState</code> rather than <code>TrySetState</code> so that it can re-enter itself, allowing the character to restart the <em>Flinch</em> animation if they get hit again while it was already playing (which might be undesirable in some games).</p>
+<h1 id="interrupt-behaviour">Interrupt Behaviour</h1>
+<p>Now that the <code>FlinchState</code> has been implemented, it's time to explain some different ways of controlling which states can interrupt each other. Here's a summary of the logic we want:</p>
+<table class="table">
+<thead>
+<tr>
+<th>State</th>
+<th>Can be interrupted by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IdleState</code></td>
+<td>Any state.</td>
+</tr>
+<tr>
+<td><code>WalkState</code></td>
+<td>Any state.</td>
+</tr>
+<tr>
+<td><code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code></td>
+<td><code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code>, <code>FlinchState</code>.</td>
+</tr>
+<tr>
+<td><code>FlinchState</code></td>
+<td><code>FlinchState</code>.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="can-exit-state">Can Exit State</h1>
+<p>In simple situations, you might be able to implement an interruption management system by overriding <code>CanExitState</code> to directly indicate whether a state can be interrupted:</p>
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterStae
+{
+    public override bool CanExitState =&gt; false;
+</code></pre>
+<p>That means any attempt to <code>TrySetState</code> or <code>TryResetState</code> will fail, but <code>ForceSetState</code> will still succeed (because it ignores that property). So the action can't be interrupted normally, but its <a href="../../../manual/events/end">End Event</a> would still return to the default <code>IdleState</code> properly since it uses <code>ForceSetDefaultState</code>:</p>
+<pre><code class="language-cs">    private void Awake()
+    {
+        _Animation.Events.OnEnd = Character.StateMachine.ForceSetDefaultState;
+    }
+</code></pre>
+<p>Unfortunately, that approach is too simple for this example because we want <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> to allow interruptions by <code>FlinchState</code> without allowing interruptions by <code>IdleState</code>.</p>
+<h1 id="priority-int">Priority Int</h1>
+<p>You could use an <code>int</code> where higher values allow a state to interrupt ones with lower values:</p>
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
+{
+    public virtual int Priority =&gt; 0;// All states default to 0 unless they override it.
+    
+    public override bool CanExitState
+    {
+        get
+        {
+            // There are several different ways of accessing the state change details:
+            //var nextState = StateChange&lt;CharacterState&gt;.NextState;
+            //var nextState = _Character.StateMachine.NextState;
+            var nextState = this.GetNextState();
+            return nextState.Priority &gt;= Priority;
+        }
+    }
+}
+
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
+{
+    public override int Priority =&gt; 1;
+}
+
+public sealed class FlinchState : CharacterState
+{
+    public override int Priority =&gt; 2;
+}
+</code></pre>
+<p>The <a href="../../../manual/fsm/changing-states">Changing States</a> page explains the different ways of accessing the next state in more detail.</p>
+<h1 id="priority-enum">Priority Enum</h1>
+<p>An <code>int</code> can hold a wide range of values and a character won't have that many different states so it might be cleaner to use an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> like this:</p>
+<pre><code class="language-cs">public enum <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a>
+{
+    // Enums are ints starting at 0 by default.
+    Low,// Could specify "Low = 0," if we want to be explicit or change the order.
+    Medium,// Medium = 1,
+    High,// High = 2,
+    // This means you can compare them with numerical operators like &lt; and &gt;.
+}
+</code></pre>
+<p>The <code>CanExitState</code> property would be completely identical to the <a href="#priority-int">Priority Int</a> approach above, while the <code>Priority</code> property uses the <code>enum</code>:</p>
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
+{
+    public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
+}
+
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
+{
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
+}
+
+public sealed class FlinchState : CharacterState
+{
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.High;
+}
+</code></pre>
+<h1 id="self-interruption">Self Interruption</h1>
+<p>The <a href="#priority-int">Priority Int</a> and <a href="#priority-enum">Priority Enum</a> approaches above allow a state change if <code>nextState.Priority &gt;= previousState.Priority</code> which would achieve the desired behaviour for this example, but only because the <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> and <code>FlinchState</code> both want to be able to interrupt themselves. It's far more common for actions to not be able to do that, but if we simply changed the <code>&gt;=</code> to <code>&gt;</code> then the <code>IdleState</code>s (and the <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> which will be introduced in the <a href="../brains">Brains</a> example) wouldn't be able to interrupt each other.</p>
+<p>A simple solution is to add a <code>CanInterruptSelf</code> property and make <code>CanExitState</code> a bit more complicated:</p>
+<pre><code class="language-cs">public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
+
+public virtual bool CanInterruptSelf =&gt; false;
+
+public override bool CanExitState
+{
+    get
+    {
+</code></pre>
+<p>If the next state is actually <code>this</code> state, use the value of <code>CanInterruptSelf</code>:</p>
+<pre><code class="language-cs">        var nextState = _Character.StateMachine.NextState;
+        if (nextState == this)
+            return CanInterruptSelf;
+</code></pre>
+<p>All the <code>Low</code> priority states should be interruptable by anything:</p>
+<pre><code class="language-cs">        else if (Priority == CharacterStatePriority.Low)
+            return true;
+</code></pre>
+<p>Otherwise, compare the <code>Priority</code> of each state and don't allow interruptions by the same <code>Priority</code>:</p>
+<pre><code class="language-cs">        else
+            return nextState.Priority &gt; Priority;
+    }
+}
+</code></pre>
+<p>This is the solution used in the actual example scripts:</p>
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
+{
+    public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
+    public virtual bool CanInterruptSelf =&gt; false;
+}
+
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
+{
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
+    public override bool CanInterruptSelf =&gt; true;
+}
+
+public sealed class FlinchState : CharacterState
+{
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.High;
+    public override bool CanInterruptSelf =&gt; true;
+}
+
+public sealed class AttackState : CharacterState// From the Weapons example.
+{
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
+    // CanInterruptSelf defaults to false from the base class.
+}
+
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/EquipState">EquipState</a> : CharacterState// From the Weapons example.
+{
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
+    // CanInterruptSelf defaults to false from the base class.
+}
+</code></pre>
+<h1 id="action-type">Action Type</h1>
+<p>A linear priority based system allows you to manage interruptions in a standardised manner without anything caring about the specific states involved, however it can often be more straightforward to use a <code>CharacterStateType</code> enum such as:</p>
+<pre><code class="language-cs">public enum CharacterStateType
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Action,
+    Skill,
+    Flinch,
+    Die,
+}
+</code></pre>
+<p>Then you can <code>override</code> the <code>CanExitState</code> property in any state to allow and restrict specific categories as necessary. For example:</p>
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
+{
+    public override bool CanExitState
+    {
+        get
+        {
+            switch (this.GetNextState&lt;CharacterState&gt;().Type)
+            {
+                case CharacterStateType.Flinch:
+                case CharacterStateType.Die:
+                    return true;
+        
+                default:// Any other value.
+                    return false;
+            }
+        }
+    }
+}
+</code></pre>
+<p>For this example, <code>case CharacterStateType.Action</code> would also need to <code>return true</code> to allow rapid firing while most actions usually can't interrupt themselves so the specific logic you need will always depend on the situation.</p>
+<h1 id="serialized-field">Serialized Field</h1>
+<p>Instead of using <code>virtual</code> properties, the above approaches could have used <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a>:</p>
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
+{
+    [SerializeField]
+    private <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> _Priority;
+</code></pre>
+<p>This would mean that you need to select the desired value in the Inspector every time you set up a state component, but would allow you to potentially reuse a state with a different priority. For example, you might want an <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> that operates the same as usual but can't be interrupted even by <code>FlinchState</code> so you could just give it a higher priority.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The actual example scripts use the <a href="#priority-enum">Priority Enum</a> approach with the <a href="#self-interruption">Self Interruption</a> system since it's just complex enough to achieve the desired logic without any unnecessary complexity beyond that. Keeping your code open to future expansions and changes is valuable, but it can also be useful to choose a solution that closely meets the requirements of your situation without wasting time and effort supporting potential features that you don't end up needing.</p>
+<p><img src="interruptions.gif" class="img-responsive"></p>
+<h1 id="what-next">What Next?</h1>
+<table class="table">
+<thead>
+<tr>
+<th>Example</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../brains">Brains</a></td>
+<td>A deeper look into the concept of character brains.</td>
+</tr>
+<tr>
+<td><a href="/platformer">Platformer Game Kit</a></td>
+<td>A separate (free) package which demonstrates a much more complete character implementation for a 2D platformer game. Despite having a much more complex character than this example, it's able to achieve the desired logic by simply overriding <a href="#can-exit-state">Can Exit State</a> without needing any of the more complex options presented here.</td>
+</tr>
+<tr>
+<td><a href="../../animator-controllers/3d-game-kit">3D Game Kit</a></td>
+<td>A more complex character framework based on Unity's <a href="https://assetstore.unity.com/packages/templates/tutorials/3d-game-kit-lite-135162">3D Game Kit Lite</a>.</td>
+</tr>
+</tbody>
+</table>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>

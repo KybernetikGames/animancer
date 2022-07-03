@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -160,11 +160,13 @@
 				<li><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine<wbr>&lt;TKey, <wbr>TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer.FSM/StateMachineUtilities">State<wbr>Machine<wbr>Utilities</a></li>
 			<li class="header">Interface Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/IKeyedStateMachine_1">IKeyedStateMachine<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IOwnedState_1">IOwnedState<wbr>&lt;TState&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IPrioritizable">IPrioritizable</a></li>
 				<li><a href="/animancer/api/Animancer.FSM/IState">IState</a></li>
+				<li><a href="/animancer/api/Animancer.FSM/IStateMachine">IStateMachine</a></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer.FSM/KeyChange_1">KeyChange<wbr>&lt;TKey&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.FSM/StateChange_1">StateChange<wbr>&lt;TState&gt;<wbr></a></li>
@@ -201,6 +203,12 @@
 								<dt>Namespace</dt>
 								<dd><a href="/animancer/api/Animancer.FSM">Animancer<wbr>.FSM</a></dd>
 											
+								<dt>Interfaces</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer.FSM/IStateMachine">IStateMachine</a></li>								
+									</ul>
+								</dd>
 							
 								<dt>Base Types</dt>
 								<dd>
@@ -212,8 +220,8 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer.FSM/WithDefault">StateMachine<wbr>&lt;TState&gt;<wbr><wbr>.WithDefault</a></li>								
 											<li><a href="/animancer/api/Animancer.FSM/StateMachine_2">StateMachine</a><wbr>&lt;<a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TKey">TKey</a>, <wbr><a href="/animancer/api/Animancer.FSM/StateMachine_2#typeparam-TState">TState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer.FSM/WithDefault">StateMachine<wbr>&lt;TState&gt;<wbr><wbr>.WithDefault</a></li>								
 									</ul>
 								</dd>			
 							
@@ -223,12 +231,14 @@
 						<div class="mermaid">
 							graph BT
 	Type--&gt;Base0["Object"]
+	Type-.-&gt;Interface0["IStateMachine"]
+	click Interface0 "/animancer/api/Animancer.FSM/IStateMachine"
 	Type["StateMachine&lt;TState&gt;"]
 class Type type-node
-	Derived0["StateMachine&lt;TState&gt;.WithDefault"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer.FSM/WithDefault"
-	Derived1["StateMachine&lt;TKey, TState&gt;"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer.FSM/StateMachine_2"
+	Derived0["StateMachine&lt;TKey, TState&gt;"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer.FSM/StateMachine_2"
+	Derived1["StateMachine&lt;TState&gt;.WithDefault"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer.FSM/WithDefault"
 
 						</div>
 					</div>
@@ -238,7 +248,8 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[HelpURL(StateExtensions.APIDocumentationURL + nameof(StateMachine&lt;TState&gt;) + "_1")]
-public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre>
+[Serializable]
+public class StateMachine&lt;TState&gt; : IStateMachine where TState : class, IState</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
@@ -246,6 +257,8 @@ public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre
     This class doesn't keep track of any states other than the currently active one.
     See <code class="cs">Animancer.FSM.StateMachine`2</code> for a system that allows states to be pre-registered and accessed
     using a separate key.
+    <p></p>
+    See <code class="cs">Animancer.FSM.StateMachine`1.InitializeAfterDeserialize</code> if using this class in a serialized field.
     <p></p>
     Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/fsm">Finite State Machines</a>
     </div>
@@ -262,6 +275,10 @@ public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre
 				</thead>
 					<tbody><tr>
 						<td>HelpURLAttribute</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Serializable<wbr>Attribute</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -335,7 +352,14 @@ public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/D09A9E4D">CurrentState</a></td>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1#typeparam-TState">TState</a></td>
 								<td>
-									<div>The currently active state.</div>
+									<div>[<code class="cs">UnityEngine.SerializeField</code>] The currently active state.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/1F1E8B07">GUILineCount</a></td>
+								<td>int</td>
+								<td>
+									<div>[Editor-Only] The number of standard size lines that <code class="cs">Animancer.FSM.StateMachine`1.DoGUI</code> will use.</div>
 								</td>
 							</tr>
 							<tr>
@@ -383,23 +407,34 @@ public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/C47607FA">DoGUI<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only] Draws GUI fields to display the status of this state machine.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/F920044B">DoGUI<wbr>(Rect)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only] Draws GUI fields to display the status of this state machine in the given `area`.</div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/34FA2C24">ForceSetState<wbr>(TState)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>
-    Calls <code class="cs">Animancer.FSM.IState.OnExitState</code> on the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code> then changes to the
+    Calls <code class="cs">Animancer.FSM.IState.OnExitState</code> on the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code> then changes it to the
     specified `state` and calls <code class="cs">Animancer.FSM.IState.OnEnterState</code> on it.
-    <p></p>
-    This method does not check <code class="cs">Animancer.FSM.IState.CanExitState</code> or
-    <code class="cs">Animancer.FSM.IState.CanEnterState</code>. To do that, you should use <code class="cs">Animancer.FSM.StateMachine`1.TrySetState(`0)</code> instead.
     </div>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/9D02BE32">OnInspectorGUI<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/C17CFC5E">Initialize<wbr>After<wbr>Deserialize<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>[Editor-Only] Draws an Inspector field for the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.</div>
+									<div>Call this after deserializing to properly initialize the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.</div>
 								</td>
 							</tr>
 							<tr>
@@ -420,48 +455,28 @@ public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/171ED2E2">TryResetState<wbr>(IList<wbr>&lt;TState&gt;<wbr>)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Attempts to enter any of the specified `states` and returns true if successful.
-    <p></p>
-    This method does not check if the `state` is already the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>. To do so, use
-    <code class="cs">Animancer.FSM.StateMachine`1.TrySetState(System.Collections.Generic.IList{`0})</code> instead.
-    </div>
+									<div>Attempts to enter any of the specified `states` and returns true if successful.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/8D5730F8">TryResetState<wbr>(TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Attempts to enter the specified `state` and returns true if successful.
-    <p></p>
-    This method does not check if the `state` is already the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>. To do so, use
-    <code class="cs">Animancer.FSM.StateMachine`1.TrySetState(`0)</code> instead.
-    </div>
+									<div>Attempts to enter the specified `state` and returns true if successful.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/F57F4171">TrySetState<wbr>(IList<wbr>&lt;TState&gt;<wbr>)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Attempts to enter any of the specified `states` and returns true if successful.
-    <p></p>
-    This method returns true and does nothing else if the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code> is in the list.
-    To allow directly re-entering the same state, use <code class="cs">Animancer.FSM.StateMachine`1.TryResetState(System.Collections.Generic.IList{`0})</code> instead.
-    </div>
+									<div>Attempts to enter any of the specified `states` and returns true if successful.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.FSM/StateMachine_1/854FC010">TrySetState<wbr>(TState)<wbr></a></td>
 								<td>bool</td>
 								<td>
-									<div>
-    Attempts to enter the specified `state` and returns true if successful.
-    <p></p>
-    This method returns true immediately if the specified `state` is already the <code class="cs">Animancer.FSM.StateMachine`1.CurrentState</code>.
-    To allow directly re-entering the same state, use <code class="cs">Animancer.FSM.StateMachine`1.TryResetState(`0)</code> instead.
-    </div>
+									<div>Attempts to enter the specified `state` and returns true if successful.</div>
 								</td>
 							</tr>
 					</tbody></table>
@@ -506,7 +521,7 @@ public class StateMachine&lt;TState&gt; where TState : class, IState</code></pre
 <div>
 <p>Contact</p>
 <p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
-<p><a href="/animancer/forum">Unity Forum</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
 <p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
 </div>
 
