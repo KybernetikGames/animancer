@@ -583,9 +583,9 @@
 <li>By default, the <code>AnimationClip</code> the state is playing will be used as its key, but the system allows you to use any <code>object</code> as a key (every variable in C# is an <code>object</code>).</li>
 <li>The <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>. The <a href="../../examples/fine-control/named-animations">Named Animations</a> example explains how <code>string</code> names and other keys (such as enums) can be used in more detail.</li>
 </ul>
-<pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
+<pre><code class="language-cs">void KeysExample(AnimancerComponent animancer, AnimationClip clip)
 {
-    // Trying to play an animation before registering it does nothing.
+    // Trying to play an animation before registering it does nothing (and returns null).
     animancer.TryPlay("Attack");
 
     // But if you create a state with a key first, then you only need that key to play it later on.
@@ -595,11 +595,18 @@
     // Or you can create the state and set its key manually:
     var state = new ClipState(clip);
     state.Key = "Attack";
+    animancer.TryPlay("Attack");// This won't work because the state isn't connected to anything yet.
+    animancer.Layers[0].AddChild(state);// Now the state is connected and registered with its Key.
+    animancer.TryPlay("Attack");
 }
 </code></pre>
 <ul>
 <li>You don't need to set the <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> if you don't want to. You can simply create a <code>new <a href="/animancer/api/Animancer/ClipState">ClipState</a></code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
-<li>If you want to have multiple states playing the same clip (such as if you need to play it on multiple <a href="../blending/layers">Layers</a>) you will need to register them all with different keys (or not register them at all). <code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>
+<li>If you want to have multiple states playing the same clip (such as if you need to play it on multiple <a href="../blending/layers">Layers</a>) you will need to register them all with different keys (or not register them at all).
+<ul>
+<li><code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>
+</ul>
+</li>
 </ul>
 <h2 id="enum-keys">Enum Keys</h2>
 <p>Unfortunately, since <code>object</code> is a <a href="/cs-unity/docs/introduction/organization#values-and-references">Reference Type</a>, using a <a href="/cs-unity/docs/introduction/organization#values-and-references">Value Type</a> like an <code>enum</code> in those methods implicitly creates a <code>new object</code> to hold the value. This is called <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing">Boxing</a> and has a notable impact on performance, particularly since the <code>new object</code> is immediately discarded after the call and needs to be <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a>. This does not mean enums should not be used, just that you should be aware of the inefficiency.</p>

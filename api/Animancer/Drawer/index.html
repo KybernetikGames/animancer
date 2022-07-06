@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - MixerTransition2D.MixerTransition2D.Drawer Class</title>
+        <title>Animancer - API - ControllerTransition.ControllerTransition.Drawer Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -83,7 +83,6 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
-<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Attributes">Attributes</a></p>
 <p><a href="#Constructors">Constructors</a></p>
 <p><a href="#fields">Fields</a></p>
@@ -269,14 +268,14 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a>.</h3>
-	<h1>MixerTransition2D<wbr>.Drawer <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a>.</h3>
+	<h1>ControllerTransition<wbr>.Drawer <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[Editor-Only] Draws the Inspector GUI for a <code class="cs">Transition&lt;TMixer, TParameter&gt;</code>.</div>
+	<div class="lead">[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.ITransitionDetailed</code>.</div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">
@@ -295,26 +294,34 @@
 									<ul class="list-unstyled">										
 											<li>PropertyDrawer</li>								
 											<li><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></li>								
-											<li><a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></li>								
-											<li><a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></li>								
 									</ul>
 								</dd>				
 							
+								<dt>Derived Types</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer/Drawer">Float2<wbr>Controller<wbr>Transition<wbr>.Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer/Drawer">Float1<wbr>Controller<wbr>Transition<wbr>.Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer/Drawer">Float3<wbr>Controller<wbr>Transition<wbr>.Drawer</a></li>								
+									</ul>
+								</dd>			
 							
 						</dl>
 					</div>		
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["MixerTransitionDrawer"]
-	click Base0 "/animancer/api/Animancer/MixerTransitionDrawer"
-	Base0--&gt;Base1["ManualMixerTransition.Drawer"]
-	click Base1 "/animancer/api/Animancer/Drawer"
-	Base1--&gt;Base2["TransitionDrawer"]
-	click Base2 "/animancer/api/Animancer.Editor/TransitionDrawer"
-	Base2--&gt;Base3["PropertyDrawer"]
-	Type["MixerTransition2D.Drawer"]
+	Type--&gt;Base0["TransitionDrawer"]
+	click Base0 "/animancer/api/Animancer.Editor/TransitionDrawer"
+	Base0--&gt;Base1["PropertyDrawer"]
+	Type["ControllerTransition.Drawer"]
 class Type type-node
+	Derived0["Float2ControllerTransition.Drawer"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/Drawer"
+	Derived1["Float1ControllerTransition.Drawer"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/Drawer"
+	Derived2["Float3ControllerTransition.Drawer"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/Drawer"
 
 						</div>
 					</div>
@@ -323,15 +330,11 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>[CustomPropertyDrawer(typeof(MixerTransition2D), true)]
-public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
+	<pre><code>[CustomPropertyDrawer(typeof(ControllerTransition&lt;&gt;), true)]
+[CustomPropertyDrawer(typeof(ControllerTransition), true)]
+public class ControllerTransition.Drawer : TransitionDrawer</code></pre>
 
 
-	<h1 id="Remarks">Remarks</h1>
-	<div>
-    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/transitions">Transitions</a>
-    and <a href="https://kybernetik.com.au/animancer/docs/manual/blending/mixers">Mixers</a>
-    </div>
 
 	<h1 id="Attributes">Attributes</h1>
 	<div class="box">
@@ -344,6 +347,10 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 					</tr>
 				</thead>
 					<tbody><tr>
+						<td>CustomPropertyDrawer</td>
+						<td></td>
+					</tr>
+					<tr>
 						<td>CustomPropertyDrawer</td>
 						<td></td>
 					</tr>
@@ -365,11 +372,12 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Drawer/1EB26F61">Drawer<wbr>()<wbr></a></td>
-									<td>
-    Creates a new <code class="cs">Animancer.MixerTransition2D.Drawer</code> using the a wider `thresholdWidth` than usual to accomodate
-    both the X and Y values.
-    </td>
+								<td><a href="/animancer/api/Animancer/Drawer/77B41A75">Drawer<wbr>()<wbr></a></td>
+									<td>Creates a new <code class="cs">Animancer.ControllerTransition.Drawer</code> without any parameters.</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Drawer/6626A2EC">Drawer<wbr>(string[])<wbr></a></td>
+									<td>Creates a new <code class="cs">Animancer.ControllerTransition.Drawer</code> and sets the <code class="cs">Animancer.ControllerTransition.Drawer.Parameters</code>.</td>
 							</tr>
 					</tbody></table>
 				</div>
@@ -442,71 +450,11 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/253BB864">CurrentAnimations</a></td>
-								<td>SerializedProperty</td>
-								<td>
-									<div>The <code class="cs">Animancer.ManualMixerTransition`1.Animations</code> field.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/EFB6E3FE">CurrentProperty</a></td>
-								<td>SerializedProperty</td>
-								<td>
-									<div>The property this drawer is currently drawing.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/16D259F7">CurrentSpeeds</a></td>
-								<td>SerializedProperty</td>
-								<td>
-									<div>The <code class="cs">Animancer.ManualMixerTransition`1.Speeds</code> field.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/C908B595">Current<wbr>Synchronize<wbr>Children</a></td>
-								<td>SerializedProperty</td>
-								<td>
-									<div>The <code class="cs">Animancer.ManualMixerTransition`1.SynchronizeChildren</code> field.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/E5EABA09">CurrentThresholds</a></td>
-								<td>SerializedProperty</td>
-								<td>
-									<div>
-    The serialized <code class="cs">Animancer.MixerTransition`2.Thresholds</code> of the
-    <code class="cs">Animancer.ManualMixerTransition.Drawer.CurrentProperty</code>.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/5E010F71">PreviewButtonStyle</a></td>
 								<td>GUIStyle</td>
 								<td>
 									<div>The style used for the button that opens the <code class="cs">Animancer.Editor.TransitionPreviewWindow</code>.</div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/E4792D18">Standard<wbr>Threshold<wbr>Width</a></td>
-								<td>float</td>
-								<td>
-									<div>
-    The number of horizontal pixels the word "Threshold" occupies when drawn with the
-    <code class="cs">UnityEditor.EditorStyles.popup</code> style.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
@@ -527,35 +475,6 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Drawer/B924158D">Add<wbr>Property<wbr>Modifier<wbr>Function<wbr>(GenericMenu, <wbr>string, <wbr>Action<wbr>&lt;<wbr>Serialized<wbr>Property&gt;<wbr>)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Adds a menu item that will call <code class="cs">Animancer.ManualMixerTransition.Drawer.GatherSubProperties(UnityEditor.SerializedProperty)</code> then run the specified
-    `function`.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/49AEBDC5">Add<wbr>Property<wbr>Modifier<wbr>Function<wbr>(GenericMenu, <wbr>string, <wbr>MenuFunctionState, <wbr>Action<wbr>&lt;<wbr>Serialized<wbr>Property&gt;<wbr>)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Adds a menu item that will call <code class="cs">Animancer.ManualMixerTransition.Drawer.GatherSubProperties(UnityEditor.SerializedProperty)</code> then run the specified
-    `function`.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/4939067D">Add<wbr>Threshold<wbr>Functions<wbr>To<wbr>Menu<wbr>(GenericMenu)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Adds functions to the `menu` relating to the thresholds.</div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/C661AA49">CanCacheInspectorGUI<wbr>(SerializedProperty)<wbr></a></td>
 								<td>bool</td>
 								<td>
@@ -564,73 +483,12 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/637259CD">DoAnimationField<wbr>(Rect, <wbr>SerializedProperty)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Drawer/E68C5559">DoChildPropertyGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>
-    Draws an <code class="cs">UnityEditor.EditorGUI.ObjectField(UnityEngine.Rect,UnityEngine.GUIContent,UnityEngine.Object,System.Type,System.Boolean)</code> that accepts
-    <code class="cs">UnityEngine.AnimationClip</code>s and <code class="cs">Animancer.ITransition</code>s
+    Draws the `property` GUI in relation to the `rootProperty` which was passed into <code class="cs">Animancer.Editor.TransitionDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code>.
     </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/535A44BA">DoAnimationHeaderGUI<wbr>(Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws an "Animation" header.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/07538EC3">DoChildListFooterGUI<wbr>(Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the footer of the child list.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/C90A1AE0">DoChildListHeaderGUI<wbr>(Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the headdings of the child list.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/9E18B81E">DoChildPropertyGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div></div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/EFD96937">DoElementGUI<wbr>(Rect, <wbr>int, <wbr>SerializedProperty, <wbr>SerializedProperty)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the GUI of the state at the specified `index`.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/507AE279">DoElementGUI<wbr>(Rect, <wbr>Rect, <wbr>Rect, <wbr>int, <wbr>SerializedProperty, <wbr>SerializedProperty)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the GUI of the state at the specified `index`.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/E336B92A">DoHeaderDropdownGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>GUIContent, <wbr>Action<wbr>&lt;GenericMenu&gt;<wbr>)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the GUI for a header dropdown button.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -650,6 +508,13 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 								</td>
 							</tr>
 							<tr>
+								<td><a href="/animancer/api/Animancer/Drawer/7493E85D">DoParameterGUI<wbr>(Rect, <wbr>AnimatorController, <wbr>SerializedProperty)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Draws a dropdown menu to select the name of a parameter in the `controller`.</div>
+								</td>
+							</tr>
+							<tr>
 								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/AD17B2CF">DoPreviewButtonGUI<wbr>(Rect, <wbr>bool, <wbr>string)<wbr></a></td>
 								<td>bool</td>
 								<td>
@@ -659,73 +524,11 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/53B6FB82">DoSpeedHeaderGUI<wbr>(Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws a "Speed" header.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/16F26D42">DoSyncHeaderGUI<wbr>(Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws a "Sync" header.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/3E2F3CB0">DoSyncToggleGUI<wbr>(Rect, <wbr>int)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Draws a toggle to enable or disable <code class="cs">Animancer.MixerState.SynchronizedChildren</code> for the child at
-    the specified `index`.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/89778343">DoThresholdGUI<wbr>(Rect, <wbr>int)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Draws the GUI of the threshold at the specified `index`.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/70F2373E">GatherDetails<wbr>(SerializedProperty)<wbr></a></td>
-								<td>ReorderableList</td>
-								<td>
-									<div>Gather the details of the `property`.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/3ABB3B3E">GatherSubProperties<wbr>(SerializedProperty)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Called every time a `property` is drawn to find the relevant child properties and store them to be
-    used in <code class="cs">Animancer.ManualMixerTransition.Drawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> and <code class="cs">Animancer.ManualMixerTransition.Drawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code>.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/7877E3B6">GetElementHeight<wbr>(int)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/905D5143">GetPropertyHeight<wbr>(<wbr>Serialized<wbr>Property, <wbr>GUIContent)<wbr></a></td>
 								<td>float</td>
 								<td>
-									<div>Calculates the height of the state at the specified `index`.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/AA071648">GetPropertyHeight<wbr>(<wbr>Serialized<wbr>Property, <wbr>GUIContent)<wbr></a></td>
-								<td>float</td>
-								<td>
-									<div></div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
+									<div>Returns the number of vertical pixels the `property` will occupy when it is drawn.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -741,123 +544,11 @@ public class MixerTransition2D.Drawer : MixerTransitionDrawer</code></pre>
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/895D860C">InitializeSpeeds<wbr>(int)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Initializes every element in the <code class="cs">Animancer.ManualMixerTransition.Drawer.CurrentSpeeds</code> array from the `start` to the end of
-    the array to contain a value of 1.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/7BBCE644">IsClipOrTransition<wbr>(Object)<wbr></a></td>
-								<td>bool</td>
-								<td>
-									<div>Is the `clipOrTransition` an <code class="cs">UnityEngine.AnimationClip</code> or <code class="cs">Animancer.ITransition</code>?</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/06E6E95F">OnAddElement<wbr>(int)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Called when adding a new state to the list to ensure that any other relevant arrays have new
-    elements added as well.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/FD366E06">OnGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/D0752AA6">OnGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
 								<td>void</td>
 								<td>
 									<div>Draws the root `property` GUI and calls <code class="cs">Animancer.Editor.TransitionDrawer.DoChildPropertyGUI(UnityEngine.Rect@,UnityEditor.SerializedProperty,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> for each of its children.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/E150D7DA">OnRemoveElement<wbr>(ReorderableList)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Called when removing a state from the list to ensure that any other relevant arrays have elements
-    removed as well.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/6DF6A086">OnReorderList<wbr>(ReorderableList, <wbr>int, <wbr>int)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Called when reordering states in the list to ensure that any other relevant arrays have their
-    corresponding elements reordered as well.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/11837570">ResizeList<wbr>(int)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Sets the number of items in the child list.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/0779EBAE">SplitListRect<wbr>(Rect, <wbr>bool, <wbr>Rect, <wbr>Rect, <wbr>Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Splits the specified `area` into separate sections.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/MixerTransitionDrawer/86F11AE3">SplitListRect<wbr>(Rect, <wbr>bool, <wbr>Rect, <wbr>Rect, <wbr>Rect, <wbr>Rect)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Splits the specified `area` into separate sections.</div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/MixerTransitionDrawer">Mixer<wbr>Transition<wbr>Drawer</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/3D258B87">TryCollapseArrays<wbr>()<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Calls <code class="cs">Animancer.ManualMixerTransition.Drawer.TryCollapseSpeeds</code> and <code class="cs">Animancer.ManualMixerTransition.Drawer.TryCollapseSync</code>.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/2B7EFE86">TryCollapseSpeeds<wbr>()<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    If every element in the <code class="cs">Animancer.ManualMixerTransition.Drawer.CurrentSpeeds</code> array is 1, this method sets the array size to 0.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/Drawer/850BB5CE">TryCollapseSync<wbr>()<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>
-    Removes any true elements from the end of the <code class="cs">Animancer.ManualMixerTransition.Drawer.CurrentSynchronizeChildren</code> array.
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/Drawer">Manual<wbr>Mixer<wbr>Transition<wbr>.Drawer</a></em></small></div>
-											<div><small><em>static</em></small></div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
