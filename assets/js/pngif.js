@@ -1,8 +1,13 @@
 const collection = document.getElementsByClassName("pngif");
+var gifs = [];
 for (let i = 0; i < collection.length; i++) {
   var item = collection[i];
   item.setAttribute("onclick", "pngif(this);");
-  pngif(item);
+
+  var src = item.getAttribute("src");
+  src = src.slice(0, -3) + "gif";
+  gifs[i] = new Image();
+  gifs[i].src = src;
 }
 
 function pngif(item) {
