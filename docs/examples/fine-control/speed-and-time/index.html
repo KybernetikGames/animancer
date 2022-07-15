@@ -541,7 +541,7 @@
 </blockquote>
 <p>This example demonstrates how you can control the speed and time of an animation to make a robot that can <em>Wake Up</em> to move then go back to sleep by playing its <em>Wake Up</em> animation backwards. The <a href="../../locomotion/directional-blending">Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to actually move around the scene in any direction.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p><img src="speed-and-time.gif" class="img-responsive"></p>
+<p><img src="speed-and-time.png" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
 <p>The spider bot character we want to implement has two main states that it can be in.</p>
 <table class="table">
@@ -556,12 +556,12 @@
     </tr>
     <tr>
       <td><img src="asleep.png" class="img-responsive"></td>
-      <td><img src="moving.gif" class="img-responsive"></td>
+      <td><img src="moving.png" class="pngif img-responsive"></td>
     </tr>
   </tbody>
 </table>
 <p>This example explains how to implement those states and the transitions between them in a way that allows the target state to be seamlessly changed at any time.</p>
-<p><img src="interruptions.gif" class="img-responsive"></p>
+<p><img src="interruptions.png" class="pngif img-responsive"></p>
 <p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> script doesn't act on its own. Instead, it exposes a <code>public</code> <code>IsMoving</code> property which can be set by other scripts:
 <ul>
 <li>This example uses a <a href="#ui-toggle">UI Toggle</a> to control it.</li>
@@ -731,7 +731,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Spide
 <pre><code class="language-cs">[SerializeReference] private <a href="/animancer/api/Animancer/ITransition">ITransition</a> _Move;
 </code></pre>
 <p>For this example, we will set this field as a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> just like it was in code before, and in the <a href="../../locomotion/directional-blending">Directional Blending</a> example we will give it a different type.</p>
-<p><img src="polymorphic.gif" class="img-responsive"></p>
+<p><img src="polymorphic.png" class="pngif img-responsive"></p>
 <p>The <a href="../../../manual/transitions/types#serialized-references">Serialized Reference</a> section explains those concepts in more detail.</p>
 <h2 id="other-references">Other References</h2>
 <p>The <a href="../../locomotion/directional-blending">Directional Blending</a> example will also need to access the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the movement animation so we public read-only properties for them using <a href="/cs-unity/docs/introduction/methods/expression-bodied">Expression Bodied Syntax</a>.</p>
@@ -856,7 +856,7 @@ public bool IsMoving
 <p></p></details><p></p>
 <h1 id="after-wake-up">After Wake Up</h1>
 <p>The above code would allow the bot to <em>Wake Up</em>, but then it would just freeze in place.</p>
-<p><img src="wake-up-freeze.gif" class="img-responsive"></p>
+<p><img src="wake-up-freeze.png" class="pngif img-responsive"></p>
 <p>So we want to give it an <a href="../../../manual/events/end">End Event</a>. Since <code>_WakeUp</code> is a <a href="../../../manual/transitions">Transition</a>, that means we need to initialize its events on startup rather than every time we play it:</p>
 <pre><code class="language-cs">private void Awake()
 {
@@ -937,7 +937,7 @@ private void OnWakeUpEnd()
 <p></p></details><p></p>
 <p>Also, remember that when the animation finishes it will trigger the <a href="../../../manual/events/end">End Event</a> we set up in the <a href="#after-wake-up">After Wake Up</a> section which will call <code>_Animancer.Playable.PauseGraph();</code> because the <code>Speed</code> is now negative.</p>
 <h1 id="conclusion">Conclusion</h1>
-<img src="speed-and-time.gif" class="img-responsive img-right">
+<img src="speed-and-time.png" class="pngif img-responsive img-right">
 <p>We now have a bot that can:</p>
 <ul>
 <li>Be asleep by default and won't waste processing power on animations because the graph is paused.</li>
@@ -995,6 +995,7 @@ private void OnWakeUpEnd()
 </div>
 
 </div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
             </footer>
         </div>
         <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>

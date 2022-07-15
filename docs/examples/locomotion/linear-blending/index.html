@@ -539,7 +539,7 @@
 </blockquote>
 <p>This example demonstrates how you can blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations based on an arbitrary parameter to move the character at any desired speed using either a <a href="../../../manual/animator-controllers">Blend Tree in a Controller State</a> or a <a href="../../../manual/blending/mixers">Mixer State</a> as well as how <a href="../../../manual/transitions/assets">Transition Assets</a> allow you to share animation details throughout your project.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/animator-controllers">Controller States</a> and <a href="../../../manual/blending/mixers">Mixer States</a>. Animancer Lite allows you to try try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p><img src="linear-blending.gif" class="img-responsive"></p>
+<p><img src="linear-blending.png" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
 <p>There are three scripts in this example:</p>
 <p></p><details><summary><code><a href="/animancer/api/Animancer.Examples.Locomotion/LinearBlendTreeLocomotion">LinearBlendTreeLocomotion</a></code> plays a Blend Tree using a <a href="../../../manual/animator-controllers">Controller State</a>:</summary><p>
@@ -654,7 +654,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Linear
 }
 </code></pre>
 <p>This gives us a character who can move at any speed:</p>
-<p><img src="blend-tree-play.gif" class="img-responsive"></p>
+<p><img src="blend-tree-play.png" class="pngif img-responsive"></p>
 <p>You may notice that while blending between <em>Walk</em> and <em>Run</em> works well, the blending between <em>Idle</em> and <em>Walk</em> gives a much slower result than you might expect (the character barely moves at all when under 50% speed). This is due to the way Blend Trees synchronise the timing of all their states which is useful for cases like <em>Walk</em> and <em>Run</em> where you want both animations to always be at the same point in their walk cycle to get a good result, however it is detrimental in cases where it does not make sense for timings to be synchronised such as between <em>Idle</em> and <em>Walk</em> where there is no correspondance between their cycles and therefore no point in synchronising them. Unfortunately, Blend Trees do not allow you to control or disable this feature, however Animancer's <a href="../../../manual/blending/mixers">Mixer States</a> serve a similar purpose to Blend Trees and allow you to determine which of their states are synchronised.</p>
 <h1 id="transition-assets">Transition Assets</h1>
 <p>Since we want to have multiple characters using the exact same setup we can give them all references to the same <a href="../../../manual/transitions/assets">Transition Asset</a> rather than each one having its own transition. This requires a few modifications to the script.</p>
@@ -680,14 +680,14 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Linear
   <tbody>
     <tr>
       <td><img src="shared-controller-inspector.png" class="img-responsive"><p></p><details><summary>If you have <a href="/inspector-gadgets/pro">Inspector Gadgets Pro</a>, you can use its <a href="/inspector-gadgets/docs/script-inspector/object-reference-fields">Nested Object Drawers</a> feature (by clicking on the foldout arrows) to see and modify the details of the referenced asset without needing to actually go and select that asset:</summary><p>
-<img src="nested-object-drawer.gif" class="img-responsive">
+<img src="nested-object-drawer.png" class="pngif img-responsive">
 </p></details><p></p></td>
       <td><img src="controller-asset-inspector.png" class="img-responsive"></td>
     </tr>
   </tbody>
 </table>
 <h2 id="sub-assets">Sub-Assets</h2>
-<img src="sub-assets.gif" class="img-responsive img-right">
+<img src="sub-assets.png" class="pngif img-responsive img-right">
 <p>Since the Animator Controller isn't used anywhere other than that <a href="../../../manual/transitions/assets">Transition Asset</a>, the <a href="/inspector-gadgets/docs/other/drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature of <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> was used to turn the controller into a sub-asset of the transition in order to organise them a bit better.</p>
 <h1 id="mixer-state">Mixer State</h1>
 <p><a href="../../../manual/blending/mixers">Mixer States</a> are essentially just Blend Trees which are constructed using code at runtime instead of being configured in the Unity Editor as part of an Animator Controller. Specifically, they <em>can</em> be constructed using code and you <em>can</em> access their internal details even though in this example we are just using a <a href="../../../manual/transitions">Transition</a>.</p>
@@ -791,6 +791,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Linear
 </div>
 
 </div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
             </footer>
         </div>
         <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>

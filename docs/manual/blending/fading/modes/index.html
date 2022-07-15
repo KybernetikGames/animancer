@@ -530,7 +530,7 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 <h1 id="from-start">From Start</h1>
 <p><code>FadeMode.FromStart</code> allows an animation to fade into itself where the other modes simply control how the fade duration is interpreted so this section explains how it works in a bit more detail.</p>
 <p>As explained on the <a href="../../../playing/states">States</a> page, the first time an animation is played, Animancer will create an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> for it which can be seen in the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>'s Inspector.</p>
-<p><img src="first-shot-inspector.gif" class="img-responsive"></p>
+<p><img src="first-shot-inspector.png" class="pngif img-responsive"></p>
 <p>Normally playing an animation that already has a state will simply reuse that state. The <a href="../../../../introduction/mecanim-vs-animancer/performance">Performance</a> page explains the main performance implications of this system.</p>
 <p>But when using <code>FadeMode.FromStart</code> it also checks the <code>Weight</code> of the state.</p>
 <ul>
@@ -538,7 +538,7 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 <li>Otherwise, it will create a copy of the state so that the copy can fade in from <code>0</code> <code>Time</code> and <code>Weight</code> while the original fades out from where it was as if they were completely different animations.</li>
 </ul>
 <p>Clones can also be further cloned in the same way, up to a limit of 5 copies deep by default because each state does have an additional performance cost. Exceeding this limit will simply log <code>OptionalWarning.MaxStateDepth</code> and you can increase the limit by calling <code>AnimancerLayer.SetMaxStateDepth(x);</code>. Note that this setting affects all characters so you would only need to do it once on startup.</p>
-<p><img src="rapid-fire-inspector.gif" class="img-responsive"></p>
+<p><img src="rapid-fire-inspector.png" class="pngif img-responsive"></p>
 <p>This is achieved by creating a new state with the same animation and using the original as the <a href="../../../playing/states#keys">Key</a> of the clone so that when <code>FadeMode.FromStart</code> gets a state with non-zero <code>Weight</code> it can simply use that state to get the next clone in the chain until it finds a usable one or gets to the end of the chain and creates a new one.</p>
 
 	</section>
@@ -589,6 +589,7 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 </div>
 
 </div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
             </footer>
         </div>
         <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
