@@ -530,7 +530,7 @@
 		<p><em><a href="../../../introduction/features"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p>Mixers serve the same purpose as Mecanim <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a>; they allow you to blend multiple animations based on a parameter (<a href="#blend-trees-vs.mixers">see below for their differences</a>). For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
 <p>The <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example demonstrates how to use Mixers and Blend Trees.</p>
-<p><img src="../../../examples/locomotion/linear-blending/linear-blending.png" class="pngif img-responsive"></p>
+<p><img src="../../../examples/locomotion/linear-blending/linear-blending.gif" class="pngif img-responsive"></p>
 <p>Mixers are usually set up in the Inspector using <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a>, but they can also be <a href="#manual-creation">Created Manually</a>.</p>
 <p><img src="../../../examples/locomotion/linear-blending/mixer-inspector.png" class="img-responsive"></p>
 <h1 id="choosing-a-mixer">Choosing a Mixer</h1>
@@ -652,7 +652,7 @@ public sealed class LinearMixerExample : MonoBehaviour
     }
 }
 </code></pre>
-<p><img src="manual-mixer-example.png" class="pngif img-responsive"></p>
+<p><img src="manual-mixer-example.gif" class="pngif img-responsive"></p>
 <p></p></details><p></p>
 <h2 id="nesting">Nesting</h2>
 <p>Mixers can have any type of <a href="../../playing/states">State</a> as their children, including other mixers:</p>
@@ -834,7 +834,7 @@ public void BlendMixerParameter(float parameter, float duration)
 </table>
 <h1 id="synchronization">Synchronization</h1>
 <p>When mixing animations of different lengths, they will get out of sync if left to play normally. For example, it could end up with a <em>Walk</em> animation having the left foot on the ground while the <em>Run</em> animation has the right foot on the ground, which would not give a realistic result when simply interpolating between them. This causes obvious issues as you can see in the video below (adapted from the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example) when the speed slider is about 75% to the right and the character is walking fine about half the time while the cycles are close to each other but every few steps he does a strange shuffle that looks very unnatural. The solution to this problem is to synchronize the times of each of the states so that they are always at equivalent poses.</p>
-<p><img src="synchronization.png" class="pngif img-responsive"></p>
+<p><img src="synchronization.gif" class="pngif img-responsive"></p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">No Synchronization</th>
@@ -846,8 +846,8 @@ public void BlendMixerParameter(float parameter, float duration)
       <td><em>Walk</em> and <em>Run</em> stay at the same <code>NormalizedTime</code>.</td>
     </tr>
     <tr>
-      <td><img src="unsynced-inspector.png" class="pngif img-responsive"></td>
-      <td><img src="synced-inspector.png" class="pngif img-responsive"></td>
+      <td><img src="unsynced-inspector.gif" class="pngif img-responsive"></td>
+      <td><img src="synced-inspector.gif" class="pngif img-responsive"></td>
     </tr>
   </tbody>
 </table>

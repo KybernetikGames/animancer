@@ -540,7 +540,7 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How use Unity's inbuilt <a href="../../../manual/ik">Inverse Kinematics</a> system.</p>
 </blockquote>
 <p>This example demonstrates how you can use Unity's <a href="../../../manual/ik">Inverse Kinematics</a> system to control a character's limbs like a puppet and have them look at a specific point.</p>
-<p><img src="puppet.png" class="pngif img-responsive"></p>
+<p><img src="puppet.gif" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
 <p>The general code structure in this example revolves around the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/IKPuppet">IKPuppet</a></code> script:</p>
 <ul>
@@ -617,7 +617,7 @@ private void OnAnimatorIK(int layerIndex)
 }
 </code></pre>
 <p>That lets the character move around with the target, which is not very interesting on its own (and could have easily been done without IK):</p>
-<p><img src="body-only.png" class="pngif img-responsive"></p>
+<p><img src="body-only.gif" class="pngif img-responsive"></p>
 <h1 id="look-at">Look At</h1>
 <p>To control where the character is looking it tells the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget">IKPuppetLookTarget</a></code> to update:</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer.Examples.InverseKinematics/IKPuppetLookTarget">IKPuppetLookTarget</a> _LookTarget;
@@ -649,7 +649,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
     }
 }
 </code></pre>
-<img src="body-and-look.png" class="pngif img-responsive img-right">
+<img src="body-and-look.gif" class="pngif img-responsive img-right">
 <p>By attaching that script to an object with a <code>Collider</code> (so the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script can let us move it around) we get the ability to control where the character looks, with various parameters in the Inspector to control its details:</p>
 <p><img src="ik-puppet-look-target.png" class="img-responsive"></p>
 <h1 id="hands-and-feet">Hands and Feet</h1>
@@ -687,10 +687,10 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
 }
 </code></pre>
 <p>That gives the player control over the character's center of mass, head, hands, and feet:</p>
-<p><img src="puppet.png" class="pngif img-responsive"></p>
+<p><img src="puppet.gif" class="pngif img-responsive"></p>
 <h1 id="limb-rotation">Limb Rotation</h1>
 <p>You can also select any of the limb targets in the Hierarchy and use its Inspector to modify its details, including the weight with which it affects the position and rotation. By default, we set the <code>_RotationWeight = 0</code> since <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> doesn't give us an easy way to control rotations, but if you would like to see it in action you can just increase the weight and use the <code>Transform</code> Inspector of the Scene view gizmo to rotate the object:</p>
-<p><img src="hand-rotation.png" class="pngif img-responsive"></p>
+<p><img src="hand-rotation.gif" class="pngif img-responsive"></p>
 <h1 id="reset">Reset</h1>
 <p>This example also uses a really simple script to allow a <a href="/animancer/redirect/ui-buttons">UI Button</a> to reset all the IK targets to their starting positions and rotations.</p>
 <p>It gathers all those values in arrays on startup:</p>
@@ -729,7 +729,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
 <p>That method is not called <code>Reset</code> because that is a <code>MonoBehaviour</code> message (like <code>Awake</code>). Calling it that would cause Unity to call it in Edit Mode when we first add this component and since the <code>_StartingPositions</code> would be null it would throw a <code>NullReferenceException</code>.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>That all comes together to allow the player to manipulate the character's individual body parts like a puppet:</p>
-<p><img src="puppet.png" class="pngif img-responsive"></p>
+<p><img src="puppet.gif" class="pngif img-responsive"></p>
 <h1 id="what-next">What Next?</h1>
 <table class="table">
 <thead>

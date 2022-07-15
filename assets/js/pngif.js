@@ -2,6 +2,7 @@ const collection = document.getElementsByClassName("pngif");
 for (let i = 0; i < collection.length; i++) {
   var item = collection[i];
   item.setAttribute("onclick", "pngif(this);");
+  pngif(item);
 }
 
 function pngif(item) {

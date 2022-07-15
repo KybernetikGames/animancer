@@ -567,20 +567,20 @@ _SomeSound.Invoke();
 <li>You have limited <a href="../locomotion/movement#acceleration">Acceleration</a>. This isn't necessarily a "problem" as such, but the implementation is not physically consistent and it's unusual for a character using Unity's <code>CharacterController</code> component instead of a <code>Rigidbody</code>.</li>
 <li>Sometimes when you jump, the character stays in the <em>Idle</em> animation instead of entering the <em>Airborne</em> Blend Tree properly so it looks like she's just floating upwards for no reason:</li>
 </ul>
-<p><img src="bad-jump.png" class="pngif img-responsive"></p>
+<p><img src="bad-jump.gif" class="pngif img-responsive"></p>
 <h1 id="character-controller">Character Controller</h1>
 <p>Unity's <code>CharacterController</code> component is an easy to use alternative to <code>Rigidbody</code> physics for characters, but it has several notable drawbacks which must be considered when deciding how to implement characters in your own game. Unfortunately, actually fixing these issues is beyond the scope of this example since they're purely physics problems that have nothing to do with animations or character state logic.</p>
 <h2 id="ground-checks">Ground Checks</h2>
 <p>A <code>CharacterController</code> is a capsule shape and it's possible to get the edge of the bottom curve of your capsule on top of a corner, causing it to react as if you were properly on the ground even though the center of the character is actually standing in mid air. If you get close enough to the edge, it can even be far enough down the curve that you can't even move onto the platform because it's too steep, meaning it's treating that edge as both the ground and a wall at the same time.</p>
 <p></p><div style="display:flex">
-  <div><img src="bad-grip-corner.png" class="pngif img-responsive"></div>
+  <div><img src="bad-grip-corner.gif" class="pngif img-responsive"></div>
   <div style="padding-left:1em"><img src="bad-grip-gizmo.png" class="img-responsive"></div>
 </div><p></p>
 <p>This problem also occurs on steep slopes:</p>
-<p><img src="bad-grip-slope.png" class="pngif img-responsive"></p>
+<p><img src="bad-grip-slope.gif" class="pngif img-responsive"></p>
 <h2 id="rigidbody-interactions">Rigidbody Interactions</h2>
 <p><code>CharacterController</code>s also have inconsistent interactions with <code>Rigidbody</code> objects. The destructible boxes in the 3D Game Kit generally act as solid walls when the player runs into them, except that sometimes for no apparent reason they stop doing that and the player is able to push them around without any resistance as long as the box keeps moving:</p>
-<p><img src="moving-boxes.png" class="pngif img-responsive"></p>
+<p><img src="moving-boxes.gif" class="pngif img-responsive"></p>
 <h1 id="input">Input</h1>
 <p>There are several issues with the way player input is handled:</p>
 <ul>

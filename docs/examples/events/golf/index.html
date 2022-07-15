@@ -541,7 +541,7 @@
 </blockquote>
 <p>This example demonstrates how you can have a character hit a ball at a specific time and adjust the end time of the animation to create a smoother transition. It uses a <a href="../../../manual/events/animancer/usage#hybrid">Hybrid</a> approach where the event times are configured in the Inspector but the callbacks are left blank so they can be assigned in code instead.</p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/blending/fading">custom Fade durations</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p><img src="golf-events.png" class="pngif img-responsive"></p>
+<p><img src="golf-events.gif" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
 <p></p><details><summary>This example's logic is contained in the <code><a href="/animancer/api/Animancer.Examples.Events/Golfer">Golfer</a></code> script:
 <ol>
@@ -753,7 +753,7 @@ private void HitBall()
 </code></pre>
 <p>But that means the Inspector won't give any indication of what the event does or is for, it would just be a marker at a time without any clear purpose. That might not be a problem if you're working on your own and only have a few events, but would be unhelpful in more complex situations.</p>
 <p>That's why events have a <code>Name</code> field:</p>
-<p><img src="unnamed-event.png" class="pngif img-responsive"></p>
+<p><img src="unnamed-event.gif" class="pngif img-responsive"></p>
 <p>Once the event has been given a name, the script can set the callback of whichever event has that name:</p>
 <pre><code class="language-cs">_Swing.Events.SetCallback("Hit", HitBall);
 </code></pre>
@@ -778,7 +778,7 @@ private void HitBall()
 <ol start="4">
 <li>That attribute makes the Inspector show a dropdown to choose from the exact names supported by the script:</li>
 </ol>
-<p><img src="named-event.png" class="pngif img-responsive"></p>
+<p><img src="named-event.gif" class="pngif img-responsive"></p>
 <p>Note that values selected using the dropdown menu are still stored as strings. Modifying the names in the script will NOT automatically update any values previously set in the Inspector.</p>
 <h1 id="end-swing">End Swing</h1>
 <p>The <a href="#end-events">End Event</a> returns the character to the <em>Ready</em> animation:</p>
@@ -804,13 +804,13 @@ private void EndSwing()
   </tr></thead>
   <tbody>
     <tr>
-      <td><img src="standard-end.png" class="pngif img-responsive"></td>
-      <td><img src="early-end.png" class="pngif img-responsive"></td>
+      <td><img src="standard-end.gif" class="pngif img-responsive"></td>
+      <td><img src="early-end.gif" class="pngif img-responsive"></td>
     </tr>
   </tbody>
 </table>
 <p>This can be improved by simply starting the transition early (the video on the right) and having it last for the entire remaining duration of the swing animation so that the "relaxation" of the character's pose consistently comes from both the end of the swing animation and from the <a href="../../../manual/blending/fading">Fade</a> towards <em>Idle</em> at the same time. This is done by moving the event time to be a bit earlier using the <a href="../../../manual/transitions/previews">Transition Preview Window</a> to find where the animation pose starts relaxing:</p>
-<p><img src="adjusting-event.png" class="pngif img-responsive"></p>
+<p><img src="adjusting-event.gif" class="pngif img-responsive"></p>
 <p>Then having the <code>EndSwing</code> method call <code>AnimancerEvent.GetFadeOutDuration</code> to get the remaining duration instead of using the regular duration of the <code>_Ready</code> transition:</p>
 <pre><code class="language-cs">private void EndSwing()
 {
@@ -819,7 +819,7 @@ private void EndSwing()
 }
 </code></pre>
 <h1 id="conclusion">Conclusion</h1>
-<p><img src="golf-events.png" class="pngif img-responsive"></p>
+<p><img src="golf-events.gif" class="pngif img-responsive"></p>
 <p>Using events like this is often more effective than doing it all in the Inspector because it achieves better separation of concerns:</p>
 <ul>
 <li>Visual data (i.e. the event times) should be configured in the Unity Editor so it can be easily tweaked and previewed without needing a programmer to modify the code, wait for it to recompile, and go through your application until you get to the right place to test it.</li>

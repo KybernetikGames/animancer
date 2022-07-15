@@ -541,7 +541,7 @@
 </blockquote>
 <p>This example demonstrates how you can manage some animations inside an Animator Controller while also using other separate Animation Clips on the same character. It compares the <a href="../../../manual/animator-controllers#native">Native</a> and <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approaches described on the <a href="../../../manual/animator-controllers">Animator Controllers</a> page. The <a href="../character">Hybrid Character</a> example extends this concept further.</p>
 <p><em><a href="../../../manual/animator-controllers">Animator Controllers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p><img src="basics.png" class="pngif img-responsive"></p>
+<p><img src="basics.gif" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
 <p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridBasics">HybridBasics</a></code> script simply exposes some <code>public</code> methods for various UI Buttons to call. All of the characters use the same script which calls regular functions on the <code>Animator</code> except for the <a href="#hybrid">Humanoid Hybrid</a> character which calls similar functions on its <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -611,13 +611,13 @@ public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControlle
 <h1 id="creating-the-animator-controllers">Creating the Animator Controllers</h1>
 <p>Creating the Animator Controller assets we need for this example is a relatively simple process:</p>
 <ol>
-<li><details><summary>Right Click in the Project window and use the <code>Create -&gt; Animator Controller</code> function. Give it a name and Double Click on it to open it in the Animator window:</summary><p><img src="create-animator-controller.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Right Click in the Animator window and use the <code>Create <a href="/animancer/api/Animancer.FSM/State">State</a> -&gt; Empty</code> function to create two states. Name them <code>Idle</code> and <code>Walk</code> (though their names aren't important for this example):</summary><p><img src="create-states.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Assign animations you want to the <code>Motion</code> field of each state:</summary><p><img src="assign-animations.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Go to the <code>Parameters</code> tab in the left panel and create a <code>Bool</code> parameter named <code>Move</code> (note that the capitalisation must match what you use in your scripts when referring to it):</summary><p><img src="create-parameter.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Right Click on the <code>Idle</code> state and use the <code>Make Transition</code> function then click on the <code>Walk</code> state to set the destination of the transition. Do the same thing again to create a transition from <code>Walk</code> back to <code>Idle</code>:</summary><p><img src="create-transitions.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Select the <code>Walk -&gt; Idle</code> transition and disable its <code>Has Exit Time</code> toggle because we don't want the transition to be based on the state's time. Then scroll down, and add a <code>Condition</code> so that it gets triggered when the <code>Move</code> parameter is set to <code>false</code>. Do the same thing for <code>Idle -&gt; Walk</code> for when the parameter is <code>true</code>:</summary><p><img src="configure-transitions.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Select the character in the scene then drag and drop the Animator Controller you just created into the <code>Controller</code> field of their <code>Animator</code> component:</summary><p><img src="assign-controller.png" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Right Click in the Project window and use the <code>Create -&gt; Animator Controller</code> function. Give it a name and Double Click on it to open it in the Animator window:</summary><p><img src="create-animator-controller.gif" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Right Click in the Animator window and use the <code>Create <a href="/animancer/api/Animancer.FSM/State">State</a> -&gt; Empty</code> function to create two states. Name them <code>Idle</code> and <code>Walk</code> (though their names aren't important for this example):</summary><p><img src="create-states.gif" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Assign animations you want to the <code>Motion</code> field of each state:</summary><p><img src="assign-animations.gif" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Go to the <code>Parameters</code> tab in the left panel and create a <code>Bool</code> parameter named <code>Move</code> (note that the capitalisation must match what you use in your scripts when referring to it):</summary><p><img src="create-parameter.gif" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Right Click on the <code>Idle</code> state and use the <code>Make Transition</code> function then click on the <code>Walk</code> state to set the destination of the transition. Do the same thing again to create a transition from <code>Walk</code> back to <code>Idle</code>:</summary><p><img src="create-transitions.gif" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Select the <code>Walk -&gt; Idle</code> transition and disable its <code>Has Exit Time</code> toggle because we don't want the transition to be based on the state's time. Then scroll down, and add a <code>Condition</code> so that it gets triggered when the <code>Move</code> parameter is set to <code>false</code>. Do the same thing for <code>Idle -&gt; Walk</code> for when the parameter is <code>true</code>:</summary><p><img src="configure-transitions.gif" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Select the character in the scene then drag and drop the Animator Controller you just created into the <code>Controller</code> field of their <code>Animator</code> component:</summary><p><img src="assign-controller.gif" class="pngif img-responsive"></p></details></li>
 </ol>
 <h1 id="optional-warnings">Optional Warnings</h1>
 <p>As explained on the <a href="../../../manual/animator-controllers">Animator Controllers</a> page, blending between a <a href="../../../manual/animator-controllers#native">Native</a> Animator Controller and Animancer is only possible with a <code>Generic</code> character Rig, but not with a <code>Humanoid</code>. Animancer would normally log a warning explaining that if you have an Animator Controller assigned on a <code>Humanoid</code> character, but this example intentionally demonstrates the issue (and explains it in the <a href="#hybrid">Hybrid</a> section) so it just disables the warning:</p>
@@ -644,7 +644,7 @@ public void SetMove(bool move)
     _Animancer.Animator.SetBool(MoveParameterID, move);
 }
 </code></pre>
-<p><img src="parameter.png" class="pngif img-responsive"></p>
+<p><img src="parameter.gif" class="pngif img-responsive"></p>
 <h2 id="toggle">Toggle</h2>
 <p>The other methods in this example are set up to be called by <a href="/animancer/redirect/ui-buttons">UI Buttons</a>, but <code>SetMove</code> is actually called by a <code>Toggle</code> which works slightly different. Instead of an <code>On Click</code> event like <code>Button</code>s have, it has an <code>On Value Changed</code> event with a <code>bool</code> parameter to indicate what value it was set to. This means that when selecting which method you want it to call, the <code>SetMove</code> method will appear twice:</p>
 <p><img src="toggle-menu.png" class="img-responsive"></p>
@@ -676,7 +676,7 @@ public void PlaySeparateAnimation()
     _Animancer.Play(_SeparateAnimation);
 }
 </code></pre>
-<p><img src="play-separate.png" class="pngif img-responsive"></p>
+<p><img src="play-separate.gif" class="pngif img-responsive"></p>
 <p>Note how the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector shows that its <em>"Playable is not initialized ..."</em> until that method gets called, which creates a <a href="../../../manual/playing/states">State</a> managed by Animancer.</p>
 <p>Then, when we want to go back to the Animator Controller we can just <code>Stop</code> Animancer:</p>
 <pre><code class="language-cs">public void PlayAnimatorController()
@@ -684,7 +684,7 @@ public void PlaySeparateAnimation()
     _Animancer.Stop();
 }
 </code></pre>
-<p><img src="play-controller.png" class="pngif img-responsive"></p>
+<p><img src="play-controller.gif" class="pngif img-responsive"></p>
 <p>Specifically, the fact that Animancer's layers are now at 0 <code>Weight</code> is what prevents it from affecting the output anymore. So if you wanted to leave Animancer's animation playing in the background you could directly set the layer <code>Weight</code> instead of calling <code>Stop</code>.</p>
 <h1 id="fading">Fading</h1>
 <p>We can also <a href="../../../manual/blending/fading">Fade</a> in the external animation over time just like in the <a href="../../basics/transitions">Transitions</a> example:</p>
@@ -693,17 +693,17 @@ public void PlaySeparateAnimation()
     _Animancer.Play(_SeparateAnimation, 0.25f);
 }
 </code></pre>
-<p><img src="fade-separate.png" class="pngif img-responsive"></p>
+<p><img src="fade-separate.gif" class="pngif img-responsive"></p>
 <p>And <a href="../../../manual/blending/fading">Fade</a> back to the Animator Controller by fading the <a href="../../../manual/blending/layers">Layer</a> out just like in the <a href="../../layers">Layers</a> example:</p>
 <pre><code class="language-cs">public void FadeAnimatorController()
 {
     _Animancer.Layers[0].StartFade(0, 0.25f);
 }
 </code></pre>
-<p><img src="fade-controller.png" class="pngif img-responsive"></p>
+<p><img src="fade-controller.gif" class="pngif img-responsive"></p>
 <h1 id="hybrid">Hybrid</h1>
 <p>Unfortunately, blending between a <a href="../../../manual/animator-controllers#native">Native</a> Animator Controller and Animancer is only possible on <code>Generic</code> Rigs. Trying to do it on a <code>Humanoid</code> Rig causes the Animator Controller to fully control the output when Animancer's <code>Weight</code> is at 0 but gives Animancer full control at any other <code>Weight</code>:</p>
-<p><img src="humanoid-native-fade.png" class="pngif img-responsive"></p>
+<p><img src="humanoid-native-fade.gif" class="pngif img-responsive"></p>
 <p>That's why there's a second <code>Humanoid</code> character which uses a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> that can be controlled in essentially the same way as a regular <code>Animator</code> component. Normally you would do this by referencing the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> directly, but since we are sharing the same script with all the other characters in this example we simply use <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Casts</a> to access the members we need:</p>
 <pre><code class="language-cs">if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
 </code></pre>
@@ -747,18 +747,18 @@ public void PlaySeparateAnimation()
         _Animancer.Layers[0].StartFade(0, 0.25f);
 }
 </code></pre>
-<p><img src="hybrid.png" class="pngif img-responsive"></p>
+<p><img src="hybrid.gif" class="pngif img-responsive"></p>
 <h1 id="background">Background</h1>
 <p><a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers continue executing in the background even while Animancer is overriding the output, which is often a waste of performance:</p>
-<p><img src="background-native.png" class="pngif img-responsive"></p>
+<p><img src="background-native.gif" class="pngif img-responsive"></p>
 <p>Note how the <code>Move</code> parameter can be set and its the Animator Controller's state will change, but it isn't affecting the actual output on the character model.</p>
 <p>But <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s (and therefore <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>s) don't run in the background:</p>
-<p><img src="background-hybrid.png" class="pngif img-responsive"></p>
+<p><img src="background-hybrid.gif" class="pngif img-responsive"></p>
 <p>The Inspector progress bar on the <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> turned yellow to indicate that the state is paused and it has also been set to restart its <code>Time</code> from 0, but since commands on Animator Controllers don't take effect until the next frame, it will look like it's paused until that state next gets used. This can also cause <a href="../../../introduction/mecanim-vs-animancer/why/reliability">Reliability</a> issues if you try to control it immediately on the same frame you start playing it again because it treats everything since you stopped it as a single frame.</p>
 <p>The <code>Move</code> parameter is still being set in this case, but the Animator window simply doesn't display the updated value while the <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> is inactive (note how the toggle in the Animator window immediately gets ticked to match the one in the top left when the <code>Fade Animator Controller</code> is clicked at the end).</p>
 <h1 id="conclusion">Conclusion</h1>
 <p><a href="../../../manual/animator-controllers#hybrid">Hybrid</a> Animator Controllers allow fading to and from separate Animancer animations on <code>Humanoid</code> rigs while <a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers allow Animancer to be used alongside other systems that weren't designed for Animancer.</p>
-<p><img src="basics.png" class="pngif img-responsive"></p>
+<p><img src="basics.gif" class="pngif img-responsive"></p>
 <h1 id="what-next">What Next?</h1>
 <table class="table">
 <thead>

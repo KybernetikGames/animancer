@@ -537,7 +537,7 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How to play animations by name (rather than using direct references).</p>
 </blockquote>
 <p>The recommended way of using Animancer in most situations is to directly specify the <code>AnimationClip</code> (or <a href="../../../manual/transitions">Transition</a>) you want to play as the previous examples have demonstrated. However, Animancer does also support the ability to play animations by name so this example explains how you can do that. It also explains how you can actually use any type of <a href="../../../manual/playing/states#keys">Key</a> (including enums) to identify your animations instead of only their names.</p>
-<p><img src="named-animations.png" class="pngif img-responsive"></p>
+<p><img src="named-animations.gif" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
 <p>Here is a quick overview of what is happening in the above video:</p>
 <ol>
@@ -646,7 +646,7 @@ private <a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimance
 <p>In this example, we don't need to use any of the members of <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> in our script so either one would work fine, but we are relying on the fact that it will register animations by name so it is better to prevent a base <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> from being assigned. The <a href="../../../manual/playing/component-types">Component Types</a> page explains the differences between them in more detail.</p>
 <h1 id="startup">Startup</h1>
 <p>The <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> is set up with the <em>Humanoid-Idle</em> animation in its <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> list and <code>Play Automatically</code> disabled. This means that when enter Play Mode you can see in the Inspector that it creates a state for that animation but it isn't playing and its <code>Weight</code> is at 0. Since the character is using a Humanoid Rig, having no animations with any weight puts it into a "compressed" or "hunched over" pose according to the muscle limits defined in the <code>Avatar</code> configuration.</p>
-<p><img src="startup.png" class="pngif img-responsive"></p>
+<p><img src="startup.gif" class="pngif img-responsive"></p>
 <h1 id="idle">Idle</h1>
 <pre><code class="language-cs">public void PlayIdle()
 {
@@ -655,7 +655,7 @@ private <a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimance
 </code></pre>
 <p>This method and all the others in this example are set up to be called by <a href="/animancer/redirect/ui-buttons">UI Buttons</a>.</p>
 <p>Since the <em>Humanoid-Idle</em> animation already has a state created for it (because it is in the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> list), we are able to immediately play it using its name without our example script needing an actual reference to that <code>AnimationClip</code>.</p>
-<p><img src="idle.png" class="pngif img-responsive"></p>
+<p><img src="idle.gif" class="pngif img-responsive"></p>
 <h1 id="walk">Walk</h1>
 <pre><code class="language-cs">public void PlayWalk()
 {
@@ -676,7 +676,7 @@ private <a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimance
 <p>We could specify a custom <a href="../../../manual/playing/states#keys">Key</a> when calling <code>Create</code>, but since we aren't it will determine the key using the <code>GetKey</code> method (which uses the animation's name because it's a <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>).</p>
 <p>This would allow you to register your animations in one script and play by name in others.</p>
 <p>Creating the state doesn't immediately do anything to the character, but once it is created we can play it by name just like we did with the <em>Humanoid-Idle</em>.</p>
-<p><img src="walk.png" class="pngif img-responsive"></p>
+<p><img src="walk.gif" class="pngif img-responsive"></p>
 <h1 id="run">Run</h1>
 <pre><code class="language-cs">public void PlayRun()
 {
@@ -684,7 +684,7 @@ private <a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimance
 }
 </code></pre>
 <p>The <em>Humanoid-Run</em> animation isn't in the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> list either, but we have a reference to it (<code>AnimationClip _Run</code>) so we can just call <code>_Animancer.Play(_Run);</code> to show that we can still use direct references in a <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> where we have been using string names so far.</p>
-<p><img src="run.png" class="pngif img-responsive"></p>
+<p><img src="run.gif" class="pngif img-responsive"></p>
 <h1 id="inspector">Inspector</h1>
 <p>You can see in the Inspector that despite being created in different ways, all of the states have been registered using their names as <a href="../../../manual/playing/states#keys">Keys</a> where they would normally just show their <code>AnimationClip</code> because it is being used as its own key.</p>
 <table class="table">
