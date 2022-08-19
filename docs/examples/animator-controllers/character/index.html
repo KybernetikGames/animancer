@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#animator-controller">Animator Controller</a></p>
 <p><a href="#animation-constants">Animation Constants</a></p>
 <p><a href="#idle-state">Idle State</a></p>
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -541,8 +551,18 @@
 <li><em>Idle</em>, <em>Walk</em>, and <em>Run</em> are defined inside the Animator Controller.</li>
 <li><em>Action</em> is played separately, using the same <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> script from the <a href="../../fsm/brains">Brains</a> example.</li>
 </ul>
-<p><em><a href="../../../manual/animator-controllers">Animator Controllers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../manual/animator-controllers">Animator Controllers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p><img src="character.png" class="pngif img-responsive"></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>A <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> has all the methods like <code>Play</code> and <code>SetFloat</code> which would normally be used to control an <code>Animator</code> component.</li>
+<li>This example is more complex than the <a href="../../fsm/brains">Brains</a> example due to the use of Animator Controllers and doesn't really gain any advantages in exchange. Using Animator Controllers is generally only recommended if you already have one or are working with another system that requires one.</li>
+<li>Pre-calculating the hashes for state and parameter names in an Animator Controller can slightly improve performance compared to using their names everywhere.
+<ul>
+<li><a href="/weaver">Weaver</a> has a system for <a href="/weaver/docs/project-constants/animations">procedurally generating a script containing those values</a> so you don't have to write them manually. It's included in <a href="/weaver/lite">Weaver Lite</a> for FREE.</li>
+</ul>
+</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p>The general code structure is very similar to the <a href="../../fsm/brains">Brains</a> example, except that it uses a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to play an Animator Controller containing the <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations instead of referencing those animations directly from the states that will play them.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
@@ -733,7 +753,7 @@ HybridAnimancer.SetBool(Animations.IsMoving, true);
 </thead>
 <tbody>
 <tr>
-<td><a href="../3d-game-kit">3D Game Kit</a></td>
+<td><strong><a href="../3d-game-kit">3D Game Kit</a></strong></td>
 <td>Converting the logic from Unity's <a href="https://assetstore.unity.com/packages/templates/tutorials/3d-game-kit-lite-135162">3D Game Kit Lite</a> to use Animancer instead. Basically the opposite of this example and with a much more complex character.</td>
 </tr>
 </tbody>

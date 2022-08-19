@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#input">Input</a></p>
 <p><a href="#animations">Animations</a></p>
 <p><a href="#root-motion">Root Motion</a></p>
@@ -349,7 +350,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -528,44 +538,32 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p><i class="emw fa fa-folder"></i> <strong>Location</strong>: <em><span class="mini">Assets/Plugins/Animancer/</span>Examples/01 Basics/02 Basic Movement</em></p>
+<p><i class="emw fa fa-folder"></i> <strong>Location</strong>: <em><span class="mini">Assets/Plugins/Animancer/</span>Examples/01 Basics/02 Basic Movement</em><img src="movement.png" class="pngif img-responsive img-right" style="margin-top:1em;margin-right:-1em"></p>
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../quick-play">Quick Play</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to respond to player input.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to swap between different animations.</p>
 </blockquote>
 <p>This example demonstrates how to make a character play a movement animation while you hold a key and return to an idle animation when you release the key.</p>
-<p><img src="movement.png" class="pngif img-responsive"></p>
 <p>Smooth blending between the animations (i.e. <a href="../../../manual/blending/fading">Cross Fading</a>) is not included in this example. That concept is introduced in the <a href="../transitions">Transitions</a> example.</p>
-<h1 id="overview">Overview</h1>
-<p></p><details><summary>The scene setup for this example is identical to the <a href="../quick-play">Quick Play</a> example, except that the <code><a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> script is replaced by <code><a href="/animancer/api/Animancer.Examples.Basics/BasicMovementAnimations">BasicMovementAnimations</a></code> this time.</summary><p>
-</p><p>The fields  are basically the same, but this time we have a second <code>AnimationClip</code> field and an <code>Update</code> method instead of <code>OnEnable</code>:</p>
-<pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicMovementAnimations">BasicMovementAnimations</a> : MonoBehaviour
+<h1 id="summary">Summary</h1>
+<p>Playing an animation doesn't automatically restart it so you don't need to check if it was already playing and can simply keep telling it to play the one you want:</p>
+<pre><code class="language-cs">private void Update()
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private AnimationClip _Idle;
-    [SerializeField] private AnimationClip _Move;
-
-    private void Update()
+    float forward = ExampleInput.WASD.y;
+    if (forward &gt; 0)
     {
-        float forward = ExampleInput.WASD.y;
-        if (forward &gt; 0)
-        {
-            _Animancer.Play(_Move);
-        }
-        else
-        {
-            _Animancer.Play(_Idle);
-        }
+        _Animancer.Play(_Move);
+    }
+    else
+    {
+        _Animancer.Play(_Idle);
     }
 }
 </code></pre>
-<p></p></details><p></p>
-<p><img src="inspector.png" class="img-responsive"></p>
-<p>The code structure looks similar too, but now it has two animations:</p>
+<p>The <a href="../action">Basic Action</a> example explains how you can restart an animation from the beginning if that's what you want.</p>
+<h1 id="overview">Overview</h1>
+<p>The code structure looks similar to the <a href="../quick-play">Quick Play</a> example, but now it has two animations:</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="input">Input</h1>
 <p>To make the character respond to user input, we use an <code>Update</code> method (a <a href="/cs-unity/docs/introduction/methods/messages">MonoBehaviour Message</a> which Unity will call every frame).</p>
@@ -641,6 +639,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicMovem
 }
 </code></pre>
 <p>Note how it doesn't need an <code>OnEnable</code> method because the first <code>Update</code> will take care of playing the appropriate animation before the first frame is rendered.</p>
+<p><img src="inspector.png" class="img-responsive"></p>
 <p>And here's what it looks like in action:</p>
 <p><img src="movement.png" class="pngif img-responsive"></p>
 <h1 id="what-next">What Next?</h1>
@@ -653,7 +652,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicMovem
 </thead>
 <tbody>
 <tr>
-<td><a href="../action">Basic Action</a></td>
+<td><strong><a href="../action">Basic Action</a></strong></td>
 <td>Playing an <em>Action</em> animation when the user clicks and returning to <em>Idle</em> when it finishes.</td>
 </tr>
 <tr>

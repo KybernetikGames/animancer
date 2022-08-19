@@ -355,7 +355,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -533,7 +542,7 @@
 			<h1>Conversion</h1>
 		</section>
 	<section class="content">
-		<p>Mecanim and Animancer are extremely different systems so directly converting between them is not possible, but this page explains how the features of Animator Controllers correspond to the features of Animancer.</p>
+		<p>Mecanim and Animancer are extremely different systems so directly converting between them isn't possible, but this page explains how the features of Animator Controllers correspond to the features of Animancer.</p>
 <h1 id="animator-controllers">Animator Controllers</h1>
 <p><img src="animator-controller.png" class="img-responsive"></p>
 <p>There are two main options regarding Animator Controllers in Animancer:</p>
@@ -543,7 +552,7 @@
 </ol>
 <ul>
 <li>The <a href="../../../examples">Examples</a> demonstrate how to play animations without Animator Controllers.</li>
-<li>The <a href="../../../manual/animator-controllers#generating-transitions">Generate Transition</a> context menu functions on everything inside Animator Controllers (states, transitions, etc.) allow you to extract <em>some</em> of the details into <a href="../../../manual/transitions/assets">Transition Assets</a>. This includes transition durations, speeds, exit times, and the configuration of <a href="../../../manual/blending/mixers">Mixer States</a> from Blend Trees, but it does not include any logic like parameters or transition conditions because those things are handled entirely in scripts when using Animancer.</li>
+<li>The <a href="../../../manual/animator-controllers#generating-transitions">Generate Transition</a> context menu functions on everything inside Animator Controllers (states, transitions, etc.) allow you to extract <em>some</em> of the details into <a href="../../../manual/transitions/assets">Transition Assets</a>. This includes transition durations, speeds, exit times, and the configuration of <a href="../../../manual/blending/mixers">Mixer States</a> from Blend Trees, but it doesn't include any logic like parameters or transition conditions because those things are handled entirely in scripts when using Animancer.</li>
 </ul>
 <h1 id="animation-clips">Animation Clips</h1>
 <p>Any <code>AnimationClip</code> that can be played in an Animator Controller (<code>Humanoid</code> or <code>Generic</code>) can also be played in Animancer. The <a href="../../../manual/getting">Getting Animations</a> page lists the most common ways to get and create them.</p>
@@ -559,7 +568,7 @@
 <p>Animancer's <a href="../../../manual/transitions">Transitions</a> work very differently to those in Animator Controllers:</p>
 <ul>
 <li>They allow you to set up details like the <code>Fade Duration</code> and <code>Start Time</code> in the Inspector.</li>
-<li>They do not define any conditions or logic to determine when the transition occurs. A transition is basically just a bunch of additional data you can use in a <code>Play</code> command, so choosing when to call <code>Play</code> is entirely up to your scripts.</li>
+<li>They don't define any conditions or logic to determine when the transition occurs. A transition is basically just a bunch of additional data you can use in a <code>Play</code> command, so choosing when to call <code>Play</code> is entirely up to your scripts.</li>
 </ul>
 <p>The conditions in the above image will make the transition occur if the <code>MeleeAttack</code> trigger is set and the <code>StateTime</code> is greater than <code>0.16</code> and less than <code>1</code>, which would look like this in a script:</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
@@ -592,14 +601,14 @@ void MeleeAttack()
 <p>Animancer's <a href="../../../manual/blending/layers">Layers</a> are created at runtime using scripts rather than being pre-defined in an Animator Controller, but other than that they are roughly equivalent.</p>
 <h1 id="state-machine-behaviours">State Machine Behaviours</h1>
 <p><img src="state-machine-behaviour.png" class="img-responsive"></p>
-<p>Animancer's animation system has nothing like <code>StateMachineBehaviour</code>s because it is not supposed to manage your logic, but its <a href="../../../manual/fsm">Finite State Machine</a> system allows you to define your states as individual scripts which can be used to implement anything you would have done with a <code>StateMachineBehaviour</code>.</p>
+<p>Animancer's animation system has nothing like <code>StateMachineBehaviour</code>s because it isn't supposed to manage your logic, but its <a href="../../../manual/fsm">Finite State Machine</a> system allows you to define your states as individual scripts which can be used to implement anything you would have done with a <code>StateMachineBehaviour</code>.</p>
 <h1 id="inverse-kinematics">Inverse Kinematics</h1>
 <p><img src="ik.png" class="img-responsive"></p>
 <p>Turning on <a href="../../../manual/ik">Inverse Kinematics</a> is different in Animancer, but after that everything basically works the same. Unfortunately, due to limitations in the Playables API Unity will only ever call <code>OnAnimatorIK</code> with the <code>layerIndex</code> parameter set to <code>0</code>.</p>
 <h1 id="late-update">Late Update</h1>
 <p>Any system that uses a <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.LateUpdate.html"><code>LateUpdate</code></a> method to modify things after the animation is applied but before the frame is rendered will work exactly the same with Animancer.</p>
 <h1 id="animator-api">Animator API</h1>
-<p>The <code><a href="/animancer/api/Animancer/AnimancerComponent/091C3FB0">AnimancerComponent.Animator</a></code> property allows you to access the <code>Animator</code> component directly if you need to, however many of its members do not work with Animancer (in most cases they are simply not relevant).</p>
+<p>The <code><a href="/animancer/api/Animancer/AnimancerComponent/091C3FB0">AnimancerComponent.Animator</a></code> property allows you to access the <code>Animator</code> component directly if you need to, however many of its members don't work with Animancer (in most cases they are simply not relevant).</p>
 <p>The following members <strong>work normally</strong>:</p>
 <ul>
 <li><code>runtimeAnimatorController</code> - Used to play <a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers, in which case all of the <code>Animator</code> members work normally in regards to the Animator Controller (but not for any separate animations played through Animancer).</li>
@@ -614,7 +623,7 @@ void MeleeAttack()
 <li><code>Rebind</code></li>
 <li><code>StringToHash</code> - Works, but serves no purpose since Animancer doesn't rely on hash codes.</li>
 </ul>
-<p>The following members <strong>do not work</strong> directly:</p>
+<p>The following members <strong>don't work</strong> directly:</p>
 <table class="table">
 <thead>
 <tr>
@@ -633,7 +642,7 @@ void MeleeAttack()
 </tr>
 <tr>
 <td><code>GetBool</code>, <code>GetFloat</code>, <code>GetInteger</code>, <code>GetParameter</code>, <code>IsParameterControlledByCurve</code>, <code>parameters</code>, <code>parameterCount</code>, <code>ResetTrigger</code>, <code>SetBool</code>, <code>SetFloat</code>, <code>SetInteger</code>, <code>SetTrigger</code></td>
-<td>As mentioned in the <a href="#parameters">Parameters</a> section, Animancer does not use them.</td>
+<td>As mentioned in the <a href="#parameters">Parameters</a> section, Animancer doesn't use them.</td>
 </tr>
 <tr>
 <td><code>GetLayerIndex</code>, <code>GetLayerName</code>, <code>GetLayerWeight</code>, <code>layerCount</code>, <code>layersAffectMassCenter</code>, <code>SetLayerWeight</code></td>
@@ -645,7 +654,7 @@ void MeleeAttack()
 </tr>
 <tr>
 <td><code>linearVelocityBlending</code></td>
-<td>Never worked properly anyway, but <a href="../../../manual/blending/mixers">Mixers</a> can usually achieve linear blending by disabling <a href="../../../manual/blending/mixers#synchronization">Synchronization</a> on any non-locomotion states (such as <em>Idle</em> or <em>Attack</em>) when blending them with locomotion states (such as <em>Walk</em> or <em>Run</em>).</td>
+<td>Never worked properly anyway, but <a href="../../../manual/blending/mixers">Mixers</a> can usually achieve linear blending by disabling <a href="../../../manual/blending/mixers/synchronization">Synchronization</a> on any non-locomotion states (such as <em>Idle</em> or <em>Attack</em>) when blending them with locomotion states (such as <em>Walk</em> or <em>Run</em>).</td>
 </tr>
 <tr>
 <td><code>speed</code></td>
@@ -665,11 +674,7 @@ void MeleeAttack()
 <ul>
 <li><code>feetPivotActive</code></li>
 <li><code>logWarnings</code></li>
-<li>Animation Recording: <code>playbackTime</code>, <code>recorderMode</code>, <code>recorderStartTime</code>, <code>recorderStopTime</code>, <code>StartRecording</code>, <code>StartRecording</code>, <code>StopPlayback</code>, <code>StopRecording</code>
-<ul>
-<li>Probably works, but not tested.</li>
-</ul>
-</li>
+<li>Animation Recording: <code>playbackTime</code>, <code>recorderMode</code>, <code>recorderStartTime</code>, <code>recorderStopTime</code>, <code>StartRecording</code>, <code>StartRecording</code>, <code>StopPlayback</code>, <code>StopRecording</code></li>
 </ul>
 
 	</section>

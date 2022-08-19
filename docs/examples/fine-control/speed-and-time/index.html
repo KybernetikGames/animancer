@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#ui-toggle">UI Toggle</a></p>
 <p><a href="#fields">Fields</a></p>
 <p><a href="#planning-ahead">Planning Ahead</a></p>
@@ -354,7 +355,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -537,13 +547,19 @@
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../../basics/transitions">Transitions</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to control the speed and time of an animation.</p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to implement a robot that can <em>Wake Up</em> to move then go back to sleep by playing its <em>Wake Up</em> animation backwards.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to play an animation backwards.</p>
 </blockquote>
+<img src="speed-and-time.png" class="pngif img-responsive img-right">
 <p>This example demonstrates how you can control the speed and time of an animation to make a robot that can <em>Wake Up</em> to move then go back to sleep by playing its <em>Wake Up</em> animation backwards. The <a href="../../locomotion/directional-blending">Directional Blending</a> example expands upon this concept to implement proper locomotion for the bot to actually move around the scene in any direction.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p><img src="speed-and-time.png" class="pngif img-responsive"></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>To play an animation backwards, set its <code>Speed</code> to <code>-1</code>.</li>
+<li>To play an animation backwards from the end, also set its <code>NormalizedTime</code> to <code>1</code>.</li>
+<li>To pause all animations and save processing time, call <code>animancerComponent.Playable.PauseGraph();</code>.</li>
+</ul>
 <h1 id="overview">Overview</h1>
-<p>The spider bot character we want to implement has two main states that it can be in.</p>
+<p>The spider bot character we want to implement has two main states that it can be in:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Asleep</th>

@@ -347,7 +347,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -560,6 +569,7 @@ public class Character : MonoBehaviour
     // This wouldn't be serialized by Unity.
     //[SerializeField] private StateMachine&lt;MyState&gt; _StateMachine;
 </code></pre>
+<p>Note that the state type must also be serializable for this to work. That means it needs to have a <code>[Serializable]</code> attribute of its own or inherit from <code>UnityEngine.Object</code> (generally via <code>MonoBehaviour</code>, <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code>, or <code>ScriptableObject</code>). Basically, if you can make a <code>MyState</code> field show up in the Inspector, then it can also be used in a serializable state machine.</p>
 <p>Then you can use that class as the serialized field type:</p>
 <pre><code class="language-cs">    [SerializeField] private MyStateMachine _StateMachine;
 </code></pre>

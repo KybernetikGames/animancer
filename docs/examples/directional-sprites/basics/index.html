@@ -81,12 +81,13 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#fields">Fields</a></p>
 <p><a href="#playing">Playing</a></p>
 <p><a href="#controls">Controls</a></p>
 <p><a href="#edit-mode">Edit Mode</a></p>
-<p><a href="#more-characters">More Characters</a></p>
+<p><a href="#conclusion">Conclusion</a></p>
 <p><a href="#sub-assets">Sub-Assets</a></p>
 <p><a href="#what-next">What Next?</a></p>
 <hr class="infobar-hidden">
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -533,59 +543,25 @@
 <p><i class="emw fa fa-folder"></i> <strong>Location</strong>: <em><span class="mini">Assets/Plugins/Animancer/</span>Examples/04 Directional Sprites/01 Directional Basics</em></p>
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../../basics/movement">Basic Movement</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> to organise animations in groups of up/right/down/left.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to organise animations in groups of up/right/down/left.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a>.</p>
 </blockquote>
-<p>This example demonstrates how you can use <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> to organise animations in groups of up/right/down/left, using the exact same structure for both <em>Idle</em> and <em>Walk</em> animations across various different characters. The <a href="../character">Directional Character</a> example extends this concept into a more complex character and shows an alternate character that uses <code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>s to allow diagonal movement.</p>
-<p></p><figure>
-    <img src="mage.png" class="pngif img-responsive">
-    <figcaption><a href="https://opengameart.org/content/16x16-mage">16x16 Mage</a> created by saint11 - CC0 Licence.</figcaption>
-</figure><p></p>
+<figure class="img-right">
+  <img src="mage.png" class="pngif img-responsive">
+  <figcaption>
+    <a href="https://opengameart.org/content/16x16-mage">16x16 Mage</a><br>
+    Created by <a href="https://opengameart.org/users/saint11">saint11</a><br>
+    <a href="https://creativecommons.org/publicdomain/zero/1.0">CC0 Licence</a></figcaption>
+</figure>
+<p>This example demonstrates how to implement a character that can move in 4 directions (up/right/down/left) using simple data structures and reusable code.</p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Choosing the character's animation based on the direction they're <em>Facing</em> rather than the direction they're <em>Moving</em> allows them to continue facing in the last direction they moved while standing <em>Idle</em>.</li>
+<li><a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> make it easy to manage groups of up/right/down/left animations.</li>
+<li><a href="../../../manual/playing/edit-mode">Playing animations in Edit Mode is easy.</a></li>
+<li>The <a href="../character">Directional Character</a> example extends this concept into a more complex character and shows an alternate character that uses <code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>s to allow diagonal movement.</li>
+</ul>
 <h1 id="overview">Overview</h1>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.DirectionalSprites/DirectionalBasics">DirectionalBasics</a></code> script looks like this (with the comments removed since we're about to explain how it works):</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class <a href="/animancer/api/Animancer.Examples.DirectionalSprites/DirectionalBasics">DirectionalBasics</a> : MonoBehaviour
-{
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Idles;
-    [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Walks;
-    [SerializeField] private Vector2 _Facing = Vector2.down;
-    \
-    private void Update()
-    {
-        var input = ExampleInput.WASD;
-        if (input != default)
-        {
-            _Facing = input;
-
-            Play(_Walks);
-
-            var isRunning = ExampleInput.LeftShiftHold;
-            _Animancer.States.Current.Speed = isRunning ? 2 : 1;
-        }
-        else
-        {
-            Play(_Idles);
-        }
-    }
-
-    private void Play(DirectionalAnimationSet animations)
-    {
-        var clip = animations.GetClip(_Facing);
-        _Animancer.Play(clip);
-    }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (_Idles != null)
-            _Idles.GetClip(_Facing).EditModeSampleAnimation(_Animancer);
-    }
-#endif
-}
-</code></pre>
-<p></p></details><p></p>
 <p>The general code structure is very similar to previous examples, but it uses <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> instead of directly referencing individual <code>AnimationClip</code>s:</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="fields">Fields</h1>
@@ -657,7 +633,7 @@ private Vector2 _Facing = Vector2.down;
 </code></pre>
 <p>This example does not actually move the character around since is just demonstrating the basics of <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a>, but the <a href="../character">Directional Character</a> example does demonstrate movement.</p>
 <h1 id="edit-mode">Edit Mode</h1>
-<p>If we were to make another character with some different <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s, it would use those animations at runtime but it would not actually show the correct sprite in Edit Mode unless we re-assign it manually. Fortunately, Animancer allows you to easily apply and even play animations in <a href="../../../manual/playing#edit-mode">Edit Mode</a>. All we need to do it use <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnValidate"><code>MonoBehaviour.OnValidate</code></a> to call <code>AnimancerUtilities.EditModeSampleAnimation</code>:</p>
+<p>If we were to make another character with some different <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s, it would use those animations at runtime but it would not actually show the correct sprite in Edit Mode unless we re-assign it manually. Fortunately, Animancer allows you to easily apply and even play animations in <a href="../../../manual/playing/edit-mode">Edit Mode</a>. All we need to do it use <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnValidate"><code>MonoBehaviour.OnValidate</code></a> to call <code>AnimancerUtilities.EditModeSampleAnimation</code>:</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
 private void OnValidate()
 {
@@ -670,15 +646,69 @@ private void OnValidate()
 </code></pre>
 <p>The <code>#if UNITY_EDITOR</code> isn't actually necessary because Unity will not call <code>OnValidate</code> at runtime anyway, but this allows us to be clearer about what the code is doing.</p>
 <p>Also note that this did not work properly before Unity 2018.3 due to a bug.</p>
-<h1 id="more-characters">More Characters</h1>
+<h1 id="conclusion">Conclusion</h1>
+<p></p><details><summary>Click here to see the full <code><a href="/animancer/api/Animancer.Examples.DirectionalSprites/DirectionalBasics">DirectionalBasics</a></code> script.</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class <a href="/animancer/api/Animancer.Examples.DirectionalSprites/DirectionalBasics">DirectionalBasics</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Idles;
+    [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Walks;
+    [SerializeField] private Vector2 _Facing = Vector2.down;
+    \
+    private void Update()
+    {
+        var input = ExampleInput.WASD;
+        if (input != default)
+        {
+            _Facing = input;
+
+            Play(_Walks);
+
+            var isRunning = ExampleInput.LeftShiftHold;
+            _Animancer.States.Current.Speed = isRunning ? 2 : 1;
+        }
+        else
+        {
+            Play(_Idles);
+        }
+    }
+
+    private void Play(DirectionalAnimationSet animations)
+    {
+        var clip = animations.GetClip(_Facing);
+        _Animancer.Play(clip);
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (_Idles != null)
+            _Idles.GetClip(_Facing).EditModeSampleAnimation(_Animancer);
+    }
+#endif
+}
+</code></pre>
+<p></p></details><p></p>
 <p>Now we can create more <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s and reuse the same script for more characters.</p>
 <p></p><figure>
-    <img src="critters.png" class="pngif img-responsive">
-    <figcaption><a href="https://opengameart.org/content/16x16-animated-critters">16x16 Animated Critters</a> created by <a href="https://twitter.com/helplessisland">patvanmackelberg</a> - CC0 Licence.</figcaption>
+  <img src="critters.png" class="pngif img-responsive">
+  <figcaption>
+    <a href="https://opengameart.org/content/16x16-animated-critters">16x16 Animated Critters</a><br>
+    Created by <a href="https://twitter.com/helplessisland">patvanmackelberg</a><br>
+    <a href="https://creativecommons.org/publicdomain/zero/1.0">CC0 Licence</a>
+  </figcaption>
 </figure><p></p>
 <p></p><figure>
-    <img src="rpg-characters.png" class="pngif img-responsive">
-    <figcaption><a href="https://opengameart.org/content/antifareas-rpg-sprite-set-1-enlarged-w-transparent-background-fixed">Antifarea's RPG sprite set 1</a> created by Antifarea - CCBY Licence (not included in Animancer due to Asset Store licensing restrictions).</figcaption>
+  <img src="rpg-characters.png" class="pngif img-responsive">
+  <figcaption>
+    <a href="https://opengameart.org/content/antifareas-rpg-sprite-set-1-enlarged-w-transparent-background-fixed">Antifarea's RPG sprite set 1</a><br>
+    Created by Antifarea<br>
+    <a href="https://creativecommons.org/licenses/by/2.0">CCBY Licence</a><br>
+    Not included in Animancer due to Asset Store licensing restrictions.
+  </figcaption>
 </figure><p></p>
 <img src="sub-assets.png" class="pngif img-responsive img-right">
 <h1 id="sub-assets">Sub-Assets</h1>
@@ -693,7 +723,7 @@ private void OnValidate()
 </thead>
 <tbody>
 <tr>
-<td><a href="../character">Directional Character</a></td>
+<td><strong><a href="../character">Directional Character</a></strong></td>
 <td>Uses <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> in a more complex character.</td>
 </tr>
 </tbody>

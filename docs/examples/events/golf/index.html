@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#fields">Fields</a></p>
 <p><a href="#awake">Awake</a></p>
 <p><a href="#on-enable">On Enable</a></p>
@@ -353,7 +354,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -539,9 +549,15 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How adjust the end time of an animation to create a smoother transition.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to configure the time of <a href="../../../manual/events/animancer">Animancer Events</a> in the Inspector and assign their callbacks in code.</p>
 </blockquote>
-<p>This example demonstrates how you can have a character hit a ball at a specific time and adjust the end time of the animation to create a smoother transition. It uses a <a href="../../../manual/events/animancer/usage#hybrid">Hybrid</a> approach where the event times are configured in the Inspector but the callbacks are left blank so they can be assigned in code instead.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/blending/fading">custom Fade durations</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p>This example demonstrates how you can make a character hit a ball at a specific time and adjust the end time of the animation to create a smoother transition. It uses a <a href="../../../manual/events/animancer/usage#hybrid">Hybrid</a> approach where the event times are configured in the Inspector but the callbacks are left blank so they can be assigned in code instead.</p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/blending/fading">custom Fade durations</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p><img src="golf-events.png" class="pngif img-responsive"></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>You can leave <a href="../../../manual/events/animancer">Animancer Event</a> callbacks blank and set them in code instead. This allows non-programmers to visually preview and tweak the time while keeping the actual logic inside your code as much as possible.</li>
+<li>The <a href="../../../manual/events/animancer/usage#event-names-attribute">Event Names Attribute</a> allows your code to specify which names it expects events to have in order to show what the script supports and avoid spelling mistakes.</li>
+<li>You can adjust the end time of an animation to give a smoother transition into the next animation.</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p></p><details><summary>This example's logic is contained in the <code><a href="/animancer/api/Animancer.Examples.Events/Golfer">Golfer</a></code> script:
 <ol>
@@ -759,7 +775,7 @@ private void HitBall()
 </code></pre>
 <p>If the animation doesn't have an event with that name, it will throw an exception because that usually means the transition's events haven't been set up as needed for the script to work properly. If you want the event to be optional, you could use <code>Events.IndexOf</code> then use that index to set the callback.</p>
 <h2 id="attribute">Attribute</h2>
-<p>Using <a href="../../../introduction/mecanim-vs-animancer/why/safety">Magic Strings</a> isn't great because there is no indication in the Inspector of which event name the script is expecting and you have to type the name manually. Fortunately, you can avoid that using the <a href="../../../manual/events/animancer/usage#event-names">Event Names Attribute</a>:</p>
+<p>Using <a href="../../../introduction/mecanim-vs-animancer/why/safety">Magic Strings</a> isn't great because there is no indication in the Inspector of which event name the script is expecting and you have to type the name manually. Fortunately, you can avoid that using the <a href="../../../manual/events/animancer/usage#event-names-attribute">Event Names Attribute</a>:</p>
 <ol>
 <li>Make a <code>string</code> constant containing the name:</li>
 </ol>

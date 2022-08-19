@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#controlling-updates">Controlling Updates</a></p>
 <p><a href="#low-update-rate">Low Update Rate</a></p>
 <p><a href="#dynamic-update-rate">Dynamic Update Rate</a></p>
@@ -348,7 +349,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -539,6 +549,11 @@
 <li>Dynamic Rate: updates every frame if the character is close to the camera, but starts limiting the update rate if it gets further away.</li>
 </ul>
 <p><img src="update-rate.png" class="pngif img-responsive"></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>To prevent Unity from updating animations normally, call <code>animancerComponent.Playable.PauseGraph();</code>.</li>
+<li>To update animations manually, call <code>animancerComponent.Evaluate(deltaTime);</code>.</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p>There are two scripts used in this example:</p>
 <p></p><details><summary>The <em>Low Rate</em> and <em>Dynamic Rate</em> characters both use the <code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> script which prevents Animancer from updating normally so that it can tell Animancer when to update:</summary><p>
@@ -723,7 +738,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Dynam
 <h1 id="further-development">Further Development</h1>
 <p>The scripts used in this example could be used in a real game (after you remove the <code>TextMesh</code>), but there are a few more ways the idea could be improved upon to get even better performance and fine tune the visual appearance.</p>
 <h2 id="events">Events</h2>
-<p>Keep in mind that updating animations at a lower rate will also affect <a href="../../../manual/events/animation">Animation Events</a> and <a href="../../../manual/events/animancer">Animancer Events</a> so it might not be an option if you are relying on their precise timing. The same applies if you are using physics hitboxes based on the character's bone positions. In these cases you might need indicate which animations are important so that the system doesn't lower the character's animation update rate while the timing is critical or maybe when characters are close to each other.</p>
+<p>Keep in mind that updating animations at a lower rate will also affect <a href="../../../manual/events/animation">Animation Events</a> and <a href="../../../manual/events/animancer">Animancer Events</a> so it might not be an option if you're relying on their precise timing. The same applies if you're using physics hitboxes based on the character's bone positions. In these cases you might need indicate which animations are important so that the system doesn't lower the character's animation update rate while the timing is critical or maybe when characters are close to each other.</p>
 <h2 id="singleton">Singleton</h2>
 <p>Every <code>MonoBehaviour</code> event method that Unity calls (such as <code>OnEnable</code> or <code>Update</code>) has a larger performance cost than calling a method normally in C#. This means that it is actually more efficient (but more complex) to have a single script in the scene for Unity to <code>Update</code> which has a list of all the other things you want it to update.</p>
 <h2 id="staggered-updates">Staggered Updates</h2>

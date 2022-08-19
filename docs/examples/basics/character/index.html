@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#methods">Methods</a></p>
 <p><a href="#logical-states">Logical States</a></p>
 <p><a href="#state-enum">State Enum</a></p>
@@ -353,7 +354,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -537,76 +547,16 @@
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to combine simple behaviours into more complex ones.</p>
 </blockquote>
+<img src="character.png" class="pngif img-responsive img-right">
 <p>This example combines the <a href="../movement">Basic Movement</a> and <a href="../transitions">Transitions</a> examples on a single character to demonstate how you can avoid several common problems you might encounter when implementing more complex behaviours.</p>
-<p><img src="character.png" class="pngif img-responsive"></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Implementing a character with multiple different animations is notably more complex than just the one or two seen in earlier examples because you need to consider how they can transition into and interrupt each other.</li>
+<li>Animancer plays animations when you tell it to and only when you tell it to, so if the wrong animation is playing then most likely your scripts are telling it to play the wrong animation.</li>
+<li>Enums are an effective way to keep track of the states things are in for relatively simple scenarios, but for more complex situations it's often better to use a proper Finite State Machine system.</li>
+<li>The <a href="../../fsm/characters">Characters</a> example re-implements the same logic as this example using <a href="../../../manual/fsm">Animancer's Finite State Machine</a> system.</li>
+</ul>
 <h1 id="overview">Overview</h1>
-<p>Implementing a character with multiple different animations is notably more complex than just the one or two seen in earlier examples because you need to consider how they can transition into and interrupt each other. This example explains several common logic issues you may encounter and how to avoid them.</p>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> script used in this example is a combination of <code><a href="/animancer/api/Animancer.Examples.Basics/BasicMovementAnimations">BasicMovementAnimations</a></code> from the <a href="../movement">Basic Movement</a> example and <code><a href="/animancer/api/Animancer.Examples.Basics/PlayTransitionOnClick">PlayTransitionOnClick</a></code> from the <a href="../transitions">Transitions</a> example.</summary><p>
-</p><p><img src="inspector.png" class="img-responsive"></p>
-<pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a> : MonoBehaviour
-{
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
-
-    private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
-    {
-        NotActing,
-        Acting,
-    }
-
-    private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
-
-    private void Awake()
-    {
-        _Action.Events.OnEnd = UpdateMovement;
-    }
-
-    private void Update()
-    {
-        switch (_CurrentState)
-        {
-            case State.NotActing:
-                UpdateMovement();
-                UpdateAction();
-                break;
-
-            case State.Acting:
-                UpdateAction();
-                break;
-        }
-    }
-
-    private void UpdateMovement()
-    {
-        _CurrentState = State.NotActing;
-
-        float forward = ExampleInput.WASD.y;
-        if (forward &gt; 0)
-        {
-            _Animancer.Play(_Move);
-        }
-        else
-        {
-            _Animancer.Play(_Idle);
-        }
-    }
-
-    private void UpdateAction()
-    {
-        if (ExampleInput.LeftMouseUp)
-        {
-            _CurrentState = State.Acting;
-            _Animancer.Play(_Action);
-        }
-    }
-}
-</code></pre>
-<p></p></details><p></p>
 <p>The code structure looks similar to the <a href="../transitions#architecture">Transitions</a> example, but now it has three animations:</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="methods">Methods</h1>
@@ -868,7 +818,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicChara
 </thead>
 <tbody>
 <tr>
-<td><a href="../../fsm/characters">Characters</a></td>
+<td><strong><a href="../../fsm/characters">Characters</a></strong></td>
 <td>Re-implement the same logic as this example using Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system. Relatively simple behaviours can be easily implemented in a single script like we did in this example. But in more complex situations, spending some extra time early on to properly structure your code will often save a lot of time later on when you need to expand it, change it, and debug issues.</td>
 </tr>
 <tr>

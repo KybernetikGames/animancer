@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#action-animation">Action Animation</a></p>
 <p><a href="#end-event">End Event</a></p>
 <p><a href="#rapid-fire">Rapid Fire</a></p>
@@ -348,7 +349,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -534,41 +544,22 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="../../../manual/events/end">End Events</a>.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to set an animation's time.</p>
 </blockquote>
+<img src="action.png" class="pngif img-responsive img-right">
 <p>This example demonstrates how to make a character perform an <em>Action</em> (shooting a pistol) when you click the mouse then return to the <em>Idle</em> animation afterwards.</p>
-<p><img src="action.png" class="pngif img-responsive"></p>
 <p>After this example, the <a href="../transitions">Transitions</a> example re-implements the same behaviour with smooth blending between the animations (i.e. <a href="../../../manual/blending/fading">Cross Fading</a>).</p>
-<h1 id="overview">Overview</h1>
-<p></p><details><summary>The scene setup for this example is identical to the <a href="../quick-play">Quick Play</a> example, except that the <code><a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> script is replaced by <code><a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a></code> this time.</summary><p>
-</p><p><img src="inspector.png" class="img-responsive"></p>
-<p>The fields and <code>OnEnable</code> method are basically the same, but this time we have a second <code>AnimationClip</code> field and some other methods.</p>
-<pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a> : MonoBehaviour
-{
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private AnimationClip _Idle;
-    [SerializeField] private AnimationClip _Action;
-
-    private void OnEnable()
-    {
-        _Animancer.Play(_Idle);
-    }
-
-    private void Update()
-    {
-        if (ExampleInput.LeftMouseUp)
-        {
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
-            state.Time = 0;
-            state.Events.OnEnd = OnEnable;
-        }
-    }
-}
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Animancer's <code>Play</code> methods return an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> which you can use to control the animation.</li>
+<li>You can restart an animation by setting its <code>Time</code> to <code>0</code>.</li>
+<li>You can use <a href="../../../manual/events/end">End Events</a> to easily do things when an animation ends (such as playing a different animation).</li>
+<li>The <a href="holding">Holding a Pistol</a> page explains how to actually put the pistol model in the character's hand.</li>
+</ul>
+<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+state.Time = 0;
+state.Events.OnEnd = OnAnimationEnd;
 </code></pre>
-<p></p></details><p></p>
-<p>The <a href="holding">Holding a Pistol</a> page explains how to actually put the pistol model in the character's hand.</p>
-<p>The code structure looks similar again:</p>
+<h1 id="overview">Overview</h1>
+<p>The code structure is the same as to the <a href="../movement">Basic Movement</a> example, just with a different script and action animation instead of movement.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="action-animation">Action Animation</h1>
 <p>As mentioned in the foldout above, the fields and <code>OnEnable</code> method are basically the same as in previous examples so we won't go over them again.</p>
@@ -657,6 +648,33 @@ public class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnCl
 state.Time = 0;
 state.Events.OnEnd = OnEnable;
 </code></pre>
+<p></p><details><summary>The full script now looks like this:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimationClip _Idle;
+    [SerializeField] private AnimationClip _Action;
+
+    private void OnEnable()
+    {
+        _Animancer.Play(_Idle);
+    }
+
+    private void Update()
+    {
+        if (ExampleInput.LeftMouseUp)
+        {
+            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+            state.Time = 0;
+            state.Events.OnEnd = OnEnable;
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
 <p><img src="action.png" class="pngif img-responsive"></p>
 <h1 id="what-next">What Next?</h1>
 <table class="table">
@@ -668,7 +686,7 @@ state.Events.OnEnd = OnEnable;
 </thead>
 <tbody>
 <tr>
-<td><a href="../transitions">Transitions</a></td>
+<td><strong><a href="../transitions">Transitions</a></strong></td>
 <td>Implementing the same behaviour as this example with smooth blending instead of instantly snappping between animations.</td>
 </tr>
 <tr>

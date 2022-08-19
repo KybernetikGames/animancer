@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#recommendations">Recommendations</a></p>
 <p><a href="#setup">Setup</a></p>
 <p><a href="#startup">Startup</a></p>
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -538,7 +548,12 @@
 </blockquote>
 <p>The recommended way of using Animancer in most situations is to directly specify the <code>AnimationClip</code> (or <a href="../../../manual/transitions">Transition</a>) you want to play as the previous examples have demonstrated. However, Animancer does also support the ability to play animations by name so this example explains how you can do that. It also explains how you can actually use any type of <a href="../../../manual/playing/states#keys">Key</a> (including enums) to identify your animations instead of only their names.</p>
 <p><img src="named-animations.png" class="pngif img-responsive"></p>
-<h1 id="overview">Overview</h1>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>You can register an animation with a <a href="../../../manual/playing/states#keys">Key</a> and later refer to it using that <a href="../../../manual/playing/states#keys">Key</a>.</li>
+<li>An <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> will normally use an <code>AnimationClip</code> as the <a href="../../../manual/playing/states#keys">Key</a> of its state.</li>
+<li>A <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> will instead use the name of the clip as its <a href="../../../manual/playing/states#keys">Key</a> so you can play it using <code>animancer.TryPlay("Clip Name")</code>.</li>
+</ul>
 <p>Here is a quick overview of what is happening in the above video:</p>
 <ol>
 <li>The <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> is set up with the <em>Humanoid-Idle</em> animation in its <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> list and <code>Play Automatically</code> disabled.</li>
@@ -549,7 +564,8 @@
 <li>Now that the state exists, the <em>TryPlay("Humanoid-Walk")</em> button can play it by name.</li>
 <li>The <em>Play(_Run)</em> button passes the <em>Humanoid-Run</em> <code>AnimationClip</code> into the <code>Play</code> method to show that names and direct references can both be used on the same object.</li>
 </ol>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.FineControl/NamedAnimations">NamedAnimations</a></code> script contains all the example code and looks like this (with the comments removed since we're about to explain what it's doing):</summary><p>
+<h1 id="overview">Overview</h1>
+<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.FineControl/NamedAnimations">NamedAnimations</a></code> script contains all the example code and looks like this:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 

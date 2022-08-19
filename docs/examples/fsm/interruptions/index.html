@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#controls">Controls</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#controls">Controls</a></p>
 <p><a href="#overview">Overview</a></p>
 <p><a href="#health-pool">Health Pool</a></p>
 <p><a href="#flinch-state">Flinch State</a></p>
@@ -356,7 +357,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -544,6 +554,14 @@
 <img src="interruptions.png" class="pngif img-responsive img-right">
 <p>This example expands upon the <a href="../characters">Characters</a> example to add a <code>FlinchState</code> and demonstrates several different ways you can control which states can interrupt each other.</p>
 <p>The video to the right shows how the <em>Action</em> (shooting the pistol) can interrupt <em>Idle</em> or <em>Walk</em> and clicking on the character to make them <em>Flinch</em> can interrupt any of those, but clicking elsewhere during the <em>Flinch</em> isn't allowed to start the <em>Action</em>.</p>
+<h1 id="summary">Summary</h1>
+<p>Animancer will always play an animation when you tell it to, so it's up to your scripts to decide when each one can be played. This example demonstrates some of the ways you can manage that logic:</p>
+<ul>
+<li>A <code>bool</code> to indicate whether each state can be interrupted is simple, but doesn't work if you need a state to be interruptable by some things and not others.</li>
+<li>An <code>int</code> to indicate priority is a bit more flexible, but doesn't give any clear meaning to specific values.</li>
+<li>An <code>enum</code> can be used like an <code>int</code> and gives each value a specific name (low, medium, high, etc.).</li>
+<li>Rather than straight up priority, an <code>enum</code> could have values for general types of states such as <em>Idle</em>, <em>Attack</em>, and <em>Die</em>.</li>
+</ul>
 <h1 id="controls">Controls</h1>
 <ul>
 <li>W = Walk</li>
@@ -843,7 +861,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/Equ
 </thead>
 <tbody>
 <tr>
-<td><a href="../brains">Brains</a></td>
+<td><strong><a href="../brains">Brains</a></strong></td>
 <td>A deeper look into the concept of character brains.</td>
 </tr>
 <tr>

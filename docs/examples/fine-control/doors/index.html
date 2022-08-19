@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#interaction-system">Interaction System</a></p>
 <p><a href="#basic-door">Basic Door</a></p>
 <p><a href="#openness">Openness</a></p>
@@ -348,7 +349,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -535,15 +545,22 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How to play animations in Edit Mode.</p>
 </blockquote>
 <p>This example demonstrates how you can use a single animation and some simple scripting to create a system for doors that can be opened and closed, can start open, closed, or anywhere inbetween, and can show the starting state in Edit Mode.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: modifying <code>AnimancerState.Speed</code> and <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p>The video below shows several doors:</p>
 <ul>
-<li>They start in different states: from left to right they are closed, 60% open, and fully open.</li>
+<li>They start in different states: closed (left), 60% open (middle), and fully open (right).</li>
 <li>Clicking on a door toggles its state.</li>
 <li>Since the middle door starts closer to fully open than closed, the first interaction closes it.</li>
 <li>On the last door we also see that it can be interrupted at any time to change direction.</li>
 </ul>
 <p><img src="doors.png" class="pngif img-responsive"></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>To play an animation backwards, set its <code>Speed</code> to <code>-1</code>.</li>
+<li>To pause all animations and save processing time, call <code>animancerComponent.Playable.PauseGraph();</code>.</li>
+<li>Interfaces allow you to decouple systems which helps with writing flexible and bug free code.</li>
+<li>You can easily <a href="#edit-mode">play animations in Edit Mode</a>.</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p>There are 3 scripts in this example to keep the animation control code separate from the user input code:</p>
 <p></p><details><summary><code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> is a simple <a href="/cs-unity/docs/introduction/inheritance#interfaces">Interface</a> which forms the basis for a simple decoupled interaction system:</summary><p>

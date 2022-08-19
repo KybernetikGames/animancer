@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#playing-the-animation">Playing the Animation</a></p>
 <p><a href="#audio-sources">Audio Sources</a></p>
 <p><a href="#playing-the-sounds">Playing the Sounds</a></p>
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -538,11 +548,16 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="../../../manual/events/animation">Animation Events</a>.</p>
 </blockquote>
 <img src="footstep-events.png" class="pngif img-responsive img-right">
-<p>This example demonstrates how you can use <a href="../../../manual/events/animancer">Animancer Events</a> and <a href="../../../manual/events/animation">Animation Events</a> to play a randomly chosen footstep sound whenever the character's foot touches the ground during a walk cycle.</p>
-<p><em><a href="../../../manual/events/animancer">Animancer Events</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p>This example demonstrates how you can play a randomly chosen footstep sound whenever a character's foot touches the ground during a walk cycle.</p>
+<p><em><a href="../../../manual/events/animancer">Animancer Events</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p>The actual example scene plays a sound every time a foot touches the ground. But since the video shown here doesn't have sound, it instead shows a sphere around the foot associated with each event for a short time after that event occurs.</p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>The <a href="../../../manual/events">Events</a> page explains the differences between Unity's inbuilt <a href="../../../manual/events/animation">Animation Events</a> and <a href="../../../manual/events/animancer">Animancer Events</a> while this example demonstrates those differences in practice.</li>
+<li><a href="../../../manual/events/animation">Animation Events</a> are defined in an <code>AnimationClip</code> and will call a method with a specific name in a component attached to the same object as the <code>Animator</code> component.</li>
+<li><a href="../../../manual/events/animancer">Animancer Events</a> can be defined in <a href="../../../manual/transitions">Transitions</a> or in code and can be given a callback method with fewer restrictions.</li>
+</ul>
 <h1 id="overview">Overview</h1>
-<p>The <a href="../../../manual/events">Events</a> page explains the differences between the two systems, while this example shows those differences in practice.</p>
 <p>There are two scripts in this example:</p>
 <p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script contains most of this example's logic:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -745,7 +760,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEv
   </tbody>
 </table>
 <h1 id="conclusion">Conclusion</h1>
-<p>The workflow of <a href="../../../manual/events/animancer">Animancer Events</a> is clearly superior for this particular example because they could be set up where they were needed, directly referenced the objects they interact with, and did not require a duplicate of the <code>AnimationClip</code>, but that will not always be the case. You may encounter situations where <a href="../../../manual/events/animation">Animation Events</a> are more useful so it is important to understand all the tools you have available.</p>
+<p>The workflow of <a href="../../../manual/events/animancer">Animancer Events</a> is clearly superior for this particular example because they could be set up where they were needed, directly referenced the objects they interact with, and did not require a duplicate of the <code>AnimationClip</code>, but that will not always be the case. You may encounter situations where <a href="../../../manual/events/animation">Animation Events</a> are more useful so it's important to understand all the tools you have available.</p>
 <p><img src="footstep-events.png" class="pngif img-responsive"></p>
 <h1 id="what-next">What Next?</h1>
 <table class="table">
@@ -757,7 +772,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEv
 </thead>
 <tbody>
 <tr>
-<td><a href="../golf">Golf Events</a></td>
+<td><strong><a href="../golf">Golf Events</a></strong></td>
 <td>Demonstrates a hybrid approach to <a href="../../../manual/events/animancer">Animancer Events</a> where you setup and tweak their times in the Inspector but leave their <code>Callback</code>s blank to set them in code.</td>
 </tr>
 <tr>

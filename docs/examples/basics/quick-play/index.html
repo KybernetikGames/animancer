@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#new-script">New Script</a></p>
 <p><a href="#fields">Fields</a></p>
 <p><a href="#scene-setup">Scene Setup</a></p>
@@ -350,7 +351,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -539,9 +549,13 @@
 <p>This example demonstrates how to write a very simple script which tells Animancer to play an animation.</p>
 <p><img src="quick-play.png" class="pngif img-responsive"></p>
 <p>Note that if all you want to do is play one animation on its own without any of the other features of Animancer then the <a href="../../fine-control/solo-animation">Solo Animation</a> component can do so without even needing a custom script.</p>
-<h1 id="overview">Overview</h1>
-<p></p><details><summary>This example consists of one very simple script called <code><a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> which references an animation and tells Animancer to play it.</summary><p>
-</p><pre><code class="language-cs">using Animancer;
+<h1 id="summary">Summary</h1>
+<p>Animancer's examples each start with a <strong>Summary</strong> section which quickly lists the main topics covered. This aims to give some overall context to the individual steps and allow you to skip over things you aren't interested in.</p>
+<p>This example involves the following steps:</p>
+<ol>
+<li>Write this script:</li>
+</ol>
+<pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a> : MonoBehaviour
@@ -555,11 +569,34 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimat
     }
 }
 </code></pre>
-<p></p></details><p></p>
-<p>Here's what the general code structure of the scene will look like (once we set it up):</p>
+<ol start="2">
+<li>Attach it to your model and assign its references in the Inspector.</li>
+</ol>
+<p><img src="inspector.png" class="img-responsive"></p>
+<ol start="3">
+<li>Enter Play Mode and watch the animation play.</li>
+</ol>
+<p>So where do you want to go from here?</p>
+<p></p><div class="button-group">
+  <a href="#what-next" style="width:33.33%">
+    <p>Too Easy</p>
+    <small>If you're already familiar with scripting in Unity and can fully understand the above steps, skip to the What Next section.</small>
+  </a>
+  <div style="width:1em"></div>
+  <a href="#overview" style="width:33.33%">
+    <p>Just Right</p>
+    <small>If you want a detailed explanation of the above steps, keep reading.</small>
+  </a>
+  <div style="width:1em"></div>
+  <a href="../../../help" style="width:33.33%">
+    <p>Too Hard</p>
+    <small>If you have any questions or suggestions, the Help page lists several contact methods you can use.</small>
+  </a>
+</div><p></p>
+<h1 id="overview">Overview</h1>
+<p>Here's what the general code structure of the scene looks like:</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <p>The following sections explain how to write each part of the <code><a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> script from scratch and how to set it up in Unity, but if you have trouble understanding the concepts introduced here then you might want to start with some tutorials on the <a href="https://learn.unity.com">Unity Learn</a> website to learn the basics of programming and using Unity before learning to use Animancer.</p>
-<p>The <a href="../../../help">Help</a> page lists several contact methods you can use if you have any questions or suggestions regarding Animancer or this documentation.</p>
 <h1 id="new-script">New Script</h1>
 <p>Start by following the <a href="/cs-unity/docs/introduction/overview#new-scripts">New Script</a> instructions to create a script called <code><a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> and open it up in your <a href="/cs-unity/docs/introduction/overview#script-editors">IDE</a> (such as Visual Studio). Edit the script so that it looks like this:</p>
 <pre><code class="language-cs">using UnityEngine;
@@ -646,7 +683,7 @@ public class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEn
 <p>After you save the script and press Play in the Unity Editor, the character will play the animation you gave it.</p>
 <p><img src="quick-play.png" class="pngif img-responsive"></p>
 <h1 id="what-next">What Next?</h1>
-<p>You might want to go on with any of the examples in the table below, but there are a few other documentation pages you might want to read which aren't covered in the examples:</p>
+<p>You might want to go on with any of the examples in the table below, but there are a few other documentation pages about important topics which aren't covered in the examples:</p>
 <ul>
 <li><a href="../../../manual/getting">Getting Animations</a> - These examples don't demonstrate how to get, create, or import animations because those tasks aren't part of Animancer (it's a system for playing animations, not making them).</li>
 <li><a href="../../../manual/playing/inspector">Inspector</a> - None of the examples go into detail about how the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>'s Inspector works.</li>
@@ -660,7 +697,7 @@ public class <a href="/animancer/api/Animancer.Examples.Basics/PlayAnimationOnEn
 </thead>
 <tbody>
 <tr>
-<td><a href="../movement">Basic Movement</a></td>
+<td><strong><a href="../movement">Basic Movement</a></strong></td>
 <td>Playing a <em>Walk</em> animation while the user holds a button and returning to <em>Idle</em> when it is released.</td>
 </tr>
 <tr>

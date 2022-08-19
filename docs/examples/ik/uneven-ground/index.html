@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#obstacle-treadmil">Obstacle Treadmil</a></p>
 <p><a href="#ik-curves">IK Curves</a></p>
 <p><a href="#startup">Startup</a></p>
@@ -350,7 +351,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -537,21 +547,25 @@
 </blockquote>
 <p>This example demonstrates how you can use Unity's <a href="../../../manual/ik">Inverse Kinematics</a> system to adjust the height of a character's feet according to the terrain they're walking over.</p>
 <table class="table">
-  <thead><tr>
-    <th style="width:50%">IK Disabled</th>
+  <thead>
+    <tr><th style="width:50%">IK Disabled</th>
     <th style="width:50%">IK Enabled</th>
   </tr></thead>
   <tbody>
-  <tr>
-    <td><img src="ik-disabled.png" class="pngif img-responsive"></td>
-    <td><img src="ik-enabled.png" class="pngif img-responsive"></td>
-  </tr>
-  <tr>
-    <td>Without IK, the character is always walking as if on flat ground. While walking downhill it looks like they are planting their feet in the air and while walking uphill their feet go through the ground.</td>
-    <td>With IK, the character adjusts the positioning of their feet as necessary. While walking downhill they stretch out their feet a bit further and while walking uphill they plant their feet a bit higher up than usual.</td>
-  </tr>
+    <tr>
+      <td><img src="ik-disabled.png" class="pngif img-responsive"></td>
+      <td><img src="ik-enabled.png" class="pngif img-responsive"></td>
+    </tr>
+    <tr>
+      <td>Without IK, the character is always walking as if on flat ground. While walking downhill it looks like they are planting their feet in the air and while walking uphill their feet go through the ground.</td>
+      <td>With IK, the character adjusts the positioning of their feet as necessary. While walking downhill they stretch out their feet a bit further and while walking uphill they plant their feet a bit higher up than usual.</td>
+    </tr>
   </tbody>
 </table>
+<h1 id="summary">Summary</h1>
+<ul>
+<li><a href="../../../manual/ik#animated-properties">Animated Properties</a> allow you to read the value of an animation curve inside an <code>AnimationClip</code>.</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p>The IK control values used in this example haven't been completely fine tuned, the point is simply to prove that IK works the same in Animancer as it does in Mecanim, with two notable differences:</p>
 <ul>
@@ -575,13 +589,13 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
 </code></pre>
 <p>Its fields use various <a href="../../../manual/other/units">Units Attributes</a> to make the Inspector show what kind of units they're measured in:</p>
 <table class="table">
-  <thead><tr>
-    <th style="width:50%">Code</th>
+  <thead>
+    <tr><th style="width:50%">Code</th>
     <th style="width:50%">Inspector</th>
   </tr></thead>
   <tbody>
-  <tr>
-    <td>
+    <tr>
+      <td>
 <pre><code class="language-cs">    [SerializeField]
     private float _SpawnCount = 10;
 
@@ -604,8 +618,8 @@ public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics
     private Transform _Target;
 </code></pre>
 </td>
-    <td><img src="obstacle-treadmil.png" class="img-responsive"></td>
-  </tr>
+      <td><img src="obstacle-treadmil.png" class="img-responsive"></td>
+    </tr>
   </tbody>
 </table>
 <p>On startup, it spawns a bunch of obstacles and adds them to a <code>List</code>:</p>
@@ -772,15 +786,15 @@ private void UpdateFootIK(Transform footTransform, AvatarIKGoal goal, float weig
 <h1 id="conclusion">Conclusion</h1>
 <p>Now we have a character that looks slightly more realistic when walking on uneven ground and slopes:</p>
 <table class="table">
-  <thead><tr>
-    <th style="width:50%">IK Disabled</th>
+  <thead>
+    <tr><th style="width:50%">IK Disabled</th>
     <th style="width:50%">IK Enabled</th>
   </tr></thead>
   <tbody>
-  <tr>
-    <td><img src="ik-disabled.png" class="pngif img-responsive"></td>
-    <td><img src="ik-enabled.png" class="pngif img-responsive"></td>
-  </tr>
+    <tr>
+      <td><img src="ik-disabled.png" class="pngif img-responsive"></td>
+      <td><img src="ik-enabled.png" class="pngif img-responsive"></td>
+    </tr>
   </tbody>
 </table>
 <p>As was mentioned at the start, this is a basic proof of concept which could be improved by using a better character controller, better animations, playing around with the shape of the IK curves, and trying different ways of determining where to raycast (you might even try using a raycast for the front and back of each foot for additional stability).</p>

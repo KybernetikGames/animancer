@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#controls">Controls</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#controls">Controls</a></p>
 <p><a href="#overview">Overview</a></p>
 <p><a href="#why-brains">Why Brains?</a></p>
 <p><a href="#parameters">Parameters</a></p>
@@ -352,7 +353,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -540,6 +550,11 @@
 </blockquote>
 <img src="brains.png" class="pngif img-responsive img-right">
 <p>This example expands upon the <a href="../characters">Characters</a> example to allow the character to walk and run around the scene. It goes into further detail about why it's useful to manage input using a "brain" script and introduces several possible ways of communicating between the brain and the character's other scripts.</p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Dividing what a character wants to do into a separate script from the logic that controls what they actually can do and the execution of those actions can greatly improve the flexibility and reusability of your code.</li>
+<li>Using a central class to hold parameters such as the direction the character wants to move is an effective way of communicating between the brain and the character's other scripts.</li>
+</ul>
 <h1 id="controls">Controls</h1>
 <ul>
 <li>WASD = Move</li>
@@ -762,7 +777,7 @@ public sealed class CharacterParameters
 </code></pre>
 </details><p></p>
 <h2 id="walking-and-running">Walking and Running</h2>
-<p><code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> is responsible for both walking and running. Two animation states managed by one logical state because they both behave the same way. This could be implemented by simply giving it two <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> fields, but then whenever it changes between them it would need to synchronize their times to avoid going from one part of the walk animation to a completely different part of the run animation. That problem is explained further in the <a href="../../../manual/blending/mixers#synchronization">Mixer Synchronization</a> section and that's also the solution, because mixers already have inbuilt synchronization so this state can just use a linear mixer:</p>
+<p><code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> is responsible for both walking and running. Two animation states managed by one logical state because they both behave the same way. This could be implemented by simply giving it two <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> fields, but then whenever it changes between them it would need to synchronize their times to avoid going from one part of the walk animation to a completely different part of the run animation. That problem is explained further in the <a href="../../../manual/blending/mixers/synchronization">Mixer Synchronization</a> section and that's also the solution, because mixers already have inbuilt synchronization so this state can just use a linear mixer:</p>
 <pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a> : CharacterState
 {
     [SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Animation;
@@ -788,7 +803,7 @@ public sealed class CharacterParameters
         UpdateTurning();
     }
 </code></pre>
-<p>Mixer parameters immediately jump to the value they are given rather than moving gradually, which would cause the character to snap between walking and running poses without any blending. That might be what you want, but otherwise the <a href="../../../manual/blending/mixers#smoothing">Mixer Smoothing</a> section explains how you can interpolate the value yourself. In this case, the target value could change at any time so we use <code>Mathf.MoveTowards</code> to continually move a set distance towards it every frame:</p>
+<p>Mixer parameters immediately jump to the value they are given rather than moving gradually, which would cause the character to snap between walking and running poses without any blending. That might be what you want, but otherwise the <a href="../../../manual/blending/mixers/smoothing">Mixer Smoothing</a> section explains how you can interpolate the value yourself. In this case, the target value could change at any time so we use <code>Mathf.MoveTowards</code> to continually move a set distance towards it every frame:</p>
 <pre><code class="language-cs">    [SerializeField] private float _ParameterFadeSpeed = 2;
 
     private void UpdateSpeed()
@@ -860,7 +875,7 @@ public sealed class CharacterParameters
 </thead>
 <tbody>
 <tr>
-<td><a href="../weapons">Weapons</a></td>
+<td><strong><a href="../weapons">Weapons</a></strong></td>
 <td>Defining animations separately from the character (i.e. on weapons) and swapping between them dynamically.</td>
 </tr>
 <tr>

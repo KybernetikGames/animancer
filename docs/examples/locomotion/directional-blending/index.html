@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#spider-bot">Spider Bot</a></p>
 <p><a href="#neutral-blending">Neutral Blending</a></p>
 <p><a href="#controller-fields">Controller Fields</a></p>
@@ -352,7 +353,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -538,87 +548,14 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How to use 2D <a href="../../../manual/blending/mixers">Mixers</a> to allow movement in any direction.</p>
 </blockquote>
 <p>This example expands upon the <a href="../../fine-control/speed-and-time">Speed and Time</a> example by replacing the movement animation with a 2D <a href="../../../manual/blending/mixers">Mixer</a> to allow movement in any direction and a <code>Rigidbody</code> so that the bot can actually move around the scene.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/blending/mixers">Mixers</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: <a href="../../../manual/blending/mixers">Mixers</a>. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p><img src="spider-bot.png" class="pngif img-responsive"></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Controlling the <code>velocity</code> of a <code>Rigidbody</code> component allows a character to move around the scene, but using <code>AddForce</code> is generally recommended.</li>
+<li>2D <a href="../../../manual/blending/mixers">Mixers</a> can blend animations to allow diagonal movement without needing new animations for each specific movement direction.</li>
+</ul>
 <h1 id="overview">Overview</h1>
-<p></p><details><summary>This example is implemented by the <code><a href="/animancer/api/Animancer.Examples.Locomotion/SpiderBotController">SpiderBotController</a></code> script which controls the <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> script from the <a href="../../fine-control/speed-and-time">Speed and Time</a> example:</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/SpiderBotController">SpiderBotController</a> : MonoBehaviour
-{
-    [SerializeField] private <a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a> _SpiderBot;
-    [SerializeField] private Rigidbody _Body;
-    [SerializeField, DegreesPerSecond] private float _TurnSpeed = 90;
-    [SerializeField, MetersPerSecond] private float _MovementSpeed = 1.5f;
-    [SerializeField, Multiplier] private float _SprintMultiplier = 2;
-
-    private MixerState&lt;Vector2&gt; _MoveState;
-    private Vector3 _MovementDirection;
-
-    private void Awake()
-    {
-        var state = _SpiderBot.Animancer.States.GetOrCreate(_SpiderBot.Move);
-        _MoveState = (MixerState&lt;Vector2&gt;)state;
-    }
-
-    private void Update()
-    {
-        _MovementDirection = GetMovementDirection();
-
-        _SpiderBot.IsMoving = _MovementDirection != default;
-
-        if (_MoveState.IsActive)
-        {
-            var eulerAngles = transform.eulerAngles;
-            var targetEulerY = Camera.main.transform.eulerAngles.y;
-            eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetEulerY, _TurnSpeed * Time.deltaTime);
-            transform.eulerAngles = eulerAngles;
-
-            _MoveState.Parameter = new Vector2(
-                Vector3.Dot(transform.right, _MovementDirection),
-                Vector3.Dot(transform.forward, _MovementDirection));
-
-            var isSprinting = ExampleInput.LeftMouseHold;
-            _MoveState.Speed = isSprinting ? _SprintMultiplier : 1;
-        }
-        else
-        {
-            _MoveState.Parameter = default;
-            _MoveState.Speed = 0;
-        }
-    }
-
-    private Vector3 GetMovementDirection()
-    {
-        var ray = Camera.main.ScreenPointToRay(ExampleInput.MousePosition);
-
-        if (!Physics.Raycast(ray, out var raycastHit))
-            return default;
-
-        var direction = raycastHit.point - transform.position;
-        direction.y = 0;
-
-        var movementThisFrame = _MovementSpeed * _SprintMultiplier * Time.fixedDeltaTime;
-
-        var distance = direction.magnitude;
-        if (distance &lt;= movementThisFrame)
-        {
-            return default;
-        }
-        else
-        {
-            return direction / distance;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        _Body.velocity = _MoveState.Speed * _MovementSpeed * _MovementDirection;
-    }
-}
-</code></pre>
-<p></p></details><p></p>
 <p>The code structure is actually very similar to the <a href="../../fine-control/speed-and-time#architecture">Speed and Time</a> example, but it controls the <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> with a <code><a href="/animancer/api/Animancer.Examples.Locomotion/SpiderBotController">SpiderBotController</a></code> instead of a UI Toggle and the <code>Move</code> transition is now a 2D <a href="../../../manual/blending/mixers">Mixer</a> instead of just a single animation:</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="spider-bot">Spider Bot</h1>
@@ -640,7 +577,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Spider
   </tbody>
 </table>
 <h1 id="neutral-blending">Neutral Blending</h1>
-<p>Note that even though the <code>Move</code> mixer is only actively used while the bot is moving, it is also used while going back to sleep which means it needs to properly account for having its <code>Parameter</code> set to <code>(0, 0)</code>. It does this by having an <em>Idle</em> animation with its <code>Threshold</code> at <code>(0, 0)</code>.</p>
+<p>Note that even though the <code>Move</code> mixer is only actively used while the bot is moving, it's also used while going back to sleep which means it needs to properly account for having its <code>Parameter</code> set to <code>(0, 0)</code>. It does this by having an <em>Idle</em> animation with its <code>Threshold</code> at <code>(0, 0)</code>.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Without Central Idle</th>
@@ -683,7 +620,6 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Spider
 
     [SerializeField, Multiplier]
     private float _SprintMultiplier = 2;
-}
 </code></pre>
 </td>
       <td><p><img src="spider-bot-controller-inspector.png" class="img-responsive"></p>The fields are fairly straightforward: just some references to the <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> and <code>Rigidbody</code> components we will be controlling and some <code>float</code> values to control the turning and movement speeds (with appropriate <a href="../../../manual/other/units">Units Attributes</a> to indicate their units of measurement in the Inspector).</td>
@@ -692,7 +628,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/Spider
 </table>
 <h1 id="initialization">Initialization</h1>
 <p>The definition of the <code><a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a></code> script's <code>Move</code> field was explained in the <a href="../../fine-control/speed-and-time#planning-ahead">Planning Ahead</a> section of the <a href="../../fine-control/speed-and-time">Speed and Time</a> example.</p>
-<p>If we had defined it in this script, we could have hard coded it as a <code><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></code> field which would allow us to control its blending by setting the <code>_Move.State.Parameter</code>.</p>
+<p>If we had defined it in this script, we could have hard coded it as a <code><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _Move</code> field which would allow us to control its blending by setting the <code>_Move.State.Parameter</code>.</p>
 <p>But since it's defined as an <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code>, it could be any transition and the compiler doesn't know that it's actually a <a href="../../../manual/blending/mixers">Mixer</a> in this scene. This can be solved adding an <code>Awake</code> method which:</p>
 <ol>
 <li>Creates the transition's <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>.</li>
@@ -834,6 +770,84 @@ private void Update()
 <h1 id="conclusion">Conclusion</h1>
 <p>This all combines to give us a bot that can chase the mouse cursor around the scene as long as it is pointing at an object with a collider for the raycast to hit (the ground plane) and will rotate itself to match the camera (Right Click and drag to rotate the camera using the <a href="../../basics/scene-setup#orbit-controls">Orbit Controls</a> script):</p>
 <p><img src="spider-bot.png" class="pngif img-responsive"></p>
+<p></p><details><summary>Click here to see the full <code><a href="/animancer/api/Animancer.Examples.Locomotion/SpiderBotController">SpiderBotController</a></code> script.</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public sealed class <a href="/animancer/api/Animancer.Examples.Locomotion/SpiderBotController">SpiderBotController</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer.Examples.FineControl/SpiderBot">SpiderBot</a> _SpiderBot;
+    [SerializeField] private Rigidbody _Body;
+    [SerializeField, DegreesPerSecond] private float _TurnSpeed = 90;
+    [SerializeField, MetersPerSecond] private float _MovementSpeed = 1.5f;
+    [SerializeField, Multiplier] private float _SprintMultiplier = 2;
+
+    private MixerState&lt;Vector2&gt; _MoveState;
+    private Vector3 _MovementDirection;
+
+    private void Awake()
+    {
+        var state = _SpiderBot.Animancer.States.GetOrCreate(_SpiderBot.Move);
+        _MoveState = (MixerState&lt;Vector2&gt;)state;
+    }
+
+    private void Update()
+    {
+        _MovementDirection = GetMovementDirection();
+
+        _SpiderBot.IsMoving = _MovementDirection != default;
+
+        if (_MoveState.IsActive)
+        {
+            var eulerAngles = transform.eulerAngles;
+            var targetEulerY = Camera.main.transform.eulerAngles.y;
+            eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetEulerY, _TurnSpeed * Time.deltaTime);
+            transform.eulerAngles = eulerAngles;
+
+            _MoveState.Parameter = new Vector2(
+                Vector3.Dot(transform.right, _MovementDirection),
+                Vector3.Dot(transform.forward, _MovementDirection));
+
+            var isSprinting = ExampleInput.LeftMouseHold;
+            _MoveState.Speed = isSprinting ? _SprintMultiplier : 1;
+        }
+        else
+        {
+            _MoveState.Parameter = default;
+            _MoveState.Speed = 0;
+        }
+    }
+
+    private Vector3 GetMovementDirection()
+    {
+        var ray = Camera.main.ScreenPointToRay(ExampleInput.MousePosition);
+
+        if (!Physics.Raycast(ray, out var raycastHit))
+            return default;
+
+        var direction = raycastHit.point - transform.position;
+        direction.y = 0;
+
+        var movementThisFrame = _MovementSpeed * _SprintMultiplier * Time.fixedDeltaTime;
+
+        var distance = direction.magnitude;
+        if (distance &lt;= movementThisFrame)
+        {
+            return default;
+        }
+        else
+        {
+            return direction / distance;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        _Body.velocity = _MoveState.Speed * _MovementSpeed * _MovementDirection;
+    }
+}
+</code></pre>
+<p></p></details><p></p>
 
 	</section>
                 

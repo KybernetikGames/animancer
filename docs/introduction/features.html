@@ -349,7 +349,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -587,8 +596,8 @@ summary
 <p></p><details class="details"><summary class="summary"><strong><a href="/animancer">Animancer</a></strong> is a Unity plugin developed by Kybernetik.</summary><p>Animancer is also built upon the Playables API and focuses on giving scripts full control over the animations they use to allow for better management of responsibilities and dependencies.</p><p>Animancer Lite is the free version of Animancer which allows you to try out all the features for free in the Unity Editor, but disables some of them in runtime builds (indicated by <a href="#pro-only">[1]</a> in the table below).</p>The <a href="/animancer">Animancer home page</a> gives an overview of its features where this page is dedicated to comparing it with other systems.</details><p></p>
 <p></p><details class="details"><summary class="summary">The <strong><a href="https://docs.unity3d.com/Manual/Playables.html">Playables API</a></strong> is the low level API all these systems are built on (except Legacy).</summary><p>It isn't included in the table because it's so low-level that it doesn't really qualify as an animation system. It allows you to build animation systems like Animancer, but isn't easily useful on its own and is very poorly documented.</p></details><p></p>
 <table class="demo-fixed table table-bordered">
-  <thead><tr>
-    <th style="font-size:2em">Animation System Feature Comparison</th>
+  <thead>
+    <tr><th style="font-size:2em">Animation System Feature Comparison</th>
     <th style="width:15px"><div class="pane"><span class="vertical">Mecanim</span></div></th>
     <th style="width:15px"><div class="pane"><span class="vertical">Legacy</span></div></th>
     <th style="width:15px"><div class="pane"><span class="vertical">Simple Animation</span></div></th>
@@ -855,9 +864,9 @@ animancer.Play("Attack");
   
   <tr>
     <td><details><summary>Controllable Mixer Synchronization</summary>
-      <p>Animancer's <a href="../manual/blending/mixers">Mixer States</a> can automatically <a href="../manual/blending/mixers#synchronization">Synchronize</a> the normalized times of their animations so that the related parts of each one are playing at the same time to give a much more realistic blended result. For example, when blending between <em>Walk</em> and <em>Run</em> animations you would want them to both put the character's right foot down at the same time so that the resulting pose is a blend of <em>Walk (with right foot down)</em> and <em>Run (with right foot down)</em> rather than blending different parts of each animation.</p>
-      <p><a href="../manual/blending/mixers#synchronization">Synchronization</a> can be disabled for any or all states. For example, you might want to synchronize <em>Walk</em> and <em>Run</em> animations but not an <em>Idle</em> animation because its time doesn't correspond to the same cycle as the others. The <a href="../manual/blending/mixers#optional-synchronization">Optional Synchronization</a> section explains it in more detail.</p>
-      Blend Trees also synchronize their animation times (and <em>Humanoid</em> animations use <a href="../manual/blending/mixers#foot-phase-synchronization">Foot Phase Synchronization</a> as mentioned below), but they always apply it to everything and you have no control over it. This means that blending between a long <em>Idle</em> and shorter <em>Walk</em> animation would speed up the <em>Idle</em> and slow down the <em>Walk</em>, causing the character to walk arbitrarily slower based on the length of their <em>Idle</em> animation which makes no sense.</details></td>
+      <p>Animancer's <a href="../manual/blending/mixers">Mixer States</a> can automatically <a href="../manual/blending/mixers/synchronization">Synchronize</a> the normalized times of their animations so that the related parts of each one are playing at the same time to give a much more realistic blended result. For example, when blending between <em>Walk</em> and <em>Run</em> animations you would want them to both put the character's right foot down at the same time so that the resulting pose is a blend of <em>Walk (with right foot down)</em> and <em>Run (with right foot down)</em> rather than blending different parts of each animation.</p>
+      <p><a href="../manual/blending/mixers/synchronization">Synchronization</a> can be disabled for any or all states. For example, you might want to synchronize <em>Walk</em> and <em>Run</em> animations but not an <em>Idle</em> animation because its time doesn't correspond to the same cycle as the others. The <a href="../manual/blending/mixers/synchronization#optional-synchronization">Optional Synchronization</a> section explains it in more detail.</p>
+      Blend Trees also synchronize their animation times (and <em>Humanoid</em> animations use <a href="../manual/blending/mixers/synchronization#foot-phase-synchronization">Foot Phase Synchronization</a> as mentioned below), but they always apply it to everything and you have no control over it. This means that blending between a long <em>Idle</em> and shorter <em>Walk</em> animation would speed up the <em>Idle</em> and slow down the <em>Walk</em>, causing the character to walk arbitrarily slower based on the length of their <em>Idle</em> animation which makes no sense.</details></td>
     <td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -868,8 +877,8 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>Foot Phase Synchronization</summary>
       <p>Simply synchronizing the normalized time of a group of animations as mentioned above gives good results when the animations are similar such as with regular <em>Walk</em> and <em>Run</em> animations. But that simple approach doesn't work so well for irregular animations such as trying to synchronize a regular <em>Walk</em> animation with a <em>Walk-With-Limp</em> where the character spends more time on one foot than the other.</p>
-      <p>Blend Trees solve this using a technique called <a href="../manual/blending/mixers#foot-phase-synchronization">Foot Phase Synchronization</a> which usually gives much better results than simple time synchronization. This feature is always on for Blend Trees and can't be turned off.
-      Unfortunately, Unity doesn't expose the data necessary to perform <a href="../manual/blending/mixers#foot-phase-synchronization">Foot Phase Synchronization</a> at runtime so Animancer's <a href="../manual/blending/mixers">Mixer States</a> aren't able to use it. Using <a href="../manual/animator-controllers">Controller States</a> to play an Animator Controller with a Blend Tree will allow its <a href="../manual/blending/mixers#foot-phase-synchronization">Foot Phase Synchronization</a> to work normally though.</p></details></td>
+      <p>Blend Trees solve this using a technique called <a href="../manual/blending/mixers/synchronization#foot-phase-synchronization">Foot Phase Synchronization</a> which usually gives much better results than simple time synchronization. This feature is always on for Blend Trees and can't be turned off.
+      Unfortunately, Unity doesn't expose the data necessary to perform <a href="../manual/blending/mixers/synchronization#foot-phase-synchronization">Foot Phase Synchronization</a> at runtime so Animancer's <a href="../manual/blending/mixers">Mixer States</a> aren't able to use it. Using <a href="../manual/animator-controllers">Controller States</a> to play an Animator Controller with a Blend Tree will allow its <a href="../manual/blending/mixers#foot-phase-synchronization">Foot Phase Synchronization</a> to work normally though.</p></details></td>
     <td class="y">
     </td><td class="n">
     </td><td class="n">

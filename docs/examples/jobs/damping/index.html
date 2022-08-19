@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#job-script">Job Script</a></p>
 <p><a href="#responsibilities">Responsibilities</a></p>
 <p><a href="#fields">Fields</a></p>
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -537,9 +547,15 @@
 <p><i class="emw fa fa-lightbulb-o"></i> How to use the <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a>.</p>
 </blockquote>
 <p>This example demonstrates how the <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer to apply physics based drag to some of a character's bones. That would normally be useful for things like hair or a tail, but since we don't have a character with those this example will just apply the effect to an arm of the <em>DefaultHumanoid</em> and the legs of the <em>SpiderBot</em>.</p>
-<p>This system could be used in a real project, however the <a href="../../integration/animation-rigging">Animation Rigging</a> package contains a much better <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@0.3/manual/constraints/DampedTransform.html">Damped Transform</a> system which also uses Animation Jobs and can be used alongside Animancer without any modification.</p>
 <p><img src="damping.png" class="pngif img-responsive"></p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Jobs can't use reference types such as arrays, but if you need them you can use <code>NativeArray</code>s instead.</li>
+<li>You need to <code>Dispose</code> any <code>NativeArray</code>s you create when you're done with them.</li>
+<li>You can add any <code>IDisposable</code> objects to the <code>animancerComponent.Playable.Disposables</code> list and Animancer will <code>Dispose</code> them when that object is destroyed.</li>
+<li>The job in this example could be used in a real project, however the <a href="../../integration/animation-rigging">Animation Rigging</a> package contains a much better <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@0.3/manual/constraints/DampedTransform.html">Damped Transform</a> system which also uses Animation Jobs and can be used alongside Animancer without any modification.</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p>This example uses two new scripts:</p>
 <ul>
@@ -793,7 +809,7 @@ job.localPositions = ...;
 <pre><code class="language-cs">    _Animancer.Playable.InsertOutputJob(job);
 </code></pre>
 <h1 id="disposal">Disposal</h1>
-<p>As mentioned earlier, using <code>Allocator.Persistent</code> for the <code>NativeArray</code>s means we need to <code>Dispose</code> them when we are done with them to free up the memory that was allocated for them so we don't leak memory (and Unity will give you a warning if you fail to do so). The original sample used an <code>OnDisable</code> method to <code>Dispose</code> its arrays, but with Animancer you can simply add them to the <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list and it will <code>Dispose</code> them for you"</p>
+<p>As mentioned earlier, using <code>Allocator.Persistent</code> for the <code>NativeArray</code>s means we need to <code>Dispose</code> them when we are done with them to free up the memory that was allocated for them so we don't leak memory (and Unity will give you a warning if you fail to do so). The original sample used an <code>OnDisable</code> method to <code>Dispose</code> its arrays, but with Animancer you can simply add them to the <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list and it will <code>Dispose</code> them for you.</p>
 <pre><code class="language-cs">    _Animancer.Playable.Disposables.Add(job.jointHandles);
     _Animancer.Playable.Disposables.Add(job.localPositions);
     _Animancer.Playable.Disposables.Add(job.localRotations);

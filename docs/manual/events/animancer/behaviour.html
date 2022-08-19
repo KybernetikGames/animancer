@@ -346,7 +346,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -640,10 +649,10 @@ void PlayAnimation()
 <h1 id="other-details">Other Details</h1>
 <p>This system has several other details worth mentioning:</p>
 <ul>
-<li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code><a href="/animancer/api/Animancer/AnimancerEvent/F8E79576">AnimancerEvent.CurrentEvent</a></code> and <code><a href="/animancer/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code>, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards. The <a href="../../../examples/events/utilities">Event Utilities</a> example demonstrates some ways those properties can be used.</li>
+<li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code><a href="/animancer/api/Animancer/AnimancerEvent/F8E79576">AnimancerEvent.CurrentEvent</a></code> and <code><a href="/animancer/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code> properties, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards. The <a href="../../../examples/events/utilities">Event Utilities</a> example demonstrates some ways those properties can be used.</li>
 <li>Changing the <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> (or <code>NormalizedTime</code>) prevents that state from triggering any more events during that frame. If you want events between the old and new time to be triggered, you can use <code>AnimancerState.MoveTime</code> instead.</li>
 <li>The <code><a href="/animancer/api/Animancer/AnimancerState/11AD60E8">AnimancerState.Events</a></code> sequence can not be modified by its own events (i.e. you can't use an event to add another event to the state that triggered it).</li>
-<li>Animancer Events work with <a href="../../blending/mixers">Mixers</a>. Blend Trees will trigger <a href="../animation">Animation Events</a> on all of the <code>AnimationClip</code>s they contain, but this allows events to be placed on the <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> itself so they get triggered according to the weighted average normalized time of the mixed states.</li>
+<li>Animancer Events can be placed on <a href="../../blending/mixers">Mixers</a> or on their children depending on whether you want them to be triggered according to the weighted average <code>NormalizedTime</code> of the children or the <code>NormalizedTime</code> of a specific child. The <a href="../../blending/mixers#events">Events</a> section on that page gives more details.</li>
 <li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and do not check what the Animator Controller is doing internally so attempting to use them might not give the intended result.</li>
 <li>If you want to run custom code as part of the animation update, you can implement <code><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></code> in your own scripts.</li>
 </ul>

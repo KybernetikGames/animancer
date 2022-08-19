@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#general-structure">General Structure</a></p>
 <p><a href="#playing-layered-animations">Playing Layered Animations</a></p>
 <p><a href="#interruptions">Interruptions</a></p>
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -535,17 +545,24 @@
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to play multiple animations at the same time on different body parts.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="../../../manual/blending/layers">Layers</a>.</p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to use <code>AvatarMask</code>s.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="https://docs.unity3d.com/Manual/class-AvatarMask.html">Avatar Masks</a>.</p>
 </blockquote>
-<p>This example implements similar behaviour to the <a href="../../basics/character">Simple Character</a> example, except that it uses <a href="../../../manual/blending/layers">Layers</a> and <code>AvatarMask</code>s to play multiple animations at the same time on different body parts:</p>
+<p>This example implements similar behaviour to the <a href="../../basics/character">Simple Character</a> example, except that it uses <a href="../../../manual/blending/layers">Layers</a> and <a href="https://docs.unity3d.com/Manual/class-AvatarMask.html">Avatar Masks</a> to play multiple animations at the same time on different body parts:</p>
 <ul>
 <li><em>Idle</em> and <em>Walk</em> are played on Layer 0 (the "Base Layer") which controls the whole body.</li>
-<li><em>Action</em> is played on Layer 1 (the "Upper Body Layer") which has an <code>AvatarMask</code> to make it only affect the character's upper body. So while it's active, it takes precedence over whatever is playing on Layer 0 (but only affects the upper body).</li>
+<li><em>Action</em> is played on Layer 1 (the "Upper Body Layer") which has an <a href="https://docs.unity3d.com/Manual/class-AvatarMask.html">Avatar Mask</a> to make it only affect the character's upper body. So while it's active, it takes precedence over whatever is playing on Layer 0 (but only affects the upper body).</li>
 </ul>
 <p>That allows the character to perform the action while walking without needing to actually make a separate <em>ActionWhileWalking</em> animation.</p>
-<p><em><a href="../../../manual/blending/layers">Layers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../manual/blending/layers">Layers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p><img src="basic.png" class="pngif img-responsive"></p>
 <p>Note how the Layered character only plays the <em>Action</em> on the upper body, even if the lower body is <em>Idle</em>. The <a href="../dynamic">Dynamic Layers</a> example demonstrates how you can make the <em>Action</em> control the full body for some animations and only the upper body for others.</p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>You can access layers via <code>animancerComponent.Layers[x]</code>.</li>
+<li>Layers are automatically created when you first access them.</li>
+<li>Layers have a <code>StartFade</code> method which is often useful for fading out a layer once an animation is finished so that the other layers can resume controlling the character.</li>
+<li>Layers have a <code>SetMask</code> method to assign an <a href="https://docs.unity3d.com/Manual/class-AvatarMask.html">Avatar Mask</a>.</li>
+</ul>
 <h1 id="overview">Overview</h1>
 <p>This example contains two characters:</p>
 <table class="table">
@@ -714,7 +731,8 @@ private void UpdateAction()
 <h1 id="interruptions">Interruptions</h1>
 <p>Note how during the <em>Action</em>, the Inspector for the <em>Layered</em> character shows that their <em>Idle</em> or <em>Walk</em> animation is still playing even though the character's pose is entirely defined by the <em>Action</em> animation.</p>
 <p></p><details><summary>While it wasn't the goal of using layers, in this case they actually make the code quite a bit simpler than <code>SimpleCharacterAnimations</code> because it doesn't need to keep track of the character's state at all. The <em>Idle</em> and <em>Move</em> animations will never interrupt the <em>Action</em> because it's on a higher layer and they can continue playing in the background until that layer fades out.</summary><p>
-</p><pre><code class="language-cs">class SimpleCharacterAnimations
+</p><p>Here's the code that this example gets to skip:</p>
+<pre><code class="language-cs">class SimpleCharacterAnimations
 {
     ...
 
@@ -756,7 +774,7 @@ private void UpdateAction()
 </code></pre>
 <p><code>0</code> is the target <code>Weight</code> it will fade towards.</p>
 <h1 id="avatar-mask">Avatar Mask</h1>
-<p>Layers that simply override each other can be useful, but one of their most powerful features is the ability to use <code>AvatarMask</code>s to determine which body parts each layer affects.</p>
+<p>Layers that simply override each other can be useful, but one of their most powerful features is the ability to use <a href="https://docs.unity3d.com/Manual/class-AvatarMask.html">Avatar Masks</a> to determine which body parts each layer affects.</p>
 <p><img src="upper-body-mask.png" class="img-responsive img-right"> You can create a mask via the <em>Assets/Create/Avatar Mask</em> menu function. The <em>Upper Body</em> mask used in this example has its <code>Humanoid</code> values set to only include the upper body.</p>
 <p>The script references that mask using a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> to assign it in the Inspector:</p>
 <pre><code class="language-cs">[SerializeField] private AvatarMask _ActionMask;
@@ -772,7 +790,7 @@ private void UpdateAction()
 }
 </code></pre>
 <p>Either way, layer names are only used in the Inspector and any calls to <code>SetDebugName</code> will be compiled out of runtime builds so they have no effect on performance (because that method has a [<a href="https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.conditionalattribute"><code>Conditional</code>]</a> attribute applied to it). You can also set the name of a state in the same way.</p>
-<p>The official <a href="https://learn.unity.com/tutorial/character-animation#5c7f8528edbc2a002053b4fc">Character Animation</a> tutorial has a section which explains how to create <code>AvatarMask</code>s in more detail.</p>
+<p>The official <a href="https://learn.unity.com/tutorial/character-animation#5c7f8528edbc2a002053b4fc">Character Animation</a> tutorial has a section which explains how to create <a href="https://docs.unity3d.com/Manual/class-AvatarMask.html">Avatar Masks</a> in more detail.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>The layers and <code>AvatarMask</code> allow the character to perform the <em>Action</em> on with their upper body while still playing the <em>Idle</em> or <em>Walk</em> animation with their lower body:</p>
 <p><img src="masked.png" class="pngif img-responsive"></p>
@@ -786,7 +804,7 @@ private void UpdateAction()
 </thead>
 <tbody>
 <tr>
-<td><a href="../dynamic">Dynamic Layers</a></td>
+<td><strong><a href="../dynamic">Dynamic Layers</a></strong></td>
 <td>Allowing the character to play the <em>Action</em> using their whole body if they would be <em>Idle</em> and using the upper body only while they are <em>Walking</em>.</td>
 </tr>
 </tbody>

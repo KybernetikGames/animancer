@@ -81,12 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#choosing-a-mixer">Choosing a Mixer</a></p>
-<p><a href="#manual-creation">Manual Creation</a></p>
-<p><a href="#smoothing">Smoothing</a></p>
-<p><a href="#blend-trees-vs.mixers">Blend Trees vs. Mixers</a></p>
-<p><a href="#synchronization">Synchronization</a></p>
-<p><a href="#real-speed">Real Speed</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#blend-trees-vs.mixers">Blend Trees vs. Mixers</a></p>
+<p><a href="#mixer-types">Mixer Types</a></p>
+<p><a href="#events">Events</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -349,7 +346,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li class="selected"><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview active selected">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -527,360 +533,191 @@
 			<h1>Mixers</h1>
 		</section>
 	<section class="content">
-		<p><em><a href="../../../introduction/features"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p>Mixers serve the same purpose as Mecanim <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a>; they allow you to blend multiple animations based on a parameter (<a href="#blend-trees-vs.mixers">see below for their differences</a>). For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
-<p>The <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example demonstrates how to use Mixers and Blend Trees.</p>
-<p><img src="../../../examples/locomotion/linear-blending/linear-blending.png" class="pngif img-responsive"></p>
-<p>Mixers are usually set up in the Inspector using <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a>, but they can also be <a href="#manual-creation">Created Manually</a>.</p>
-<p><img src="../../../examples/locomotion/linear-blending/mixer-inspector.png" class="img-responsive"></p>
-<h1 id="choosing-a-mixer">Choosing a Mixer</h1>
-<p>There are several different mixer types and you can create your own by inheriting from any of them:</p>
-<table class="table">
-<thead>
-<tr>
-<th>Mixer Type</th>
-<th>Parameter / Thresholds</th>
-<th>Interpolation Algorithm</th>
-<th>Equivalent Blend Tree</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code></td>
-<td>none</td>
-<td>Manual Weights</td>
-<td><a href="https://docs.unity3d.com/Manual/BlendTree-DirectBlending.html">Direct</a></td>
-</tr>
-<tr>
-<td><code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code></td>
-<td><code>float</code></td>
-<td>Linear <code>O(n)</code></td>
-<td><a href="https://docs.unity3d.com/Manual/BlendTree-1DBlending.html">1D</a></td>
-</tr>
-<tr>
-<td><code><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></code></td>
-<td><code>Vector2</code></td>
-<td>Gradient Band <code>O(n<sup>2</sup>)</code></td>
-<td><a href="https://docs.unity3d.com/Manual/BlendTree-2DBlending.html">2D Freeform Cartesian</a></td>
-</tr>
-<tr>
-<td><code><a href="/animancer/api/Animancer/DirectionalMixerState">DirectionalMixerState</a></code></td>
-<td><code>Vector2</code></td>
-<td>Polar Gradient Band <code>O(n<sup>2</sup>)</code></td>
-<td><a href="https://docs.unity3d.com/Manual/BlendTree-2DBlending.html">2D Freeform Directional</a></td>
-</tr>
-</tbody>
-</table>
-<p><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>s allow you to simply control the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> of each state manually without any automated calculations. This is often useful for additive animations and blend shapes for things like facial expressions.</p>
-<p>Other mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you. When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight, while <code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used. You can either specify the thresholds manually or provide a custom calculation <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> to <code>MixerState&lt;T&gt;.CalculateThresholds</code>. For <code>Vector2</code> based mixers (Cartesian and Directional) you can also use the <a href="../../../../api/Animancer/AnimancerUtilities/61A260E4"><code>AnimancerUtilities.CalculateThresholdsFromAverageVelocityXZ</code></a> extension method.</p>
-<p>When selecting a 2D mixer, Directional generally offers better interpolation than Cartesian for animations that represent direction such as move forward/back/left/right. Also note that in areas with 180 degrees or more between states the interpolation is ill-defined and will likely have undesirable results; I.E. if you have clips for <em>forward</em>, <em>back</em>, and <em>left</em>, but no <em>right</em>, then you will get odd results if you set the parameter to the right.</p>
-<p><code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code>s are a type of <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> with several other differences from regular <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>s:</p>
-<ul>
-<li>The <code>Clip</code> property will always return null.</li>
-<li>States inside an <code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code> are not generally registered in the internal <a href="../../playing/states#keys">Dictionary</a>. If you need to access these states directly you must do so via their index in the mixer itself. All inbuilt mixers expose their <code>States</code> as an array.</li>
-</ul>
-<h1 id="manual-creation">Manual Creation</h1>
-<p>If you do not want to use a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, you can create one yourself using code:</p>
-<ol>
-<li>Select a mixer type from the table above and make a <code>new</code> one. For example, <code>new <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code>.</li>
-<li>Call one of the <code>Initialize</code> methods on the mixer:</li>
-</ol>
-<ul>
-<li><code>Initialize(portCount)</code> allocates room for the specified number of states which can be filled individually using <code>CreateChild</code> or by passing the mixer into the constructor or <code>SetParent</code> method of any state type. This even lets you nest mixers inside each other.</li>
-<li><code>Initialize(clips, thresholds)</code> allocates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> for each of the <code>clips</code> and assigns their corresponding <code>thresholds</code>.</li>
-</ul>
-<ol start="3">
-<li>Make sure all states have been assigned thresholds to determine the parameter values where they will be used and how they will blend in relation to other states. This can be done using optional parameters in the <code>Initialize</code> and <code>CreateChild</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
-<li>Optionally call <code>SetDebugName</code> to give it a more descriptive display name to show in the Inspector.</li>
-<li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
-</ol>
-<p></p><details><summary>The following example script uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using UnityEngine;
+		
+<p><em><a href="../../../introduction/features"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 
-public sealed class LinearMixerExample : MonoBehaviour
-{
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private AnimationClip _Idle;
-    [SerializeField] private AnimationClip _Run;
+<p>Mixers serve the same purpose as Mecanim <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a>; they allow you to blend multiple animations based on a parameter. For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
 
-    [SerializeField, Range(0, 1)]
-    private float _MovementSpeed;
 
-    // Keep the mixer after is is created so we can change the Parameter later.
-    private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _MovementMixer;
 
-    private void Awake()
-    {
-        // Make a new mixer and connect it to the default layer.
-        _MovementMixer = new LinearMixerState();
 
-        // We could specify custom thresholds in the Initialize call,
-        // but since we are not it will use 0 and 1 respectively.
-        // Other overloads take 3 clips, or an array of any number of clips.
-        _MovementMixer.Initialize(_Idle, _Run);
-
-        // In general, synchronization is good for movement so you should disable it for Idle
-        // and since there is only one other state it will have nothing else to sync with anyway.
-        // See the Optional Synchronization section for more information.
-        _MovementMixer.DontSynchronizeChildren();
-
-        // Optionally register the mixer with a key so it
-        // can be accessed from other scripts using that key.
-
-        // A string name:
-        _MovementMixer.Key = "Movement Mixer";
-        // Would let other scripts call:
-        // var state = _Animancer["Movement Mixer"];
-        // _Animancer.Play("Movement Mixer");
-
-        // Or use this component itself as the key.
-        _MovementMixer.Key = this;
-        // Would let other scripts with a reference to this one access the mixer:
-        // LinearMixerExample example;
-        // var state = _Animancer[example];
-        // _Animancer.Play(example);
-
-        // Play the mixer just like a regular clip.
-        _Animancer.Play(_MovementMixer);
-    }
-
-    private void Update()
-    {
-        // Set the mixer's parameter to control its current blending.
-        _MovementMixer.Parameter = _MovementSpeed;
-    }
-}
-</code></pre>
-<p><img src="manual-mixer-example.png" class="pngif img-responsive"></p>
-<p></p></details><p></p>
-<h2 id="nesting">Nesting</h2>
-<p>Mixers can have any type of <a href="../../playing/states">State</a> as their children, including other mixers:</p>
-<ol>
-<li>Use <code>mixer.Initialize(childCount)</code> to specify the number of states you want.</li>
-<li>Put the mixers you want to nest into the <code>mixer.States</code> array.</li>
-<li>Use <code>mixer.SetThreshold</code> (or any of the other threshold methods) to specify the parameter values you want them to blend at.</li>
-</ol>
-<p></p><details><summary>For example, if you have mixers for movement in any direction for both regular movement and for moving while injured, you could put both of those in another mixer to allow you to blend the injury level as well:</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class NestedMixerExample : MonoBehaviour
-{
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _RegularMovement;
-    [SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _InjuredMovement;
-
-    [SerializeField, Range(0, 1)]
-    private float _InjuryLevel;
-
-    [SerializeField, Range(-1, 1)]
-    private float _MovementX;
-
-    [SerializeField, Range(-1, 1)]
-    private float _MovementY;
-
-    private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _MovementMixer;
-
-    private void Awake()
-    {
-        _MovementMixer = new LinearMixerState();
-
-        // Allocate 2 child states.
-        _MovementMixer.Initialize(2);
-        
-        // Create Child [0] using the Regular Movement transition with a Threshold of 0.
-        // Create Child [1] using the Injured Movement transition with a Threshold of 1.
-        _MovementMixer.CreateChild(0, _RegularMovement, 0);
-        _MovementMixer.CreateChild(1, _InjuredMovement, 1);
-
-        // Optionally give the mixers names to show in the Inspector:
-        _MovementMixer.SetDebugName("Movement");
-        _RegularMovement.BaseState.SetDebugName("Regular Movement");
-        _InjuredMovement.BaseState.SetDebugName("Injured Movement");
-
-        _Animancer.Play(_MovementMixer);
-    }
-
-    private void Update()
-    {
-        // The _MovementMixer.Parameter corresponds to the Thresholds assigned above:
-        // 0   = Regular.
-        // 0.5 = Halfway between Regular and Injured.
-        // 1   = Injured.
-        _MovementMixer.Parameter = _InjuryLevel;
-
-        var movement = new Vector2(_MovementX, _MovementY);
-        _RegularMovement.State.Parameter = movement;
-        _InjuredMovement.State.Parameter = movement;
-    }
-}
-</code></pre>
-<p></p></details><p></p>
-<h1 id="smoothing">Smoothing</h1>
-<p>Setting the <code>Parameter</code> of a mixer will instantly change its blending, but there are several ways you can do it smoothly over time depending on how you are controlling it.</p>
-<h2 id="variable-target">Variable Target</h2>
-<p>If the target value can change constantly then you can simply use a <code>MoveTowards</code> function to move the <code>Parameter</code> a certain distance towards the target value every frame. For example, if you are controlling a movement mixer based on player input from a joystick then you might want to limit how quickly the character can snap from one direction to another.</p>
-<table class="table">
-  <thead><tr>
-    <th style="width:50%">1D</th>
-    <th style="width:50%">2D</th>
-  </tr></thead>
-  <tbody>
-  <tr>
-    <td><code>Mathf.MoveTowards</code></td>
-    <td><code>Vector2.MoveTowards</code></td>
-  </tr>
-  <tr>
-<td>
-<pre><code class="language-cs">// How fast the parameter changes.
-[SerializeField] private float _BlendSpeed;
-
-private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _Mixer;
-
-private void Update()
-{
-    var input = Input.GetAxisRaw("Vertical");
-
-    _Mixer.Parameter = Mathf.MoveTowards(
-        _Mixer.Parameter,
-        input,
-        _BlendSpeed * Time.deltaTime);
-}
-</code></pre>
-</td>
-<td>
-<pre><code class="language-cs">// How fast the parameter changes.
-[SerializeField] private float _BlendSpeed;
-
-// A Cartesian or Directional Mixer.
-private MixerState&lt;Vector2&gt; _Mixer;
-
-private void Update()
-{
-    var input = new Vector2(
-        Input.GetAxisRaw("Horizontal"),
-        Input.GetAxisRaw("Vertical"));
-
-    _Mixer.Parameter = Vector2.MoveTowards(
-        _Mixer.Parameter,
-        input,
-        _BlendSpeed * Time.deltaTime);
-}
-</code></pre>
-</td>
-  </tr>
-  </tbody>
-</table>
-<h2 id="fixed-target">Fixed Target</h2>
-<p>If you just want to set the target value for it to move towards on its own, then you can use a <code><a href="/animancer/api/Animancer/MixerParameterTweenFloat">MixerParameterTweenFloat</a></code> (for 1D Mixers) or <code><a href="/animancer/api/Animancer/MixerParameterTweenVector2">MixerParameterTweenVector2</a></code> (for 2D Mixers):</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
-
-private <a href="/animancer/api/Animancer/MixerParameterTweenFloat">MixerParameterTweenFloat</a> _MixerTween;
-
-private void Awake()
-{
-    _Animancer.Play(_Mixer);
-
-    // Initialize the tween with the Mixer it will control.
-    _MixerTween = new MixerParameterTweenFloat(_Mixer.State);
-}
-
-public void BlendMixerParameter(float parameter, float duration)
-{
-    // Start interpolating the Mixer parameter.
-    _MixerTween.Start(parameter, duration);
-}
-</code></pre>
-<p>That will move the <code>_Mixer.Parameter</code> towards the specified <code>parameter</code> every frame and reach it at the end of the <code>duration</code>. You can call <code>Start</code> again to interrupt the previous target, but if you are doing that very often then the <a href="#variable-target">Variable Target</a> approach described above might be more effective.</p>
 <h1 id="blend-trees-vs.mixers">Blend Trees vs. Mixers</h1>
-<p>Animancer's Mixers and Mecanim's <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> (which can be played using using <a href="../../animator-controllers#parameter-controller-states">Parameter Controller States</a>) serve the same general purpose, however they have significant differences in their implementation:</p>
-<table class="table">
-<thead>
-<tr>
-<th></th>
-<th>Blend Trees</th>
-<th>Mixers</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Creation</td>
-<td>Manual in the Unity Editor.</td>
-<td>Dynamic at runtime.</td>
-</tr>
-<tr>
-<td>Modification</td>
-<td>Cannot be modified at runtime.</td>
-<td>Can be modified freely after creation.</td>
-</tr>
-<tr>
-<td>Details</td>
-<td>You have no access to any of the internal details.</td>
-<td>You can directly access the details of individual states.</td>
-</tr>
-<tr>
-<td><a href="#synchronization">Synchronization</a></td>
-<td>Time and <a href="#foot-phase-synchronization">Foot Phase Synchronization</a>, but it is always on for all states.</td>
-<td>Time synchronization only and you control which states are synchronized.</td>
-</tr>
-<tr>
-<td>Customisation</td>
-<td>None.</td>
-<td>You can create your own mixer types that inherit from any of the existing ones to implement custom blending algorithms or add other features.</td>
-</tr>
-</tbody>
-</table>
-<h1 id="synchronization">Synchronization</h1>
-<p>When mixing animations of different lengths, they will get out of sync if left to play normally. For example, it could end up with a <em>Walk</em> animation having the left foot on the ground while the <em>Run</em> animation has the right foot on the ground, which would not give a realistic result when simply interpolating between them. This causes obvious issues as you can see in the video below (adapted from the <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example) when the speed slider is about 75% to the right and the character is walking fine about half the time while the cycles are close to each other but every few steps he does a strange shuffle that looks very unnatural. The solution to this problem is to synchronize the times of each of the states so that they are always at equivalent poses.</p>
-<p><img src="synchronization.png" class="pngif img-responsive"></p>
+
+<p>The <a href="../../../examples/locomotion/linear-blending">Linear Blending</a> example demonstrates how to use both Mixers and Blend Trees.</p>
+
+<p><img src="../../../examples/locomotion/linear-blending/linear-blending.png" class="pngif img-responsive"></p>
+
+<p>There are several key differences between them:</p>
+
 <table class="table">
   <thead>
-    <tr><th style="width:50%">No Synchronization</th>
-    <th style="width:50%">Synchronize Walk and Run</th>
+    <tr><th></th>
+    <th>Blend Trees</th>
+    <th>Mixers</th>
   </tr></thead>
   <tbody>
-    <tr>
-      <td>All animations play independently.</td>
-      <td><em>Walk</em> and <em>Run</em> stay at the same <code>NormalizedTime</code>.</td>
-    </tr>
-    <tr>
-      <td><img src="unsynced-inspector.png" class="pngif img-responsive"></td>
-      <td><img src="synced-inspector.png" class="pngif img-responsive"></td>
-    </tr>
+   <tr>
+     <td>Creation</td>
+     <td>Manual in the Unity Editor.</td>
+     <td>Dynamic at runtime.</td>
+   </tr>
+   <tr>
+     <td>Modification</td>
+     <td>Can't be modified at runtime.</td>
+     <td>Can be modified freely after creation.</td>
+   </tr>
+   <tr>
+     <td>Details</td>
+     <td>You have no access to any of the internal details.</td>
+     <td>You can directly access the details of individual states.</td>
+   </tr>
+   <tr>
+     <td><a href="synchronization">Synchronization</a></td>
+     <td>Time and <a href="synchronization#foot-phase-synchronization">Foot Phase Synchronization</a>, but it's always on for all  states.</td>
+     <td>Time synchronization only and you choose which states are synchronized.</td>
+   </tr>
+   <tr>
+     <td>Customization</td>
+     <td>None.</td>
+     <td>You can create your own mixer types that inherit from any of the existing ones to implement custom blending algorithms or add other features.</td>
+   </tr>
   </tbody>
 </table>
-<p>Enabling time synchronization for all states would give a similar result to the Blend Tree.</p>
-<h2 id="optional-synchronization">Optional Synchronization</h2>
-<blockquote class="blockquote">
-<p>Synchronization is good for movement but should usually be disabled for <em>Idle</em> animations.</p>
-</blockquote>
-<p>Blend Trees always synchronize their states, however this is not always ideal so Mixers allow you to choose which states are synchronized. The problem can be seen in the <em>Blend Tree</em> character above video when it blends between <em>Idle</em> and <em>Walk</em> (when the slider is anywhere to the left of the center). Since the <em>Idle</em> animation is much longer than <em>Walk</em>, synchronising them causes the <em>Walk</em> to play far slower than it should so the character barely moves at all until the speed gets above 50% and it starts blending <em>Walk</em> and <em>Run</em> instead. The solution is simply to not synchronize the <em>Idle</em> animation because its poses have no correspondance to any particular times during the <em>Walk</em> animation anyway (which is why the <em>Mixer</em> character gives a much better result at low speed).</p>
-<p>When using a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a>, the <code>Sync</code> toggles on the right side of the Inspector allow you to choose which of its states are synchronized.</p>
-<p>In code, you can control child synchronization like this:</p>
-<pre><code class="language-cs">public static void OptionalSynchronizationExample(MixerState mixer)
-{
-    // By default, all children are synchronized but you can prevent that if you want:
-    // Note that this only affects children added to a mixer after you set it.
-    <a href="/animancer/api/Animancer/MixerState/9EE3DC2C">MixerState.AutoSynchronizeChildren</a> = false;
 
-    // Disable synchronization for all children.
-    mixer.DontSynchronizeChildren();
+<p>Also note that <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> can be played in Animancer using using <a href="../../animator-controllers#parameter-controller-states">Parameter Controller States</a>.</p>
 
-    // Or for a specific child.
-    mixer.DontSynchronize(mixer.GetChild(0));
 
-    // Or enable it for a specific child (if you set AutoSynchronizeChildren = false).
-    mixer.Synchronize(mixer.GetChild(1));
-}
-</code></pre>
-<h2 id="foot-phase-synchronization">Foot Phase Synchronization</h2>
-<p>Blend Trees also use a more complex synchronization technique for Humanoid animations known as Foot Phase Synchronization which is described in the following video at 17:10. Essentially, each animation is broken down into phases (right foot down, right foot up, etc.) so that it can properly support animations with irregular walk cycles such as a character with a limp and animations that contain different numbers of walk cycles.</p>
-<iframe width="200" height="113" src="https://www.youtube.com/embed/3lO1q8mQrrg?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" title="Bringing Hell to Life: AI and Full Body Animation in DOOM"></iframe>
-<p>It would be possible to implement Foot Phase Synchronization in Mixers (and you could do it yourself by inheriting from any of the existing mixer types), but Unity's implementation is not exposed publically so it would need to be entirely re-implemented from scratch. It would need the <code>AnimationClip</code>s to be analysed to determine their phases in the Unity Editor since their curves can't be accessed at runtime and then it would need additional logic to adjust speeds at runtime based on that analysis. This could potentially be added to Animancer in the future, but for now it has been deemed to require far too much effort to achieve something that can already be done using a Blend Tree.</p>
-<h1 id="real-speed">Real Speed</h1>
-<p>The <a href="#synchronization">Synchronization</a> system and <code>Extrapolate Speed</code> feature of <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code>s work by modifying the speed of the internal <code>Playable</code>s without changing their <code>AnimancerState.Speed</code> (because they still need to know the base speed they are set to). So the state will show a <code>Real Speed</code> field in the Inspector whenever its internal speed differs from its <code>AnimancerState.Speed</code>.</p>
+
+
+<h1 id="mixer-types">Mixer Types</h1>
+
+<p>There are several different types of Mixers and you can create your own by inheriting from any of them:</p>
+
+<table class="table">
+  <thead>
+    <tr><th>Mixer Type</th>
+    <th>Parameter / Thresholds</th>
+    <th>Interpolation Algorithm</th>
+    <th>Equivalent Blend Tree</th>
+  </tr></thead>
+  <tbody>
+   <tr>
+     <td><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code></td>
+     <td>none</td>
+     <td>Manual Weights</td>
+     <td><a href="https://docs.unity3d.com/Manual/BlendTree-DirectBlending.html">Direct</a></td>
+   </tr>
+   <tr>
+     <td><code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code></td>
+     <td><code>float</code></td>
+     <td>Linear <code>O(n)</code></td>
+     <td><a href="https://docs.unity3d.com/Manual/BlendTree-1DBlending.html">1D</a></td>
+   </tr>
+   <tr>
+     <td><code><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></code></td>
+     <td><code>Vector2</code></td>
+     <td>Gradient Band <code>O(n<sup>2</sup>)</code></td>
+     <td><a href="https://docs.unity3d.com/Manual/BlendTree-2DBlending.html">2D Freeform Cartesian</a></td>
+   </tr>
+   <tr>
+     <td><code><a href="/animancer/api/Animancer/DirectionalMixerState">DirectionalMixerState</a></code></td>
+     <td><code>Vector2</code></td>
+     <td>Polar Gradient Band <code>O(n<sup>2</sup>)</code></td>
+     <td><a href="https://docs.unity3d.com/Manual/BlendTree-2DBlending.html">2D Freeform Directional</a></td>
+   </tr>
+  </tbody>
+</table>
+
+
+
+
+<h2>Manual Mixers</h2>
+
+<p><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>s allow you to simply control the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> of each state manually without any automated calculations. This is often useful for additive animations and blend shapes for things like facial expressions.</p>
+
+
+
+
+<h2>Parameters and Thresholds</h2>
+
+<p>Other Mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you.</p>
+
+<ul>
+  <li>The <a href="creation">Mixer Creation</a> page explains how to set the <code>Thresholds</code>.</li>
+  <li>When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight.</li>
+  <li><code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used.</li>
+</ul>
+
+
+
+
+<h2>2D Mixers and Dead Zones</h2>
+
+<p>When selecting a 2D mixer, Directional generally offers better interpolation than Cartesian for animations that represent direction such as move forward/back/left/right.</p>
+
+<p>In areas with 180 degrees or more between states the interpolation is ill-defined and will likely have undesirable results. For example, if you have clips for <em>forward</em>, <em>back</em>, and <em>left</em>, but no <em>right</em>, then you will get odd results if you set the parameter to the right.</p>
+
+
+
+
+<h2>Other Details</h2>
+
+<p><code><a href="/animancer/api/Animancer/MixerState">MixerState</a></code>s are a type of <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> with several other differences from regular <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>s:</p>
+
+<ul>
+  <li>The <code>Clip</code> property will always return <code>null</code>.</li>
+  <li><code>Length</code>, <code>Time</code>, and <code>NormalizedTime</code> are calculated using the weighted average of the Mixer's children.</li>
+  <li>You can access the children of a Mixer via <code>mixer.GetChild(x)</code> or <code>mixer.ChildStates[x]</code>.</li>
+  <li>The children aren't given a <a href="../../playing/states#keys">Key</a> (unless you manually set it).</li>
+</ul>
+
+
+
+
+<h1 id="events">Events</h1>
+
+<p>There are several important things to note when using <a href="../../events">Events</a> with Mixers:</p>
+
+<ul>
+  <li>
+    <a href="../../events/animancer">Animancer Events</a> can be assigned to a Mixer or its child animations:
+    <ul>
+      <li>Events on the Mixer will trigger based on the weighted average <code>NormalizedTime</code> of all children.</li>
+      <li>Events on a child will trigger based on the <code>NormalizedTime</code> of that specific child.</li>
+    </ul>
+  </li>
+  <li>The Inspector for a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a> only allows you to configure events for the Mixer itself, but if you assign a <a href="../../transitions/assets">Transition Asset</a> as one of its animations then that asset can define the events for that animation.</li>
+  <li>While a Mixer is playing, events for all of its children will be triggered at the appropriate times, even those with no <code>Weight</code>. If you want to avoid this, you can access the <code><a href="/animancer/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code> during an event callback to check if the event should actually do anything.</li>
+  <li><a href="../../events/animation">Animation Events</a> work the same as <a href="../../events/animancer">Animancer Events</a> registered on the Mixer's children.</li>
+</ul>
+
+
+
+
+			<div class="box">
+				<div class="box-body no-padding">
+					<table class="table table-striped table-hover two-cols-alt table-responsive">
+						
+						<tbody>
+								<tr>
+									<td><strong><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></strong></td>
+									<td>
+There are a few different ways you can create a Mixer.									</td>
+								</tr>
+								<tr>
+									<td><strong><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></strong></td>
+									<td>
+Smoothly change the parameter of a Mixer over time.									</td>
+								</tr>
+								<tr>
+									<td><strong><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></strong></td>
+									<td>
+Mixers can synchronize the timings of their animations.									</td>
+								</tr>
+						</tbody>				
+					</table>
+				</div>
+			</div> 
 
 	</section>
                 

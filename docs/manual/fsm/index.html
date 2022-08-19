@@ -344,7 +344,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -598,13 +607,15 @@ public sealed class StateMachineExample : MonoBehaviour
             else
                 _StateMachine.TrySetState(_Idle);
 
-            // Each of those will check:
+            // Each of those TrySetState calls will check:
             // CanExitState on the previous state.
             // CanEnterState on the next state.
 
             // Then since they both return true it will change the state and call:
             // OnExitState on the previous state.
             // OnEnterState on the next state.
+
+            // See the Changing States page for more details.
         }
     }
 }
@@ -645,7 +656,7 @@ public sealed class LoggerState : <a href="/animancer/api/Animancer.FSM/IState">
     {
         Debug.Log("OnExitState: " + Name);
     }
-}</loggerstate></loggerstate></code></pre>
+}</code></pre>
 </details><p></p>
 
 <p>The <a href="../../examples/fsm">State Machines</a> examples demonstrate how to use it in more detail and the <a href="../../examples/animator-controllers/3d-game-kit">3D Game Kit</a> example demonstrates how to completely redesign an Animator Controller based character to use this system instead (as well as solve some of the issues with the original implementation).</p>

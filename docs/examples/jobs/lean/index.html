@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#overview">Overview</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
 <p><a href="#simple-lean-component">Simple Lean Component</a></p>
 <p><a href="#initialization">Initialization</a></p>
 <p><a href="#axis">Axis</a></p>
@@ -351,7 +352,16 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers">Mixers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
 
                     </ul>
                 </li>
@@ -544,9 +554,15 @@
 </ul>
 <p><img src="lean.png" class="pngif img-responsive"></p>
 <p><a href="https://github.com/KybernetikGames/animancer/issues/48#issuecomment-632336377">This example is based on an implementation by ted-hou on GitHub</a>.</p>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they are not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Jobs can't use reference types, but since <code>NativeArray</code>s behave like them, you can allocate a <code>NativeArray</code> with a single element then use it to easily and efficiently communicate with a job.</li>
+<li><code>AnimancerUtilities.CreateNativeReference</code> allocates a single element array.</li>
+<li>Don't forget that the array needs to be <code>Dispose</code>d when you're done with it (or added to <code>animancerComponent.Playable.Disposables</code> so Animancer will do it for you).</li>
+</ul>
 <h1 id="overview">Overview</h1>
-<p>This example uses two scripts like the previous <a href="../">Animation Jobs</a> examples, but this time we are writing the entire job from scratch so we can organise things to be a bit more reusable. Instead of using one script for a job struct and one for a component that initializes the job, this time we will be using three <a href="/cs-unity/docs/introduction/organization#types">Types</a>:</p>
+<p>This example uses two scripts like the previous <a href="../">Animation Jobs</a> examples, but this time we're writing the entire job from scratch so we can organise things to be a bit more reusable. Instead of using one script for a job struct and one for a component that initializes the job, this time we will be using three <a href="/cs-unity/docs/introduction/organization#types">Types</a>:</p>
 <ul>
 <li>The <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> class inherits from <code>AnimancerJob</code> as a wrapper around the job to provide a clean API for other scripts to access the job.</li>
 <li>The <code>Job</code> struct is nested inside the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> class and contains the actual <code>IAnimationJob</code> implementation.</li>
