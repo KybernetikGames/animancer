@@ -571,23 +571,20 @@
 <p>This isn't a problem for Animator Controllers because they simply don't allow their structure to be changed at runtime.</p>
 <h2 id="workarounds">Workarounds</h2>
 <p>There are two general workarounds for this issue, but unfortunately neither of them is particularly convenient:</p>
-<ul>
-<li><strong>Fully configure the graph on startup</strong>:
-<ul>
+<p><strong>Fully configure the playable graph on startup</strong>:</p>
+<ol>
 <li>Set <code>animancerComponent.Playable.KeepChildrenConnected = true</code>.</li>
 <li>Call <code>animancerComponent.Layers[x].GetOrCreateState</code> for every animation the character might want to play.</li>
 <li>Don't create or destroy any states after that.</li>
-</ul>
-</li>
-<li><strong>Manually store and restore the values that were reset</strong>:
-<ul>
+</ol>
+<p><strong>Manually store and restore the values that would reset</strong>:</p>
+<ol>
 <li>Find everywhere your code does something that might connect or disconnect a <code>Playable</code> such as playing a new animation.</li>
-<li>Store the values of all constraints that you want.</li>
-<li>Call <code>animancerComponent.Animator.Rebind();</code> to force the required reset immediately.</li>
-<li>Apply the stored values back to the constraint components.</li>
-</ul>
-</li>
-</ul>
+<li>Before that code, store the values of all constraints that you want.</li>
+<li>After that code, call <code>animancerComponent.Animator.Rebind();</code> to force the required reset immediately.</li>
+<li>Then apply the stored values back to the constraint components.</li>
+</ol>
+<p>Generally, the first approach is much simpler to implement because you don't need to add additional code every time you play anything. In some cases that might not be feasible such as if you want to have different animations for each weapon like in the <a href="../../fsm/weapons">Weapons</a> example so you might want to use a combination of both approaches: when equipping a new weapon you store the rigging values, configure its new animations, and reset the values so that you won't need to repeat the store and reset every time you play something.</p>
 <h2 id="ik-targets">IK Targets</h2>
 <p>The position and rotation of Target and Hint objects used by the Inverse Kinematics system from the Animation Rigging package are affected by the same resetting effect explained above, but fortunately it can be avoided by ensuring those objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
 <p><img src="ik-configuration.png" class="img-responsive"></p>
