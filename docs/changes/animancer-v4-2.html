@@ -315,6 +315,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -553,22 +554,22 @@
 <li>States now delay the initialization of their playables until they are actually needed:
 <ul>
 <li>States can now be constructed independently of the graph so they no longer require the same 3 constructors to be repeated in every single state class.</li>
-<li>This will not have any immediate effect for the majority of users, but it removes one of the major issues preventing states from being pre-allocated and re-used in <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code>s which should be able to improve performance in a future version.</li>
-<li>Added an implicit conversion from <code>AnimationClip</code> to <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> so that you can now do things like <code>mixer.SetChild(0, clip)</code>.</li>
+<li>This will not have any immediate effect for the majority of users, but it removes one of the major issues preventing states from being pre-allocated and re-used in <code>ObjectPool</code>s which should be able to improve performance in a future version.</li>
+<li>Added an implicit conversion from <code>AnimationClip</code> to <code>ClipState</code> so that you can now do things like <code>mixer.SetChild(0, clip)</code>.</li>
 <li>Added <code>AnimancerState.SetRoot</code> which could theoretically allow states to be moved between characters, though it has not been tested for that purpose.</li>
 <li><code>AnimancerPlayable.Play</code> now puts the state on layer 0 if it was not already attached to a layer.</li>
-<li><code>ITransition.CreateState</code> no longer has an <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> parameter so that they can be used similarly with a layer or mixer as the parent.</li>
+<li><code>ITransition.CreateState</code> no longer has an <code>AnimancerLayer</code> parameter so that they can be used similarly with a layer or mixer as the parent.</li>
 <li>Removed <code>Validate.CanBePlayed</code> since states can be set to meet its conditions on demand.</li>
 </ul>
 </li>
-<li>The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector now shows "-?" for negative <code>Weight</code> values since they don't actually work and don't otherwise fit into the space for "0.0".</li>
-<li>Moved the default IK flags from <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code> to <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code>.</li>
+<li>The <code>AnimancerComponent</code> Inspector now shows "-?" for negative <code>Weight</code> values since they don't actually work and don't otherwise fit into the space for "0.0".</li>
+<li>Moved the default IK flags from <code>AnimancerLayer</code> to <code>AnimancerPlayable</code>.</li>
 <li>Added <code>AssemblyInfo</code> files for the examples and <code>Animancer.FSM</code> to suppress various coding style suggestions to avoid cluttering user projects with messages about 3rd party code.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
 <li>Fixed Animancer Lite runtime errors when using IL2CPP.</li>
-<li>Fixed the assertions in <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> to not create garbage when they pass.</li>
+<li>Fixed the assertions in <code>StateBehaviour</code> to not create garbage when they pass.</li>
 <li>Fixed <code>AnimancerPlayable.DestroyAll(IAnimationClipCollection)</code> to actually work.</li>
 <li>Fixed <code>ControllerState.ResetToDefaultStates</code> to work properly when stopping the state.</li>
 <li>Set up proper audio falloff settings in the Footstep Events example.</li>

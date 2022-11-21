@@ -321,6 +321,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -720,15 +721,15 @@ void OnAnimatorMove()
 <li>So a system which is supposed to allow non-programmers to work without code does not actually let them do so and at the same time it convolutes the overall logic to make everything harder for the programmers as well.</li>
 </ul>
 <h1 id="animancer">Animancer</h1>
-<p>The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> script is responsible for both the regular turning and the logic to trigger the quick turn animations. This puts all the fields in one place where they are all visible in the Inspector at once instead of splitting them across two states and transitions which can only be selected one at a time to compare them manually:</p>
+<p>The <code>LocomotionState</code> script is responsible for both the regular turning and the logic to trigger the quick turn animations. This puts all the fields in one place where they are all visible in the Inspector at once instead of splitting them across two states and transitions which can only be selected one at a time to compare them manually:</p>
 <pre><code class="language-cs">// LocomotionState.cs:
-[SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _LocomotionMixer;
-[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _QuickTurnLeft;
-[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _QuickTurnRight;
+[SerializeField] private LinearMixerTransition _LocomotionMixer;
+[SerializeField] private ClipTransition _QuickTurnLeft;
+[SerializeField] private ClipTransition _QuickTurnRight;
 [SerializeField, MetersPerSecond] private float _QuickTurnMoveSpeed = 2;
 [SerializeField, Degrees] private float _QuickTurnAngle = 145;
 </code></pre>
-<p>On startup we set their <code>OnEnd</code> callback to return to the main <code>_LocomotionMixer</code> state. Note how these are <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s so they will assign their <code>OnEnd</code> callback to their actual state every time it is played (since <code>AnimancerState.OnEnd</code> is cleared every time). This improves performance by avoiding the creation of a new <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> object every time it is used.</p>
+<p>On startup we set their <code>OnEnd</code> callback to return to the main <code>_LocomotionMixer</code> state. Note how these are <code>ClipTransition</code>s so they will assign their <code>OnEnd</code> callback to their actual state every time it is played (since <code>AnimancerState.OnEnd</code> is cleared every time). This improves performance by avoiding the creation of a new <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> object every time it is used.</p>
 <pre><code class="language-cs">// LocomotionState.cs:
 private void Awake()
 {
@@ -774,7 +775,7 @@ public bool GetTurnAngles(Vector3 direction, out float currentAngle, out float t
 }
 </code></pre>
 <h1 id="animancer-quick-turns">Animancer Quick Turns</h1>
-<p>In the Mecanim character, the <code>PlayerController</code> script would calculate the forward speed and rotation needed to face the desired direction and then send those values to the Animator Controller for it to check if any transitions should be started based on those parameters. That made it difficult to figure out the actual flow of logic that would trigger the quick turn animations. But in the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> script, that same logic only takes a few lines of code which is much easier to understand.</p>
+<p>In the Mecanim character, the <code>PlayerController</code> script would calculate the forward speed and rotation needed to face the desired direction and then send those values to the Animator Controller for it to check if any transitions should be started based on those parameters. That made it difficult to figure out the actual flow of logic that would trigger the quick turn animations. But in the <code>LocomotionState</code> script, that same logic only takes a few lines of code which is much easier to understand.</p>
 <pre><code class="language-cs">// LocomotionState.cs:
     // In UpdateRotation:
     // If we are moving fast enough.

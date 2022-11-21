@@ -316,6 +316,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -587,7 +588,7 @@
 <p>Animancer Events can also be configured using code like so:</p>
 <pre><code class="language-cs">// A Melee Attack script:
 
-[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 public void Attack()
@@ -630,7 +631,7 @@ public void Attack()
 }
 </code></pre>
 <p></p></details><p></p>
-<p><code><a href="/animancer/api/Animancer/AnimancerEvent/F8E79576">AnimancerEvent.CurrentEvent</a></code> and <code><a href="/animancer/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code> allow you to access the event currently being triggered and the state triggering it as demonstrated in the <a href="../../../examples/events/utilities">Event Utilities</a> example.</p>
+<p><code>AnimancerEvent.CurrentEvent</code> and <code>AnimancerEvent.CurrentState</code> allow you to access the event currently being triggered and the state triggering it as demonstrated in the <a href="../../../examples/events/utilities">Event Utilities</a> example.</p>
 <h1 id="hybrid">Hybrid</h1>
 <p>Setting up <a href="#transitions">Events in Transitions</a> is usually the best way to configure their timing according to the animation, but setting up <a href="#code">Events in Code</a> is often better for creating reliable scripts and avoiding bugs. Fortunately, you can have the best of both approaches by using a <a href="#transitions">Transition</a> to configure the <code>Time</code> but simply leaving its <code>Callback</code> blank and assigning it in <a href="#code">Code</a> instead.</p>
 <p>You could access the event by index:</p>
@@ -639,7 +640,7 @@ public void Attack()
 <p>But that hard-codes the assumption that there will not be any other events before the one you want so it may cause a bug later on if you add more events to it. It also means there's nothing in the Inspector to indicate what the event actually is, which makes it harder to maintain complex systems.</p>
 <p>A more reliable way to set up a hybrid event is to give it a <code>Name</code> in the Inspector so that you can identify it in code):</p>
 <p><img src="../../../examples/events/golf/unnamed-event.png" class="pngif img-responsive"></p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _GolfSwing;
+<pre><code class="language-cs">[SerializeField] private ClipTransition _GolfSwing;
 
 private void Awake()
 {
@@ -651,12 +652,12 @@ private void HitBall() { ... }
 </code></pre>
 <p>The <a href="../../../examples/events/golf">Golf Events</a> example demonstrates how to use this feature.</p>
 <h1 id="event-names-attribute">Event Names Attribute</h1>
-<p>The <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> allows you to provide a specific set of names that events are allowed have, replacing the usual text field with a dropdown menu to avoid needing to type same event name in the script and in the Inspector.</p>
+<p>The <code>EventNamesAttribute</code> allows you to provide a specific set of names that events are allowed have, replacing the usual text field with a dropdown menu to avoid needing to type same event name in the script and in the Inspector.</p>
 <pre><code class="language-cs">private const string HitEventName = "Hit";
 
 [SerializeField]
 [EventNames(HitEventName)]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+private ClipTransition _Swing;
 
 private void Awake()
 {
@@ -677,7 +678,7 @@ private void Awake()
   </tbody>
 </table>
 <p>Note that values selected using the dropdown menu are still stored as strings. Modifying the names in the script will NOT automatically update any values previously set in the Inspector.</p>
-<p>The API documentation for the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> gives more details about the various different ways it can be used.</p>
+<p>The API documentation for the <code>EventNamesAttribute</code> gives more details about the various different ways it can be used.</p>
 
 	</section>
                 

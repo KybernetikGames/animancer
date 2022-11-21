@@ -317,6 +317,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -567,16 +568,16 @@
 <li><code>OnAnimatorMove</code> makes sure the character is not on the ground before telling the Animator Controller the new vertical speed so it can blend correctly based on the impact speed. Otherwise the actual vertical speed while grounded is always a constant value which the Blend Tree does not need to know about.</li>
 </ul>
 <h1 id="animancer">Animancer</h1>
-<p></p><details><summary>With Animancer, all the above logic is defined by the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> script. As usual, this means less configuration in the Unity Editor in exchange for more code and it is significantly easier to understand the logic:</summary><p>
+<p></p><details><summary>With Animancer, all the above logic is defined by the <code>LandingState</code> script. As usual, this means less configuration in the Unity Editor in exchange for more code and it is significantly easier to understand the logic:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 using UnityEngine.Events;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a> : CharacterState
+public sealed class LandingState : CharacterState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _SoftLanding;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _HardLanding;
+    [SerializeField] private MixerTransition2D _SoftLanding;
+    [SerializeField] private ClipTransition _HardLanding;
     [SerializeField, MetersPerSecond] private float _HardLandingForwardSpeed = 5;
     [SerializeField, MetersPerSecond] private float _HardLandingVerticalSpeed = -10;
     [SerializeField] private UnityEvent _PlayAudio;
@@ -639,15 +640,15 @@ public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControlle
 <p><img src="animancer-landing.png" class="img-responsive"></p>
 <h1 id="fields">Fields</h1>
 <p>We start with some <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a> to show in the Inspector (with appropriate <a href="../../../../manual/other/units">Units Attributes</a>):</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _SoftLanding;
-[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _HardLanding;
+<pre><code class="language-cs">[SerializeField] private MixerTransition2D _SoftLanding;
+[SerializeField] private ClipTransition _HardLanding;
 [SerializeField, MetersPerSecond] private float _HardLandingForwardSpeed = 5;
 [SerializeField, MetersPerSecond] private float _HardLandingVerticalSpeed = -10;
 [SerializeField] private UnityEvent _PlayAudio;// See the Read Me.
 
 private bool _IsSoftLanding;
 </code></pre>
-<p>Where the <a href="../locomotion">Locomotion</a> state used a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> to play an Animator Controller containing the same Blend Tree the Mecanim character used, this time we are using a <a href="../../../../manual/blending/mixers">Mixer</a> so that we can set it up in the Inspector instead of needing to create another Animator Controller asset just for that Blend Tree.</p>
+<p>Where the <a href="../locomotion">Locomotion</a> state used a <code>ControllerState</code> to play an Animator Controller containing the same Blend Tree the Mecanim character used, this time we are using a <a href="../../../../manual/blending/mixers">Mixer</a> so that we can set it up in the Inspector instead of needing to create another Animator Controller asset just for that Blend Tree.</p>
 <p>When either of the animations ends we want to return to check the regular transitions to <em>Idle</em> or <em>Locomotion</em> as explained on the <a href="../idle#check-motion-state">Idle</a> page so on startup we register that method as the <a href="../../../../manual/events/end">End Event</a> for both transitions:</p>
 <pre><code class="language-cs">private void Awake()
 {

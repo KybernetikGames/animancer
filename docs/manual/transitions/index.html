@@ -316,6 +316,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -535,7 +536,7 @@
 		</section>
 	<section class="content">
 		<p>Being able to directly control your fade durations, start and end times, speeds, and events in scripts can be very useful, but it is often better to set those details in the Inspector by using transitions which allow you to <a href="previews">Preview</a> what they will look like in Edit Mode and can be easily modified by non-programmers without needing to edit and recompile any scripts.</p>
-<p>Each of the <a href="../playing/states">State</a> types that are included in Animancer has its own <a href="types">Transition Type</a> which contains various details relevant to it so that when it is passed into <code><a href="/animancer/api/Animancer/AnimancerComponent/1709F62A">AnimancerComponent.Play(ITransition)</a></code> it will create that type of state. For example, a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> will create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to play a single <code>AnimationClip</code>:</p>
+<p>Each of the <a href="../playing/states">State</a> types that are included in Animancer has its own <a href="types">Transition Type</a> which contains various details relevant to it so that when it is passed into <code>AnimancerComponent.Play(ITransition)</code> it will create that type of state. For example, a <code>ClipTransition</code> will create a <code>ClipState</code> to play a single <code>AnimationClip</code>:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Example Script</th>
@@ -550,10 +551,10 @@ using UnityEngine;
 public class TransitionExample : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
 
     [SerializeField] 
-    private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+    private ClipTransition _Animation;
 
     private void OnEnable()
     {
@@ -568,7 +569,7 @@ public class TransitionExample : MonoBehaviour
 </table>
 <p>The <a href="../../examples/basics/transitions">Transitions</a> example demonstrates how to use them in more detail.</p>
 <h1 id="fields">Fields</h1>
-<p>The following table describes the fields in a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>. See the <a href="types">Transition Types</a> page for details about the other types.</p>
+<p>The following table describes the fields in a <code>ClipTransition</code>. See the <a href="types">Transition Types</a> page for details about the other types.</p>
 <table class="table table-double-row-background">
   <thead>
     <tr><th>Name</th>
@@ -583,7 +584,7 @@ public class TransitionExample : MonoBehaviour
   </tr>
   <tr><td colspan="3">
     <p>The <code>AnimationClip</code> to play.</p>
-    <p>This field only exists on <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s. Other <a href="types">Transition Types</a> have other kinds of fields.</p>
+    <p>This field only exists on <code>ClipTransition</code>s. Other <a href="types">Transition Types</a> have other kinds of fields.</p>
     <p>The name displayed here is actually determined by the transition field (<code>_Animation</code> in the example above).</p>
     The icon on the right allows you to <a href="previews">Preview</a> the transition.
   </td></tr>
@@ -611,7 +612,7 @@ public class TransitionExample : MonoBehaviour
   </tr>
   <tr><td colspan="3">
     <p>If enabled, the animation time will immediately jump to this value when played.</p>
-    <p>Otherwise it will display a default value: <code>0x</code> for positive speed or <code>1x</code> for negative speed. If the animation is inactive (<code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a> == 0</code>) when you start the transition its time will start at that default value, but if the animation is active it will instead continue playing from its current time.</p>
+    <p>Otherwise it will display a default value: <code>0x</code> for positive speed or <code>1x</code> for negative speed. If the animation is inactive (<code>AnimancerNode.Weight == 0</code>) when you start the transition its time will start at that default value, but if the animation is active it will instead continue playing from its current time.</p>
     This <a href="#time-fields">Time Field</a> is always serialized as normalized time, regardless of which field you use to enter the value.
   </td></tr>
   <tr>
@@ -672,7 +673,7 @@ public class TransitionExample : MonoBehaviour
 <li>Entering values in these fields works like any other number field. You simply type a number without the suffix.</li>
 <li>If the field has a toggle, disabling it will set the underlying value to <code>float.NaN</code> which has different effects depending on the field (as explained in the <a href="#fields">Fields</a> table and in the tooltip).</li>
 <li>The <a href="#fields">Fields</a> table also specifies which units the underlying value is actually stored as.</li>
-<li>The <code><a href="/animancer/api/Animancer.Editor/AnimancerSettings">AnimancerSettings</a></code> asset has options to disable any of the fields you don't want. For example, measuring values in "Frames" can be very useful for <code>Sprite</code> based animations, but is often less useful for bone based animations.</li>
+<li>The <code>AnimancerSettings</code> asset has options to disable any of the fields you don't want. For example, measuring values in "Frames" can be very useful for <code>Sprite</code> based animations, but is often less useful for bone based animations.</li>
 </ul>
 <h1 id="approximations">Approximations</h1>
 <p>Since the <a href="#time-fields">Time Fields</a> only have limited screen space to work with, they often end up being unable to fit the entire value which can lead to confusion. To fix this, these fields will automatically abbreviate their values to fit in the available area and use a <code>~</code> symbol to indicate when the displayed value is only an approximation of the actual value. For example, all of the following values would normally look identical to <code>1.234568</code> if there wasn't enough room to see the rest of the text:</p>
@@ -706,7 +707,7 @@ public class TransitionExample : MonoBehaviour
 </tr>
 </tbody>
 </table>
-<p>This feature can be disabled in the <code><a href="/animancer/api/Animancer.Editor/AnimancerSettings">AnimancerSettings</a></code>.</p>
+<p>This feature can be disabled in the <code>AnimancerSettings</code>.</p>
 <h1 id="default-values">Default Values</h1>
 <p>Middle Clicking on any of the <a href="#time-fields">Time Fields</a> will set it to its default value. Or if it was already at that value, doing so will set it to its secondary default value:</p>
 <table class="table">

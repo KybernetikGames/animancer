@@ -321,6 +321,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -564,35 +565,35 @@
 <h1 id="overview">Overview</h1>
 <p>This example uses two scripts like the previous <a href="../">Animation Jobs</a> examples, but this time we're writing the entire job from scratch so we can organise things to be a bit more reusable. Instead of using one script for a job struct and one for a component that initializes the job, this time we will be using three <a href="/cs-unity/docs/introduction/organization#types">Types</a>:</p>
 <ul>
-<li>The <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> class inherits from <code>AnimancerJob</code> as a wrapper around the job to provide a clean API for other scripts to access the job.</li>
-<li>The <code>Job</code> struct is nested inside the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> class and contains the actual <code>IAnimationJob</code> implementation.</li>
-<li>The <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLeanComponent">SimpleLeanComponent</a></code> class is a regular <code>MonoBehaviour</code> component which initializes a <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> for the purpose of this example.</li>
+<li>The <code>SimpleLean</code> class inherits from <code>AnimancerJob</code> as a wrapper around the job to provide a clean API for other scripts to access the job.</li>
+<li>The <code>Job</code> struct is nested inside the <code>SimpleLean</code> class and contains the actual <code>IAnimationJob</code> implementation.</li>
+<li>The <code>SimpleLeanComponent</code> class is a regular <code>MonoBehaviour</code> component which initializes a <code>SimpleLean</code> for the purpose of this example.</li>
 </ul>
-<p>This setup allows <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> and its <code>Job</code> to be fairly reusable without tieing them to specific implementation details that only exist for the purpose of this demonstration. For example, <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLeanComponent">SimpleLeanComponent</a></code> has a reference to the <code>Transform</code> of the <em>Axis</em> object and sends its forward vector to the job every <code>Update</code> in case you rotate it, but that's not likely to be necessary in a real project since you would probably just use a fixed axis for a specific purpose.</p>
+<p>This setup allows <code>SimpleLean</code> and its <code>Job</code> to be fairly reusable without tieing them to specific implementation details that only exist for the purpose of this demonstration. For example, <code>SimpleLeanComponent</code> has a reference to the <code>Transform</code> of the <em>Axis</em> object and sends its forward vector to the job every <code>Update</code> in case you rotate it, but that's not likely to be necessary in a real project since you would probably just use a fixed axis for a specific purpose.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="simple-lean-component">Simple Lean Component</h1>
-<p>As mentioned above, the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLeanComponent">SimpleLeanComponent</a></code> is a very simple script designed for this specific example scene to allow the real implementation of <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> to be potentially reused in other circumstances.</p>
-<p>On startup, it creates a <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code>:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Jobs/SimpleLeanComponent">SimpleLeanComponent</a> : MonoBehaviour
+<p>As mentioned above, the <code>SimpleLeanComponent</code> is a very simple script designed for this specific example scene to allow the real implementation of <code>SimpleLean</code> to be potentially reused in other circumstances.</p>
+<p>On startup, it creates a <code>SimpleLean</code>:</p>
+<pre><code class="language-cs">public sealed class SimpleLeanComponent : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
 
-    private <a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a> _Lean;
+    private SimpleLean _Lean;
 
     private void Awake()
     {
         _Lean = new SimpleLean(_Animancer.Playable);
     }
 </code></pre>
-<p>It has a public <code>Angle</code> property for a <a href="../../locomotion/linear-blending#slider">UI Slider</a> to control the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean/C42A1812">SimpleLean.Angle</a></code>:</p>
+<p>It has a public <code>Angle</code> property for a <a href="../../locomotion/linear-blending#slider">UI Slider</a> to control the <code>SimpleLean.Angle</code>:</p>
 <pre><code class="language-cs">    public float Angle
     {
         get =&gt; _Lean.Angle;
         set =&gt; _Lean.Angle = value;
     }
 </code></pre>
-<p>And a reference to the <code>Transform</code> of an object to define the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean/A31B89AB">SimpleLean.Axis</a></code> around which the rotation will be performed:</p>
+<p>And a reference to the <code>Transform</code> of an object to define the <code>SimpleLean.Axis</code> around which the rotation will be performed:</p>
 <pre><code class="language-cs">    [SerializeField]
     private Transform _Axis;
 
@@ -603,8 +604,8 @@
 }
 </code></pre>
 <h1 id="initialization">Initialization</h1>
-<p><code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> inherits from <code>AnimancerJob</code> which is a simple base class that makes it a bit easier to implement wrappers for Animation Jobs in Animancer (its effects will be noted when they are relevant):</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a> : AnimancerJob&lt;<a href="/animancer/api/Animancer.Examples.Jobs/Job">SimpleLean.Job</a>&gt;, IDisposable
+<p><code>SimpleLean</code> inherits from <code>AnimancerJob</code> which is a simple base class that makes it a bit easier to implement wrappers for Animation Jobs in Animancer (its effects will be noted when they are relevant):</p>
+<pre><code class="language-cs">public sealed class SimpleLean : AnimancerJob&lt;SimpleLean.Job&gt;, IDisposable
 {
 </code></pre>
 <p>The main constructor initializes the <a href="#job">Job</a> and passes it the required details as we have seen in the previous <a href="../">Animation Jobs</a> examples:</p>
@@ -620,7 +621,7 @@
             angle = AnimancerUtilities.CreateNativeReference&lt;float&gt;(),// See the Angle section.
         };
 </code></pre>
-<p>The <code>CreatePlayable</code> method is inherited from <code>AnimancerJob</code>. It calls <code>AnimancerPlayable.InsertOutputJob</code> like in the earlier examples, but it also stores the returned <code>AnimationScriptPlayable</code> for the <a href="#cleanup">Cleanup</a> process which also requires this object to be registered in the <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list:</p>
+<p>The <code>CreatePlayable</code> method is inherited from <code>AnimancerJob</code>. It calls <code>AnimancerPlayable.InsertOutputJob</code> like in the earlier examples, but it also stores the returned <code>AnimationScriptPlayable</code> for the <a href="#cleanup">Cleanup</a> process which also requires this object to be registered in the <code>AnimancerPlayable.Disposables</code> list:</p>
 <pre><code class="language-cs">        CreatePlayable(animancer);
 
         animancer.Disposables.Add(this);
@@ -658,7 +659,7 @@
 </code></pre>
 <h1 id="angle">Angle</h1>
 <p>Unlike the <a href="#axis">Axis</a>, the whole point of this system is to be able to dynamically change the <code>Angle</code> of the lean so we want this property to be as efficient as possible. Even though jobs are not allowed to use reference types, we can exploit the fact that <code>NativeArray</code>s actually behave like reference types. By allocating a <code>NativeArray</code> with a size of 1, we can use it as a value that we can efficiently access both inside and outside the job.</p>
-<p>Inside the <code><a href="/animancer/api/Animancer.Examples.Jobs/Job">SimpleLean.Job</a></code> struct, we declare the <code>angle</code> field as a <code>NativeArray</code>:</p>
+<p>Inside the <code>SimpleLean.Job</code> struct, we declare the <code>angle</code> field as a <code>NativeArray</code>:</p>
 <pre><code class="language-cs">    public struct Job : IAnimationJob
     {
         ...
@@ -666,7 +667,7 @@
         ...
     }
 </code></pre>
-<p>Then when we initialize the <code>Job</code> in the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> constructor, we use the <code>AnimancerUtilities.CreateNativeReference</code> method to allocate a single element array for it:</p>
+<p>Then when we initialize the <code>Job</code> in the <code>SimpleLean</code> constructor, we use the <code>AnimancerUtilities.CreateNativeReference</code> method to allocate a single element array for it:</p>
 <pre><code class="language-cs">    public SimpleLean(AnimancerPlayable animancer, Vector3 axis, NativeArray&lt;TransformStreamHandle&gt; leanBones)
     {
         ...
@@ -686,9 +687,9 @@
     }
 </code></pre>
 <h1 id="cleanup">Cleanup</h1>
-<p>As explained in the <a href="../damping#disposal">Damping</a> example, when you are done with a <code>NativeArray</code> you must call <code>Dispose</code> on it to avoid causing a memory leak. We could add the arrays directly to the <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list, but it might be useful to be able to remove the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> system separately from the destruction of the rest of the character and we don't want to let it cause an error if it tries to <code>Dispose</code> an array we already disposed.</p>
+<p>As explained in the <a href="../damping#disposal">Damping</a> example, when you are done with a <code>NativeArray</code> you must call <code>Dispose</code> on it to avoid causing a memory leak. We could add the arrays directly to the <code>AnimancerPlayable.Disposables</code> list, but it might be useful to be able to remove the <code>SimpleLean</code> system separately from the destruction of the rest of the character and we don't want to let it cause an error if it tries to <code>Dispose</code> an array we already disposed.</p>
 <p>We start by implementing the <code>IDisposable</code> interface with our own <code>Dispose</code> method:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a> : AnimancerJob&lt;<a href="/animancer/api/Animancer.Examples.Jobs/Job">SimpleLean.Job</a>&gt;, IDisposable
+<pre><code class="language-cs">public sealed class SimpleLean : AnimancerJob&lt;SimpleLean.Job&gt;, IDisposable
 {
     public SimpleLean(...)
     {
@@ -724,9 +725,9 @@
         base.Destroy();
     }
 </code></pre>
-<p>So now the <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> will call our <code>Dispose</code> method when the whole graph is being destroyed and other scripts can call that <code>Destroy</code> method which will both <code>Dispose</code> the job and remove it from the graph.</p>
+<p>So now the <code>AnimancerPlayable</code> will call our <code>Dispose</code> method when the whole graph is being destroyed and other scripts can call that <code>Destroy</code> method which will both <code>Dispose</code> the job and remove it from the graph.</p>
 <h1 id="job">Job</h1>
-<p>The actual <code>Job</code> implementation is fairly simple. We already <a href="#initialization">initialized</a> the fields in the <code><a href="/animancer/api/Animancer.Examples.Jobs/SimpleLean">SimpleLean</a></code> constructor:</p>
+<p>The actual <code>Job</code> implementation is fairly simple. We already <a href="#initialization">initialized</a> the fields in the <code>SimpleLean</code> constructor:</p>
 <pre><code class="language-cs">    public struct Job : IAnimationJob
     {
         public TransformStreamHandle root;

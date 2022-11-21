@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - 04-01 Directional Basics</title>
+        <title>Animancer - Keys</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -81,15 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
-<p><a href="#overview">Overview</a></p>
-<p><a href="#fields">Fields</a></p>
-<p><a href="#playing">Playing</a></p>
-<p><a href="#controls">Controls</a></p>
-<p><a href="#edit-mode">Edit Mode</a></p>
-<p><a href="#conclusion">Conclusion</a></p>
-<p><a href="#sub-assets">Sub-Assets</a></p>
-<p><a href="#what-next">What Next?</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#enum-keys">Enum Keys</a></p>
+<p><a href="#object-keys">Object Keys</a></p>
+<p><a href="#component-keys">Component Keys</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -145,7 +139,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/examples">Examples</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -192,11 +186,11 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/examples/directional-sprites">04 Directional Sprites</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li class="selected"><a href="/animancer/docs/examples/directional-sprites/basics">04-01 Directional Basics</a></li>
+                <li><a href="/animancer/docs/examples/directional-sprites/basics">04-01 Directional Basics</a></li>
                 <li><a href="/animancer/docs/examples/directional-sprites/character">04-02 Directional Character</a></li>
 
                     </ul>
@@ -302,7 +296,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -316,12 +310,12 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
-                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
+                <li class="selected"><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -537,198 +531,54 @@
 
 
 		<section class="content-header">
-			<h1>04-01 Directional Basics</h1>
+			<h1>Keys</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p><i class="emw fa fa-folder"></i> <strong>Location</strong>: <em><span class="mini">Assets/Plugins/Animancer/</span>Examples/04 Directional Sprites/01 Directional Basics</em></p>
-<p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../../basics/movement">Basic Movement</a></p>
-<p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to organise animations in groups of up/right/down/left.</p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a>.</p>
-</blockquote>
-<figure class="img-right">
-  <img src="mage.png" class="pngif img-responsive">
-  <figcaption>
-    <a href="https://opengameart.org/content/16x16-mage">16x16 Mage</a><br>
-    Created by <a href="https://opengameart.org/users/saint11">saint11</a><br>
-    <a href="https://creativecommons.org/publicdomain/zero/1.0">CC0 Licence</a></figcaption>
-</figure>
-<p>This example demonstrates how to implement a character that can move in 4 directions (up/right/down/left) using simple data structures and reusable code.</p>
-<h1 id="summary">Summary</h1>
+		<p>When <code>AnimancerComponent.Play</code> creates a state, it registers it in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using a particular key so that it can later be retrieved using that key and reused.</p>
 <ul>
-<li>Choosing the character's animation based on the direction they're <em>Facing</em> rather than the direction they're <em>Moving</em> allows them to continue facing in the last direction they moved while standing <em>Idle</em>.</li>
-<li><a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> make it easy to manage groups of up/right/down/left animations.</li>
-<li><a href="../../../manual/playing/edit-mode">Playing animations in Edit Mode is easy.</a></li>
-<li>The <a href="../character">Directional Character</a> example extends this concept into a more complex character and shows an alternate character that uses <code>DirectionalAnimationSet8</code>s to allow diagonal movement.</li>
+<li>By default, the <code>AnimationClip</code> the state is playing will be used as its key, but the system allows you to use any <code>object</code> as a key (every variable in C# is an <code>object</code>).</li>
+<li>The <code>NamedAnimancerComponent</code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>. The <a href="../../examples/fine-control/named-animations">Named Animations</a> example explains how <code>string</code> names and other keys (such as enums) can be used in more detail.</li>
 </ul>
-<h1 id="overview">Overview</h1>
-<p>The general code structure is very similar to previous examples, but it uses <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> instead of directly referencing individual <code>AnimationClip</code>s:</p>
-<p><img src="architecture.png" class="img-responsive" id="architecture"></p>
-<h1 id="fields">Fields</h1>
-<p>Where the other examples directly reference individual <code>AnimationClip</code>s or use <a href="../../../manual/transitions">Transitions</a>, this time we are using <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> which are <a href="/cs-unity/docs/introduction/inheritance#common-bases"><code>ScriptableObject</code></a> assets that contain references to multiple <code>AnimationClip</code>s.</p>
-<p>We also need to store the direction the character is facing when they move so that when they stop they can still play the correct <em>Idle</em> animation to continue facing in that direction. Having this as a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> allows us to determine which direction the character will be facing on startup as well as in <a href="#edit-mode">Edit Mode</a>.</p>
-<table class="table">
-  <thead>
-    <tr><th style="width:50%"><code>DirectionalBasics</code> Script</th>
-    <th style="width:50%"><code>DirectionalAnimationSet</code> Asset</th>
-  </tr></thead>
-  <tbody>
-    <tr>
-      <td>
-<pre><code class="language-cs">[SerializeField]
-private AnimancerComponent _Animancer;
-
-[SerializeField]
-private DirectionalAnimationSet _Idles;
-
-[SerializeField]
-private DirectionalAnimationSet _Walks;
-
-[SerializeField]
-private Vector2 _Facing = Vector2.down;
-</code></pre>
-<img src="inspector.png" class="img-responsive">
-      </td>
-      <td><p><img src="mage-idle.png" class="img-responsive"></p>
-<details><summary>If you have <a href="https://kybernetik.com.au/inspector-gadgets/pro">Inspector Gadgets Pro</a>, you can use its <a href="https://kybernetik.com.au/inspector-gadgets/docs/script-inspector/object-reference-fields">Nested Object Drawers</a> feature (by clicking on the foldout arrows) to see and modify the details of the referenced asset without needing to actually go and select that asset:</summary><p>
-<img src="nested-object-drawer.png" class="pngif img-responsive">
-</p></details></td>
-    </tr>
-  </tbody>
-</table>
-<h1 id="playing">Playing</h1>
-<p>Since we know which direction we are <code>_Facing</code>, we can have a method that takes any <code>DirectionalAnimationSet</code>, gets the animation for that direction from the set, and plays it like any other animation:</p>
-<pre><code class="language-cs">private void Play(DirectionalAnimationSet animations)
+<pre><code class="language-cs">void KeysExample(AnimancerComponent animancer, AnimationClip clip)
 {
-    var clip = animations.GetClip(_Facing);
-    _Animancer.Play(clip);
+    // Trying to play an animation before registering it does nothing (and returns null).
+    animancer.TryPlay("Attack");
+
+    // But if you create a state with a key first, then you only need that key to play it later on.
+    animancer.States.Create("Attack", clip);
+    animancer.TryPlay("Attack");
+
+    // Or you can create the state and set its key manually:
+    var state = new ClipState(clip);
+    state.Key = "Attack";
+    animancer.TryPlay("Attack");// This won't work because the state isn't connected to anything yet.
+    animancer.Layers[0].AddChild(state);// Now the state is connected and registered with its Key.
+    animancer.TryPlay("Attack");
 }
 </code></pre>
-<h1 id="controls">Controls</h1>
-<p>This example controls the character movement using the WASD Keys, which is implemented by the <a href="../../basics/input#movement">Example Input</a> script:</p>
-<pre><code class="language-cs">private void Update()
+<ul>
+<li>You don't need to set the <code>AnimancerState.Key</code> if you don't want to. You can simply create a <code>new ClipState</code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
+<li>If you want to have multiple states playing the same clip (such as if you need to play it on multiple <a href="../blending/layers">Layers</a>) you will need to register them all with different keys (or not register them at all).
+<ul>
+<li><code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>
+</ul>
+</li>
+</ul>
+<h1 id="enum-keys">Enum Keys</h1>
+<p>Unfortunately, since <code>object</code> is a <a href="/cs-unity/docs/introduction/organization#values-and-references">Reference Type</a>, using a <a href="/cs-unity/docs/introduction/organization#values-and-references">Value Type</a> like an <code>enum</code> in those methods implicitly creates a <code>new object</code> to hold the value. This is called <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing">Boxing</a> and has a notable impact on performance, particularly since the <code>new object</code> is immediately discarded after the call and needs to be <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a>. This does not mean enums should not be used, just that you should be aware of the inefficiency.</p>
+<h1 id="object-keys">Object Keys</h1>
+<p>Another approach is to use actual <code>object</code>s as keys. Rather than an <code>enum</code> you could make a <code>class</code> like this:</p>
+<pre><code class="language-cs">public static class CharacterAction
 {
-    var input = ExampleInput.WASD;
-</code></pre>
-<p>If the player is trying to move, we store that <code>input</code> as the direction they want to be <code>_Facing</code>:</p>
-<pre><code class="language-cs">    if (input != default)
-    {
-        _Facing = input;
-</code></pre>
-<p>Then we can pass the <code>_Walks</code> animation set into the <code>Play</code> method so that it will play the appropriate animation for that direction:</p>
-<pre><code class="language-cs">        Play(_Walks);
-</code></pre>
-<p>Since this example uses simple <code>Sprite</code> animations, we can easily allow the character to run by increasing the animation speed when the player holds Left Shift. We could have had our <code>Play</code> method return the <code>AnimancerState</code> it gets from <code>_Animancer.Play</code>, but we can also just access it using <code>_Animancer.States.Current</code>:</p>
-<pre><code class="language-cs">        var isRunning = ExampleInput.LeftShiftHold;
-        _Animancer.States.Current.Speed = isRunning ? 2 : 1;
-    }
-</code></pre>
-<p><em>Note that changing the <code>AnimancerState.Speed</code> is a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. Animancer Lite allows you to try it out in the Unity Editor, but it will do nothing in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
-<p>Finally, we can simply return to one of the <code>_Idles</code> when the player stops trying to move. Note that we are not setting the <code>_Facing</code> direction in this case, so it will still be facing in the last direction it moved:</p>
-<pre><code class="language-cs">    else
-    {
-        Play(_Idles);
-    }
+    public static readonly object Idle = new object();
+    public static readonly object Walk = new object();
+    public static readonly object Run = new object();
+    // Etc.
 }
 </code></pre>
-<p>This example does not actually move the character around since is just demonstrating the basics of <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a>, but the <a href="../character">Directional Character</a> example does demonstrate movement.</p>
-<h1 id="edit-mode">Edit Mode</h1>
-<p>If we were to make another character with some different <code>DirectionalAnimationSet</code>s, it would use those animations at runtime but it would not actually show the correct sprite in Edit Mode unless we re-assign it manually. Fortunately, Animancer allows you to easily apply and even play animations in <a href="../../../manual/playing/edit-mode">Edit Mode</a>. All we need to do it use <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnValidate"><code>MonoBehaviour.OnValidate</code></a> to call <code>AnimancerUtilities.EditModeSampleAnimation</code>:</p>
-<pre><code class="language-cs">#if UNITY_EDITOR
-private void OnValidate()
-{
-    // We need to null-check the _Idles to prevent GetClip from throwing an exception if it's not assigned yet.
-    // But EditModeSampleAnimation will take care of null-checking the AnimationClip and _Animancer.
-    if (_Idles != null)
-        _Idles.GetClip(_Facing).EditModeSampleAnimation(_Animancer);
-}
-#endif
-</code></pre>
-<p>The <code>#if UNITY_EDITOR</code> isn't actually necessary because Unity will not call <code>OnValidate</code> at runtime anyway, but this allows us to be clearer about what the code is doing.</p>
-<p>Also note that this did not work properly before Unity 2018.3 due to a bug.</p>
-<h1 id="conclusion">Conclusion</h1>
-<p></p><details><summary>Click here to see the full <code>DirectionalBasics</code> script.</summary><p>
-</p><pre><code class="language-cs">using Animancer;
-using UnityEngine;
-
-public sealed class DirectionalBasics : MonoBehaviour
-{
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private DirectionalAnimationSet _Idles;
-    [SerializeField] private DirectionalAnimationSet _Walks;
-    [SerializeField] private Vector2 _Facing = Vector2.down;
-    \
-    private void Update()
-    {
-        var input = ExampleInput.WASD;
-        if (input != default)
-        {
-            _Facing = input;
-
-            Play(_Walks);
-
-            var isRunning = ExampleInput.LeftShiftHold;
-            _Animancer.States.Current.Speed = isRunning ? 2 : 1;
-        }
-        else
-        {
-            Play(_Idles);
-        }
-    }
-
-    private void Play(DirectionalAnimationSet animations)
-    {
-        var clip = animations.GetClip(_Facing);
-        _Animancer.Play(clip);
-    }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (_Idles != null)
-            _Idles.GetClip(_Facing).EditModeSampleAnimation(_Animancer);
-    }
-#endif
-}
-</code></pre>
-<p></p></details><p></p>
-<p>Now we can create more <code>DirectionalAnimationSet</code>s and reuse the same script for more characters.</p>
-<p></p><figure>
-  <img src="critters.png" class="pngif img-responsive">
-  <figcaption>
-    <a href="https://opengameart.org/content/16x16-animated-critters">16x16 Animated Critters</a><br>
-    Created by <a href="https://twitter.com/helplessisland">patvanmackelberg</a><br>
-    <a href="https://creativecommons.org/publicdomain/zero/1.0">CC0 Licence</a>
-  </figcaption>
-</figure><p></p>
-<p></p><figure>
-  <img src="rpg-characters.png" class="pngif img-responsive">
-  <figcaption>
-    <a href="https://opengameart.org/content/antifareas-rpg-sprite-set-1-enlarged-w-transparent-background-fixed">Antifarea's RPG sprite set 1</a><br>
-    Created by Antifarea<br>
-    <a href="https://creativecommons.org/licenses/by/2.0">CCBY Licence</a><br>
-    Not included in Animancer due to Asset Store licensing restrictions.
-  </figcaption>
-</figure><p></p>
-<img src="sub-assets.png" class="pngif img-responsive img-right">
-<h1 id="sub-assets">Sub-Assets</h1>
-<p>Since the there are lots of animations in this example and they are each only used by a single <code>DirectionalAnimationSet</code>, the <a href="/inspector-gadgets/docs/other/drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature of <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> was used to turn the animations into sub-assets of the set in order to organise them a bit better. This has absolutely no effect on how the animations can be used, it's purely for organization during development.</p>
-<h1 id="what-next">What Next?</h1>
-<table class="table">
-<thead>
-<tr>
-<th>Example</th>
-<th>Topic</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong><a href="../character">Directional Character</a></strong></td>
-<td>Uses <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> in a more complex character.</td>
-</tr>
-</tbody>
-</table>
+<p>Those <code>object</code>s will not actually do anything on their own but can be used as keys in a similar fashion to an enum: <code>animancer.States.Create(CharacterAction.Walk, _Walk);</code>.</p>
+<h1 id="component-keys">Component Keys</h1>
+<p>If a script only has one animation that it will play, it could use itself as the key, so a <code>Walk</code> script could create a state with <code>animancer.States.Create(this, _Walk);</code> and play it with <code>animancer.Play(this)</code>. That will not work if it is actually a <code>Movement</code> script that handles both <em>Walk</em> and <em>Run</em> animations as separate states though.</p>
 
 	</section>
                 

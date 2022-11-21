@@ -315,6 +315,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -543,8 +544,8 @@
 <p>The <a href="../../examples/layers/dynamic">Dynamic Layers</a> example demonstrates similar behaviour, but allows the <em>Shoot</em> animation to control the whole body if the character would have been <em>Idle</em> so they place their feet more appropriately:</p>
 <p><a href="../../examples/layers/dynamic"><img src="../../examples/layers/dynamic/dynamic.png" class="pngif img-responsive"></a></p>
 <h2 id="quick-example">Quick Example</h2>
-<p>Most operations involving layers are accessed via the <code><a href="/animancer/api/Animancer/AnimancerComponent/5A1697AB">AnimancerComponent.Layers</a></code> property:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
+<p>Most operations involving layers are accessed via the <code>AnimancerComponent.Layers</code> property:</p>
+<pre><code class="language-cs">AnimancerComponent animancer;
 AnimationClip clip;
 
 // Create a state on the default layer 0 and play it.
@@ -559,14 +560,14 @@ animancer.Layers[1].Play(clip);
 <h1 id="details">Details</h1>
 <ul>
 <li><strong>New Layers</strong>: if you specify a layer that does not exist, it will automatically be created (along with every layer before it).</li>
-<li><strong>Changing Layers</strong>: if an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> already exists for the animation and you specify a different layer, the state will be moved to that layer. This change can't be blended directly, but the <a href="../../examples/layers/dynamic">Dynamic Layers</a> example demonstrates how you can achieve a similar result.</li>
+<li><strong>Changing Layers</strong>: if an <code>AnimancerState</code> already exists for the animation and you specify a different layer, the state will be moved to that layer. This change can't be blended directly, but the <a href="../../examples/layers/dynamic">Dynamic Layers</a> example demonstrates how you can achieve a similar result.</li>
 <li><strong>Names</strong>: you can call <code>SetDebugName</code> on a layer to give it a name that will be displayed in the Inspector, however these names do not exist at runtime so any calls to that method will be automatically compiled out of runtime builds.</li>
-<li><strong>Keys</strong>: if you want to play the same animation on multiple layers at once, you will need to create multiple states for it and register them with different <a href="../playing/states#keys">Keys</a> (or not register them at all and simply keep references to them yourself).</li>
+<li><strong>Keys</strong>: if you want to play the same animation on multiple layers at once, you will need to create multiple states for it and register them with different <a href="../playing/keys">Keys</a> (or not register them at all and simply keep references to them yourself).</li>
 </ul>
 <h1 id="blending">Blending</h1>
 <p>There are several different factors which determine how the output of each layer is combined to form the final result:</p>
 <ul>
-<li><strong>Weight</strong>: each layer has a <code>Weight</code> just like an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> and you can use their <code>StartFade</code> method to <a href="fading">Fade</a> them in and out over time.
+<li><strong>Weight</strong>: each layer has a <code>Weight</code> just like an <code>AnimancerState</code> and you can use their <code>StartFade</code> method to <a href="fading">Fade</a> them in and out over time.
 <ul>
 <li><code>StartFade</code> only affects the layer you call it on and there is no <code>CrossFade</code> for layers because it's not common to swap them like that, however you can simply fade one in and the rest out if you need to.</li>
 <li>Layers start at <code>Weight = 0</code> by default. However, calling <code>AnimancerComponent.Play</code> targeting a layer at 0 weight will automatically set its <code>Weight = 1</code>.</li>

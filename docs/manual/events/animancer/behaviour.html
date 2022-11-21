@@ -315,6 +315,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -572,7 +573,7 @@
       <td><strong>Looping</strong></td>
       <td><p><strong>Every loop</strong> on the frame when the animation passes the specified time.</p>
         <ul>
-          <li>If the animation is playing fast enough that multiple loops pass in a single frame, the event will be triggered the appropriate number of times. If you want to ensure that your callback only gets triggered once per frame, you can store the <code><a href="/animancer/api/Animancer/AnimancerPlayable/EA98B55C">AnimancerPlayable.FrameID</a></code> and check if it has changed each time your method is called.</li>
+          <li>If the animation is playing fast enough that multiple loops pass in a single frame, the event will be triggered the appropriate number of times. If you want to ensure that your callback only gets triggered once per frame, you can store the <code>AnimancerPlayable.FrameID</code> and check if it has changed each time your method is called.</li>
           <li>Looping Events must be within the range of <code>0 &lt;= normalizedTime &lt; 1</code> in order to function correctly. Events outside that range will cause an <code>ArgumentOutOfRangeException</code> during the next update.</li>
           <li><code>AnimancerEvent.AlmostOne</code> is a constant containing the largest possible <code>float</code> value less than 1 in case you want to set an event to occur right at the end of the loop.</li>
         </ul>
@@ -585,7 +586,7 @@
   </tbody>
 </table>
 <h1 id="clear-automatically">Clear Automatically</h1>
-<p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states unless <code><a href="/animancer/api/Animancer/AnimancerState/9FC6E73B">AnimancerState.AutomaticallyClearEvents</a></code> is set to false. This ensures that you do not have to worry whether or not other scripts have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
+<p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states unless <code>AnimancerState.AutomaticallyClearEvents</code> is set to false. This ensures that you do not have to worry whether or not other scripts have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
 <p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, it will not want that animation to still have the old <a href="../end">End Event</a> that returns to <em>Idle</em>.</p>
 <p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so that topic is covered in the <a href="../../../examples/fsm/interruptions">Interruptions</a> example.</p>
 <p>The way that events are cleared differs slightly depending on how a state was played:</p>
@@ -598,24 +599,24 @@
     <tr>
 <td>
 <pre><code class="language-cs">AnimationClip clip;
-<a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
+AnimancerComponent animancer;
 var state = animancer.Play(clip);
 </code></pre>
 </td>
 <td>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> transition;
-<a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
+<pre><code class="language-cs">ClipTransition transition;
+AnimancerComponent animancer;
 var state = animancer.Play(transition);
 </code></pre>
 </td>
     </tr>
     <tr>
       <td>Without a <a href="../../transitions">Transition</a>, the state will have no events by default.</td>
-      <td>When playing a <a href="../../transitions">Transition</a>, the state will be given the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> from that <a href="../../transitions">Transition</a>.</td>
+      <td>When playing a <a href="../../transitions">Transition</a>, the state will be given the <code>AnimancerEvent.Sequence</code> from that <a href="../../transitions">Transition</a>.</td>
     </tr>
     <tr>
-      <td>Accessing its <code>Events</code> will give it a spare <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> from the <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code> which you can then modify on the spot.</td>
-      <td>Accessing its <code>Events</code> will refer directly to the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> owned by the <a href="../../transitions">Transition</a> so any modifications you make will be retained when you play it again. This means modifications should generally only be performed once on startup rather than being repeated every time you play it.</td>
+      <td>Accessing its <code>Events</code> will give it a spare <code>AnimancerEvent.Sequence</code> from the <code>ObjectPool</code> which you can then modify on the spot.</td>
+      <td>Accessing its <code>Events</code> will refer directly to the <code>AnimancerEvent.Sequence</code> owned by the <a href="../../transitions">Transition</a> so any modifications you make will be retained when you play it again. This means modifications should generally only be performed once on startup rather than being repeated every time you play it.</td>
     </tr>
     <tr>
 <td>
@@ -641,20 +642,20 @@ void PlayAnimation()
 </td>
     </tr>
     <tr>
-      <td><p>When you play something else, the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> will be removed from the state, have its contents cleared, and then be returned to the <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code> so it can be reused.</p>If you create a <code>new AnimancerEvent.Sequence()</code> and assign it manually, then it will not be cleared or pooled.</td>
-      <td>When you play something else, the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> will be removed from the state but since it is owned by the <a href="../../transitions">Transition</a> it will not be cleared or given to the <code><a href="/animancer/api/Animancer/ObjectPool">ObjectPool</a></code>.</td>
+      <td><p>When you play something else, the <code>AnimancerEvent.Sequence</code> will be removed from the state, have its contents cleared, and then be returned to the <code>ObjectPool</code> so it can be reused.</p>If you create a <code>new AnimancerEvent.Sequence()</code> and assign it manually, then it will not be cleared or pooled.</td>
+      <td>When you play something else, the <code>AnimancerEvent.Sequence</code> will be removed from the state but since it is owned by the <a href="../../transitions">Transition</a> it will not be cleared or given to the <code>ObjectPool</code>.</td>
     </tr>
   </tbody>
 </table>
 <h1 id="other-details">Other Details</h1>
 <p>This system has several other details worth mentioning:</p>
 <ul>
-<li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code><a href="/animancer/api/Animancer/AnimancerEvent/F8E79576">AnimancerEvent.CurrentEvent</a></code> and <code><a href="/animancer/api/Animancer/AnimancerEvent/A43FA8EE">AnimancerEvent.CurrentState</a></code> properties, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards. The <a href="../../../examples/events/utilities">Event Utilities</a> example demonstrates some ways those properties can be used.</li>
-<li>Changing the <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> (or <code>NormalizedTime</code>) prevents that state from triggering any more events during that frame. If you want events between the old and new time to be triggered, you can use <code>AnimancerState.MoveTime</code> instead.</li>
-<li>The <code><a href="/animancer/api/Animancer/AnimancerState/11AD60E8">AnimancerState.Events</a></code> sequence can not be modified by its own events (i.e. you can't use an event to add another event to the state that triggered it).</li>
+<li>Events are triggered using the <code>AnimancerEvent.Invoke</code> method which sets the static <code>AnimancerEvent.CurrentEvent</code> and <code>AnimancerEvent.CurrentState</code> properties, allowing anything to access the details of the event and the state that triggered it before being cleared immediately afterwards. The <a href="../../../examples/events/utilities">Event Utilities</a> example demonstrates some ways those properties can be used.</li>
+<li>Changing the <code>AnimancerState.Time</code> (or <code>NormalizedTime</code>) prevents that state from triggering any more events during that frame. If you want events between the old and new time to be triggered, you can use <code>AnimancerState.MoveTime</code> instead.</li>
+<li>The <code>AnimancerState.Events</code> sequence can not be modified by its own events (i.e. you can't use an event to add another event to the state that triggered it).</li>
 <li>Animancer Events can be placed on <a href="../../blending/mixers">Mixers</a> or on their children depending on whether you want them to be triggered according to the weighted average <code>NormalizedTime</code> of the children or the <code>NormalizedTime</code> of a specific child. The <a href="../../blending/mixers#events">Events</a> section on that page gives more details.</li>
-<li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and do not check what the Animator Controller is doing internally so attempting to use them might not give the intended result.</li>
-<li>If you want to run custom code as part of the animation update, you can implement <code><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></code> in your own scripts.</li>
+<li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code>ControllerState</code> and do not check what the Animator Controller is doing internally so attempting to use them might not give the intended result.</li>
+<li>If you want to run custom code as part of the animation update, you can implement <code>IUpdatable</code> in your own scripts.</li>
 </ul>
 
 	</section>

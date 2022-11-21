@@ -318,6 +318,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -556,13 +557,13 @@
 </ul>
 <h1 id="overview">Overview</h1>
 <p>There are two scripts used in this example:</p>
-<p></p><details><summary>The <em>Low Rate</em> and <em>Dynamic Rate</em> characters both use the <code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> script which prevents Animancer from updating normally so that it can tell Animancer when to update:</summary><p>
+<p></p><details><summary>The <em>Low Rate</em> and <em>Dynamic Rate</em> characters both use the <code>LowUpdateRate</code> script which prevents Animancer from updating normally so that it can tell Animancer when to update:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a> : MonoBehaviour
+public sealed class LowUpdateRate : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private float _UpdatesPerSecond = 10;
 
     private float _LastUpdateTime;
@@ -592,14 +593,14 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/LowUp
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>The <em>Dynamic Rate</em> character also has a <code><a href="/animancer/api/Animancer.Examples.FineControl/DynamicUpdateRate">DynamicUpdateRate</a></code> script which enables or disables its <code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> script depending on how far the character is away from the camera (and displays the current details using a <code>TextMesh</code>):</summary><p>
+<p></p><details><summary>The <em>Dynamic Rate</em> character also has a <code>DynamicUpdateRate</code> script which enables or disables its <code>LowUpdateRate</code> script depending on how far the character is away from the camera (and displays the current details using a <code>TextMesh</code>):</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/DynamicUpdateRate">DynamicUpdateRate</a> : MonoBehaviour
+public sealed class DynamicUpdateRate : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a> _LowUpdateRate;
+    [SerializeField] private LowUpdateRate _LowUpdateRate;
     [SerializeField] private TextMesh _TextMesh;
     [SerializeField, Meters] private float _SlowUpdateDistance = 5;
 
@@ -624,18 +625,18 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Dynam
 }
 </code></pre>
 <p></p></details><p></p>
-<p>Neither of those scripts actually plays any animations. In a real game you would have other scripts doing that separately from the system controlling the update rate, but this example is just using <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>s for each of the characters with an animation set to <code>Play Automatically</code> in the Inspector:</p>
+<p>Neither of those scripts actually plays any animations. In a real game you would have other scripts doing that separately from the system controlling the update rate, but this example is just using <code>NamedAnimancerComponent</code>s for each of the characters with an animation set to <code>Play Automatically</code> in the Inspector:</p>
 <p><img src="inspector.png" class="img-responsive"></p>
 <p>The code structure is fairly straightforward:</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="controlling-updates">Controlling Updates</h1>
 <p>Controlling when Animancer updates is very easy:</p>
 <ol>
-<li>Get the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> you want to control:</li>
+<li>Get the <code>AnimancerComponent</code> you want to control:</li>
 </ol>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a> : MonoBehaviour
+<pre><code class="language-cs">public sealed class LowUpdateRate : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
 </code></pre>
 <ol start="2">
 <li>Call <code>AnimancerPlayable.PauseGraph</code> top prevent it from updating on its own:</li>
@@ -657,10 +658,10 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Dynam
 </code></pre>
 <img src="low-inspector.png" class="img-responsive img-right">
 <h1 id="low-update-rate">Low Update Rate</h1>
-<p>The <code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> script wants to update Animancer at a specific frequency, so it has an Inspector field to set how often it updates and it also needs to keep track of how much time has passed since the last update:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a> : MonoBehaviour
+<p>The <code>LowUpdateRate</code> script wants to update Animancer at a specific frequency, so it has an Inspector field to set how often it updates and it also needs to keep track of how much time has passed since the last update:</p>
+<pre><code class="language-cs">public sealed class LowUpdateRate : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private float _UpdatesPerSecond = 10;
 
     private float _LastUpdateTime;
@@ -679,14 +680,14 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Dynam
         }
     }
 </code></pre>
-<p><code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> is also designed to be enabled and disabled by <code><a href="/animancer/api/Animancer.Examples.FineControl/DynamicUpdateRate">DynamicUpdateRate</a></code> so it grabs the current time when enabled to store as the <code>_LastUpdateTime</code>:</p>
+<p><code>LowUpdateRate</code> is also designed to be enabled and disabled by <code>DynamicUpdateRate</code> so it grabs the current time when enabled to store as the <code>_LastUpdateTime</code>:</p>
 <pre><code class="language-cs">    private void OnEnable()
     {
         _Animancer.Playable.PauseGraph();
         _LastUpdateTime = Time.time;
     }
 </code></pre>
-<p>And when disabled it makes sure to call <code>AnimancerPlayable.UnpauseGraph</code> to let Animancer update normally again. Since Unity also calls <code>OnDisable</code> when destroying the object as well (such as when loading a different scene) it needs to make sure the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> still exists and is still initialized before doing so (otherwise accessing <code>_Animancer.Playable</code> would initialize it again):</p>
+<p>And when disabled it makes sure to call <code>AnimancerPlayable.UnpauseGraph</code> to let Animancer update normally again. Since Unity also calls <code>OnDisable</code> when destroying the object as well (such as when loading a different scene) it needs to make sure the <code>AnimancerComponent</code> still exists and is still initialized before doing so (otherwise accessing <code>_Animancer.Playable</code> would initialize it again):</p>
 <pre><code class="language-cs">    private void OnDisable()
     {
         if (_Animancer != null &amp;&amp; _Animancer.IsPlayableInitialized)
@@ -695,10 +696,10 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Dynam
 </code></pre>
 <img src="dynamic-inspector.png" class="img-responsive img-right">
 <h1 id="dynamic-update-rate">Dynamic Update Rate</h1>
-<p>Simply updating all animations less often would usually look terrible, so many games only decrease their animation update rates for characters that are far away from the camera because that means they are smaller on screen and the player is less likely to be looking closely at them. That's what the <code><a href="/animancer/api/Animancer.Examples.FineControl/DynamicUpdateRate">DynamicUpdateRate</a></code> script does by simply enabling and disabling the <code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> script as necessary:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/DynamicUpdateRate">DynamicUpdateRate</a> : MonoBehaviour
+<p>Simply updating all animations less often would usually look terrible, so many games only decrease their animation update rates for characters that are far away from the camera because that means they are smaller on screen and the player is less likely to be looking closely at them. That's what the <code>DynamicUpdateRate</code> script does by simply enabling and disabling the <code>LowUpdateRate</code> script as necessary:</p>
+<pre><code class="language-cs">public sealed class DynamicUpdateRate : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a> _LowUpdateRate;
+    [SerializeField] private LowUpdateRate _LowUpdateRate;
     [SerializeField, Meters] private float _SlowUpdateDistance = 5;
 </code></pre>
 <p><code>[Meters]</code> is a <a href="../../../manual/other/units">Units Attribute</a> which causes the field to display an <code>" m"</code> suffix in the Inspector to indicate that the value is measured in meters.</p>
@@ -710,7 +711,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.FineControl/Dynam
         _Camera = Camera.main.transform;
     }
 </code></pre>
-<p>Then it just checks the distance between itself and the camera to decide whether or not the <code><a href="/animancer/api/Animancer.Examples.FineControl/LowUpdateRate">LowUpdateRate</a></code> script should be enabled. As mentioned in the <a href="/cs-unity/docs/introduction/vectors#magnitude">Vector Magnitude</a> section, calculating the squared distance is faster than calculating the actual distance so in this case we can do that and compare it to the squared distance threshold:</p>
+<p>Then it just checks the distance between itself and the camera to decide whether or not the <code>LowUpdateRate</code> script should be enabled. As mentioned in the <a href="/cs-unity/docs/introduction/vectors#magnitude">Vector Magnitude</a> section, calculating the squared distance is faster than calculating the actual distance so in this case we can do that and compare it to the squared distance threshold:</p>
 <pre><code class="language-cs">    private void Update()
     {
         var offset = _Camera.position - transform.position;

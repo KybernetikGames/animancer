@@ -320,6 +320,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -554,10 +555,10 @@
 <li>You can smoothly blend between animations by specifying how long you want it to take as the second parameter in the <code>Play</code> method.</li>
 <li>If you want the animation to start from the beginning, pass in <code>FadeMode.FromStart</code> as the third parameter.</li>
 <li>You can use <a href="../../../manual/transitions">Transitions</a> to define animation details like the fade duration and speed in the Inspector.</li>
-<li>When using events with <a href="../../../manual/transitions">Transitions</a>, you should configure the events on startup instead of adding them to the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> after you play an animation.</li>
+<li>When using events with <a href="../../../manual/transitions">Transitions</a>, you should configure the events on startup instead of adding them to the <code>AnimancerState</code> after you play an animation.</li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p>The code structure initially looks the same as the <a href="../action#architecture">Basic Action</a> example, but <a href="#transitions">when we introduce Transitions</a> the direct references to <code>AnimationClip</code>s get replaced by <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s which each contain a reference to an <code>AnimationClip</code> (along with other details):</p>
+<p>The code structure initially looks the same as the <a href="../action#architecture">Basic Action</a> example, but <a href="#transitions">when we introduce Transitions</a> the direct references to <code>AnimationClip</code>s get replaced by <code>ClipTransition</code>s which each contain a reference to an <code>AnimationClip</code> (along with other details):</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="cross-fading">Cross Fading</h1>
 <p>The character in the <a href="../action">Basic Action</a> example is playing the animations we want, but changing between them instantly snaps the character's pose instead of moving smoothly from the previous pose. This can be easily solved by <a href="../../../manual/blending/fading">Cross Fading</a> between the animations.</p>
@@ -570,9 +571,9 @@ _Animancer.Play(_Action, 0.25f);// Cross Fade over 0.25 seconds.
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransitionOnClick">PlayTransitionOnClick</a> : MonoBehaviour
+public sealed class PlayTransitionOnClick : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -585,7 +586,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransi
     {
         if (ExampleInput.LeftMouseUp)
         {
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action, 0.25f);
+            AnimancerState state = _Animancer.Play(_Action, 0.25f);
             state.Time = 0;
             state.Events.OnEnd = OnEnable;
         }
@@ -612,7 +613,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransi
 <p>Specifying a fade duration gives nice smooth blending between two different animations, but doesn't automatically allow an animation to transition into itself because each animation state can only have one <code>Time</code> value and setting it will immediately snap it to the new value.</p>
 <p><img src="rapid-fire-snap.png" class="pngif img-responsive"></p>
 <p>This issue is addressed by <a href="../../../manual/blending/fading/modes">Fade Modes</a> which can be specified as another optional parameter in the <code>Play</code> method. In this case, we want to use <code>FadeMode.FromStart</code> so that it will always fade in from the start of the animation.</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
+<pre><code class="language-cs">AnimancerState state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
 state.Events.OnEnd = OnEnable;
 </code></pre>
 <p>Note that we no longer need to set the <code>state.Time = 0</code> because <code>FadeMode.FromStart</code> already does that.</p>
@@ -620,9 +621,9 @@ state.Events.OnEnd = OnEnable;
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransitionOnClick">PlayTransitionOnClick</a> : MonoBehaviour
+public sealed class PlayTransitionOnClick : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -635,7 +636,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransi
     {
         if (ExampleInput.LeftMouseUp)
         {
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
+            AnimancerState state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
             state.Events.OnEnd = OnEnable;
         }
     }
@@ -651,7 +652,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransi
 </ul>
 <p>Adding a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> to specify the fade duration in the Inspector would help a bit, but <a href="../../../manual/transitions">Transitions</a> are usually a much better solution.</p>
 <h1 id="transitions">Transitions</h1>
-<p>Instead of having an <code>AnimationClip</code> field to directly reference an animation, you can make a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> field which contains an <code>AnimationClip</code> as well as various other details about how you want it to be played such as a <code>Fade Duration</code> and <code>Start Time</code>.</p>
+<p>Instead of having an <code>AnimationClip</code> field to directly reference an animation, you can make a <code>ClipTransition</code> field which contains an <code>AnimationClip</code> as well as various other details about how you want it to be played such as a <code>Fade Duration</code> and <code>Start Time</code>.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Animation Clips (Old)</th>
@@ -661,7 +662,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransi
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
 private AnimationClip _Idle;
@@ -672,13 +673,13 @@ private AnimationClip _Action;
 </td>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+private ClipTransition _Idle;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+private ClipTransition _Action;
 </code></pre>
 </td>
     </tr>
@@ -708,7 +709,7 @@ private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ac
 </ul>
 </li>
 </ul>
-<p>This means that after we replace the <code>AnimationClip</code> fields with <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s we have a few other changes to make as well.</p>
+<p>This means that after we replace the <code>AnimationClip</code> fields with <code>ClipTransition</code>s we have a few other changes to make as well.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Animation Clips (Old)</th>
@@ -718,7 +719,7 @@ private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ac
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
 private AnimationClip _Idle;
@@ -729,13 +730,13 @@ private AnimationClip _Action;
 </td>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+private ClipTransition _Idle;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+private ClipTransition _Action;
 </code></pre>
 </td>
     </tr>
@@ -785,7 +786,7 @@ private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ac
 {
     if (ExampleInput.LeftMouseUp)
     {
-        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
+        AnimancerState state = _Animancer.Play(_Action, 0.25f, FadeMode.FromStart);
         state.Events.OnEnd = OnEnable;
     }
 }
@@ -808,11 +809,11 @@ private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ac
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransitionOnClick">PlayTransitionOnClick</a> : MonoBehaviour
+public sealed class PlayTransitionOnClick : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Idle;
+    [SerializeField] private ClipTransition _Action;
 
     private void OnEnable()
     {
@@ -836,7 +837,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Basics/PlayTransi
 }
 </code></pre>
 <p></p></details><p></p>
-<p>In the end, the script using <code>AnimationClip</code>s was slightly shorter, but the one using <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s has a much better development workflow because it keeps purely visual details like the fade duration out of the code for easier customization.</p>
+<p>In the end, the script using <code>AnimationClip</code>s was slightly shorter, but the one using <code>ClipTransition</code>s has a much better development workflow because it keeps purely visual details like the fade duration out of the code for easier customization.</p>
 <h1 id="what-next">What Next?</h1>
 <table class="table">
 <thead>

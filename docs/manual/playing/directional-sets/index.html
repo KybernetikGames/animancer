@@ -317,6 +317,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -552,10 +553,10 @@ using UnityEngine;
 public class DirectionalAnimationSetExample : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
 
     [SerializeField]
-    private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Idles;
+    private DirectionalAnimationSet _Idles;
     
     private void Update()
     {
@@ -578,7 +579,7 @@ public class DirectionalAnimationSetExample : MonoBehaviour
 </table>
 <p>The <a href="../../../examples/directional-sprites">Directional Sprites</a> examples demonstrate how to use them in more detail.</p>
 <h1 id="creation">Creation</h1>
-<p><code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s can be created by Right Clicking in the Project window and using the menu functions in <code>Create/Animancer/Directional Animation Set/...</code>:</p>
+<p><code>DirectionalAnimationSet</code>s can be created by Right Clicking in the Project window and using the menu functions in <code>Create/Animancer/Directional Animation Set/...</code>:</p>
 <table class="table">
 <thead>
 <tr>
@@ -589,29 +590,29 @@ public class DirectionalAnimationSetExample : MonoBehaviour
 <tbody>
 <tr>
 <td><code>4&nbsp;Directions</code></td>
-<td>Creates an empty <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> (4 directions, no diagonals).</td>
+<td>Creates an empty <code>DirectionalAnimationSet</code> (4 directions, no diagonals).</td>
 </tr>
 <tr>
 <td><code>8&nbsp;Directions</code></td>
-<td>Creates an empty <code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> (8 directions, including diagonals).</td>
+<td>Creates an empty <code>DirectionalAnimationSet8</code> (8 directions, including diagonals).</td>
 </tr>
 <tr>
 <td><code>From&nbsp;Selection</code></td>
-<td>Creates either a <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> or <code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> to reference the animations you have selected. This requires the animation names to be identical except for the words "<em>Up</em>", "<em>Right</em>", "<em>Down</em>", and "<em>Left</em>".</td>
+<td>Creates either a <code>DirectionalAnimationSet</code> or <code>DirectionalAnimationSet8</code> to reference the animations you have selected. This requires the animation names to be identical except for the words "<em>Up</em>", "<em>Right</em>", "<em>Down</em>", and "<em>Left</em>".</td>
 </tr>
 </tbody>
 </table>
-<p>Once you have created a set, you can assign animations to each of its fields manually or use its <code>Find <a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> context menu function to automatically assign animations with the same name (varying only by direction) in the same folder. For example, the video below shows a set called <em>Mage-Idle</em> which finds the animations called <em>Mage-IdleUp</em>, <em>Mage-IdleRight</em>, <em>Mage-IdleDown</em>, and <em>Mage-IdleLeft</em> because those animations have the same base name as the set:</p>
+<p>Once you have created a set, you can assign animations to each of its fields manually or use its <code>Find Animations</code> context menu function to automatically assign animations with the same name (varying only by direction) in the same folder. For example, the video below shows a set called <em>Mage-Idle</em> which finds the animations called <em>Mage-IdleUp</em>, <em>Mage-IdleRight</em>, <em>Mage-IdleDown</em>, and <em>Mage-IdleLeft</em> because those animations have the same base name as the set:</p>
 <p><img src="find-animations.png" class="pngif img-responsive"></p>
-<p>Also note that <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s are not limited to only <code>Sprite</code> animations. For example, the <a href="../../../examples/locomotion/directional-blending">Directional Blending</a> example originally used a set to reference its movement animations before <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a> were implemented.</p>
+<p>Also note that <code>DirectionalAnimationSet</code>s are not limited to only <code>Sprite</code> animations. For example, the <a href="../../../examples/locomotion/directional-blending">Directional Blending</a> example originally used a set to reference its movement animations before <a href="../../transitions/types#mixer-transitions">Mixer Transitions</a> were implemented.</p>
 <h1 id="usage">Usage</h1>
-<p>Using <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>s in your scripts is very easy:</p>
+<p>Using <code>DirectionalAnimationSet</code>s in your scripts is very easy:</p>
 <ol>
 <li>Declare a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a>:</li>
 </ol>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> _Idles;
+<pre><code class="language-cs">[SerializeField] private DirectionalAnimationSet _Idles;
 </code></pre>
-<p>That gives you an Inspector field where you can assign any <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> asset. Since <code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, you can assign either type of set to such a field without changing the script.</p>
+<p>That gives you an Inspector field where you can assign any <code>DirectionalAnimationSet</code> asset. Since <code>DirectionalAnimationSet8</code> <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code>DirectionalAnimationSet</code>, you can assign either type of set to such a field without changing the script.</p>
 <ol start="2">
 <li>Determine the direction you want from the set:</li>
 </ol>
@@ -627,8 +628,8 @@ var direction = DirectionalAnimationSet8.Direction.UpRight;
 <ol start="3">
 <li>Get the set's <code>AnimationClip</code> corresponding to that direction and <code>Play</code> it normally:</li>
 </ol>
-<pre><code class="language-cs">// Assuming you also have a reference to an <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> somewhere:
-// [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+<pre><code class="language-cs">// Assuming you also have a reference to an AnimancerComponent somewhere:
+// [SerializeField] private AnimancerComponent _Animancer;
 
 var clip = _Idles.GetClip(direction);
 _Animancer.Play(clip);
@@ -637,8 +638,8 @@ _Animancer.Play(clip);
 <h1 id="snapping">Snapping</h1>
 <p>The <code>DirectionalAnimationSet.Snap</code> method returns a copy of a given <a href="/cs-unity/docs/introduction/vectors">Vector</a> pointing in the closest direction that set type has an animation for (4 or 8 directions depending on which type of set you are using). This is useful for clamping an input vector to the exact direction the animation is facing so that you can limit the character to only move in those directions.</p>
 <h1 id="under-the-hood">Under the Hood</h1>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> class contains quite a bit of functionality, but at its core it is just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="/cs-unity/docs/introduction/vectors">Vector</a>:</summary><p>
-</p><pre><code class="language-cs">public class <a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a> : ScriptableObject
+<p></p><details><summary>The <code>DirectionalAnimationSet</code> class contains quite a bit of functionality, but at its core it is just a <code>ScriptableObject</code> with a few <code>AnimationClip</code>s and a method to choose whichever is closest to a given direction <a href="/cs-unity/docs/introduction/vectors">Vector</a>:</summary><p>
+</p><pre><code class="language-cs">public class DirectionalAnimationSet : ScriptableObject
 {
     [SerializeField] private AnimationClip _Up;
     [SerializeField] private AnimationClip _Right;
@@ -665,7 +666,7 @@ _Animancer.Play(clip);
 }
 </code></pre>
 <p></p></details><p></p>
-<p><code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code> so it has the same fields as well as another 4 for the diagonals and it <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>override</code></a>s the <code>GetClip</code> method to choose from all 8 of its animations.</p>
+<p><code>DirectionalAnimationSet8</code> <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code>DirectionalAnimationSet</code> so it has the same fields as well as another 4 for the diagonals and it <a href="/cs-unity/docs/introduction/inheritance#keywords"><code>override</code></a>s the <code>GetClip</code> method to choose from all 8 of its animations.</p>
 <p>Both of those scripts are included in <a href="/animancer/redirect/lite">Animancer Lite</a> so you can read and modify them if you want to.</p>
 
 	</section>

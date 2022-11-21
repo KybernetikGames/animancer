@@ -317,6 +317,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -573,18 +574,18 @@ public void RespawnFinished()
 </ul>
 <p>So in the end this approach uses a new script for the <em>Respawn</em> state, but all it does is call a function somewhere else. It tries to use the Animator Controller as a state machine, but the limitations of that system prevent it from doing everything that is needed so the remaining responsibilities fall back onto scripts anyway, resulting in far more overall complexity than if it was all handled by scripts.</p>
 <h1 id="animancer">Animancer</h1>
-<p>The Animancer implementation is much simpler. The <code>Character</code>'s <code>StateMachine</code> has <em>Respawn</em> assigned as its <code>Default <a href="/animancer/api/Animancer.FSM/State">State</a></code>:</p>
+<p>The Animancer implementation is much simpler. The <code>Character</code>'s <code>StateMachine</code> has <em>Respawn</em> assigned as its <code>Default State</code>:</p>
 <p><img src="../animancer-character.png" class="img-responsive"></p>
-<p>And the <a href="../die">Die State</a> also has it assigned as the <code>Respawn <a href="/animancer/api/Animancer.FSM/State">State</a></code>:</p>
+<p>And the <a href="../die">Die State</a> also has it assigned as the <code>Respawn State</code>:</p>
 <p><img src="../die/animancer-die.png" class="img-responsive"></p>
 <p>The actual state implementation is also very straightforward:</p>
 <p>In <code>Awake</code> (called once on startup) it sets the animation's <a href="../../../../manual/events/end">End Event</a> to return to the <em>Idle</em> state and stores the starting position:</p>
 <pre><code class="language-cs">using System;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a> : CharacterState
+public sealed class RespawnState : CharacterState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+    [SerializeField] private ClipTransition _Animation;
     [SerializeField] private UnityEvent _OnEnterState;
     [SerializeField] private UnityEvent _OnExitState;
 
@@ -641,7 +642,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControlle
 <p>If an AI script needs to check whether a character is currently respawning specifically, it could easily do so withg:</p>
 <pre><code class="language-cs">if (character.StateMachine.CurrentState is RespawnState)
 </code></pre>
-<p>That's a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI didn't specifically depend on the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> class or even particularly care <em>why</em> they aren't allowed to chase the player at that time so it might be better to use <a href="/cs-unity/docs/introduction/inheritance">Inheritance</a>:</p>
+<p>That's a bit too specific though. In this case, the enemies were using it to stop chasing the player while they are respawning but it would be better if the AI didn't specifically depend on the <code>RespawnState</code> class or even particularly care <em>why</em> they aren't allowed to chase the player at that time so it might be better to use <a href="/cs-unity/docs/introduction/inheritance">Inheritance</a>:</p>
 <pre><code class="language-cs">// Set the default in the base CharacterState:
 public virtual bool CanBeChased =&gt; true;
 
@@ -651,7 +652,7 @@ public override bool CanBeChased =&gt; false;
 // Now the AI can check that property:
 if (character.StateMachine.CurrentState.CanBeChased)
 </code></pre>
-<p>This would allow the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/DieState">DieState</a></code> to also stop enemies from chasing it without any modification to the AI code.</p>
+<p>This would allow the <code>DieState</code> to also stop enemies from chasing it without any modification to the AI code.</p>
 <h1 id="modularity">Modularity</h1>
 <p>Another thing to consider is the effort that would be involved if you wanted to add or remove a particular state when modifying the player or creating a new character. To make the player just appear immediately without a respawning animation in the Mecanim setup you would need to do the following:</p>
 <ol>
@@ -661,7 +662,7 @@ if (character.StateMachine.CurrentState.CanBeChased)
 </ol>
 <p>But to do the same with Animancer you could basically do the same thing without the last step:</p>
 <ol>
-<li>Remove the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/RespawnState">RespawnState</a></code> component.</li>
+<li>Remove the <code>RespawnState</code> component.</li>
 <li>Assign the <code>IdleState</code> component to the <code>StateMachine</code>'s <code>CurrentState</code> field in the Inspector (so the same state is assigned to both <code>CurrentState</code> and <code>DefaultState</code>).</li>
 </ol>
 <p>We didn't intentionally plan the Animancer setup to support characters without a respawn animation, but well structured code makes it easy to implement unforseen changes like that. Being able to try out ideas and adapt to changing requirements like this is extremely valuable in software development.</p>

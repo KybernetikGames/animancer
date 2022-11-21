@@ -315,6 +315,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -541,8 +542,8 @@
 <h1 id="features">Features</h1>
 <ul>
 <li>Added support for Unity 2021.2 (Beta).</li>
-<li>Un<code>sealed</code> <code><a href="/animancer/api/Animancer/LayerList">AnimancerPlayable.LayerList</a></code> so the default layer mixer can be replaced to achieve things like applying weighted massks to individual bones. <a href="https://github.com/KybernetikGames/animancer/issues/154">#154</a></li>
-<li>Added <code><a href="/animancer/api/Animancer/AnimancerComponent/E279AA59">AnimancerComponent.InitializePlayable(PlayableGraph)</a></code> to add Animancer to an existing graph (to allow the <a href="../examples/integration/animation-rigging#paused-graph">Animation Rigging package to be used while the graph is paused</a>).</li>
+<li>Un<code>sealed</code> <code>AnimancerPlayable.LayerList</code> so the default layer mixer can be replaced to achieve things like applying weighted massks to individual bones. <a href="https://github.com/KybernetikGames/animancer/issues/154">#154</a></li>
+<li>Added <code>AnimancerComponent.InitializePlayable(PlayableGraph)</code> to add Animancer to an existing graph (to allow the <a href="../examples/integration/animation-rigging#paused-graph">Animation Rigging package to be used while the graph is paused</a>).</li>
 </ul>
 <h1 id="changes">Changes</h1>
 <ul>
@@ -550,8 +551,8 @@
 <li>Added warning in <code>PlayableAssetState.InitializeBindings</code> when attempting to bind a track to the same <code>Animator</code> that Animancer is controlling.</li>
 <li>Made <code>AnimancerNode.ApplyWeight</code> public. <a href="https://github.com/KybernetikGames/animancer/issues/147">#147</a></li>
 <li>Removed <code>AnimancerPlayable.StateDictionary.DestroyAll</code> since it was likely not very useful and its implementation was potentially confusing (it applied to all states regardless of whether or not they were actually in the dictionary).</li>
-<li>Changed <code><a href="/animancer/api/Animancer/MixerTransitionDrawer">MixerTransitionDrawer</a></code> to manually hide the <code>Thresholds</code> array instead of using a <code>[HideInInspector]</code> attribute so that the field will at least be shown as a normal array if <a href="../examples/integration/odin-inspector">Odin Inspector</a> causes the wrong drawer to be used. <a href="https://github.com/KybernetikGames/animancer/issues/158">#158</a></li>
-<li>Changed <code><a href="/animancer/api/Animancer/AnimancerNode/659DB369">AnimancerNode.DebugName</a></code> to be ignored if it is an empty string (rather than only while <code>null</code>).</li>
+<li>Changed <code>MixerTransitionDrawer</code> to manually hide the <code>Thresholds</code> array instead of using a <code>[HideInInspector]</code> attribute so that the field will at least be shown as a normal array if <a href="../examples/integration/odin-inspector">Odin Inspector</a> causes the wrong drawer to be used. <a href="https://github.com/KybernetikGames/animancer/issues/158">#158</a></li>
+<li>Changed <code>AnimancerNode.DebugName</code> to be ignored if it is an empty string (rather than only while <code>null</code>).</li>
 <li>Renamed <code>AnimancerPlayable.SetOutput</code> to <code>CreateOutput</code>.</li>
 <li>Renamed <code>AnimancerPlayable.Destroy</code> to <code>DestroyGraph</code> and added <code>DestroyOutput</code>.</li>
 </ul>
@@ -559,18 +560,18 @@
 <ul>
 <li>Fixed <code>NullReferenceException</code> when an Animancer Event plays another animation. <a href="https://github.com/KybernetikGames/animancer/issues/143">#143</a></li>
 <li>Fixed <code>OptionalWarning.EndEventInterrupt</code> to not be triggered if the event moves the state time back so it's no longer ending or if the <code>OnEnd</code> callback is modified. <a href="https://github.com/KybernetikGames/animancer/issues/148">#148</a> and <a href="https://github.com/KybernetikGames/animancer/issues/152">#152</a></li>
-<li>Fixed initialization error in <code><a href="/animancer/api/Animancer.Editor/CompactUnitConversionCache">CompactUnitConversionCache</a></code>.</li>
-<li>Fixed playing an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> on a different object from its previous one to work properly.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> to not throw a <code>NullReferenceException</code> if the <code>Root</code> is not set. <a href="https://github.com/KybernetikGames/animancer/issues/144">#144</a></li>
+<li>Fixed initialization error in <code>CompactUnitConversionCache</code>.</li>
+<li>Fixed playing an <code>AnimancerState</code> on a different object from its previous one to work properly.</li>
+<li>Fixed <code>AnimancerState.Key</code> to not throw a <code>NullReferenceException</code> if the <code>Root</code> is not set. <a href="https://github.com/KybernetikGames/animancer/issues/144">#144</a></li>
 <li>Fixed <code>MixerState.DontSynchronize</code> and <code>DontSynchronizeChildren</code> to not throw exceptions on states with un-initialized Playables. <a href="https://github.com/KybernetikGames/animancer/issues/144">#144</a></li>
 <li>Fixed <code>PlayableAssetState.InitializeBindings</code> to create the correct outputs even when there are no bindings.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/CustomFade">CustomFade</a></code> to properly apply all the weights immediately to avoid issues when some states are updated before it and some after. <a href="https://github.com/KybernetikGames/animancer/issues/147">#147</a></li>
-<li>Fixed <code>MixerState.CalculateRealEffectiveSpeed</code> to work properly when the <code><a href="/animancer/api/Animancer/AnimancerPlayable/5840669B">AnimancerPlayable.Speed</a></code> is not 1. <a href="https://github.com/KybernetikGames/animancer/issues/150">#150</a></li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> to not add indentation to its fields if the given label is empty since that is likely an indication that something else (like <a href="../examples/integration/odin-inspector">Odin Inspector</a>) is drawing the property and has already added the required indentation.</li>
+<li>Fixed <code>CustomFade</code> to properly apply all the weights immediately to avoid issues when some states are updated before it and some after. <a href="https://github.com/KybernetikGames/animancer/issues/147">#147</a></li>
+<li>Fixed <code>MixerState.CalculateRealEffectiveSpeed</code> to work properly when the <code>AnimancerPlayable.Speed</code> is not 1. <a href="https://github.com/KybernetikGames/animancer/issues/150">#150</a></li>
+<li>Fixed <code>TransitionDrawer</code> to not add indentation to its fields if the given label is empty since that is likely an indication that something else (like <a href="../examples/integration/odin-inspector">Odin Inspector</a>) is drawing the property and has already added the required indentation.</li>
 <li>Fixed <code>AnimancerToolsWindow.SpriteModifierPanel</code> to be able to correctly match sprite data to sprites when the texture is scaled down due to the Max Size setting. <a href="https://github.com/KybernetikGames/animancer/issues/155">#155</a></li>
-<li>Fixed the <code><a href="/animancer/api/Animancer.Editor/SpriteEditor">SpriteEditor</a></code> to be able to rename sprites using modes other than <code>SpriteImportMode.Multiple</code>.</li>
+<li>Fixed the <code>SpriteEditor</code> to be able to rename sprites using modes other than <code>SpriteImportMode.Multiple</code>.</li>
 <li>Fixed fade speed to be properly affected by time scale in newer Unity versions. <a href="https://github.com/KybernetikGames/animancer/issues/129">#129</a></li>
-<li>Fixed the Inspector for <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code> to correctly size the <code>Bindings</code> for the assigned asset.</li>
+<li>Fixed the Inspector for <code>PlayableAssetTransition</code> to correctly size the <code>Bindings</code> for the assigned asset.</li>
 <li>Fixed <code>AnimancerLayer.EvaluateFadeMode</code> to not fade out the old animation if it creates a new one for a different layer.</li>
 <li>Fixed exception in <code>AnimancerEvent.Sequence.Serializable.GetEventsOptional</code> when the <code>Callbacks</code> array is <code>null</code>.</li>
 <li>Fixed <code>TargetException</code> when resizing a list of Transitions in the Inspector in Unity 2019.4.</li>

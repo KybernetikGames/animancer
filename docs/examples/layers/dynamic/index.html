@@ -321,6 +321,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -552,7 +553,7 @@
 <h1 id="summary">Summary</h1>
 <ul>
 <li>You can play an animation on multiple layers by creating multiple states for it.</li>
-<li>Using the first state as the <a href="../../../manual/playing/states#keys">Key</a> of the second makes it easy to look up that state when it's needed.</li>
+<li>Using the first state as the <a href="../../../manual/playing/keys">Key</a> of the second makes it easy to look up that state when it's needed.</li>
 <li>That's also what <code>FadeMode.FromStart</code> does when it needs to create a new state to fade in while the old one fades out.</li>
 </ul>
 <h1 id="overview">Overview</h1>
@@ -581,26 +582,26 @@
     </tr>
   </tbody>
 </table>
-<p>As the Inspector shows in the above videos, having the <em>Action</em> animation sometimes control the full body and sometimes only the upper body is achieved by creating a second <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> to play the same <code>AnimationClip</code>. The general code structure has a few notable differences from the <a href="../basic">Basic Layers</a> example. We want the same control logic (W to <em>Walk</em> and Left Click to perform the <em>Action</em>) but need some more complex logic for the way we play the different animations so it makes sense to split those concerns into two scripts:</p>
+<p>As the Inspector shows in the above videos, having the <em>Action</em> animation sometimes control the full body and sometimes only the upper body is achieved by creating a second <code>AnimancerState</code> to play the same <code>AnimationClip</code>. The general code structure has a few notable differences from the <a href="../basic">Basic Layers</a> example. We want the same control logic (W to <em>Walk</em> and Left Click to perform the <em>Action</em>) but need some more complex logic for the way we play the different animations so it makes sense to split those concerns into two scripts:</p>
 <ul>
-<li><code><a href="/animancer/api/Animancer.Examples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a></code> is similar to <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code>, but instead of referencing an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> it references a <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code>.</li>
-<li><code><a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> takes the commands it's given and decides how to actually interact with the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>. It contains the main new logic of this example.</li>
+<li><code>DynamicLayeredCharacterAnimations</code> is similar to <code>LayeredCharacterAnimations</code>, but instead of referencing an <code>AnimancerComponent</code> it references a <code>LayeredAnimationManager</code>.</li>
+<li><code>LayeredAnimationManager</code> takes the commands it's given and decides how to actually interact with the <code>AnimancerComponent</code>. It contains the main new logic of this example.</li>
 </ul>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="controls">Controls</h1>
-<p><code><a href="/animancer/api/Animancer.Examples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a></code> references a <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> instead of directly controlling an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>:</p>
+<p><code>DynamicLayeredCharacterAnimations</code> references a <code>LayeredAnimationManager</code> instead of directly controlling an <code>AnimancerComponent</code>:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a> : MonoBehaviour
+public sealed class DynamicLayeredCharacterAnimations : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a> _AnimationManager;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+    [SerializeField] private LayeredAnimationManager _AnimationManager;
+    [SerializeField] private ClipTransition _Idle;
+    [SerializeField] private ClipTransition _Move;
+    [SerializeField] private ClipTransition _Action;
 </code></pre>
-<p>It has no <code>_ActionMask</code> or <code>_ActionFadeOutDuration</code> (because they're in the <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> instead).</p>
-<p>The rest of the script is all the same, except that it's controlling the <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> instead of the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>:</p>
+<p>It has no <code>_ActionMask</code> or <code>_ActionFadeOutDuration</code> (because they're in the <code>LayeredAnimationManager</code> instead).</p>
+<p>The rest of the script is all the same, except that it's controlling the <code>LayeredAnimationManager</code> instead of the <code>AnimancerComponent</code>:</p>
 <pre><code class="language-cs">    private void Awake()
     {
         _Action.Events.OnEnd = _AnimationManager.FadeOutUpperBody;
@@ -635,12 +636,12 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLay
 }
 </code></pre>
 <h1 id="layer-setup">Layer Setup</h1>
-<p>As with <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code>, the first thing <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> does is initialize its layers:</p>
-<pre><code class="language-cs">    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+<p>As with <code>LayeredCharacterAnimations</code>, the first thing <code>LayeredAnimationManager</code> does is initialize its layers:</p>
+<pre><code class="language-cs">    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AvatarMask _ActionMask;
 
-    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _BaseLayer;
-    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _ActionLayer;
+    private AnimancerLayer _BaseLayer;
+    private AnimancerLayer _ActionLayer;
 
     private void Awake()
     {
@@ -700,7 +701,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLay
 <p>Playing the <em>Action</em> on the whole body could be done by playing it only on the <code>_BaseLayer</code> and fading out the <code>_ActionLayer</code>, but changing an animation to a different layer can't be smoothly blended so that would make it much harder to respond appropriately if the character stops or starts <em>Walking</em> during the <em>Action</em>.</p>
 <p>Instead, the desired result can be achieved much more easily by playing the <em>Action</em> either on the <code>_ActionLayer</code> or on both layers at the same time:</p>
 <ol>
-<li>Get the current <em>Action's</em> <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> from the <code>_ActionLayer</code>:</li>
+<li>Get the current <em>Action's</em> <code>AnimancerState</code> from the <code>_ActionLayer</code>:</li>
 </ol>
 <pre><code class="language-cs">    private void PlayActionFullBody(float fadeDuration)
     {
@@ -710,14 +711,14 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLay
 <li>Call <code>GetOrCreateState</code> to get a state on the <code>_BaseLayer</code>:</li>
 </ol>
 <ul>
-<li>The first parameter is the <a href="../../../manual/playing/states#keys">Key</a> used to find an existing state if there is one. Rather than using the <em>Action's</em> <code>AnimationClip</code> which is already used as the <a href="../../../manual/playing/states#keys">Key</a> for the <code>upperBodyState</code>, it uses the <code>upperBodyState</code> itself as the <a href="../../../manual/playing/states#keys">Key</a>.</li>
+<li>The first parameter is the <a href="../../../manual/playing/keys">Key</a> used to find an existing state if there is one. Rather than using the <em>Action's</em> <code>AnimationClip</code> which is already used as the <a href="../../../manual/playing/keys">Key</a> for the <code>upperBodyState</code>, it uses the <code>upperBodyState</code> itself as the <a href="../../../manual/playing/keys">Key</a>.</li>
 <li>The second parameter is the <code>AnimationClip</code> for the state to use.</li>
 </ul>
 <pre><code class="language-cs">        var fullBodyClone = _BaseLayer.GetOrCreateState(upperBodyState, upperBodyState.Clip);
 </code></pre>
 <p>That gives the following behaviour:</p>
 <ul>
-<li>The first time this method is called, there won't be any state registered with the <code>upperBodyState</code> as its <a href="../../../manual/playing/states#keys">Key</a> so <code>GetOrCreateState</code> will create a new state with that <a href="../../../manual/playing/states#keys">Key</a> using the same <code>AnimationClip</code>.</li>
+<li>The first time this method is called, there won't be any state registered with the <code>upperBodyState</code> as its <a href="../../../manual/playing/keys">Key</a> so <code>GetOrCreateState</code> will create a new state with that <a href="../../../manual/playing/keys">Key</a> using the same <code>AnimationClip</code>.</li>
 <li>Every time it gets called after that, it will find the same state that was created the first time.</li>
 <li>This example only has one <em>Action</em> animation, but if this method were called with a different one, it would be a completely different state and therefore create a copy of itself on its first time as well.</li>
 </ul>
@@ -738,8 +739,8 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLay
     }
 </code></pre>
 <h1 id="fade-out-upper-body">Fade Out Upper Body</h1>
-<p><code><a href="/animancer/api/Animancer.Examples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a></code> also sets its <code>_Action</code> to fade out the upper body in its <a href="../../../manual/events/end">End Event</a>:</p>
-<pre><code class="language-cs">class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a>
+<p><code>DynamicLayeredCharacterAnimations</code> also sets its <code>_Action</code> to fade out the upper body in its <a href="../../../manual/events/end">End Event</a>:</p>
+<pre><code class="language-cs">class DynamicLayeredCharacterAnimations
 {
     private void Awake()
     {
@@ -747,7 +748,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Layers/DynamicLay
     }
 }
 
-class <a href="/animancer/api/Animancer.Examples.Layers/LayeredAnimationManager">LayeredAnimationManager</a>
+class LayeredAnimationManager
 {
     public void FadeOutUpperBody()
     {

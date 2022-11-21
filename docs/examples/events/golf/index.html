@@ -323,6 +323,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -559,7 +560,7 @@
 <li>You can adjust the end time of an animation to give a smoother transition into the next animation.</li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p></p><details><summary>This example's logic is contained in the <code><a href="/animancer/api/Animancer.Examples.Events/Golfer">Golfer</a></code> script:
+<p></p><details><summary>This example's logic is contained in the <code>Golfer</code> script:
 <ol>
   <li>Play the <em>Idle</em> animation on startup.</li>
   <li>Play the <em>Swing</em> animation when the user clicks.</li>
@@ -571,13 +572,13 @@
 using Animancer.Units;
 using UnityEngine;
 
-public sealed class <a href="/animancer/api/Animancer.Examples.Events/Golfer">Golfer</a> : MonoBehaviour
+public sealed class Golfer : MonoBehaviour
 {
     private const string HitEventName = "Hit";
 
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ready;
-    [SerializeField, EventNames(HitEventName)] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Ready;
+    [SerializeField, EventNames(HitEventName)] private ClipTransition _Swing;
     [SerializeField] private Rigidbody _Ball;
     [SerializeField] private Vector3 _HitVelocity = new Vector3(0, 10, 10);
     [SerializeField, Meters] private float _BallReturnHeight = -10;
@@ -647,10 +648,10 @@ public sealed class <a href="/animancer/api/Animancer.Examples.Events/Golfer">Go
     <tr>
 <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ready;
+private ClipTransition _Ready;
 </code></pre>
 </td>
       <td><p>The first few fields are similar to the <a href="../../basics/transitions">Transitions</a> example.</p>
@@ -661,7 +662,7 @@ private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Re
 <pre><code class="language-cs">private const string HitEventName = "Hit";
 
 [SerializeField, EventNames(HitEventName)]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+private ClipTransition _Swing;
 </code></pre>
 </td>
       <td>
@@ -787,9 +788,9 @@ private void HitBall()
 <pre><code class="language-cs">_Swing.Events.SetCallback(HitEventName, HitBall);
 </code></pre>
 <ol start="3">
-<li>Put an <code>[EventNames]</code> attribute on the transition field with the constant to tell it which names are supported (the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> API page explains various other ways of using it):</li>
+<li>Put an <code>[EventNames]</code> attribute on the transition field with the constant to tell it which names are supported (the <code>EventNamesAttribute</code> API page explains various other ways of using it):</li>
 </ol>
-<pre><code class="language-cs">[SerializeField, EventNames(HitEventName)] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+<pre><code class="language-cs">[SerializeField, EventNames(HitEventName)] private ClipTransition _Swing;
 </code></pre>
 <ol start="4">
 <li>That attribute makes the Inspector show a dropdown to choose from the exact names supported by the script:</li>

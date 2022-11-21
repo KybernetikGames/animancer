@@ -321,6 +321,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -543,19 +544,19 @@
 <p><i class="emw fa fa-folder"></i> <strong>Location</strong>: <em><span class="mini">Assets/Plugins/Animancer/</span>Examples/09 Animator Controllers/02 Hybrid Character</em></p>
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../basics">Hybrid Basics</a> and <a href="../../fsm/brains">Brains</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to use a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use a <code>HybridAnimancerComponent</code>.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How play define some animations inside an Animator Controller and others outside it.</p>
 </blockquote>
-<p>This example is a variation of the <a href="../../fsm/brains">Brains</a> example which demonstrates how you can use a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to play an <a href="../../../manual/animator-controllers">Animator Controller</a> for some things and individual separate <code>AnimationClips</code> for others:</p>
+<p>This example is a variation of the <a href="../../fsm/brains">Brains</a> example which demonstrates how you can use a <code>HybridAnimancerComponent</code> to play an <a href="../../../manual/animator-controllers">Animator Controller</a> for some things and individual separate <code>AnimationClips</code> for others:</p>
 <ul>
 <li><em>Idle</em>, <em>Walk</em>, and <em>Run</em> are defined inside the Animator Controller.</li>
-<li><em>Action</em> is played separately, using the same <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> script from the <a href="../../fsm/brains">Brains</a> example.</li>
+<li><em>Action</em> is played separately, using the same <code>ActionState</code> script from the <a href="../../fsm/brains">Brains</a> example.</li>
 </ul>
 <p><em><a href="../../../manual/animator-controllers">Animator Controllers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <p><img src="character.png" class="pngif img-responsive"></p>
 <h1 id="summary">Summary</h1>
 <ul>
-<li>A <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> has all the methods like <code>Play</code> and <code>SetFloat</code> which would normally be used to control an <code>Animator</code> component.</li>
+<li>A <code>HybridAnimancerComponent</code> has all the methods like <code>Play</code> and <code>SetFloat</code> which would normally be used to control an <code>Animator</code> component.</li>
 <li>This example is more complex than the <a href="../../fsm/brains">Brains</a> example due to the use of Animator Controllers and doesn't really gain any advantages in exchange. Using Animator Controllers is generally only recommended if you already have one or are working with another system that requires one.</li>
 <li>Pre-calculating the hashes for state and parameter names in an Animator Controller can slightly improve performance compared to using their names everywhere.
 <ul>
@@ -564,22 +565,22 @@
 </li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p>The general code structure is very similar to the <a href="../../fsm/brains">Brains</a> example, except that it uses a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to play an Animator Controller containing the <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations instead of referencing those animations directly from the states that will play them.</p>
+<p>The general code structure is very similar to the <a href="../../fsm/brains">Brains</a> example, except that it uses a <code>HybridAnimancerComponent</code> to play an Animator Controller containing the <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations instead of referencing those animations directly from the states that will play them.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <p></p><details><summary>Click here to show the code structure from the <a href="../../fsm/brains">Brains</a> example:</summary>
 <p><img src="../../fsm/brains/architecture.png" class="img-responsive"></p>
 </details><p></p>
-<p>If the character had a <code>Generic</code> Rig, the same result could have been achieved using a <a href="../../../manual/animator-controllers#native">Native Animator Controller</a> assigned to the <code>Animator</code> component. But since the character is <code>Humanoid</code>, that wouldn't allow blending between the Animator Controller and separate animations so this example needs to use a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> instead.</p>
+<p>If the character had a <code>Generic</code> Rig, the same result could have been achieved using a <a href="../../../manual/animator-controllers#native">Native Animator Controller</a> assigned to the <code>Animator</code> component. But since the character is <code>Humanoid</code>, that wouldn't allow blending between the Animator Controller and separate animations so this example needs to use a <code>HybridAnimancerComponent</code> instead.</p>
 <h1 id="animator-controller">Animator Controller</h1>
-<p></p><details><summary>The <a href="../../fsm/brains">Brains</a> example used a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> for its <em>Idle</em> animation and a <code><a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a></code> for its <em>Walk</em> and <em>Run</em> animations.</summary>
+<p></p><details><summary>The <a href="../../fsm/brains">Brains</a> example used a <code>ClipTransition</code> for its <em>Idle</em> animation and a <code>LinearMixerTransition</code> for its <em>Walk</em> and <em>Run</em> animations.</summary>
 <pre><code class="language-cs">public sealed class IdleState : CharacterState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+    [SerializeField] private ClipTransition _Animation;
 }
 
-public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a> : CharacterState
+public sealed class MoveState : CharacterState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Animation;
+    [SerializeField] private LinearMixerTransition _Animation;
 }
 </code></pre>
 </details><p></p>
@@ -602,7 +603,7 @@ public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/Mov
     </tr>
   </tbody>
 </table>
-<p>When using a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>, it references the Animator Controller instead of the <code>Animator</code>:</p>
+<p>When using a <code>HybridAnimancerComponent</code>, it references the Animator Controller instead of the <code>Animator</code>:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Animator</th>
@@ -629,13 +630,13 @@ animator.Play(StateName);
 </code></pre>
 <p>It works exactly the same for parameter names.</p>
 <h2 id="central-class">Central Class</h2>
-<p>In this example, the <code>IsMoving</code> parameter will be set to <code>false</code> by <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridIdleState">HybridIdleState</a></code> and <code>true</code> by <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridMoveState">HybridMoveState</a></code>.</p>
+<p>In this example, the <code>IsMoving</code> parameter will be set to <code>false</code> by <code>HybridIdleState</code> and <code>true</code> by <code>HybridMoveState</code>.</p>
 <ul>
 <li>You could give both states their own copy of the ID field, but then you have two places where you might make spelling mistakes and where you need to update the code if you rename the parameter in the Animator Controller.</li>
-<li>You could store the <code>IsMoving</code> ID in <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridIdleState">HybridIdleState</a></code> and have <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridMoveState">HybridMoveState</a></code> access it via <code>HybridIdleState.IsMoving</code>, but in a complex system with lots of states it would be annoying if you had to search around to find a particular ID.</li>
+<li>You could store the <code>IsMoving</code> ID in <code>HybridIdleState</code> and have <code>HybridMoveState</code> access it via <code>HybridIdleState.IsMoving</code>, but in a complex system with lots of states it would be annoying if you had to search around to find a particular ID.</li>
 <li>This example avoids those issues by making a central class for all animation IDs like so:</li>
 </ul>
-<pre><code class="language-cs">public static class <a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a>
+<pre><code class="language-cs">public static class Animations
 {
     public static readonly int IsMoving = Animator.StringToHash("IsMoving");
 
@@ -649,21 +650,21 @@ HybridAnimancer.SetBool(Animations.IsMoving, false);
 HybridAnimancer.SetBool(Animations.IsMoving, true);
 </code></pre>
 <h2 id="weaver">Weaver</h2>
-<p>Manually writing and maintaining the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> class can be tedious and offers many opportunities for spelling mistakes, so <a href="/weaver">Weaver</a> has a system for <a href="/weaver/docs/project-constants/animations">procedurally generating that script</a> which also includes a <code>HashToString</code> method for converting a hash value back to the <code>string</code> it came from. That system is <strong>included in <a href="/weaver/lite">Weaver Lite</a> for FREE</strong>, though <a href="/weaver/pro">Weaver Pro</a> can also generate extension methods to get and set each parameter so your scripts don't need to manually call the correct <code>SetFloat</code>, <code>SetBool</code>, etc. methods corresponding to the parameter's ID.</p>
+<p>Manually writing and maintaining the <code>Animations</code> class can be tedious and offers many opportunities for spelling mistakes, so <a href="/weaver">Weaver</a> has a system for <a href="/weaver/docs/project-constants/animations">procedurally generating that script</a> which also includes a <code>HashToString</code> method for converting a hash value back to the <code>string</code> it came from. That system is <strong>included in <a href="/weaver/lite">Weaver Lite</a> for FREE</strong>, though <a href="/weaver/pro">Weaver Pro</a> can also generate extension methods to get and set each parameter so your scripts don't need to manually call the correct <code>SetFloat</code>, <code>SetBool</code>, etc. methods corresponding to the parameter's ID.</p>
 <h1 id="idle-state">Idle State</h1>
-<p>The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridIdleState">HybridIdleState</a></code> in this example is very similar to the <code>IdleState</code> <a href="../../fsm/characters#idle-state">from the Characters example</a>.</p>
+<p>The <code>HybridIdleState</code> in this example is very similar to the <code>IdleState</code> <a href="../../fsm/characters#idle-state">from the Characters example</a>.</p>
 <p><img src="inspector-idle.png" class="img-responsive"></p>
-<p>Normally, you would give <code>Character</code> class a reference to the specific type of <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> you want like so:</p>
+<p>Normally, you would give <code>Character</code> class a reference to the specific type of <code>AnimancerComponent</code> you want like so:</p>
 <pre><code class="language-cs">public sealed class Character : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> _Animancer;
-    public <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> Animancer =&gt; _Animancer;
+    private HybridAnimancerComponent _Animancer;
+    public HybridAnimancerComponent Animancer =&gt; _Animancer;
 </code></pre>
-<p>But this example is reusing the <code>Character</code> class from the <a href="../../fsm/characters">Characters</a> example which only references a base <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>. We could duplicate that script to make this change, but for the sake of avoiding unnecessary scripts it's simpler for the new states in this example to just <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Cast</a> the existing reference:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridIdleState">HybridIdleState</a> : CharacterState
+<p>But this example is reusing the <code>Character</code> class from the <a href="../../fsm/characters">Characters</a> example which only references a base <code>AnimancerComponent</code>. We could duplicate that script to make this change, but for the sake of avoiding unnecessary scripts it's simpler for the new states in this example to just <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Cast</a> the existing reference:</p>
+<pre><code class="language-cs">public sealed class HybridIdleState : CharacterState
 {
-    private <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> HybridAnimancer
+    private HybridAnimancerComponent HybridAnimancer
         =&gt; (HybridAnimancerComponent)Character.Animancer;
 </code></pre>
 <p>Then the <code>OnEnable</code> method can simply tell it to play its Animator Controller (in case the previous animation was outside it) and set the <code>IsMoving</code> parameter inside it:</p>
@@ -675,15 +676,15 @@ HybridAnimancer.SetBool(Animations.IsMoving, true);
 }
 </code></pre>
 <h1 id="move-state">Move State</h1>
-<p>The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridMoveState">HybridMoveState</a></code> in this example is very similar to the <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> <a href="../../fsm/brains#move-state">from the Brains example</a>.</p>
+<p>The <code>HybridMoveState</code> in this example is very similar to the <code>MoveState</code> <a href="../../fsm/brains#move-state">from the Brains example</a>.</p>
 <p><img src="inspector-move.png" class="img-responsive"></p>
-<p>It has the same property to <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Cast</a> the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> as the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridIdleState">HybridIdleState</a></code>:</p>
-<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridMoveState">HybridMoveState</a> : CharacterState
+<p>It has the same property to <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Cast</a> the <code>AnimancerComponent</code> as the <code>HybridIdleState</code>:</p>
+<pre><code class="language-cs">public sealed class HybridMoveState : CharacterState
 {
-    private <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> HybridAnimancer
+    private HybridAnimancerComponent HybridAnimancer
         =&gt; (HybridAnimancerComponent)Character.Animancer;
 </code></pre>
-<p>It plays the Animator Controller and sets its <code>IsMoving</code> parameter just like the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridIdleState">HybridIdleState</a></code> (except that it's <code>true</code> this time):</p>
+<p>It plays the Animator Controller and sets its <code>IsMoving</code> parameter just like the <code>HybridIdleState</code> (except that it's <code>true</code> this time):</p>
 <pre><code class="language-cs">    private void OnEnable()
     {
         HybridAnimancer.PlayController();
@@ -691,7 +692,7 @@ HybridAnimancer.SetBool(Animations.IsMoving, true);
         ...
     }
 </code></pre>
-<p>Where the <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> could simply get and set the Mixer's <code>Parameter</code>, getting a parameter value from an Animator Controller has a slightly larger performance cost so instead this script just stores its own copy of the value so it only needs to set the value in the Animator Controller (but not get it):</p>
+<p>Where the <code>MoveState</code> could simply get and set the Mixer's <code>Parameter</code>, getting a parameter value from an Animator Controller has a slightly larger performance cost so instead this script just stores its own copy of the value so it only needs to set the value in the Animator Controller (but not get it):</p>
 <pre><code class="language-cs">    [SerializeField] private float _ParameterFadeSpeed = 2;
 
     private float _MoveBlend;
@@ -711,7 +712,7 @@ HybridAnimancer.SetBool(Animations.IsMoving, true);
         HybridAnimancer.SetFloat(Animations.MoveBlend, _MoveBlend);
     }
 </code></pre>
-<p>The rest is identical to the <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> <a href="../../fsm/brains#move-state">from the Brains example</a>.</p>
+<p>The rest is identical to the <code>MoveState</code> <a href="../../fsm/brains#move-state">from the Brains example</a>.</p>
 <pre><code class="language-cs">    [SerializeField, DegreesPerSecond] private float _TurnSpeed = 360;
 
     private void Update()
@@ -737,10 +738,10 @@ HybridAnimancer.SetBool(Animations.IsMoving, true);
 }
 </code></pre>
 <h1 id="action-state">Action State</h1>
-<p>The character also has an <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> which is set up exactly the same as it was <a href="../../fsm/characters#action-state">in the Characters example</a>:</p>
+<p>The character also has an <code>ActionState</code> which is set up exactly the same as it was <a href="../../fsm/characters#action-state">in the Characters example</a>:</p>
 <p><img src="inspector-action.png" class="img-responsive"></p>
 <h1 id="conclusion">Conclusion</h1>
-<p>If you watch the Animator window and the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in the Inspector during Play Mode, you can see the <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations being played inside the Animator Controller while the <em>Action</em> animation is played separately by Animancer:</p>
+<p>If you watch the Animator window and the <code>AnimancerComponent</code> in the Inspector during Play Mode, you can see the <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations being played inside the Animator Controller while the <em>Action</em> animation is played separately by Animancer:</p>
 <p><img src="character.png" class="pngif img-responsive"></p>
 <p>This example demonstrates how things <em>can</em> be done, but in most cases that's not how they <em>should</em> be done. Getting away from Animator Controllers was the main reason Animancer was created in the first place and this example adds more complexity to the <a href="../../fsm/brains">Brains</a> example without any real practical benefit. But while it isn't recommended to use Animator Controllers when building a new system from the ground up, it can be useful if you already have them set up in an existing project or when working with another system that uses them (such as a character controller framework).</p>
 <h1 id="what-next">What Next?</h1>

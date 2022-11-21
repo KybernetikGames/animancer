@@ -314,6 +314,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -583,7 +584,7 @@
     </tr>
     <tr>
       <td>7. How can I control the <strong>speed</strong> or <strong>time</strong> of an animation?</td>
-      <td><details><summary><strong><a href="../introduction/features">[Pro-Only]</a></strong> Use the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> or <code>CrossFade</code> method: (click to expand)</summary>
+      <td><details><summary><strong><a href="../introduction/features">[Pro-Only]</a></strong> Use the <code>AnimancerState</code> returned by the <code>Play</code> or <code>CrossFade</code> method: (click to expand)</summary>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
     var state = animancer.Play(clip);
@@ -598,7 +599,7 @@ string s = "test"
 <p>Those properties are not included as parameters in the <code>Play</code> methods because they already have multiple overloads with several default values and a call like <code>Play(clip, 0.25f, 1, 0.5f, 0.5f)</code> would not be particularly clear about what each value does without close examination. But if you really wanted to, you could implement them using extension methods:</p>
 <pre><code class="language-cs">public static class AnimancerExtensions
 {
-    public static <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> Play(this <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer, AnimationClip clip, int layer, float time, float speed, System.Action onEnd)
+    public static AnimancerState Play(this AnimancerComponent animancer, AnimationClip clip, int layer, float time, float speed, System.Action onEnd)
     {
         var state = animancer.Play(clip, layer);
         state.Time = time;

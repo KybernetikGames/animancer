@@ -81,7 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#instantiation">Instantiation</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#recommendation">Recommendation</a></p>
+<p><a href="#introduction">Introduction</a></p>
+<p><a href="#instantiation">Instantiation</a></p>
 <p><a href="#average-frame-rate">Average Frame Rate</a></p>
 <p><a href="#notes">Notes</a></p>
 <hr class="infobar-hidden">
@@ -315,6 +317,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -536,15 +539,18 @@
 		<blockquote class="blockquote">
 <p>Animancer can be more efficient than other systems if used correctly, though in most cases the differences are small enough not to matter either way.</p>
 </blockquote>
+<h1 id="recommendation">Recommendation</h1>
+<p>Most users should ignore this page.</p>
+<p>These tests each focus on a single performance metric and even then they show relatively small differences between systems, especially when taking into account everything else a game will be doing. So <strong>it's generally better to choose whatever will make development easiest</strong>. The same applies to choosing between the different ways of using Animancer.</p>
+<p>The Unity Manual has a page about general <a href="https://docs.unity3d.com/Manual/MecanimPeformanceandOptimization.html">Animation Optimization</a> which is still applicable when using Animancer.</p>
+<h1 id="introduction">Introduction</h1>
 <p>The following benchmarks compare the performance of several animation systems:</p>
 <ul>
-<li>Animancer: this plugin.</li>
-<li>Mecanim: Unity's main animation system.</li>
-<li>Simple Animation: another animation system made by Unity with the Playables API and available on <a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki">GitHub</a>.</li>
+<li><strong>Animancer</strong>: this plugin.</li>
+<li><strong>Mecanim</strong>: Unity's main animation system based around Animator Controllers.</li>
+<li><strong>Simple Animation</strong>: another animation system made by Unity with the Playables API and available on <a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki">GitHub</a>.</li>
 <li>They compare <code>Humanoid</code>, <code>Generic</code>, and <code>Sprite</code> animations separately for each system. Overall, <code>Sprite</code> animations are the most efficient, followed by <code>Generic</code>, and then <code>Humanoid</code>s are least efficient.</li>
 </ul>
-<p>These tests each focus on a single performance metric and even then they show relatively small differences between systems, especially when taking into account everything else a game will be doing. So it is generally better to choose the system which will make development easiest.</p>
-<p>The Unity Manual has a page about general <a href="https://docs.unity3d.com/Manual/MecanimPeformanceandOptimization.html">Animation Optimization</a> which is still applicable when using Animancer.</p>
 <h1 id="instantiation">Instantiation</h1>
 <blockquote class="blockquote">
 <p>Animancer is about the same as Mecanim and takes 13-29% less time than Simple Animation.</p>
@@ -606,7 +612,7 @@
 <li><strong>This means that the actual practical differences in a real game will be extremely small.</strong></li>
 </ul>
 </li>
-<li>In addition to the <strong>Startup</strong> and <strong>Demand</strong> modes used in the <a href="#instantiation">Instantiation</a> tests, these tests also compare having the <code><a href="/animancer/api/Animancer/AnimancerPlayable/FEFD6C35">AnimancerPlayable.KeepChildrenConnected</a></code> property set to both <code>true</code> and <code>false</code>:</li>
+<li>In addition to the <strong>Startup</strong> and <strong>Demand</strong> modes used in the <a href="#instantiation">Instantiation</a> tests, these tests also compare having the <code>AnimancerPlayable.KeepChildrenConnected</code> property set to both <code>true</code> and <code>false</code>:</li>
 </ul>
 <table class="table">
 <thead>
@@ -617,7 +623,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Disconnect animations from the <a href="../../../source/graph-structure">Graph Structure</a> when they are not being used (<code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a> == 0</code>) so that Unity does not evaluate them unnecessarily which <em>usually</em> improves performance.</td>
+<td>Disconnect animations from the <a href="../../../source/graph-structure">Graph Structure</a> when they are not being used (<code>AnimancerNode.Weight == 0</code>) so that Unity does not evaluate them unnecessarily which <em>usually</em> improves performance.</td>
 <td>Avoid the performance cost of disconnecting and reconnecting things which can outweigh the benefits of having them disconnected.</td>
 </tr>
 <tr>

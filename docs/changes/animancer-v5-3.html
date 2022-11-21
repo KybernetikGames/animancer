@@ -318,6 +318,7 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
                 <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
                 <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
                 <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
@@ -554,7 +555,7 @@
 </blockquote>
 <ul>
 <li>Fixed several Development Build errors.</li>
-<li>Fixed the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> to not trigger <code>OptionalWarning.EndEventInterrupt</code> if the <code>Next Animation</code> is empty.</li>
+<li>Fixed the <code>TransitionPreviewWindow</code> to not trigger <code>OptionalWarning.EndEventInterrupt</code> if the <code>Next Animation</code> is empty.</li>
 </ul>
 <h1 id="experimental">Experimental</h1>
 <p>Several changes are currently being considered for the next major version (v6.0). Any feedback would be appreciated.</p>
@@ -570,9 +571,9 @@
 <li>Mixers now keep a list of references to the synchronised child states rather than a <code>bool[]</code> that indicates which children are synchronised.</li>
 <li>This is slightly more efficient (significantly for nested mixers).</li>
 <li>Added <code>MixerState.AutoSynchroniseChildren</code> to control whether newly added children are automatically added to the synchronization list (default true).</li>
-<li>Fixed it to work properly on nested mixers by giving their synchronised children to the parent mixer to synchronise them all together so that the outcome is not based on the non-deterministic <code><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></code> update order.</li>
+<li>Fixed it to work properly on nested mixers by giving their synchronised children to the parent mixer to synchronise them all together so that the outcome is not based on the non-deterministic <code>AnimancerNode</code> update order.</li>
 <li>Fixed it to keep states synchronised even when none of those states have any <code>Weight</code>.</li>
-<li>Fixed it to work properly with <code><a href="/animancer/api/Animancer/LinearMixerState/96AB80DE">LinearMixerState.ExtrapolateSpeed</a></code>.</li>
+<li>Fixed it to work properly with <code>LinearMixerState.ExtrapolateSpeed</code>.</li>
 <li>Fixed it to work properly with negative speeds.</li>
 <li>Fixed it to work properly with zero length states.</li>
 <li>Added <code>OptionalWarning.MixerSynchroniseZeroLength</code>.</li>
@@ -582,16 +583,16 @@
 <h1 id="improvements">Improvements</h1>
 <ul>
 <li>Animancer Event markers on the <code>TimeRuler</code> can now be dragged to move their time.</li>
-<li>Added <code><a href="/animancer/api/Animancer/AnimancerState/3EB84580">AnimancerState.NormalizedEndTime</a></code> to wrap <code><a href="/animancer/api/Animancer/Sequence/467FFF3E">AnimancerEvent.Sequence.NormalizedEndTime</a></code> and return the default time based on the <code>EffectiveSpeed</code> if the value is <code>NaN</code>.</li>
-<li>Improved the <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> binding system:
+<li>Added <code>AnimancerState.NormalizedEndTime</code> to wrap <code>AnimancerEvent.Sequence.NormalizedEndTime</code> and return the default time based on the <code>EffectiveSpeed</code> if the value is <code>NaN</code>.</li>
+<li>Improved the <code>PlayableAssetState</code> binding system:
 <ul>
 <li>The "Markers" track in Timeline Assets is now automatically skipped.</li>
-<li>The <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code> Inspector now highlights the size of the <code>Bindings</code> array as a warning if it does not match tracks in the the assigned <code>Asset</code>.</li>
+<li>The <code>PlayableAssetTransition</code> Inspector now highlights the size of the <code>Bindings</code> array as a warning if it does not match tracks in the the assigned <code>Asset</code>.</li>
 <li>The track names are now used for their respective <code>Bindings</code> fields (instead of the default "Element X").</li>
 </ul>
 </li>
-<li>Negative <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> values are now displayed correctly in the Live Inspector.</li>
-<li><code><a href="/animancer/api/Animancer.Editor/AnimationBindings">AnimationBindings</a></code> now continues gathering bindings even when the Unity Editor is Paused.</li>
+<li>Negative <code>AnimancerState.Time</code> values are now displayed correctly in the Live Inspector.</li>
+<li><code>AnimationBindings</code> now continues gathering bindings even when the Unity Editor is Paused.</li>
 <li>Improved the formatting of <code>AnimancerNode.AppendDescription</code>.</li>
 <li>Improved automatically generated state names:
 <ul>
@@ -600,21 +601,21 @@
 <li><code>AnimancerTransition.Apply</code> now assigns the asset's name to the state.</li>
 </ul>
 </li>
-<li>The Inspector now shows the <code>Real Speed</code> of a state if it is different from the <code><a href="/animancer/api/Animancer/AnimancerNode/2CE1FB39">AnimancerNode.Speed</a></code> (because Mixer Synchronization changes the internal Playable Speed without setting the State Speed).</li>
+<li>The Inspector now shows the <code>Real Speed</code> of a state if it is different from the <code>AnimancerNode.Speed</code> (because Mixer Synchronization changes the internal Playable Speed without setting the State Speed).</li>
 <li>Added <code>OptionalWarning.UnusedNode</code>.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
 <li>Fixed Mixer Synchronization to ignore zero length states.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerNode/AACBC52A">AnimancerNode.EffectiveSpeed</a></code> to properly account for the root <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> speed.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Editor/EventSequenceDrawer">EventSequenceDrawer</a></code> to work properly outside of a <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code>.</li>
+<li>Fixed <code>AnimancerNode.EffectiveSpeed</code> to properly account for the root <code>AnimancerPlayable</code> speed.</li>
+<li>Fixed <code>EventSequenceDrawer</code> to work properly outside of a <code>TransitionDrawer</code>.</li>
 <li>Fixed exception when attempting to destroy a state connected to a mixer which doesn't have its <code>Root</code> set.</li>
-<li>Fixed <code>OptionalWarning.EndEventInterrupt</code> to not trigger if the <code><a href="/animancer/api/Animancer/AnimancerLayer/1393080E">AnimancerLayer.CommandCount</a></code> changes.</li>
+<li>Fixed <code>OptionalWarning.EndEventInterrupt</code> to not trigger if the <code>AnimancerLayer.CommandCount</code> changes.</li>
 <li>Fixed <code>AnimancerEvent.Sequence.SetCallback</code> to not trigger <code>OptionalWarning.DuplicateEvent</code>.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/Disposable">ObjectPool.Disposable</a></code> to work properly for <code>HashSet</code>s.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimationBindings">AnimationBindings</a></code> to work properly for Euler Angle rotations (rather than only <code>Quaternion</code> rotations).</li>
-<li>Fixed the <code><a href="/animancer/api/Animancer.Editor/TransitionPreviewWindow">TransitionPreviewWindow</a></code> to not throw exceptions if the <code><a href="/animancer/api/Animancer/Key">Key</a></code> of the previewed transition is null.</li>
-<li>Fixed the <code><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></code> finalizer to not cause Unity threading errors.</li>
+<li>Fixed <code>ObjectPool.Disposable</code> to work properly for <code>HashSet</code>s.</li>
+<li>Fixed <code>AnimationBindings</code> to work properly for Euler Angle rotations (rather than only <code>Quaternion</code> rotations).</li>
+<li>Fixed the <code>TransitionPreviewWindow</code> to not throw exceptions if the <code>Key</code> of the previewed transition is null.</li>
+<li>Fixed the <code>AnimancerNode</code> finalizer to not cause Unity threading errors.</li>
 <li>Fixed various Context Menu Functions on Mixer Transitions to ensure they target the correct <code>SerializedProperty</code> if there are multiple such fields on the same object.</li>
 <li>Fixed various <code>OptionalWarning.Log</code> calls to not create any garbage unless the warning is actually enabled.</li>
 </ul>
