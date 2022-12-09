@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -465,6 +466,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -589,18 +591,18 @@ void CalculateVerticalMovement()
 <p></p></details><p></p>
 <p>After that method, <code>OnAnimatorMove</code> adds the <code>m_VerticalSpeed</code> to the movement it executes that frame and also sets it as the <code>AirborneVerticalSpeed</code> parameter in the Animator Controller to control the Blend Tree.</p>
 <h1 id="animancer">Animancer</h1>
-<p></p><details><summary>Animancer manages the above logic in the <code>AirborneState</code> script which uses a <a href="../../../../manual/blending/mixers">Mixer</a> to achieve the same thing as that Blend Tree, allowing it to be set up in the Inspector instead of in an Animator Controller:</summary><p>
+<p></p><details><summary>Animancer manages the above logic in the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> script which uses a <a href="../../../../manual/blending/mixers">Mixer</a> to achieve the same thing as that Blend Tree, allowing it to be set up in the Inspector instead of in an Animator Controller:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 
-public sealed class AirborneState : CharacterState
+public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a> : CharacterState
 {
-    [SerializeField] private LinearMixerTransition _Animations;
+    [SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Animations;
     [SerializeField, MetersPerSecond] private float _JumpSpeed = 10;
     [SerializeField, MetersPerSecond] private float _JumpAbortSpeed = 10;
     [SerializeField, Multiplier] private float _TurnSpeedProportion = 5.4f;
-    [SerializeField] private LandingState _LandingState;
+    [SerializeField] private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a> _LandingState;
     [SerializeField] private UnityEvent _PlayAudio;
 
     private bool _IsJumping;
@@ -613,7 +615,7 @@ public sealed class AirborneState : CharacterState
 
     public override bool StickToGround =&gt; false;
 
-    public override Vector3 RootMotion
+    public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a>
         =&gt; Character.Parameters.MovementDirection * (Character.Parameters.ForwardSpeed * Time.deltaTime);
 
     private void FixedUpdate()
@@ -676,10 +678,10 @@ public sealed class AirborneState : CharacterState
 <p><img src="animancer-airborne.png" class="img-responsive"></p>
 <h1 id="updates">Updates</h1>
 <p>There are several aspects to this state every update.</p>
-<p>Firstly, we override the <code>StickToGround</code> property to always be false and the <code>RootMotion</code> property to go whichever direction the character is trying to move as explained on the <a href="../locomotion/movement#on-animator-move-1">Movement</a> page.</p>
+<p>Firstly, we override the <code>StickToGround</code> property to always be false and the <code><a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a></code> property to go whichever direction the character is trying to move as explained on the <a href="../locomotion/movement#on-animator-move-1">Movement</a> page.</p>
 <pre><code class="language-cs">public override bool StickToGround =&gt; false;
 
-public override Vector3 RootMotion
+public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a>
     =&gt; Character.Parameters.MovementDirection * (Character.Parameters.ForwardSpeed * Time.deltaTime);
 </code></pre>
 <p>Then the <code>FixedUpdate</code> method executes the main logic of this state.</p>
@@ -706,13 +708,13 @@ public override Vector3 RootMotion
                 return;
         }
 </code></pre>
-<p>Note that the <code>LandingState</code> isn't referenced by any other scripts. It is not a standard state that every <code>Character</code> needs and nothing else needs to directly know about it.</p>
+<p>Note that the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> isn't referenced by any other scripts. It is not a standard state that every <code>Character</code> needs and nothing else needs to directly know about it.</p>
 <p>Here we also apply some additional downward acceleration (on top of the regular gravity applied in <code>CharacterMovement.OnAnimatorMove</code>) if the player releases the jump button early (this is still inside the block where <code>_IsJumping</code> is false, meaning the jump was cancelled):</p>
 <pre><code class="language-cs">        if (Character.Parameters.VerticalSpeed &gt; 0)
             Character.Parameters.VerticalSpeed -= _JumpAbortSpeed * Time.deltaTime;
     }
 </code></pre>
-<p>Lastly, we send the vertical speed to the mixer parameter and update the <code>Character</code>'s speed and turning. Since we do not have quick turn animations like the <code>LocomotionState</code>, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
+<p>Lastly, we send the vertical speed to the mixer parameter and update the <code>Character</code>'s speed and turning. Since we do not have quick turn animations like the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code>, we just increase the turn speed when the direction we want to go is further away from the direction we are currently facing.</p>
 <pre><code class="language-cs">    _Animations.State.Parameter = Character.Parameters.VerticalSpeed;
 
     Character.Movement.UpdateSpeedControl();
@@ -740,7 +742,7 @@ public override Vector3 RootMotion
 </ol>
 <p>The Animancer implementation is much easier to follow:</p>
 <ol>
-<li><code>GameKitCharacterBrain</code> has an <code>AirborneState _Jump</code> field which happens to reference the same <code>AirborneState</code> that the character already uses for falling.</li>
+<li><code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/GameKitCharacterBrain">GameKitCharacterBrain</a></code> has an <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a> _Jump</code> field which happens to reference the same <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> that the character already uses for falling.</li>
 <li><code>GameKitCharacterBrain.UpdateActions</code> checks for a button press to call <code>_Jump.TryJump();</code>.</li>
 <li>That method clearly defines everything involved in jumping:</li>
 </ol>
@@ -752,7 +754,7 @@ public override Vector3 RootMotion
 <p>Then we try to enter this state. We did not override <code>CanEnterState</code> to check if the <code>Character</code> is grounded because this state is also used if you walk off a ledge, so instead we only check that condition here when specifically attempting to jump. That means this state will always allow itself to be entered, so we are only depending on the previous state's <code>CanExitState</code> to return true. Unlike the Mecanim character, this method does not specifically care if the character is attacking, it simply lets the state machine ask if the previous state will allow the change. If you add some other ability or action that does not want to be interrupted, this method will continue working properly without needing to be modified.</p>
 <pre><code class="language-cs">        Character.StateMachine.TryResetState(this))
 </code></pre>
-<p>If the state is changed, it will enable this script (because it inherits from <code>StateBehaviour</code>) which will call its <code>OnEnable</code> method.</p>
+<p>If the state is changed, it will enable this script (because it inherits from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code>) which will call its <code>OnEnable</code> method.</p>
 <p>Now that we are in this state, flag it as a jump (so it can be cancelled to apply additional downward acceleration), apply the jump speed, and play a jump sound:</p>
 <pre><code class="language-cs">    {
         _IsJumping = true;

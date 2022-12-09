@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -468,6 +469,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -578,7 +580,7 @@ public sealed class AttackState : CharacterState
     [SerializeField] private ClipTransition[] _Animations;
 
     private int _CurrentAnimationIndex = int.MaxValue;
-    private ClipTransition _CurrentAnimation;
+    private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _CurrentAnimation;
 
     private void Awake()
     {
@@ -627,7 +629,7 @@ public sealed class AttackState : CharacterState
 <p></p></details><p></p>
 <p>Well, not quite <em>all</em> the logic:</p>
 <h1 id="buffered-input">Buffered Input</h1>
-<p>The initial input check is handled by the <code>GameKitCharacterBrain</code> script.</p>
+<p>The initial input check is handled by the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/GameKitCharacterBrain">GameKitCharacterBrain</a></code> script.</p>
 <p>It starts with a reference to the <em>Attack</em> state which is assigned in the Inspector.</p>
 <pre><code class="language-cs">// GameKitCharacterBrain.cs:
 [SerializeField] private CharacterState _Attack;
@@ -677,7 +679,7 @@ private ClipTransition[] _Animations;
 </table>
 <p>We also need some non-serialized fields to remember the index of the current attack (to play the next one in the sequence when the player attacks repeatedly) and keep a direct reference to that attack for use later on:</p>
 <pre><code class="language-cs">private int _CurrentAnimationIndex = int.MaxValue;
-private ClipTransition _CurrentAnimation;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _CurrentAnimation;
 </code></pre>
 <h1 id="animations">Animations</h1>
 <img src="animancer-attack-animations.png" class="img-responsive img-right">
@@ -688,7 +690,7 @@ private ClipTransition _CurrentAnimation;
 <p>Rather than using a separately animated mesh for the trails, many games generally use Unity's <a href="https://docs.unity3d.com/Manual/class-TrailRenderer">Trail Renderer</a> component (or a custom script that works similarly) to have the trail dynamically follow wherever the weapon goes. This would avoid the speed issue and require less effort to develop, but it does somewhat limit your creative control over the exact appearance of the effect.</p>
 <h2 id="attack-details">Attack Details</h2>
 <p>The 3D Game Kit Lite uses a very basic damage system where the player kills enemies and destroys objects in one hit and enemies cause the player to lose 1 health on contact out of 5 total. But many games allow different weapons to deal different amounts of damage, knock enemies away, and even cause them to <a href="../flinch">Flinch</a> for different amounts of time. Some games even allow individual attacks with the same weapon to use different stats such as having a sword deal <em>Slashing</em> damage with one attack then <em>Piercing</em> damage with the next or having a weak bash attack followed by a powerful overhead strike.</p>
-<p>Associating additional details like that with each animation can be done by creating a class that <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code>ClipTransition</code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
+<p>Associating additional details like that with each animation can be done by creating a class that <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>, just like how the <a href="../../../locomotion/root-motion">Root Motion</a> example allows each transition to determine whether it wants to use root motion or not.</p>
 <p>The <a href="/platformer">Platformer Game Kit</a> has a more detailed damage system.</p>
 <h2 id="adding-more-attacks">Adding More Attacks</h2>
 <p>Much like if we want to <a href="../idle#adding-more-idles">add more idle animations</a>, building this script to use an array makes it much easier to modify the general behaviour and set up any number of animations without needing to set up the same states, transitions, and <code>StateMachineBehaviour</code>s every time as you would when using Mecanim.</p>
@@ -696,7 +698,7 @@ private ClipTransition _CurrentAnimation;
 <p>In this example, we only allow attacking while grounded:</p>
 <pre><code class="language-cs">public override bool CanEnterState =&gt; Character.Movement.IsGrounded;
 </code></pre>
-<p>Games often have different attacks they can use while <a href="../airborne">Airborne</a> as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it's for ground or air attacks and attaching two of them to the same <code>Character</code>, or by giving it a second array of <code>ClipTransition</code>s to use when airborne.</p>
+<p>Games often have different attacks they can use while <a href="../airborne">Airborne</a> as well, which could be achieved by giving this state an Inspector <code>bool</code> to determine whether it's for ground or air attacks and attaching two of them to the same <code>Character</code>, or by giving it a second array of <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s to use when airborne.</p>
 <p>When entering this state, we start by determining which attack in the sequence we are up to. If the previous attack was the last one or it has already fully faded out, we want the first attack, but otherwise we can go to the next one in line:</p>
 <pre><code class="language-cs">private void OnEnable()
 {

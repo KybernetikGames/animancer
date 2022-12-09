@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -464,6 +465,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -535,16 +537,16 @@
 		</section>
 	<section class="content">
 		
-<p>After you <a href="../../download">Download Animancer</a>, you can add an <code>AnimancerComponent</code> to your model and control it with a script:</p>
+<p>After you <a href="../../download">Download Animancer</a>, you can add an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to your model and control it with a script:</p>
 
 <ol>
   <li>Don't create an Animator Controller like you normally would. Animancer doesn't need them.</li>
-  <li>Add a reference to the <code>AnimancerComponent</code> (let’s call it <code>animancer</code>).</li>
+  <li>Add a reference to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (let’s call it <code>animancer</code>).</li>
   <li>Add a reference to the <code>AnimationClip</code> asset you want to play (let’s call it <code>clip</code>).</li>
   <li>Then you simply call <code>animancer.Play(clip)</code>.</li>
 </ol>
 
-<p><code>AnimancerComponent.Play</code> returns an <code>AnimancerState</code> that can be used to access and control the animation details such as <code>Speed</code> and <code>Time</code>.</p>
+<p><code>AnimancerComponent.Play</code> returns an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> that can be used to access and control the animation details such as <code>Speed</code> and <code>Time</code>.</p>
 
 
 
@@ -558,7 +560,7 @@ using UnityEngine;
 
 public sealed class PlayAnimation : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Clip;
 
     private void OnEnable()
@@ -590,7 +592,7 @@ public sealed class PlayAnimation : MonoBehaviour
 
 <h1 id="play-methods">Play Methods</h1>
 
-<p>The <code>AnimancerComponent</code> class has several <code>Play</code> methods with different parameter sets depending on what you want to do.</p>
+<p>The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> class has several <code>Play</code> methods with different parameter sets depending on what you want to do.</p>
 
 
 
@@ -611,12 +613,12 @@ Play(AnimancerState state)</code></pre>
 
 <h2 id="cross-fade">Cross Fade</h2>
 
-<pre><code class="language-cs">Play(AnimationClip clip,   float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)
-Play(AnimancerState state, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</code></pre>
+<pre><code class="language-cs">Play(AnimationClip clip,   float fadeDuration, <a href="/animancer/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)
+Play(AnimancerState state, float fadeDuration, <a href="/animancer/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
 <p>These methods <em>fade</em> the new animation in over time and <em>fade</em> the old animation out at the same time, which is known as <a href="../blending/fading">Cross Fading</a>. This is often much better for <a href="https://en.wikipedia.org/wiki/Skeletal_animation">Skeletal Animations</a> because it allows a character model to smoothly transition from the ending pose of one animation into the starting pose of another animation without requiring both poses to be exactly the same. It also means that the transition can still be smooth if an animation is interrupted at any time. The <a href="../../examples/basics/transitions">Transitions</a> example demonstrates the differences between playing animations immediately and cross fading between them.</p>
 
-<p>Note that the <code>FadeMode</code> parameter is optional so the following two lines will both do the same thing:</p>
+<p>Note that the <code><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></code> parameter is optional so the following two lines will both do the same thing:</p>
 
 <pre><code class="language-cs">animancer.Play(clip, 0.25f)
 animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)</code></pre>
@@ -628,7 +630,7 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)</code></pre>
 <h2 id="transition">Transition</h2>
 
 <pre><code class="language-cs">Play(ITransition transition)
-Play(ITransition transition, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</code></pre>
+Play(ITransition transition, float fadeDuration, <a href="/animancer/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
 These methods allow <a href="../transitions">Transitions</a> to apply all their details in a single call. This includes the <code>fadeDuration</code> (unless you use the second method to specify it yourself) as well as any other details defined in the <code>transition</code> such as <em>Speed</em>, <em>Start Time</em>, and any <a href="../events/animancer">Animancer Events</a> which can all be configured in the Inspector when using the inbuilt transition types instead of hard coding those details into your script.
 
@@ -641,7 +643,7 @@ These methods allow <a href="../transitions">Transitions</a> to apply all their 
 <h2 id="try-play">Try Play</h2>
 
 <pre><code class="language-cs">TryPlay(object key)
-TryPlay(object key, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</code></pre>
+TryPlay(object key, float fadeDuration, <a href="/animancer/api/Animancer/FadeMode">FadeMode</a> mode = FadeMode.FixedSpeed)</code></pre>
 
 <p>Unlike the above methods, these ones use the <code>key</code> to find an existing <a href="states">State</a> to play but can't create new ones if they aren't yet registered (trying to do so will return <code>null</code>). Once the state is found, they simply call the corresponding <a href="#play-immediately">Play Immediately</a> or <a href="#cross-fade">Cross Fade</a> method.</p>
 
@@ -653,11 +655,11 @@ TryPlay(object key, float fadeDuration, FadeMode mode = FadeMode.FixedSpeed)</co
 
 <h2 id="play-state">Play State</h2>
 
-<pre><code class="language-cs">AnimancerState state;
+<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state;
 state.Play();
 state.StartFade(1, 0.25f);</code></pre>
 
-<p>Unlike the methods in <code>AnimancerComponent</code> and <code>AnimancerLayer</code>, calling methods on a state will only affect that state and won't stop any others that are playing. These methods aren't useful in most circumstances, but they are available if you need more complex control over things.</p>
+<p>Unlike the methods in <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and <code><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></code>, calling methods on a state will only affect that state and won't stop any others that are playing. These methods aren't useful in most circumstances, but they are available if you need more complex control over things.</p>
 
 
 
@@ -672,7 +674,7 @@ using UnityEngine;
 
 public sealed class PausingExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Clip;
 
     // Freeze a single animation on its current frame:

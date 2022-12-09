@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -472,6 +473,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -562,7 +564,7 @@
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="methods">Methods</h1>
 <p>This example has two methods we want to call which are first copied directly from the previous examples, but then will be modified to suit the needs of this example.</p>
-<p><code>UpdateMovement</code> is a copy of the <code>Update</code> method from the <code>BasicMovementAnimations</code> script in the <a href="../movement">Basic Movement</a> example.</p>
+<p><code>UpdateMovement</code> is a copy of the <code>Update</code> method from the <code><a href="/animancer/api/Animancer.Examples.Basics/BasicMovementAnimations">BasicMovementAnimations</a></code> script in the <a href="../movement">Basic Movement</a> example.</p>
 <pre><code class="language-cs">private void UpdateMovement()
 {
     float forward = ExampleInput.WASD.y;
@@ -576,7 +578,7 @@
     }
 }
 </code></pre>
-<p><code>UpdateAction</code> is a copy of the <code>Update</code> method from the <code>PlayTransitionOnClick</code> script in the <a href="../transitions">Transitions</a> example.</p>
+<p><code>UpdateAction</code> is a copy of the <code>Update</code> method from the <code><a href="/animancer/api/Animancer.Examples.Basics/PlayTransitionOnClick">PlayTransitionOnClick</a></code> script in the <a href="../transitions">Transitions</a> example.</p>
 <pre><code class="language-cs">private void UpdateAction()
 {
     if (ExampleInput.LeftMouseUp)
@@ -593,25 +595,25 @@
 <li><em>Walk</em> can play anything.</li>
 <li><em>Action</em> can only play <em>Action</em> (to allow <a href="../action#rapid-fire">Rapid Fire</a>).</li>
 </ul>
-<p>Since <em>Idle</em> and <em>Walk</em> have the same rules, we effectively want two logical states: <em>"Acting"</em> and <em>"Not Acting"</em>. These logical states are entirely separate from the animation states that Animancer uses internally for each animation (<code>AnimancerState</code>s). A logical state can have any number of animation states associated with it:</p>
+<p>Since <em>Idle</em> and <em>Walk</em> have the same rules, we effectively want two logical states: <em>"Acting"</em> and <em>"Not Acting"</em>. These logical states are entirely separate from the animation states that Animancer uses internally for each animation (<code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>s). A logical state can have any number of animation states associated with it:</p>
 <ul>
 <li><em>Acting</em> has one animation (<em>Action</em>).</li>
 <li><em>Not Acting</em> has two animations (<em>Idle</em> and <em>Walk</em>).</li>
 <li>A logical state could even have no associated animations. For example, an effect that freezes the character could simply call <code>_Animancer.Playable.PauseGraph();</code> to pause the character in their current pose instead of playing a new animation.</li>
 </ul>
 <h1 id="state-enum">State Enum</h1>
-<p>One of the simplest ways to implement logical states is to use an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enumeration Type</a> (commonly called an <code>enum</code>). An <code>enum</code> needs a name like any other <a href="/cs-unity/docs/introduction/organization#types">Type in C#</a> so since the class is called <code>BasicCharacterAnimations</code> we could call the <code>enum</code> <code>BasicCharacterAnimationState</code>. But that's rather long and would be annoying to repeat all over the place so instead we can make use of the C# feature <a href="/cs-unity/docs/introduction/organization/#nested-types">Nested Types</a> to declare the <code>enum</code> inside the <code>class</code>, which means that it can simply be called <code>State</code>.</p>
-<pre><code class="language-cs">public sealed class BasicCharacterAnimations : MonoBehaviour
+<p>One of the simplest ways to implement logical states is to use an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enumeration Type</a> (commonly called an <code>enum</code>). An <code>enum</code> needs a name like any other <a href="/cs-unity/docs/introduction/organization#types">Type in C#</a> so since the class is called <code><a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> we could call the <code>enum</code> <code>BasicCharacterAnimationState</code>. But that's rather long and would be annoying to repeat all over the place so instead we can make use of the C# feature <a href="/cs-unity/docs/introduction/organization/#nested-types">Nested Types</a> to declare the <code>enum</code> inside the <code>class</code>, which means that it can simply be called <code><a href="/animancer/api/Animancer.FSM/State">State</a></code>.</p>
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a> : MonoBehaviour
 {
-    private enum State
+    private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
     {
         NotActing,
         Acting,
     }
 </code></pre>
 <p>If we made it a <code>public enum</code> then other scripts would be able to use it via <code>BasicCharacterAnimations.State</code>, but since this one script is the only one it will be used in we just make it <code>private</code>.</p>
-<p>With the <code>enum</code> declared, we also need a field to store the current <code>State</code> that the class is in.</p>
-<pre><code class="language-cs">    private State _CurrentState;
+<p>With the <code>enum</code> declared, we also need a field to store the current <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> that the class is in.</p>
+<pre><code class="language-cs">    private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
 </code></pre>
 <h1 id="method-changes">Method Changes</h1>
 <p><code>UpdateMovement</code> and <code>UpdateAction</code> are still basically the same as in the <a href="#methods">Methods</a> section above, but now we want them to set the <code>_CurrentState</code>.</p>
@@ -645,8 +647,8 @@
 <p>The startup code needs to change a bit now.</p>
 <table class="table">
   <thead>
-    <tr><th style="width:50%"><code>PlayTransitionOnClick</code> (Old)</th>
-    <th style="width:50%"><code>BasicCharacterAnimations</code> (New)</th>
+    <tr><th style="width:50%"><code><a href="/animancer/api/Animancer.Examples.Basics/PlayTransitionOnClick">PlayTransitionOnClick</a></code> (Old)</th>
+    <th style="width:50%"><code><a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> (New)</th>
   </tr></thead>
   <tbody>
     <tr>
@@ -724,7 +726,7 @@ private void OnActionEnd()
 <li>Unity calls <code>Update</code>.</li>
 <li><code>Update</code> reaches <code>case State.NotActing</code>.</li>
 <li><code>Update</code> calls <code>UpdateAction</code>.</li>
-<li><code>UpdateAction</code> checks <code>ExampleInput.LeftMouseUp</code> which is <code>true</code> so it plays the <code>_Action</code> animation and sets <code>State.Acting</code>.</li>
+<li><code>UpdateAction</code> checks <code><a href="/animancer/api/Animancer.Examples/ExampleInput/3B4575A8">ExampleInput.LeftMouseUp</a></code> which is <code>true</code> so it plays the <code>_Action</code> animation and sets <code>State.Acting</code>.</li>
 <li><code>Update</code> is still running and still inside <code>case State.NotActing</code> so now it calls <code>UpdateMovement</code>.</li>
 <li><code>UpdateMovement</code> plays either <code>_Move</code> or <code>_Idle</code> and sets <code>State.NotActing</code>.</li>
 </ol>
@@ -734,20 +736,20 @@ private void OnActionEnd()
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class BasicCharacterAnimations : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private ClipTransition _Idle;
-    [SerializeField] private ClipTransition _Move;
-    [SerializeField] private ClipTransition _Action;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
 
-    private enum State
+    private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
     {
         NotActing,
         Acting,
     }
 
-    private State _CurrentState;
+    private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
 
     private void Awake()
     {

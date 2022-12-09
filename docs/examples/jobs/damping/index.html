@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -470,6 +471,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -545,9 +547,9 @@
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../two-bone-ik">Two Bone IK</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to apply physics based drag to some of a character's bones.</p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to use the <code>DampingJob</code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a>.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use the <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a>.</p>
 </blockquote>
-<p>This example demonstrates how the <code>DampingJob</code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer to apply physics based drag to some of a character's bones. That would normally be useful for things like hair or a tail, but since we don't have a character with those this example will just apply the effect to an arm of the <em>DefaultHumanoid</em> and the legs of the <em>SpiderBot</em>.</p>
+<p>This example demonstrates how the <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer to apply physics based drag to some of a character's bones. That would normally be useful for things like hair or a tail, but since we don't have a character with those this example will just apply the effect to an arm of the <em>DefaultHumanoid</em> and the legs of the <em>SpiderBot</em>.</p>
 <p><img src="damping.png" class="pngif img-responsive"></p>
 <p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this example: Animation Jobs. Animancer Lite allows you to try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <h1 id="summary">Summary</h1>
@@ -560,13 +562,13 @@
 <h1 id="overview">Overview</h1>
 <p>This example uses two new scripts:</p>
 <ul>
-<li>The <code>Damping</code> component applies drag to one limb, so the <em>SpiderBot</em> has 4 of them.</li>
-<li>Each <code>Damping</code> adds a <code>DampingJob</code> to Animancer's <code>PlayableGraph</code>, which is where the actual drag algorithm is implemented.</li>
+<li>The <code><a href="/animancer/api/Animancer.Examples.Jobs/Damping">Damping</a></code> component applies drag to one limb, so the <em>SpiderBot</em> has 4 of them.</li>
+<li>Each <code><a href="/animancer/api/Animancer.Examples.Jobs/Damping">Damping</a></code> adds a <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> to Animancer's <code>PlayableGraph</code>, which is where the actual drag algorithm is implemented.</li>
 </ul>
-<p>It also reuses the <code>MouseDrag</code> script from the <a href="../../ik/puppet">Puppet</a> example.</p>
+<p>It also reuses the <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/MouseDrag">MouseDrag</a></code> script from the <a href="../../ik/puppet">Puppet</a> example.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="job-script">Job Script</h1>
-<details><summary>The job itself is a <code>struct</code> which implements the <a href="https://docs.unity3d.com/ScriptReference/Animations.IAnimationJob.html">IAnimationJob</a> interface. In this case, that's the <code>DampingJob</code> script from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Runtime/AnimationJobs/DampingJob.cs">Animation Jobs Samples</a>. The contents of this script will are mostly the same as the sample, except that the <code>ProcessRootMotion</code> method has been cleared because its original code was actually unnecessary and did not work as intended. Its functionality will not be explained here (beyond its original comments) since this example is about how to use jobs, not how to implement the damping itself.</summary><p>
+<details><summary>The job itself is a <code>struct</code> which implements the <a href="https://docs.unity3d.com/ScriptReference/Animations.IAnimationJob.html">IAnimationJob</a> interface. In this case, that's the <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> script from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Runtime/AnimationJobs/DampingJob.cs">Animation Jobs Samples</a>. The contents of this script will are mostly the same as the sample, except that the <code>ProcessRootMotion</code> method has been cleared because its original code was actually unnecessary and did not work as intended. Its functionality will not be explained here (beyond its original comments) since this example is about how to use jobs, not how to implement the damping itself.</summary><p>
 </p><pre><code class="language-cs">using Unity.Collections;
 using UnityEngine;
 #if UNITY_2019_3_OR_NEWER
@@ -575,7 +577,7 @@ using UnityEngine.Animations;
 using UnityEngine.Experimental.Animations;
 #endif
 
-public struct DampingJob : IAnimationJob
+public struct <a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a> : IAnimationJob
 {
     public TransformStreamHandle rootHandle;
     public NativeArray&lt;TransformStreamHandle&gt; jointHandles;
@@ -707,7 +709,7 @@ public struct DampingJob : IAnimationJob
 </code></pre>
 <p></p></details>
 <h1 id="responsibilities">Responsibilities</h1>
-<p>Since the original <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">Damping</a> script was just a sample, it had most of the same <a href="../two-bone-ik#responsibilities">problems with Responsibilities as the Two Bone IK example</a> which are again fixed in this example's implementation. The following table compares the differences between the original and the <code>Damping</code> script used in this example, excluding any that were already covered by the <a href="../two-bone-ik#responsibilities">Two Bone IK</a> example:</p>
+<p>Since the original <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">Damping</a> script was just a sample, it had most of the same <a href="../two-bone-ik#responsibilities">problems with Responsibilities as the Two Bone IK example</a> which are again fixed in this example's implementation. The following table compares the differences between the original and the <code><a href="/animancer/api/Animancer.Examples.Jobs/Damping">Damping</a></code> script used in this example, excluding any that were already covered by the <a href="../two-bone-ik#responsibilities">Two Bone IK</a> example:</p>
 <table class="table">
 <thead>
 <tr>
@@ -726,7 +728,7 @@ public struct DampingJob : IAnimationJob
 </tr>
 <tr>
 <td>In addition to destroying the <code>PlayableGraph</code> in <code>OnDisable</code>, it also had to <code>Dispose</code> all the <code>NativeArray</code>s used by the job.</td>
-<td>Adds the arrays to the <code>AnimancerPlayable.Disposables</code> list for Animancer to <code>Dispose</code> them so we don't need an <code>OnDisable</code> method at all.</td>
+<td>Adds the arrays to the <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list for Animancer to <code>Dispose</code> them so we don't need an <code>OnDisable</code> method at all.</td>
 </tr>
 <tr>
 <td>Had a separate field to store each of those <code>NativeArrays</code> for disposal.</td>
@@ -745,7 +747,7 @@ public struct DampingJob : IAnimationJob
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private AnimancerComponent _Animancer;
+private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
 [SerializeField]
 private Transform _EndBone;
@@ -810,7 +812,7 @@ job.localPositions = ...;
 <pre><code class="language-cs">    _Animancer.Playable.InsertOutputJob(job);
 </code></pre>
 <h1 id="disposal">Disposal</h1>
-<p>As mentioned earlier, using <code>Allocator.Persistent</code> for the <code>NativeArray</code>s means we need to <code>Dispose</code> them when we are done with them to free up the memory that was allocated for them so we don't leak memory (and Unity will give you a warning if you fail to do so). The original sample used an <code>OnDisable</code> method to <code>Dispose</code> its arrays, but with Animancer you can simply add them to the <code>AnimancerPlayable.Disposables</code> list and it will <code>Dispose</code> them for you.</p>
+<p>As mentioned earlier, using <code>Allocator.Persistent</code> for the <code>NativeArray</code>s means we need to <code>Dispose</code> them when we are done with them to free up the memory that was allocated for them so we don't leak memory (and Unity will give you a warning if you fail to do so). The original sample used an <code>OnDisable</code> method to <code>Dispose</code> its arrays, but with Animancer you can simply add them to the <code><a href="/animancer/api/Animancer/AnimancerPlayable/A034977B">AnimancerPlayable.Disposables</a></code> list and it will <code>Dispose</code> them for you.</p>
 <pre><code class="language-cs">    _Animancer.Playable.Disposables.Add(job.jointHandles);
     _Animancer.Playable.Disposables.Add(job.localPositions);
     _Animancer.Playable.Disposables.Add(job.localRotations);
@@ -845,7 +847,7 @@ job.localPositions = ...;
                 break;
             }
 </code></pre>
-<p>If we reach the top of the Hierarchy without finding the root <code>Animator</code>, then the <code>_EndBone</code> is not a child of it and won't work with the <code>DampingJob</code> so we just clear it and log a warning:</p>
+<p>If we reach the top of the Hierarchy without finding the root <code>Animator</code>, then the <code>_EndBone</code> is not a child of it and won't work with the <code><a href="/animancer/api/Animancer.Examples.Jobs/DampingJob">DampingJob</a></code> so we just clear it and log a warning:</p>
 <pre><code class="language-cs">            else if (bone == null)
             {
                 _EndBone = null;

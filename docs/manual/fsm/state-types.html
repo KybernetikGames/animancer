@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -463,6 +464,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -533,7 +535,7 @@
 			<h1>1. State Types</h1>
 		</section>
 	<section class="content">
-		<p>Animancer's state machines are <a href="/cs-unity/docs/introduction/organization#generics">Generic</a> so before you can make a <code>StateMachine&lt;TState&gt;</code> you need to define your base state type (to use as the <code>TState</code> parameter). The only requirement for a class to be used as a state in this system is to implement the <code>IState</code> interface, which means that states can be anything you want such as:</p>
+		<p>Animancer's state machines are <a href="/cs-unity/docs/introduction/organization#generics">Generic</a> so before you can make a <code><a href="/animancer/api/Animancer.FSM/StateMachine_1">StateMachine&lt;TState&gt;</a></code> you need to define your base state type (to use as the <code>TState</code> parameter). The only requirement for a class to be used as a state in this system is to implement the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface, which means that states can be anything you want such as:</p>
 <ul>
 <li><code>MonoBehaviour</code> components attached to a scene object or prefab.</li>
 <li><code>ScriptableObject</code> assets in the project.</li>
@@ -541,7 +543,7 @@
 </ul>
 <h1 id="example">Example</h1>
 <p>A base state class can be as simple as this:</p>
-<pre><code class="language-cs">public abstract class State : IState
+<pre><code class="language-cs">public abstract class <a href="/animancer/api/Animancer.FSM/State">State</a> : <a href="/animancer/api/Animancer.FSM/IState">IState</a>
 {
     public virtual bool CanEnterState =&gt; true;
 
@@ -563,16 +565,16 @@
 </thead>
 <tbody>
 <tr>
-<td><code>State</code></td>
-<td>The <code>State</code> class used in the above <a href="#example">Example</a> is included in the system so you can simply <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from it so that you only need to <code>override</code> the members you actually want to use.</td>
+<td><code><a href="/animancer/api/Animancer.FSM/State">State</a></code></td>
+<td>The <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> class used in the above <a href="#example">Example</a> is included in the system so you can simply <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from it so that you only need to <code>override</code> the members you actually want to use.</td>
 </tr>
 <tr>
-<td><code>DelegateState</code></td>
-<td>Implements <code>IState</code>, but rather than defining its own logic it simply has a <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> for each of the members of that interface so you can assign them when creating the state.</td>
+<td><code><a href="/animancer/api/Animancer.FSM/DelegateState">DelegateState</a></code></td>
+<td>Implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code>, but rather than defining its own logic it simply has a <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> for each of the members of that interface so you can assign them when creating the state.</td>
 </tr>
 <tr>
-<td><code>StateBehaviour</code></td>
-<td><p><a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code>MonoBehaviour</code> and implements <code>IState</code> to act as the base class for states that are attached as components on <code>GameObject</code>s. Its <code>OnEnterState</code> and <code>OnExitState</code> methods enable and disable itself respectively, allowing you to use the regular <a href="/cs-unity/docs/introduction/inheritance#monobehaviours">MonoBehaviour Messages</a> like <code>OnEnable</code> and <code>OnDisable</code> to implement your state transition logic, as well as other messages like <code>Update</code> or <code>FixedUpdate</code> depending on the needs of each individual state.</p>All of the <a href="../../examples/fsm">State Machines</a> examples use State Behaviours.</td>
+<td><code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code></td>
+<td><p><a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code>MonoBehaviour</code> and implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> to act as the base class for states that are attached as components on <code>GameObject</code>s. Its <code>OnEnterState</code> and <code>OnExitState</code> methods enable and disable itself respectively, allowing you to use the regular <a href="/cs-unity/docs/introduction/inheritance#monobehaviours">MonoBehaviour Messages</a> like <code>OnEnable</code> and <code>OnDisable</code> to implement your state transition logic, as well as other messages like <code>Update</code> or <code>FixedUpdate</code> depending on the needs of each individual state.</p>All of the <a href="../../examples/fsm">State Machines</a> examples use State Behaviours.</td>
 </tr>
 </tbody>
 </table>

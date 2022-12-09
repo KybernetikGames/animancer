@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -464,6 +465,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -540,8 +542,8 @@ using UnityEngine;
 
 public class PlayMixerOnEnable : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private LinearMixerTransition _Mixer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
 
     private void OnEnable()
     {
@@ -558,20 +560,20 @@ public class PlayMixerOnEnable : MonoBehaviour
 </ol>
 <ul>
 <li><code>Initialize(portCount)</code> allocates room for the specified number of children which can be filled individually using <code>CreateChild</code> or by passing the mixer into the constructor or <code>SetParent</code> method of any state type. This even lets you nest Mixers inside each other.</li>
-<li><code>Initialize(clips, thresholds)</code> allocates a <code>ClipState</code> for each of the <code>clips</code> and assigns their corresponding <code>thresholds</code>.</li>
+<li><code>Initialize(clips, thresholds)</code> allocates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> for each of the <code>clips</code> and assigns their corresponding <code>thresholds</code>.</li>
 </ul>
 <ol start="3">
 <li>Make sure all children have been given thresholds to determine the parameter values where they will be used and how they will blend in relation to others. This can be done using optional parameters in the <code>Initialize</code> and <code>CreateChild</code> methods, or by calling <code>SetThreshold</code> or <code>SetThresholds</code>.</li>
 <li>Optionally call <code>SetDebugName</code> to give it a more descriptive display name to show in the Inspector.</li>
 <li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
 </ol>
-<p></p><details><summary>The following example script uses a <code>LinearMixerState</code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
+<p></p><details><summary>The following example script uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
 public sealed class LinearMixerExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Run;
 
@@ -579,7 +581,7 @@ public sealed class LinearMixerExample : MonoBehaviour
     private float _MovementSpeed;
 
     // Keep the mixer after is is created so we can change the Parameter later.
-    private LinearMixerState _MovementMixer;
+    private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _MovementMixer;
 
     private void Awake()
     {
@@ -633,9 +635,9 @@ using UnityEngine;
 
 public sealed class NestedMixerExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private MixerTransition2D _RegularMovement;
-    [SerializeField] private MixerTransition2D _InjuredMovement;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _RegularMovement;
+    [SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _InjuredMovement;
 
     [SerializeField, Range(0, 1)]
     private float _InjuryLevel;
@@ -646,7 +648,7 @@ public sealed class NestedMixerExample : MonoBehaviour
     [SerializeField, Range(-1, 1)]
     private float _MovementY;
 
-    private LinearMixerState _MovementMixer;
+    private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _MovementMixer;
 
     private void Awake()
     {

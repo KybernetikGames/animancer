@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -474,6 +475,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -566,8 +568,8 @@
 <li>Left Click = Shoot.</li>
 </ul>
 <h1 id="introduction">Introduction</h1>
-<p></p><details><summary>This example uses six scripts to achieve the same thing that <code>BasicCharacterAnimations</code> did in one script. Click here if you're wondering why that might be a good idea.</summary>
-<p>The <code>BasicCharacterAnimations</code> script has a lot of responsibilities squeezed into it:</p>
+<p></p><details><summary>This example uses six scripts to achieve the same thing that <code><a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> did in one script. Click here if you're wondering why that might be a good idea.</summary>
+<p>The <code><a href="/animancer/api/Animancer.Examples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> script has a lot of responsibilities squeezed into it:</p>
 <ul>
 <li>Reference all the character's animations.</li>
 <li>Set the <em>Action</em> animation to go to the <em>Idle</em> animation when it ends.</li>
@@ -656,20 +658,20 @@
 <p></p><details><summary>The <code>Character</code> class is responsible for holding references to other systems so they can all be easily referenced in one place.</summary>
 <p>The <code>Character</code> is the core of any character, whether it be a player, enemy, NPC, person, animal, monster, or robot. A different term may be more suitable depending on the type of game you are making - for example, a strategy game might call it a <code>Unit</code> while a space game might call it a <code>Ship</code> - but the idea is always the same: all of the game's characters share the same standard script which holds references to each of its other components (and typically very little logic of its own). It references things like:</p>
 <ul>
-<li>The animation system (an <code>AnimancerComponent</code> if you use Animancer, but otherwise it might just be an <code>Animator</code>).</li>
+<li>The animation system (an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> if you use Animancer, but otherwise it might just be an <code>Animator</code>).</li>
 <li>A state machine (this example uses Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system, but you can use any system you like).</li>
 <li>Any other common features that most characters have such as a <code>Rigidbody</code>, character attributes, inventory, health pool, and so on.</li>
 </ul>
-<p>Having this central script means that other scripts can simply have one reference to the <code>Character</code> and access all their other components through it. For example, the <a href="#action-state">Action State</a> wants to play an animation and then return the character to their <a href="#idle-state">Idle State</a>. So instead of needing to reference the <code>AnimancerComponent</code>, <code>StateMachine</code>, and idle <code>CharacterState</code>, it just references the <code>Character</code> so it can access the <code>Character.Animancer</code>, <code>Character.StateMachine</code>, and <code>Character.Idle</code>.</p>
+<p>Having this central script means that other scripts can simply have one reference to the <code>Character</code> and access all their other components through it. For example, the <a href="#action-state">Action State</a> wants to play an animation and then return the character to their <a href="#idle-state">Idle State</a>. So instead of needing to reference the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>, <code>StateMachine</code>, and idle <code>CharacterState</code>, it just references the <code>Character</code> so it can access the <code>Character.Animancer</code>, <code>Character.StateMachine</code>, and <code>Character.Idle</code>.</p>
 </details><p></p>
-<p>It references the <code>AnimancerComponent</code>:</p>
+<p>It references the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>:</p>
 <pre><code class="language-cs">public sealed class Character : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 </code></pre>
 <p>And has an accessor <a href="/cs-unity/docs/introduction/methods#properties">Property</a> so other scripts can use that reference but not re-assign it:</p>
-<pre><code class="language-cs">    public AnimancerComponent Animancer =&gt; _Animancer;
+<pre><code class="language-cs">    public <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> Animancer =&gt; _Animancer;
 </code></pre>
 <p>The other fields aren't used in this example but are properly explained in later examples which reuse the scripts from this one:</p>
 <table class="table">
@@ -681,8 +683,8 @@
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private HealthPool _Health;
-public HealthPool Health =&gt; _Health;
+private <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> _Health;
+public <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> Health =&gt; _Health;
 </code></pre>
 </td>
       <td><a href="../interruptions">Interruptions</a></td>
@@ -699,8 +701,8 @@ public CharacterParameters Parameters =&gt; _Parameters;
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private Equipment _Equipment;
-public Equipment Equipment =&gt; _Equipment;
+private <a href="/animancer/api/Animancer.Examples.StateMachines/Equipment">Equipment</a> _Equipment;
+public <a href="/animancer/api/Animancer.Examples.StateMachines/Equipment">Equipment</a> <a href="/animancer/api/Animancer.Examples.StateMachines/Equipment">Equipment</a> =&gt; _Equipment;
 </code></pre>
 </td>
       <td><a href="../weapons">Weapons</a></td>
@@ -744,8 +746,8 @@ public sealed class Character : MonoBehaviour
 </details><p></p>
 <h1 id="states">States</h1>
 <p>The base <a href="../../../manual/fsm/state-types">State Type</a> in this example is <code>CharacterState</code>.</p>
-<p>It could <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code>MonoBehaviour</code> and implement <code>IState</code>, but it's easier to just <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code>StateBehaviour</code>:</p>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour
+<p>It could <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code>MonoBehaviour</code> and implement <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code>, but it's easier to just <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code>:</p>
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
 {
 </code></pre>
 <p>The nested <code>StateMachine</code> class was already mentioned above:</p>
@@ -767,9 +769,9 @@ public sealed class Character : MonoBehaviour
     }
 #endif
 </code></pre>
-<p>That method needs to be in a <code>#if UNITY_EDITOR</code> block because the base method it overrides in <code>StateBehaviour</code> is also in a <code>#if UNITY_EDITOR</code> block.</p>
+<p>That method needs to be in a <code>#if UNITY_EDITOR</code> block because the base method it overrides in <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> is also in a <code>#if UNITY_EDITOR</code> block.</p>
 <p>There are also several more properties to determine which states can interrupt each other. They are explained properly in the <a href="../interruptions">Interruptions</a> example:</p>
-<pre><code class="language-cs">    public virtual CharacterStatePriority Priority =&gt; CharacterStatePriority.Low;
+<pre><code class="language-cs">    public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
 
     public virtual bool CanInterruptSelf =&gt; false;
 
@@ -802,7 +804,7 @@ public sealed class Character : MonoBehaviour
 <p>The <em>Idle</em> state is very simple, just a <a href="../../../manual/transitions">Transition</a> which it plays when the state is entered:</p>
 <pre><code class="language-cs">public sealed class IdleState : CharacterState
 {
-    [SerializeField] private ClipTransition _Animation;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
 
     private void OnEnable()
     {
@@ -810,24 +812,24 @@ public sealed class Character : MonoBehaviour
     }
 }
 </code></pre>
-<p><code>CharacterState</code> inherits from <code>StateBehaviour</code> which means it will automatically disable itself by default and then enable itself when the state machine enters the state. So the <code>OnEnable</code> method will effectively do the same as if we had used <code>public override void OnEnterState()</code>.</p>
+<p><code>CharacterState</code> inherits from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> which means it will automatically disable itself by default and then enable itself when the state machine enters the state. So the <code>OnEnable</code> method will effectively do the same as if we had used <code>public override void OnEnterState()</code>.</p>
 <img src="move-inspector.png" class="img-responsive img-right" style="max-width:40%">
 <h1 id="move-state">Move State</h1>
 <p>There is no <em>Move</em> state script in this example because <code>IdleState</code> already does exactly what it needs, so the character simply has a second <code>IdleState</code> component with a different animation assigned.</p>
-<p>The <a href="../brains">Brains</a> example implements a proper <code>MoveState</code> to allow the character to actually move around the scene, including walking and running, as well as turning.</p>
+<p>The <a href="../brains">Brains</a> example implements a proper <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> to allow the character to actually move around the scene, including walking and running, as well as turning.</p>
 <img src="action-inspector.png" class="img-responsive img-right" style="max-width:40%">
 <h1 id="action-state">Action State</h1>
 <p>The <em>Action</em> state starts the same as the others but has a bit more complexity below:</p>
-<pre><code class="language-cs">public sealed class ActionState : CharacterState
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
 {
-    [SerializeField] private ClipTransition _Animation;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
 
     private void OnEnable()
     {
         Character.Animancer.Play(_Animation);
     }
 </code></pre>
-<p>Again, in a real project it would be better to remove that duplicated code and have <code>ActionState</code> <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code>AnimatedState</code>, but for the sake of simplicity this example keeps each state a bit more self-contained.</p>
+<p>Again, in a real project it would be better to remove that duplicated code and have <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code>AnimatedState</code>, but for the sake of simplicity this example keeps each state a bit more self-contained.</p>
 <p>Unlike <a href="#idle-state">Idle</a> and <a href="#move-state">Move</a>, this animation isn't looping so we want to return to <a href="#idle-state">Idle</a> when it ends. Since the <a href="#state-machine">State Machine declared above</a> has a <a href="../../../manual/fsm/initialization#default-states">Default State</a>, we can easily set the animation's <a href="../../../manual/events/end">End Event</a> to return to it:</p>
 <pre><code class="language-cs">    private void Awake()
     {
@@ -839,7 +841,7 @@ public sealed class Character : MonoBehaviour
 <li><code>Priority</code> returns <code>Medium</code> so that it can interrupt the <code>IdleState</code> but not be interrupted by it (because <code>IdleState</code> uses the default <code>Low</code> priority from the base <code>CharacterState</code>).</li>
 <li><code>CanInterruptSelf</code> returns <code>true</code> so that the character can still rapid fire like they could in the <a href="../../basics/character">Basic Character</a> example.</li>
 </ul>
-<pre><code class="language-cs">    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.Medium;
+<pre><code class="language-cs">    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
 
     public override bool CanInterruptSelf =&gt; true;
 }
@@ -848,7 +850,7 @@ public sealed class Character : MonoBehaviour
 <h1 id="brain">Brain</h1>
 <p>A character's brain is responsible for deciding what they <em>want to do</em>. The <a href="../brains">Brains</a> example explains why the system in general is designed the way it is, so this section only focusses on what this specific script does.</p>
 <p>There are two things this character can choose to do: <em>Move</em> and perform an <em>Action</em>. So the brain has a <code>Character</code> to control and fields for each of those actions:</p>
-<pre><code class="language-cs">public sealed class BasicCharacterBrain : MonoBehaviour
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/BasicCharacterBrain">BasicCharacterBrain</a> : MonoBehaviour
 {
     [SerializeField] private Character _Character;
     [SerializeField] private CharacterState _Move;
@@ -914,10 +916,10 @@ public sealed class Character : MonoBehaviour
 <p></p><details><summary>The <strong>Root Object</strong> has the <code>Character</code> and <code>IdleState</code>. In a real project, other components referenced by the <code>Character</code> such as a <code>Rigidbody</code> would also go here.</summary>
 <p><img src="setup-character.png" class="img-responsive"></p>
 </details><p></p>
-<p></p><details><summary>The <strong>Model</strong> has the <code>Animator</code> and <code>AnimancerComponent</code>. This allows the character's visuals to be rotated independently from the root character's physics or swapped out for something else. While setting up character prefabs this can allow you to simply make a copy of an existing one and replace its model while keeping the rest intact.</summary>
+<p></p><details><summary>The <strong>Model</strong> has the <code>Animator</code> and <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>. This allows the character's visuals to be rotated independently from the root character's physics or swapped out for something else. While setting up character prefabs this can allow you to simply make a copy of an existing one and replace its model while keeping the rest intact.</summary>
 <p><img src="setup-model.png" class="img-responsive"></p>
 </details><p></p>
-<p></p><details><summary>The <strong>Brain and Actions</strong> has the <code>BasicCharacterBrain</code>, <code>MoveState</code>, and <code>ActionState</code> on the same object because the brain is what controls those actions. Note that the <code>ActionState</code>'s <code>Animation</code> has its <code>Start Time</code> ticked so that every time it is told to play it will set the time to 0 instead of letting it continue from where it was.</summary>
+<p></p><details><summary>The <strong>Brain and Actions</strong> has the <code><a href="/animancer/api/Animancer.Examples.StateMachines/BasicCharacterBrain">BasicCharacterBrain</a></code>, <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code>, and <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> on the same object because the brain is what controls those actions. Note that the <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code>'s <code>Animation</code> has its <code>Start Time</code> ticked so that every time it is told to play it will set the time to 0 instead of letting it continue from where it was.</summary>
 <p><img src="setup-brain.png" class="img-responsive"></p>
 </details><p></p>
 <p></p><details><summary>There are plenty of other ways the character could be structured. Some approaches are better than others, but in the end it mostly comes down to personal preference.</summary>
