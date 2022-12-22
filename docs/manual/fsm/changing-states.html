@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -464,6 +465,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -568,15 +570,15 @@
   </tbody>
 </table>
 <h1 id="details">Details</h1>
-<p>While a <code>StateMachine</code> is changing its state (throughout all of the <code>Can...</code> and <code>On...</code> methods in the <code>IState</code> interface), references to the <code>PreviousState</code> and <code>NextState</code> can be accessed in several ways.</p>
+<p>While a <code>StateMachine</code> is changing its state (throughout all of the <code>Can...</code> and <code>On...</code> methods in the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface), references to the <code>PreviousState</code> and <code>NextState</code> can be accessed in several ways.</p>
 <p>The following examples are based on the <a href="../../examples/fsm/interruptions#priority-enum">Priority Enum demonstrated in the Interruptions</a> example.</p>
 <ul>
 <li><code>TState</code> refers to the base <a href="state-types">State Type</a> you are using.</li>
-<li>Accessing the previous or next state will throw an exception if no state change is currently occurring (which can be checked using <code>StateChange&lt;TState&gt;.IsActive</code>).</li>
+<li>Accessing the previous or next state will throw an exception if no state change is currently occurring (which can be checked using <code><a href="/animancer/api/Animancer.FSM/StateChange_1/4C55264A">StateChange&lt;TState&gt;.IsActive</a></code>).</li>
 </ul>
 <h2 id="state-change">State Change</h2>
-<pre><code class="language-cs">StateChange&lt;TState&gt;.PreviousState
-StateChange&lt;TState&gt;.NextState
+<pre><code class="language-cs"><a href="/animancer/api/Animancer.FSM/StateChange_1/E42BA615">StateChange&lt;TState&gt;.PreviousState</a>
+<a href="/animancer/api/Animancer.FSM/StateChange_1/C03C45F6">StateChange&lt;TState&gt;.NextState</a>
 </code></pre>
 <p>The static <code>StateChange</code> properties can be accessed from anywhere:</p>
 <pre><code class="language-cs">public override bool CanExitState
@@ -594,7 +596,7 @@ StateMachine.NextState
 <pre><code class="language-cs">this.GetPreviousState&lt;TState&gt;()
 this.GetNextState&lt;TState&gt;()
 </code></pre>
-<p>Inside a class that implements <code>IState</code> (or if you have a reference to one) you can use those <a href="/cs-unity/docs/introduction/methods/extension">Extension Methods</a> which are defined in the <code>StateExtensions</code> class:</p>
+<p>Inside a class that implements <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> (or if you have a reference to one) you can use those <a href="/cs-unity/docs/introduction/methods/extension">Extension Methods</a> which are defined in the <code><a href="/animancer/api/Animancer.FSM/StateExtensions">StateExtensions</a></code> class:</p>
 <pre><code class="language-cs">public override bool CanExitState
     =&gt; this.GetNextState&lt;TState&gt;().Priority &gt; Priority;
 </code></pre>
@@ -602,7 +604,7 @@ this.GetNextState&lt;TState&gt;()
 <ul>
 <li>For example, if you have a <code>StateMachine&lt;CharacterState&gt;</code> then you need to check <code>StateChange&lt;CharacterState&gt;</code>, but if an <code>IdleState</code> calls <code>this.GetPreviousState()</code> the compiler will infer the generic type as <code>IdleState</code> and try to access <code>StateChange&lt;IdleState&gt;</code> which would be empty and cause it to throw an exception:
 <ul>
-<li><code>InvalidOperationException: Attempted to access StateChange&lt;IdleState&gt; but no StateMachine of that type is currently changing its State</code>.</li>
+<li><code>InvalidOperationException: Attempted to access StateChange&lt;IdleState&gt; but no StateMachine of that type is currently changing its <a href="/animancer/api/Animancer.FSM/State">State</a></code>.</li>
 </ul>
 </li>
 <li>This can be avoided by specifying the generic parameter yourself: <code>this.GetPreviousState&lt;CharacterState&gt;()</code>.</li>
@@ -611,16 +613,16 @@ this.GetNextState&lt;TState&gt;()
 <ul>
 <li>You cannot <code>Jump</code> if you are not on the ground so <code>Jump.CanEnterState</code> checks whether the character is on the ground (or asks whatever system is responsible for checking that).</li>
 <li>You cannot perform other actions during an <code>Attack</code> so <code>Attack.CanExitState</code> returns false.</li>
-<li><code>Attack</code>s can be interrupted if you get hit or killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code>StateChange&lt;TState&gt;.NextState</code> is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the priority of each state or type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some characters but not others) yet they all use the same <code>CharacterAction.Attack</code> as their type. The <a href="../../examples/fsm/interruptions">Interruptions</a> example goes into more detail about this.</li>
+<li><code>Attack</code>s can be interrupted if you get hit or killed though, so instead of always returning false, <code>Attack.CanExitState</code> returns true if the <code><a href="/animancer/api/Animancer.FSM/StateChange_1/C03C45F6">StateChange&lt;TState&gt;.NextState</a></code> is <code>Flinch</code> or <code>Die</code>. This is often implemented by using an <code>enum</code> to indicate the priority of each state or type of each state so you might have multiple different <code>Attack</code> scripts (perhaps for melee vs. ranged or to implement attack combos for some characters but not others) yet they all use the same <code>CharacterAction.Attack</code> as their type. The <a href="../../examples/fsm/interruptions">Interruptions</a> example goes into more detail about this.</li>
 <li>Once the <code>Attack</code> animation finishes, it needs to be able to return to <code>Idle</code>. This could be done by having <code>Attack.CanExitState</code> check the current animation time as well, but since the <code>Attack</code> state already knows it is ending and <code>Idle</code> is unlikely to impose any constraints on when it can be entered you could simply use <code>ForceSetState</code> to skip the check.</li>
 </ul>
 <p>The <a href="../../examples/fsm">State Machines</a> examples go into more detail and demonstrate these ideas in action.</p>
 <h1 id="design-rationale">Design Rationale</h1>
-<p>The state change system might seem a bit complicated compared to simply passing the change details into the <code>IState</code> methods as parameters, but there are several main advantages to this design in terms of minimising <a href="https://en.wikipedia.org/wiki/Boilerplate_code">Boilerplate Code</a> and maximising the flexibility of the system:</p>
+<p>The state change system might seem a bit complicated compared to simply passing the change details into the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> methods as parameters, but there are several main advantages to this design in terms of minimising <a href="https://en.wikipedia.org/wiki/Boilerplate_code">Boilerplate Code</a> and maximising the flexibility of the system:</p>
 <ul>
-<li>It allows the <code>IState</code> interface to avoid needing the state type as a generic parameter, which simplifies its usage throughout the system.</li>
+<li>It allows the <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface to avoid needing the state type as a generic parameter, which simplifies its usage throughout the system.</li>
 <li>It avoids the need to declare the parameters in every state because most of the time state changes are dependent on other factors so the parameters would be unused. In particular, while <code>CanEnterState</code> will sometimes base its decision on the previous state, it's much less likely to be relevant in <code>OnEnterState</code> but the parameter would still need to be included in every implementation of that method just in case it's needed.</li>
-<li>It allows states in <a href="keys">Keyed State Machines</a> to access the key change as well as the state change without requiring them to be based on an entirely different <code>IState</code> interface (which would need to pass both the key and state into every method, meaning even more useless code when they aren't used).</li>
+<li>It allows states in <a href="keys">Keyed State Machines</a> to access the key change as well as the state change without requiring them to be based on an entirely different <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code> interface (which would need to pass both the key and state into every method, meaning even more useless code when they aren't used).</li>
 </ul>
 <p>Here's a comparison of what various implementations would look like with either approach:</p>
 <table class="table">
@@ -631,7 +633,7 @@ this.GetNextState&lt;TState&gt;()
 <tbody>
 <tr>
 <td>
-<pre><code class="language-cs">public interface IState
+<pre><code class="language-cs">public interface <a href="/animancer/api/Animancer.FSM/IState">IState</a>
 {
     bool CanEnterState { get; }
     bool CanExitState { get; }
@@ -653,7 +655,7 @@ this.GetNextState&lt;TState&gt;()
 </tr>
 <tr>
 <td>
-<pre><code class="language-cs">public abstract class StateBehaviour : MonoBehaviour, IState
+<pre><code class="language-cs">public abstract class <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a> : MonoBehaviour, <a href="/animancer/api/Animancer.FSM/IState">IState</a>
 {
     public virtual bool CanEnterState ...
     public virtual bool CanExitState ...
@@ -675,7 +677,7 @@ this.GetNextState&lt;TState&gt;()
 </tr>
 <tr>
 <td>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour ...
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a> ...
 </code></pre>
 </td>
 <td>

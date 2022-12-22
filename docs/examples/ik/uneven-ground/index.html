@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -469,6 +470,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -578,14 +580,14 @@
 <li>A UI <code>Toggle</code> controls whether IK is currently being applied or not.</li>
 <li>A UI <code>Slider</code> controls the slope of the ground.</li>
 </ul>
-<p>As with the <a href="../puppet">Puppet</a> example, playing animations isn't the focus here so it uses a <code>NamedAnimancerComponent</code> to keep the animation out of the example scripts.</p>
+<p>As with the <a href="../puppet">Puppet</a> example, playing animations isn't the focus here so it uses a <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> to keep the animation out of the example scripts.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
 <h1 id="obstacle-treadmil">Obstacle Treadmil</h1>
-<p>The <code>ObstacleTreadmill</code> script creates a random series of objects and rearranges them each time the character moves far enough.</p>
+<p>The <code><a href="/animancer/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a></code> script creates a random series of objects and rearranges them each time the character moves far enough.</p>
 <pre><code class="language-cs">using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class ObstacleTreadmill : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a> : MonoBehaviour
 {
 </code></pre>
 <p>Its fields use various <a href="../../../manual/other/units">Units Attributes</a> to make the Inspector show what kind of units they're measured in:</p>
@@ -686,8 +688,8 @@ public sealed class ObstacleTreadmill : MonoBehaviour
 <p>Rather than going fully to 0 weight, the curves used in this example only go down to <code>0.2</code> so that the height the foot reaches when fully lifted up is still slightly influenced (<code>20%</code>) by the IK rather than being fully driven by the animation. The exact dimensions and shape of the curve would need to be adjusted to suit each animation and character in a real game.</p>
 <p><img src="ik-curve.png" class="pngif img-responsive"></p>
 <h1 id="startup">Startup</h1>
-<p>The custom <code>AnimationCurve</code>s can be accessed using Animancer's <code>AnimatedFloat</code> class which we initialize on startup:</p>
-<pre><code class="language-cs">private AnimatedFloat _FootWeights;
+<p>The custom <code>AnimationCurve</code>s can be accessed using Animancer's <code><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> class which we initialize on startup:</p>
+<pre><code class="language-cs">private <a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
 
 private void Awake()
 {
@@ -725,7 +727,7 @@ private void Awake()
 }
 </code></pre>
 <h1 id="on-animator-ik">On Animator IK</h1>
-<p>In <code>OnAnimatorIK</code> it simply uses the <code>AnimatedFloat</code> to read the target curves at the current animation time (via <code>_FootWeights[x]</code>):</p>
+<p>In <code>OnAnimatorIK</code> it simply uses the <code><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> to read the target curves at the current animation time (via <code>_FootWeights[x]</code>):</p>
 <pre><code class="language-cs">private void OnAnimatorIK(int layerIndex)
 {
     UpdateFootIK(_LeftFoot, AvatarIKGoal.LeftFoot, _FootWeights[0], _Animancer.Animator.leftFeetBottomHeight);

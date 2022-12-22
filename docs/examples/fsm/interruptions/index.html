@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -475,6 +476,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -570,11 +572,11 @@
 <li>Left Click elsewhere = Shoot</li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p>This example explains various different ways of controlling which states can interrupt each other, including the <code>CharacterStatePriority</code> enum used in the actual scripts. But the states in the <a href="../characters">Characters</a> example are a bit too simple to really explore that concept so before it can do that it explains how to implement a <code>FlinchState</code> which interrupts a character's other actions. A state like that would normally be triggered when the character gets hit by an attack, but rather than getting sidetracked implementing a proper attack and damage system, this example just reuses the interaction system from the <a href="../../fine-control/doors">Doors</a> example:</p>
+<p>This example explains various different ways of controlling which states can interrupt each other, including the <code><a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a></code> enum used in the actual scripts. But the states in the <a href="../characters">Characters</a> example are a bit too simple to really explore that concept so before it can do that it explains how to implement a <code>FlinchState</code> which interrupts a character's other actions. A state like that would normally be triggered when the character gets hit by an attack, but rather than getting sidetracked implementing a proper attack and damage system, this example just reuses the interaction system from the <a href="../../fine-control/doors">Doors</a> example:</p>
 <ul>
-<li>On startup, <code>FlinchState</code> gets the character's <code>HealthPool</code> and registers a callback in its <code>OnHitReceived</code> event. That callback will tell the character to enter the <code>FlinchState</code>.</li>
-<li><code>ClickToInteract</code> looks for a component that implements <code>IInteractable</code> attached to whatever object is clicked. If it finds one, it calls <code>Interact</code> on it.</li>
-<li>The character's <code>HealthPool</code> component implements <code>IInteractable</code>. Its <code>Interact</code> method invokes an <code>OnHitReceived</code> event as if the character had taken damage.</li>
+<li>On startup, <code>FlinchState</code> gets the character's <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> and registers a callback in its <code>OnHitReceived</code> event. That callback will tell the character to enter the <code>FlinchState</code>.</li>
+<li><code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> looks for a component that implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> attached to whatever object is clicked. If it finds one, it calls <code>Interact</code> on it.</li>
+<li>The character's <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> component implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code>. Its <code>Interact</code> method invokes an <code>OnHitReceived</code> event as if the character had taken damage.</li>
 </ul>
 <p>The general code structure is the same as the <a href="../characters">Characters</a> example with a few additions. The modular design of the character's scripts allows the new state to be added without modifying any of the previous scripts.</p>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
@@ -583,23 +585,23 @@
 </details><p></p>
 <p>Note how nothing directly references the <code>FlinchState</code>. It registers itself to the event that will activate it so it's entirely self-contained and nothing else needs to know whether it's there or not. That means determining whether a character will flinch when they take damage is as simple as adding or removing that one component.</p>
 <h1 id="health-pool">Health Pool</h1>
-<p>The <code>Character</code> class has a field to reference a <code>HealthPool</code> which wasn't used in the <a href="../characters">Characters</a> example, but will be used here:</p>
+<p>The <code>Character</code> class has a field to reference a <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> which wasn't used in the <a href="../characters">Characters</a> example, but will be used here:</p>
 <pre><code class="language-cs">public sealed class Character : MonoBehaviour
 {
     ...
 
     [SerializeField]
-    private HealthPool _Health;
-    public HealthPool Health =&gt; _Health;
+    private <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> _Health;
+    public <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> Health =&gt; _Health;
 </code></pre>
 <img src="health-inspector.png" class="img-responsive img-right" style="max-width:40%">
-<p>The <code>HealthPool</code> class is very simple:</p>
+<p>The <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> class is very simple:</p>
 <ul>
 <li>It has an <a href="/cs-unity/docs/introduction/methods/delegates">Event Delegate</a> called <code>OnHitReceived</code> which would normally be triggered when the character is hit by an attack.</li>
-<li>But since we don't have a hit/damage system (and implementing one would be very off-topic), it implements <code>IInteractable</code> from the <a href="../../fine-control/doors">Doors</a> example using its <code>Interact</code> method to invoke the event.</li>
-<li>There is also a <code>ClickToInteract</code> component in the scene which will call that <code>Interact</code> method when the user clicks on the character.</li>
+<li>But since we don't have a hit/damage system (and implementing one would be very off-topic), it implements <code><a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a></code> from the <a href="../../fine-control/doors">Doors</a> example using its <code>Interact</code> method to invoke the event.</li>
+<li>There is also a <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component in the scene which will call that <code>Interact</code> method when the user clicks on the character.</li>
 </ul>
-<pre><code class="language-cs">public sealed class HealthPool : MonoBehaviour, IInteractable
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a> : MonoBehaviour, <a href="/animancer/api/Animancer.Examples.FineControl/IInteractable">IInteractable</a>
 {
     public event Action OnHitReceived;
 
@@ -610,7 +612,7 @@
 }
 </code></pre>
 <p>Normally, that class would also have fields like maximum health and current health to keep track of how much damage the character takes.</p>
-<p>Using events and interfaces allows this class to do its job without knowing what's interacting with it or what's reacting to it getting hit. The <code>ClickToInteract</code> component wasn't written with <code>HealthPool</code> in mind and <code>FlinchState</code> doesn't know or care what's causing the character to get hit, they all just fit together while operating independently.</p>
+<p>Using events and interfaces allows this class to do its job without knowing what's interacting with it or what's reacting to it getting hit. The <code><a href="/animancer/api/Animancer.Examples.FineControl/ClickToInteract">ClickToInteract</a></code> component wasn't written with <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> in mind and <code>FlinchState</code> doesn't know or care what's causing the character to get hit, they all just fit together while operating independently.</p>
 <img src="flinch-inspector.png" class="img-responsive img-right" style="max-width:40%">
 <h1 id="flinch-state">Flinch State</h1>
 <p>The <code>FlinchState</code> script is very similar to the <a href="../characters#action-state">Action State</a>:</p>
@@ -621,7 +623,7 @@
 </ul>
 <pre><code class="language-cs">public sealed class FlinchState : CharacterState
 {
-    [SerializeField] private ClipTransition _Animation;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
 
     private void Awake()
     {
@@ -636,12 +638,12 @@
     }
 </code></pre>
 <p>The other properties determine which states it can interrupt and which ones it can be interrupted by, <a href="#interrupt-behaviour">which will be explained soon</a>:</p>
-<pre><code class="language-cs">    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.High;
+<pre><code class="language-cs">    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.High;
     
     public override bool CanInterruptSelf =&gt; true;
 }
 </code></pre>
-<p>And the bit that allows it to operate independently is that it also registers a <a href="/cs-unity/docs/introduction/methods/delegates#inline-delegates">Lambda Expression</a> delegate to the <code>OnHitReceived</code> event in the <code>HealthPool</code> component. When that event is triggered, it will invoke the registered delegate which tries to enter this state:</p>
+<p>And the bit that allows it to operate independently is that it also registers a <a href="/cs-unity/docs/introduction/methods/delegates#inline-delegates">Lambda Expression</a> delegate to the <code>OnHitReceived</code> event in the <code><a href="/animancer/api/Animancer.Examples.StateMachines/HealthPool">HealthPool</a></code> component. When that event is triggered, it will invoke the registered delegate which tries to enter this state:</p>
 <pre><code class="language-cs">    private void Awake()
     {
         ...
@@ -669,8 +671,8 @@
 <td>Any state.</td>
 </tr>
 <tr>
-<td><code>ActionState</code></td>
-<td><code>ActionState</code>, <code>FlinchState</code>.</td>
+<td><code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code></td>
+<td><code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code>, <code>FlinchState</code>.</td>
 </tr>
 <tr>
 <td><code>FlinchState</code></td>
@@ -680,7 +682,7 @@
 </table>
 <h1 id="can-exit-state">Can Exit State</h1>
 <p>In simple situations, you might be able to implement an interruption management system by overriding <code>CanExitState</code> to directly indicate whether a state can be interrupted:</p>
-<pre><code class="language-cs">public sealed class ActionState : CharacterStae
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterStae
 {
     public override bool CanExitState =&gt; false;
 </code></pre>
@@ -690,10 +692,10 @@
         _Animation.Events.OnEnd = Character.StateMachine.ForceSetDefaultState;
     }
 </code></pre>
-<p>Unfortunately, that approach is too simple for this example because we want <code>ActionState</code> to allow interruptions by <code>FlinchState</code> without allowing interruptions by <code>IdleState</code>.</p>
+<p>Unfortunately, that approach is too simple for this example because we want <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> to allow interruptions by <code>FlinchState</code> without allowing interruptions by <code>IdleState</code>.</p>
 <h1 id="priority-int">Priority Int</h1>
 <p>You could use an <code>int</code> where higher values allow a state to interrupt ones with lower values:</p>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
 {
     public virtual int Priority =&gt; 0;// All states default to 0 unless they override it.
     
@@ -710,7 +712,7 @@
     }
 }
 
-public sealed class ActionState : CharacterState
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
 {
     public override int Priority =&gt; 1;
 }
@@ -723,7 +725,7 @@ public sealed class FlinchState : CharacterState
 <p>The <a href="../../../manual/fsm/changing-states">Changing States</a> page explains the different ways of accessing the next state in more detail.</p>
 <h1 id="priority-enum">Priority Enum</h1>
 <p>An <code>int</code> can hold a wide range of values and a character won't have that many different states so it might be cleaner to use an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">Enum</a> like this:</p>
-<pre><code class="language-cs">public enum CharacterStatePriority
+<pre><code class="language-cs">public enum <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a>
 {
     // Enums are ints starting at 0 by default.
     Low,// Could specify "Low = 0," if we want to be explicit or change the order.
@@ -733,25 +735,25 @@ public sealed class FlinchState : CharacterState
 }
 </code></pre>
 <p>The <code>CanExitState</code> property would be completely identical to the <a href="#priority-int">Priority Int</a> approach above, while the <code>Priority</code> property uses the <code>enum</code>:</p>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
 {
-    public virtual CharacterStatePriority Priority =&gt; CharacterStatePriority.Low;
+    public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
 }
 
-public sealed class ActionState : CharacterState
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
 {
-    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.Medium;
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
 }
 
 public sealed class FlinchState : CharacterState
 {
-    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.High;
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.High;
 }
 </code></pre>
 <h1 id="self-interruption">Self Interruption</h1>
-<p>The <a href="#priority-int">Priority Int</a> and <a href="#priority-enum">Priority Enum</a> approaches above allow a state change if <code>nextState.Priority &gt;= previousState.Priority</code> which would achieve the desired behaviour for this example, but only because the <code>ActionState</code> and <code>FlinchState</code> both want to be able to interrupt themselves. It's far more common for actions to not be able to do that, but if we simply changed the <code>&gt;=</code> to <code>&gt;</code> then the <code>IdleState</code>s (and the <code>MoveState</code> which will be introduced in the <a href="../brains">Brains</a> example) wouldn't be able to interrupt each other.</p>
+<p>The <a href="#priority-int">Priority Int</a> and <a href="#priority-enum">Priority Enum</a> approaches above allow a state change if <code>nextState.Priority &gt;= previousState.Priority</code> which would achieve the desired behaviour for this example, but only because the <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> and <code>FlinchState</code> both want to be able to interrupt themselves. It's far more common for actions to not be able to do that, but if we simply changed the <code>&gt;=</code> to <code>&gt;</code> then the <code>IdleState</code>s (and the <code><a href="/animancer/api/Animancer.Examples.StateMachines/MoveState">MoveState</a></code> which will be introduced in the <a href="../brains">Brains</a> example) wouldn't be able to interrupt each other.</p>
 <p>A simple solution is to add a <code>CanInterruptSelf</code> property and make <code>CanExitState</code> a bit more complicated:</p>
-<pre><code class="language-cs">public virtual CharacterStatePriority Priority =&gt; CharacterStatePriority.Low;
+<pre><code class="language-cs">public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
 
 public virtual bool CanInterruptSelf =&gt; false;
 
@@ -776,33 +778,33 @@ public override bool CanExitState
 }
 </code></pre>
 <p>This is the solution used in the actual example scripts:</p>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
 {
-    public virtual CharacterStatePriority Priority =&gt; CharacterStatePriority.Low;
+    public virtual <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Low;
     public virtual bool CanInterruptSelf =&gt; false;
 }
 
-public sealed class ActionState : CharacterState
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
 {
-    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.Medium;
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
     public override bool CanInterruptSelf =&gt; true;
 }
 
 public sealed class FlinchState : CharacterState
 {
-    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.High;
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.High;
     public override bool CanInterruptSelf =&gt; true;
 }
 
 public sealed class AttackState : CharacterState// From the Weapons example.
 {
-    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.Medium;
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
     // CanInterruptSelf defaults to false from the base class.
 }
 
-public sealed class EquipState : CharacterState// From the Weapons example.
+public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/EquipState">EquipState</a> : CharacterState// From the Weapons example.
 {
-    public override CharacterStatePriority Priority =&gt; CharacterStatePriority.Medium;
+    public override <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> Priority =&gt; CharacterStatePriority.Medium;
     // CanInterruptSelf defaults to false from the base class.
 }
 </code></pre>
@@ -821,7 +823,7 @@ public sealed class EquipState : CharacterState// From the Weapons example.
 }
 </code></pre>
 <p>Then you can <code>override</code> the <code>CanExitState</code> property in any state to allow and restrict specific categories as necessary. For example:</p>
-<pre><code class="language-cs">public sealed class ActionState : CharacterState
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a> : CharacterState
 {
     public override bool CanExitState
     {
@@ -843,12 +845,12 @@ public sealed class EquipState : CharacterState// From the Weapons example.
 <p>For this example, <code>case CharacterStateType.Action</code> would also need to <code>return true</code> to allow rapid firing while most actions usually can't interrupt themselves so the specific logic you need will always depend on the situation.</p>
 <h1 id="serialized-field">Serialized Field</h1>
 <p>Instead of using <code>virtual</code> properties, the above approaches could have used <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a>:</p>
-<pre><code class="language-cs">public abstract class CharacterState : StateBehaviour
+<pre><code class="language-cs">public abstract class CharacterState : <a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a>
 {
     [SerializeField]
-    private CharacterStatePriority _Priority;
+    private <a href="/animancer/api/Animancer.Examples.StateMachines/CharacterStatePriority">CharacterStatePriority</a> _Priority;
 </code></pre>
-<p>This would mean that you need to select the desired value in the Inspector every time you set up a state component, but would allow you to potentially reuse a state with a different priority. For example, you might want an <code>ActionState</code> that operates the same as usual but can't be interrupted even by <code>FlinchState</code> so you could just give it a higher priority.</p>
+<p>This would mean that you need to select the desired value in the Inspector every time you set up a state component, but would allow you to potentially reuse a state with a different priority. For example, you might want an <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> that operates the same as usual but can't be interrupted even by <code>FlinchState</code> so you could just give it a higher priority.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>The actual example scripts use the <a href="#priority-enum">Priority Enum</a> approach with the <a href="#self-interruption">Self Interruption</a> system since it's just complex enough to achieve the desired logic without any unnecessary complexity beyond that. Keeping your code open to future expansions and changes is valuable, but it can also be useful to choose a solution that closely meets the requirements of your situation without wasting time and effort supporting potential features that you don't end up needing.</p>
 <p><img src="interruptions.png" class="pngif img-responsive"></p>

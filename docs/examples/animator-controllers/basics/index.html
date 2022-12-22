@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -472,6 +473,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -548,7 +550,7 @@
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this example you will learn:</span></p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to play an Animator Controller within Animancer.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to blend between an Animator Controller and other separate animations.</p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to disable an <code>OptionalWarning</code> when you understand the risks it's warning about.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to disable an <code><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></code> when you understand the risks it's warning about.</p>
 </blockquote>
 <p>This example demonstrates how you can manage some animations inside an Animator Controller while also using other separate Animation Clips on the same character. It compares the <a href="../../../manual/animator-controllers#native">Native</a> and <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approaches described on the <a href="../../../manual/animator-controllers">Animator Controllers</a> page. The <a href="../character">Hybrid Character</a> example extends this concept further.</p>
 <p><em><a href="../../../manual/animator-controllers">Animator Controllers</a> are a <a href="../../../introduction/features"><strong>Pro-Only Feature</strong></a>. You can try them out in the Unity Editor with <a href="/animancer/redirect/lite">Animancer Lite</a>, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
@@ -556,13 +558,13 @@
 <h1 id="summary">Summary</h1>
 <p>The table at the top of the <a href="../../../manual/animator-controllers">Animator Controllers</a> page summarises the different ways they can be used with Animancer.</p>
 <h1 id="overview">Overview</h1>
-<p></p><details><summary>The <code>HybridBasics</code> script simply exposes some <code>public</code> methods for various UI Buttons to call. All of the characters use the same script which calls regular functions on the <code>Animator</code> except for the <a href="#hybrid">Humanoid Hybrid</a> character which calls similar functions on its <code>HybridAnimancerComponent</code>.</summary><p>
+<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridBasics">HybridBasics</a></code> script simply exposes some <code>public</code> methods for various UI Buttons to call. All of the characters use the same script which calls regular functions on the <code>Animator</code> except for the <a href="#hybrid">Humanoid Hybrid</a> character which calls similar functions on its <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class HybridBasics : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers/HybridBasics">HybridBasics</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AnimationClip _SeparateAnimation;
 
     private static readonly int MoveParameterID = Animator.StringToHash("Move");
@@ -574,7 +576,7 @@ public sealed class HybridBasics : MonoBehaviour
 
     public void SetMove(bool move)
     {
-        if (_Animancer is HybridAnimancerComponent hybrid)
+        if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
             hybrid.SetBool(MoveParameterID, move);
         else
             _Animancer.Animator.SetBool(MoveParameterID, move);
@@ -587,7 +589,7 @@ public sealed class HybridBasics : MonoBehaviour
 
     public void PlayAnimatorController()
     {
-        if (_Animancer is HybridAnimancerComponent hybrid)
+        if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
             hybrid.Play(hybrid.Controller, 0);
         else
             _Animancer.Stop();
@@ -600,7 +602,7 @@ public sealed class HybridBasics : MonoBehaviour
 
     public void FadeAnimatorController()
     {
-        if (_Animancer is HybridAnimancerComponent hybrid)
+        if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
             hybrid.PlayController();
         else
             _Animancer.Layers[0].StartFade(0, 0.25f);
@@ -608,7 +610,7 @@ public sealed class HybridBasics : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
-<p>Most of the characters have the same general code structure with different animations, except for the <a href="#hybrid">Humanoid Hybrid</a> character which has a <code>HybridAnimancerComponent</code> an references the Animator Controller from there instead of from the <code>Animator</code>:</p>
+<p>Most of the characters have the same general code structure with different animations, except for the <a href="#hybrid">Humanoid Hybrid</a> character which has a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> an references the Animator Controller from there instead of from the <code>Animator</code>:</p>
 <table class="table" id="architecture">
   <tbody>
     <tr>
@@ -625,7 +627,7 @@ public sealed class HybridBasics : MonoBehaviour
 <p>Creating the Animator Controller assets we need for this example is a relatively simple process:</p>
 <ol>
 <li><details><summary>Right Click in the Project window and use the <code>Create -&gt; Animator Controller</code> function. Give it a name and Double Click on it to open it in the Animator window:</summary><p><img src="create-animator-controller.png" class="pngif img-responsive"></p></details></li>
-<li><details><summary>Right Click in the Animator window and use the <code>Create State -&gt; Empty</code> function to create two states. Name them <code>Idle</code> and <code>Walk</code> (though their names aren't important for this example):</summary><p><img src="create-states.png" class="pngif img-responsive"></p></details></li>
+<li><details><summary>Right Click in the Animator window and use the <code>Create <a href="/animancer/api/Animancer.FSM/State">State</a> -&gt; Empty</code> function to create two states. Name them <code>Idle</code> and <code>Walk</code> (though their names aren't important for this example):</summary><p><img src="create-states.png" class="pngif img-responsive"></p></details></li>
 <li><details><summary>Assign animations you want to the <code>Motion</code> field of each state:</summary><p><img src="assign-animations.png" class="pngif img-responsive"></p></details></li>
 <li><details><summary>Go to the <code>Parameters</code> tab in the left panel and create a <code>Bool</code> parameter named <code>Move</code> (note that the capitalisation must match what you use in your scripts when referring to it):</summary><p><img src="create-parameter.png" class="pngif img-responsive"></p></details></li>
 <li><details><summary>Right Click on the <code>Idle</code> state and use the <code>Make Transition</code> function then click on the <code>Walk</code> state to set the destination of the transition. Do the same thing again to create a transition from <code>Walk</code> back to <code>Idle</code>:</summary><p><img src="create-transitions.png" class="pngif img-responsive"></p></details></li>
@@ -641,8 +643,8 @@ public sealed class HybridBasics : MonoBehaviour
 </code></pre>
 <h1 id="internal-animations">Internal Animations</h1>
 <p><a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers can be controlled using all the regular methods in the <code>Animator</code> component like <code>Play</code>, <code>SetFloat</code>, and <code>GetCurrentAnimatorStateInfo</code>.</p>
-<p>These Animator Controllers have a <code>Move</code> parameter which controls the transitions between their <code>Idle</code> and <code>Walk</code> states which we can set using the <code>Animator.SetBool</code> method. If you already have a script that controls an <code>Animator</code> component directly it can keep doing so, but in this example we only have a reference to each character's <code>AnimancerComponent</code> so we simply access the <code>Animator</code> through it:</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+<p>These Animator Controllers have a <code>Move</code> parameter which controls the transitions between their <code>Idle</code> and <code>Walk</code> states which we can set using the <code>Animator.SetBool</code> method. If you already have a script that controls an <code>Animator</code> component directly it can keep doing so, but in this example we only have a reference to each character's <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> so we simply access the <code>Animator</code> through it:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
 public void SetMove(bool move)
 {
@@ -690,7 +692,7 @@ public void PlaySeparateAnimation()
 }
 </code></pre>
 <p><img src="play-separate.png" class="pngif img-responsive"></p>
-<p>Note how the <code>AnimancerComponent</code> Inspector shows that its <em>"Playable is not initialized ..."</em> until that method gets called, which creates a <a href="../../../manual/playing/states">State</a> managed by Animancer.</p>
+<p>Note how the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector shows that its <em>"Playable is not initialized ..."</em> until that method gets called, which creates a <a href="../../../manual/playing/states">State</a> managed by Animancer.</p>
 <p>Then, when we want to go back to the Animator Controller we can just <code>Stop</code> Animancer:</p>
 <pre><code class="language-cs">public void PlayAnimatorController()
 {
@@ -717,14 +719,14 @@ public void PlaySeparateAnimation()
 <h1 id="hybrid">Hybrid</h1>
 <p>Unfortunately, blending between a <a href="../../../manual/animator-controllers#native">Native</a> Animator Controller and Animancer is only possible on <code>Generic</code> Rigs. Trying to do it on a <code>Humanoid</code> Rig causes the Animator Controller to fully control the output when Animancer's <code>Weight</code> is at 0 but gives Animancer full control at any other <code>Weight</code>:</p>
 <p><img src="humanoid-native-fade.png" class="pngif img-responsive"></p>
-<p>That's why there's a second <code>Humanoid</code> character which uses a <code>HybridAnimancerComponent</code> that can be controlled in essentially the same way as a regular <code>Animator</code> component. Normally you would do this by referencing the <code>HybridAnimancerComponent</code> directly, but since we are sharing the same script with all the other characters in this example we simply use <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Casts</a> to access the members we need:</p>
-<pre><code class="language-cs">if (_Animancer is HybridAnimancerComponent hybrid)
+<p>That's why there's a second <code>Humanoid</code> character which uses a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> that can be controlled in essentially the same way as a regular <code>Animator</code> component. Normally you would do this by referencing the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> directly, but since we are sharing the same script with all the other characters in this example we simply use <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Casts</a> to access the members we need:</p>
+<pre><code class="language-cs">if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
 </code></pre>
-<p>That expression evaluates to <code>true</code> when the referenced component is a <code>HybridAnimancerComponent</code> and allows us to access its members using the <code>hybrid</code> variable.</p>
-<p>So to set the <code>Move</code> parameter, we call <code>SetBool</code> on the <code>HybridAnimancerComponent</code> just like on the <code>Animator</code>:</p>
+<p>That expression evaluates to <code>true</code> when the referenced component is a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> and allows us to access its members using the <code>hybrid</code> variable.</p>
+<p>So to set the <code>Move</code> parameter, we call <code>SetBool</code> on the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> just like on the <code>Animator</code>:</p>
 <pre><code class="language-cs">public void SetMove(bool move)
 {
-    if (_Animancer is HybridAnimancerComponent hybrid)
+    if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
         hybrid.SetBool(MoveParameterID, move);
     else
         _Animancer.Animator.SetBool(MoveParameterID, move);
@@ -736,10 +738,10 @@ public void PlaySeparateAnimation()
     _Animancer.Play(_SeparateAnimation);
 }
 </code></pre>
-<p>Playing the Animator Controller is slightly different since we want Animancer to play the <code>ControllerState</code> rather than stop playing anything. The <code>HybridAnimancerComponent.Controller</code> property is actually a <a href="../../../manual/transitions">Transition</a> which defines its own <code>Fade Duration</code> (which can be set in the Inspector), so if we want to immediately snap to the Animator Controller without fading we need to specify the <code>fadeDuration</code> as <code>0</code> when we call <code>Play</code>:</p>
+<p>Playing the Animator Controller is slightly different since we want Animancer to play the <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> rather than stop playing anything. The <code><a href="/animancer/api/Animancer/HybridAnimancerComponent/07E2D9D4">HybridAnimancerComponent.Controller</a></code> property is actually a <a href="../../../manual/transitions">Transition</a> which defines its own <code>Fade Duration</code> (which can be set in the Inspector), so if we want to immediately snap to the Animator Controller without fading we need to specify the <code>fadeDuration</code> as <code>0</code> when we call <code>Play</code>:</p>
 <pre><code class="language-cs">public void PlayAnimatorController()
 {
-    if (_Animancer is HybridAnimancerComponent hybrid)
+    if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
         hybrid.Play(hybrid.Controller, 0);
     else
         _Animancer.Stop();
@@ -754,7 +756,7 @@ public void PlaySeparateAnimation()
 <p>As with <code>PlayAnimatorController</code> above, we can just call <code>hybrid.Play(hybrid.Controller);</code> to have it use the <code>Fade Duration</code> set in the Inspector, but the <code>HybridAnimancerComponent.PlayController</code> method does exactly that with a bit less typing:</p>
 <pre><code class="language-cs">public void FadeAnimatorController()
 {
-    if (_Animancer is HybridAnimancerComponent hybrid)
+    if (_Animancer is <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> hybrid)
         hybrid.PlayController();
     else
         _Animancer.Layers[0].StartFade(0, 0.25f);
@@ -765,10 +767,10 @@ public void PlaySeparateAnimation()
 <p><a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers continue executing in the background even while Animancer is overriding the output, which is often a waste of performance:</p>
 <p><img src="background-native.png" class="pngif img-responsive"></p>
 <p>Note how the <code>Move</code> parameter can be set and its the Animator Controller's state will change, but it isn't affecting the actual output on the character model.</p>
-<p>But <code>ControllerState</code>s (and therefore <code>HybridAnimancerComponent</code>s) don't run in the background:</p>
+<p>But <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s (and therefore <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>s) don't run in the background:</p>
 <p><img src="background-hybrid.png" class="pngif img-responsive"></p>
-<p>The Inspector progress bar on the <code>ControllerState</code> turned yellow to indicate that the state is paused and it has also been set to restart its <code>Time</code> from 0, but since commands on Animator Controllers don't take effect until the next frame, it will look like it's paused until that state next gets used. This can also cause <a href="../../../introduction/mecanim-vs-animancer/why/reliability">Reliability</a> issues if you try to control it immediately on the same frame you start playing it again because it treats everything since you stopped it as a single frame.</p>
-<p>The <code>Move</code> parameter is still being set in this case, but the Animator window simply doesn't display the updated value while the <code>ControllerState</code> is inactive (note how the toggle in the Animator window immediately gets ticked to match the one in the top left when the <code>Fade Animator Controller</code> is clicked at the end).</p>
+<p>The Inspector progress bar on the <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> turned yellow to indicate that the state is paused and it has also been set to restart its <code>Time</code> from 0, but since commands on Animator Controllers don't take effect until the next frame, it will look like it's paused until that state next gets used. This can also cause <a href="../../../introduction/mecanim-vs-animancer/why/reliability">Reliability</a> issues if you try to control it immediately on the same frame you start playing it again because it treats everything since you stopped it as a single frame.</p>
+<p>The <code>Move</code> parameter is still being set in this case, but the Animator window simply doesn't display the updated value while the <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> is inactive (note how the toggle in the Animator window immediately gets ticked to match the one in the top left when the <code>Fade Animator Controller</code> is clicked at the end).</p>
 <h1 id="conclusion">Conclusion</h1>
 <p><a href="../../../manual/animator-controllers#hybrid">Hybrid</a> Animator Controllers allow fading to and from separate Animancer animations on <code>Humanoid</code> rigs while <a href="../../../manual/animator-controllers#native">Native</a> Animator Controllers allow Animancer to be used alongside other systems that weren't designed for Animancer.</p>
 <p><img src="basics.png" class="pngif img-responsive"></p>
@@ -783,7 +785,7 @@ public void PlaySeparateAnimation()
 <tbody>
 <tr>
 <td><strong><a href="../character">Hybrid Character</a></strong></td>
-<td>Demonstrates how you can use a <code>HybridAnimancerComponent</code> to play a default Animator Controller for some things and individual separate <code>AnimationClip</code>s for others.</td>
+<td>Demonstrates how you can use a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to play a default Animator Controller for some things and individual separate <code>AnimationClip</code>s for others.</td>
 </tr>
 <tr>
 <td><a href="../3d-game-kit">3D Game Kit</a></td>

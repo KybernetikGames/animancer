@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -471,6 +472,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -635,7 +637,7 @@
 </code></pre>
 <p>That method is long enough that it should really have been split into multiple methods. The first part where it determines the <code>movement</code> based on whether the character is grounded or not would do well as a separate method called something like <code>GetMovementThisFrame</code> which simply returns the <code>Vector3</code>.</p>
 <h1 id="animancer">Animancer</h1>
-<p>Animancer's implementation is also split into several steps in <code>LocomotionState</code> and <code>CharacterMovement</code>:</p>
+<p>Animancer's implementation is also split into several steps in <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> and <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a></code>:</p>
 <ol>
 <li><a href="#animancer-mixer">Mixer</a></li>
 <li><a href="#animancer-fixed-update">Fixed Update</a></li>
@@ -644,7 +646,7 @@
 <h1 id="animancer-mixer">Animancer Mixer</h1>
 <p>The Animancer character uses a <a href="../../../../../manual/blending/mixers">Mixer State</a> in place of the Blend Tree:</p>
 <pre><code class="language-cs">// LocomotionState.cs:
-[SerializeField] private LinearMixerTransition _LocomotionMixer;
+[SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _LocomotionMixer;
 
 private void OnEnable()
 {
@@ -674,18 +676,18 @@ private void FixedUpdate()
 </code></pre>
 <p>The rest of the <code>FixedUpdate</code> method concerns <a href="../turning">Turning</a> and audio.</p>
 <h1 id="animancer-on-animator-move">Animancer On Animator Move</h1>
-<p>The character has more than one state which moves them around, so rather than putting that logic in the <code>LocomotionState</code>, the Animancer character manages it in a <code>CharacterMovement</code> script:</p>
+<p>The character has more than one state which moves them around, so rather than putting that logic in the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code>, the Animancer character manages it in a <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a></code> script:</p>
 <pre><code class="language-cs">// Character.cs:
 public sealed class Character : MonoBehaviour
 {
     [SerializeField]
-    private CharacterMovement _Movement;
-    public CharacterMovement Movement =&gt; _Movement;
+    private <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a> _Movement;
+    public <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a> Movement =&gt; _Movement;
 }
 </code></pre>
 <p>The <a href="#mecanim-on-animator-move">Mecanim On Animator Move</a> method is far too long, so our implementation is split into several methods to make it much easier to understand and maintain:</p>
 <pre><code class="language-cs">// CharacterMovement.cs:
-public sealed class CharacterMovement : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a> : MonoBehaviour
 {
     [SerializeField] private Character _Character;
     [SerializeField] private CharacterController _CharacterController;
@@ -707,14 +709,14 @@ public sealed class CharacterMovement : MonoBehaviour
 <p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
 <p>But since each of our states is a separate class, we can use the power of <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> to give the base <code>CharacterState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
 <pre><code class="language-cs">// CharacterState.cs:
-public virtual Vector3 RootMotion =&gt; Animancer.Animator.deltaPosition;
+public virtual Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> =&gt; Animancer.Animator.deltaPosition;
 </code></pre>
-<p>Then any states that want different behaviour such as the <code>AirborneState</code> can <code>override</code> that property:</p>
+<p>Then any states that want different behaviour such as the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/AirborneState">AirborneState</a></code> can <code>override</code> that property:</p>
 <pre><code class="language-cs">// AirborneState.cs:
-public override Vector3 RootMotion 
+public override Vector3 <a href="/animancer/api/Animancer.Examples.Locomotion/RootMotion">RootMotion</a> 
     =&gt; Character.Parameters.MovementDirection * (Character.Parameters.ForwardSpeed * Time.deltaTime);
 </code></pre>
-<p>And now the <code>CharacterMovement</code> class can just access that property on whatever the current state happens to be, without having any specific knowledge about that state:</p>
+<p>And now the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a></code> class can just access that property on whatever the current state happens to be, without having any specific knowledge about that state:</p>
 <pre><code class="language-cs">// CharacterMovement.cs:
 private Vector3 GetRootMotion() =&gt; _Character.StateMachine.CurrentState.RootMotion;
 </code></pre>
@@ -745,7 +747,7 @@ private void CheckGround(ref Vector3 movement)
     }
 }
 </code></pre>
-<p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code>LocomotionState</code> and <code>LandingState</code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
+<p>In the 3D Game Kit the <code>GroundMaterial</code> would be used by the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> and <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> to play appropriate sounds for the surface the character is on, however the 3D Game Kit Lite (which we are using because it is far smaller so it can be downloaded easier) only has a single ground material anyway so this mechanic never comes into effect. Also, the <a href="../../problems#script-referencing">Script Referencing</a> issue prevents us from calling the necessary method to specify the <code>Material</code> when playing the sounds because <code>UnityEvent</code>s only support methods with one parameter.</p>
 <h2 id="update-gravity">Update Gravity</h2>
 <p>The Mecanim <code>PlayerController</code> had a <code>bool m_IsGrounded</code> field in addition to the ability to access <code>CharacterController.isGrounded</code> so that <code>m_IsGrounded</code> could be set to false when the character jumps even though they will actually still be on the ground until after the next physics update is able to move them upwards. This avoids cancelling out the jump velocity with the standard downward speed that gets applied while grounded. That is certainly a simple solution to the problem, but that field is referenced in 12 places throughout the script so its actual purpose is a little hard to discern without thorough inspection.</p>
 <p>Instead, we are using <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> again to make a very specifically named <code>StickToGround</code> property with an obvious purpose that can be easily traced:</p>

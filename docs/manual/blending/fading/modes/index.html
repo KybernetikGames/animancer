@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -462,6 +463,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -532,24 +534,37 @@
 			<h1>Fade Modes</h1>
 		</section>
 	<section class="content">
-		<p>The <code>Play</code> methods that take a fade duration also have a <code>FadeMode</code> parameter to determine exactly how it works (the <code>FadeMode</code> API page explains each of the modes). That parameter is optional and will use <code>FadeMode.FixedSpeed</code> if not specified so the following two lines will do exactly the same thing:</p>
+		<p>The <code>Play</code> methods that take a fade duration also have a <code><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></code> parameter to determine exactly how it works (the <code><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></code> API page explains each of the modes). That parameter is optional and will use the default <code>FadeMode.FixedSpeed</code> if not specified so the following two lines will do exactly the same thing:</p>
 <pre><code class="language-cs">animancer.Play(clip, 0.25f)
 animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 </code></pre>
-<p>Note that the fade duration is entirely separate from the length of the animation, so if the fade is too long it might not even finish fading in by the time the animation ends.</p>
+<p>Note that when using <code>Fixed</code> modes, the fade duration is entirely separate from the length of the animation so if the fade is too long it might not even finish fading in by the time the animation ends. This can be avoided by using <code>Normalized</code> modes and ensuring that the value you give is between 0 and 1 because it will be multiplied by the animation's length.</p>
 <h1 id="from-start">From Start</h1>
-<p><code>FadeMode.FromStart</code> allows an animation to fade into itself where the other modes simply control how the fade duration is interpreted so this section explains how it works in a bit more detail.</p>
-<p>As explained on the <a href="../../../playing/states">States</a> page, the first time an animation is played, Animancer will create an <code>AnimancerState</code> for it which can be seen in the <code>AnimancerComponent</code>'s Inspector.</p>
-<p><img src="first-shot-inspector.png" class="pngif img-responsive"></p>
-<p>Normally playing an animation that already has a state will simply reuse that state. The <a href="../../../../introduction/mecanim-vs-animancer/performance">Performance</a> page explains the main performance implications of this system.</p>
-<p>But when using <code>FadeMode.FromStart</code> it also checks the <code>Weight</code> of the state.</p>
+<table class="table">
+<thead>
+<tr>
+<th>Other Modes</th>
+<th><code>FadeMode.FromStart</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control how the fade duration is interpreted and will allow an animation to continue from its current time if it was already playing.</td>
+<td>Restarts the animation by creating a clone of its <a href="../../../playing/states">State</a> (if necessary) to fade in from the beginning while the old state fades out from its current time, allowing an animation to smoothly transition into itself.</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>If the <code>Weight</code> is below the <code>AnimancerLayer.WeightlessThreshold</code> (default <code>0.01</code>), it can fade in normally.</li>
-<li>Otherwise, it will create a copy of the state so that the copy can fade in from <code>0</code> <code>Time</code> and <code>Weight</code> while the original fades out from where it was as if they were completely different animations.</li>
+<li>If you play a <a href="../../../transitions">Transition</a> with its <code>Start Time</code> toggle enabled, it will use <code>FadeMode.FromStart</code> automatically.</li>
+<li>Cloning any type of state other than a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> will log <code>OptionalWarning.CloneComplexState</code>. It's there to ensure that you are aware of the potential performance and behaviour risks but if you are doing so intentionally, feel free to disable the warning like it says.</li>
+<li>A clone is created if the existing state's <code>Weight</code> is above the <code><a href="/animancer/api/Animancer/AnimancerLayer/D76C201A">AnimancerLayer.WeightlessThreshold</a></code> (default <code>0.1</code>).
+<ul>
+<li>If the state and clone have too high <code>Weight</code>,</li>
+<li>If more clones of a particular state would be created than the <code><a href="/animancer/api/Animancer/AnimancerLayer/B90A934F">AnimancerLayer.MaxCloneCount</a></code> (default 3), it will instead reuse whichever clone has the least <code>Weight</code> to limit the potential performance cost.</li>
 </ul>
-<p>Clones can also be further cloned in the same way, up to a limit of 5 copies deep by default because each state does have an additional performance cost. Exceeding this limit will simply log <code>OptionalWarning.MaxStateDepth</code> and you can increase the limit by calling <code>AnimancerLayer.SetMaxStateDepth(x);</code>. Note that this setting affects all characters so you would only need to do it once on startup.</p>
+</li>
+</ul>
 <p><img src="rapid-fire-inspector.png" class="pngif img-responsive"></p>
-<p>This is achieved by creating a new state with the same animation and using the original as the <a href="../../../playing/keys">Key</a> of the clone so that when <code>FadeMode.FromStart</code> gets a state with non-zero <code>Weight</code> it can simply use that state to get the next clone in the chain until it finds a usable one or gets to the end of the chain and creates a new one.</p>
 
 	</section>
                 

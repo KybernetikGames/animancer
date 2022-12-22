@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -470,6 +471,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -582,28 +584,28 @@
 </tr>
 <tr>
 <td><strong>Layered</strong></td>
-<td><code>LayeredCharacterAnimations</code></td>
+<td><code><a href="/animancer/api/Animancer.Examples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code></td>
 <td>Similar behaviour, but implemented using <a href="../../../manual/blending/layers">Layers</a>.</td>
 </tr>
 </tbody>
 </table>
 <p><img src="architecture.png" class="img-responsive" id="architecture"></p>
-<p></p><details><summary>The general code structure of <code>LayeredCharacterAnimations</code> is fairly similar to <code>SimpleCharacterAnimations</code>, but its setup and the way it plays its animations is a bit different:</summary><p>
+<p></p><details><summary>The general code structure of <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code> is fairly similar to <code>SimpleCharacterAnimations</code>, but its setup and the way it plays its animations is a bit different:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 
-public sealed class LayeredCharacterAnimations : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private ClipTransition _Idle;
-    [SerializeField] private ClipTransition _Move;
-    [SerializeField] private ClipTransition _Action;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
     [SerializeField] private AvatarMask _ActionMask;
     [SerializeField, Seconds] private float _ActionFadeOutDuration = AnimancerPlayable.DefaultFadeDuration;
     
-    private AnimancerLayer _BaseLayer;
-    private AnimancerLayer _ActionLayer;
+    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _BaseLayer;
+    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _ActionLayer;
 
     private void Awake()
     {
@@ -651,7 +653,7 @@ public sealed class LayeredCharacterAnimations : MonoBehaviour
 </code></pre>
 <p></p></details><p></p>
 <h1 id="general-structure">General Structure</h1>
-<p>The general structure of <code>LayeredCharacterAnimations</code> is basically the same as <code>SimpleCharacterAnimations</code>, but the specifics are a bit different.</p>
+<p>The general structure of <code><a href="/animancer/api/Animancer.Examples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code> is basically the same as <code>SimpleCharacterAnimations</code>, but the specifics are a bit different.</p>
 <pre><code class="language-cs">private void Awake()
 {
     // Initialize Layers (explained later).
@@ -692,9 +694,9 @@ private void OnActionEnd()
 }
 </code></pre>
 <h1 id="playing-layered-animations">Playing Layered Animations</h1>
-<p>By default, all animations are played on Layer 0. If you want to play an animation on a different layer, all you have to do is access it via <code>AnimancerComponent.Layers</code> like so:</p>
-<pre><code class="language-cs">private AnimancerLayer _BaseLayer;
-private AnimancerLayer _ActionLayer;
+<p>By default, all animations are played on Layer 0. If you want to play an animation on a different layer, all you have to do is access it via <code><a href="/animancer/api/Animancer/AnimancerComponent/5A1697AB">AnimancerComponent.Layers</a></code> like so:</p>
+<pre><code class="language-cs">private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _BaseLayer;
+private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _ActionLayer;
 
 private void Awake()
 {
@@ -737,13 +739,13 @@ private void UpdateAction()
 {
     ...
 
-    private enum State
+    private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
     {
         NotActing,
         Acting,
     }
 
-    private State _CurrentState;
+    private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
 
     ...
 

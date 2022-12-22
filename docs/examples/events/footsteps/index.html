@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -470,6 +471,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -560,14 +562,14 @@
 </ul>
 <h1 id="overview">Overview</h1>
 <p>There are two scripts in this example:</p>
-<p></p><details><summary>The base <code>FootstepEvents</code> script contains most of this example's logic:</summary><p>
+<p></p><details><summary>The base <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script contains most of this example's logic:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public sealed class FootstepEvents : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private ClipTransition _Walk;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Walk;
     [SerializeField] private AudioClip[] _Sounds;
 
     private void OnEnable()
@@ -583,12 +585,12 @@ public sealed class FootstepEvents : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>The <a href="../../../manual/events/animation">Animation Events</a> character also has the <code>FootstepEventsAnimation</code> script to receive its events:</summary><p>
+<p></p><details><summary>The <a href="../../../manual/events/animation">Animation Events</a> character also has the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a></code> script to receive its events:</summary><p>
 </p><pre><code class="language-cs">using UnityEngine;
 
-public sealed class FootstepEventsAnimation : MonoBehaviour
+public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a> : MonoBehaviour
 {
-    [SerializeField] private FootstepEvents _FootstepEvents;
+    [SerializeField] private <a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> _FootstepEvents;
     [SerializeField] private AudioSource[] _FootSources;
 
     private void Footstep(int foot)
@@ -612,18 +614,18 @@ public sealed class FootstepEventsAnimation : MonoBehaviour
     <tr>
 <td>
 <ul>
-<li><code>FootstepEvents</code> plays the animation.</li>
-<li><code>FootstepEventsAnimation</code> tells it when to play a sound and which <code>AudioSource</code> to use each time.</li>
-<li>That could have all been done in one script, but splitting them allows the other character to use the same <code>FootstepEvents</code> script without anything unnecessary in it.</li>
+<li><code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> plays the animation.</li>
+<li><code><a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a></code> tells it when to play a sound and which <code>AudioSource</code> to use each time.</li>
+<li>That could have all been done in one script, but splitting them allows the other character to use the same <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script without anything unnecessary in it.</li>
 <li>The <em>Humanoid-Walk-Footsteps</em> animation it uses is a copy of the regular <em>Humanoid-Walk</em> with the necessary events added to it.</li>
 </ul>
 </td>
 <td>
 <ul>
-<li><code>FootstepEvents</code> plays the animation.</li>
-<li>The events are defined inside the <code>_Walk</code> <a href="../../../manual/transitions">Transition</a> in the <code>FootstepEvents</code> script.
+<li><code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> plays the animation.</li>
+<li>The events are defined inside the <code>_Walk</code> <a href="../../../manual/transitions">Transition</a> in the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script.
 <ul>
-<li>They reference the <code>FootstepEvents</code> component so they can call its <code>PlaySound</code> method.</li>
+<li>They reference the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> component so they can call its <code>PlaySound</code> method.</li>
 <li>They also reference the <code>AudioSource</code>s to play the sounds on.</li>
 </ul>
 </li>
@@ -655,13 +657,13 @@ public sealed class FootstepEventsAnimation : MonoBehaviour
     <tr>
       <td>
 <p>Playing the animation is basically the same as the <a href="../../basics/quick-play">Quick Play</a> example except that it uses a <a href="../../../manual/transitions">Transition</a> instead of a direct <code>AnimationClip</code> reference:</p>
-<pre><code class="language-cs">public sealed class FootstepEvents : MonoBehaviour
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     
     [SerializeField]
-    private ClipTransition _Walk;
+    private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Walk;
     
     private void OnEnable()
     {
@@ -702,10 +704,10 @@ public sealed class FootstepEventsAnimation : MonoBehaviour
 </details><p></p>
 <p>Note that <a href="../../../manual/events/animation">Animation Events</a> don't directly interact with Animancer so this setup process is exactly the same as it would be without Animancer.</p>
 <h2 id="fields">Fields</h2>
-<p>Since it's only necessary for this system (but not <a href="../../../manual/events/animancer">Animancer Events</a>) it's better to not add anything extra to the <code>FootstepEvents</code> script that will be shared by both systems. So instead, <code>FootstepEventsAnimation</code> is a separate script which references the character's <code>FootstepEvents</code> script and foot <code>AudioSource</code>s:</p>
-<pre><code class="language-cs">public sealed class FootstepEventsAnimation : MonoBehaviour
+<p>Since it's only necessary for this system (but not <a href="../../../manual/events/animancer">Animancer Events</a>) it's better to not add anything extra to the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script that will be shared by both systems. So instead, <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a></code> is a separate script which references the character's <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script and foot <code>AudioSource</code>s:</p>
+<pre><code class="language-cs">public sealed class <a href="/animancer/api/Animancer.Examples.Events/FootstepEventsAnimation">FootstepEventsAnimation</a> : MonoBehaviour
 {
-    [SerializeField] private FootstepEvents _FootstepEvents;
+    [SerializeField] private <a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a> _FootstepEvents;
     [SerializeField] private AudioSource[] _FootSources;
 </code></pre>
 <p><img src="footstep-events-animation.png" class="img-responsive"></p>
@@ -714,7 +716,7 @@ public sealed class FootstepEventsAnimation : MonoBehaviour
 <pre><code class="language-cs">    private void Footstep(int foot)
     {
 </code></pre>
-<p>Then all that method needs to do is get the <code>AudioSource</code> for the specified foot from the array and tell the <code>FootstepEvents</code> script to play a sound on it:</p>
+<p>Then all that method needs to do is get the <code>AudioSource</code> for the specified foot from the array and tell the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> script to play a sound on it:</p>
 <pre><code class="language-cs">        _FootstepEvents.PlaySound(_FootSources[foot]);
     }
 }
@@ -743,7 +745,7 @@ public sealed class FootstepEventsAnimation : MonoBehaviour
 </table>
 <h1 id="animancer-events">Animancer Events</h1>
 <p><img src="architecture-animancer.png" class="img-responsive" id="architecture-animancer"></p>
-<p>Setting up this character is simpler because the events are stored in the <code>_Walk</code> <a href="../../../manual/transitions">Transition</a> in the <code>FootstepEvents</code> component. That component is in the scene so it can directly reference the foot <code>AudioSource</code>s. The <a href="../../../manual/events/animancer">Animancer Events</a> page explains how to set up events so all we need to do is follow that process.</p>
+<p>Setting up this character is simpler because the events are stored in the <code>_Walk</code> <a href="../../../manual/transitions">Transition</a> in the <code><a href="/animancer/api/Animancer.Examples.Events/FootstepEvents">FootstepEvents</a></code> component. That component is in the scene so it can directly reference the foot <code>AudioSource</code>s. The <a href="../../../manual/events/animancer">Animancer Events</a> page explains how to set up events so all we need to do is follow that process.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Left Footstep</th>

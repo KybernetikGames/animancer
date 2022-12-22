@@ -75,6 +75,7 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
+<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -470,6 +471,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4 - Early Access</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
@@ -607,7 +609,7 @@ using UnityEngine;
 
 public sealed class IdleState : CharacterState
 {
-    [SerializeField] private ClipTransition _MainAnimation;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _MainAnimation;
     [SerializeField, Seconds] private float _RandomizeDelay = 5;
     [SerializeField, Seconds] private float _MinRandomizeInterval = 0;
     [SerializeField, Seconds] private float _MaxRandomizeInterval = 20;
@@ -666,7 +668,7 @@ public sealed class IdleState : CharacterState
 <p></p></details><p></p>
 <p><img src="animancer-idle.png" class="img-responsive"></p>
 <p>We start with some serialized fields to show in the Inspector (with appropriate <a href="../../../../manual/other/units">Units Attributes</a>):</p>
-<pre><code class="language-cs">[SerializeField] private ClipTransition _MainAnimation;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _MainAnimation;
 [SerializeField, Seconds] private float _FirstRandomizeDelay = 5;
 [SerializeField, Seconds] private float _MinRandomizeInterval = 0;
 [SerializeField, Seconds] private float _MaxRandomizeInterval = 20;
@@ -729,7 +731,7 @@ public bool CheckMotionState()
 </code></pre>
 <p>In an Animator Controller you need to manually set up the same transitions all over the place. For example, many states have exit transitions to the <em>Airborne</em> state based on the <code>Grounded</code> parameter so every time a new state is added you also need to make those same transitions. Adding a new movement state such as <em>Swimming</em> or <em>Flying</em> would mean that you need to basically go through every state with a transition to <em>Airborne</em> and add a transition to the new state. However, doing it in code with a standard <code>CheckMotionState</code> method means that any newly added state can clearly have the same standard transitions and any modifications to that method will automatically affect everything which calls that method.</p>
 <h1 id="update-speed-control">Update Speed Control</h1>
-<p>At this point we know we're still <em>Idle</em> this frame so we just want to decelerate the <code>CharacterMovement.ForwardSpeed</code>. We might as well share the same logic that other states will use for movement, so we put that function in the <code>CharacterMovement</code> class:</p>
+<p>At this point we know we're still <em>Idle</em> this frame so we just want to decelerate the <code>CharacterMovement.ForwardSpeed</code>. We might as well share the same logic that other states will use for movement, so we put that function in the <code><a href="/animancer/api/Animancer.Examples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a></code> class:</p>
 <pre><code class="language-cs">// IdleState.cs:
 private void FixedUpdate()
 {
@@ -770,7 +772,7 @@ private void PlayRandomAnimation()
 }
 </code></pre>
 <h1 id="custom-fade">Custom Fade</h1>
-<p>The Mecanim character uses a fixed transition duration of 0.25 seconds between each of the idle animations. That causes a rather sudden change in the character's motion which the Animancer character smoothes out a bit by using 0.5 seconds instead. Each transition could have its duration further customised to suit each individual animation, but that is not the goal of this example. However, there is one more thing we can do to smooth out the transition: we can apply a <a href="../../../../manual/blending/fading#custom-fade">Custom Fade</a> right after starting the transition to replaces its default Linear Interpolation with an <code>Easing.Function</code>, <code>AnimationCurve</code>, or custom delegate (such as one of the methods in the <code>Easing</code> class):</p>
+<p>The Mecanim character uses a fixed transition duration of 0.25 seconds between each of the idle animations. That causes a rather sudden change in the character's motion which the Animancer character smoothes out a bit by using 0.5 seconds instead. Each transition could have its duration further customised to suit each individual animation, but that is not the goal of this example. However, there is one more thing we can do to smooth out the transition: we can apply a <a href="../../../../manual/blending/fading#custom-fade">Custom Fade</a> right after starting the transition to replaces its default Linear Interpolation with an <code><a href="/animancer/api/Animancer/Function">Easing.Function</a></code>, <code>AnimationCurve</code>, or custom delegate (such as one of the methods in the <code><a href="/animancer/api/Animancer/Easing">Easing</a></code> class):</p>
 <pre><code class="language-cs">private void PlayRandomAnimation()
 {
     ...
@@ -800,7 +802,7 @@ private void PlayRandomAnimation()
 </td>
 <td>
 <ol>
-<li>Increase the size of the <code>Random Animations</code> array to 4.</li>
+<li>Increase the size of the <code>Random <a href="/animancer/api/Animancer.Examples.AnimatorControllers/Animations">Animations</a></code> array to 4.</li>
 <li>Assign the <code>AnimationClip</code> you want the new element to use.</li>
 </ol>
 </td>
