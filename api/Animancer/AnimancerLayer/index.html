@@ -75,7 +75,6 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
-<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -188,7 +187,6 @@
 				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
 				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
 				<li><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></li>
-				<li><a href="/animancer/api/Animancer/ExposedPropertyTable">ExposedPropertyTable</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/FastReferenceComparer">Fast<wbr>Reference<wbr>Comparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
@@ -213,6 +211,7 @@
 				<li><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></li>
 				<li><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></li>
+				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerTransition_2">MixerTransition<wbr>&lt;TMixer, <wbr>TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></li>
@@ -299,7 +298,6 @@
 											<li>IEnumerable<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
 											<li>IEnumerator</li>								
 											<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
-											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a>&gt;<wbr></li>								
 											<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
 									</ul>
 								</dd>
@@ -332,9 +330,8 @@
 	Type-.-&gt;Interface3["IEnumerator"]
 	Type-.-&gt;Interface4["IPlayableWrapper"]
 	click Interface4 "/animancer/api/Animancer/IPlayableWrapper"
-	Type-.-&gt;Interface5["ICopyable&lt;AnimancerNode&gt;"]
-	Type-.-&gt;Interface6["IAnimationClipCollection"]
-	click Interface6 "/animancer/api/Animancer/IAnimationClipCollection"
+	Type-.-&gt;Interface5["IAnimationClipCollection"]
+	click Interface5 "/animancer/api/Animancer/IAnimationClipCollection"
 	Type["AnimancerLayer"]
 class Type type-node
 
@@ -346,8 +343,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>public sealed class AnimancerLayer : AnimancerNode, IUpdatable, Key.IListItem, 
-    IEnumerable&lt;AnimancerState&gt;, IEnumerator, IPlayableWrapper, ICopyable&lt;AnimancerNode&gt;, 
-    IAnimationClipCollection</code></pre>
+    IEnumerable&lt;AnimancerState&gt;, IEnumerator, IPlayableWrapper, IAnimationClipCollection</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
@@ -557,13 +553,12 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerLayer/B90A934F">MaxCloneCount</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/81E27BD6">MaxStateDepth</a></td>
 								<td>int</td>
 								<td>
-									<div>
-    The maximum number of duplicate states that can be created for a single clip when trying to get a
-    weightless state. Exceeding this limit will cause it to just use the state with the lowest weight.
-    Default = 3.
+									<div>[Assert-Only]
+    The maximum number of duplicate states that can be created by <code class="cs">Animancer.AnimancerLayer.GetOrCreateWeightlessState(Animancer.AnimancerState)</code> for
+    a single clip before it will start giving usage warnings. Default = 5.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -646,7 +641,7 @@ class Type type-node
 								<td>
 									<div>
     The maximum <code class="cs">Animancer.AnimancerNode.Weight</code> that <code class="cs">Animancer.AnimancerLayer.GetOrCreateWeightlessState(Animancer.AnimancerState)</code> will treat as
-    being weightless. Default = 0.1.
+    being weightless. Default = 0.01.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -840,7 +835,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerLayer/5B9C8B08">DestroyStates<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Destroys all states connected to this layer.</div>
+									<div>Destroys all states connected to this layer. This operation cannot be undone.</div>
 								</td>
 							</tr>
 							<tr>
@@ -857,17 +852,6 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
 									<div>Returns the state connected to the specified `index` as a child of this layer.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/BDEC00E9">Get<wbr>Constructor<wbr>Stack<wbr>Trace<wbr>(AnimancerNode)<wbr></a></td>
-								<td>StackTrace</td>
-								<td>
-									<div>[Assert-Only]
-    Returns the stack trace of the constructor (or null if <code class="cs">Animancer.AnimancerNode.TraceConstructor</code> was false).
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
-											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -890,7 +874,7 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
 									<div>
-    Calls <code class="cs">Animancer.AnimancerPlayable.GetKey(UnityEngine.AnimationClip)</code> and returns the state registered with that key or
+    Calls <code class="cs">Animancer.AnimancerPlayable.GetKey(UnityEngine.AnimationClip)</code> and returns the state which registered with that key or
     creates one if it doesn't exist.
     <p></p>
     If the state already exists but has the wrong <code class="cs">Animancer.AnimancerState.Clip</code>, the `allowSetClip`
@@ -915,7 +899,15 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerLayer/754BE941">GetOrCreateState<wbr>(Object, <wbr>AnimationClip, <wbr>bool)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
-									<div>Returns the state registered with the `key` or creates one if it doesn't exist.</div>
+									<div>
+    Returns the state which registered with the `key` or creates one if it doesn't exist.
+    <p></p>
+    If the state already exists but has the wrong <code class="cs">Animancer.AnimancerState.Clip</code>, the `allowSetClip`
+    parameter determines what will happen. False causes it to throw an <code class="cs">System.ArgumentException</code> while
+    true allows it to change the <code class="cs">Animancer.AnimancerState.Clip</code>. Note that the change is somewhat costly to
+    performance to use with caution.
+    
+    </div>
 								</td>
 							</tr>
 							<tr>
@@ -923,16 +915,9 @@ class Type type-node
 								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
 								<td>
 									<div>
-    If the `state`'s <code class="cs">Animancer.AnimancerNode.Weight</code> is not currently low, this method finds or creates a
-    copy of it which is low. he returned <code class="cs">Animancer.AnimancerState.Time</code> is also set to 0.
+    If the `state` is not currently at low <code class="cs">Animancer.AnimancerNode.Weight</code>, this method finds a copy of it
+    which is at low or creates a new one.
     </div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerLayer/337B4B2D">GetState<wbr>(Object)<wbr></a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
-								<td>
-									<div>Returns a state registered with the `key` and attached to this layer or null if none exist.</div>
 								</td>
 							</tr>
 							<tr>
@@ -1097,6 +1082,14 @@ class Type type-node
 									<div>[Pro-Only]
     Sets an <code class="cs">UnityEngine.AvatarMask</code> to determine which bones this layer will affect.
     </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer/99707C10">SetMaxStateDepth<wbr>(int)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Conditional] Sets the <code class="cs">Animancer.AnimancerLayer.MaxStateDepth</code>.</div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>

@@ -75,7 +75,6 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
-<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -188,7 +187,6 @@
 				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
 				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
 				<li><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></li>
-				<li><a href="/animancer/api/Animancer/ExposedPropertyTable">ExposedPropertyTable</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/FastReferenceComparer">Fast<wbr>Reference<wbr>Comparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
@@ -213,6 +211,7 @@
 				<li><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></li>
 				<li><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></li>
+				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerTransition_2">MixerTransition<wbr>&lt;TMixer, <wbr>TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></li>
@@ -386,35 +385,12 @@ private static void DisableAnimancerWarnings()
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/OptionalWarning/902E7B46">AnimatorDisabled</a></td>
-								<td>8</td>
-								<td>
-									<div>
-    The <code class="cs">Animancer.AnimancerComponent.Animator</code> is disabled so Animancer won't be able to play animations.
-    </div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/17A37E34">AnimatorSpeed</a></td>
-								<td>131072</td>
+								<td>65536</td>
 								<td>
 									<div>
     The <code class="cs">UnityEngine.Animator.speed</code> property does not affect Animancer. 
     Use <code class="cs">Animancer.AnimancerPlayable.Speed</code> instead.
-    </div>
-											<div><small><em>static</em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/OptionalWarning/1388F43B">CloneComplexState</a></td>
-								<td>1048576</td>
-								<td>
-									<div>
-    <code class="cs">Animancer.AnimancerLayer.GetOrCreateWeightlessState(Animancer.AnimancerState)</code> is cloning a complex state such as a
-    <code class="cs">Animancer.ManualMixerState</code> or <code class="cs">Animancer.ControllerState</code>. This has a larger performance cost than cloning
-    a <code class="cs">Animancer.ClipState</code> and these states generally have parameters that need to be controlled which may
-    result in undesired behaviour if your scripts are only expecting to have one state to control.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
@@ -443,7 +419,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/FC6A97DC">CustomFadeBounds</a></td>
-								<td>32768</td>
+								<td>16384</td>
 								<td>
 									<div>
     A <a href="https://kybernetik.com.au/animancer/docs/manual/blending/fading#custom-fade">Custom Fade</a>
@@ -454,7 +430,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/80C09DA8">CustomFadeNotNull</a></td>
-								<td>65536</td>
+								<td>32768</td>
 								<td>
 									<div>
     A weight calculation method was not specified when attempting to start a
@@ -465,7 +441,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/8C55522F">DuplicateEvent</a></td>
-								<td>64</td>
+								<td>32</td>
 								<td>
 									<div>
     An <a href="https://kybernetik.com.au/animancer/docs/manual/events/animancer">Animancer Event</a> is
@@ -476,7 +452,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/A47E53D1">EndEventInterrupt</a></td>
-								<td>128</td>
+								<td>64</td>
 								<td>
 									<div>
     An <a href="https://kybernetik.com.au/animancer/docs/manual/events/end">End Event</a> did not actually
@@ -487,7 +463,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/A401DFF0">LockedEvents</a></td>
-								<td>512</td>
+								<td>256</td>
 								<td>
 									<div>
     An <code class="cs">Animancer.AnimancerEvent.Sequence</code> is being modified even though its
@@ -497,28 +473,38 @@ private static void DisableAnimancerWarnings()
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/OptionalWarning/DBA8C491">MixerMinChildren</a></td>
-								<td>8192</td>
+								<td><a href="/animancer/api/Animancer/OptionalWarning/E40C9199">MaxStateDepth</a></td>
+								<td>524288</td>
 								<td>
 									<div>
-    A <code class="cs">Animancer.ManualMixerState</code> is being initialized with its <code class="cs">Animancer.AnimancerNode.ChildCount</code> &lt;= 1.
+    <code class="cs">Animancer.AnimancerLayer.GetOrCreateWeightlessState(Animancer.AnimancerState)</code> has created too many clones of a particular state.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/OptionalWarning/DBA8C491">MixerMinChildren</a></td>
+								<td>4096</td>
+								<td>
+									<div>
+    A <code class="cs">Animancer.MixerState</code> is being initialized with its <code class="cs">Animancer.AnimancerNode.ChildCount</code> &lt;= 1.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/ED0E7064">Mixer<wbr>Synchronize<wbr>Zero<wbr>Length</a></td>
-								<td>16384</td>
+								<td>8192</td>
 								<td>
 									<div>
-    A <code class="cs">Animancer.ManualMixerState</code> is synchronizing a child with <code class="cs">Animancer.AnimancerState.Length</code> = 0.
+    A <code class="cs">Animancer.MixerState</code> is synchronizing a child with <code class="cs">Animancer.AnimancerState.Length</code> = 0.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/664FB506">Native<wbr>Controller<wbr>Humanoid</a></td>
-								<td>16</td>
+								<td>8</td>
 								<td>
 									<div>
     An <code class="cs">UnityEngine.Animator.runtimeAnimatorController</code> is assigned but the Rig is Humanoid so it can't be
@@ -529,7 +515,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/B5E01872">Native<wbr>Controller<wbr>Hybrid</a></td>
-								<td>32</td>
+								<td>16</td>
 								<td>
 									<div>
     An <code class="cs">UnityEngine.Animator.runtimeAnimatorController</code> is assigned while also using a
@@ -540,7 +526,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/92ECE2ED">Playable<wbr>Asset<wbr>Animator<wbr>Binding</a></td>
-								<td>524288</td>
+								<td>262144</td>
 								<td>
 									<div>
     <code class="cs">Animancer.PlayableAssetState.InitializeBindings</code> is trying to bind to the same <code class="cs">UnityEngine.Animator</code>
@@ -555,14 +541,14 @@ private static void DisableAnimancerWarnings()
 								<td>
 									<div>
     A <a href="https://kybernetik.com.au/animancer/docs/introduction/features">Pro-Only Feature</a> has been
-    used in <a href="https://kybernetik.com.au/animancer/redirect/lite">Animancer Lite</a>.
+    used in <a href="https://kybernetik.com.au/animancer/lite">Animancer Lite</a>.
     </div>
 											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/75AE2A7A">UnsupportedEvents</a></td>
-								<td>1024</td>
+								<td>512</td>
 								<td>
 									<div>
     <a href="https://kybernetik.com.au/animancer/docs/manual/events/animancer">Animancer Events</a> are
@@ -573,7 +559,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/B9021580">UnsupportedIK</a></td>
-								<td>4096</td>
+								<td>2048</td>
 								<td>
 									<div>
     <a href="https://kybernetik.com.au/animancer/docs/manual/ik">Inverse Kinematics</a> cannot be
@@ -585,7 +571,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/8F59167B">UnsupportedSpeed</a></td>
-								<td>2048</td>
+								<td>1024</td>
 								<td>
 									<div><code class="cs">Animancer.AnimancerNode.Speed</code> is being used on a state that doesn't support it.</div>
 											<div><small><em>static</em></small></div>
@@ -593,7 +579,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/ADD50FFF">UnusedNode</a></td>
-								<td>262144</td>
+								<td>131072</td>
 								<td>
 									<div>An <code class="cs">Animancer.AnimancerNode.Root</code> is null during finalization (garbage collection).</div>
 											<div><small><em>static</em></small></div>
@@ -601,7 +587,7 @@ private static void DisableAnimancerWarnings()
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/OptionalWarning/0561965A">UselessEvent</a></td>
-								<td>256</td>
+								<td>128</td>
 								<td>
 									<div>
     An <code class="cs">Animancer.AnimancerEvent</code> that does nothing was invoked. Most likely it was not configured correctly.

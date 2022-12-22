@@ -75,7 +75,6 @@
                 
                     <!-- Navbar Right Menu -->
                 </nav>
-<a href="/animancer/docs/changes/animancer-v7-4" style="color:white">The upcoming <strong>Animancer v7.4</strong> is now available for Early Access.</a>
             </header>
             
             <!-- Left side column. contains the logo and sidebar -->
@@ -188,7 +187,6 @@
 				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
 				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
 				<li><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></li>
-				<li><a href="/animancer/api/Animancer/ExposedPropertyTable">ExposedPropertyTable</a></li>
 				<li><a href="/animancer/api/Animancer/FastComparer">FastComparer</a></li>
 				<li><a href="/animancer/api/Animancer/FastReferenceComparer">Fast<wbr>Reference<wbr>Comparer</a></li>
 				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
@@ -213,6 +211,7 @@
 				<li><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></li>
 				<li><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></li>
+				<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>
 				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerTransition_2">MixerTransition<wbr>&lt;TMixer, <wbr>TParameter&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></li>
@@ -299,9 +298,7 @@
 											<li>IEnumerable<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
 											<li>IEnumerator</li>								
 											<li><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></li>								
-											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a>&gt;<wbr></li>								
 											<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
-											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
 									</ul>
 								</dd>
 							
@@ -317,10 +314,10 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>								
-											<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>								
 											<li><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></li>								
-											<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>								
+											<li><a href="/animancer/api/Animancer/MixerState">MixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>								
 									</ul>
 								</dd>			
 							
@@ -342,20 +339,18 @@
 	Type-.-&gt;Interface3["IEnumerator"]
 	Type-.-&gt;Interface4["IPlayableWrapper"]
 	click Interface4 "/animancer/api/Animancer/IPlayableWrapper"
-	Type-.-&gt;Interface5["ICopyable&lt;AnimancerNode&gt;"]
-	Type-.-&gt;Interface6["IAnimationClipCollection"]
-	click Interface6 "/animancer/api/Animancer/IAnimationClipCollection"
-	Type-.-&gt;Interface7["ICopyable&lt;AnimancerState&gt;"]
+	Type-.-&gt;Interface5["IAnimationClipCollection"]
+	click Interface5 "/animancer/api/Animancer/IAnimationClipCollection"
 	Type["AnimancerState"]
 class Type type-node
-	Derived0["PlayableAssetState"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/PlayableAssetState"
-	Derived1["ClipState"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/ClipState"
-	Derived2["ControllerState"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/ControllerState"
-	Derived3["ManualMixerState"]--&gt;Type
-	click Derived3 "/animancer/api/Animancer/ManualMixerState"
+	Derived0["ControllerState"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/ControllerState"
+	Derived1["PlayableAssetState"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/PlayableAssetState"
+	Derived2["MixerState"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/MixerState"
+	Derived3["ClipState"]--&gt;Type
+	click Derived3 "/animancer/api/Animancer/ClipState"
 
 						</div>
 					</div>
@@ -365,8 +360,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>public abstract class AnimancerState : AnimancerNode, IUpdatable, Key.IListItem, 
-    IEnumerable&lt;AnimancerState&gt;, IEnumerator, IPlayableWrapper, ICopyable&lt;AnimancerNode&gt;, 
-    IAnimationClipCollection, ICopyable&lt;AnimancerState&gt;</code></pre>
+    IEnumerable&lt;AnimancerState&gt;, IEnumerator, IPlayableWrapper, IAnimationClipCollection</code></pre>
 
 
 	<h1 id="Remarks">Remarks</h1>
@@ -685,13 +679,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/B4C79799">NormalizedTimeD</a></td>
-								<td>double</td>
-								<td>
-									<div>The underlying <code class="cs"><a href="/animancer">double</a></code> value of <code class="cs">Animancer.AnimancerState.NormalizedTime</code>.</div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/149A6986">Parent</a></td>
 								<td><a href="/animancer/api/Animancer/IPlayableWrapper">IPlayableWrapper</a></td>
 								<td>
@@ -700,7 +687,7 @@ class Type type-node
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/BD79217C">RawTime</a></td>
-								<td>double</td>
+								<td>float</td>
 								<td>
 									<div>
     The internal implementation of <code class="cs">Animancer.AnimancerState.Time</code> which directly gets and sets the underlying value.
@@ -749,13 +736,6 @@ class Type type-node
 								<td>float</td>
 								<td>
 									<div>The number of seconds that have passed since the start of this animation.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/3613D749">TimeD</a></td>
-								<td>double</td>
-								<td>
-									<div>The underlying <code class="cs"><a href="/animancer">double</a></code> value of <code class="cs">Animancer.AnimancerState.Time</code>.</div>
 								</td>
 							</tr>
 							<tr>
@@ -898,20 +878,6 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/50F0CD7E">Clone<wbr>()<wbr></a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
-								<td>
-									<div>Creates a copy of this state with the same <code class="cs">Animancer.AnimancerNode.Root</code>.</div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/F5CD29F0">Clone<wbr>(AnimancerPlayable)<wbr></a></td>
-								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
-								<td>
-									<div>Creates a copy of this state with the specified <code class="cs">Animancer.AnimancerNode.Root</code>.</div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerNode/7AA1C9D3">CopyIKFlags<wbr>(AnimancerNode)<wbr></a></td>
 								<td>void</td>
 								<td>
@@ -970,17 +936,6 @@ class Type type-node
     Returns the state connected to the specified `index` as a child of this node.
     </div>
 											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerNode/BDEC00E9">Get<wbr>Constructor<wbr>Stack<wbr>Trace<wbr>(AnimancerNode)<wbr></a></td>
-								<td>StackTrace</td>
-								<td>
-									<div>[Assert-Only]
-    Returns the stack trace of the constructor (or null if <code class="cs">Animancer.AnimancerNode.TraceConstructor</code> was false).
-    </div>
-											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
-											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -1106,17 +1061,10 @@ class Type type-node
 								</td>
 							</tr>
 							<tr>
-								<td><a href="/animancer/api/Animancer/AnimancerState/A616154E">SetNewCloneRoot<wbr>(AnimancerPlayable)<wbr></a></td>
-								<td>void</td>
-								<td>
-									<div>Sets the <code class="cs">Animancer.AnimancerNode.Root</code>.</div>
-								</td>
-							</tr>
-							<tr>
 								<td><a href="/animancer/api/Animancer/AnimancerState/4F4E76C3">SetParent<wbr>(AnimancerNode, <wbr>int)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Connects this state to the `parent` state at the specified `index`.</div>
+									<div>Connects this state to the `parent` mixer at the specified `index`.</div>
 								</td>
 							</tr>
 							<tr>
