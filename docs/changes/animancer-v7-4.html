@@ -538,8 +538,8 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p>Planned Release 2023-01-??</p>
-<p>Current State: a few more minor features still to come, but <strong>feedback is needed</strong> since there are some changes to commonly used APIs and behaviour.</p>
+<p>Planned Release 2023-01-?? (this page was last updated on 2023-01-16)</p>
+<p>Current State: <strong>stable, but feedback is needed</strong> since there are some changes to commonly used APIs and behaviour.</p>
 <p>If you would like to <strong>try it out early</strong>, simply send your Invoice Number to <a href="mailto:animancer@kybernetik.com.au">animancer@kybernetik.com.au</a>.</p>
 </blockquote>
 <p><a href="../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
@@ -549,11 +549,11 @@
 <p><code>FadeMode.FromStart</code> now works with all state types.</p>
 <ul>
 <li>Added <code>AnimancerState.Clone</code> to make a copy of any state.</li>
-<li>Added <code>OptionalWarning.CloneComplexState</code> for awareness when cloning anything other than a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>.</li>
+<li>Added <code>OptionalWarning.CloneComplexState</code> for awareness when cloning anything other than a <code>ClipState</code>.</li>
 <li>Changed <code>AnimancerLayer.GetOrCreateWeightlessState</code>:
 <ul>
-<li>It now uses <code>AnimancerState.Clone</code> so it's no longer limited to only <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>s.</li>
-<li>Exceeding the <code><a href="/animancer/api/Animancer/AnimancerLayer/B90A934F">AnimancerLayer.MaxCloneCount</a></code> (default <code>3</code>) will now simply return the lowest weight state.</li>
+<li>It now uses <code>AnimancerState.Clone</code> so it's no longer limited to only <code>ClipState</code>s.</li>
+<li>Exceeding the <code>AnimancerLayer.MaxCloneCount</code> (default <code>3</code>) will now simply return the lowest weight state.</li>
 <li>Removed <code>OptionalWarning.MaxStateDepth</code>.</li>
 </ul>
 </li>
@@ -620,7 +620,7 @@ mixer.Initialize(idle, walk, run);
 </td>
 <td>
 <p>Now you can use Collection Initializers to concisely create a mixer of any size.</p>
-<pre><code class="language-cs">var mixer = new <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>
+<pre><code class="language-cs">var mixer = new LinearMixerState
 {
     { idle, 0 },
     { walk, 0.5f },
@@ -657,28 +657,59 @@ mixer.Add(run, 1);
 <li>Since you now add children one by one, the system will prevent any of them from being <code>null</code>.
 <ul>
 <li>This improves performance a bit by avoiding the need for mixers to null check their children throughout the system.</li>
-<li>The downside is that it reduces the flexibility of the system slightly because you might have wanted to leave some child slots empty to fill later, but that seems like a very uncommon use case (and could still be achieved by implementing a simple dummy <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> class).</li>
+<li>The downside is that it reduces the flexibility of the system slightly because you might have wanted to leave some child slots empty to fill later, but that seems like a very uncommon use case (and could still be achieved by implementing a simple dummy <code>AnimancerState</code> class).</li>
 </ul>
 </li>
 </ul>
 <h2 id="double-time">Double Time</h2>
 <ul>
-<li>Added <code><a href="/animancer/api/Animancer/AnimancerState/3613D749">AnimancerState.TimeD</a></code>, and <code>NormalizedTimeD</code> to allow access to the time value as a <code>double</code> (which is what the Playables API uses internally).
+<li>Added <code>AnimancerState.TimeD</code>, and <code>NormalizedTimeD</code> to allow access to the time value as a <code>double</code> (which is what the Playables API uses internally).
 <ul>
-<li>Changed <code><a href="/animancer/api/Animancer/AnimancerState/BD79217C">AnimancerState.RawTime</a></code> to a <code>double</code> and made it <code>public</code>.</li>
+<li>Changed <code>AnimancerState.RawTime</code> to a <code>double</code> and made it <code>public</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="inspector-gui">Inspector GUI</h2>
+<ul>
+<li>Replaced the <code>Is Playing Graph</code> toggle with a Play/Pause icon.</li>
+<li>Added a button to step forward one frame at a time.</li>
+<li>The frame step interval defaults to <code>Time.fixedDeltaTime</code> and can be changed in <code>AnimancerSettings</code>.</li>
+<li>Changed the Play/Pause buttons in the Transition Preview Window to icons.</li>
+<li>Added Step Forward/Backward buttons to the Transition Preview Window.</li>
+</ul>
+<h2 id="mixer-transition-inspector">Mixer Transition Inspector</h2>
+<ul>
+<li>Added Two Line Mode to Mixer Transitions which shows each animation on a separate line from its threshold/speed/sync since the animation names are often cut off by the limited space.</li>
+</ul>
+<h2 id="animator-controller-migration">Animator Controller Migration</h2>
+<ul>
+<li>Added various members to <code>ControllerState</code> and <code>HybridAnimancerComponent</code> to make it easier to migrate from an <code>Animator</code> based setup:
+<ul>
+<li><code>parameterCount</code>, <code>parameters</code>, and <code>layerCount</code> to match the naming conventions in <code>Animator</code>.</li>
+<li><code>SetFloat</code> overloads with damping parameters. This simply uses a dictionary to store the velocity values since the Playables API doesn't have damping built in.</li>
+<li><code>Update</code> as an extension method.</li>
 </ul>
 </li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
-<li>Added a foldout to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector with a field to manually add animations and button to step through frame by frame.</li>
-<li>Added <code><a href="/animancer/api/Animancer/ExposedPropertyTable">ExposedPropertyTable</a></code> for Timeline's Exposed References system.</li>
-<li>Added <code><a href="/animancer/api/Animancer.Editor/AnimancerSettings/BCD0CC3F">AnimancerSettings.HideEventCallbacks</a></code> to hide the <code>Callback</code> fields of Animancer Events in the Inspector.</li>
+<li>Added <code>DirectionalClipTransition</code>.</li>
+<li>Added a foldout to the <code>AnimancerComponent</code> Inspector with a field to manually add animations and button to step through frame by frame.</li>
+<li>Added <code>ExposedPropertyTable</code> for Timeline's Exposed References system.</li>
+<li>Added <code>AnimancerSettings.HideEventCallbacks</code> to hide the <code>Callback</code> fields of Animancer Events in the Inspector.</li>
 <li>Added <code>AnimancerEvent.Sequence.ContentsAreEqual</code>.</li>
-<li>Added <code>MixerState.RemoveChild</code> to more easily remove mixer children.</li>
-<li>Un-<code>sealed</code> <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> and added a generic <code>Create</code> method to allow you to use your own sub-class.
+<li>Added <code>ManualMixerStateSet</code> and <code>RemoveChild</code> to more easily change and remove mixer children.</li>
+<li>Added <code>SimpleTimer</code> for easily timing things.</li>
+<li>Un-<code>sealed</code> <code>AnimancerPlayable</code> and added a generic <code>Create</code> method to allow you to use your own sub-class.
 <ul>
-<li>Changed <code>AnimancerComponent.InitializePlayable</code> to take an <code><a href="/animancer/api/Animancer/AnimancerPlayable">AnimancerPlayable</a></code> instead of a <code>PlayableGraph</code> so you can create whatever subtype you want.</li>
+<li>Changed <code>AnimancerComponent.InitializePlayable</code> to take an <code>AnimancerPlayable</code> instead of a <code>PlayableGraph</code> so you can create whatever subtype you want.</li>
+</ul>
+</li>
+<li>Improved the <code>MouseDrag</code> script in the <a href="../examples/ik/puppet">IK Puppet</a> example.</li>
+<li>Improved the <code>ReadMe</code> system:
+<ul>
+<li>Separated <code>AnimancerReadMe</code> out of base <code>ReadMe</code> to allow it to be more easily shared between projects.</li>
+<li>Added an automatic update check.</li>
 </ul>
 </li>
 </ul>
@@ -695,26 +726,32 @@ mixer.Add(run, 1);
 </ul>
 <h1 id="changes">Changes</h1>
 <ul>
-<li>Merged the base <code>MixerState</code> into <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code> because keeping them separate added unnecessary complexity.</li>
+<li>Merged the base <code>MixerState</code> into <code>ManualMixerState</code> because keeping them separate added unnecessary complexity.</li>
+<li>Changed the Animancer.Lite.dll version mismatch warning to a dialogue window so you can't miss it.</li>
 <li>Changed the <a href="../examples/jobs/simple-lean">Simple Lean</a> example to expose a <code>Transform</code> array in the Inspector so it can work with Generic Rigs as well rather than only Humanoids.</li>
-<li>Changed the default <code><a href="/animancer/api/Animancer/AnimancerLayer/D76C201A">AnimancerLayer.WeightlessThreshold</a></code> from <code>0.01</code> to <code>0.1</code>.</li>
+<li>Changed the default <code>AnimancerLayer.WeightlessThreshold</code> from <code>0.01</code> to <code>0.1</code>.</li>
+<li>Changed <code>AnimancerNode.Playable</code> to <code>public</code> so you don't need to cast to <code>IPlayableWrapper</code>.</li>
 <li>Changed <code>AnimancerNode.IsPlayingAndNotEnding</code> to <code>public</code>.</li>
 <li>Changed <code>AnimancerNode.ConstructorStackTrace</code> to <code>public</code>.</li>
-<li>Changed <code><a href="/animancer/api/Animancer/ClipState/E1F99E7F">ClipState.ApplyAnimatorIK</a></code> and <code>ApplyFootIK</code> to return <code>false</code> instead of throwing an exception if you get the value before the <code>Playable</code> is created.</li>
+<li>Changed <code>ClipState.ApplyAnimatorIK</code> and <code>ApplyFootIK</code> to return <code>false</code> instead of throwing an exception if you get the value before the <code>Playable</code> is created.</li>
+<li>Removed <code>ScriptingDefineSymbols</code> and used the Animancer.asmdef to manage the <code>UNITY_2D_SPRITE</code> symbol instead.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
-<li>Fixed <code>NullReferenceException</code> in <code><a href="/animancer/api/Animancer.Editor/AnimationClipEditor">AnimationClipEditor</a></code>. <a href="https://github.com/KybernetikGames/animancer/issues/215">#215</a></li>
+<li>Fixed various warnings in Unity 2022.2.</li>
+<li>Fixed <code>NullReferenceException</code> in <code>AnimationClipEditor</code>. <a href="https://github.com/KybernetikGames/animancer/issues/215">#215</a></li>
 <li>Fixed <code>NullReferenceException</code> in <code>AnimancerNode.AppendDescription</code>.</li>
 <li>Fixed <code>NullReferenceException</code> in <code>ManualMixerState.SynchronizeDirect</code> with nested mixers.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> initialization to allow it to be added an an object without an <code>Animator</code> at runtime.</li>
+<li>Fixed <code>NamedAnimancerComponent</code> initialization to allow it to be added an an object without an <code>Animator</code> at runtime.</li>
 <li>Fixed <code>AnimancerNode.AppendIKDetails</code> to not throw errors if the <code>Playable</code> isn't valid.</li>
 <li>Fixed <code>AnimancerState.SetRoot</code> to not un-parent the state if its parent's root is also being set to the same value.</li>
 <li>Fixed potential errors in <code>AnimancerState.IsPlayingAndNotEnding</code> if the state has been destroyed. <a href="https://github.com/KybernetikGames/animancer/issues/226">#226</a></li>
-<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></code> equality checks to properly handle <code>NaN</code>s.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a></code> to apply its settings to the correct state.</li>
+<li>Fixed <code>AnimancerEvent</code> equality checks to properly handle <code>NaN</code>s.</li>
+<li>Fixed <code>LinearMixerTransition</code> to apply its settings to the correct state.</li>
 <li>Fixed tab navigation order of Inspector fields in <a href="../manual/transitions/types#mixer-transitions">Mixer Transitions</a>.</li>
 <li>Fixed multi-selecting <a href="../manual/transitions/assets">Transition Assets</a> causing events to lose their names under certain circumstances. <a href="https://github.com/KybernetikGames/animancer/issues/220">#220</a></li>
+<li>Fixed <code>ManualMixerState.ApplySynchronizeChildren</code> to not keep the mixer in the update list if it isn't playing. <a href="https://github.com/KybernetikGames/animancer/issues/242">#242</a></li>
+<li>Fixed the <a href="../manual/tools/pack-textures">Pack Textures Tool</a> to not give warnings if the 2D Sprite package isn't present.</li>
 </ul>
 
 	</section>
@@ -759,8 +796,17 @@ mixer.Add(run, 1);
 
 <div>
 <p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
 <p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
 <p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
 <p><a href="/ultevents">UltEvents</a></p>
 </div>
 
