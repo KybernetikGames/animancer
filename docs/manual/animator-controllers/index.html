@@ -56,12 +56,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">                            
-                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
-        <li><a href="/animancer/docs/download"><img src="/animancer/images/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
-        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
-        <li><a href="/animancer/docs/help"><img src="/animancer/images/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
-        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
 <form class="search-form" name="search" action="/animancer/search">
@@ -663,19 +663,24 @@ void NativeControllerExample()
 // Consider leaving the field name unchanged.
 // It's now incorrect, but this minimises the number of lines you need to change in the file.
 // This makes it easier to find important changes in a version control system.
+
+// Anything you would do with the Animator works the same with the HybridAnimancerComponent.
+void HybridAnimancerComponentExample()
+{
+    // Play the "Idle" state in the Animator Controller:
+    _Animator.Play("Idle");
+
+    // Set the "MoveSpeed" parameter in the Animator Controller:
+    _Animator.SetFloat("MoveSpeed", 0.5f);
+}
 </code></pre>
-<p>Swapping between the Animator Controller and separate animations is similar to the <a href="#native">Native</a> approach.</p>
+<p>If the script uses serialized fields like that, you will also need to re-assign the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> reference in the Inspector.</p>
+<p>Then you can play animations with Animancer to have it take over and call <code>PlayController</code> to return to the Animator Controller.</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _SeparateAnimation;
 
 void HybridControllerExample()
 {
-    // Play the "Idle" state in the Animator Controller:
-    _Animancer.Play("Idle");
-
-    // Set the "MoveSpeed" parameter in the Animator Controller:
-    _Animancer.SetFloat("MoveSpeed", 0.5f);
-
     // Play a separate animation not included in the Animator Controller:
     _Animancer.Play(_SeparateAnimation);
 
@@ -683,7 +688,7 @@ void HybridControllerExample()
     _Animancer.PlayController();
 }
 </code></pre>
-<p>Unfortunately, not all features are supported so if you need to use something that's missing, it probably isn't supported. The <code>speed</code> property is the most common example. <a href="../../bugs/animator-controller-speed">Unfortunately, there is no way to control the overall speed of an Animator Controller when using the Playables API</a>.</p>
+<p>Unfortunately, not all features are supported so if you need to use something that's missing, it probably isn't supported. The <code>speed</code> property is the most common example because <a href="../../bugs/animator-controller-speed">unfortunately, there is no way to control the overall speed of an Animator Controller when using the Playables API</a>.</p>
 <p>The <a href="../../examples/animator-controllers/character">Hybrid Character Example</a> demonstrates this approach in more detail.</p>
 
 	</section>
