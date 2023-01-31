@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - API - LinearMixerState.LinearMixerState.Drawer Class</title>
+        <title>Animancer - API - DirectionalClipTransition.DirectionalClipTransition.Drawer Class</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -83,7 +83,10 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Attributes">Attributes</a></p>
 <p><a href="#Constructors">Constructors</a></p>
+<p><a href="#fields">Fields</a></p>
+<p><a href="#Properties">Properties</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -233,6 +236,7 @@
 				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
 				<li><a href="/animancer/api/Animancer/ThresholdLabelAttribute">Threshold<wbr>Label<wbr>Attribute</a></li>
 				<li><a href="/animancer/api/Animancer/TimeSynchronizationGroup">Time<wbr>Synchronization<wbr>Group</a></li>
+				<li><a href="/animancer/api/Animancer/TimeSynchronizer_1">TimeSynchronizer<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></li>
@@ -272,14 +276,14 @@
 
 
 <section class="content-header">
-			<h3><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>.</h3>
-	<h1>LinearMixerState<wbr>.Drawer <small>Class</small></h1>
+			<h3><a href="/animancer/api/Animancer/DirectionalClipTransition">Directional<wbr>Clip<wbr>Transition</a>.</h3>
+	<h1>Directional<wbr>Clip<wbr>Transition<wbr>.Drawer <small>Class</small></h1>
 </section>
 <section class="content">
 	
 	
 		<h1 id="Summary">Summary</h1>
-	<div class="lead">[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.AnimancerState</code>.</div>
+	<div class="lead">[Editor-Only] Draws the Inspector GUI for an <code class="cs">Animancer.ITransitionDetailed</code>.</div>
 
 		<div class="panel panel-default">
   			<div class="panel-body">
@@ -292,21 +296,12 @@
 								<dt>Namespace</dt>
 								<dd><a href="/animancer/api/Animancer">Animancer</a></dd>
 											
-								<dt>Interfaces</dt>
-								<dd>
-									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer.Editor/IAnimancerNodeDrawer">IAnimancerNodeDrawer</a></li>								
-									</ul>
-								</dd>
 							
 								<dt>Base Types</dt>
 								<dd>
 									<ul class="list-unstyled">										
-											<li>Object</li>								
-											<li><a href="/animancer/api/Animancer.Editor/AnimancerNodeDrawer_1">AnimancerNodeDrawer</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer.Editor/AnimancerStateDrawer_1">AnimancerStateDrawer</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer.Editor/ParametizedAnimancerStateDrawer_1">Parametized<wbr>Animancer<wbr>State<wbr>Drawer</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
-											<li><a href="/animancer/api/Animancer/Drawer_1">ManualMixerState<wbr>.Drawer</a><wbr>&lt;<a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a>&gt;<wbr></li>								
+											<li>PropertyDrawer</li>								
+											<li><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></li>								
 									</ul>
 								</dd>				
 							
@@ -316,14 +311,10 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["ManualMixerState.Drawer&lt;LinearMixerState&gt;"]
-	Base0--&gt;Base1["ParametizedAnimancerStateDrawer&lt;LinearMixerState&gt;"]
-	Base1--&gt;Base2["AnimancerStateDrawer&lt;LinearMixerState&gt;"]
-	Base2--&gt;Base3["AnimancerNodeDrawer&lt;LinearMixerState&gt;"]
-	Base3--&gt;Base4["Object"]
-	Type-.-&gt;Interface0["IAnimancerNodeDrawer"]
-	click Interface0 "/animancer/api/Animancer.Editor/IAnimancerNodeDrawer"
-	Type["LinearMixerState.Drawer"]
+	Type--&gt;Base0["TransitionDrawer"]
+	click Base0 "/animancer/api/Animancer.Editor/TransitionDrawer"
+	Base0--&gt;Base1["PropertyDrawer"]
+	Type["DirectionalClipTransition.Drawer"]
 class Type type-node
 
 						</div>
@@ -333,11 +324,28 @@ class Type type-node
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public class LinearMixerState.Drawer : ManualMixerState.Drawer&lt;LinearMixerState&gt;, 
-    IAnimancerNodeDrawer</code></pre>
+	<pre><code>[CustomPropertyDrawer(typeof(DirectionalClipTransition), true)]
+public class DirectionalClipTransition.Drawer : TransitionDrawer</code></pre>
 
 
 
+	<h1 id="Attributes">Attributes</h1>
+	<div class="box">
+		<div class="box-body no-padding table-responsive">
+			<table class="table table-striped table-hover two-cols">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+					<tbody><tr>
+						<td>CustomPropertyDrawer</td>
+						<td></td>
+					</tr>
+			</tbody></table>
+		</div>
+	</div>	
 
 
 
@@ -353,10 +361,8 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Drawer/FBD66917">Drawer<wbr>(LinearMixerState)<wbr></a></td>
-									<td>
-    Creates a new <code class="cs">Animancer.LinearMixerState.Drawer</code> to manage the Inspector GUI for the `state`.
-    </td>
+								<td><a href="/animancer/api/Animancer/Drawer/779035F6">Drawer<wbr>()<wbr></a></td>
+									<td>Creates a new <code class="cs">Animancer.DirectionalClipTransition.Drawer</code>.</td>
 							</tr>
 					</tbody></table>
 				</div>
@@ -364,7 +370,83 @@ class Type type-node
 		
 
 
+			<h1 id="fields">Fields</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Constant Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/D116E2D3">MainPropertyName</a></td>
+								<td></td>
+								<td>
+									<div>
+    If set, the field with this name will be drawn on the header line with the foldout arrow instead of in its
+    regular place.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/01D7234C">Main<wbr>Property<wbr>Path<wbr>Suffix</a></td>
+								<td></td>
+								<td>
+									<div>"." + <code class="cs">Animancer.Editor.TransitionDrawer.MainPropertyName</code> (to avoid creating garbage repeatedly).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/C77E076F">Normalized<wbr>Start<wbr>Time<wbr>Field<wbr>Name</a></td>
+								<td>_NormalizedStartTime</td>
+								<td>
+									<div>The name of the backing field of <code class="cs">ClipTransition.NormalizedStartTime</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
 
+			<h1 id="Properties">Properties</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/F409EE60">Context</a></td>
+								<td><a href="/animancer/api/Animancer.Editor/DrawerContext">TransitionDrawer<wbr>.DrawerContext</a></td>
+								<td>
+									<div>The current <code class="cs">Animancer.Editor.TransitionDrawer.DrawerContext</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/5E010F71">PreviewButtonStyle</a></td>
+								<td>GUIStyle</td>
+								<td>
+									<div>The style used for the button that opens the <code class="cs">Animancer.Editor.TransitionPreviewWindow</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
 
 			<h1 id="Methods">Methods</h1>
 			<div class="box">
@@ -378,10 +460,85 @@ class Type type-node
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/Drawer/BD96E4BF">Add<wbr>Context<wbr>Menu<wbr>Functions<wbr>(GenericMenu)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/C661AA49">CanCacheInspectorGUI<wbr>(SerializedProperty)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Can't cache because it breaks the <code class="cs">Animancer.Editor.TimelineGUI</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/Drawer/78CE5830">DoChildPropertyGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Adds the details of this state to the `menu`.</div>
+									<div>
+    Draws the `property` GUI in relation to the `rootProperty` which was passed into <code class="cs">Animancer.Editor.TransitionDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/4DC71B48">DoHeaderGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>SerializedProperty, <wbr>GUIContent, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Draws the root property of a transition with an optional main property on the same line.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/EE86DD2B">DoMainPropertyGUI<wbr>(Rect, <wbr>Rect, <wbr>SerializedProperty, <wbr>SerializedProperty)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Draws the GUI the the target transition's main property.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/AD17B2CF">DoPreviewButtonGUI<wbr>(Rect, <wbr>bool, <wbr>string)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Draws a small button using the <code class="cs">Animancer.Editor.TransitionPreviewWindow.Icon</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/905D5143">GetPropertyHeight<wbr>(<wbr>Serialized<wbr>Property, <wbr>GUIContent)<wbr></a></td>
+								<td>float</td>
+								<td>
+									<div>Returns the number of vertical pixels the `property` will occupy when it is drawn.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/2A966433">InitializeMode<wbr>(SerializedProperty)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    If the <code class="cs">Animancer.Editor.TransitionDrawer._Mode</code> is <code class="cs">Animancer.Editor.TransitionDrawer.Mode.Uninitialized</code>, this method determines how it should start
+    based on the number of properties in the `serializedObject`. If the only serialized field is an
+    <code class="cs">Animancer.ITransition</code> then it should start expanded.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/D0752AA6">OnGUI<wbr>(Rect, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Draws the root `property` GUI and calls <code class="cs">Animancer.Editor.TransitionDrawer.DoChildPropertyGUI(UnityEngine.Rect@,UnityEditor.SerializedProperty,UnityEditor.SerializedProperty,UnityEngine.GUIContent)</code> for each of its children.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.Editor/TransitionDrawer/B3DD4D37">TryDoStartTimeField<wbr>(Rect, <wbr>SerializedProperty, <wbr>SerializedProperty, <wbr>GUIContent)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    If the `property` is a "Start Time" field, this method draws it as well as the "End Time" below it and
+    returns true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></em></small></div>
+											<div><small><em>static</em></small></div>
 								</td>
 							</tr>
 					</tbody></table>
