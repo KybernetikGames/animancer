@@ -81,9 +81,7 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
-<p><a href="#Syntax">Syntax</a></p>
-<p><a href="#Remarks">Remarks</a></p>
+	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Syntax">Syntax</a></p>
 <p><a href="#Attributes">Attributes</a></p>
 <p><a href="#TypeParameters">Type Parameters</a></p>
 <p><a href="#Properties">Properties</a></p>
@@ -226,6 +224,7 @@
 				<li><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></li>
 				<li><a href="/animancer/api/Animancer/PlayableAssetTransitionAsset">Playable<wbr>Asset<wbr>Transition<wbr>Asset</a></li>
 				<li><a href="/animancer/api/Animancer/PolymorphicAttribute">PolymorphicAttribute</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer/RedirectRootMotion_1">RedirectRootMotion<wbr>&lt;T&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/RedirectRootMotionToCharacterController">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Character<wbr>Controller</a></li>
 				<li><a href="/animancer/api/Animancer/RedirectRootMotionToRigidbody">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Rigidbody</a></li>
@@ -281,12 +280,7 @@
 <section class="content">
 	
 	
-		<h1 id="Summary">Summary</h1>
-	<div class="lead">
-    A component which takes the root motion from an <code class="cs">UnityEngine.Animator</code> and applies it to a
-    different object.
-    </div>
-
+	
 		<div class="panel panel-default">
   			<div class="panel-body">
 				<div class="row">
@@ -303,15 +297,16 @@
 								<dd>
 									<ul class="list-unstyled">										
 											<li>MonoBehaviour</li>								
+											<li><a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></li>								
 									</ul>
 								</dd>				
 							
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer/RedirectRootMotionToCharacterController">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Character<wbr>Controller</a></li>								
 											<li><a href="/animancer/api/Animancer/RedirectRootMotionToTransform">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Transform</a></li>								
 											<li><a href="/animancer/api/Animancer/RedirectRootMotionToRigidbody">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Rigidbody</a></li>								
-											<li><a href="/animancer/api/Animancer/RedirectRootMotionToCharacterController">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Character<wbr>Controller</a></li>								
 									</ul>
 								</dd>			
 							
@@ -320,15 +315,17 @@
 					<div class="col-md-6">
 						<div class="mermaid">
 							graph BT
-	Type--&gt;Base0["MonoBehaviour"]
+	Type--&gt;Base0["RedirectRootMotion"]
+	click Base0 "/animancer/api/Animancer/RedirectRootMotion"
+	Base0--&gt;Base1["MonoBehaviour"]
 	Type["RedirectRootMotion&lt;T&gt;"]
 class Type type-node
-	Derived0["RedirectRootMotionToTransform"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer/RedirectRootMotionToTransform"
-	Derived1["RedirectRootMotionToRigidbody"]--&gt;Type
-	click Derived1 "/animancer/api/Animancer/RedirectRootMotionToRigidbody"
-	Derived2["RedirectRootMotionToCharacterController"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer/RedirectRootMotionToCharacterController"
+	Derived0["RedirectRootMotionToCharacterController"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/RedirectRootMotionToCharacterController"
+	Derived1["RedirectRootMotionToTransform"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/RedirectRootMotionToTransform"
+	Derived2["RedirectRootMotionToRigidbody"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer/RedirectRootMotionToRigidbody"
 
 						</div>
 					</div>
@@ -338,15 +335,9 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[HelpURL("https://kybernetik.com.au/animancer/api/Animancer/" + nameof(RedirectRootMotion&lt;T&gt;) + "_1")]
-[RequireComponent(typeof(Animator))]
-public abstract class RedirectRootMotion&lt;T&gt; : MonoBehaviour</code></pre>
+public abstract class RedirectRootMotion&lt;T&gt; : RedirectRootMotion where T : Object</code></pre>
 
 
-	<h1 id="Remarks">Remarks</h1>
-	<div>
-    This can be useful if the character's <code class="cs">UnityEngine.Rigidbody</code> or <code class="cs">UnityEngine.CharacterController</code> is on a
-    parent of the <code class="cs">UnityEngine.Animator</code> to keep the model separate from the logical components.
-    </div>
 
 	<h1 id="Attributes">Attributes</h1>
 	<div class="box">
@@ -360,10 +351,6 @@ public abstract class RedirectRootMotion&lt;T&gt; : MonoBehaviour</code></pre>
 				</thead>
 					<tbody><tr>
 						<td>HelpURLAttribute</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>RequireComponent</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -405,10 +392,11 @@ public abstract class RedirectRootMotion&lt;T&gt; : MonoBehaviour</code></pre>
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/RedirectRootMotion_1/41318809">Animator</a></td>
+								<td><a href="/animancer/api/Animancer/RedirectRootMotion/BB3E0985">Animator</a></td>
 								<td>Animator</td>
 								<td>
 									<div>The <code class="cs">UnityEngine.Animator</code> which provides the root motion.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -416,9 +404,25 @@ public abstract class RedirectRootMotion&lt;T&gt; : MonoBehaviour</code></pre>
 								<td>bool</td>
 								<td>
 									<div>
-    Returns true if the <code class="cs">Animancer.RedirectRootMotion`1.Target</code> and <code class="cs">Animancer.RedirectRootMotion`1.Animator</code> are set and
+    Returns true if the <code class="cs">Animancer.RedirectRootMotion`1.Target</code> and <code class="cs">Animancer.RedirectRootMotion.Animator</code> are set and
     <code class="cs">UnityEngine.Animator.applyRootMotion</code> is enabled.
     </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/RedirectRootMotion/46489AA3">Position</a></td>
+								<td>Vector3</td>
+								<td>
+									<div>The current position of the target.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/RedirectRootMotion/4234CACC">Rotation</a></td>
+								<td>Quaternion</td>
+								<td>
+									<div>The current rotation of the target.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
@@ -445,17 +449,18 @@ public abstract class RedirectRootMotion&lt;T&gt; : MonoBehaviour</code></pre>
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer/RedirectRootMotion_1/23D60A38">OnAnimatorMove<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/RedirectRootMotion/6EE70D1D">OnAnimatorMove<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Applies the root motion from the <code class="cs">Animancer.RedirectRootMotion`1.Animator</code> to the target object.</div>
+									<div>Applies the root motion from the <code class="cs">Animancer.RedirectRootMotion.Animator</code> to the <code class="cs">Target</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></em></small></div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer/RedirectRootMotion_1/8461DD98">OnValidate<wbr>()<wbr></a></td>
 								<td>void</td>
 								<td>
-									<div>Automatically finds the <code class="cs">Animancer.RedirectRootMotion`1.Animator</code> and <code class="cs">Animancer.RedirectRootMotion`1.Target</code>.</div>
+									<div>Automatically finds the <code class="cs">Animancer.RedirectRootMotion.Animator</code> and <code class="cs">Animancer.RedirectRootMotion`1.Target</code>.</div>
 								</td>
 							</tr>
 					</tbody></table>
