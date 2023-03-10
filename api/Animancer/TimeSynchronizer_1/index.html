@@ -325,13 +325,8 @@ class Type type-node
 
 	<h1 id="Examples">Examples</h1>
 	<div>
-    <ol>
-    <li>Store a <see cref="T:Animancer.TimeSynchronizer`1"> in a field.</see></li>
-    <li>Call any of the <see cref="M:Animancer.TimeSynchronizer`1.StoreTime(Animancer.AnimancerState)"> methods before playing a new animation.</see></li>
-    <li>Then call any of the <see cref="M:Animancer.TimeSynchronizer`1.SyncTime(Animancer.AnimancerState,`0,System.Single)"> methods after playing the animation.</see></li>
-    </ol>
     Example: <a href="https://kybernetik.com.au/animancer/docs/examples/directional-sprites/character#synchronization">Character Controller -&gt; Synchronization</a>
-    <pre><code class="cs">public enum AnimationType
+    <p></p><pre><code class="cs">public enum AnimationType
 {
     None,
     Movement,
@@ -339,14 +334,23 @@ class Type type-node
 
 [SerializeField] private AnimancerComponent _Animancer;
 
+// 1. Store a TimeSynchronizer in a field.
 private readonly TimeSynchronizer&lt;AnimationType&gt;
     TimeSynchronizer = new TimeSynchronizer&lt;AnimationType&gt;();
 
 public AnimancerState Play(AnimationClip clip, AnimationType type)
 {
+    // 2. Call any of the StoreTime methods before playing a new animation.
     TimeSynchronizer.StoreTime(_Animancer);
+    
+    // 3. Play an animation.
     var state = _Animancer.Play(clip);
+    
+    // 4. Call any of the SyncTime methods after playing the animation.
+    // If the `type` was the same as the value from last time you called it,
+    // the state's NormalizedTime will be set to the stored value.
     TimeSynchronizer.SyncTime(state, type);
+    
     return state;
 }</code></pre>
     </div>
