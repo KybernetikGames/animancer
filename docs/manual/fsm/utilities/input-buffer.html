@@ -543,7 +543,7 @@
 <p>The <code><a href="/animancer/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> class allows you to easily implement this sort of buffering:</p>
 <ol>
 <li>Construct a <code>new <a href="/animancer/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> by passing in the target state machine.</li>
-<li>Whenever you would normally call <code>TrySetState(state)</code> on the state machine, call <code>Buffer(state, timeOut)</code> on the input buffer instead. It will call <code>TrySetState</code> and if it fails, then it will store the <code>state</code> to try again later.</li>
+<li>Whenever you would normally call <code>TryResetState(state)</code> on the state machine, you can instead call <code>Buffer(state, timeOut)</code> on the input buffer which will make it call <code>TryResetState</code> and if it fails, then it will store the <code>state</code> to try again later.</li>
 <li>Call <code>Update</code> on the buffer every frame to have it try to enter the buffered state again (if there is one).</li>
 </ol>
 <p>The <a href="../../../examples/fsm/weapons#attack-input">Weapons</a> example demonstrates how to use this system.</p>
