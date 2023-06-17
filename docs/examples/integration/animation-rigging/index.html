@@ -600,7 +600,7 @@
 <p><img src="ik-configuration.png" class="img-responsive"></p>
 <h2 id="paused-graph">Paused Graph</h2>
 <p>Normally, Animancer creates a <code>PlayableGraph</code> and the Animation Rigging system creates another one which reads its inputs from the previous one. This allows it to avoid interfering with the main animation system so it can work the same regardless of whether the primary graph is managed by an Animator Controller or Animancer or any other system that uses the Playables API.</p>
-<p>Unfortunately, manually calling <code>Evaluate</code> on a <code>PlayableGraph</code> (like in the <a href="../../fine-control/update-rate">Update Rate</a> example) only evluates that graph on its own and there doesn't seem to be any way to make them both update in sequence as they would during a regular animation update. This causes the Animation Rigging system to completely fail if you try to manually evaluate the graph.</p>
+<p>Unfortunately, manually calling <code>PlayableGraph.Evaluate</code> (like in the <a href="../../fine-control/update-rate">Update Rate</a> example) only evluates that graph on its own and there doesn't seem to be any way to make them both update in sequence as they would during a regular animation update. This causes the Animation Rigging system to completely fail if you try to manually evaluate the graph.</p>
 <p>This can be solved by initializing Animancer to use the same <code>PlayableGraph</code> as the Animation Rigging system with a script like this:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -614,11 +614,12 @@ public sealed class AnimancerUseRiggingGraph : MonoBehaviour
 
     private void Awake()
     {
-        _Animancer.InitializePlayable(_RigBuilder.graph);
+        var playable = AnimancerPlayable.Create(_RigBuilder.graph);
+        _Animancer.InitializePlayable(playable);
     }
 }
 </code></pre>
-<p>Then you can simply call <code>_Animancer.Playable.Evaluate()</code> normally and it will evaluate both Animancer and the Animation Rigging system properly.</p>
+<p>Then you can simply call <code>_Animancer.Evaluate()</code> normally and it will evaluate both Animancer and the Animation Rigging system properly.</p>
 
 	</section>
                 
