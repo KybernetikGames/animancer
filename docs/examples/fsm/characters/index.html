@@ -669,7 +669,9 @@
 <li>A state machine (this example uses Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system, but you can use any system you like).</li>
 <li>Any other common features that most characters have such as a <code>Rigidbody</code>, character attributes, inventory, health pool, and so on.</li>
 </ul>
-<p>Having this central script means that other scripts can simply have one reference to the <code>Character</code> and access all their other components through it. For example, the <a href="#action-state">Action State</a> wants to play an animation and then return the character to their <a href="#idle-state">Idle State</a>. So instead of needing to reference the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>, <code>StateMachine</code>, and idle <code>CharacterState</code>, it just references the <code>Character</code> so it can access the <code>Character.Animancer</code>, <code>Character.StateMachine</code>, and <code>Character.Idle</code>.</p>
+<p>Having this central script means that other scripts can simply have one reference to the <code>Character</code> and access all their other components through it. For example, the <a href="#action-state">Action State</a> wants to play an animation and then return the character to their <a href="#idle-state">Idle State</a>. So instead of needing to reference the <code>AnimancerComponent</code>, <code>StateMachine</code>, and idle <code>CharacterState</code>, it just references the <code>Character</code> so it can access the <code>Character.Animancer</code>, <code>Character.StateMachine</code>, and <code>Character.Idle</code>.</p>
+<p>With that said, don't fall into the trap of thinking <em>everything</em> is a character. Otherwise, you might end up in a situation like Fallout 3 where the easiest way for them to implement a moving train was to make it as a character's hat and hide the character underground.</p>
+<p><img src="fallout-3-train-hat.png" class="img-responsive"></p>
 </details><p></p>
 <p>It references the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>:</p>
 <pre><code class="language-cs">public sealed class Character : MonoBehaviour
@@ -716,7 +718,7 @@ public <a href="/animancer/api/Animancer.Examples.StateMachines/Equipment">Equip
     </tr>
   </tbody>
 </table>
-<p>In a real project, this is where you would also put references to things like a <code>Rigidbody</code> or <code>CharacterController</code>, a script that detects whether the character is currently on the ground, and character stats.</p>
+<p>In a real project, this is where you would also put references to things like a <code>Rigidbody</code> or <code>CharacterController</code>, a script that detects whether the character is currently on the ground, character stats, an inventory system, etc.</p>
 <h1 id="state-machine">State Machine</h1>
 <p>The <code>Character</code> class also holds the <code>StateMachine</code> that will manage their actions. It uses the <a href="../../../manual/fsm/initialization#serialized-field">Serialized Field pattern explained on the Initialization page</a>:</p>
 <pre><code class="language-cs">[DefaultExecutionOrder(-10000)]
@@ -819,7 +821,7 @@ public sealed class Character : MonoBehaviour
     }
 }
 </code></pre>
-<p><code>CharacterState</code> inherits from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> which means it will automatically disable itself by default and then enable itself when the state machine enters the state. So the <code>OnEnable</code> method will effectively do the same as if we had used <code>public override void OnEnterState()</code>.</p>
+<p><code>CharacterState</code> inherits from <code><a href="/animancer/api/Animancer.FSM/StateBehaviour">StateBehaviour</a></code> which means it will automatically disable itself by default and then enable itself when the state machine enters that state. So the <code>OnEnable</code> method will effectively do the same as if we had used <code>public override void OnEnterState()</code>.</p>
 <img src="move-inspector.png" class="img-responsive img-right" style="max-width:40%">
 <h1 id="move-state">Move State</h1>
 <p>There is no <em>Move</em> state script in this example because <code>IdleState</code> already does exactly what it needs, so the character simply has a second <code>IdleState</code> component with a different animation assigned.</p>
@@ -836,8 +838,18 @@ public sealed class Character : MonoBehaviour
         Character.Animancer.Play(_Animation);
     }
 </code></pre>
-<p>Again, in a real project it would be better to remove that duplicated code and have <code><a href="/animancer/api/Animancer.Examples.StateMachines/ActionState">ActionState</a></code> <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from <code>AnimatedState</code>, but for the sake of simplicity this example keeps each state a bit more self-contained.</p>
-<p>Unlike <a href="#idle-state">Idle</a> and <a href="#move-state">Move</a>, this animation isn't looping so we want to return to <a href="#idle-state">Idle</a> when it ends. Since the <a href="#state-machine">State Machine declared above</a> has a <a href="../../../manual/fsm/initialization#default-states">Default State</a>, we can easily set the animation's <a href="../../../manual/events/end">End Event</a> to return to it:</p>
+<p></p><details><summary>This example repeats that code for the sake of simplicity, but in a real project it's often a good idea to avoid duplicating code. Click here for some ideas on how that could be done.</summary>
+<p>If all of your states are going to want a single <code>ClipTransition</code> for their animation then you could just put that field and <code>OnEnable</code> method in the base <code>CharacterState</code> class.</p>
+<ul>
+<li>If you do that, you absolutely <strong>must</strong> change the method from <code>private</code> to <code>protected</code> to avoid accidental bugs.</li>
+<li>Giving the method the <code>virtual</code> <a href="/cs-unity/docs/introduction/inheritance#keywords">Keyword</a> is also generally a good idea in case a child class wants to <code>override</code> it.</li>
+<li>For example, if you put that <code>private</code> <code>OnEnable</code> method in the base <code>CharacterState</code> and also wanted <code>ActionState</code> to have its own <code>OnEnable</code> method, Unity would only call the method in the child class (<code>ActionState</code>) so it wouldn't run the base method which is supposed to play the animation. Making the method <code>protected</code> means that adding a method with the same name in a child class will show a compile warning and making it <code>virtual</code> will mean the child class can <code>override</code> it to have its own method and call <code>base.OnEnable();</code> to run the base method.</li>
+<li>The above points apply to any MonoBehaviour event message in a non-<code>sealed</code> class. They should all be <code>protected virtual</code> in most cases.</li>
+</ul>
+<p>That said, it's more common to have at least some states with other animation requirements such as a locomotion state using a <a href="../../../manual/blending/mixers">Mixer State</a> to blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations. In that case, it would make sense to rename <code>IdleState</code> to something like <code>SimpleAnimatedState</code> and use it for anything with a single animation while still retaining the ability to have more complex states <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> directly from <code>CharacterState</code>.</p>
+<p>And if you're only going to have a few states repeating a little bit of code then maybe there's no point in worrying about designing a fancy reusable architecture. It's something to consider on a case by case basis.</p>
+</details><p></p>
+<p>Unlike <a href="#idle-state">Idle</a> and <a href="#move-state">Move</a>, this animation isn't looping so we want to return to <a href="#idle-state">Idle</a> when it ends. The easiest way to do that is to set its <a href="../../../manual/events/end">End Event</a> to return to its <a href="../../../manual/fsm/initialization#default-states">Default State</a>:</p>
 <pre><code class="language-cs">    private void Awake()
     {
         _Animation.Events.OnEnd = Character.StateMachine.ForceSetDefaultState;
