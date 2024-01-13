@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#manual-creation">Manual Creation</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#transitions">Transitions</a></p>
+<p><a href="#manual-creation">Manual Creation</a></p>
 <p><a href="#thresholds">Thresholds</a></p>
 <p><a href="#nesting">Nesting</a></p>
 <hr class="infobar-hidden">
@@ -287,7 +288,8 @@
                 <li><a href="/animancer/docs/examples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
                 <li><a href="/animancer/docs/examples/integration/lod">Level of Detail (LOD)</a></li>
                 <li><a href="/animancer/docs/examples/integration/odin-inspector">Odin Inspector</a></li>
-                <li><a href="/animancer/docs/examples/integration/puppet-master">Puppet Master</a></li><li><a href="/animancer/docs/examples/integration/spine">Spine</a></li>
+                <li><a href="/animancer/docs/examples/integration/puppet-master">Puppet Master</a></li>
+                <li><a href="/animancer/docs/examples/integration/spine">Spine</a></li>
 
                     </ul>
                 </li>
@@ -543,7 +545,9 @@
 			<h1>Mixer Creation</h1>
 		</section>
 	<section class="content">
-		<p>Mixers are usually set up in the Inspector using <a href="../../../transitions/types#mixer-transitions">Mixer Transitions</a>:</p>
+		<p>Like all other types of states, Mixers can be created using <a href="#transitions">Transitions</a> configured in the Inspector or <a href="#manual-creation">Manually Created</a> in code. Both approaches also allow for <a href="#nesting">Mixers to be nested inside each other</a>.</p>
+<h1 id="transitions">Transitions</h1>
+<p>Mixers are usually set up in the Inspector using <a href="../../../transitions/types#mixer-transitions">Mixer Transitions</a>:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -552,13 +556,25 @@ public class PlayMixerOnEnable : MonoBehaviour
     [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
 
+    [SerializeField, Range(0, 1)]
+    private float _MovementSpeed;
+
     private void OnEnable()
     {
         _Animancer.Play(_Mixer);
     }
+
+    private void Update()
+    {
+        // Transitions don't have a parameter to control directly.
+        // But once it has been played to create the state, you can access the state's parameter.
+        _Mixer.State.Parameter = _MovementSpeed;
+    }
 }
 </code></pre>
+<p>This is most often the preferred approach since it keeps the code simple and allows the animation details to be configured by non-programmers.</p>
 <p><img src="transition-inspector.png" class="img-responsive"></p>
+<p>The <a href="../synchronization">Mixer Synchronization</a> page explains why the <code>Sync</code> toggle is disabled for the <em>Idle</em> animation.</p>
 <h1 id="manual-creation">Manual Creation</h1>
 <p>If you don't want to use a <a href="../../../transitions/types#mixer-transitions">Mixer Transition</a>, you can create the Mixer yourself using code:</p>
 <ol>
@@ -626,7 +642,7 @@ public sealed class LinearMixerExample : MonoBehaviour
     [SerializeField, Range(0, 1)]
     private float _MovementSpeed;
 
-    // Keep the mixer after is is created so we can change the Parameter later.
+    // Keep the mixer state after it's created so we can change the Parameter later.
     private <a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a> _MovementMixer;
 
     private void Awake()
@@ -644,6 +660,9 @@ public sealed class LinearMixerExample : MonoBehaviour
         // _MovementMixer.Add(_Idle, 0);
         // _MovementMixer.Add(_Walk, 0.5f);
         // _MovementMixer.Add(_Run, 1);
+
+        // Don't synchronize the Idle animation (Index 0) with the Walk and Run cycles.
+        _MovementMixer.DontSynchronize(_MovementMixer.GetChild(0));
 
         // Then you can Play the mixer just like a regular clip.
         _Animancer.Play(_MovementMixer);
