@@ -85,6 +85,7 @@
 <p><a href="#major-features">Major Features</a></p>
 <p><a href="#transition-libraries">Transition Libraries</a></p>
 <p><a href="#weighted-mask-layers">Weighted Mask Layers</a></p>
+<p><a href="#string-references-and-assets">String References and Assets</a></p>
 <p><a href="#animancer-events">Animancer Events</a></p>
 <p><a href="#parameters">Parameters</a></p>
 <p><a href="#fade-groups">Fade Groups</a></p>
@@ -573,7 +574,7 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p>This page was last updated 2024-05-01</p>
+<p>This page was last updated 2024-05-10</p>
 <p><a href="upgrade-guide#release-timeline">Estimated Release 2024-??-??</a></p>
 </blockquote>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
@@ -597,7 +598,7 @@
 <li><a href="#event-binding">Event callbacks can now be bound by name in a central dictionary.</a></li>
 </ul>
 </li>
-<li><a href="#parameters">Mixer parameters can now be bound by name in a central dictionary.</a></li>
+<li><a href="#parameters">Mixer and Controller State parameters can now be bound by name in a central dictionary.</a></li>
 <li><a href="#fade-groups">Cross fading is now managed by Fade Groups, which also include the old Custom Fade system.</a></li>
 <li><a href="#live-inspector">The Live Inspector has been improved.</a></li>
 <li><a href="#shared-references">The Polymorphic Drawer system can now show when multiple fields share the same reference.</a></li>
@@ -611,7 +612,7 @@
 <h1 id="weighted-mask-layers">Weighted Mask Layers</h1>
 <p>The <a href="https://github.com/KybernetikGames/animancer/issues/154">experimental Weighted Mask Layers system</a> has been turned into a proper feature. It allows layers to be masked so they control some bones but not others just like the standard <code>AvatarMask</code> system, but with more detail because you can control the <code>Weight</code> of each individual bone instead of only turning them on or off. It also supports fading between different sets of <code>Weight</code>s over time.</p>
 <ol>
-<li>Add a <code>WeightedMaskLayers</code> Component:</li>
+<li>Add a <code><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></code> Component:</li>
 </ol>
 <p><img src="weighted-mask-layers-inspector.png" class="pngif img-responsive"></p>
 <ol start="2">
@@ -629,13 +630,68 @@
 <li>Values in between will interpolate between both layers.</li>
 </ul>
 <ol start="6">
-<li>In code if you want to change the current <code>Weight</code> group you can get a reference to the <code>WeightedMaskLayers</code> component and call <code>SetWeights(groupIndex)</code> or <code>FadeWeights(groupIndex, fadeDuration)</code>.</li>
+<li>In code if you want to change the current <code>Weight</code> group you can get a reference to the <code><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></code> component and call <code>SetWeights(groupIndex)</code> or <code>FadeWeights(groupIndex, fadeDuration)</code>.</li>
 </ol>
+<p><a href="https://github.com/KybernetikGames/animancer/issues/154">#154</a> and <a href="https://github.com/KybernetikGames/animancer/issues/328">#328</a></p>
 <p>Known Limitations:</p>
 <ul>
 <li>It only supports 2 layers (Base + 1).</li>
 <li>It only supports override blending (not additive).</li>
 <li>These limitations could be removed with further development if enough users request it.</li>
+</ul>
+<h1 id="string-references-and-assets">String References and Assets</h1>
+<p><code>string</code>s are often a very convenient type which can make systems easy to use, but also have notable downsides such as being inefficient to compare and hard to refactor.</p>
+<ul>
+<li>The <a href="#event-names">Event Names</a> system used to be based on <code>string</code>s and the new <a href="#event-binding">Event Binding</a> and <a href="#parameters">Parameter Binding</a> systems would have been as well, so a new system has been implemented to avoid those downsides.</li>
+<li><code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> is a simple class which contains a <code>string</code> and is kept in a dictionary so that everything which calls <code>StringReference.Get</code> for a given <code>string</code> will be given the exact same instance.
+<ul>
+<li>This allows the system to check if two references are equal much faster by using a single equality instruction instead of potentially needing to check if every individual character is equal in two <code>string</code>s.</li>
+<li><code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> has an implicit conversion from <code>string</code>, meaning that any method which takes a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> parameter can also be given a regular <code>string</code>. That's less efficient though, because it needs to look up the reference in the dictionary every time, so it's much more efficient to cache the <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> yourself beforehand, for example:</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-cs">// This is an implicit conversion from string to StringReference:
+public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> EventName = "Fire";
+
+// It actually does this internally:
+public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> EventName = StringReference.Get("Fire");
+
+// Or you can reference a <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> in a serialized field:
+[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _Name;
+</code></pre>
+<ul>
+<li><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> is a <code>ScriptableObject</code> which contains a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> initialized from its asset name.
+<ul>
+<li>This allows values to be managed more reliably and consistently referenced in multiple places without risking spelling mistakes each time or making it hard to rename things.</li>
+<li><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s can be created via <em>Assets/Create/Animancer/String Asset</em> or by using the <code>New</code> button in the Inspector (see below).</li>
+<li><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> fields normally show up in the Inspector like regular <code>string</code> fields, but if you move your mouse over them they change to let you pick an asset or use several functions:
+<ul>
+<li><code>New</code> - If the field is empty, this button will create a new <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> and ask where you want to save it.</li>
+<li><code>C</code> - If the field has a reference, this button will copy its name to the clipboard.</li>
+<li><code>X</code> - If the field has a reference, this button will remove it.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Normal Appearance</th>
+    <th style="width:50%">Mouse Hover</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="event-name-empty.png" class="img-responsive"></td>
+      <td><img src="event-name-empty-hover.png" class="img-responsive"></td>
+    </tr>
+    <tr>
+      <td><img src="event-name-set.png" class="img-responsive"></td>
+      <td><img src="event-name-set-hover.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+<li>You can Drag and Drop <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> references from one Inspector field to another if you want to use the same one multiple times. <a href="/inspector-gadgets/docs/script-inspector/object-reference-fields/#drag-reference">Inspector Gadgets has this as a standard feature for all Object Reference fields</a>.</li>
 </ul>
 <h1 id="animancer-events">Animancer Events</h1>
 <p><a href="../../manual/events/animancer">Animancer Events</a> have been reworked in several different ways, some of which would result in data loss if you don't run the <a href="upgrade-guide#serialized-data-migration">Serialized Data Migration</a> tool explained in the <a href="upgrade-guide">Upgrade Guide</a>.</p>
@@ -661,10 +717,11 @@
 </li>
 </ul>
 <p>This change avoids the need for the <code>UnShared</code> transition system, so it has been removed because it was confusing to many users and didn't cover many common use-cases.</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues/261">#261</a></p>
 <h2 id="persistent-events">Persistent Events</h2>
 <p><a href="../../manual/events/animancer">Animancer Events</a> were originally designed to be automatically cleared from a state whenever you played something else in order to avoid conflicts if multiple scripts happened to use the same animation and therefore share the same state. That system was good for safety, but bad for efficiency because you had to either spend processing time re-configuring all the events every time you played an animation or spend development time configuring and storing the events separately so they could be assigned to the state every time you played it.</p>
 <ul>
-<li><a href="../../manual/transitions">Transitions</a> solved this by storing their own events which you could configure on startup so they could simply assign the events to the state when played.</li>
+<li><a href="../../manual/transitions">Transitions</a> solve this by storing their own events which you could configure on startup so they could simply assign the events to the state when played.</li>
 <li>But any transitions shared by multiple characters (particularly <a href="../../manual/transitions/assets">Transition Assets</a>) couldn't be used in that way because all characters would be trying to configure the same event sequence.</li>
 <li>The <code>UnShared</code> transition system was an attempt to solve that, but it was only usable in limited situations and has now been removed as noted above.</li>
 <li>The old system was also confusing to many new users who did not expect their events to be cleared.</li>
@@ -701,34 +758,14 @@ if (state.TryInitializeEvents(out var events))
 </ul>
 <h2 id="event-names">Event Names</h2>
 <p><a href="../../manual/events/animancer">Animancer Events</a> can optionally be given names which can then be used to identify them in code. They previously used regular <code>string</code>s which made the system simple to use, but had several downsides such as being inefficient and hard to refactor.</p>
-<p>For the serialized data, the <code>string</code>s have been replaced by <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s which are <code>ScriptableObject</code>s that use their own name.</p>
-<table class="table">
-  <thead>
-    <tr><th style="width:50%">Old Event Name</th>
-    <th style="width:50%">New Event Name</th>
-  </tr></thead>
-  <tbody>
-    <tr>
-      <td><img src="old-event-name.png" class="img-responsive"></td>
-      <td><img src="new-event-name.png" class="img-responsive"></td>
-    </tr>
-  </tbody>
-</table>
-<p><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s can be created via <em>Assets/Create/Animancer/String Asset</em> or via the <code>New</code> button in the Inspector of an empty <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> field.</p>
-<p><img src="empty-event-name.png" class="img-responsive"></p>
-<p>Internally, a <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> gets a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> based on its <code>name</code>, which is what's used at runtime. Everything that gets a reference for a particular <code>string</code> is given the same object, meaning that the system can determine whether two references are equal using a single operation instead of needing to compare each individual character in the <code>string</code>. This makes it much faster for Animancer to search through an event sequence for a particular name, such when you call <code>events.SetCallback("Name", callback)</code>.</p>
-<p>In code, <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s can be implicitly converted to and from <code>string</code>s so methods which means that methods like <code>SetCallback</code> which take a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> can still be called using <code>string</code>s directly. That's rather inefficient though, so it's generally recommended to store the reference in a <code>static</code> field like this:</p>
-<pre><code class="language-cs">public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> EventName = "Name";
-</code></pre>
-<p>Or you could use a serialized field to reference the same <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> assigned to the event:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _Name;
-</code></pre>
-<p>That makes your script a bit more flexible because you can assign whatever name you want in the Inspector, but it means spending a bit more effort to assign it each time you use the script.</p>
+<p>Those <code>string</code>s have been replaced by <a href="#string-references-and-assets">String References and Assets</a> (<code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s in the serialized data and <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s in the runtime data).</p>
+<p><img src="event-name-set-hover.png" class="img-responsive"></p>
 <p>Using the <code>[EventNames]</code> attribute now shows an info icon next to the name field with a tooltip listing all the expected names. If an unexpected name is selected, it will change to a warning icon.</p>
 <p>This is one of the changes that would result in data loss if you don't run the <a href="upgrade-guide#serialized-data-migration">Serialized Data Migration</a> tool explained in the <a href="upgrade-guide">Upgrade Guide</a>.</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues/264">#264</a></p>
 <h2 id="event-binding">Event Binding</h2>
 <p>In many cases, being able to set up event timings in the Inspector while previewing the animation and then assign callbacks to those events in code based on their names is a great workflow (and that's not changing). But in some cases that workflow isn't ideal or even viable, such as if you're playing an animation in a <a href="#transition-libraries">Transition Library</a> by name which means you don't even know what's going to be played so you can't be sure what events you need to look for.</p>
-<p>The solution to this is the new <code><a href="/animancer/api/Animancer/AnimancerComponent/40AC981E">AnimancerComponent.Events</a></code> property, which is a dictionary of names mapped to callbacks. Whenever an event with a name but no callback is triggered, it will look in the dictionary for a callback bound to its name. If an event has no callback in either location, it will still trigger <code>OptionalWarning.UselessEvent</code> to let you know that something is likely configured incorrectly. This is closer to the way Unity's inbuilt <a href="../../manual/events/animation">Animation Events</a> work, except that it's still using delegates for flexibility instead of requiring a method name to match the event name in a component attached to the same <code>GameObject</code> as the <code>Animator</code>.</p>
+<p>The solution to this is the new <code><a href="/animancer/api/Animancer/AnimancerComponent/40AC981E">AnimancerComponent.Events</a></code> property, which is a dictionary of <a href="#string-references-and-assets">String Reference</a> names mapped to callbacks. Whenever an event with a name but no callback is triggered, it will look in the dictionary for a callback bound to its name. If an event has no callback in either location, it will still trigger <code>OptionalWarning.UselessEvent</code> to let you know that something is likely configured incorrectly. This is closer to the way Unity's inbuilt <a href="../../manual/events/animation">Animation Events</a> work, except that it's still using delegates for flexibility instead of requiring a method name to match the event name in a component attached to the same <code>GameObject</code> as the <code>Animator</code>.</p>
 <p>For example, here's a simple script that expects its transition to have events with the name "Footstep" set up in the Inspector:</p>
 <pre><code class="language-cs">public class FootstepWalkExample : MonoBehaviour
 {
@@ -747,8 +784,8 @@ if (state.TryInitializeEvents(out var events))
     private void PlayFootstepSound() { }
 }
 </code></pre>
-<p>Note the <code>[EventNames]</code> attribute. Since it isn't being given and names explicitly, it will look for static fields in the class it's in.</p>
-<p>That's a nice simple script which would work perfectly fine on its own, but what if you have other animations in other scripts that also want to have footstep events? Obviously you could connect all of them to a central script which manages the footsteps, but that sort of thing can start turning your code base into a tangled mess of interconnected dependencies. Instead, the new Event Binding system would let you do something like this:</p>
+<p>Note the <code>[EventNames]</code> attribute. Since it isn't being given any names explicitly, it will look for static fields in the class it's in.</p>
+<p>That's a nice simple script which would work perfectly fine on its own, but what if you have other animations in other scripts that also want to have footstep events? Obviously you could connect all of them to a central script which manages the footsteps, but that sort of thing can start turning your code base into a tangled mess of interconnected dependencies. Instead, the new Event Binding system would let you split those responsibilities into two scripts like this:</p>
 <pre><code class="language-cs">public class FootstepManager : MonoBehaviour
 {
     public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> FootstepEvent = "Footstep";
@@ -774,7 +811,7 @@ public class WalkExample : MonoBehaviour
     }
 }
 </code></pre>
-<p>The <code>FootstepManager</code> script registers <code>PlayFootstepSound</code> to be called by any event with the name "Footstep" in any animation and the <code>WalkExample</code> script doesn't need to know anything about footsteps, it's simply responsible for playing its animation and managing the mechanics of walking. It took a bit more code, but the system is now more flexible and modular so it should be easier to extend and maintain as your systems grow in complexity.</p>
+<p>The <code>FootstepManager</code> script registers its <code>PlayFootstepSound</code> method to be called by any event with the name "Footstep" in any animation and the <code>WalkExample</code> script doesn't need to know anything about footsteps, it's simply responsible for playing its animation and managing the mechanics of walking. It took a bit more code, but the system is now more flexible and modular so it should be easier to extend and maintain as your systems grow in complexity.</p>
 <p>The event binding dictionary is shown in the <a href="#live-inspector">Live Inspector</a> (unless you leave it empty):</p>
 <p><img src="event-binding-inspector.png" class="img-responsive"></p>
 <h2 id="event-callbacks">Event Callbacks</h2>
@@ -822,8 +859,9 @@ public void PlaySound(AudioSource audioSource) { }
 <li>Animancer Lite now allows you to change the time of End Events. Most of the new features are Pro-Only so this restriction has been removed.</li>
 </ul>
 <h1 id="parameters">Parameters</h1>
-<p>Like with the <a href="#event-binding">Event Binding</a> system, being able to directly control the parameters of a mixer is often great, but can be really inconvenient if you don't have a strongly typed reference to the mixer such as if you're using <a href="#transition-libaries">Transition Libraries</a> or even just <a href="../../manual/blending/mixers/creation#nesting">Nested Mixers</a>.</p>
-<p>The solution is also quite similar: a new <code><a href="/animancer/api/Animancer/AnimancerComponent/18078815">AnimancerComponent.Parameters</a></code> property containing a dictionary of parameter values registered by name which mixers can bind themselves to.</p>
+<p>Like with the <a href="#event-binding">Event Binding</a> system, being able to directly control the parameters of a <a href="../../manual/blending/mixers">Mixer State</a> or <a href="../../manual/animator-controllers">Controller State</a> is often great, but can be really inconvenient if you don't have a strongly typed reference to the state such as if you're using <a href="#transition-libaries">Transition Libraries</a> or even just <a href="../../manual/blending/mixers/creation#nesting">Nested Mixers</a>.</p>
+<p>The solution is also quite similar: a new <code><a href="/animancer/api/Animancer/AnimancerComponent/18078815">AnimancerComponent.Parameters</a></code> property containing a dictionary of parameter values registered by name which other systems can get, set, and listen for changes to.</p>
+<h2 id="mixer-parameters">Mixer Parameters</h2>
 <ul>
 <li>Mixers use the same <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s as the new <a href="#event-names">Event Name</a> system:</li>
 </ul>
@@ -838,8 +876,51 @@ public void PlaySound(AudioSource audioSource) { }
 <pre><code class="language-cs">animancerComponent.Parameters.SetValue(SpeedParameter, value);
 </code></pre>
 <ul>
-<li>This is all completely optional. You can still directly set the <code>mixer.Parameter</code> as before.</li>
+<li>This is a one-way link. Directly changing the Mixer parameters will not affect the Animancer Parameter.</li>
+<li>This is all completely optional. You can still directly set the <code>mixerState.Parameter</code> as before.</li>
 </ul>
+<p><a href="https://github.com/KybernetikGames/animancer/issues/257">#257</a></p>
+<h2 id="controller-parameters">Controller Parameters</h2>
+<p><a href="../../manual/animator-controllers">Controller States</a> and <code><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></code>s can also have their parameters bound to Animancer's parameters, though it's a bit more complicated than with Mixers.</p>
+<ul>
+<li>When bound, any changes to the Animancer Parameter will update the corresponding parameter in the Animator Controller.
+<ul>
+<li>This is a one-way link. Changes to parameters inside an Animator Controller will not affect Animancer Parameters.</li>
+</ul>
+</li>
+<li>The simplest usage is to simply enable <code>Bind All Parameters</code> to have it bind every parameter in the Animator Controller to an Animancer Parameter with the same name and type.</li>
+</ul>
+<p><img src="controller-transition-bind-all.png" class="img-responsive"></p>
+<ul>
+<li>Otherwise, if you put anything in the <code>Bindings</code> array the <code>Bind All Parameters</code> toggle becomes <code>Rebind Names</code>.</li>
+</ul>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Rebind Names Disabled</th>
+    <th style="width:50%">Rebind Names Enabled</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Each name in the array will bind the Animator Controller parameter with that name to an Animancer Parameter with the same name.</td>
+      <td>The array is split into two columns with the left specifying the name of a parameter in the Animator Controller and the right specifying the Animancer Parameter name you want to bind it to.</td>
+    </tr>
+    <tr>
+      <td><img src="controller-transition-bind-one.png" class="img-responsive"></td>
+      <td><img src="controller-transition-bind-two.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+<li>Note that the <code>Bindings</code> array contains <a href="#string-asset">String Assets</a> (not regular <code>string</code>s).</li>
+</ul>
+<h2 id="linear-blending-example">Linear Blending Example</h2>
+<p>The <a href="../../examples/locomotion/linear-blending">Linear Blending Example</a> previously contained two very similar scripts (<code>LinearBlendTreeLocomotion</code> and <code>LinearMixerLocomotion</code>) to demonstrate the same thing with both a Blend Tree inside an Animator Controller and with a Linear Mixer.</p>
+<p>Being able to bind parameters in both types of states to the same Animancer Parameters means that they could now be handled by just one script, though it has still been split into two with separate responsibilities:</p>
+<ul>
+<li><code><a href="/animancer/api/Animancer.Examples.Locomotion/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> does exactly what the name says.</li>
+<li><code><a href="/animancer/api/Animancer.Examples.Locomotion/FloatParameterWrapper">FloatParameterWrapper</a></code> is the real point of the example. It demonstrates how to get and set an Animancer Parameter.</li>
+</ul>
+<p>The example still consists of two scripts, but they're now much more useful because they only have one responsibility each so they could potentially be used in other situations too.</p>
 <h1 id="fade-groups">Fade Groups</h1>
 <p>Previously when transitioning between states, every state would fade independently. You could have one state fading out and another fading in but they weren't explicitly linked to each other. The old <code>CustomFade</code> system had to be built around that by cancelling regular fades and managing them on its own as a group.</p>
 <p>Those systems have been unified so all fades are managed as a <code><a href="/animancer/api/Animancer/FadeGroup">FadeGroup</a></code> (even if it only has one thing in it such as when fading out a layer).</p>
@@ -887,6 +968,9 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Added a "Repaint Every Frame" toggle to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> Inspector when there are 10 or more Components on the <code>GameObject</code> because Unity won't do it by default to save performance.</li>
 <li>Added null reference detection to the Animation Type warning system to identify animations with missing <code>Sprite</code>s.</li>
 </ul>
+<h2 id="transition-inspector">Transition Inspector</h2>
+<p>Many new users have trouble figuring out how to get animations to restart when you play them instead of continuing from their current time (despite the topic being covered many times in the documentation and code comments and tooltips). So the Inspector for <a href="../../manual/transitions">Transitions</a> has been changed to make it clearer. When the <code>Speed</code> or <code>Start Time</code> toggle is disabled, the regular fields will be replaced with a text box saying that it will continue at the current value which should hopefully make it obvious that you can tell it not to do that using the toggle.</p>
+<p><img src="transition-inspector.png" class="img-responsive"></p>
 <h1 id="shared-references">Shared References</h1>
 <p>The <a href="../../manual/other/polymorphic">Polymorphic Drawer</a> system now lets you properly view and manage references that are shared by multiple fields.</p>
 <p>For example, say you have 3 <code>[SerializeReference] <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> fields <code>A</code>, <code>B</code>, and <code>C</code>:</p>
@@ -912,7 +996,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <ul>
 <li>Merged the Sprites and Names into a single column.</li>
 <li>Added thumbnails so you can see what you're working with.</li>
-<li>Added a <code>First Index</code> field so you can choose to start numbering at 0 or 1 or whatever number you want.</li>
+<li>Added a <code>First Index</code> field so you can choose to start numbering at 0 or 1 or whatever number you want. <a href="https://github.com/KybernetikGames/animancer/issues/316">#316</a></li>
 <li>Removed the <code>New Names</code> field.</li>
 <li>Instead, anything you enter in a <code>Sprite</code>'s name field will apply to it and all following Sprites until the next name you enter. For example:</li>
 </ul>
@@ -945,7 +1029,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <ul>
 <li><a href="../../manual/tools/generate-sprite-animations">Generate Sprite Animations</a>:
 <ul>
-<li>Added fields to customize the animation being generated (if you want to animate something other than a <code>SpriteRenderer</code>):
+<li>Added fields to customize the animation being generated (if you want to animate something other than a <code>SpriteRenderer</code>): <a href="https://github.com/KybernetikGames/animancer/issues/283">#283</a>
 <ul>
 <li><code>Hierarchy Path</code>: the name of each object in the Hierarchy below the <code>Animator</code> down to the object with the component you want to animate.</li>
 <li><code>Target Type</code>: the Assembly Qualified Name of the Component type on that object.</li>
@@ -960,9 +1044,9 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <h1 id="examples">Examples</h1>
 <p><a href="upgrade-guide#release-timeline">The Examples have mostly been ignored so far and will be worked on during the Alpha Testing phase as explained in the Upgrade Guide</a></p>
 <ul>
-<li>Split the <code>LinearMixerLocomotion</code> example script into <code><a href="/animancer/api/Animancer.Examples.Locomotion/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> and <code><a href="/animancer/api/Animancer.Examples.Locomotion/SpeedParameterWrapper">SpeedParameterWrapper</a></code>.</li>
+<li><a href="#linear-blending-example">The Linear Blending Example has been reworked as explained above.</a></li>
 <li>Improved the 3D Game Kit Example's Full Movement Control system to interpolate towards natural Root Motion as the player's input magnitude approaches zero.</li>
-<li>Added Directional Animations in 3D example.</li>
+<li>Added <a href="https://github.com/KybernetikGames/animancer/issues/280">Directional Animations in 3D</a> example in the <a href="../../examples/directional-sprites/">Directional Sprites</a> folder.</li>
 </ul>
 <h1 id="minor-features">Minor Features</h1>
 <ul>
@@ -980,6 +1064,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Added <code>EventDispatcherDrawer</code> for drawing event dispatchers in the Post-Updatables list.</li>
 </ul>
 </li>
+<li>Added <code>AnimancerEvent.Sequence.SetCallbacks</code>, <code>AddCallbacks</code>, and <code>RemoveCallbacks</code> for controlling all events with the given name instead of only the first one. <a href="https://github.com/KybernetikGames/animancer/issues/263">#263</a></li>
 <li>Added <code><a href="/animancer/api/Animancer/Dispatcher/41CE4392">AnimancerEvent.Dispatcher.MaximumFullLoopCount</a></code> to prevent a short and fast looping animation from invoking all its events too many times every frame. It's still unlikely that you'll get useful behaviour from invoking so many events, but this should help limit how badly it can lock up the app at least.</li>
 <li>Added <code>MixerState.NormalizedParameter</code> for treating the parameter as a value between 0 and 1 regardless of the actual thresholds assigned.</li>
 <li>Added <code><a href="/animancer/api/Animancer/IParametizedState">IParametizedState</a></code> to simplify parameter drawing in the Inspector for Mixers and <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>s.</li>
@@ -991,11 +1076,11 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Added <code>OptionalWarning.EventPlayMismatch</code> to help detect event registration issues with shared Transitions.</li>
 <li>Added <code>OptionalWarning.DynamicAnimation</code> which warns if you try to play an animation that isn't saved as an asset because animations can't be created dynamically at runtime (except Legacy animations which Animancer can't use).</li>
 <li>Added <code><a href="/animancer/api/Animancer/CloneContext">CloneContext</a></code> system for cloning complex object trees and translating their internal references to the corresponding clones.</li>
-<li>Added <code>TimeSynchronizer</code> to replace the old <code>TimeSynchronizationGroup</code>.</li>
+<li>Added <code>TimeSynchronizer</code> to replace the old <code>TimeSynchronizationGroup</code>. <a href="https://github.com/KybernetikGames/animancer/issues/250">#250</a></li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
-<li>Improved the <code><a href="/animancer/api/Animancer.Editor/PolymorphicDrawer">PolymorphicDrawer</a></code> system to be able to properly draw objects with custom drawers for their type.</li>
+<li>Improved <a href="../../manual/other/polymorphic">Polymorphic Drawer</a> to be able to properly draw objects with custom drawers for their type.</li>
 <li>Improved Object Pool logging to log the contents of all pools when the Play Mode state changes.</li>
 <li>Improved <code>ManualMixerState.ToString</code> to put the mixer type first and be cached separately from the <code>DebugName</code> so it doesn't appear as a string label in the Inspector.</li>
 <li>Improved <code><a href="/animancer/api/Animancer/SimpleTimer">SimpleTimer</a></code>:
@@ -1032,6 +1117,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 </ul>
 <h1 id="changes">Changes</h1>
 <ul>
+<li>Changed the "total Weight of all states in this layer does not equal 1" Inspector warning to appear on all layers instead of only the Base Layer. If you want to smoothly stop a layer you need to fade out the layer itself, not its states.</li>
 <li>Changed all states to stay at <code>Time = 0</code> after their first frame so that the first time they're played is consistent with subsequent re-plays.</li>
 <li>Changed <code>InputBuffer</code> to replace the state machine's <code>ForceSetDefaultState</code> delegate to try to enter the buffered state first.
 <ul>
@@ -1081,15 +1167,15 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/9AE29F48">AnimancerEditorUtilities.PlayModeState</a></code> to be properly initialized in Edit Mode.</li>
 <li>Fixed <code>AnimancerStateDictionary.GetEquivalentNode</code> to connect a newly cloned state to the correct layer.</li>
 <li>Fixed incorrect comment on <code>AnimancerState.MoveTime</code> and added more detail. It previously claimed that Animancer Events would be skipped, but that isn't true.</li>
-<li>Fixed <code>HybridAnimancerComponent.SetFloat</code> to use the specified <code>id</code> instead of its component <code>name</code>.</li>
-<li>Fixed Animancer Events to not start triggering every frame if you used one to re-play the animation that triggered it.</li>
+<li>Fixed several incorrect usages of the component <code>name</code> in <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>. <a href="https://github.com/KybernetikGames/animancer/issues/297">#297</a></li>
+<li>Fixed Animancer Events to not start triggering every frame if you used one to re-play the animation that triggered it. <a href="https://github.com/KybernetikGames/animancer/issues/298">#298</a></li>
 <li>Fixed <code>AnimancerStateDrawer</code> to not break GUI control IDs after it.</li>
 <li>Fixed the Live Inspector state foldout to properly clear the hot control when clicked.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> indentation in Unity 2022.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> to still show its foldout arrow in array fields even if thats the only field in the declaring type.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> to still show its foldout arrow in array fields even if thats the only field in the declaring type. <a href="https://github.com/KybernetikGames/animancer/issues/307">#307</a></li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></code> to still show its foldout arrow if the target Transition is in a serializable class.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Examples/TimeScale">TimeScale</a></code> to do nothing when disabled.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerLayer/6D0213E1">AnimancerLayer.Mask</a></code> to allow <code>null</code> to be assigned in case you want to set it from an unassigned serialized field or copy from another layer which has no mask.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerLayer/6D0213E1">AnimancerLayer.Mask</a></code> to allow <code>null</code> to be assigned without allocating any garbage in case you want to set it from an unassigned serialized field or copy from another layer which has no mask. <a href="https://github.com/KybernetikGames/animancer/issues/303">#303</a></li>
 <li>Fixed <code><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></code> usage to continue enumerating properly if an item is removed during an update before it has been updated.</li>
 <li>Fixed <code>AnimancerNode.MarkAsUsed</code> to be properly Assert-Conditional.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Examples/ExampleInput/D31402B5">ExampleInput.WASD</a></code> to work properly with the Play Mode Domain Reload disabled.</li>
@@ -1101,15 +1187,26 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Moved the <code><a href="/animancer/api/Animancer/IPolymorphic">IPolymorphic</a></code> implementation from <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code> to <code>AnimancerTransition</code> so it doesn't interfere with custom Object Field drawers (from Inspector Gadgets or any other system) on Transition Asset references.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/PolymorphicDrawer">PolymorphicDrawer</a></code> to not draw the header line twice if it can't find another drawer for the target object type.</li>
 <li>Fixed Mixer Time Synchronization to calculate the speed properly for nested Mixers.</li>
-<li>Fixed <code>ControllerState.GetStateInfo</code> to return a default uninitialized state instead of giving an error if called before the Playable is initialized.</li>
-<li>Fixed <code>UnShared</code> transitions to not create unnecessary empty event sequences.</li>
-<li>Fixed several incorrect usages of the component <code>name</code> in <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</li>
-<li>Fixed Real Speed field in the Inspector to not cause drag events to be lost when it appears or disappears.</li>
-<li>Fixed the Inspector for states with 0 length to show the time highlight bar across their whole area.</li>
 <li>Fixed Ctrl + Click on a Mixer child in the Inspector causing it to re-parent under the layer and play directly. Instead it will now just play the Mixer.</li>
+<li>Fixed the Mixer Transition Inspector to not show a toggles on the <code>Speed</code> fields to disable them. <a href="https://github.com/KybernetikGames/animancer/issues/258">#258</a></li>
+<li>Fixed <code><a href="/animancer/api/Animancer.Editor/LinearMixerTransitionDrawer">LinearMixerTransitionDrawer</a></code> to not lose the text field being edited when a sorting warning appears or disappears. <a href="https://github.com/KybernetikGames/animancer/issues/343">#343</a></li>
+<li>Fixed <code>ControllerState.GetStateInfo</code> to return a default uninitialized state instead of giving an error if called before the Playable is initialized.</li>
+<li>Fixed the Inspector for states with 0 length to show the time highlight bar across their whole area.</li>
 <li>Fixed <code>AnimancerGraph.CopyFrom</code> to properly copy custom fades and do nothing if called on itself.</li>
 <li>Fixed <code>AnimancerLayer.CopyStatesFrom</code> to reuse existing states instead of destroying and recreating them all.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> cloning into a new graph uses the same <code>Key</code>.</li>
+<li>Fixed <code>AnimancerUtilities.TryGetIsLooping</code> and <code>TryGetLength</code> to not cause exceptions if the given object is a destroyed <code>AnimationClip</code>. <a href="https://github.com/KybernetikGames/animancer/issues/342">#342</a></li>
+<li>Fixed Real Speed field in the Inspector to not cause drag events to be lost when it appears or disappears.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimancerGraphCleanup">AnimancerGraphCleanup</a></code> to work properly when the Play Mode Domain Reload is disabled.
+<ul>
+<li>Replaced <code>OptionalWarning.CreateGraphWhileDisabled</code> with a warning when <code><a href="/animancer/api/Animancer.Editor/AnimancerGraphCleanup">AnimancerGraphCleanup</a></code> is forced to clean up a graph that wasn't destroyed in Play Mode.</li>
+</ul>
+</li>
+<li>Fixed scripts to support API changes in Unity 6.
+<ul>
+<li><code>Rigidbody.velocity</code> renamed to <code>linearVelocity</code>.</li>
+</ul>
+</li>
 </ul>
 
 	</section>
