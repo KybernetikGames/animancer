@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - API - AnimancerEvent.AssertEventPlayMismatch(AnimancerGraph) Method</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
+<p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Attributes">Attributes</a></p>
+<p><a href="#Parameters">Parameters</a></p>
+<p><a href="#ReturnValue">Return Value</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    	
+	    <script src="/animancer/assets/js/lunr.min.js"></script>
+    <script src="/animancer/assets/js/searchIndex.js"></script>
+    <div class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search Types...">
+            <span class="input-group-btn">
+                <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </div>
+    <div id="search-results">
+    </div>
+    <script>
+        function runSearch(query){
+            $("#search-results").empty();			
+            if( query.length < 2 ){
+                return;
+            }			
+            var results = searchModule.search("*" + query + "*");
+            var listHtml = "<ul class='sidebar-menu'>";	
+            listHtml += "<li class='header'>Type Results</li>";	
+            if(results.length == 0 ){
+                listHtml += "<li>No results found</li>";
+            } else {					
+                for(var i = 0; i < results.length; ++i){
+                    var res = results[i];
+                    listHtml += "<li><a href='" + res.url + "'>" + htmlEscape(res.title) + "</a></li>";
+                }				
+            }
+            listHtml += "</ul>";				
+            $("#search-results").append(listHtml);
+        }
+
+        $(document).ready(function(){
+            $("#search").on('input propertychange paste', function() {
+                runSearch($("#search").val());
+            });
+        });
+
+        function htmlEscape(html) {
+            return document.createElement('div')
+                .appendChild(document.createTextNode(html))
+                .parentNode
+                .innerHTML;
+        }
+    </script>
+	
+    <hr>
+
+                    <ul class="sidebar-menu">
+                        
+			<li class="header">Assembly</li>
+		<li><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></li>
+		<li class="header">Namespace</li>
+		<li><a href="/animancer/api/Animancer">Animancer</a></li>
+		<li class="header">Type</li>
+		<li><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></li>
+		<li role="separator" class="divider"></li>
+			<li class="header">Constructors</li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/34EE5E46">AnimancerEvent<wbr>(float, <wbr>Action)<wbr></a></li>
+			<li class="header">Field Members</li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/76C19488">AlmostOne</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/45839A7E">callback</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/0E63AE08">DummyCallback</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/D8145A86">EndEventName</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/2724D920">InvokeBoundCallback</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/8859406D">normalizedTime</a></li>
+			<li class="header">Method Members</li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/B95C7607">AppendDetails<wbr>(StringBuilder)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/EFB4A06F">Assert<wbr>Contains<wbr>Parameter<wbr>&lt;T&gt;<wbr><wbr>(Action)<wbr></a></li>
+				<li class="selected"><a href="/animancer/api/Animancer/AnimancerEvent/219B949B">Assert<wbr>Event<wbr>Play<wbr>Mismatch<wbr>(AnimancerGraph)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/FFDDE60E">Assert<wbr>Normalized<wbr>Times<wbr>(AnimancerState)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/EDB217BE">Assert<wbr>Normalized<wbr>Times<wbr>(AnimancerState, <wbr>bool)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/06F657D8">ContentsAreEqual<wbr>(AnimancerEvent<wbr>.Sequence)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/B8F3A910">CopyTo<wbr>(AnimancerEvent[], <wbr>int)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/DCC180F5">DelayInvoke<wbr>(StringReference, <wbr>AnimancerState)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/BF03BFE7">Equals<wbr>(AnimancerEvent)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/38590435">Equals<wbr>(Object)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/CFAD35FF">GetCurrentParameter<wbr>&lt;T&gt;<wbr><wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/4230F1A5">GetFadeOutDuration<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/A09193D5">GetFadeOutDuration<wbr>(float)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/4EA7BD00">GetFadeOutDuration<wbr>(AnimancerState, <wbr>float)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/2AB50534">GetHashCode<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/3ADA7B7B">IsNullOrDummy<wbr>(Action)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/A6EA25F4">Parametize<wbr>&lt;T&gt;<wbr><wbr>(Action<wbr>&lt;T&gt;<wbr>)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/C2E183F8">Parametize<wbr>(Action<wbr>&lt;string&gt;<wbr>)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/1A6095A7">ToString<wbr>()<wbr></a></li>
+			<li class="header">Property Members</li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/8488C6E3">Current</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent/021F1C2C">CurrentParameter</a></li>
+			<li class="header">NamedType Members</li>
+				<li><a href="/animancer/api/Animancer/Dispatcher">AnimancerEvent<wbr>.Dispatcher</a></li>
+				<li><a href="/animancer/api/Animancer/Invocation">AnimancerEvent<wbr>.Invocation</a></li>
+				<li><a href="/animancer/api/Animancer/Invoker">AnimancerEvent<wbr>.Invoker</a></li>
+				<li><a href="/animancer/api/Animancer/InvokerDynamic">AnimancerEvent<wbr>.InvokerDynamic</a></li>
+				<li><a href="/animancer/api/Animancer/InvokerFixed">AnimancerEvent<wbr>.InvokerFixed</a></li>
+				<li><a href="/animancer/api/Animancer/IParameter">AnimancerEvent<wbr>.IParameter</a></li>
+				<li><a href="/animancer/api/Animancer/Parameter_1">AnimancerEvent<wbr>.Parameter<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ParameterBool">AnimancerEvent<wbr>.ParameterBool</a></li>
+				<li><a href="/animancer/api/Animancer/ParameterBoxed_1">AnimancerEvent<wbr>.ParameterBoxed<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ParameterDouble">AnimancerEvent<wbr>.ParameterDouble</a></li>
+				<li><a href="/animancer/api/Animancer/ParameterFloat">AnimancerEvent<wbr>.ParameterFloat</a></li>
+				<li><a href="/animancer/api/Animancer/ParameterInt">AnimancerEvent<wbr>.ParameterInt</a></li>
+				<li><a href="/animancer/api/Animancer/ParameterLong">AnimancerEvent<wbr>.ParameterLong</a></li>
+				<li><a href="/animancer/api/Animancer/ParameterObject">AnimancerEvent<wbr>.ParameterObject</a></li>
+				<li><a href="/animancer/api/Animancer/ParameterString">AnimancerEvent<wbr>.ParameterString</a></li>
+				<li><a href="/animancer/api/Animancer/Pool">AnimancerEvent<wbr>.Pool</a></li>
+				<li><a href="/animancer/api/Animancer/Sequence">AnimancerEvent<wbr>.Sequence</a></li>
+
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+<section class="content-header">
+			<h3><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a>.</h3>
+	<h1>Assert<wbr>Event<wbr>Play<wbr>Mismatch<wbr>(AnimancerGraph)<wbr> <small>Method</small></h1>
+</section>
+<section class="content">
+	
+	
+		<h1 id="Summary">Summary</h1>
+	<div class="lead">[Assert-Conditional]
+    This method should be called when an animation is played.
+    It asserts that either no event is currently being triggered
+    or that the event is being triggered inside `playing`.
+    Otherwise, it logs <code class="cs">Animancer.OptionalWarning.EventPlayMismatch</code>.
+    </div>
+
+		<div class="panel panel-default">
+  			<div class="panel-body">	
+				<dl class="dl-horizontal">	
+						<dt>Assembly</dt>
+						<dd><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></dd>
+						
+						<dt>Namespace</dt>
+						<dd><a href="/animancer/api/Animancer">Animancer</a></dd>
+					
+						<dt>Containing Type</dt>
+						<dd><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></dd>		
+					
+				</dl>
+  			</div>
+		</div>
+
+	<h1 id="Syntax">Syntax</h1>
+	<pre><code>[System.Diagnostics.Conditional(Strings.Assertions)]
+public static void AssertEventPlayMismatch(AnimancerGraph playing)</code></pre>
+
+
+
+	<h1 id="Attributes">Attributes</h1>
+	<div class="box">
+		<div class="box-body no-padding table-responsive">
+			<table class="table table-striped table-hover two-cols">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+					<tbody><tr>
+						<td>ConditionalAttribute</td>
+						<td></td>
+					</tr>
+			</tbody></table>
+		</div>
+	</div>	
+
+
+	<h1 id="Parameters">Parameters</h1>
+	<div class="box">
+		<div class="box-body no-padding table-responsive">
+			<table class="table table-striped table-hover three-cols">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+					<tbody><tr>
+						<td>playing</td>
+						<td><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></td>
+						<td></td>
+					</tr>
+			</tbody></table>
+		</div>
+	</div>	
+
+	<h1 id="ReturnValue">Return Value</h1>
+	<div class="box">
+		<div class="box-body no-padding table-responsive">
+			<table class="table table-striped table-hover two-cols">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody><tr>
+					<td>void</td>
+					<td></td>
+				</tr>
+			</tbody></table>
+		</div>
+	</div>	
+
+
+	
+</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>

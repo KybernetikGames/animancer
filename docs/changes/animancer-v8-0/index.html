@@ -574,8 +574,9 @@
 		</section>
 	<section class="content">
 		<blockquote class="blockquote">
-<p>This page was last updated 2024-05-10</p>
+<p>This page was last updated 2024-07-01</p>
 <p><a href="upgrade-guide#release-timeline">Estimated Release 2024-??-??</a></p>
+<p><strong><a href="upgrade-guide#how-to-upgrade">Currently available for testing.</a></strong></p>
 </blockquote>
 <h1 id="upgrade-guide">Upgrade Guide</h1>
 <p>See the <a href="../animancer-v7-0#upgrade-guide">Animancer v7.0 Upgrade Guide</a> if you're upgrading from a version older than that, then follow the new <a href="upgrade-guide">Upgrade Guide</a> for this version.</p>
@@ -605,10 +606,67 @@
 <li><a href="#tools">Several of the Animancer Tools have been improved.</a></li>
 </ul>
 <h1 id="transition-libraries">Transition Libraries</h1>
-<p><em>This feature is still under development.</em></p>
-<p>Transition Libraries allow you to look up transitions by name and modify what specific transitions look like depending on the character's previous state.</p>
-<p>They somewhat resemble Animator Controllers in that they allow you to set up an interconnected web of animations and customise the transitions between them. The main difference is that they do not contain any logic, i.e. no parameters or conditions on the transitions, they simply modify a transition when you tell it to play. Transition Libraries are also fully open and modifiable at runtime.</p>
-<p><a href="https://github.com/KybernetikGames/animancer/issues/80">The Transition Libraries thread has more details about my thought process and features planned for the system. Progress updates will be posted there and feedback is welcome.</a></p>
+<p>Transition Libraries are a new feature which allows you to look up transitions by name and modify what specific transitions look like depending on the character's previous state. Unlike Animator Controllers, libraries don't contain any logic for managing what a character can do, you still tell Animancer to play something and it will still play, but a library might modify the transition's fade duration. Libraries are also fully open and modifiable at runtime.</p>
+<p>There are 3 main library classes:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Class</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryDefinition">TransitionLibraryDefinition</a></code></td>
+<td>The serializable form of a library which is used to create a <code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a></code> at runtime.</td>
+</tr>
+<tr>
+<td><code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a></code></td>
+<td>The runtime form of a library which is optimised for efficiently looking up transitions.</td>
+</tr>
+<tr>
+<td><code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryAsset">TransitionLibraryAsset</a></code></td>
+<td>A <code>ScriptableObject</code> which stores a <code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryDefinition">TransitionLibraryDefinition</a></code> and creates a <code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a></code> from it.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>You can create a <code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryAsset">TransitionLibraryAsset</a></code> via the <em>Assets/Create</em> menu:</li>
+</ul>
+<p><img src="transition-library-create.png" class="img-responsive"></p>
+<ul>
+<li><code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>s have a new <code>Transitions</code> field to put it in so anything you try to play will check the library for modifications:</li>
+</ul>
+<p><img src="transition-library-animancer.png" class="img-responsive"></p>
+<ul>
+<li>Double clicking a <code><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryAsset">TransitionLibraryAsset</a></code> will open a window to edit it (or you can select it and use the button in the Inspector).</li>
+</ul>
+<p><img src="transition-library-modifiers.png" class="img-responsive"></p>
+<ul>
+<li>The window keeps its own copy of the library asset being edited. The buttons in the top right allow you to <code>Revert</code> your changes, <code>Apply</code> your changes to the target asset, or <code>Auto</code>matically apply any changes as soon as you make them.</li>
+<li>The main view is a table of transitions where each cell contains the fade duration of a particular combination (from row to column).</li>
+<li>Cells with fade duration modifiers are shown in <em>Bold</em>. Otherwise, the fade duration for that combination will default to whatever is specified in the <a href="../../manual/transitions/assets">Transition Asset</a>.</li>
+<li>You can drag and drop any <a href="../../manual/transitions/assets">Transition Asset</a> into the window to add it to the library or use the <code>Create Transition</code> button to make a new one.</li>
+<li>You can drag transitions in the window to rearrange them.</li>
+<li>Selecting a cell highlights its row and column in blue and hovering over a cell highlights them in green.</li>
+<li>Selecting a cell also shows its details in the Inspector with an interactive preview of that particular transition combination:</li>
+</ul>
+<p><img src="transition-library-inspector.png" class="img-responsive"></p>
+<ul>
+<li>In the top left of the window is a dropdown menu to select a different page to view.</li>
+<li>Currently, the only other page is <code>Transition Aliases</code> where you can specify additional names which can be used to look up transitions.</li>
+</ul>
+<p><img src="transition-library-aliases.png" class="img-responsive"></p>
+<ul>
+<li>The Serialization Example demonstrates an additional feature of libraries:
+<ul>
+<li>Having all your animations registered in a centralised location means they can each be represented by an <code>int</code> index which can be easily serialized.</li>
+<li>The example uses that to save the character's current animation details to a file and load them back later.</li>
+<li>But the real use case for this would be for networking, which Animancer's flexible decentralised structure otherwise makes difficult.</li>
+</ul>
+</li>
+</ul>
+<p><img src="transition-library-example.png" class="img-responsive"></p>
 <h1 id="weighted-mask-layers">Weighted Mask Layers</h1>
 <p>The <a href="https://github.com/KybernetikGames/animancer/issues/154">experimental Weighted Mask Layers system</a> has been turned into a proper feature. It allows layers to be masked so they control some bones but not others just like the standard <code>AvatarMask</code> system, but with more detail because you can control the <code>Weight</code> of each individual bone instead of only turning them on or off. It also supports fading between different sets of <code>Weight</code>s over time.</p>
 <ol>
@@ -745,6 +803,7 @@ if (state.TryInitializeEvents(out var events))
 <ul>
 <li>This is achieved by having <code>ClipTransition.Key</code> return <code>this</code> instead of the <code>Clip</code>.</li>
 <li>Same for <code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code>.</li>
+<li>You can also call <code>AnimancerState.AssertOwnership</code> to have a script claim a state so that any others who try to claim the same state will cause an error.</li>
 </ul>
 </li>
 <li>In order to avoid overwriting the configured events on subsequent plays, <a href="../../manual/transitions">Transitions</a> will now only assign their <code>Events</code> when they first create a state instead of re-assigning them every time they are played (which was necessary when the events would have been automatically cleared from the state).</li>
@@ -911,14 +970,14 @@ public void PlaySound(AudioSource audioSource) { }
   </tbody>
 </table>
 <ul>
-<li>Note that the <code>Bindings</code> array contains <a href="#string-asset">String Assets</a> (not regular <code>string</code>s).</li>
+<li>Note that the <code>Bindings</code> array contains <a href="#string-references-and-assets">String Assets</a> (not regular <code>string</code>s).</li>
 </ul>
 <h2 id="linear-blending-example">Linear Blending Example</h2>
 <p>The <a href="../../examples/locomotion/linear-blending">Linear Blending Example</a> previously contained two very similar scripts (<code>LinearBlendTreeLocomotion</code> and <code>LinearMixerLocomotion</code>) to demonstrate the same thing with both a Blend Tree inside an Animator Controller and with a Linear Mixer.</p>
 <p>Being able to bind parameters in both types of states to the same Animancer Parameters means that they could now be handled by just one script, though it has still been split into two with separate responsibilities:</p>
 <ul>
 <li><code><a href="/animancer/api/Animancer.Examples.Locomotion/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> does exactly what the name says.</li>
-<li><code><a href="/animancer/api/Animancer.Examples.Locomotion/FloatParameterWrapper">FloatParameterWrapper</a></code> is the real point of the example. It demonstrates how to get and set an Animancer Parameter.</li>
+<li><code>FloatParameterWrapper</code> is the real point of the example. It demonstrates how to get and set an Animancer Parameter.</li>
 </ul>
 <p>The example still consists of two scripts, but they're now much more useful because they only have one responsibility each so they could potentially be used in other situations too.</p>
 <h1 id="fade-groups">Fade Groups</h1>
@@ -951,6 +1010,10 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
     </tr>
   </tbody>
 </table>
+<ul>
+<li>The Live Inspector has been moved out of the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>'s Inspector panel to an interactive preview at the bottom of the Inspector which can be resized, hidden, or even popped out to a separate window.</li>
+</ul>
+<p><img src="live-inspector-preview.png" class="pngif img-responsive"></p>
 <ul>
 <li>The header object field of each state is now just a flat box instead of an actual object field to reduce the unnecessary visual noise.</li>
 <li>While a state is fading, its time bar shows a diagonal line indicating where its <code>Weight</code> will go over time.</li>
@@ -1047,6 +1110,8 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li><a href="#linear-blending-example">The Linear Blending Example has been reworked as explained above.</a></li>
 <li>Improved the 3D Game Kit Example's Full Movement Control system to interpolate towards natural Root Motion as the player's input magnitude approaches zero.</li>
 <li>Added <a href="https://github.com/KybernetikGames/animancer/issues/280">Directional Animations in 3D</a> example in the <a href="../../examples/directional-sprites/">Directional Sprites</a> folder.</li>
+<li>Added a basic example for <a href="#weighted-mask-layers">Weighted Mask Layers</a>. Not yet documented.</li>
+<li>Added a basic example for <a href="#transition-libaries">Transition Libraries</a>. Not yet documented.</li>
 </ul>
 <h1 id="minor-features">Minor Features</h1>
 <ul>
@@ -1075,6 +1140,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Added <code>Normalized Start Time</code> field to <code><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></code>.</li>
 <li>Added <code>OptionalWarning.EventPlayMismatch</code> to help detect event registration issues with shared Transitions.</li>
 <li>Added <code>OptionalWarning.DynamicAnimation</code> which warns if you try to play an animation that isn't saved as an asset because animations can't be created dynamically at runtime (except Legacy animations which Animancer can't use).</li>
+<li>Added <code>OptionalWarning.ExpectFade</code> which warns if a state created by a transition with a fade is then played without a fade. This usually happens for beginners who don't realise that <code>Play(state)</code> won't have any fade and they should use <code>Play(transition)</code>.</li>
 <li>Added <code><a href="/animancer/api/Animancer/CloneContext">CloneContext</a></code> system for cloning complex object trees and translating their internal references to the corresponding clones.</li>
 <li>Added <code>TimeSynchronizer</code> to replace the old <code>TimeSynchronizationGroup</code>. <a href="https://github.com/KybernetikGames/animancer/issues/250">#250</a></li>
 </ul>
@@ -1103,8 +1169,10 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Added <code>AnimancerUtilities.AppendField</code> for easily appending a named value.</li>
 <li>Pulled <code>AnimancerState.GetPath</code> up to <code><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></code>.</li>
 <li>Changed various inter-node references to use <code>GetPath</code> to make it easier to tell what it's referring to.</li>
+<li>Improved <code>AnimancerGraph.AppendDescription</code> to include Orphan States, i.e. states registered in the dictionary but with no parent.</li>
 </ul>
 </li>
+<li>Improved various icon usages. In particular, replaced all "x" buttons with an eraser icon.</li>
 <li>Optimized <code><a href="/animancer/api/Animancer/ClipState/FB59BB5E">ClipState.Length</a></code> and <code>IsLooping</code> to be retrieved from the <code>AnimationClip</code> in the constructor and cached because getting them from the <code>AnimationClip</code> allocaes some garbage every time.</li>
 <li>Optimized Animancer Events by adding <code>AnimancerState.GetEventDispatchInfo</code> to get all the required details from the state in one call, which is much more efficient (especially for Mixers).</li>
 <li>Optimized Mixers to cache their <code>IsLooping</code> property instead of checking if any child is looping every frame (which would have been recursive for nested Mixers).</li>
@@ -1137,6 +1205,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Changed <code>OptionalWarning.UnusedNode</code> to not log for nodes with a parent.</li>
 <li>Changed <code>AnimancerNode.CopyFrom</code> and all inherited overloads to <code>public</code>.</li>
 <li>Renamed <code>ValidateAssertNotLegacy</code> to <code>AssertAnimationClip</code> and added a <code>null</code> check to give a better exception.</li>
+<li>Moved the default <code><a href="/animancer/api/Animancer.Editor/AnimancerSettings">AnimancerSettings</a></code> location to the root Assets folder and added an Inspector message explaining that you can move it anywhere but should keep it outside the Animancer folder so you keep your settings if you ever delete and update Animancer.</li>
 <li>Moved the <code>Speed</code> field from child transition classes up to the base <code>AnimancerTransition</code> since all states now support it (<code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> didn't previously).
 <ul>
 <li>Removed <code>OptionalWarning.UnsupportedSpeed</code> for the same reason.</li>
@@ -1153,12 +1222,18 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 </ul>
 <h1 id="removals">Removals</h1>
 <ul>
+<li>Removed the classes derived from <code>AnimancerTransitionAssetBase</code> for each individual transition type except <code><a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a></code> since its <code>[SerializeReference]</code> can hold any of them without changing the asset type.
+<ul>
+<li>See the <a href="upgrade-guide#transition-assets">Upgrade Guide</a> for more details.</li>
+</ul>
+</li>
 <li>Removed <code>FastEnumerator</code> members which modified the list because they exposed unexpected vulnerabilities since enumerators aren't expected to allow modifications.</li>
 <li>Removed the Inspector warning "A state is playing at weight 0" because that's actually supported now.</li>
 <li>Removed <code>AnimancerState.DelayedPause</code> and integrated its functionality into <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> directly since that's the only place it was used.</li>
 <li>Removed <code>AnimancerGUI.GetNarrowText</code> since it wasn't really useful and added unnecessary complexity.</li>
 <li>Removed <code>FastComparer</code> and <code>FastEqualityComperer</code> because they weren't notably faster and were sometimes slower.</li>
 <li>Removed <code>OptionalWarning.LockedEvents</code> since you would need to explicitly access <code>state.SharedEvents</code> to run into the issues it warns about.</li>
+<li>Removed <code>IValidatable</code> and replaced its usage with <code>AnimancerReflection.TryInvoke</code>.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
@@ -1190,6 +1265,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 <li>Fixed Ctrl + Click on a Mixer child in the Inspector causing it to re-parent under the layer and play directly. Instead it will now just play the Mixer.</li>
 <li>Fixed the Mixer Transition Inspector to not show a toggles on the <code>Speed</code> fields to disable them. <a href="https://github.com/KybernetikGames/animancer/issues/258">#258</a></li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/LinearMixerTransitionDrawer">LinearMixerTransitionDrawer</a></code> to not lose the text field being edited when a sorting warning appears or disappears. <a href="https://github.com/KybernetikGames/animancer/issues/343">#343</a></li>
+<li>Fixed <code><a href="/animancer/api/Animancer.Editor/PlayableAssetTransitionDrawer">PlayableAssetTransitionDrawer</a></code> error when changing the <code>Bindings</code> count to 0.</li>
 <li>Fixed <code>ControllerState.GetStateInfo</code> to return a default uninitialized state instead of giving an error if called before the Playable is initialized.</li>
 <li>Fixed the Inspector for states with 0 length to show the time highlight bar across their whole area.</li>
 <li>Fixed <code>AnimancerGraph.CopyFrom</code> to properly copy custom fades and do nothing if called on itself.</li>

@@ -1,0 +1,1247 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - API - AnimancerGraph Class</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
+<p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
+<p><a href="#Constructors">Constructors</a></p>
+<p><a href="#fields">Fields</a></p>
+<p><a href="#Properties">Properties</a></p>
+<p><a href="#Methods">Methods</a></p>
+<p><a href="#Operators">Operators</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    	
+	    <script src="/animancer/assets/js/lunr.min.js"></script>
+    <script src="/animancer/assets/js/searchIndex.js"></script>
+    <div class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search Types...">
+            <span class="input-group-btn">
+                <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </div>
+    <div id="search-results">
+    </div>
+    <script>
+        function runSearch(query){
+            $("#search-results").empty();			
+            if( query.length < 2 ){
+                return;
+            }			
+            var results = searchModule.search("*" + query + "*");
+            var listHtml = "<ul class='sidebar-menu'>";	
+            listHtml += "<li class='header'>Type Results</li>";	
+            if(results.length == 0 ){
+                listHtml += "<li>No results found</li>";
+            } else {					
+                for(var i = 0; i < results.length; ++i){
+                    var res = results[i];
+                    listHtml += "<li><a href='" + res.url + "'>" + htmlEscape(res.title) + "</a></li>";
+                }				
+            }
+            listHtml += "</ul>";				
+            $("#search-results").append(listHtml);
+        }
+
+        $(document).ready(function(){
+            $("#search").on('input propertychange paste', function() {
+                runSearch($("#search").val());
+            });
+        });
+
+        function htmlEscape(html) {
+            return document.createElement('div')
+                .appendChild(document.createTextNode(html))
+                .parentNode
+                .innerHTML;
+        }
+    </script>
+	
+    <hr>
+
+                    <ul class="sidebar-menu">
+                        
+			<li class="header">Assembly</li>
+		<li><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></li>
+		<li class="header">Namespace</li>
+		<li><a href="/animancer/api/Animancer">Animancer</a></li>
+		<li role="separator" class="divider"></li>
+			<li class="header">Class Types</li>
+				<li><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></li>
+				<li class="selected"><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerHelpUrlAttribute">Animancer<wbr>Help<wbr>Url<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerJob_1">AnimancerJob<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayerList">AnimancerLayerList</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayerMixerList">Animancer<wbr>Layer<wbr>Mixer<wbr>List</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerReflection">AnimancerReflection</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerStateDictionary">Animancer<wbr>State<wbr>Dictionary</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedBool">AnimatedBool</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedInt">AnimatedInt</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedProperty_2">AnimatedProperty<wbr>&lt;TJob, <wbr>TValue&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></li>
+				<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransitionSequence">Clip<wbr>Transition<wbr>Sequence</a></li>
+				<li><a href="/animancer/api/Animancer/CloneableExtensions">CloneableExtensions</a></li>
+				<li><a href="/animancer/api/Animancer/CloneContext">CloneContext</a></li>
+				<li><a href="/animancer/api/Animancer/CollectionPool_2">CollectionPool<wbr>&lt;TItem, <wbr>TCollection&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></li>
+				<li><a href="/animancer/api/Animancer/ControllerTransition_1">ControllerTransition<wbr>&lt;TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></li>
+				<li><a href="/animancer/api/Animancer/ConvertableUtilities">ConvertableUtilities</a></li>
+				<li><a href="/animancer/api/Animancer/CopyableExtensions">CopyableExtensions</a></li>
+				<li><a href="/animancer/api/Animancer/DefaultFadeValueAttribute">Default<wbr>Fade<wbr>Value<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/DefaultValueAttribute">Default<wbr>Value<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/Diagonals">Diagonals</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimations3D">Directional<wbr>Animations3<wbr>D</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimations3D_1">Directional<wbr>Animations3<wbr>D<wbr>&lt;TGroup&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet">Directional<wbr>Animation<wbr>Set</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalClipTransition">Directional<wbr>Clip<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/DontAllowFade">DontAllowFade</a></li>
+				<li><a href="/animancer/api/Animancer/DrawAfterEventsAttribute">Draw<wbr>After<wbr>Events<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
+				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
+				<li><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></li>
+				<li><a href="/animancer/api/Animancer/ExposedPropertyTable">ExposedPropertyTable</a></li>
+				<li><a href="/animancer/api/Animancer/FadeGroup">FadeGroup</a></li>
+				<li><a href="/animancer/api/Animancer/FadeGroupExtensions">FadeGroupExtensions</a></li>
+				<li><a href="/animancer/api/Animancer/Float1ControllerState">Float1<wbr>Controller<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/Float1ControllerTransition">Float1<wbr>Controller<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/Float2ControllerState">Float2<wbr>Controller<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/Float2ControllerTransition">Float2<wbr>Controller<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/Float3ControllerState">Float3<wbr>Controller<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/Float3ControllerTransition">Float3<wbr>Controller<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponentExtensions">Hybrid<wbr>Animancer<wbr>Component<wbr>Extensions</a></li>
+				<li><a href="/animancer/api/Animancer/IndexedList_2">IndexedList<wbr>&lt;TItem, <wbr>TIndexer&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/LazyStack_1">LazyStack<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
+				<li><a href="/animancer/api/Animancer/LinearMixerTransition">Linear<wbr>Mixer<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/ListPool">ListPool</a></li>
+				<li><a href="/animancer/api/Animancer/ListPool_1">ListPool<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>
+				<li><a href="/animancer/api/Animancer/ManualMixerTransition">Manual<wbr>Mixer<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/ManualMixerTransition_1">Manual<wbr>Mixer<wbr>Transition<wbr>&lt;TMixer&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerChildFade">MixerChildFade</a></li>
+				<li><a href="/animancer/api/Animancer/MixerParameterTween_1">MixerParameterTween<wbr>&lt;TParameter&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerParameterTweenFloat">Mixer<wbr>Parameter<wbr>Tween<wbr>Float</a></li>
+				<li><a href="/animancer/api/Animancer/MixerParameterTweenVector2">Mixer<wbr>Parameter<wbr>Tween<wbr>Vector2</a></li>
+				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerTransition_2">MixerTransition<wbr>&lt;TMixer, <wbr>TParameter&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></li>
+				<li><a href="/animancer/api/Animancer/NameCache">NameCache</a></li>
+				<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>
+				<li><a href="/animancer/api/Animancer/NamedEventDictionary">NamedEventDictionary</a></li>
+				<li><a href="/animancer/api/Animancer/ObjectPool_1">ObjectPool<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Parameter_1">Parameter<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ParameterDictionary">ParameterDictionary</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/PolymorphicAttribute">PolymorphicAttribute</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotion_1">RedirectRootMotion<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotionToCharacterController">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Character<wbr>Controller</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotionToRigidbody">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Rigidbody</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotionToTransform">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Transform</a></li>
+				<li><a href="/animancer/api/Animancer/SetPool">SetPool</a></li>
+				<li><a href="/animancer/api/Animancer/SetPool_1">SetPool<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">Sprite<wbr>Renderer<wbr>Texture<wbr>Swap</a></li>
+				<li><a href="/animancer/api/Animancer/Static_1">Static<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></li>
+				<li><a href="/animancer/api/Animancer/StringBuilderPool">StringBuilderPool</a></li>
+				<li><a href="/animancer/api/Animancer/StringReference">StringReference</a></li>
+				<li><a href="/animancer/api/Animancer/StringReferenceExtensions">String<wbr>Reference<wbr>Extensions</a></li>
+				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
+				<li><a href="/animancer/api/Animancer/ThresholdLabelAttribute">Threshold<wbr>Label<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/TimeSynchronizer_1">TimeSynchronizer<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Transition_1">Transition<wbr>&lt;TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAsset_1">TransitionAsset<wbr>&lt;TTransition&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAssetReference">Transition<wbr>Asset<wbr>Reference</a></li>
+				<li><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></li>
+				<li><a href="/animancer/api/Animancer/Updatable">Updatable</a></li>
+				<li><a href="/animancer/api/Animancer/UpdatableListPlayable">Updatable<wbr>List<wbr>Playable</a></li>
+				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
+				<li><a href="/animancer/api/Animancer/Vector2MixerState">Vector2MixerState</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskLayerList">Weighted<wbr>Mask<wbr>Layer<wbr>List</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskLayersDefinition">Weighted<wbr>Mask<wbr>Layers<wbr>Definition</a></li>
+			<li class="header">Struct Types</li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></li>
+				<li><a href="/animancer/api/Animancer/FastEnumerator_1">FastEnumerator<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/NodeParameter_1">NodeParameter<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/NodeWeight">NodeWeight</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableOutputRefresher">Playable<wbr>Output<wbr>Refresher</a></li>
+				<li><a href="/animancer/api/Animancer/SimpleTimer">SimpleTimer</a></li>
+				<li><a href="/animancer/api/Animancer/StateParameterDetails">State<wbr>Parameter<wbr>Details</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskMixerJob">WeightedMaskMixerJob</a></li>
+			<li class="header">Enum Types</li>
+				<li><a href="/animancer/api/Animancer/Direction">Direction</a></li>
+				<li><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></li>
+				<li><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></li>
+			<li class="header">Interface Types</li>
+				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
+				<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
+				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
+				<li><a href="/animancer/api/Animancer/ICloneable_1">ICloneable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IConvertable_1">IConvertable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IHasDescription">IHasDescription</a></li>
+				<li><a href="/animancer/api/Animancer/IHasEvents">IHasEvents</a></li>
+				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
+				<li><a href="/animancer/api/Animancer/IIndexer_1">IIndexer<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IInitializable_1">IInitializable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IInvokable">IInvokable</a></li>
+				<li><a href="/animancer/api/Animancer/IMotion">IMotion</a></li>
+				<li><a href="/animancer/api/Animancer/IParameter">IParameter</a></li>
+				<li><a href="/animancer/api/Animancer/IParametizedState">IParametizedState</a></li>
+				<li><a href="/animancer/api/Animancer/IPolymorphic">IPolymorphic</a></li>
+				<li><a href="/animancer/api/Animancer/IPolymorphicReset">IPolymorphicReset</a></li>
+				<li><a href="/animancer/api/Animancer/IReadOnlyIndexedList_1">IReadOnlyIndexedList<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ITransition">ITransition</a></li>
+				<li><a href="/animancer/api/Animancer/ITransition_1">ITransition<wbr>&lt;TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ITransitionDetailed">ITransitionDetailed</a></li>
+				<li><a href="/animancer/api/Animancer/ITransitionWithEvents">I<wbr>Transition<wbr>With<wbr>Events</a></li>
+				<li><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></li>
+				<li><a href="/animancer/api/Animancer/IWrapper">IWrapper</a></li>
+
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+<section class="content-header">
+	<h1>AnimancerGraph <small>Class</small></h1>
+</section>
+<section class="content">
+	
+	
+		<h1 id="Summary">Summary</h1>
+	<div class="lead">The root node which manages Animancer's <code class="cs">UnityEngine.Playables.PlayableGraph</code>.</div>
+
+		<div class="panel panel-default">
+  			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<dl class="dl-horizontal">		
+								<dt>Assembly</dt>
+								<dd><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></dd>
+
+								<dt>Namespace</dt>
+								<dd><a href="/animancer/api/Animancer">Animancer</a></dd>
+											
+								<dt>Interfaces</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
+											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a>&gt;<wbr></li>								
+											<li>IEnumerator</li>								
+											<li><a href="/animancer/api/Animancer/IHasDescription">IHasDescription</a></li>								
+									</ul>
+								</dd>
+							
+								<dt>Base Types</dt>
+								<dd>
+									<ul class="list-unstyled">										
+											<li>Object</li>								
+											<li><a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></li>								
+									</ul>
+								</dd>				
+							
+							
+						</dl>
+					</div>		
+					<div class="col-md-6">
+						<div class="mermaid">
+							graph BT
+	Type--&gt;Base0["AnimancerNodeBase"]
+	click Base0 "/animancer/api/Animancer/AnimancerNodeBase"
+	Base0--&gt;Base1["Object"]
+	Type-.-&gt;Interface0["IAnimationClipCollection"]
+	click Interface0 "/animancer/api/Animancer/IAnimationClipCollection"
+	Type-.-&gt;Interface1["ICopyable&lt;AnimancerGraph&gt;"]
+	Type-.-&gt;Interface2["IEnumerator"]
+	Type-.-&gt;Interface3["IHasDescription"]
+	click Interface3 "/animancer/api/Animancer/IHasDescription"
+	Type["AnimancerGraph"]
+class Type type-node
+
+						</div>
+					</div>
+				</div>
+  			</div>
+		</div>
+
+	<h1 id="Syntax">Syntax</h1>
+	<pre><code>public class AnimancerGraph : AnimancerNodeBase, IAnimationClipCollection, 
+    ICopyable&lt;AnimancerGraph&gt;, IEnumerator, IHasDescription</code></pre>
+
+
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    This class can be used as a custom yield instruction to wait until all animations finish playing.
+    <p></p>
+    The most common way to access this class is via <code class="cs">Animancer.AnimancerComponent.Graph</code>.
+    <p></p>
+    Documentation: <a href="https://kybernetik.com.au/animancer/docs/manual/playing">Playing Animations</a>
+    </div>
+
+
+
+
+
+			<h1 id="Constructors">Constructors</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover two-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+									<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/E8B83943">AnimancerGraph<wbr>(PlayableGraph, <wbr>TransitionLibrary)<wbr></a></td>
+									<td>
+    Creates an <code class="cs">Animancer.AnimancerGraph</code> in an existing
+    <code class="cs">UnityEngine.Playables.PlayableGraph</code>.
+    </td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/2FF341C1">AnimancerGraph<wbr>(TransitionLibrary)<wbr></a></td>
+									<td>
+    Creates an <code class="cs">Animancer.AnimancerGraph</code> in a new
+    <code class="cs">UnityEngine.Playables.PlayableGraph</code>.
+    </td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+
+			<h1 id="fields">Fields</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Constant Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/23AE33B0">Default<wbr>Fade<wbr>Duration<wbr>Class</a></td>
+								<td>DefaultFadeDuration</td>
+								<td>
+									<div>[Editor-Only]
+    The name that should be used for a class which sets the <code class="cs">Animancer.AnimancerGraph.DefaultFadeDuration</code>.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/56AC6856">Default<wbr>Fade<wbr>Duration<wbr>Namespace</a></td>
+								<td>Animancer</td>
+								<td>
+									<div>[Editor-Only]
+    The namespace that should be used for a class which sets the <code class="cs">Animancer.AnimancerGraph.DefaultFadeDuration</code>.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/93B483C4">States</a></td>
+								<td></td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerState</code>s managed by this graph.</div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+			<h1 id="Properties">Properties</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/904157C3">ApplyAnimatorIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should Unity call <code class="cs">OnAnimatorIK</code> on the animated object while this object and its children have any
+    <code class="cs">Animancer.AnimancerNode.Weight</code>?
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/495D2454">ApplyFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>Should this object and its children apply IK to the character's feet?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/9604250B">ChildCount</a></td>
+								<td>int</td>
+								<td>
+									<div>The number of nodes using this as their <code class="cs">Animancer.AnimancerNodeBase.Parent</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/664440E1">CommandCount</a></td>
+								<td>int</td>
+								<td>
+									<div>
+    The number of times the <code class="cs">Animancer.AnimancerLayer.CurrentState</code> has changed on layer 0. By storing this
+    value and later comparing the stored value to the current value, you can determine whether the state has
+    been changed since then, even it has changed back to the same state.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/B3D96407">Component</a></td>
+								<td><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></td>
+								<td>
+									<div>The component that is playing this <code class="cs">Animancer.AnimancerGraph</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/0C75D643">Current</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></td>
+								<td>
+									<div>The graph currently being executed.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/0A0B6AB4">DefaultFadeDuration</a></td>
+								<td>float</td>
+								<td>
+									<div>The fade duration to use if not specified. Default is 0.25.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/E1CD02A7">DeltaTime</a></td>
+								<td>float</td>
+								<td>
+									<div>The current <code class="cs">UnityEngine.Playables.FrameData.deltaTime</code>.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/263BB4F2">Disposables</a></td>
+								<td>List<wbr>&lt;IDisposable&gt;<wbr></td>
+								<td>
+									<div>A list of objects that need to be disposed when this <code class="cs">Animancer.AnimancerGraph</code> is destroyed.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/B4958BEE">EffectiveSpeed</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.AnimancerNodeBase.Speed</code> of this node multiplied by the <code class="cs">Animancer.AnimancerNodeBase.Speed</code> of each of its parents to
+    determine the actual speed it's playing at.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/0CF522C9">Events</a></td>
+								<td><a href="/animancer/api/Animancer/NamedEventDictionary">NamedEventDictionary</a></td>
+								<td>
+									<div>A dictionary of callbacks to be triggered by any event with a matching name.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/4142CDDF">FrameID</a></td>
+								<td>ulong</td>
+								<td>
+									<div>The current <code class="cs">UnityEngine.Playables.FrameData.frameId</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/DD38D589">Graph</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerGraph</code> containing this node.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/BAD6006B">HasEvents</a></td>
+								<td>bool</td>
+								<td>
+									<div>Has the <code class="cs">Animancer.AnimancerGraph.Events</code> dictionary been initialized?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/FC99C23C">HasParameters</a></td>
+								<td>bool</td>
+								<td>
+									<div>Has the <code class="cs">Animancer.AnimancerGraph.Parameters</code> dictionary been initialized?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/FDD8BAB7">IsGraphPlaying</a></td>
+								<td>bool</td>
+								<td>
+									<div>Indicates whether the <code class="cs">UnityEngine.Playables.PlayableGraph</code> is currently playing.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/FD81B96B">Keep<wbr>Children<wbr>Connected</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should playables stay connected to the graph at all times?
+    Otherwise they will be disconnected when their  <code class="cs">Animancer.AnimancerNode.Weight</code> is 0.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/9BD1CAFE">Layer</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></td>
+								<td>
+									<div>The root <code class="cs">Animancer.AnimancerLayer</code> which this node is connected to (if any).</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/164F2D7C">Layers</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerLayerList">AnimancerLayerList</a></td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerLayer</code>s which each manage their own set of animations.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/D8B67B56">Output</a></td>
+								<td>PlayableOutput</td>
+								<td>
+									<div>The <code class="cs">UnityEngine.Playables.PlayableOutput</code> connected to this <code class="cs">Animancer.AnimancerGraph</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/E7F4BAA1">Parameters</a></td>
+								<td><a href="/animancer/api/Animancer/ParameterDictionary">ParameterDictionary</a></td>
+								<td>
+									<div>Dynamic parameters which anything can get or set.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/E4C0094A">Parent</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></td>
+								<td>
+									<div>The object which receives the output of the <code class="cs">Animancer.AnimancerNodeBase.Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/30B97215">Playable</a></td>
+								<td>Playable</td>
+								<td>
+									<div>The internal object this node manages in the <code class="cs">UnityEngine.Playables.PlayableGraph</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/394AB4D9">PlayableGraph</a></td>
+								<td>PlayableGraph</td>
+								<td>
+									<div>[Pro-Only]
+    The <code class="cs">UnityEngine.Playables.PlayableGraph</code> containing this <code class="cs">Animancer.AnimancerGraph</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/16C5A201">PostUpdatables</a></td>
+								<td><a href="/animancer/api/Animancer/IReadOnlyIndexedList_1">IReadOnlyIndexedList</a><wbr>&lt;<a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a>&gt;<wbr></td>
+								<td>
+									<div>Objects to be updated after time advances.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/DC3A3CA6">PreUpdatables</a></td>
+								<td><a href="/animancer/api/Animancer/IReadOnlyIndexedList_1">IReadOnlyIndexedList</a><wbr>&lt;<a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a>&gt;<wbr></td>
+								<td>
+									<div>Objects to be updated before time advances.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/96F673C6">SkipFirstFade</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Normally the first animation on the Base Layer should not fade in because there is nothing fading out. But
+    sometimes that is undesirable, such as if the <code class="cs">UnityEngine.Animator.runtimeAnimatorController</code> is assigned
+    since Animancer can blend with that.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/F7C3B68F">Speed</a></td>
+								<td>float</td>
+								<td>
+									<div>[Pro-Only] How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame (default 1).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/3AE38BF4">Transitions</a></td>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a></td>
+								<td>
+									<div>[Pro-Only] The optional <code class="cs">Animancer.TransitionLibraries.TransitionLibrary</code> this graph can use.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/1530DD0A">UpdateMode</a></td>
+								<td>DirectorUpdateMode</td>
+								<td>
+									<div>Determines what time source is used to update the <code class="cs">UnityEngine.Playables.PlayableGraph</code>.</div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+			<h1 id="Methods">Methods</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/CDE29A79">~AnimancerGraph<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerGraph.OnGraphDestroyed</code> in case <code class="cs">Animancer.AnimancerGraph.Destroy</code> wasn't called.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/2D0B3110">AddContextMenuIK<wbr>(GenericMenu, <wbr>AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only]
+    Adds functions to show and set <code class="cs">Animancer.AnimancerNodeBase.ApplyAnimatorIK</code> and
+    <code class="cs">Animancer.AnimancerNodeBase.ApplyFootIK</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/A2291B4B">AppendDescription<wbr>(StringBuilder, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Appends a detailed descrption of the current details of this object.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/C3D0F974">AppendGraphDetails<wbr>(StringBuilder, <wbr>string, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Appends the structure of the <code class="cs">Animancer.AnimancerGraph.PlayableGraph</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/8F558E69">Append<wbr>Internal<wbr>Details<wbr>(StringBuilder, <wbr>string, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Appends all registered <code class="cs">Animancer.IUpdatable</code>s and <code class="cs">System.IDisposable</code>s.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/21CAE902">CancelPostUpdate<wbr>(IUpdatable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Removes the `updatable` from the list of objects that need to be updated after the playebles.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/12AB750C">CancelPreUpdate<wbr>(IUpdatable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Removes the `updatable` from the list of objects that need to be updated before the playables.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/4DB7FA06">Clear<wbr>Inactive<wbr>Initialization<wbr>Stack<wbr>Trace<wbr>(AnimancerGraph)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only] [Internal] Discards the <code class="cs">Animancer.AnimancerGraph.InactiveInitializationStackTrace</code>.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/6B7DCFEF">CopyFrom<wbr>(AnimancerGraph, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Copies all layers and states from `copyFrom` into this graph.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/F3CC50AE">CopyFrom<wbr>(AnimancerGraph, <wbr>CloneContext, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Copies all layers and states from `copyFrom` into this graph.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/844F27A4">CreateGraph<wbr>()<wbr></a></td>
+								<td>PlayableGraph</td>
+								<td>
+									<div>
+    Creates a new empty <code class="cs">UnityEngine.Playables.PlayableGraph</code>
+    and consumes the name set by <code class="cs">Animancer.AnimancerGraph.SetNextGraphName(System.String)</code> if it was called.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/2E936B54">CreateOutput<wbr>(Animator, <wbr>IAnimancerComponent)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Plays this playable on the specified `animator` and sets the <code class="cs">Animancer.AnimancerGraph.Component</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/3D618670">CreateOutput<wbr>(<wbr>I<wbr>Animancer<wbr>Component)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Plays this graph on the <code class="cs">Animancer.IAnimancerComponent.Animator</code>
+    and sets the <code class="cs">Animancer.AnimancerGraph.Component</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/C044318F">Destroy<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">Animancer.AnimancerGraph.PlayableGraph</code> and everything in it. This operation cannot be undone.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/EC3217D5">DestroyOutput<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Destroys the <code class="cs">Animancer.AnimancerGraph.Output</code> if it exists and returns true if successful.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/95D02743">DestroyPlayables<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Destroys this <code class="cs">Animancer.AnimancerGraph</code> and everything inside it (layers, states, etc.)
+    without destroying the <code class="cs">Animancer.AnimancerGraph.PlayableGraph</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/4E1BC4D2">Evaluate<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Evaluates all of the currently playing animations to apply their states to the animated objects.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/364DBE58">Evaluate<wbr>(float)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Advances all currently playing animations by the specified amount of time (in seconds) and evaluates the
+    graph to apply their states to the animated objects.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/768091A0">GatherAnimationClips<wbr>(ICollection<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[<code class="cs">Animancer.IAnimationClipCollection</code>] Gathers all the animations in all layers.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/5BEED080">GetKey<wbr>(AnimationClip)<wbr></a></td>
+								<td>Object</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.IAnimancerComponent.GetKey(UnityEngine.AnimationClip)</code> on the <code class="cs">Animancer.AnimancerGraph.Component</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/785788CC">GetTotalWeight<wbr>()<wbr></a></td>
+								<td>float</td>
+								<td>
+									<div>Calculates the total <code class="cs">Animancer.AnimancerNode.Weight</code> of all states in all layers.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/1C557412">InsertOutputJob<wbr>&lt;T&gt;<wbr><wbr>(T)<wbr></a></td>
+								<td>Animation<wbr>Script<wbr>Playable</td>
+								<td>
+									<div>[Pro-Only]
+    Inserts an animation job after the root of the <code class="cs">Animancer.AnimancerGraph.PlayableGraph</code>
+    so that it can modify the final output.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/FA090EF4">InsertOutputPlayable<wbr>(Playable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Pro-Only]
+    Inserts a `playable` after the root of the <code class="cs">Animancer.AnimancerGraph.PlayableGraph</code>
+    so that it can modify the final output.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/B64765C7">IsPlaying<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Is least one animation being played?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/447E25D1">IsPlaying<wbr>(AnimancerState)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just check <code class="cs">Animancer.AnimancerState.IsPlaying</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/4ADB0D08">IsPlaying<wbr>(IHasKey)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Is a state registered with the <code class="cs">Animancer.IHasKey.Key</code> and currently playing?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/82D09E45">IsPlaying<wbr>(Object)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Is a state registered with the `key` and currently playing?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/02EF035E">IsPlayingClip<wbr>(AnimationClip)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Is the `clip` currently being played by at least one state in the specified layer?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/C47BF79D">IsValidOrDispose<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Is this <code class="cs">Animancer.AnimancerGraph</code> currently usable (not destroyed)?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/742D45B0">MarkAsUsed<wbr>(AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Conditional] Prevents the `node` from causing <code class="cs">Animancer.OptionalWarning.UnusedNode</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/4A9A173D">On<wbr>Child<wbr>Is<wbr>Looping<wbr>Changed<wbr>(bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Called when a child's <code class="cs">Animancer.AnimancerState.IsLooping</code> value changes.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/1D6264C6">PauseGraph<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Freezes the <code class="cs">UnityEngine.Playables.PlayableGraph</code> at its current state.
+    <p></p>
+    If you call this method, you are responsible for calling <code class="cs">Animancer.AnimancerGraph.UnpauseGraph</code> to resume playing.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/D6928318">RequirePostUpdate<wbr>(IUpdatable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Pro-Only]
+    Adds the `updatable` to the list that need to be updated after the playables if it wasn't there already.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/0621F9BC">RequirePreUpdate<wbr>(IUpdatable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Pro-Only]
+    Adds the `updatable` to the list that need to be updated before the playables if it wasn't there already.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/75FA2664">Set<wbr>Keep<wbr>Children<wbr>Connected<wbr>(bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Sets <code class="cs">Animancer.AnimancerGraph.KeepChildrenConnected</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/9FF89AF9">SetNextGraphName<wbr>(string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Conditional]
+    Sets the display name for the next instance to give its <code class="cs">UnityEngine.Playables.PlayableGraph</code>.
+    </div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/AF6A4BDE">Stop<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerNode.Stop</code> on all animations
+    to stop them from playing and rewind them to the start.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/A3160E0D">Stop<wbr>(AnimancerState)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>[Warning]
+    You should not use an <code class="cs">Animancer.AnimancerState</code> as a key.
+    Just call <code class="cs">Animancer.AnimancerNode.Stop</code>.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/6AF03A3F">Stop<wbr>(IHasKey)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>
+    Gets the state registered with the <code class="cs">Animancer.IHasKey.Key</code>,
+    stops and rewinds it to the start, then returns it.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/09C039D5">Stop<wbr>(Object)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerNode.Stop</code> on the state registered with the `key`
+    to stop it from playing and rewind it to the start.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/F57B5644">ToString<wbr>()<wbr></a></td>
+								<td>string</td>
+								<td>
+									<div>[Editor-Only] Returns "Component Name (Animancer)".</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph/E3A106CB">UnpauseGraph<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Resumes playing the <code class="cs">UnityEngine.Playables.PlayableGraph</code> if <code class="cs">Animancer.AnimancerGraph.PauseGraph</code> was called previously.
+    </div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+			<h1 id="Operators">Operators</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td>implicit operator <wbr>Playable<wbr>Graph<wbr>(AnimancerGraph)<wbr></td>
+								<td>PlayableGraph</td>
+								<td>
+									<div></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+
+	
+</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>
