@@ -83,7 +83,9 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#what-is-root-motion">What is Root Motion?</a></p>
 <p><a href="#how-to-use-root-motion">How to use Root Motion?</a></p>
-<p><a href="#redirect-root-motion">Redirect Root Motion</a></p>
+<p><a href="#when-to-use-root-motion">When to use Root Motion?</a></p>
+<p><a href="#layers">Layers</a></p>
+<p><a href="#redirecting-root-motion">Redirecting Root Motion</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -591,7 +593,23 @@
 </tr>
 </tbody>
 </table>
-<h1 id="redirect-root-motion">Redirect Root Motion</h1>
+<h1 id="when-to-use-root-motion">When to use Root Motion?</h1>
+<p>Root Motion gives artists control over the character's movements instead of having programmers move everything in scripts. This can be good in some situations and bad in others:</p>
+<ul>
+<li>If the motion is not constant, using Root Motion can allow it to be more realistic. For example, stepping forward while swinging a weapon would probably have you moving forward at the start of the animation but then being mostly stationary or even stepping back towards the end of the animation.</li>
+<li>If precision is more important, avoiding Root Motion might be better. For example, in a top down game players are less likely to focus on specific foot movements like that and a multiplayer game might want to have a dedicated server which can simulate everything moving at whatever speed their stats say without even needing to have character models or animations loaded at all.</li>
+</ul>
+<p>Even if you do use Root Motion in your game, that doesn't mean you need to use it for everything. Generally, animations like <em>Idle</em> should have the <code>Bake Into Pose</code> toggles enabled to ensure that they don't cause even a little bit of Root Motion.</p>
+<p>As a real life example, the world record in the <em>low%</em> speedrun category in <em>The Legend of Zelda: Twilight Princess</em> currently involves doing nothing for over 17 hours (real time) while an animation that should be stationary actually applies a very small amount of root motion which eventually allows the character to clip through a wall.</p>
+<iframe width="200" height="113" src="https://www.youtube.com/embed/v2nRW3wKnVY?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="" title="The Speedrun Where Link Stares at Rupees for 17 Hours"></iframe>
+<img src="avatar-mask.png" class="img-responsive img-right">
+<h1 id="layers">Layers</h1>
+<p>When using multiple <a href="../blending/layers">Layers</a>, Root Motion behaves pretty much the same as the rest of the animated properties:</p>
+<ul>
+<li>By default, the highest layer overrides lower ones.</li>
+<li>An <code>AvatarMask</code> can disable Root Motion from a layer so that the one below it will take effect instead. For Humanoid Rigs, that's controlled by the circle at the bottom of the mask.</li>
+</ul>
+<h1 id="redirecting-root-motion">Redirecting Root Motion</h1>
 <p>It's usually a good idea to keep a character's logical components separate from their model for organizational purposes, so you might have a hierarchy like this:</p>
 <p><img src="hierarchy.png" class="img-responsive"></p>
 <p>In that case, the <code>Animator</code> will apply any <a href="https://docs.unity3d.com/Manual/RootMotion.html">Root Motion</a> to itself by default, causing it to move away from the <code>Collider</code> and <code>Rigidbody</code> if they aren't on the same object.</p>
