@@ -1,0 +1,969 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - Turning</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#mecanim">Mecanim</a></p>
+<p><a href="#mecanim-determine-desired-turn">Mecanim Determine Desired Turn</a></p>
+<p><a href="#mecanim-can-turn">Mecanim Can Turn</a></p>
+<p><a href="#mecanim-apply-turn">Mecanim Apply Turn</a></p>
+<p><a href="#mecanim-quick-turns">Mecanim Quick Turns</a></p>
+<p><a href="#animancer">Animancer</a></p>
+<p><a href="#animancer-get-turn-angles">Animancer Get Turn Angles</a></p>
+<p><a href="#animancer-quick-turns">Animancer Quick Turns</a></p>
+<p><a href="#animancer-apply-turn">Animancer Apply Turn</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/docs/download">Download</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples">Samples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/basics">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/basics/quick-play">01-01 Quick Play</a></li>
+                <li><a href="/animancer/docs/samples/basics/movement">01-02 Basic Movement</a></li>
+                <li><a href="/animancer/docs/samples/basics/action">01-03 Basic Action</a></li>
+                <li><a href="/animancer/docs/samples/basics/transitions">01-04 Transitions</a></li>
+                <li><a href="/animancer/docs/samples/basics/character">01-05 Basic Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/library">01-06 Library Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/docs/samples/basics/input">Input</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/fine-control/named">02-01 Named Character</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/live-inspector">02-02 Live Inspector</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/doors">02-03 Doors</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/update-rate">02-04 Update Rate</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/mixers">03 Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/mixers/linear">03-01 Linear Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/directional">03-02 Directional Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/serialization">03-03 Animation Serialization</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/layers">04 Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/layers/basic">04-01 Basic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/dynamic">04-02 Dynamic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/face">04-03 Facial Expressions</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/events/golf">05-01 Golf Events</a></li>
+                <li><a href="/animancer/docs/samples/events/footsteps">05-02 Footstep Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/fsm/characters">06-01 Characters</a></li>
+                <li><a href="/animancer/docs/samples/fsm/interruptions">06-02 Interruptions</a></li>
+                <li><a href="/animancer/docs/samples/fsm/brains">06-03 Brains</a></li>
+                <li><a href="/animancer/docs/samples/fsm/weapons">06-04 Weapons</a></li>
+                <li><a href="/animancer/docs/samples/fsm/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/sprites">07 Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/sprites/basics">07-01 Directional Basics</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character">07-02 Directional Character</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character-3d">07-03 Directional Character 3D</a></li>
+                <li><a href="/animancer/docs/samples/sprites/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples/animator-controllers">08 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/character">08-01 Hybrid Character</a></li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit">08-02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li class="selected"><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/ik">09 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/ik/puppet">09-01 Puppet</a></li>
+                <li><a href="/animancer/docs/samples/ik/uneven-ground">09-02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/samples/jobs/damping">10-02 Damping</a></li>
+                <li><a href="/animancer/docs/samples/jobs/hit-impacts">10-03 Hit Impacts</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/integration">Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/docs/samples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/docs/samples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/docs/samples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/docs/samples/integration/lod">Level of Detail (LOD)</a></li>
+                <li><a href="/animancer/docs/samples/integration/odin-inspector">Odin Inspector</a></li>
+                <li><a href="/animancer/docs/samples/integration/puppet-master">Puppet Master</a></li>
+                <li><a href="/animancer/docs/samples/integration/spine">Spine</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/samples/no-video-tutorials">No Video Tutorials</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/docs/manual/getting/animation-window">Animation Window</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
+                <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
+                <li><a href="/animancer/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
+                <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/fading">Fading</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/end">End Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/end/alternatives">End Event Alternatives</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/overview">Overview</a></li>
+                <li><a href="/animancer/docs/manual/fsm/state-types">1. State Types</a></li>
+                <li><a href="/animancer/docs/manual/fsm/initialization">2. Initialization</a></li>
+                <li><a href="/animancer/docs/manual/fsm/changing-states">3. Changing States</a></li>
+                <li><a href="/animancer/docs/manual/fsm/keys">Keys</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm/utilities">Utilities</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/utilities/input-buffer">Input Buffers</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/state-selector">State Selectors</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/owned-states">Owned States</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/animator-controllers/conversion">Conversion</a></li>
+                <li><a href="/animancer/docs/manual/animator-controllers/controller-states">Controller States</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/tools/pack-textures">Pack Textures</a></li>
+                <li><a href="/animancer/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/other/animation-clip-inspector">Animation Clip Inspector</a></li>
+                <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
+                <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/reorderable-array-height">Reorderable Array Height</a></li>
+                <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/docs/bugs/timing">Timing</a></li>
+                <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v8-0">Animancer v8.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v8-0/upgrade-guide">Animancer v8.0 Upgrade Guide</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v6-0">Animancer v6.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v6-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/help">Help and FAQ</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/help/debugging">Debugging</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>Turning</h1>
+		</section>
+	<section class="content">
+		<blockquote class="blockquote">
+<p>This page is part of the <a href="../">3D Game Kit</a> sample.</p>
+</blockquote>
+<h1 id="mecanim">Mecanim</h1>
+<p>Like <a href="../movement">Movement</a>, turning is also handled in several steps every frame:</p>
+<ol>
+<li><a href="#mecanim-determine-desired-turn">Determine Desired Turn</a></li>
+<li><a href="#mecanim-can-turn">Can Turn</a></li>
+<li><a href="#mecanim-apply-turn">Apply Turn</a></li>
+<li><a href="#mecanim-quick-turns">Quick Turns</a></li>
+</ol>
+<pre><code class="language-cs">// PlayerController.cs:
+void FixedUpdate()
+{
+    ...
+    SetTargetRotation();
+
+    if (IsOrientationUpdated() &amp;&amp; IsMoveInput)
+        UpdateOrientation();
+    ...
+}
+</code></pre>
+<p>It's unclear why <code>SetTargetRotation</code> gets called every update instead of only when the character is able to turn and trying to do so. Moving it inside the <code>if</code> block with <code>UpdateOrientation</code> seems to make no difference to the character's behaviour and would make more logical sense.</p>
+<h1 id="mecanim-determine-desired-turn">Mecanim Determine Desired Turn</h1>
+<p><code>PlayerController.FixedUpdate</code> calls <code>SetTargetRotation</code> which gets the desired movement from the <code>PlayerInput</code> script and calculates the rotation the character would need to face that direction:</p>
+<pre><code class="language-cs">// PlayerController.cs:
+void SetTargetRotation()
+{
+    // Create three variables, move input local to the player, flattened forward direction of the camera and a local target rotation.
+    Vector2 moveInput = m_Input.MoveInput;
+    Vector3 localMovementDirection = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+
+    Vector3 forward = Quaternion.Euler(0f, cameraSettings.Current.m_XAxis.Value, 0f) * Vector3.forward;
+    forward.y = 0f;
+    forward.Normalize();
+
+    Quaternion targetRotation;
+
+    // If the local movement direction is the opposite of forward then the target rotation should be towards the camera.
+    if (Mathf.Approximately(Vector3.Dot(localMovementDirection, Vector3.forward), -1.0f))
+    {
+        targetRotation = Quaternion.LookRotation(-forward);
+    }
+    else
+    {
+        // Otherwise the rotation should be the offset of the input from the camera's forward.
+        Quaternion cameraToInputOffset = Quaternion.FromToRotation(Vector3.forward, localMovementDirection);
+        targetRotation = Quaternion.LookRotation(cameraToInputOffset * forward);
+    }
+
+    // The desired forward direction of Ellen.
+    Vector3 resultingForward = targetRotation * Vector3.forward;
+
+    // If attacking try to orient to close enemies.
+    if (m_InAttack)
+    {
+        // Find all the enemies in the local area.
+        Vector3 centre = transform.position + transform.forward * 2.0f + transform.up;
+        Vector3 halfExtents = new Vector3(3.0f, 1.0f, 2.0f);
+        int layerMask = 1 &lt;&lt; LayerMask.NameToLayer("Enemy");
+        int count = Physics.OverlapBoxNonAlloc(centre, halfExtents, m_OverlapResult, targetRotation, layerMask);
+
+        // Go through all the enemies in the local area...
+        float closestDot = 0.0f;
+        Vector3 closestForward = Vector3.zero;
+        int closest = -1;
+
+        for (int i = 0; i &lt; count; ++i)
+        {
+            // ... and for each get a vector from the player to the enemy.
+            Vector3 playerToEnemy = m_OverlapResult[i].transform.position - transform.position;
+            playerToEnemy.y = 0;
+            playerToEnemy.Normalize();
+
+            // Find the dot product between the direction the player wants to go and the direction to the enemy.
+            // This will be larger the closer to Ellen's desired direction the direction to the enemy is.
+            float d = Vector3.Dot(resultingForward, playerToEnemy);
+
+            // Store the closest enemy.
+            if (d &gt; k_MinEnemyDotCoeff &amp;&amp; d &gt; closestDot)
+            {
+                closestForward = playerToEnemy;
+                closestDot = d;
+                closest = i;
+            }
+        }
+
+        // If there is a close enemy...
+        if (closest != -1)
+        {
+            // The desired forward is the direction to the closest enemy.
+            resultingForward = closestForward;
+
+            // We also directly set the rotation, as we want snappy fight and orientation isn't updated in the UpdateOrientation function during an atatck.
+            transform.rotation = Quaternion.LookRotation(resultingForward);
+        }
+    }
+
+    // Find the difference between the current rotation of the player and the desired rotation of the player in radians.
+    float angleCurrent = Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg;
+    float targetAngle = Mathf.Atan2(resultingForward.x, resultingForward.z) * Mathf.Rad2Deg;
+
+    m_AngleDiff = Mathf.DeltaAngle(angleCurrent, targetAngle);
+    m_TargetRotation = targetRotation;
+}
+</code></pre>
+<p>That method is far too long so most of it should have been split into separate methods: <code>CalculateTargetRotation</code> and <code>UpdateAttackTurning</code>, with only the last few lines remaining in <code>SetTargetRotation</code> itself. In particular, that would cut an entire page worth of code out of the main method which is only relevant when the character is attacking.</p>
+<h1 id="mecanim-can-turn">Mecanim Can Turn</h1>
+<p>Then it checks <code>if (IsOrientationUpdated() &amp;&amp; IsMoveInput)</code> to determine whether the Animator Controller is in a state that allows turning and the player is actually trying to move.</p>
+<pre><code class="language-cs">// PlayerController.cs:
+bool IsOrientationUpdated()
+{
+    bool updateOrientationForLocomotion = !m_IsAnimatorTransitioning &amp;&amp; m_CurrentStateInfo.shortNameHash == m_HashLocomotion || m_NextStateInfo.shortNameHash == m_HashLocomotion;
+    bool updateOrientationForAirborne = !m_IsAnimatorTransitioning &amp;&amp; m_CurrentStateInfo.shortNameHash == m_HashAirborne || m_NextStateInfo.shortNameHash == m_HashAirborne;
+    bool updateOrientationForLanding = !m_IsAnimatorTransitioning &amp;&amp; m_CurrentStateInfo.shortNameHash == m_HashLanding || m_NextStateInfo.shortNameHash == m_HashLanding;
+
+    return updateOrientationForLocomotion || updateOrientationForAirborne || updateOrientationForLanding || m_InCombo &amp;&amp; !m_InAttack;
+}
+</code></pre>
+<p><code>CanTurn</code> would have been a much better method name.</p>
+<p>That method effectively illustrates one of the main problems with having the state machine defined separately from the code. At first it might seem useful for non-programmers to be able to set things up visually, but eventually the state machine and code end up being so strongly dependant on each other that neither one can be touched without knowing how the other works anyway. A non-programmer cannot simply look at a state in the Animator Controller and use a toggle to determine if they want that state to allow the player to control their turning because the specific states are hard coded into this method on line 397 of a 680 line script.</p>
+<p>There are also several things that could be improved about the way that method was written:</p>
+<ul>
+<li>Many coding standards would recommend using brackets around the conditions to clarify their evaluation order. Newer programmers in particular may not realise that <code>&amp;&amp;</code> takes priority so it will evaluate as <code>(is not transitioning &amp;&amp; current state is target) || next state is target</code> rather than <code>is not transitioning &amp;&amp; (current state is target || next state is target)</code>.</li>
+<li>Instead of repeating the same line 3 times, that condition should be separated into another method so it can just call <code>IsInState(m_HashLocomotion) || IsInState(m_HashAirborne) ...</code>.</li>
+<li>All those conditions should be part of the <code>return</code> statement (using multiple lines so they do not get too long) instead of being evaluated beforehand. That way as soon as any of the conditions is met it can return without continuing to check the rest of them. In this case the performance improvement would be negligible, but it would have also been faster to write without needing to declare any local variables.</li>
+</ul>
+<pre><code class="language-cs">// PlayerController.cs:
+protected bool IsMoveInput
+{
+    get { return !Mathf.Approximately(m_Input.MoveInput.sqrMagnitude, 0f); }
+}
+</code></pre>
+<p>That property also has a few things worth noting:</p>
+<ul>
+<li>It should be in the <code>PlayerInput</code> class rather than <code>PlayerController</code> since the only thing it does is check input.</li>
+<li>A more descriptive name like <code>IsTryingToMove</code> would be better.</li>
+<li>The use of <code>Mathf.Approximately</code> provides a "dead zone" where a small amount of tilt on a joystick will count as none, but the size of that zone is so small that it will be totally useless. Unity's <code>Input.GetAxis</code> method already accounts for a dead zone which can be customised in the project's Input Settings. In this project the dead zone is set to 0.19 which is several orders of magnitude larger than the value <code>Mathf.Approximately</code> uses.</li>
+<li>Unity's <code>Vector2 ==</code> operator also already has a dead zone built in (see its source code below). But again, that dead zone is too small to have any practical use so it actually tends to cause more problems than it solves.</li>
+</ul>
+<pre><code class="language-cs">public static bool operator ==(Vector2 lhs, Vector2 rhs)
+{
+    return (lhs - rhs).sqrMagnitude &lt; 9.99999944E-11f;
+}
+</code></pre>
+<h1 id="mecanim-apply-turn">Mecanim Apply Turn</h1>
+<p>If those conditions are both true, it calls <code>PlayerController.UpdateOrientation</code> which sets the <code>AngleDeltaRad</code> parameter (the angle between the current rotation and desired rotation in radians) in the Animator Controller and rotates the character towards the desired rotation.</p>
+<pre><code class="language-cs">// PlayerController.cs:
+void UpdateOrientation()
+{
+    m_Animator.SetFloat(m_HashAngleDeltaRad, m_AngleDiff * Mathf.Deg2Rad);
+
+    Vector3 localInput = new Vector3(m_Input.MoveInput.x, 0f, m_Input.MoveInput.y);
+    float groundedTurnSpeed = Mathf.Lerp(maxTurnSpeed, minTurnSpeed, m_ForwardSpeed / m_DesiredForwardSpeed);
+    float actualTurnSpeed = m_IsGrounded ? groundedTurnSpeed : Vector3.Angle(transform.forward, localInput) * k_InverseOneEighty * k_AirborneTurnSpeedProportion * groundedTurnSpeed;
+    m_TargetRotation = Quaternion.RotateTowards(transform.rotation, m_TargetRotation, actualTurnSpeed * Time.deltaTime);
+
+    transform.rotation = m_TargetRotation;
+}
+</code></pre>
+<h1 id="mecanim-quick-turns">Mecanim Quick Turns</h1>
+<p>The <code>Locomotion</code> Blend Tree state has a pair of transitions to quick turn animations that get triggered when the character is moving fast enough and tries to turn sharply.</p>
+<p><img src="quick-turn-transition.png" class="img-responsive"></p>
+<p>It's unclear why the angles are converted to radians since most people have a much better understanding of degrees. The 2.5 radian threshold is equal to roughly 143 degrees.</p>
+<p>The <code>OnAnimatorMove</code> method above also applies any root motion rotation from the current animation. During the quick turn animations, the <code>IsOrientationUpdated</code> method to returns false so the script stops turning the character while they use their root motion.</p>
+<pre><code class="language-cs">// PlayerController.cs:
+void OnAnimatorMove()
+{
+    ...
+    m_CharCtrl.transform.rotation *= m_Animator.deltaRotation;
+    ...
+}
+</code></pre>
+<p>This setup has the same issue described in <a href="#mecanim-can-turn">Can Turn</a>:</p>
+<ul>
+<li>A non-programmer couldn't add these quick turn animations on their own because they require the code to calculate and set the speed and angle delta parameters.</li>
+<li>They also rely on the <code>IsOrientationUpdated</code> method to return false during these animations so that <code>UpdateOrientation</code> stops rotating the character during the quick turn, leaving the animations to perform the rotation using their root motion (in <code>OnAnimatorMove</code>).</li>
+<li>It's impossible to figure out what will be moving and rotating the character in any given state without going back and forth between the code and Animator Controller.</li>
+<li>So a system which is supposed to allow non-programmers to work without code does not actually let them do so and at the same time it convolutes the overall logic to make everything harder for the programmers as well.</li>
+</ul>
+<h1 id="animancer">Animancer</h1>
+<p>The <code><a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> script is responsible for both the regular turning and the logic to trigger the quick turn animations. This puts all the fields in one place where they are all visible in the Inspector at once instead of splitting them across two states and transitions which can only be selected one at a time to compare them manually:</p>
+<pre><code class="language-cs">// LocomotionState.cs:
+[SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _LocomotionMixer;
+[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _QuickTurnLeft;
+[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _QuickTurnRight;
+[SerializeField, MetersPerSecond] private float _QuickTurnMoveSpeed = 2;
+[SerializeField, Degrees] private float _QuickTurnAngle = 145;
+</code></pre>
+<p>On startup we set their <code>OnEnd</code> callback to return to the main <code>_LocomotionMixer</code> state. Note how these are <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s so they will assign their <code>OnEnd</code> callback to their actual state every time it is played (since <code>AnimancerState.OnEnd</code> is cleared every time). This improves performance by avoiding the creation of a new <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> object every time it is used.</p>
+<pre><code class="language-cs">// LocomotionState.cs:
+protected virtual void Awake()
+{
+    _QuickTurnLeft.Events.OnEnd =
+        _QuickTurnRight.Events.OnEnd =
+        () =&gt; Character.Animancer.Play(_LocomotionMixer);
+}
+</code></pre>
+<p>Every <code>FixedUpdate</code> this state calls <code>UpdateRotation</code> which returns early if the <code>_LocomotionMixer</code> is not active (at full <code>Weight</code> or currently fading in) because that means the character must already be performing a quick turn, so we do not do any scripted turning and just let the <code>Character.OnAnimatorMove</code> apply the root motion rotation from that animation.</p>
+<pre><code class="language-cs">// LocomotionState.cs:
+private void UpdateRotation()
+{
+    if (!_LocomotionMixer.State.IsActive)
+        return;
+</code></pre>
+<p>The rest of the method is comprised of several steps:</p>
+<ol>
+<li><a href="#animancer-get-turn-angles">Get Turn Angles</a></li>
+<li><a href="#animancer-quick-turns">Quick Turns</a></li>
+<li><a href="#animancer-apply-turn">Apply Turn</a></li>
+</ol>
+<h1 id="animancer-get-turn-angles">Animancer Get Turn Angles</h1>
+<p>Then it gets the current rotation of the character and the desired angle according to the <code>Character.Parameters.MovementDirection</code>. And again it has an opportunity to return early to prevent rotation if the brain isn't actually trying to move at the moment (though that should never actually happen in this case because <code>Character.CheckMotionState</code> would have already changed it to the <em>Idle</em> state).</p>
+<pre><code class="language-cs">// LocomotionState.cs:
+    // In UpdateRotation:
+    if (!Character.Movement.GetTurnAngles(Character.Parameters.MovementDirection, out var currentAngle, out var targetAngle))
+        return;
+
+// CharacterMovement.cs:
+public bool GetTurnAngles(Vector3 direction, out float currentAngle, out float targetAngle)
+{
+    if (direction == default)
+    {
+        currentAngle = float.NaN;
+        targetAngle = float.NaN;
+        return false;
+    }
+
+    var transform = this.transform;
+    currentAngle = transform.eulerAngles.y;
+    targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+    return true;
+}
+</code></pre>
+<h1 id="animancer-quick-turns">Animancer Quick Turns</h1>
+<p>In the Mecanim character, the <code>PlayerController</code> script would calculate the forward speed and rotation needed to face the desired direction and then send those values to the Animator Controller for it to check if any transitions should be started based on those parameters. That made it difficult to figure out the actual flow of logic that would trigger the quick turn animations. But in the <code><a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> script, that same logic only takes a few lines of code which is much easier to understand.</p>
+<pre><code class="language-cs">// LocomotionState.cs:
+    // In UpdateRotation:
+    // If we are moving fast enough.
+    if (Character.Parameters.ForwardSpeed &gt; _QuickTurnMoveSpeed)
+    {
+        // And turning sharp enough.
+        var deltaAngle = Mathf.DeltaAngle(currentAngle, targetAngle);
+        if (Mathf.Abs(deltaAngle) &gt; _QuickTurnAngle)
+        {
+            // Determine which way we are turning.
+            var turn = deltaAngle &lt; 0 ? _QuickTurnLeft : _QuickTurnRight;
+    
+            // Make sure the desired turn isn't already active so we do not keep using it repeatedly.
+            if (turn.State == null || turn.State.Weight == 0)
+            {
+                Animancer.Play(turn);
+
+                // Now that we are quick turning, we do not want to apply the scripted turning below.
+                return;
+            }
+        }
+    }
+</code></pre>
+<p>Having the logic entirely defined in code also makes it far easier to get help with. If you posted that code online, programmers would be able to easily read through it and explain the logic to you. Even if they were unfamiliar with Animancer, they could probably make an educated guess about the meaning of the last few lines. But in the Mecanim Animator Controller setup you would need to post the code along with screenshots of various parts of the Animator Controller and even then it is still hard for other people to get any real idea of how it is structured.</p>
+<h1 id="animancer-apply-turn">Animancer Apply Turn</h1>
+<p>Lastly, as long as we did not just start a quick turn animation, turn towards the direction we want to face:</p>
+<pre><code class="language-cs">// LocomotionState.cs:
+    // In UpdateRotation:
+    Character.Movement.TurnTowards(currentAngle, targetAngle, Character.Movement.CurrentTurnSpeed);
+}
+
+// CharacterMovement.cs.
+public void TurnTowards(float currentAngle, float targetAngle, float speed)
+{
+    currentAngle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, speed * Time.deltaTime);
+
+    transform.eulerAngles = new Vector3(0, currentAngle, 0);
+}
+</code></pre>
+<p>Note that other states such as <em>Airborne</em> and <em>Attack</em> want to use the same logic for turning but do not have quick turn animations so there is a second <code>TurnTowards</code> method which calls both <code>GetTurnAngles</code> and <code>TurnTowards</code> in one go for convenience.</p>
+<p>One thing which this sample does not replicate from the Mecanim is the automatic turning towards nearby enemies while attacking in <code>PlayerController.SetTargetRotation</code> because this sample doesn't include enemies. But if it did, that logic would be located in the <code>AttackState</code> class instead of being mixed in with the general turning logic.</p>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/samples">Samples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/discussions">Unity Discussions</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>

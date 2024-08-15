@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - 04-01 Linear Mixers</title>
+        <title>Animancer - 03-01 Linear Mixers</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -87,6 +87,7 @@
 <p><a href="#mixer">Mixer</a></p>
 <p><a href="#decoupling">Decoupling</a></p>
 <p><a href="#animancer-parameters">Animancer Parameters</a></p>
+<p><a href="#parameter-smoothing">Parameter Smoothing</a></p>
 <p><a href="#float-parameter-slider">Float Parameter Slider</a></p>
 <p><a href="#time-synchronization">Time Synchronization</a></p>
 <p><a href="#optional-synchronization">Optional Synchronization</a></p>
@@ -159,6 +160,7 @@
                 <li><a href="/animancer/docs/samples/basics/action">01-03 Basic Action</a></li>
                 <li><a href="/animancer/docs/samples/basics/transitions">01-04 Transitions</a></li>
                 <li><a href="/animancer/docs/samples/basics/character">01-05 Basic Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/library">01-06 Library Character</a></li>
                 <li><a href="/animancer/docs/samples/basics/scene-setup">Basic Scene Setup</a></li>
                 <li><a href="/animancer/docs/samples/basics/input">Input</a></li>
 
@@ -168,88 +170,72 @@
                     <a href="/animancer/docs/samples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/samples/fine-control/live-inspector">02-01 Live Inspector</a></li>
-                <li><a href="/animancer/docs/samples/fine-control/named-animations">02-02 Named Animations</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/named">02-01 Named Character</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/live-inspector">02-02 Live Inspector</a></li>
                 <li><a href="/animancer/docs/samples/fine-control/doors">02-03 Doors</a></li>
                 <li><a href="/animancer/docs/samples/fine-control/update-rate">02-04 Update Rate</a></li>
 
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="/animancer/docs/samples/transition-libraries">03 Transition Libraries</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/samples/transition-libraries/basics">03-01 Library Basics</a></li>
-
-                    </ul>
-                </li>
                 <li class="treeview active">
-                    <a href="/animancer/docs/samples/mixers">04 Mixers</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/mixers">03 Mixers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li class="selected"><a href="/animancer/docs/samples/mixers/linear">04-01 Linear Mixers</a></li>
-                <li><a href="/animancer/docs/samples/mixers/directional">04-02 Directional Mixers</a></li>
+                <li class="selected"><a href="/animancer/docs/samples/mixers/linear">03-01 Linear Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/directional">03-02 Directional Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/serialization">03-03 Animation Serialization</a></li>
 
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/docs/samples/layers">05 Layers</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/layers">04 Layers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/samples/layers/basic">05-01 Basic Layers</a></li>
-                <li><a href="/animancer/docs/samples/layers/dynamic">05-02 Dynamic Layers</a></li>
-                <li><a href="/animancer/docs/samples/layers/face">05-03 Facial Expressions</a></li>
+                <li><a href="/animancer/docs/samples/layers/basic">04-01 Basic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/dynamic">04-02 Dynamic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/face">04-03 Facial Expressions</a></li>
 
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/docs/samples/events">06 Events</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/events">05 Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/samples/events/footsteps">06-01 Footstep Events</a></li>
-                <li><a href="/animancer/docs/samples/events/golf">06-02 Golf Events</a></li>
-                <li><a href="/animancer/docs/samples/events/utilities">06-03 Event Utilities</a></li>
+                <li><a href="/animancer/docs/samples/events/golf">05-01 Golf Events</a></li>
+                <li><a href="/animancer/docs/samples/events/footsteps">05-02 Footstep Events</a></li>
 
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/docs/samples/fsm">07 State Machines</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/samples/fsm/characters">07-01 Characters</a></li>
-                <li><a href="/animancer/docs/samples/fsm/interruptions">07-02 Interruptions</a></li>
-                <li><a href="/animancer/docs/samples/fsm/brains">07-03 Brains</a></li>
-                <li><a href="/animancer/docs/samples/fsm/weapons">07-04 Weapons</a></li>
+                <li><a href="/animancer/docs/samples/fsm/characters">06-01 Characters</a></li>
+                <li><a href="/animancer/docs/samples/fsm/interruptions">06-02 Interruptions</a></li>
+                <li><a href="/animancer/docs/samples/fsm/brains">06-03 Brains</a></li>
+                <li><a href="/animancer/docs/samples/fsm/weapons">06-04 Weapons</a></li>
                 <li><a href="/animancer/docs/samples/fsm/platformer">Platformer Game Kit</a></li>
 
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/docs/samples/ik">08 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/sprites">07 Sprites</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/samples/ik/puppet">08-01 Puppet</a></li>
-                <li><a href="/animancer/docs/samples/ik/uneven-ground">08-02 Uneven Ground</a></li>
+                <li><a href="/animancer/docs/samples/sprites/basics">07-01 Directional Basics</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character">07-02 Directional Character</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character-3d">07-03 Directional Character 3D</a></li>
+                <li><a href="/animancer/docs/samples/sprites/platformer">Platformer Game Kit</a></li>
 
                     </ul>
                 </li>
                 <li class="treeview">
-                    <a href="/animancer/docs/samples/sprites">08 Sprites</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/animator-controllers">08 Animator Controllers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/samples/sprites/basics">08-01 Directional Basics</a></li>
-                <li><a href="/animancer/docs/samples/sprites/character">08-02 Directional Character</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/samples/animator-controllers/character">08-01 Hybrid Character</a></li>
                 <li class="treeview">
-                    <a href="/animancer/docs/samples/animator-controllers">09 Animator Controllers</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li><a href="/animancer/docs/samples/animator-controllers/basics">09-01 Hybrid Basics</a></li>
-                <li><a href="/animancer/docs/samples/animator-controllers/character">09-02 Hybrid Character</a></li>
-                <li class="treeview">
-                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit">09-03 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit">08-02 3D Game Kit</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
@@ -276,12 +262,21 @@
                     </ul>
                 </li>
                 <li class="treeview">
+                    <a href="/animancer/docs/samples/ik">09 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/ik/puppet">09-01 Puppet</a></li>
+                <li><a href="/animancer/docs/samples/ik/uneven-ground">09-02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
                     <a href="/animancer/docs/samples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/samples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
                 <li><a href="/animancer/docs/samples/jobs/damping">10-02 Damping</a></li>
-                <li><a href="/animancer/docs/samples/jobs/lean">10-03 Lean</a></li>
+                <li><a href="/animancer/docs/samples/jobs/hit-impacts">10-03 Hit Impacts</a></li>
 
                     </ul>
                 </li>
@@ -382,6 +377,7 @@
                 <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
 
                     </ul>
                 </li>
@@ -560,23 +556,31 @@
 
 
 		<section class="content-header">
-			<h1>04-01 Linear Mixers</h1>
+			<h1>03-01 Linear Mixers</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p><i class="emw fa fa-folder"></i> <a href="../../"><strong>Location</strong>: Samples/04 Mixers/01 Linear Mixers</a></p>
+		<div class="pro-only-sample"><a href="/animancer/docs/introduction/features"><div></div><ul>
+<li>Animator Controllers</li>
+<li>Mixers</li>
+</ul></a></div>
+<blockquote class="blockquote">
+<p><i class="emw fa fa-folder"></i> <a href="../../"><strong>Location</strong>: Samples/03 Mixers/01 Linear Mixers</a></p>
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../../fine-control/live-inspector">Live Inspector</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this sample you will learn:</span></p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to blend between animations to move a character at any speed.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to move at any speed by blending animations.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to use <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a>, <a href="../../../manual/animator-controllers">Controller States</a>, <a href="../../../manual/blending/mixers">Mixers</a>, <a href="../../../manual/transitions/assets">Transition Assets</a>, and <a href="../../../manual/parameters">Parameters</a>.</p>
 </blockquote>
-<p><em><a href="../../../introduction/features"><strong>Pro-Only Features</strong></a> are used in this sample: <a href="../../../manual/animator-controllers">Controller States</a> and <a href="../../../manual/blending/mixers">Mixer States</a>. Animancer Lite allows you to try try out these features in the Unity Editor, but they're not available in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <h1 id="summary">Summary</h1>
 <p>Remember how the <a href="../../fine-control/live-inspector">Live Inspector</a> sample showed that it's possible to manually play multiple animations at the same time to blend between them? Well, this sample demonstrates how to do that properly in code.</p>
 <p><img src="linear.png" class="pngif img-responsive"></p>
 <p>The character smoothly blends betweem <em>Idle</em>, <em>Walk</em>, and <em>Run</em> animations based on a <code>MovementSpeed</code> <a href="#float-parameter-slider">parameter linked to a UI Slider</a>.</p>
 <h1 id="overview">Overview</h1>
-<p>The code structure looks a bit unusual because this sample is comparing two different ways of doing the same thing. The <code><a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> can be given any <a href="../../../manual/transitions/assets">Transition Asset</a> to play without modifying the code, so by default it's using one containing a <a href="../../../manual/blending/mixers">Mixer</a> but you can also swap it over to the other one which achieves a similar result using a <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a>.</p>
+<p>The code structure looks a bit convoluted because this sample is comparing two different ways of doing the same thing:</p>
+<ul>
+<li>The <a href="../../../manual/transitions/assets">Transition Asset</a> up the top contains a <a href="../../../manual/blending/mixers">Mixer</a>.</li>
+<li>The <a href="../../../manual/transitions/assets">Transition Asset</a> down the bottom contains an <a href="../../../manual/animator-controllers">Animator Controller</a> with a <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a> in it.</li>
+</ul>
+<p>The <a href="../../../manual/blending/mixers">Mixer</a> is assigned by default, but you can easily assign the other one in the Inspector.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> is just as simple as <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> from the <a href="../../basics/quick-play">Quick Play</a> sample, but this time it's playing a <a href="../../../manual/transitions/assets">Transition Asset</a>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -724,8 +728,12 @@ protected virtual void Update()
 </ul>
 </li>
 </ul>
+<h1 id="parameter-smoothing">Parameter Smoothing</h1>
+<p>Note that setting a parameter value is instant.</p>
+<p>It doesn't happen over time and has nothing to do with the <code>Fade Duration</code> defined in the <a href="../../../manual/transitions">Transition</a>.</p>
+<p>The <a href="../../../manual/parameters#smoothing">Parameter Smoothing</a> section in the User Manual explains how you can apply smoothing if you want it.</p>
 <h1 id="float-parameter-slider">Float Parameter Slider</h1>
-<p>This sample uses the <code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code> script to demonstrate how to properly control a <a href="https://docs.unity3d.com/Packages/com.unity.ugui@3.0/manual/script-Slider.html">UI Slider</a> in the scene.</p>
+<p>This sample uses the <code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code> script to demonstrate how to control a <a href="../../../manual/parameters">Parameter</a> using a <a href="https://docs.unity3d.com/Packages/com.unity.ugui@3.0/manual/script-Slider.html">UI Slider</a>.</p>
 <p><img src="scene-slider.png" class="img-responsive"></p>
 <p>This script doesn't need to know what animations are playing and doesn't even care whether the parameter value is being used by anything. It's simply responsible for connecting the UI <code>Slider</code> to the specified parameter in the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
 <pre><code class="language-cs">using Animancer;

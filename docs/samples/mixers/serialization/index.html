@@ -1,0 +1,1215 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - 03-03 Animation Serialization</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
+<p><a href="#transition-library">Transition Library</a></p>
+<p><a href="#play-buttons">Play Buttons</a></p>
+<p><a href="#serialization-process">Serialization Process</a></p>
+<p><a href="#what-should-you-serialize">What should you Serialize?</a></p>
+<p><a href="#what-are-we-serializing">What are we serializing?</a></p>
+<p><a href="#gathering-the-serializable-pose">Gathering the Serializable Pose</a></p>
+<p><a href="#applying-the-deserialized-pose">Applying the Deserialized Pose</a></p>
+<p><a href="#seeing-it-in-action">Seeing it in action</a></p>
+<p><a href="#conclusion">Conclusion</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/docs/download">Download</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples">Samples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/basics">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/basics/quick-play">01-01 Quick Play</a></li>
+                <li><a href="/animancer/docs/samples/basics/movement">01-02 Basic Movement</a></li>
+                <li><a href="/animancer/docs/samples/basics/action">01-03 Basic Action</a></li>
+                <li><a href="/animancer/docs/samples/basics/transitions">01-04 Transitions</a></li>
+                <li><a href="/animancer/docs/samples/basics/character">01-05 Basic Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/library">01-06 Library Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/docs/samples/basics/input">Input</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/fine-control/named">02-01 Named Character</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/live-inspector">02-02 Live Inspector</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/doors">02-03 Doors</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/update-rate">02-04 Update Rate</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples/mixers">03 Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/mixers/linear">03-01 Linear Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/directional">03-02 Directional Mixers</a></li>
+                <li class="selected"><a href="/animancer/docs/samples/mixers/serialization">03-03 Animation Serialization</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/layers">04 Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/layers/basic">04-01 Basic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/dynamic">04-02 Dynamic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/face">04-03 Facial Expressions</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/events/golf">05-01 Golf Events</a></li>
+                <li><a href="/animancer/docs/samples/events/footsteps">05-02 Footstep Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/fsm/characters">06-01 Characters</a></li>
+                <li><a href="/animancer/docs/samples/fsm/interruptions">06-02 Interruptions</a></li>
+                <li><a href="/animancer/docs/samples/fsm/brains">06-03 Brains</a></li>
+                <li><a href="/animancer/docs/samples/fsm/weapons">06-04 Weapons</a></li>
+                <li><a href="/animancer/docs/samples/fsm/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/sprites">07 Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/sprites/basics">07-01 Directional Basics</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character">07-02 Directional Character</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character-3d">07-03 Directional Character 3D</a></li>
+                <li><a href="/animancer/docs/samples/sprites/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/animator-controllers">08 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/character">08-01 Hybrid Character</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit">08-02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/ik">09 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/ik/puppet">09-01 Puppet</a></li>
+                <li><a href="/animancer/docs/samples/ik/uneven-ground">09-02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
+                <li><a href="/animancer/docs/samples/jobs/damping">10-02 Damping</a></li>
+                <li><a href="/animancer/docs/samples/jobs/hit-impacts">10-03 Hit Impacts</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/integration">Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/docs/samples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/docs/samples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/docs/samples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/docs/samples/integration/lod">Level of Detail (LOD)</a></li>
+                <li><a href="/animancer/docs/samples/integration/odin-inspector">Odin Inspector</a></li>
+                <li><a href="/animancer/docs/samples/integration/puppet-master">Puppet Master</a></li>
+                <li><a href="/animancer/docs/samples/integration/spine">Spine</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/samples/no-video-tutorials">No Video Tutorials</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/docs/manual/getting/animation-window">Animation Window</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
+                <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
+                <li><a href="/animancer/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
+                <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/fading">Fading</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/end">End Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/end/alternatives">End Event Alternatives</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/overview">Overview</a></li>
+                <li><a href="/animancer/docs/manual/fsm/state-types">1. State Types</a></li>
+                <li><a href="/animancer/docs/manual/fsm/initialization">2. Initialization</a></li>
+                <li><a href="/animancer/docs/manual/fsm/changing-states">3. Changing States</a></li>
+                <li><a href="/animancer/docs/manual/fsm/keys">Keys</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm/utilities">Utilities</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/utilities/input-buffer">Input Buffers</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/state-selector">State Selectors</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/owned-states">Owned States</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/animator-controllers/conversion">Conversion</a></li>
+                <li><a href="/animancer/docs/manual/animator-controllers/controller-states">Controller States</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/tools/pack-textures">Pack Textures</a></li>
+                <li><a href="/animancer/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/other/animation-clip-inspector">Animation Clip Inspector</a></li>
+                <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
+                <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/reorderable-array-height">Reorderable Array Height</a></li>
+                <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/docs/bugs/timing">Timing</a></li>
+                <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v8-0">Animancer v8.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v8-0/upgrade-guide">Animancer v8.0 Upgrade Guide</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v6-0">Animancer v6.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v6-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/help">Help and FAQ</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/help/debugging">Debugging</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>03-03 Animation Serialization</h1>
+		</section>
+	<section class="content">
+		<div class="pro-only-sample"><a href="/animancer/docs/introduction/features"><div></div><ul>
+<li>Mixers</li>
+</ul></a></div>
+<blockquote class="blockquote">
+<p><i class="emw fa fa-folder"></i> <a href="../../"><strong>Location</strong>: Samples/03 Mixers/03 Animation Serialization</a></p>
+<p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../../basics/library">Library Character</a> and <a href="../linear">Linear Mixer</a></p>
+<p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this sample you will learn:</span></p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to gather a serializable description of a character's pose.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use Unity's <a href="https://docs.unity3d.com/ScriptReference/JsonUtility.html"><code>JsonUtility</code></a> to save and load data.</p>
+</blockquote>
+<h1 id="summary">Summary</h1>
+<p>This sample demonstrates how you can serialize a character's animation details to save in a file or send over a network. This is done by using a <a href="../../../manual/transitions/libraries">Transition Library</a> as a centralised list of all the available animations so that any given animation can be identified by serializing its index in that list.</p>
+<p><img src="serialization.png" class="pngif img-responsive"></p>
+<p>It doesn't really have anything to do with <a href="../../../manual/blending/mixers">Mixers</a>, but it's in this group so it can reuse the things introduced in the <a href="../linear">Linear Mixer</a> sample.</p>
+<h1 id="overview">Overview</h1>
+<p>The code structure has a lot going on:</p>
+<p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
+<ul>
+<li>The <code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code>, <a href="../../../manual/blending/mixers">Mixer</a>, and <a href="../../../manual/other/strings#string-assets">String Asset</a> are reused from the <a href="../linear">Linear Mixer</a> sample.</li>
+<li>The <a href="../../../manual/transitions/libraries">Transition Library</a> uses the <a href="../../../manual/blending/mixers">Mixer</a> and a few more animations.</li>
+</ul>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a></code> creates a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play each of the animations in the <a href="../../../manual/transitions/libraries">Transition Library</a>:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer.Samples/SampleButton">SampleButton</a> _Button;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+    protected virtual void Awake()
+    {
+        <a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryDefinition">TransitionLibraryDefinition</a> library = _Animancer.Transitions.Definition;
+
+        <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> idle = library.Transitions[0];
+
+        _Animancer.Play(idle);
+
+        for (int i = 0; i &lt; library.Transitions.Length; i++)
+        {
+            <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> transition = library.Transitions[i];
+
+            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.States.GetOrCreate(transition);
+            if (!state.IsLooping)
+                state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
+
+            _Button.AddButton(
+                i,
+                transition.name,
+                () =&gt; _Animancer.Play(transition));
+        }
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">SaveLoadButtons</a></code> connects some UI <code>Button</code>s to save and load the <code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> using Unity's <a href="https://docs.unity3d.com/ScriptReference/JsonUtility.html"><code>JsonUtility</code></a>:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using System.IO;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class <a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">SaveLoadButtons</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _SpeedParameter;
+    [SerializeField] private Button _SaveButton;
+    [SerializeField] private Button _LoadButton;
+    [SerializeField] private string _FilePath = "Temp/AnimancerSerializedPose.json";
+
+    private readonly <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> = new();
+
+    protected virtual void Awake()
+    {
+        _SaveButton.onClick.AddListener(Save);
+        _LoadButton.onClick.AddListener(Load);
+    }
+
+    private void Save()
+    {
+        SerializablePose.GatherFrom(_Animancer, _SpeedParameter);
+
+        string json = JsonUtility.ToJson(SerializablePose);
+
+        File.WriteAllText(_FilePath, json);
+    }
+
+    private void Load()
+    {
+        string json = File.ReadAllText(_FilePath);
+
+        JsonUtility.FromJsonOverwrite(json, SerializablePose);
+
+        SerializablePose.ApplyTo(_Animancer, _SpeedParameter);
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> is the main pourpose of this sample where the relevant details are gathered from Animancer to save and applied back to Animancer after loading:</summary><p>
+</p><pre><code class="language-cs">using Animancer;
+using Animancer.TransitionLibraries;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a>
+{
+    [SerializeField] private float _RemainingFadeDuration;
+    [SerializeField] private float _SpeedParameter;
+    [SerializeField] private List&lt;StateData&gt; _States = new();
+
+    [Serializable]
+    public struct StateData
+    {
+        public byte index;
+        public float time;
+        public float weight;
+    }
+
+    public void GatherFrom(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+    {
+        _States.Clear();
+        _RemainingFadeDuration = 0;
+        _SpeedParameter = animancer.Parameters.GetFloat(speedParameter);
+
+        <a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a> library = animancer.Graph.Transitions;
+
+        IReadOnlyIndexedList&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt; activeStates = animancer.Layers[0].ActiveStates;
+        for (int i = 0; i &lt; activeStates.Count; i++)
+        {
+            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = activeStates[i];
+
+            _States.Add(new StateData()
+            {
+                index = (byte)animancer.Graph.Transitions.IndexOf(state.Key),
+                time = state.Time,
+                weight = state.Weight,
+            });
+
+            if (state.FadeGroup != null &amp;&amp;
+                state.TargetWeight == 1)
+            {
+                _RemainingFadeDuration = state.FadeGroup.RemainingFadeDuration;
+
+                if (i &gt; 0)
+                    (_States[0], _States[i]) = (_States[i], _States[0]);
+            }
+        }
+
+        if (fadeInIndex &gt; 0)
+        {
+            (_States[0], _States[fadeInIndex]) = (_States[fadeInIndex], _States[0]);
+        }
+    }
+
+    public void ApplyTo(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+    {
+        <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> layer = animancer.Layers[0];
+        layer.Stop();
+        layer.Weight = 1;
+
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> firstState = null;
+
+        for (int i = _States.Count - 1; i &gt;= 0; i--)
+        {
+            StateData stateData = _States[i];
+            if (!animancer.Graph.Transitions.TryGetTransition(
+                stateData.index,
+                out <a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierGroup">TransitionModifierGroup</a> transition))
+            {
+                Debug.LogError(
+                    $"Transition Library '{animancer.Transitions}'" +
+                    $" doesn't contain transition index {stateData.index}.",
+                    animancer);
+                continue;
+            }
+
+            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = layer.GetOrCreateState(transition.Transition);
+            state.IsPlaying = true;
+            state.Time = stateData.time;
+            state.SetWeight(stateData.weight);
+
+            if (i == 0)
+                firstState = state;
+        }
+
+        layer.Play(firstState, _RemainingFadeDuration);
+
+        animancer.Parameters.SetValue(speedParameter, _SpeedParameter);
+    }
+}
+</code></pre>
+<p></p></details><p></p>
+<h1 id="transition-library">Transition Library</h1>
+<p><a href="../../../manual/transitions/libraries">Transition Libraries</a> are normally used to modify fade durations depending on what was previously playing, but that's not what this one is for.</p>
+<p><img src="transition-library.png" class="img-responsive"></p>
+<p>In this sample, the library is used as a way of consistently identifying the animations:</p>
+<ul>
+<li>Before saving, <code>animancer.Graph.Transitions.IndexOf(state.Key)</code> finds out where each <code>state</code> is located in the library so that index can be serialized.</li>
+<li>Then after loading, <code>animancer.Graph.Transitions.TryGetTransition</code> gets the transition from the serialized index so that the same animation can be played.</li>
+</ul>
+<p>The full saving and loading process will be explained later.</p>
+<h1 id="play-buttons">Play Buttons</h1>
+<p><img src="playing.png" class="pngif img-responsive"></p>
+<p>In order for this sample to have something easily observable to show, the <code><a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a></code> script creates a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play each of the animations in the <a href="../../../manual/transitions/libraries">Transition Library</a>.</p>
+<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a> : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer.Samples/SampleButton">SampleButton</a> _Button;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+    protected virtual void Awake()
+    {
+</code></pre>
+<p>Assume the first animation in the library is <em>Idle</em> and play it by default:</p>
+<pre><code class="language-cs">        <a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryDefinition">TransitionLibraryDefinition</a> library = _Animancer.Transitions.Definition;
+
+        <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> idle = library.Transitions[0];
+
+        _Animancer.Play(idle);
+</code></pre>
+<p>Then go through them all:</p>
+<pre><code class="language-cs">        for (int i = 0; i &lt; library.Transitions.Length; i++)
+        {
+            <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> transition = library.Transitions[i];
+</code></pre>
+<p><a href="#end-events">Set up their End Events which will be explained below:</a></p>
+<pre><code class="language-cs">            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.States.GetOrCreate(transition);
+            if (!state.IsLooping)
+                state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
+</code></pre>
+<p>Then create a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play them:</p>
+<pre><code class="language-cs">            _Button.AddButton(
+                i,
+                transition.name,
+                () =&gt; _Animancer.Play(transition));
+        }
+    }
+}
+</code></pre>
+<p>Note how the buttons call <code>_Animancer.Play(transition)</code>. It may be tempting to have them call <code>_Animancer.Play(state)</code> since we already have the <code>state</code>, but that would cause it to play immediately without the <code>Fade Duration</code> because that detail is only stored in the <code>transition</code>.</p>
+<h2 id="end-events">End Events</h2>
+<p>It also needs to give the non-looping states <a href="../../../manual/events/end">End Events</a> to return to the <em>Idle</em> animation, however this presents a problem. Normally, we would initialize the events the first time a particular <code>transition</code> is played like this:</p>
+<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(transition);
+if (!state.IsLooping)
+    state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
+</code></pre>
+<p>But that wouldn't work in this sample because the other scripts can also play an animation when loading the saved file and they won't know about the event. For example:</p>
+<ol>
+<li>Click the <em>Shoot</em> button.</li>
+<li>Save the file with that animation playing.</li>
+<li>Load the file.</li>
+<li>The <em>Shoot</em> animation plays and its <a href="../../../manual/events/end">End Event</a> works as expected.</li>
+<li>Exit Play Mode.</li>
+<li>Enter Play Mode again.</li>
+<li>Load the file.</li>
+<li>The <em>Shoot</em> animation plays, but since it wasn't played by <code><a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a></code> its <a href="../../../manual/events/end">End Event</a> hasn't been set.</li>
+</ol>
+<p>To avoid that, we unfortunately need to create all the animation states on startup to assign their <a href="../../../manual/events/end">End Events</a> before they're played. That's why the script does this:</p>
+<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.States.GetOrCreate(transition);
+if (!state.IsLooping)
+    state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
+</code></pre>
+<h1 id="serialization-process">Serialization Process</h1>
+<p>The saving and loading process in <code><a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">SaveLoadButtons</a></code> is fairly simple.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _SpeedParameter;
+[SerializeField] private string _FilePath = "Temp/AnimancerSerializedPose.json";
+
+private readonly <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> = new();
+</code></pre>
+<ol>
+<li>Gather the data we want into a serializable format.</li>
+<li>Serialize that data.</li>
+<li>Write the serialized data to a file (or send it over a network).</li>
+</ol>
+<pre><code class="language-cs">private void Save()
+{
+    SerializablePose.GatherFrom(_Animancer, _SpeedParameter);
+
+    string json = JsonUtility.ToJson(SerializablePose);
+
+    File.WriteAllText(_FilePath, json);
+}
+</code></pre>
+<p>And loading is basically the same thing in reverse:</p>
+<ol>
+<li>Read the file.</li>
+<li>Deserialize the contents of the file into our serializable format.</li>
+<li>Apply the deserialized values to the animation system.</li>
+</ol>
+<pre><code class="language-cs">private void Load()
+{
+    string json = File.ReadAllText(_FilePath);
+
+    JsonUtility.FromJsonOverwrite(json, SerializablePose);
+
+    SerializablePose.ApplyTo(_Animancer, _SpeedParameter);
+}
+</code></pre>
+<p>Those methods are simply bound to UI <code>Button</code>s on startup:</p>
+<pre><code class="language-cs">[SerializeField] private Button _SaveButton;
+[SerializeField] private Button _LoadButton;
+
+protected virtual void Awake()
+{
+    _SaveButton.onClick.AddListener(Save);
+    _LoadButton.onClick.AddListener(Load);
+}
+</code></pre>
+<h2 id="file-path">File Path</h2>
+<p>Note that the default <code>_FilePath</code> is in the <em>Temp</em> folder which gets automatically deleted every time you close the Unity Editor, so if you want the file to persist between editor sessions you'll need to set a different path.</p>
+<h1 id="what-should-you-serialize">What should you Serialize?</h1>
+<p>There are two main reasons you might want to serialize the current details of
+Animancer, each with different things that should be prioritised in their implementation:</p>
+<ul>
+<li><strong>Files</strong> - When saving a file, the most important factor is generally forwards <strong>compatibility</strong>. You want any files saved in an old version of your application to still work if you load them in a newer version.</li>
+<li><strong>Networking</strong> - When synchronising animations over a network, you can generally force everyone to be using the same application version so it's generally much more important to <strong>minimise the amount of data</strong> you need to send in order to <strong>maximise speed</strong>.</li>
+</ul>
+<p>That distinction is important because data efficiency can be greatly improved by sacrificing compatibility in two main ways:</p>
+<ul>
+<li>Knowing the exact structure of the data based on context.
+<ul>
+<li>If everyone is on the same version of your application, you could send a network packet containing only the numbers <code>0</code>, <code>3</code>, <code>0.5</code>, and the receiver could read those values directly into its data structure containing <code>FadeDuration</code>, <code>StateID</code>, <code>CurrentTime</code>.</li>
+<li>But if you save a file, you can't be sure that a later version of your application will still have the same data structure when trying to load the file. It might be expecting a <code>LayerCount</code> first, followed by the data for each individual layer. So the serialization format for a file would need to be able to identify which field each value is for.</li>
+</ul>
+</li>
+<li>Limiting what the data can represent.
+<ul>
+<li>You <em>could</em> write a script to create 7 different <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>s on the same layer, set some of their weights to <code>0.1</code>, others to <code>0.2</code>, have some states fading to other weights with all different durations, some paused, some with different speeds, and so on. If you did that, then your serialized data would need to include all of those values.</li>
+<li>But you probably won't. Most applications just call <code>animancerComponent.Play(transition)</code> which could never get them into such a complex combination of states.</li>
+</ul>
+</li>
+</ul>
+<h1 id="what-are-we-serializing">What are we serializing?</h1>
+<p>Networking is a much more common use case for animation serialization so that's what this sample focusses on. However, the process for setting up actual networking stuff differs greatly depending on the system being used and is far beyond the scope of Animancer. So the data structure demonstrated here focuses on gathering the minimum required information for efficiency as if it would be used for networking but then it simply uses Unity's <a href="https://docs.unity3d.com/ScriptReference/JsonUtility.html"><code>JsonUtility</code></a> to serialize it as a <code>string</code> and save it to a file.</p>
+<p>The <code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> script is specifically designed to serialize the details used in this sample, so if you want to do something similar you will likely need to make your own similar script rather than using this one directly.</p>
+<p><code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> contains the following fields:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>float _RemainingFadeDuration</code></td>
+<td>The amount of time left in the current <a href="../../../manual/blending/fading">Fade</a> or <code>0</code> if not currently fading.</td>
+</tr>
+<tr>
+<td><code>float _SpeedParameter</code></td>
+<td>The current value of the <em>MovementSpeed</em> <a href="../../../manual/parameters">Parameter</a> from the <a href="../linear">Linear Mixer</a> sample.</td>
+</tr>
+<tr>
+<td><code>List&lt;StateData&gt; _States</code></td>
+<td>The details of each currently active state. If not fading this would only contain one state, but during a fade it could have two or even more if a fade was interrupted by another fade.</td>
+</tr>
+</tbody>
+</table>
+<p>And each <code>StateData</code> in the <code>_States</code> list contains the following fields:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>byte index</code></td>
+<td>The index of the state in the <a href="../../../manual/transitions/libraries">Transition Library</a>. This is a <code>byte</code> because a library probably won't have more than <code>256</code> transitions. If it does, you would need a <code>ushort</code> instead.</td>
+</tr>
+<tr>
+<td><code>float time</code></td>
+<td>The <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code>.</td>
+</tr>
+<tr>
+<td><code>float weight</code></td>
+<td>The <code>AnimancerState.Weight</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>All those fields together look like this:</p>
+<pre><code class="language-cs">[Serializable]
+public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a>
+{
+    [SerializeField] private float _RemainingFadeDuration;
+    [SerializeField] private float _SpeedParameter;
+    [SerializeField] private List&lt;StateData&gt; _States = new();
+
+    [Serializable]
+    public struct StateData
+    {
+        public byte index;
+        public float time;
+        public float weight;
+    }
+</code></pre>
+<p>Note how there are lots of things we don't need to serialize:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Not serializing</th>
+<th>Why not?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The <code>TargetWeight</code> and <code>FadeDuration</code> of each state.</td>
+<td>Since we only use regular <code>Play</code> methods and aren't starting strange fades on individual states, we know that there will only ever be one state fading in to <code>1</code> while the others are fading out to <code>0</code>. So when we gather the data to serialize, we simply make sure that whichever state is fading in is the first item in the <code>_States</code> list.</td>
+</tr>
+<tr>
+<td>The <code>Speed</code> of each state.</td>
+<td>We aren't changing any speeds so there's no point in serializing them. Everything sill simply be given the speed defined in their <a href="../../../manual/transitions">Transitions</a>.</td>
+</tr>
+<tr>
+<td>The number of <a href="../../../manual/blending/layers">Layers</a>.</td>
+<td>We're only using the Base <a href="../../../manual/blending/layers">Layer</a>.</td>
+</tr>
+<tr>
+<td>Any other <a href="../../../manual/parameters">Parameters</a> or their names.</td>
+<td>We only have one <a href="../../../manual/parameters">Parameter</a> and we know its name.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="gathering-the-serializable-pose">Gathering the Serializable Pose</h1>
+<p>Now that we know what data we need for the <code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code>, we can go about gathering it.</p>
+<pre><code class="language-cs">public void GatherFrom(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+{
+</code></pre>
+<p>First, we clear out any previous details and get the current value of the speed parameter.</p>
+<pre><code class="language-cs">    _States.Clear();
+    _RemainingFadeDuration = 0;
+    _SpeedParameter = animancer.Parameters.GetFloat(speedParameter);
+</code></pre>
+<p>Then we use <code><a href="/animancer/api/Animancer/AnimancerLayer/420AF48C">AnimancerLayer.ActiveStates</a></code> to go through all of the states that are currently playing.</p>
+<pre><code class="language-cs">    IReadOnlyIndexedList&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt; activeStates = animancer.Layers[0].ActiveStates;
+    for (int i = 0; i &lt; activeStates.Count; i++)
+    {
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = activeStates[i];
+</code></pre>
+<p>Then we capture the necessary <code>StateData</code> for each state, using the <a href="../../../manual/transitions/libraries">Transition Library</a> to determine the <code>index</code> based on the <code>state.Key</code>.</p>
+<pre><code class="language-cs">        _States.Add(new StateData()
+        {
+            index = (byte)animancer.Graph.Transitions.IndexOf(state.Key),
+            time = state.Time,
+            weight = state.Weight,
+        });
+</code></pre>
+<p>If a fade is in progress, we don't need to do anything special for the states that are fading out, but for the one that's fading in we want the amount of time left in the fade.</p>
+<pre><code class="language-cs">        if (state.FadeGroup != null &amp;&amp;
+            state.TargetWeight == 1)
+        {
+            _RemainingFadeDuration = state.FadeGroup.RemainingFadeDuration;
+</code></pre>
+<p>And we also need to swap it to be the first state in the list so that when we load the data we know that the first state is the one that's fading in.</p>
+<pre><code class="language-cs">            if (i &gt; 0)
+                (_States[0], _States[i]) = (_States[i], _States[0]);
+        }
+    }
+}
+</code></pre>
+<h1 id="applying-the-deserialized-pose">Applying the Deserialized Pose</h1>
+<p>Applying a pose after it has been deserialized is basically the reverse of gathering it.</p>
+<pre><code class="language-cs">public void ApplyTo(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+{
+</code></pre>
+<p>First, <code>Stop</code> whatever the <a href="../../../manual/blending/layers">Layer</a> was doing. Unfortunately, that also sets its <code>Weight</code> to <code>0</code> so we set it back to <code>1</code>.</p>
+<pre><code class="language-cs">    <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> layer = animancer.Layers[0];
+    layer.Stop();
+    layer.Weight = 1;
+</code></pre>
+<p>After applying the individual details of each state, we will need the first one to fade it in.</p>
+<pre><code class="language-cs">    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> firstState = null;
+</code></pre>
+<p>Now we can go through each state data in the pose.</p>
+<pre><code class="language-cs">    for (int i = _States.Count - 1; i &gt;= 0; i--)
+    {
+        StateData stateData = _States[i];
+</code></pre>
+<p>Use <code>TransitionLibrary.TryGetTransition</code> with the data's <code>index</code> to find the right <code>transition</code>.</p>
+<pre><code class="language-cs">        if (!animancer.Graph.Transitions.TryGetTransition(
+            stateData.index,
+            out <a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierGroup">TransitionModifierGroup</a> transition))
+        {
+            Debug.LogError(
+                $"Transition Library '{animancer.Transitions}'" +
+                $" doesn't contain transition index {stateData.index}.",
+                animancer);
+            continue;
+        }
+</code></pre>
+<p>If it fails and returns <code>false</code>, we log an error and <code>continue</code> on to the next state.</p>
+<p>Now that we have the <code>transition</code>, we can't just <code>Play</code> it because that would start its regular fade and also make it fade out any previous states, so instead we use <code>AnimancerLayer.GetOrCreateState</code> to get its state and manually apply the other details from the data.</p>
+<pre><code class="language-cs">        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = layer.GetOrCreateState(transition.Transition);
+        state.IsPlaying = true;
+        state.Time = stateData.time;
+        state.SetWeight(stateData.weight);
+
+        if (i == 0)
+            firstState = state;
+    }
+</code></pre>
+<p>Once all the states are loaded in at their correct <code>Time</code> and <code>Weight</code>, we can <code>Play</code> the first state to start its fade in using the fade duration from the data.</p>
+<pre><code class="language-cs">    layer.Play(firstState, _RemainingFadeDuration);
+</code></pre>
+<p>And finally, apply the speed value from the data to the character's parameter.</p>
+<pre><code class="language-cs">    animancer.Parameters.SetValue(speedParameter, _SpeedParameter);
+}
+</code></pre>
+<h1 id="seeing-it-in-action">Seeing it in action</h1>
+<p>That all combines to give us a list of buttons to play animations:</p>
+<p><img src="playing.png" class="pngif img-responsive"></p>
+<p>The ability to save at any point during an animation:</p>
+<p><img src="plain-saving.png" class="pngif img-responsive"></p>
+<p>Even if it's in the middle of fading between animations:</p>
+<p><img src="fade-saving.png" class="pngif img-responsive"></p>
+<p>And it also saves the <em>MovementSpeed</em> parameter:</p>
+<p><img src="parameter-saving.png" class="pngif img-responsive"></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Animancer's flexibility in allowing you to change everything dynamically is usually quite helpful, but that's not the case in situations where you need to serialize the animation details because anything that can be changed may need to be serialized. Even with this sample showing that it's possible, it's still an unfortunate weak point of Animancer's design.</p>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/samples">Samples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/discussions">Unity Discussions</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>

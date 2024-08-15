@@ -1,0 +1,1004 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - 10-02 Damping</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#summary">Summary</a></p>
+<p><a href="#overview">Overview</a></p>
+<p><a href="#job-script">Job Script</a></p>
+<p><a href="#responsibilities">Responsibilities</a></p>
+<p><a href="#fields">Fields</a></p>
+<p><a href="#initialization">Initialization</a></p>
+<p><a href="#disposal">Disposal</a></p>
+<p><a href="#validation">Validation</a></p>
+<p><a href="#conclusion">Conclusion</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    
+
+                    <ul class="sidebar-menu">
+                        
+
+                <li><a href="/animancer/docs/download">Download</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction">Introduction</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/features">Features</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer">Mecanim vs. Animancer</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/why">Why Replace Mecanim?</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/simplicity">Simplicity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/transparency">Transparency</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/adaptability">Adaptability</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/clarity">Clarity</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/safety">Safety</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/why/reliability">Reliability</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison">Comparison</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/playing">Playing</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/waiting">Waiting</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/speed-and-time">Speed and Time</a></li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/comparison/weapon-animations">Weapon Animations</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/mecanim-vs-animancer/performance">Performance</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/introduction/glossary">Glossary</a></li>
+                <li><a href="/animancer/docs/introduction/cs">C# in Unity</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples">Samples</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/basics">01 Basics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/basics/quick-play">01-01 Quick Play</a></li>
+                <li><a href="/animancer/docs/samples/basics/movement">01-02 Basic Movement</a></li>
+                <li><a href="/animancer/docs/samples/basics/action">01-03 Basic Action</a></li>
+                <li><a href="/animancer/docs/samples/basics/transitions">01-04 Transitions</a></li>
+                <li><a href="/animancer/docs/samples/basics/character">01-05 Basic Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/library">01-06 Library Character</a></li>
+                <li><a href="/animancer/docs/samples/basics/scene-setup">Basic Scene Setup</a></li>
+                <li><a href="/animancer/docs/samples/basics/input">Input</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/fine-control">02 Fine Control</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/fine-control/named">02-01 Named Character</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/live-inspector">02-02 Live Inspector</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/doors">02-03 Doors</a></li>
+                <li><a href="/animancer/docs/samples/fine-control/update-rate">02-04 Update Rate</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/mixers">03 Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/mixers/linear">03-01 Linear Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/directional">03-02 Directional Mixers</a></li>
+                <li><a href="/animancer/docs/samples/mixers/serialization">03-03 Animation Serialization</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/layers">04 Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/layers/basic">04-01 Basic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/dynamic">04-02 Dynamic Layers</a></li>
+                <li><a href="/animancer/docs/samples/layers/face">04-03 Facial Expressions</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/events">05 Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/events/golf">05-01 Golf Events</a></li>
+                <li><a href="/animancer/docs/samples/events/footsteps">05-02 Footstep Events</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/fsm">06 State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/fsm/characters">06-01 Characters</a></li>
+                <li><a href="/animancer/docs/samples/fsm/interruptions">06-02 Interruptions</a></li>
+                <li><a href="/animancer/docs/samples/fsm/brains">06-03 Brains</a></li>
+                <li><a href="/animancer/docs/samples/fsm/weapons">06-04 Weapons</a></li>
+                <li><a href="/animancer/docs/samples/fsm/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/sprites">07 Sprites</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/sprites/basics">07-01 Directional Basics</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character">07-02 Directional Character</a></li>
+                <li><a href="/animancer/docs/samples/sprites/character-3d">07-03 Directional Character 3D</a></li>
+                <li><a href="/animancer/docs/samples/sprites/platformer">Platformer Game Kit</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/animator-controllers">08 Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/character">08-01 Hybrid Character</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit">08-02 3D Game Kit</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/problems">Problems with the Mecanim Character</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/respawn">Respawn</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/idle">Idle</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion">Locomotion</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion/movement">Movement</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/locomotion/turning">Turning</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/airborne">Airborne</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/landing">Landing</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/attack">Attack</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/flinch">Flinch</a></li>
+                <li><a href="/animancer/docs/samples/animator-controllers/3d-game-kit/die">Die</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/ik">09 Inverse Kinematics</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/ik/puppet">09-01 Puppet</a></li>
+                <li><a href="/animancer/docs/samples/ik/uneven-ground">09-02 Uneven Ground</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/samples/jobs">10 Animation Jobs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
+                <li class="selected"><a href="/animancer/docs/samples/jobs/damping">10-02 Damping</a></li>
+                <li><a href="/animancer/docs/samples/jobs/hit-impacts">10-03 Hit Impacts</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/samples/integration">Integration</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/samples/integration/animation-rigging">Animation Rigging</a></li>
+                <li><a href="/animancer/docs/samples/integration/dynamic-bone">Dynamic Bone</a></li>
+                <li><a href="/animancer/docs/samples/integration/final-ik">Final IK</a></li>
+                <li><a href="/animancer/docs/samples/integration/hairibar-ragdoll">Hairibar Ragdoll</a></li>
+                <li><a href="/animancer/docs/samples/integration/lod">Level of Detail (LOD)</a></li>
+                <li><a href="/animancer/docs/samples/integration/odin-inspector">Odin Inspector</a></li>
+                <li><a href="/animancer/docs/samples/integration/puppet-master">Puppet Master</a></li>
+                <li><a href="/animancer/docs/samples/integration/spine">Spine</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/samples/no-video-tutorials">No Video Tutorials</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/getting">Getting Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/getting/mixamo">Mixamo</a></li>
+                <li><a href="/animancer/docs/manual/getting/importing">Importing</a></li>
+                <li><a href="/animancer/docs/manual/getting/animation-window">Animation Window</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/playing">Playing Animations</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/playing/states">States</a></li>
+                <li><a href="/animancer/docs/manual/playing/keys">Keys</a></li>
+                <li><a href="/animancer/docs/manual/playing/inspector">Inspector</a></li>
+                <li><a href="/animancer/docs/manual/playing/component-types">Component Types</a></li>
+                <li><a href="/animancer/docs/manual/playing/edit-mode">Playing in Edit Mode</a></li>
+                <li><a href="/animancer/docs/manual/playing/directional-sets">Directional Animation Sets</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/transitions">Transitions</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
+                <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending">Blending</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/fading">Fading</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
+                <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/events/end">End Events</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/events/end/alternatives">End Event Alternatives</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/overview">Overview</a></li>
+                <li><a href="/animancer/docs/manual/fsm/state-types">1. State Types</a></li>
+                <li><a href="/animancer/docs/manual/fsm/initialization">2. Initialization</a></li>
+                <li><a href="/animancer/docs/manual/fsm/changing-states">3. Changing States</a></li>
+                <li><a href="/animancer/docs/manual/fsm/keys">Keys</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/fsm/utilities">Utilities</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/fsm/utilities/input-buffer">Input Buffers</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/state-selector">State Selectors</a></li>
+                <li><a href="/animancer/docs/manual/fsm/utilities/owned-states">Owned States</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/animator-controllers">Animator Controllers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/animator-controllers/conversion">Conversion</a></li>
+                <li><a href="/animancer/docs/manual/animator-controllers/controller-states">Controller States</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/manual/timeline">Timeline</a></li>
+                <li><a href="/animancer/docs/manual/ik">Inverse Kinematics</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/tools">Animancer Tools</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/tools/pack-textures">Pack Textures</a></li>
+                <li><a href="/animancer/docs/manual/tools/modify-sprites">Modify Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/rename-sprites">Rename Sprites</a></li>
+                <li><a href="/animancer/docs/manual/tools/generate-sprite-animations">Generate Sprite Animations</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-sprite-animation">Remap Sprite Animation</a></li>
+                <li><a href="/animancer/docs/manual/tools/remap-animation-bindings">Remap Animation Bindings</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/other">Other Features</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/other/animation-clip-inspector">Animation Clip Inspector</a></li>
+                <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
+                <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
+                <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/bugs">Unity Bugs</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/bugs/paused-skinned-mesh-update">Paused Skinned Mesh Update</a></li>
+                <li><a href="/animancer/docs/bugs/reorderable-array-height">Reorderable Array Height</a></li>
+                <li><a href="/animancer/docs/bugs/serialized-array-initialization">Serialized Array Initialization</a></li>
+                <li><a href="/animancer/docs/bugs/timing">Timing</a></li>
+                <li><a href="/animancer/docs/bugs/update-modes">Update Modes</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/source">Source Code</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/source/dlls">DLLs</a></li>
+                <li><a href="/animancer/docs/source/creating-custom-states">Creating Custom States</a></li>
+                <li><a href="/animancer/docs/source/graph-structure">Graph Structure</a></li>
+                <li><a href="/animancer/docs/source/asset-sources">Asset Sources</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v8-0">Animancer v8.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v8-0/upgrade-guide">Animancer v8.0 Upgrade Guide</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v6-1">Animancer v6.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v6-0">Animancer v6.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v6-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v5-3">Animancer v5.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-2">Animancer v5.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v5-1">Animancer v5.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v5-0">Animancer v5.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v5-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v4-4">Animancer v4.4</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-3">Animancer v4.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-2">Animancer v4.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v4-1">Animancer v4.1</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/changes/animancer-v4-0">Animancer v4.0</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/changes/animancer-v4-0/test">Test Releases</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/animancer/docs/changes/animancer-v3-1">Animancer v3.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v3-0">Animancer v3.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v2-0">Animancer v2.0</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-3">Animancer v1.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-2">Animancer v1.2</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-1">Animancer v1.1</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v1-0">Animancer v1.0</a></li>
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="/animancer/docs/help">Help and FAQ</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/help/debugging">Debugging</a></li>
+
+                    </ul>
+                </li>
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+		<section class="content-header">
+			<h1>10-02 Damping</h1>
+		</section>
+	<section class="content">
+		<div class="pro-only-sample"><a href="/animancer/docs/introduction/features"><div></div><ul>
+<li>Animation Jobs</li>
+</ul></a></div>
+<blockquote class="blockquote">
+<p><i class="emw fa fa-folder"></i> <a href="../../"><strong>Location</strong>: Samples/10 Animation Jobs/02 Damping</a></p>
+<p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../two-bone-ik">Two Bone IK</a></p>
+<p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this sample you will learn:</span></p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to apply physics based drag to some of a character's bones.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use the <code><a href="/animancer/api/Animancer.Samples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a>.</p>
+</blockquote>
+<h1 id="summary">Summary</h1>
+<p>This sample demonstrates how the <code><a href="/animancer/api/Animancer.Samples.Jobs/DampingJob">DampingJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer to apply physics based drag to some of a character's bones. That would normally be useful for things like hair or a tail, but since we don't have a character with those this sample just uses the character's arms.</p>
+<p>The job in this sample could be used in a real project, however <a href="/flexi-motion">FlexiMotion</a> is a much more powerful system for achieving this sort of thing separately from Animancer.</p>
+<p><img src="damping.png" class="pngif img-responsive"></p>
+<h1 id="overview">Overview</h1>
+<p>This sample uses two new scripts:</p>
+<ul>
+<li>The <code><a href="/animancer/api/Animancer.Samples.Jobs/Damping">Damping</a></code> component applies drag to one limb, so the character has one for each arm.</li>
+<li>Each <code><a href="/animancer/api/Animancer.Samples.Jobs/Damping">Damping</a></code> adds a <code><a href="/animancer/api/Animancer.Samples.Jobs/DampingJob">DampingJob</a></code> to Animancer's <code>PlayableGraph</code>, which is where the actual drag algorithm is implemented.</li>
+</ul>
+<p>It also reuses the <code><a href="/animancer/api/Animancer.Samples.InverseKinematics/MouseDrag">MouseDrag</a></code> script from the <a href="../../ik/puppet">Puppet</a> sample.</p>
+<p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
+<h1 id="job-script">Job Script</h1>
+<details><summary>The job itself is a <code>struct</code> which implements the <a href="https://docs.unity3d.com/ScriptReference/Animations.IAnimationJob.html">IAnimationJob</a> interface. In this case, that's the <code><a href="/animancer/api/Animancer.Samples.Jobs/DampingJob">DampingJob</a></code> script from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Runtime/AnimationJobs/DampingJob.cs">Animation Jobs Samples</a>. The contents of this script will are mostly the same as the sample, except that the <code>ProcessRootMotion</code> method has been cleared because its original code was actually unnecessary and did not work as intended. Its functionality will not be explained here (beyond its original comments) since this sample is about how to use jobs, not how to implement the damping itself.</summary><p>
+</p><pre><code class="language-cs">using Unity.Collections;
+using UnityEngine;
+using UnityEngine.Animations;
+
+public struct <a href="/animancer/api/Animancer.Samples.Jobs/DampingJob">DampingJob</a> : IAnimationJob
+{
+    public TransformStreamHandle rootHandle;
+    public NativeArray&lt;TransformStreamHandle&gt; jointHandles;
+    public NativeArray&lt;Vector3&gt; localPositions;
+    public NativeArray&lt;Quaternion&gt; localRotations;
+    public NativeArray&lt;Vector3&gt; positions;
+    public NativeArray&lt;Vector3&gt; velocities;
+
+    /// &lt;summary&gt;
+    /// Transfer the root position and rotation through the graph.
+    /// &lt;/summary&gt;
+    /// &lt;param name="stream"&gt;The animation stream&lt;/param&gt;
+    public void ProcessRootMotion(AnimationStream stream)
+    {
+        // This was in the original sample, but it causes problems if the character is a child of a moving object.
+        // There is no need for this method to do anything in order to support root motion.
+
+        //// Get root position and rotation.
+        //var rootPosition = rootHandle.GetPosition(stream);
+        //var rootRotation = rootHandle.GetRotation(stream);
+
+        //// The root always follow the given position and rotation.
+        //rootHandle.SetPosition(stream, rootPosition);
+        //rootHandle.SetRotation(stream, rootRotation);
+    }
+
+    /// &lt;summary&gt;
+    /// Procedurally generate the joints rotation.
+    /// &lt;/summary&gt;
+    /// &lt;param name="stream"&gt;The animation stream&lt;/param&gt;
+    public void ProcessAnimation(AnimationStream stream)
+    {
+        if (jointHandles.Length &lt; 2)
+            return;
+
+        ComputeDampedPositions(stream);
+        ComputeJointLocalRotations(stream);
+    }
+
+    /// &lt;summary&gt;
+    /// Compute the new global positions of the joints.
+    ///
+    /// The position of the first joint is driven by the root's position, and
+    /// then the other joints positions are recomputed in order to follow their
+    /// initial local positions, smoothly.
+    ///
+    /// Algorithm breakdown:
+    ///     1. Compute the target position;
+    ///     2. Damp this target position based on the current position;
+    ///     3. Constrain the damped position to the joint initial length;
+    ///     4. Iterate on the next joint.
+    /// &lt;/summary&gt;
+    /// &lt;param name="stream"&gt;The animation stream&lt;/param&gt;
+    private void ComputeDampedPositions(AnimationStream stream)
+    {
+        // Get root position and rotation.
+        var rootPosition = rootHandle.GetPosition(stream);
+        var rootRotation = rootHandle.GetRotation(stream);
+
+        // The first non-root joint follows the root position,
+        // but its rotation is damped (see ComputeJointLocalRotations).
+        var parentPosition = rootPosition + rootRotation * localPositions[0];
+        var parentRotation = rootRotation * localRotations[0];
+        positions[0] = parentPosition;
+        for (var i = 1; i &lt; jointHandles.Length; ++i)
+        {
+            // The target position is the global position, without damping.
+            var newPosition = parentPosition + (parentRotation * localPositions[i]);
+
+            // Apply damping on this target.
+            var velocity = velocities[i];
+            newPosition = Vector3.SmoothDamp(positions[i], newPosition, ref velocity, 0.15f, Mathf.Infinity,stream.deltaTime);
+
+            // Apply constraint: keep original length between joints.
+            newPosition = parentPosition + (newPosition - parentPosition).normalized * localPositions[i].magnitude;
+
+            // Save new velocity and position for next frame.
+            velocities[i] = velocity;
+            positions[i] = newPosition;
+
+            // Current joint is now the parent of the next joint.
+            parentPosition = newPosition;
+            parentRotation = parentRotation * localRotations[i];
+        }
+    }
+
+    /// &lt;summary&gt;
+    /// Compute the new local rotations of the joints.
+    ///
+    /// Based on the global positions computed in ComputeDampedPositions,
+    /// recompute the local rotation of each joint.
+    ///
+    /// Algorithm breakdown:
+    ///     1. Compute the rotation between the current and new directions of the joint;
+    ///     2. Apply this rotation on the current joint rotation;
+    ///     3. Compute the local rotation and set it in the stream;
+    ///     4. Iterate on the next joint.
+    /// &lt;/summary&gt;
+    /// &lt;param name="stream"&gt;The animation stream&lt;/param&gt;
+    private void ComputeJointLocalRotations(AnimationStream stream)
+    {
+        var parentRotation = rootHandle.GetRotation(stream);
+        for (var i = 0; i &lt; jointHandles.Length - 1; ++i)
+        {
+            // Get the current joint rotation.
+            var rotation = parentRotation * localRotations[i];
+
+            // Get the current joint direction.
+            var direction = (rotation * localPositions[i + 1]).normalized;
+
+            // Get the wanted joint direction.
+            var newDirection = (positions[i + 1] - positions[i]).normalized;
+
+            // Compute the rotation from the current direction to the new direction.
+            var currentToNewRotation = Quaternion.FromToRotation(direction, newDirection);
+
+            // Pre-rotate the current rotation, to get the new global rotation.
+            rotation = currentToNewRotation * rotation;
+
+            // Set the new local rotation.
+            var newLocalRotation = Quaternion.Inverse(parentRotation) * rotation;
+            jointHandles[i].SetLocalRotation(stream, newLocalRotation);
+
+            // Set the new parent for the next joint.
+            parentRotation = rotation;
+        }
+    }
+}
+</code></pre>
+<p></p></details>
+<h1 id="responsibilities">Responsibilities</h1>
+<p>Since the original <a href="https://github.com/Unity-Technologies/animation-jobs-samples/blob/master/Assets/animation-jobs-samples/Samples/Scripts/Damping/Damping.cs">Damping</a> script was just an example, it had most of the same <a href="../two-bone-ik#responsibilities">problems with Responsibilities as the Two Bone IK sample</a> which are again fixed in this sample's implementation. The following table compares the differences between the original and the <code><a href="/animancer/api/Animancer.Samples.Jobs/Damping">Damping</a></code> script used in this sample, excluding any that were already covered by the <a href="../two-bone-ik#responsibilities">Two Bone IK</a> sample:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Original</th>
+<th>Animancer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Has an array of bone <code>Transform</code>s which can be assigned in the Inspector and a comment explaining that "<em>The joints must have a simple hierarchy (i.e. joint N is parent of joint N+1)</em>".</td>
+<td>Only has a single <code>_EndBone</code> reference as well as a <code>_BoneCount</code> to specify the number of bones. This ensures that you can't accidentally assign bones in an incorrect order or hierarchy.</td>
+</tr>
+<tr>
+<td>Creates a sphere for each joint to visualise its damped position and updates them every frame.</td>
+<td>Removed this functionality for the sake of simplicity since it didn't even seem to show the spheres at the correct positions.</td>
+</tr>
+<tr>
+<td>In addition to destroying the <code>PlayableGraph</code> in <code>OnDisable</code>, it also had to <code>Dispose</code> all the <code>NativeArray</code>s used by the job.</td>
+<td>Adds the arrays to the <code><a href="/animancer/api/Animancer/AnimancerGraph/263BB4F2">AnimancerGraph.Disposables</a></code> list for Animancer to <code>Dispose</code> them so we don't need an <code>OnDisable</code> method at all.</td>
+</tr>
+<tr>
+<td>Had a separate field to store each of those <code>NativeArrays</code> for disposal.</td>
+<td>Doesn't need any of those fields because it gives the arrays to Animancer in the same method where they are allocated.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="fields">Fields</h1>
+<p>As with the <a href="../two-bone-ik#fields">Two Bone IK</a> sample, inserting the job into Animancer's <code>PlayableGraph</code> allows multiple instances to be applied to the same character so we're applying one to each of the character's hands with their <code>Bone Count</code> set to 3 to make them affect affect the <em>Hand</em>, <em>Elbow</em>, and <em>Shoulder</em>.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Code</th>
+    <th style="width:50%">Inspector</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-cs">[SerializeField]
+private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+
+[SerializeField]
+private Transform _EndBone;
+
+[SerializeField]
+private int _BoneCount = 3;
+</code></pre>
+</td>
+      <td><img src="inspector.png" class="img-responsive"></td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="initialization">Initialization</h1>
+<p>Unity's Animation Job system allows you to write high performance multithreaded code to access low-level data in the animation stream, but to do so it has to enforce several restrictions on the type of code you can use. One of the restrictions is that you can't use <a href="/cs-unity/docs/introduction/organization#values-and-references">Reference Types</a> in them. That means two things for this sample:</p>
+<ul>
+<li>Instead of using regular arrays (<code>Vector3[]</code>) we need to use Unity's native arrays (<code>NativeArray&lt;Vector3&gt;</code>).</li>
+<li>Instead of being able to directly reference the bone <code>Transform</code>s we want to apply the damping effect to, we need to use <code>TransformStreamHandle</code>.</li>
+</ul>
+<p>A <code>NativeArray</code> needs to be allocated with a specific length (<code>_BoneCount</code>) just like a regular array, but also has two additional parameters:</p>
+<ol>
+<li>The <code>Allocator</code> parameter can be used to allocate a temporary array which Unity will automatically clean up and reuse after a few frames. But in this case, we want <code>Persistent</code> arrays that will last for the entire lifetime of the job. This also means we will need to <a href="#disposal">Dispose</a> the arrays to avoid leaking memory.</li>
+<li>The <code>NativeArrayOptions</code> parameter determines if the allocated memory needs to be cleared or not. Most of them can use <code>UninitializedMemory</code> which is faster because we will be immediately filling them, but the <code>velocities</code> need to use the default <code>ClearMemory</code> to make sure all the values start at zero.</li>
+</ol>
+<p>Since we are about to use those values several times, we can shorten the following lines a bit by using constants for them:</p>
+<pre><code class="language-cs">protected virtual void Awake()
+{
+    const Allocator Persistent = Allocator.Persistent;
+    const NativeArrayOptions UninitializedMemory = NativeArrayOptions.UninitializedMemory;
+
+    var job = new DampingJob()
+    {
+        jointHandles = new NativeArray&lt;TransformStreamHandle&gt;(_BoneCount, Persistent, UninitializedMemory),
+        localPositions = new NativeArray&lt;Vector3&gt;(_BoneCount, Persistent, UninitializedMemory),
+        localRotations = new NativeArray&lt;Quaternion&gt;(_BoneCount, Persistent, UninitializedMemory),
+        positions = new NativeArray&lt;Vector3&gt;(_BoneCount, Persistent, UninitializedMemory),
+        velocities = new NativeArray&lt;Vector3&gt;(_BoneCount, Persistent),
+    };
+</code></pre>
+<p>The above syntax is called an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers">Object Initializer</a> which is simply a neater way of initializing an object. We could have done the exact same thing using:</p>
+<pre><code class="language-cs">var job = new DampingJob();
+job.jointHandles = ...;
+job.localPositions = ...;
+// Etc.
+</code></pre>
+<p>Once the arrays are allocated, we can fill all their values for each bone starting at the <code>_EndBone</code> and going up each of their parents in the Hierarchy up to the specified <code>_BoneCount</code>. As mentioned earlier, we can't use direct <code>Transform</code> references so we use the <code>AnimatorJobExtensions.BindStreamTransform</code> extension method to get a <code>TransformStreamHandle</code> to allow the job to access them.</p>
+<pre><code class="language-cs">    var animator = _Animancer.Animator;
+    var bone = _EndBone;
+    for (int i = _BoneCount - 1; i &gt;= 0; i--)
+    {
+        job.jointHandles[i] = animator.BindStreamTransform(bone);
+        job.localPositions[i] = bone.localPosition;
+        job.localRotations[i] = bone.localRotation;
+        job.positions[i] = bone.position;
+
+        bone = bone.parent;
+    }
+</code></pre>
+<p>After the last bone, the job also needs a handle for its parent to use as the root:</p>
+<pre><code class="language-cs">    job.rootHandle = animator.BindStreamTransform(bone);
+</code></pre>
+<p>And now that the job has everything it needs, we can give it to Animancer:</p>
+<pre><code class="language-cs">    _Animancer.Playable.InsertOutputJob(job);
+</code></pre>
+<h1 id="disposal">Disposal</h1>
+<p>As mentioned earlier, using <code>Allocator.Persistent</code> for the <code>NativeArray</code>s means we need to <code>Dispose</code> them when we are done with them to free up the memory that was allocated for them so we don't leak memory (and Unity will give you a warning if you fail to do so). The original sample used an <code>OnDisable</code> method to <code>Dispose</code> its arrays, but with Animancer you can simply add them to the <code><a href="/animancer/api/Animancer/AnimancerGraph/263BB4F2">AnimancerGraph.Disposables</a></code> list and it will <code>Dispose</code> them for you.</p>
+<pre><code class="language-cs">    _Animancer.Graph.Disposables.Add(job.jointHandles);
+    _Animancer.Graph.Disposables.Add(job.localPositions);
+    _Animancer.Graph.Disposables.Add(job.localRotations);
+    _Animancer.Graph.Disposables.Add(job.positions);
+    _Animancer.Graph.Disposables.Add(job.velocities);
+}
+</code></pre>
+<p>Note that <code>NativeArray</code>s will cause an error if you <code>Dispose</code> them multiple times, so if we were writing our own job (rather than just using the sample) and we wanted to be able to disable it separately from the destruction of Animancer's <code>PlayableGraph</code>, we could have the job implement the <code>IDisposable</code> interface to dispose its arrays so that we would only have to call <code>...Add(_Job);</code> here. Then inside the job's <code>Dispose</code> method, we could check the <code>IsCreated</code> property of each array before destroying it to avoid that error.</p>
+<h1 id="validation">Validation</h1>
+<p>As noted in the <a href="#responsibilities">Responsibilities</a> table, replacing the original sample's array of <code>Transform</code>s with a single <code>_EndBone</code> makes the script easier to use and ensures that you can't assign an invalid set of objects. We can make the script even safer by adding an <code>OnValidate</code> method which the Unity Editor will call whenever any of its fields are modified in the Inspector:</p>
+<pre><code class="language-cs">protected virtual void OnValidate()
+{
+</code></pre>
+<p>The first thing we want to do is ensure that the <code>_BoneCount</code> is at least 1 (the <code>_EndBone</code> itself):</p>
+<pre><code class="language-cs">    if (_BoneCount &lt; 1)
+    {
+        _BoneCount = 1;
+    }
+</code></pre>
+<p>Then if we have all the references properly configured we can iterate up the hierarchy from the <code>_EndBone</code> to ensure that the <code>_BoneCount</code> is smaller than the number of bones between there and the root <code>Animator</code>:</p>
+<pre><code class="language-cs">    else if (_EndBone != null &amp;&amp; _Animancer != null &amp;&amp; _Animancer.Animator != null)
+    {
+        var root = _Animancer.Animator.transform;
+
+        var bone = _EndBone;
+        for (int i = 0; i &lt; _BoneCount; i++)
+        {
+            bone = bone.parent;
+            if (bone == root)
+            {
+                _BoneCount = i + 1;
+                break;
+            }
+</code></pre>
+<p>If we reach the top of the Hierarchy without finding the root <code>Animator</code>, then the <code>_EndBone</code> is not a child of it and won't work with the <code><a href="/animancer/api/Animancer.Samples.Jobs/DampingJob">DampingJob</a></code> so we just clear it and log a warning:</p>
+<pre><code class="language-cs">            else if (bone == null)
+            {
+                _EndBone = null;
+                Debug.LogWarning("The End Bone must be a child of the Animator.");
+                break;
+            }
+        }
+    }
+}
+</code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>As noted earlier, this system could be used in a real project, however <a href="/flexi-motion">FlexiMotion</a> is a much more powerful system for achieving this sort of thing separately from Animancer.</p>
+<p><img src="damping.png" class="pngif img-responsive"></p>
+
+	</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/samples">Samples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/discussions">Unity Discussions</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>
