@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.0</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -83,6 +83,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Attributes">Attributes</a></p>
 <p><a href="#Parameters">Parameters</a></p>
 <p><a href="#ReturnValue">Return Value</a></p>
@@ -152,10 +153,12 @@
 		<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
 		<li role="separator" class="divider"></li>
 			<li class="header">Method Members</li>
+				<li><a href="/animancer/api/Animancer/Validate/1B7A3314">AssertAnimationClip<wbr>(AnimationClip, <wbr>bool, <wbr>string)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/Validate/07FEAF0E">AssertCanRemoveChild<wbr>(AnimancerState, <wbr>IList<wbr>&lt;<wbr>Animancer<wbr>State&gt;<wbr>, <wbr>int)<wbr></a></li>
-				<li><a href="/animancer/api/Animancer/Validate/860DC3AF">AssertNotLegacy<wbr>(AnimationClip)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Validate/95F9D476">Assert<wbr>Expected<wbr>Warnings<wbr>Received<wbr>()<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Validate/B70A70CF">AssertGraph<wbr>(AnimancerNode, <wbr>AnimancerGraph)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/Validate/72D68158">AssertPlayable<wbr>(AnimancerNode)<wbr></a></li>
-				<li><a href="/animancer/api/Animancer/Validate/2342A56A">AssertRoot<wbr>(AnimancerNode, <wbr>AnimancerPlayable)<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Validate/ADD2F000">AssertSetWeight<wbr>(AnimancerNode, <wbr>float)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/Validate/78ACDF2F">Disable<wbr>(OptionalWarning)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/Validate/7548EE80">DisableTemporarily<wbr>(OptionalWarning)<wbr></a></li>
 				<li><a href="/animancer/api/Animancer/Validate/08BA7AF2">Enable<wbr>(OptionalWarning)<wbr></a></li>
@@ -166,6 +169,9 @@
 				<li><a href="/animancer/api/Animancer/Validate/C8A80F28">ValueRule<wbr>(float, <wbr>Validate<wbr>.Value)<wbr></a></li>
 			<li class="header">Property Members</li>
 				<li><a href="/animancer/api/Animancer/Validate/220E6D81">Permanently<wbr>Disabled<wbr>Warnings</a></li>
+				<li><a href="/animancer/api/Animancer/Validate/CB3E972C">WarningsAsErrors</a></li>
+			<li class="header">Field Members</li>
+				<li><a href="/animancer/api/Animancer/Validate/AEDBF682">ExpectedWarnings</a></li>
 			<li class="header">NamedType Members</li>
 				<li><a href="/animancer/api/Animancer/Value">Validate<wbr>.Value</a></li>
 
@@ -211,9 +217,12 @@
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[System.Diagnostics.Conditional(Strings.Assertions)]
+[HideInCallstack]
 public static void Log(this OptionalWarning type, string message, Object context = null)</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>Does nothing if the `message` is <code class="cs">null</code>.</div>
 
 	<h1 id="Attributes">Attributes</h1>
 	<div class="box">
@@ -227,6 +236,10 @@ public static void Log(this OptionalWarning type, string message, Object context
 				</thead>
 					<tbody><tr>
 						<td>ConditionalAttribute</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Hide<wbr>In<wbr>Callstack<wbr>Attribute</td>
 						<td></td>
 					</tr>
 			</tbody></table>
@@ -299,7 +312,7 @@ public static void Log(this OptionalWarning type, string message, Object context
 
 <div>
 <p>Documentation</p>
-<p><a href="/animancer/docs/examples">Examples</a></p>
+<p><a href="/animancer/docs/samples">Samples</a></p>
 <p><a href="/animancer/docs/manual">User Manual</a></p>
 <p><a href="/animancer/docs/changes">Change Log</a></p>
 </div>
@@ -318,7 +331,7 @@ public static void Log(this OptionalWarning type, string message, Object context
 <div>
 <p>Contact</p>
 <p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
-<p><a href="/animancer/redirect/forum">Unity Forum</a></p>
+<p><a href="/animancer/redirect/discussions">Unity Discussions</a></p>
 <p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
 </div>
 

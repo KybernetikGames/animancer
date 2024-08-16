@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.0</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -641,12 +641,12 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameK
 
         if (_IsSoftLanding)
         {
-            var parameter = _SoftLanding.State.Parameter;
+            Vector2 parameter = _SoftLanding.State.Parameter;
             parameter.x = Character.Parameters.ForwardSpeed;
             _SoftLanding.State.Parameter = parameter;
         }
 
-        var state = Character.Animancer.States.Current;
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = Character.Animancer.States.Current;
         if (state.NormalizedTime &gt;= state.Events.NormalizedEndTime)
             Character.CheckMotionState();
     }
@@ -721,7 +721,7 @@ private bool _IsSoftLanding;
 <p>If we are using a soft landing, we need to inform the <a href="../../../../manual/blending/mixers">Mixer</a> about the character's new forward speed. Like with Mecanim, we do not want to inform it of any changes to the vertical speed because we want it to continue based on the vertical speed it had on impact when first entering this state:</p>
 <pre><code class="language-cs">    if (_IsSoftLanding)
     {
-        var parameter = _SoftLanding.State.Parameter;
+        Vector2 parameter = _SoftLanding.State.Parameter;
         parameter.x = Character.Parameters.ForwardSpeed;
         _SoftLanding.State.Parameter = parameter;
     }

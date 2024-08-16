@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v7.4</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.0</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -771,7 +771,7 @@ private void UpdateRotation()
 <p>Then it gets the current rotation of the character and the desired angle according to the <code>Character.Parameters.MovementDirection</code>. And again it has an opportunity to return early to prevent rotation if the brain isn't actually trying to move at the moment (though that should never actually happen in this case because <code>Character.CheckMotionState</code> would have already changed it to the <em>Idle</em> state).</p>
 <pre><code class="language-cs">// LocomotionState.cs:
     // In UpdateRotation:
-    if (!Character.Movement.GetTurnAngles(Character.Parameters.MovementDirection, out var currentAngle, out var targetAngle))
+    if (!Character.Movement.GetTurnAngles(Character.Parameters.MovementDirection, out float currentAngle, out float targetAngle))
         return;
 
 // CharacterMovement.cs:
@@ -784,7 +784,6 @@ public bool GetTurnAngles(Vector3 direction, out float currentAngle, out float t
         return false;
     }
 
-    var transform = this.transform;
     currentAngle = transform.eulerAngles.y;
     targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
     return true;
@@ -794,22 +793,22 @@ public bool GetTurnAngles(Vector3 direction, out float currentAngle, out float t
 <p>In the Mecanim character, the <code>PlayerController</code> script would calculate the forward speed and rotation needed to face the desired direction and then send those values to the Animator Controller for it to check if any transitions should be started based on those parameters. That made it difficult to figure out the actual flow of logic that would trigger the quick turn animations. But in the <code><a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameKit/LocomotionState">LocomotionState</a></code> script, that same logic only takes a few lines of code which is much easier to understand.</p>
 <pre><code class="language-cs">// LocomotionState.cs:
     // In UpdateRotation:
-    // If we are moving fast enough.
+    // If we're moving fast enough.
     if (Character.Parameters.ForwardSpeed &gt; _QuickTurnMoveSpeed)
     {
         // And turning sharp enough.
-        var deltaAngle = Mathf.DeltaAngle(currentAngle, targetAngle);
+        float deltaAngle = Mathf.DeltaAngle(currentAngle, targetAngle);
         if (Mathf.Abs(deltaAngle) &gt; _QuickTurnAngle)
         {
-            // Determine which way we are turning.
-            var turn = deltaAngle &lt; 0 ? _QuickTurnLeft : _QuickTurnRight;
+            // Determine which way we're turning.
+            <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> turn = deltaAngle &lt; 0 ? _QuickTurnLeft : _QuickTurnRight;
     
             // Make sure the desired turn isn't already active so we do not keep using it repeatedly.
             if (turn.State == null || turn.State.Weight == 0)
             {
                 Animancer.Play(turn);
 
-                // Now that we are quick turning, we do not want to apply the scripted turning below.
+                // Now that we're quick turning, we do not want to apply the scripted turning below.
                 return;
             }
         }

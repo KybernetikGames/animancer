@@ -109,7 +109,7 @@ namespace Animancer
 #if UNITY_EDITOR
         /************************************************************************************************************************/
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             UnityEditor.EditorCurveBinding binding;
             if (TryGetCurveBinding(out binding))
