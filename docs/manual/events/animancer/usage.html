@@ -84,7 +84,9 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#transitions">Transitions</a></p>
 <p><a href="#code">Code</a></p>
 <p><a href="#hybrid">Hybrid</a></p>
-<p><a href="#event-names-attribute">Event Names Attribute</a></p>
+<p><a href="#central-events">Central Events</a></p>
+<p><a href="#transition-events">Transition Events</a></p>
+<p><a href="#state-events">State Events</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -366,9 +368,7 @@
                         
                 <li class="selected"><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
 
                     </ul>
@@ -582,11 +582,10 @@
 <p><a href="../../transitions">Transitions</a> allow you to configure Animancer Events in the Inspector:</p>
 <p><img src="animancer-event-inspector.png" class="pngif img-responsive"></p>
 <ul>
+<li><a href="/cs-unity/docs/introduction/methods/delegates#unity-events"><code>UnityEvents</code></a> or <a href="/ultevents">UltEvents</a> can be used to configure the event callbacks in the Inspector, but it's often better to use the <a href="#hybrid">Hybrid</a> approach to keep all your important logic in scripts.</li>
 <li>The <a href="../../transitions/previews">Transition Preview Window</a> can be useful to see what the animated character will look like when the event occurs.</li>
 <li>A transition defines how it fades in but not how it fades out (because that gets determined by the next transition), so the Inspector timeline display simply uses a default value. If the end time is less than the animation length, it shows the fade out ending at the end of the animation. Or if the end time is greater than the length, it shows the default 0.25 second fade.</li>
 <li>Event <a href="../../transitions#time-fields">Time Fields</a> are always serialized as normalized time, regardless of which field you use to enter the value.</li>
-<li><a href="shared">Shared Events</a> page explains how to avoid common issues caused by sharing a transition between multiple characters.</li>
-<li>By default, <code><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></code>s are used to configure Animancer Events in the Inspector, however there are significant limitations in what they can do so the <a href="ultevents">UltEvents</a> page explains how you can make it use that system instead.</li>
 </ul>
 <h2 id="controls">Controls</h2>
 <ul>
@@ -601,100 +600,146 @@
 </li>
 </ul>
 <h1 id="code">Code</h1>
-<p>Animancer Events can also be configured using code like so:</p>
+<p>Animancer Events can also be configured using code like this:</p>
 <pre><code class="language-cs">// A Melee Attack script:
 
 [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
-public void Attack()
+void Attack()
 {
-    // Play clears all events from all states (see Clear Automatically on the Behaviour page for details).
-    var state = _Animancer.Play(_Animation);
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
 
-    // Call OnHitStart to activate the hit box when the animation passes 40% of its length.
-    state.Events.Add(0.4f, OnHitStart);
+    // If the state didn't have a event sequence yet, give it one so we can initialize it.
+    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
+    {
+        // Call OnHitStart to activate the hit box when the animation passes 40% of its length.
+        events.Add(0.4f, OnHitStart);
 
-    // Call OnHitEnd to deactivate the hit box when the animation passes 60% of its length.
-    state.Events.Add(0.6f, OnHitEnd);
+        // Call OnHitEnd to deactivate the hit box when the animation passes 60% of its length.
+        events.Add(0.6f, OnHitEnd);
 
-    // Return to Idle when the animation finishes.
-    state.Events.OnEnd = EnterIdleState;
+        // Return to Idle when the animation finishes.
+        events.OnEnd = EnterIdleState;
+    }
 }
+
+// These are the methods which the events will call.
+private void OnHitStart() { }
+private void OnHitEnd() { }
+private void EnterIdleState() { }
 </code></pre>
 <p>See <a href="../end">End Events</a> for details about how the <code>OnEnd</code> event is different from others.</p>
 <p></p><details><summary>You can use <a href="/cs-unity/docs/introduction/methods/delegates#inline-delegates">Lambda Expressions and Anonymous Methods</a> to define the code you want an event to run without needing to create another separate method:</summary><p>
-</p><pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
+</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimationClip _Animation;
+
+private GameObject _HitBox;
+
+private void AttackWithLambdas()
 {
-    var state = animancer.Play(clip);
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
 
-    // All of the following options are functionally identical:
-
-    // Lambda expression:
-    state.Events.OnEnd = () =&gt;
+    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
     {
-        Debug.Log(clip.name + " ended");
-    };
+        // Multi-Line Lambda expression:
+        events.Add(0.4f, () =&gt;
+        {
+            _HitBox.SetActive(true);
+        });
 
-    // One-line Lambda expression:
-    state.Events.OnEnd = () =&gt; Debug.Log(clip.name + " ended");
-
-    // Anonymous method:
-    state.Events.OnEnd = delegate()
-    {
-        Debug.Log(clip.name + " ended");
-    };
+        // One-line Lambda expression:
+        events.Add(0.6f, () =&gt; _HitBox.SetActive(false));
+    }
 }
 </code></pre>
 <p></p></details><p></p>
-<p><code><a href="/animancer/api/Animancer/AnimancerEvent/8488C6E3">AnimancerEvent.Current</a></code> allows you to access the details of the event currently being triggered as explained on the <a href="../utilities">Event Utilities</a> page.</p>
+<p>During an event, <code><a href="/animancer/api/Animancer/AnimancerEvent/8488C6E3">AnimancerEvent.Current</a></code> allows you to access its details as explained on the <a href="utilities">Event Utilities</a> page.</p>
+<img src="named-event.png" class="img-responsive img-right">
 <h1 id="hybrid">Hybrid</h1>
-<p>Setting up <a href="#transitions">Events in Transitions</a> is usually the best way to configure their timing according to the animation, but setting up <a href="#code">Events in Code</a> is often better for creating reliable scripts and avoiding bugs. Fortunately, you can have the best of both approaches by using a <a href="#transitions">Transition</a> to configure the <code>Time</code> but simply leaving its <code>Callback</code> blank and assigning it in <a href="#code">Code</a> instead.</p>
-<p>You could access the event by index:</p>
-<pre><code class="language-cs">_GolfSwing.Events.SetCallback(0, HitBall);
-</code></pre>
-<p>But that hard-codes the assumption that there will not be any other events before the one you want so it may cause a bug later on if you add more events to it. It also means there's nothing in the Inspector to indicate what the event actually is, which makes it harder to maintain complex systems.</p>
-<p>A more reliable way to set up a hybrid event is to give it a <code>Name</code> in the Inspector so that you can identify it in code):</p>
-<p><img src="../../../samples/events/golf/unnamed-event.png" class="pngif img-responsive"></p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _GolfSwing;
+<p>Setting up <a href="#transitions">Events in Transitions</a> is usually the best way to configure their timing since you can <a href="../../transitions/previews">preview the animation</a> while doing so, but setting up <a href="#code">Events in Code</a> is often better for creating reliable scripts and avoiding bugs. Fortunately, you can have the best of both approaches by using a <a href="#transitions">Transition</a> to configure the <code>Time</code> but simply leaving its <code>Callback</code> blank and giving it a <code>Name</code> so that you can assign the callback in code using a <a href="../../other/strings">String Asset or Reference</a> to refer to that name.</p>
+<p>There are 3 main ways to do this depending on the situation:</p>
+<ul>
+<li><a href="#central-events">Central Events</a></li>
+<li><a href="#transition-events">Transition Events</a></li>
+<li><a href="#state-events">State Events</a></li>
+</ul>
+<h1 id="central-events">Central Events</h1>
+<p>If you want to register a callback for any event in any animation with a particular name, you can use the central event dictionary.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
 
 protected virtual void Awake()
 {
-    // Set the event named "Hit" to call the HitBall method when it is triggered.
-    _GolfSwing.Events.SetCallback("Hit", HitBall);
+    _Animancer.Events.AddTo(_EventName, EventCallback);
 }
 
-private void HitBall() { ... }
+private void EventCallback() { }
 </code></pre>
-<p>The <a href="../../../samples/events/golf">Golf Events</a> sample demonstrates how to use this feature.</p>
-<h1 id="event-names-attribute">Event Names Attribute</h1>
-<p>The <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> allows you to provide a specific set of names that events are allowed have, replacing the usual text field with a dropdown menu to avoid needing to type same event name in the script and in the Inspector.</p>
-<pre><code class="language-cs">private const string HitEventName = "Hit";
-
-[SerializeField]
-[EventNames(HitEventName)]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+<p>The <a href="../../../samples/events/footsteps">Footstep Events</a> sample uses this approach to keep the <code><a href="/animancer/api/Animancer.Samples.Events/FootstepEvents">FootstepEvents</a></code> script separate from the script that plays the <em>Walk</em> animation. The character could be given a <em>Run</em> animation with the same name for its events and they would automatically trigger the same callback without the event handling script having any contact with the animation playing script.</p>
+<h1 id="transition-events">Transition Events</h1>
+<p>If you have a <a href="../../transitions">Transition</a>, you can add callbacks to it which it will give to the states it creates.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
+[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Transition;
 
 protected virtual void Awake()
 {
-    _GolfSwing.Events.SetCallback(HitEventName, HitBall);
+    _Transition.Events.SetCallback(_EventName, EventCallback);
 }
+
+private void EventCallback() { }
 </code></pre>
-<p>This helps avoid spelling mistakes and makes it clearer what the script actually expects to be set up in the Inspector without needing you to actually go and read the script.</p>
+<p>The <a href="../../../samples/events/golf">Golf Events</a> sample uses this approach.</p>
+<p>If you want to use a <a href="../../other/strings#string-references">String Reference</a> for the event name, you can also use the <code>[EventNames]</code> attribute to have the Inspector suggest which names the script is expecting.</p>
+<pre><code class="language-cs">private static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> MyEvent = "MyEvent";
+
+[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField, EventNames] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Transition;
+
+protected virtual void Awake()
+{
+    _Transition.Events.SetCallback(MyEvent, EventCallback);
+}
+
+private void EventCallback() { }
+</code></pre>
+<p>That tells it to use any <code>static</code> fields containing <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s inside this class so it sees the <code>MyEvent</code> automatically. There are several other ways to use the attribute which are explained on the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> API page.</p>
 <table class="table">
   <thead>
-    <tr><th style="width:50%">Without Attribute</th>
-    <th style="width:50%">With Attribute</th>
+    <tr><th style="width:50%">Expected Name</th>
+    <th style="width:50%">Unexpected Name</th>
   </tr></thead>
   <tbody>
     <tr>
-      <td><img src="../../../samples/events/golf/unnamed-event.png" class="pngif img-responsive"></td>
-      <td><img src="../../../samples/events/golf/named-event.png" class="pngif img-responsive"></td>
+      <td><img src="../../../samples/events/golf/event-name-good.png" class="pngif img-responsive"></td>
+      <td><img src="../../../samples/events/golf/event-name-bad.png" class="pngif img-responsive"></td>
+    </tr>
+    <tr>
+      <td>That attribute makes the Inspector show an icon with a tooltip listing the expected names.</td>
+      <td>And if an unexpected name is assigned, it changes to a warning icon.</td>
     </tr>
   </tbody>
 </table>
-<p>Note that values selected using the dropdown menu are still stored as strings. Modifying the names in the script will NOT automatically update any values previously set in the Inspector.</p>
-<p>The API documentation for the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> gives more details about the various different ways it can be used.</p>
+<h1 id="state-events">State Events</h1>
+<p>If you're using a <a href="../../transitions/assets">Transition Asset</a> or directly playing an <code>AnimationClip</code>, you can add events to its <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
+[SerializeField] private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Transition;
+
+private void Play()
+{
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Transition);
+
+    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
+    {
+        events.SetCallback(_EventName, EventCallback);
+    }
+}
+
+private void EventCallback() { }
+</code></pre>
+<p>That's a bit more code than the other approaches so this option isn't generally preferred if the others can be used.</p>
 
 	</section>
                 

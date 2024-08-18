@@ -82,7 +82,6 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#looping">Looping</a></p>
-<p><a href="#clear-automatically">Clear Automatically</a></p>
 <p><a href="#other-details">Other Details</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -365,9 +364,7 @@
                         
                 <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
                 <li class="selected"><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer/shared">Shared Events</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer/ultevents">UltEvents</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
 
                     </ul>
@@ -550,29 +547,7 @@
 			<h1>Behaviour</h1>
 		</section>
 	<section class="content">
-		<p><a href="../">The Events page compares the differences between Unity's inbuilt Animation Events and Animancer Events</a>, but there are several other important details about the way the system works.</p>
-<table class="table">
-<thead>
-<tr>
-<th>Subject</th>
-<th>Summary</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="#looping">Looping</a></td>
-<td>Events on looping animations are triggered on every loop.</td>
-</tr>
-<tr>
-<td><a href="#clear-automatically">Clear Automatically</a></td>
-<td>By default, playing a new animation will clear the events from the old animation.</td>
-</tr>
-<tr>
-<td><a href="#other-details">Other Details</a></td>
-<td>Various other minor details.</td>
-</tr>
-</tbody>
-</table>
+		<p><a href="../">The Events page compares the differences between Unity's inbuilt Animation Events and Animancer Events</a>, but there are several other important details about the way <a href="../animancer">Animancer Events</a> work.</p>
 <h1 id="looping">Looping</h1>
 <p>Events behave differently depending on whether the animation is looping or not:</p>
 <table class="table">
@@ -598,68 +573,6 @@
     <tr>
       <td><a href="../end">End Events</a></td>
       <td><strong>On every frame</strong> when the animation has passed the specified time, regardless of whether the animation is looping or not.</td>
-    </tr>
-  </tbody>
-</table>
-<h1 id="clear-automatically">Clear Automatically</h1>
-<p>Calling <code>AnimancerComponent.Play</code> or <code>Stop</code> automatically clears the events of all states unless <code>AnimancerState.AutomaticallyClearEvents</code> is set to false. This ensures that you do not have to worry whether or not other scripts have used the same animation previously. Each script that plays an animation takes responsibility for managing what it expects to happen without worrying about the expectations of other scripts.</p>
-<p>For example, if a character has an <em>Attack</em> animation which wants to return to <em>Idle</em> when it finishes but the character gets hit by an enemy in the middle of the <em>Attack</em>, the character will now want to play the <em>Flinch</em> animation and return to <em>Idle</em> after that instead. At that point, we no longer care about the end of the <em>Attack</em> animation. If we want to attack again, we just play the animation and register the callback again. But if the character has a special skill that lets them perform an attack combo which happens to include the same <em>Attack</em> animation followed by several others in sequence, it will not want that animation to still have the old <a href="../end">End Event</a> that returns to <em>Idle</em>.</p>
-<p>That said, enforcing rules for which animations/actions are allowed to interrupt each other is often very important so that topic is covered in the <a href="../../../samples/fsm/interruptions">Interruptions</a> sample.</p>
-<p>The way that events are cleared differs slightly depending on how a state was played:</p>
-<table class="table">
-  <thead>
-    <tr><th style="width:50%">Direct</th>
-    <th style="width:50%">Transition</th>
-  </tr></thead>
-  <tbody>
-    <tr>
-<td>
-<pre><code class="language-cs">AnimationClip clip;
-<a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
-var state = animancer.Play(clip);
-</code></pre>
-</td>
-<td>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> transition;
-<a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
-var state = animancer.Play(transition);
-</code></pre>
-</td>
-    </tr>
-    <tr>
-      <td>Without a <a href="../../transitions">Transition</a>, the state will have no events by default.</td>
-      <td>When playing a <a href="../../transitions">Transition</a>, the state will be given the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> from that <a href="../../transitions">Transition</a>.</td>
-    </tr>
-    <tr>
-      <td>Accessing its <code>Events</code> will give it a spare <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> from the <code>ObjectPool</code> which you can then modify on the spot.</td>
-      <td>Accessing its <code>Events</code> will refer directly to the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> owned by the <a href="../../transitions">Transition</a> so any modifications you make will be retained when you play it again. This means modifications should generally only be performed once on startup rather than being repeated every time you play it.</td>
-    </tr>
-    <tr>
-<td>
-<pre><code class="language-cs">void PlayAnimation()
-{
-    var state = animancer.Play(clip);
-    state.Events.Add(...
-}
-</code></pre>
-<p><a href="garbage">This creates Garbage every time unless you cache the event callbacks</a>.</p>
-</td>
-<td>
-<pre><code class="language-cs">void Awake()
-{
-    transition.Events.Add(...
-}
-
-void PlayAnimation()
-{
-    animancer.Play(transition);
-}
-</code></pre>
-</td>
-    </tr>
-    <tr>
-      <td><p>When you play something else, the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> will be removed from the state, have its contents cleared, and then be returned to the <code>ObjectPool</code> so it can be reused.</p>If you create a <code>new AnimancerEvent.Sequence()</code> and assign it manually, then it will not be cleared or pooled.</td>
-      <td>When you play something else, the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> will be removed from the state but since it is owned by the <a href="../../transitions">Transition</a> it will not be cleared or given to the <code>ObjectPool</code>.</td>
     </tr>
   </tbody>
 </table>
