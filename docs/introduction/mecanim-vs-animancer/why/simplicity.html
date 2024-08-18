@@ -565,11 +565,11 @@
 <li>Now you can finally call <code>thing.Play("State Name")</code>.</li>
 </ol>
 <p>Every extra step costs some development time and is an opportunity to make a mistake that introduces a bug and wastes more time when you have to track it down.</p>
-<p>Steps 5 and 7 are technically unnecessary if you only want it to play the animation on startup without doing anything else interesting, but in that case Animancer's <a href="../../../samples/fine-control/solo-animation">Solo Animation</a> component is even easier to use.</p>
+<p>Steps 5 and 7 are technically unnecessary if you only want it to play the animation on startup without doing anything else interesting, but in that case Animancer's <a href="../../../manual/playing/component-types">Solo Animation</a> component is even easier to use.</p>
 <h1 id="complexity">Complexity</h1>
 <p>It is also important to consider how effectively a system can be used in more complicated situations and the following image of an Animator Controller practically speaks for itself:</p>
 <p><img src="nightmare-controller.png" class="img-responsive"></p>
-<p>That monstrosity was part of an official Unity Blog post ironically titled "<a href="https://blogs.unity3d.com/2016/10/11/building-for-reuse-mecanim-on-recore">Building for Reuse</a>". In smaller situations it could potentially provide a useful visualisation of a character's capabilities, but as complexity increases it inevitably devolves into a convoluted mess that can't be easily organised without then needing to waste time fixing all the bugs you cause. Programming patterns and other techniques that could normally be used to effectively develop something that complex are simply impossible to use when everything is constrained by Animator Controllers.</p>
+<p>That monstrosity was part of an official Unity Blog post ironically titled "<a href="https://unity.com/es/archive/blog/games/building-for-reuse-mecanim-on-recore">Building for Reuse</a>". In smaller situations it could potentially provide a useful visualisation of a character's capabilities, but as complexity increases it inevitably devolves into a convoluted mess that can't be easily organised without then needing to waste time fixing all the bugs you cause. Programming patterns and other techniques that could normally be used to effectively develop something that complex are simply impossible to use when everything is constrained by Animator Controllers.</p>
 <p>If you are interested in a direct practical comparison between the two systems, the <a href="../../../samples/animator-controllers/3d-game-kit">3D Game Kit</a> sample is dedicated to the process of converting an Animator Controller based character to use Animancer instead.</p>
 <h1 id="control">Control</h1>
 <p>Animator Controllers strictly limit the ways you can control them. They can only be configured in the Unity Editor, then their structure is mostly fixed in place and either cannot be changed at runtime or requires some additional setup to make certain changes possible where Animancer lets you just do those things directly:</p>
@@ -593,14 +593,14 @@
 <td>All details of <a href="../../../manual/transitions">Transitions</a> can be changed at any time.</td>
 </tr>
 <tr>
-<td>Dynamically change the <a href="../../../samples/fine-control/speed-and-time#speed">animation speed</a>.</td>
+<td>Dynamically change the animation speed.</td>
 <td><ol><li>Create a float parameter.</li><li>Link the state's speed to it.</li><li>Set that parameter.</li></ol></td>
-<td>Get a <a href="../../../manual/playing/states">State</a> and set its <code>Speed</code>.</td>
+<td><ol><li>Get a <a href="../../../manual/playing/states">State</a>.</li><li>Set its <code>Speed</code>.</li></ol></td>
 </tr>
 <tr>
-<td>Dynamically change the <a href="../../../samples/fine-control/speed-and-time#time">animation time</a>.</td>
+<td>Dynamically change the animation time.</td>
 <td>Call <code>animator.Play</code> with the <code>normalizedTime</code> parameter. Note that this will cancel any transition currently in progress and <a href="reliability">might get completely ignored</a>.</td>
-<td>Get a <a href="../../../manual/playing/states">State</a> and set its <code>Time</code> or <code>NormalizedTime</code>.</td>
+<td><ol><li>Get a <a href="../../../manual/playing/states">State</a>.</li><li>Set its <code>Time</code> or <code>NormalizedTime</code>.</li></ol></td>
 </tr>
 <tr>
 <td>Get or set the weight of a specific animation.</td>

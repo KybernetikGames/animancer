@@ -609,7 +609,6 @@ summary
 <p>There are several different animation systems available in Unity:</p>
 <p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/MecanimFAQ.html">Mecanim</a></strong> is Unity’s main animation system.</summary><p>It uses the <code>Animator</code> component with an <code>AnimatorController</code> asset which is configured using the Animator window and controlled by scripts using <a href="mecanim-vs-animancer/why/safety">Magic Strings</a>.</p><p>The <a href="mecanim-vs-animancer">Mecanim vs. Animancer</a> section explains the differences between it and Animancer in great detail and the <a href="../manual/animator-controllers/conversion">Conversion</a> page explains how the various features of Animator Controllers correspond to Animancer.</p></details><p></p>
 <p></p><details class="details"><summary class="summary"><strong><a href="https://docs.unity3d.com/Manual/Animations.html">Legacy</a></strong> is Unity’s old animation system.</summary><p>It uses the <code>Animation</code> component which is primarily configured via the Inspector and controlled by scripts using <a href="mecanim-vs-animancer/why/safety">Magic Strings</a>.</p></details><p></p>
-<p></p><details class="details"><summary class="summary"><strong><a href="https://github.com/Unity-Technologies/SimpleAnimation/wiki">Simple Animation</a></strong> is an abandoned side-project developed by Unity.</summary><p>It attempted to replicate the features of the Legacy animation system using the Playables API and was partially successful, but had several significant issues which were never fixed before the project was abandoned.</p></details><p></p>
 <p></p><details class="details"><summary class="summary"><strong><a href="/animancer">Animancer</a></strong> is a Unity plugin developed by Kybernetik.</summary><p>Animancer is also built upon the Playables API and focuses on giving scripts full control over the animations they use to allow for better management of responsibilities and dependencies.</p><p>Animancer Lite is the free version of Animancer which allows you to try out all the features for free in the Unity Editor, but disables some of them in runtime builds (indicated by <a href="#pro-only">[1]</a> in the table below).</p>The <a href="/animancer">Animancer home page</a> gives an overview of its features where this page is dedicated to comparing it with other systems.</details><p></p>
 <p></p><details class="details"><summary class="summary">The <strong><a href="https://docs.unity3d.com/Manual/Playables.html">Playables API</a></strong> is the low level API all these systems are built on (except Legacy).</summary><p>It isn't included in the table because it's so low-level that it doesn't really qualify as an animation system. It allows you to build animation systems like Animancer, but isn't easily useful on its own and is very poorly documented.</p></details><p></p>
 <table class="demo-fixed table table-bordered">
@@ -617,7 +616,6 @@ summary
     <tr><th style="font-size:2em">Animation System<br>Feature Comparison</th>
     <th style="width:15px"><div class="pane"><span class="vertical">Mecanim</span></div></th>
     <th style="width:15px"><div class="pane"><span class="vertical">Legacy</span></div></th>
-    <th style="width:15px"><div class="pane"><span class="vertical">Simple Animation</span></div></th>
     <th style="width:15px"><div class="pane"><span class="vertical">Animancer Lite</span></div></th>
     <th style="width:15px"><div class="pane"><span class="vertical">Animancer Pro</span></div></th>
   </tr></thead>
@@ -628,11 +626,10 @@ summary
   <tr>
     <td><details><summary>No need for Animator Controllers</summary>
       <p>Mecanim requires that all possible animation states be defined upfront in the Unity Editor as part of an Animator Controller asset and imposes severe limitations on your ability to have scripts control things at runtime.</p>
-      <p>Legacy and Simple Animation are primarily designed around assigning the animations you want to an array in the Inspector, but they do allow scripts to add more animations dynamically at runtime.</p>
-      <p>Animancer supports both Animator Controllers and assigning animations to an Inspector array, but its main focus is on allowing scripts to play any animation on-demand at runtime without requiring any unnecessary preparation beforehand.</p>
+      <p>Legacy was primarily designed around assigning the animations you want to an array in the Inspector, but they do allow scripts to add more animations dynamically at runtime.</p>
+      <p>Animancer supports both Animator Controllers and assigning animations to an Inspector array, but its main focus is on allowing scripts to play any animation on-demand at runtime without requiring any extra preparation beforehand.</p>
       By avoiding the need to define everything upfront, it becomes much easier to play animations from any source such as user created mods.</details></td>
     <td class="n">
-    </td><td class="y">
     </td><td class="y">
     </td><td class="y">
     </td><td class="y">
@@ -640,10 +637,9 @@ summary
   
   <tr>
     <td><details><summary>No need for magic strings</summary>
-      <p>Mecanim, Legacy, and Simple Animation are designed around assigning animations upfront so that scripts need to use <a href="mecanim-vs-animancer/why/safety">Magic Strings</a> to refer to them by name.</p>
+      <p>Mecanim and Legacy are designed around assigning animations upfront so that scripts need to use <a href="mecanim-vs-animancer/why/safety">Magic Strings</a> to refer to them by name.</p>
       Animancer instead focusses on allowing your scripts to be responsible for whatever animations they will be using. If a script wants to play an animation it can just get an <code>AnimationClip</code> and play it on demand rather than specifying a name and relying on that animation to have been assigned somewhere else. Refering to animations by name is still supported though.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -654,7 +650,6 @@ summary
       The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> shows all of its internal details in the Inspector so that you can view and modify their parameters in real time. See the <a href="../manual/playing/inspector">Inspector</a> page for more information.</details></td>
     <td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="y">
     </td><td class="y">
   </td></tr>
@@ -662,10 +657,9 @@ summary
   <tr>
     <td><details><summary>Configure animation and transition details in Edit Mode with previews</summary>
       <p>Mecanim allows you to configure details like play speed and transition duration when setting up the Animator Controller and gives you live previews so you can see what everything will look like without entering Play Mode.</p>
-      <p>Legacy and Simple Animation require you to specify those details in your scripts.</p>
+      <p>Legacy requires you to specify those details in your scripts.</p>
       Animancer supports both approaches. You can use <a href="../manual/transitions">Transitions</a> to be able to configure the details in the Inspector or you can control all the same details in a script without any additional setup.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -673,10 +667,9 @@ summary
   
   <tr>
     <td><details><summary>Use Animation Curves to control custom parameters</summary>
-      <p>If a parameter in an Animator Controller has the same name as a curve in any of the animations it is playing, Mecanim will automatically update that parameter every frame with the value of the curve at the current animation time. If it is blending between multiple animations with the same curve, the value of the parameter will also be blended between them.</p>
+      <p>If a parameter in an Animator Controller has the same name as a curve in any of the animations it's playing, Mecanim will automatically update that parameter every frame with the value of the curve at the current animation time. If it's blending between multiple animations with the same curve, the value of the parameter will also be blended between them.</p>
       Animancer supports the same thing with <a href="../manual/ik#animated-properties">Animated Properties</a> as demonstrated in the <a href="../samples/ik/uneven-ground">Uneven Ground</a> sample.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -686,9 +679,8 @@ summary
     <td><details><summary>Well documented source code included</summary>
       <p>Animancer Pro includes the full source code so that you can look through it, debug problems, and make any necessary modifications without being dependant on the author for help.</p>
       <p>The <a href="../source/dlls"><em>Animancer.Lite.dll</em></a> files in the Pro package are empty dummies to ensure seamless upgrades from Lite to Pro. They contain no code and are not included in builds.</p>
-      Animancer Lite only includes the source code for <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the scripts in the <em>Assets/Plugins/Animancer/Utilities</em> folder which includes <code>Animancer.FSM</code> (the entire <a href="../manual/fsm">State Machine</a> system), <code><a href="/animancer/api/Animancer/DirectionalAnimationSet">DirectionalAnimationSet</a></code>, and <code>ExposedCurve</code>, as well as several others (and of course the full source code of all the <a href="../samples/">sample scenes</a>).</details></td>
+      Animancer Lite only includes the source code for the <a href="../manual/fsm">State Machine</a> system, various utilities, and of course the full source code of all the <a href="../samples/">sample scenes</a>.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="y">
@@ -697,10 +689,9 @@ summary
   
   <tr>
     <td><details><summary>Control animation details dynamically (transition duration, speed, time, weight, etc.)</summary>
-      <p>Mecanim encourages you to configure parameter based transitions using the Animator window which then cannot be changed at runtime. It gives you no real control over individual animation weights. It does allow you to control speed and time indirectly by creating a parameter to control them then modifying that parameter, however in the case of time this means that you need to manually update the parameter every frame to keep playing (you cannot simply set the time when you want to change it and let it play normally the rest of the time).</p>
+      <p>Mecanim encourages you to configure parameter based transitions using the Animator window which then can't be changed at runtime. It gives you no real control over individual animation weights. It does allow you to control speed and time indirectly by creating a parameter to control them then modifying that parameter, however in the case of time this means that you need to manually update the parameter every frame to keep playing (you can't simply set the time when you want to change it and let it play normally the rest of the time).</p>
       The other systems give scripts access to these parameters without any additional steps.</details></td>
     <td class="n">
-    </td><td class="y">
     </td><td class="y">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -726,15 +717,13 @@ animancer.Play("Attack");
     </td><td class="y">
     </td><td class="y">
     </td><td class="y">
-    </td><td class="y">
   </td></tr>
   
   <tr>
     <td><details><summary>Custom event system</summary>
       <p>All the animation systems mentioned here support Unity's inbuilt <a href="../manual/events/animation">Animation Events</a>.</p>
-      Animancer has its own <a href="../manual/events/animancer">Event System</a> which <a href="../manual/events">is often more convenient to use</a>.</details></td>
+      Animancer also has its own <a href="../manual/events/animancer">Event System</a> which <a href="../manual/events">is often more convenient to use</a>.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -743,19 +732,17 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>Begin transitions before the previous animations finish</summary>
       <p>When configuring a transition in Mecanim or Animancer, you can adjust its timing independantly of the actual end of the animation to tweak the result as you see fit.</p>
-      Legacy and Simple Animation allow you to queue animations to play or cross fade one after the other, but the transition always occurs when the previous animation finishes.</details></td>
+      Legacy allows you to queue animations to play or cross fade one after the other, but the transition always occurs when the previous animation finishes.</details></td>
     <td class="y">
     </td><td class="n">
-    </td><td class="n">
-    </td><td class="n"><a href="#pro-only">[1]</a></td>
-    <td class="y">
+    </td><td class="y">
+    </td><td class="y">
   </td></tr>
   
   <tr>
     <td><details><summary>Easily wait for animations to finish</summary>
       Animancer supports several easy ways of <a href="../manual/events/end">Waiting for Animations to End</a>, including <a href="../manual/events/end#events">Events</a> and the ability to simply <code>yield return</code> an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> in a <a href="../manual/events/end#coroutines">Coroutine</a>.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -765,7 +752,6 @@ animancer.Play("Attack");
     <td><details><summary>Play animations in Edit Mode</summary>
       Animancer allows animations to be played in <a href="../manual/playing/edit-mode">Edit Mode</a> just as easily as in Play Mode. The <a href="../samples/fine-control/doors">Doors</a> sample uses this to show how far open each door is when editing the scene.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -779,14 +765,12 @@ animancer.Play("Attack");
     </td><td class="y">
     </td><td class="y">
     </td><td class="y">
-    </td><td class="y">
   </td></tr>
   
   <tr>
     <td><details><summary>Unscaled Time Update Mode</summary>
       All animation systems support Animate Physics and Manual update modes, but only Mecanim and Animancer support Unscaled Time mode which can be useful for things like GUI animations which should always play at their regular speed even while the game is paused.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -796,7 +780,6 @@ animancer.Play("Attack");
     <td><details><summary>Easily use Animation Jobs and custom state types</summary>
       Animancer allows you to easily utilise <a href="../samples/jobs">Animation Jobs</a> for low level access to the animation stream as well as creating your own state types by inheriting from <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> (or any of its child classes) so that you can implement custom behaviour. For example, you might inherit from <code>MixerState</code> to implement a new blending algorithm.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -809,7 +792,6 @@ animancer.Play("Attack");
       Animancer Lite doesn't allow you to specify a custom fade duration in runtime builds (you can try out any value in the Unity Editor, but it will only use the default 0.25 seconds in a build).</details></td>
     <td class="y">
     </td><td class="y">
-    </td><td class="y">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
   </td></tr>
@@ -818,10 +800,9 @@ animancer.Play("Attack");
     <td><details><summary>Smoothly transition back into an animation that is currently ending</summary>
       <p>Imagine you want to repeatedly perform an action consisting of a single animation with a smooth transition from the end of one action to the start of the next.</p>
       <p>Most systems only allow each state to have one set of values; it can either be near the end and fading out or near the start and fading in, but not both. Attempting to do so will cause it to either snap back to the start without a smooth transition or ignore you completely, depending on the system.</p>
-      <p>Animancer has a <a href="../manual/blending/fading"><code>CrossFadeFromStart</code></a> method which checks if the animation state is still in use and will simply create another state for the same animation if necessary. This allows the new state to fade in from the start while the previous state continues fading out. You could potentially do the same thing with the other systems, but it isn't built in and Mecanim in particular would require significantly more effort because it doesn't allow states to be created dynamically at runtime.</p>
-      The <a href="../samples/basics/transitions">Transitions</a> sample covers this concept in greater detail.</details></td>
+      <p>Animancer has <a href="../manual/blending/fading/modes">FadeMode.FromStart</a> which checks if the animation state is still in use and will simply create another state for the same animation if necessary. This allows the new state to fade in from the start while the previous state continues fading out. You could potentially do the same thing with the other systems, but it'sn't built in and Mecanim in particular would require significantly more effort because it doesn't allow states to be created dynamically at runtime.</p>
+      The <a href="../samples/basics/transitions">Transitions</a> sample explains this concept in greater detail.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -832,7 +813,6 @@ animancer.Play("Attack");
       Animancer has a <a href="../manual/blending/fading#custom-fade">Custom Fade</a> system which makes it easy to replace the default Linear Interpolation with a different algorithm of your choice.</details></td>
     <td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
   </td></tr>
@@ -841,7 +821,6 @@ animancer.Play("Attack");
     <td><details><summary>Mix and blend between multiple Animator Controllers</summary>
       Mecanim only allows one Animator Controller at a time while Animancer's <a href="../manual/animator-controllers">Controller States</a> allow you to mix multiple controllers with each other and with individual animations controlled directly by scripts.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -852,18 +831,16 @@ animancer.Play("Attack");
       Animancer's <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>s allow <a href="../manual/timeline">Timeline Assets</a> to be played and blended with other animations, just like any other state.</details></td>
     <td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
   </td></tr>
   
   <tr>
     <td><details><summary>Animation Layers</summary>
-      <p>Layers allow you to manage multiple animations at the same time (generally on different body parts). See <a href="../manual/blending/layers">Layers</a> for more information.</p>
-      Also note that Animancer and Legacy allow you to change which layer an animation is playing on at runtime while Mecanim does not.</details></td>
+      <p><a href="../manual/blending/layers">Layers</a> allow you to manage multiple animations at the same time, generally on different body parts.</p>
+      Also note that Animancer and Legacy allow you to change which layer an animation is playing on at runtime while Mecanim doesn't.</details></td>
     <td class="y">
     </td><td class="y">
-    </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
   </td></tr>
@@ -873,7 +850,6 @@ animancer.Play("Attack");
       <p>Blend Trees allow you to interpolate between multiple animations based on a parameter. For example, you might blend between idle, walk, and run based on how fast you want to move so that you can have your character animate appropriately for any speed based on how far the user tilts a joystick instead of only having a few specific speeds you can move at.</p>
       Animancer can play Blend Trees inside <a href="../manual/animator-controllers">Animator Controllers</a>, but also has <a href="../manual/blending/mixers">Mixer States</a> which serve the same purpose and allow much greater control over their internal details.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
@@ -886,7 +862,6 @@ animancer.Play("Attack");
       Blend Trees also synchronize their animation times (and <em>Humanoid</em> animations use <a href="../manual/blending/mixers/synchronization#foot-phase-synchronization">Foot Phase Synchronization</a> as mentioned below), but they always apply it to everything and you have no control over it. This means that blending between a long <em>Idle</em> and shorter <em>Walk</em> animation would speed up the <em>Idle</em> and slow down the <em>Walk</em>, causing the character to walk arbitrarily slower based on the length of their <em>Idle</em> animation which makes no sense.</details></td>
     <td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="n"><a href="#pro-only">[1]</a></td>
     <td class="y">
   </td></tr>
@@ -898,7 +873,6 @@ animancer.Play("Attack");
       Unfortunately, Unity doesn't expose the data necessary to perform <a href="../manual/blending/mixers/synchronization#foot-phase-synchronization">Foot Phase Synchronization</a> at runtime so Animancer's <a href="../manual/blending/mixers">Mixer States</a> aren't able to use it. Using <a href="../manual/animator-controllers">Controller States</a> to play an Animator Controller with a Blend Tree will allow its <a href="../manual/blending/mixers#foot-phase-synchronization">Foot Phase Synchronization</a> to work normally though.</p></details></td>
     <td class="y">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="n"><a href="#animator-controller">[2]</a></td>
     <td class="n"><a href="#animator-controller">[2]</a></td>
   </tr>
@@ -906,10 +880,9 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>Root Motion</summary>
       <p>Traditional animations generally remain fixed in place and rely on other systems to move characters around such as Rigidbodies or Character Controllers. For example, a walk animation would move the character's arms and legs naturally, but the character itself would remain in place as if walking on a treadmil.</p>
-      Root motion allows animations to move the character around more naturally. This allows you to trade some dynamic scripting control in exchange for more natural motion.</details></td>
+      <a href="../manual/other/root-motion">Root Motion</a> allows animations to move the character around more naturally. This allows you to trade some dynamic scripting control in exchange for more natural motion.</details></td>
     <td class="y">
     </td><td class="n">
-    </td><td class="y">
     </td><td class="y">
     </td><td class="y">
   </td></tr>
@@ -922,7 +895,6 @@ animancer.Play("Attack");
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
-    </td><td class="y">
   </td></tr>
   
   <tr>
@@ -933,7 +905,6 @@ animancer.Play("Attack");
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
-    </td><td class="y">
   </td></tr>
   
   <tr>
@@ -941,17 +912,15 @@ animancer.Play("Attack");
       In addition to the import settings toggle, Animator Controllers also have a toggle to allow individual animation states to mirror their animation. This allows you to save some drive space and memory usage if you need both the mirrored and original version of an animation, but it also has a small cost to performance at runtime.</details></td>
     <td class="y">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="n"><a href="#animator-controller">[2]</a></td>
     <td class="n"><a href="#animator-controller">[2]</a></td>
   </tr>
   
   <tr>
     <td><details><summary>Inverse Kinematics</summary>
-      <p>The Playables API exposes standard IK features which Mecanim and Animancer can utilise, however Simple Animation does not support these features because it was designed to replicate Legacy which does not support them.</p>
+      <p>The Playables API exposes standard IK features which Mecanim and Animancer can utilise, but not Legacy.</p>
       Also note that due to <a href="https://docs.unity3d.com/ScriptReference/Animations.AnimationClipPlayable.SetApplyPlayableIK">limitations in the Playables API</a>, Unity will only ever call <code>OnAnimatorIK</code> on layer 0 when using Animancer.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -960,9 +929,8 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>Target Matching</summary>
       <p>Mecanim has a <a href="https://docs.unity3d.com/Manual/TargetMatching">Target Matching</a> system which essentially manages the application of Inverse Kinematics over time.</p>
-      Unfortunately that system is only usable with Animator Controllers so it does not work with any of the other animation systems.</details></td>
+      Unfortunately that system is only usable with Animator Controllers so it doesn't work with any of the other animation systems.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -972,10 +940,9 @@ animancer.Play("Attack");
   <tr>
     <td><details><summary>General purpose Finite State Machine</summary>
       <p>Animator Controllers can be used to manage the gameplay state of an object as part of its animation state.</p>
-      <p>Animancer is not tied to a specific state machine implementation, but it does include a general purpose <a href="../manual/fsm">Finite State Machine</a> system in the <code>Animancer.FSM</code> namespace which is entirely separate from the animation system and is flexible enough for most needs. They work well together, but you can very easily modify it or use any other system you prefer.</p>
+      <p>Animancer isn't tied to a specific state machine implementation, but it does include a general purpose <a href="../manual/fsm">Finite State Machine</a> system in the <code>Animancer.FSM</code> namespace which is entirely separate from the animation system and is flexible enough for most needs. They work well together, but you can very easily modify it or use any other system you prefer.</p>
       Like Animancer itself, controlling the <code>Animancer.FSM</code> is immediate and reliable. It doesn't need to wait for the next update to respond to your commands. It doesn't actually have an update loop of its own, but you can easily give your states an update method (or methods) for whatever rate you need (<code>Update</code>, <code>FixedUpdate</code>, <code>LateUpdate</code>, etc.)</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -987,7 +954,6 @@ animancer.Play("Attack");
       Animancer primarily focusses on the use of scripts to control animations, however it does allow you to create <code>AnimatorController</code> assets using Mecanim's visual interface and play them using <a href="../manual/animator-controllers">Controller States</a>.</details></td>
     <td class="y">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="n"><a href="#animator-controller">[2]</a></td>
     <td class="n"><a href="#animator-controller">[2]</a></td>
   </tr>
@@ -996,7 +962,6 @@ animancer.Play("Attack");
     <td><details><summary>Constructed by scripts</summary>
       The <code>Animancer.FSM</code> system is entirely configured and controlled by scripts so the logic for what happens during a particular state can be defined alongside the logic for when it will transition to other states rather than having some of that logic in an Animator Controller and the rest in scripts.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -1008,16 +973,14 @@ animancer.Play("Attack");
       But the <code>Animancer.FSM</code> system can be changed based on any criteria you want and doesn't even need to have all its states defined in the same place or configured on startup.</details></td>
     <td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="y">
     </td><td class="y">
   </td></tr>
   
   <tr>
     <td><details><summary>States can be MonoBehaviour, ScriptableObject, or any other type</summary>
-      The only requirement for a class to be used as a state in the <code>Animancer.FSM</code> system is to inherit from <code>IState&lt;TState&gt;</code>. This means they can be <code>MonoBehaviour</code> components to receive updates, collision events, and other messages, or <code>ScriptableObject</code> assets which can be referenced anywhere in the project, or even just regular classes which are fully constructed and managed by scripts.</details></td>
+      The only requirement for a class to be used as a state in the <code>Animancer.FSM</code> system is to inherit from <code><a href="/animancer/api/Animancer.FSM/IState">IState</a></code>. This means they can be <code>MonoBehaviour</code> components to receive updates, collision events, and other messages, or <code>ScriptableObject</code> assets which can be referenced anywhere in the project, or even just regular classes which are fully constructed and managed by scripts.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="y">
     </td><td class="y">
@@ -1025,10 +988,9 @@ animancer.Play("Attack");
   
   <tr>
     <td><details><summary>Inbuilt networking support</summary>
-      <p>Mecanim allows Animator Controllers to be synchronised across a network using the <a href="https://docs.unity3d.com/Manual/class-NetworkAnimator.html">Network Animator</a> component (though that system is now deprecated).</p>
-      Animancer and the other systems do not have anything similar. The <a href="../manual/fsm/overview#networking">Networking</a> section explains why.</details></td>
+      <p>Mecanim allows Animator Controllers to be synchronised across a network using the <a href="https://docs-multiplayer.unity3d.com/netcode/current/components/networkanimator">Network Animator</a> component (though that system is now deprecated).</p>
+      Animancer and Legacy don't have anything similar, though the <a href="../samples/mixers/serialization">Animation Serialization</a> sample explains how it could be implemented.</details></td>
     <td class="y">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="n">
@@ -1037,9 +999,8 @@ animancer.Play("Attack");
   
   <tr>
     <td><details><summary>Pack multiple separate textures into one.</summary>
-      Rather than having a separate texture asset for each <code>Sprite</code>, it is generally more efficient to group many of them into a single texture which can be easily done using the <a href="../manual/tools/pack-textures">Pack Textures</a> tool.</details></td>
+      Rather than having a separate texture asset for each <code>Sprite</code>, it's generally more efficient to group many of them into a single texture which can be easily done using the <a href="../manual/tools/pack-textures">Pack Textures</a> tool.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="y">
@@ -1051,7 +1012,6 @@ animancer.Play("Attack");
     <td class="n">
     </td><td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="y">
   </td></tr>
   
@@ -1061,15 +1021,13 @@ animancer.Play("Attack");
     <td class="n">
     </td><td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="y">
   </td></tr>
   
   <tr>
     <td><details><summary>Rename multiple Sprites at once.</summary>
-      When Unity's <a href="https://docs.unity3d.com/Manual/SpriteEditor.html">Sprite Editor</a> creates <code>Sprite</code>s from an image asset, it gives them all the same name as the image with a number on the end which is not very helpful if you have lots of them. The <a href="../manual/tools/rename-sprites">Rename Sprites</a> tool allows you to rename multiple <code>Sprite</code>s at once instead of doing them one at a time.</details></td>
+      When Unity's <a href="https://docs.unity3d.com/Manual/SpriteEditor.html">Sprite Editor</a> creates <code>Sprite</code>s from an image asset, it gives them all the same name as the image with a number on the end which isn't very helpful if you have lots of them. The <a href="../manual/tools/rename-sprites">Rename Sprites</a> tool allows you to rename multiple <code>Sprite</code>s at once instead of doing them one at a time.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="y">
@@ -1081,7 +1039,6 @@ animancer.Play("Attack");
     <td class="n">
     </td><td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="y">
   </td></tr>
   
@@ -1089,7 +1046,6 @@ animancer.Play("Attack");
     <td><details><summary>Change an animation to use different Sprites.</summary>
       The <a href="../manual/tools/remap-sprite-animation">Remap Sprite Animation</a> tool allows you to change an animation to use different <code>Sprite</code>s. You can assign each <code>Sprite</code> individually, or drag and drop a whole group onto the <code>New Sprites</code> list to assign them all in one go. Otherwise you would need to change them one by one in Unity's Animation window.</details></td>
     <td class="n">
-    </td><td class="n">
     </td><td class="n">
     </td><td class="n">
     </td><td class="y">
@@ -1101,14 +1057,13 @@ animancer.Play("Attack");
     <td class="n">
     </td><td class="n">
     </td><td class="n">
-    </td><td class="n">
     </td><td class="y">
   </td></tr>
   
   </tbody>
 </table>
 <p id="pro-only"><strong>[1]</strong> Animancer Lite includes these features in the Unity Editor so you can try them out, but they will not be available in runtime builds unless you purchase Animancer Pro. All Pro-Only features are commented as such and using them will log a message in the Console to make sure you are aware of the restriction.</p>
-<p id="animator-controller"><strong>[2]</strong> While Animancer itself does not have these features, you can still use them while configuring an Animator Controller for use in a <a href="../manual/animator-controllers">Controller State</a> (Pro-Only, see <a href="#pro-only">[1]</a>).</p>
+<p id="animator-controller"><strong>[2]</strong> While Animancer itself doesn't have these features, you can still use them while configuring an Animator Controller for use in a <a href="../manual/animator-controllers">Controller State</a> (Pro-Only, see <a href="#pro-only">[1]</a>).</p>
 
 	</section>
                 

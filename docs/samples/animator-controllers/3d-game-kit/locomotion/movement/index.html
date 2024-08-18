@@ -718,7 +718,7 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameK
         transform.rotation *= _Character.Animancer.Animator.deltaRotation;
     }
 </code></pre>
-<p>Note that it also <a href="../../../../locomotion/root-motion#redirecting-root-motion">Redirects the Root Motion</a> from the character's model to the root object where the <code>CharacterController</code> is located.</p>
+<p>Note that it also <a href="../../../manual/other/root-motion#redirecting-root-motion">Redirects the Root Motion</a> from the character's model to the root object where the <code>CharacterController</code> is located.</p>
 <h2 id="get-root-motion">Get Root Motion</h2>
 <p>The Mecanim character's <code>PlayerController</code> class was responsible for determining what root motion to use depending on its state. Specifically, when grounded it used the root motion from animations and when airborne it simply applied the character's forward speed. This was bad because it meant that class needed intimate knowledge of every state. Adding a jumping attack would require modifying that method. Adding a glide ability would require modifying that method. And so on.</p>
 <p>But since each of our states is a separate class, we can use the power of <a href="/cs-unity/docs/introduction/inheritance#polymorphism">Polymorphism</a> to give the base <code>CharacterState</code> class a <code>virtual</code> property with a default implementation so that all states will use root motion from animations by default:</p>
