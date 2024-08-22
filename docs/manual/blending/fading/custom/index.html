@@ -344,7 +344,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
                 <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
 
                     </ul>
@@ -379,6 +378,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/docs/manual/parameters">Parameters</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -546,7 +546,8 @@
 			<h1>Custom Fading</h1>
 		</section>
 	<section class="content">
-		<p>All fades are linear by default, i.e. they move the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> towards the <code><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">AnimancerNode.TargetWeight</a></code> at a constant <code><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">AnimancerNode.FadeSpeed</a></code> calculated when starting the fade. But that does not always give the smoothest transitions so Animancer includes a <code>CustomFade</code> system which allows you to modify a fade progress using a standard <code><a href="/animancer/api/Animancer/Function">Easing.Function</a></code>, an <code>AnimationCurve</code>, or a custom delegate.</p>
+		<div class="pro-only-feature-trial"><a href="/animancer/docs/introduction/features#pro-only"><div><strong>Pro-Only Feature</strong><br></div></a></div>
+<p>All fades are linear by default, i.e. they move the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> towards the <code><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">AnimancerNode.TargetWeight</a></code> at a constant <code><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">AnimancerNode.FadeSpeed</a></code> calculated when starting the fade. But that does not always give the smoothest transitions so Animancer includes a <code>CustomFade</code> system which allows you to modify a fade progress using a standard <code><a href="/animancer/api/Animancer/Function">Easing.Function</a></code>, an <code>AnimationCurve</code>, or a custom delegate.</p>
 <p>The <a href="../../../../samples/animator-controllers/3d-game-kit">3D Game Kit</a> sample demonstrates the use of this feature to smooth out the transitions between its <a href="../../../../samples/animator-controllers/3d-game-kit/idle#custom-fade">Idle</a> animations.</p>
 <p>To use the system, simply call any of the static <code>CustomFade.Apply</code> methods right after calling <code>animancer.Play</code> normally:</p>
 <pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
@@ -567,7 +568,6 @@ protected virtual void Awake()
     // Anything else you play after this will automatically cancel the custom fade.
 }
 </code></pre>
-<p><em>The <code>CustomFade</code> system is located in the <em>Utilities</em> folder, meaning that its source code is even included in <a href="/animancer/redirect/lite">Animancer Lite</a> to demonstrate how the system can be extended, however it relies on the ability to set the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> which is a <a href="../../../../introduction/features"><strong>Pro-Only Feature</strong></a> so it cannot be used in runtime builds unless you purchase <a href="/animancer/redirect/pro">Animancer Pro</a>.</em></p>
 <h1 id="curve-preset-libraries">Curve Preset Libraries</h1>
 <p><code>AnimationCurve</code> fields are convenient for easily visualising and editing curve functions in the Inspector, however they can be somewhat tedious to set up complex and consistent curves. Fortunately, Unity allows you to define Curve Preset Libraries so you can simply <strong><a href="animancer-curve-presets.unitypackage">download the Animancer Curve Presets from here</a></strong> and use them as a starting point for your own curves. Note that these curves were configured by hand with the minimum number of keyframes for efficiency. They do not cover the <em>exact</em> same set of functions as the <code><a href="/animancer/api/Animancer/Easing">Easing</a></code> class and any that have the same name will have slight differences in their exact values.</p>
 <img src="curve-presets.png" class="pngif img-responsive">

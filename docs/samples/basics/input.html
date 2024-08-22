@@ -344,7 +344,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
                 <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
 
                     </ul>
@@ -379,6 +378,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/docs/manual/parameters">Parameters</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -553,7 +553,7 @@
 </ul>
 <p>In a game project you would generally pick one system or the other (the <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">Input System Package</a> is generally recommended), but the Animancer samples need to work in projects using either system so they manage all their input via the <code><a href="/animancer/api/Animancer.Samples/SampleInput">SampleInput</a></code> script which uses <a href="/cs-unity/docs/introduction/methods/conditional">Conditional Compilation</a> to determine which system to use. For example:</p>
 <pre><code class="language-cs">public static bool LeftMouseDown
-#if ENABLE_INPUT_SYSTEM// If the Input System Package is active it will use this code:
+#if UNITY_INPUT_SYSTEM// If the Input System Package is active it will use this code:
     =&gt; Mouse.current.leftButton.wasPressedThisFrame;
 #else// Otherwise it will use this code for the Input Manager:
     =&gt; Input.GetMouseButtonDown(0);

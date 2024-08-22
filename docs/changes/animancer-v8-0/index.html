@@ -361,7 +361,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
                 <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
 
                     </ul>
@@ -396,6 +395,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/docs/manual/parameters">Parameters</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -896,7 +896,7 @@ public class WalkExample : MonoBehaviour
 <li>Animancer includes its own <code><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></code> class which simply inherits from Unity's regular one and implements <code><a href="/animancer/api/Animancer/IInvokable">IInvokable</a></code> so it can be used for event callbacks exactly the same as before.
 <ul>
 <li>Since regular serialized fields store their data differently to <code>[SerializeReference]</code> fields, this is one of the changes that would result in data loss if you don't run the <a href="upgrade-guide#serialized-data-migration">Serialized Data Migration</a> tool explained in the <a href="upgrade-guide">Upgrade Guide</a>.</li>
-<li>It also supports <a href="/ultevents">UltEvents</a> in the same way, which is much better than the old system where you could only use <code><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></code>s or <code>UltEvent</code>s and swapping between them would lose all your event data.</li>
+<li>It also supports <a href="/ultevents">UltEvents</a> in the same way, which is much better than the old system where you could only use <code><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></code>s or <code><a href="/animancer/api/Animancer/UltEvent">UltEvent</a></code>s and swapping between them would lose all your event data.</li>
 </ul>
 </li>
 <li>The parameter issue is handled by <code><a href="/animancer/api/Animancer/Parameter_1">AnimancerEvent.Parameter&lt;T&gt;</a></code> which is an <code><a href="/animancer/api/Animancer/IInvokable">IInvokable</a></code> that sets the static <code><a href="/animancer/api/Animancer/AnimancerEvent/021F1C2C">AnimancerEvent.CurrentParameter</a></code> property then invokes the bound callback.
@@ -1315,6 +1315,7 @@ state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
+<li>Fixed various compile errors that can be caused from having disabled inbuilt Unity modules such as Physics, mostly due to the samples.</li>
 <li>Fixed the <code><a href="/animancer/api/Animancer.Editor/ReadMe">ReadMe</a></code> to only log that a new version is available once per Unity Editor session instead of logging again every domain reload.</li>
 <li>Fixed fading to include the root <code>AnimancerGraph.Speed</code> in the fade time progression.</li>
 <li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/9AE29F48">AnimancerEditorUtilities.PlayModeState</a></code> to be properly initialized in Edit Mode.</li>

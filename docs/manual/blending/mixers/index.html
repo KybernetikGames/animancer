@@ -346,7 +346,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
                 <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
 
                     </ul>
@@ -381,6 +380,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/docs/manual/parameters">Parameters</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -549,9 +549,11 @@
 		</section>
 	<section class="content">
 		
-<div class="pro-only-feature"><a href="/animancer/docs/introduction/features"><div><strong>Pro-Only Feature</strong><br></div></a></div>
+<div class="pro-only-feature-trial"><a href="/animancer/docs/introduction/features#pro-only"><div><strong>Pro-Only Feature</strong><br></div></a></div>
 
 <p>Mixers serve the same purpose as Mecanim <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a>; they allow you to blend multiple animations based on a parameter. For example, you might blend between <em>Idle</em>, <em>Walk</em>, and <em>Run</em> based on how fast you want the character to move (such as in proportion to how far the user tilts a joystick) so that they animate appropriately for any speed instead of only having a few specific speeds they can move at.</p>
+
+<p>Also note that <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> can be played in Animancer using using <a href="../../animator-controllers">Controller States</a>.</p>
 
 
 
@@ -598,8 +600,6 @@
    </tr>
   </tbody>
 </table>
-
-<p>Also note that <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Trees</a> can be played in Animancer using using <a href="../../animator-controllers#parameter-controller-states">Parameter Controller States</a>.</p>
 
 
 
@@ -648,7 +648,7 @@
 
 <h2>Manual Mixers</h2>
 
-<p><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>s allow you to simply control the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> of each state manually without any automated calculations. This is often useful for additive animations and blend shapes for things like facial expressions.</p>
+<p><code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>s allow you to simply control the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> of each state manually without any automated calculations. This is often useful for additive animations and blend shapes for things like facial expressions, though the <a href="../../../samples/layers/face">Facial Expressions</a> sample simply puts all the facial blend shape animations on their own <a href="../layers">Layer</a>.</p>
 
 
 
@@ -658,6 +658,8 @@
 <p>Other Mixers have a <code>Parameter</code> property and <code>Thresholds</code> array which are used to calculate the weight of each state for you.</p>
 
 <ul>
+  <li>Mixer <code>Parameter</code>s can be bound to <a href="../../parameters">Animancer Parameters</a> so that their values can be controlled without needing to directly access the state.</li>
+  <li>Setting a <code>Parameter</code> value takes effect immediately, it isn't affected by the fade duration of a transition and doesn't happen smoothly over time unless you apply <a href="../../parameters#smoothing">Parameter Smoothing</a> to it.</li>
   <li>The <a href="creation">Mixer Creation</a> page explains how to set the <code>Thresholds</code>.</li>
   <li>When the <code>Parameter</code> is exactly equal to a particular threshold, the corresponding state will be at exactly 1 weight.</li>
   <li><code>Parameter</code> values between the <code>Thresholds</code> will calculate fractional weights based on the interpolation algorithm being used.</li>
@@ -698,12 +700,11 @@
     <a href="../../events/animancer">Animancer Events</a> can be assigned to a Mixer or its child animations:
     <ul>
       <li>Events on the Mixer will trigger based on the weighted average <code>NormalizedTime</code> of all children.</li>
-      <li>Events on a child will trigger based on the <code>NormalizedTime</code> of that specific child.</li>
+      <li>Events on a child will trigger based on the <code>NormalizedTime</code> of that specific child. All children are always playing and therefore triggering their events while the Mixer is playing, so you may need to check if the <code>AnimancerEvent.Current.State.Weight</code> is zero or a small number to ignore any events you don't want.</li>
+      <li><a href="../../events/animation">Animation Events</a> work the same as <a href="../../events/animancer">Animancer Events</a> registered on the Mixer's children, except they don't have any way to determine which child they came from.</li>
     </ul>
   </li>
-  <li>The Inspector for a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a> only allows you to configure events for the Mixer itself, but if you assign a <a href="../../transitions/assets">Transition Asset</a> as one of its animations then that asset can define the events for that animation.</li>
-  <li>While a Mixer is playing, events for all of its children will be triggered at the appropriate times, even those with no <code>Weight</code>. If you want to avoid this, you can access the <code>AnimancerEvent.CurrentState</code> during an event callback to check if the event should actually do anything.</li>
-  <li><a href="../../events/animation">Animation Events</a> work the same as <a href="../../events/animancer">Animancer Events</a> registered on the Mixer's children.</li>
+  <li>The Inspector for a <a href="../../transitions/types#mixer-transitions">Mixer Transition</a> only allows you to configure events for the Mixer itself, but if you assign a <a href="../../transitions/assets">Transition Asset</a> as one of its animations then that asset can define the events for that child.</li>
 </ul>
 
 
@@ -718,11 +719,6 @@
 									<td><strong><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></strong></td>
 									<td>
 There are a few different ways you can create a Mixer.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></strong></td>
-									<td>
-Smoothly change the parameter of a Mixer over time.									</td>
 								</tr>
 								<tr>
 									<td><strong><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></strong></td>

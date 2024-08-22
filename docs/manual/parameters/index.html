@@ -83,6 +83,7 @@
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#cached-example">Cached Example</a></p>
 <p><a href="#lazy-example">Lazy Example</a></p>
+<p><a href="#smoothing">Smoothing</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -345,7 +346,6 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
                 <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
 
                     </ul>
@@ -561,15 +561,15 @@
 <li>A parameter of <strong>any type</strong> can be created, but it can then only contain values of that type.</li>
 </ul>
 <h1 id="cached-example">Cached Example</h1>
-<p>The most efficient way to access frequently used parameters is to store them in a <code>Parameter&lt;T&gt;</code> field, where <code>T</code> is the <a href="/cs-unity/docs/introduction/organization#generics">Generic Argument</a> specifying the type of value it will contain.</p>
+<p>The most efficient way to access frequently used parameters is to store them in a <code><a href="/animancer/api/Animancer/Parameter_1">Parameter&lt;T&gt;</a></code> field, where <code>T</code> is the <a href="/cs-unity/docs/introduction/organization#generics">Generic Argument</a> specifying the type of value it will contain.</p>
 <pre><code class="language-cs">public class CachedParameterExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private StringAsset _ParameterName;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterName;
 
     private Parameter&lt;float&gt; _Parameter;
 </code></pre>
-<p>On startup, you access the <code>AnimancerComponent.Parameters</code> dictionary to <code>GetOrCreate</code> the parameter you want, meaning that whatever system access a parameter with a particular name first will create it then any other system to use the same name will be given the same parameter.</p>
+<p>On startup, you access the <code><a href="/animancer/api/Animancer/AnimancerComponent/18078815">AnimancerComponent.Parameters</a></code> dictionary to <code>GetOrCreate</code> the parameter you want, meaning that whatever system access a parameter with a particular name first will create it then any other system to use the same name will be given the same parameter.</p>
 <pre><code class="language-cs">    protected virtual void Awake()
     {
         _Parameter = _Animancer.Parameters.GetOrCreate&lt;float&gt;(_ParameterName);
@@ -595,8 +595,8 @@
 <p>If the above example wasn't setting the <code>Value</code> and only needed to listen for <code>OnValueChanged</code>, it could use <code>AddOnValueChanged</code> without losing any efficiency.</p>
 <pre><code class="language-cs">public class LazyParameterExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private StringAsset _ParameterName;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterName;
     
     protected virtual void Awake()
     {
@@ -615,6 +615,38 @@
     }
 }
 </code></pre>
+<h1 id="smoothing">Smoothing</h1>
+<p>Changing a parameter value takes effect immediately, so if you want it to change gradually over time you can use a <code><a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a></code> or <code><a href="/animancer/api/Animancer/SmoothedVector2Parameter">SmoothedVector2Parameter</a></code> as demonstrated in the <a href="../../samples/mixers/directional">Directional Mixer</a> and <a href="../../samples/fsm/brains">Brains</a> samples.</p>
+<pre><code class="language-cs">public class ParameterSmoothingExample : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _Parameter;
+    [SerializeField] private float _ParameterSmoothTime = 0.15f;
+</code></pre>
+<p>Initializing a <code><a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a></code> takes the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> containing the parameter, a <a href="../other/strings">String Reference or Asset</a> to specify its name, and the approximate amount of time you want it to take to reach the target value using the internan <a href="https://docs.unity3d.com/ScriptReference/Mathf.SmoothDamp.html"><code>Mathf.SmoothTime</code></a>.</p>
+<pre><code class="language-cs">    private <a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a> _SmoothedParameter;
+
+    protected virtual void Awake()
+    {
+        _SmoothedParameter = new SmoothedFloatParameter(
+            _Animancer,
+            _Parameter,
+            _ParameterSmoothTime);
+    }
+</code></pre>
+<p>You can then set the <code>TargetValue</code> on the smoother or simply set the parameter value normally to have it smoothly move towards that value.</p>
+<pre><code class="language-cs">    protected virtual void Update()
+    {
+        _SmoothedParameter.TargetValue = 0;
+
+        _Animancer.Parameters.SetValue(_Parameter, 0);
+</code></pre>
+<p>Or you can set the <code>CurrentValue</code> to move it immediately and cancel any active smoothing.</p>
+<pre><code class="language-cs">        _SmoothedParameter.CurrentValue = 0;
+    }
+}
+</code></pre>
+<p>Using <code><a href="/animancer/api/Animancer/SmoothedVector2Parameter">SmoothedVector2Parameter</a></code> is the same as all that, except it takes two parameter names in the constructor and the value is a <code>Vector2</code>.</p>
 
 	</section>
                 

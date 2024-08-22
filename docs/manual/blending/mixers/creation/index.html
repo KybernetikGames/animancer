@@ -347,7 +347,6 @@
                     <ul class="treeview-menu">
                         
                 <li class="selected"><a href="/animancer/docs/manual/blending/mixers/creation">Mixer Creation</a></li>
-                <li><a href="/animancer/docs/manual/blending/mixers/smoothing">Mixer Smoothing</a></li>
                 <li><a href="/animancer/docs/manual/blending/mixers/synchronization">Mixer Synchronization</a></li>
 
                     </ul>
@@ -382,6 +381,7 @@
 
                     </ul>
                 </li>
+                <li><a href="/animancer/docs/manual/parameters">Parameters</a></li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/fsm">Finite State Machines</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -549,9 +549,10 @@
 			<h1>Mixer Creation</h1>
 		</section>
 	<section class="content">
-		<p>Like all other types of states, Mixers can be created using <a href="#transitions">Transitions</a> configured in the Inspector or <a href="#manual-creation">Manually Created</a> in code. Both approaches also allow for <a href="#nesting">Mixers to be nested inside each other</a>.</p>
+		<div class="pro-only-feature-trial"><a href="/animancer/docs/introduction/features#pro-only"><div><strong>Pro-Only Feature</strong><br></div></a></div>
+<p>Like all other types of states, Mixers can be created using <a href="#transitions">Transitions</a> configured in the Inspector or <a href="#manual-creation">Manually Created</a> in code. Both approaches also allow for <a href="#nesting">Mixers to be nested inside each other</a>.</p>
 <h1 id="transitions">Transitions</h1>
-<p>Mixers are usually set up in the Inspector using <a href="../../../transitions/types#mixer-transitions">Mixer Transitions</a>:</p>
+<p>Mixers are usually set up in the Inspector using <a href="../../../transitions/types#mixer-transitions">Mixer Transitions</a>. This can be inside a <a href="../../../transitions/asset">Transition Asset</a> as demonstrated in the <a href="../../../../samples/mixers">Mixers Samples</a> or by using an inline transition like this:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -624,6 +625,7 @@ protected virtual void Awake()
     _Mixer.Add(_Run, 1);
 }
 </code></pre>
+<p>Saves one line, but takes more code overall.</p>
 </td>
     </tr>
   </tbody>
@@ -659,12 +661,6 @@ public class LinearMixerExample : MonoBehaviour
             { _Run, 1 },
         };
 
-        // Or add children one by one.
-        // _MovementMixer = new LinearMixerState();
-        // _MovementMixer.Add(_Idle, 0);
-        // _MovementMixer.Add(_Walk, 0.5f);
-        // _MovementMixer.Add(_Run, 1);
-
         // Don't synchronize the Idle animation (Index 0) with the Walk and Run cycles.
         _MovementMixer.DontSynchronize(_MovementMixer.GetChild(0));
 
@@ -679,7 +675,6 @@ public class LinearMixerExample : MonoBehaviour
     }
 }
 </code></pre>
-<p><img src="manual-mixer-example.png" class="pngif img-responsive"></p>
 <p></p></details><p></p>
 <h1 id="thresholds">Thresholds</h1>
 <p>You can either specify the thresholds manually or provide a custom calculation <a href="/cs-unity/docs/introduction/methods/delegates">Delegate</a> to <code>MixerState&lt;T&gt;.CalculateThresholds</code>. For <code>Vector2</code> based Mixers (Cartesian and Directional) you can also use the <a href="/animancer/api/Animancer/AnimancerUtilities/61A260E4"><code>AnimancerUtilities.CalculateThresholdsFromAverageVelocityXZ</code></a> extension method.</p><p></p>
