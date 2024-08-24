@@ -327,6 +327,7 @@
                         
                 <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
                 <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/libraries">Transition Libraries</a></li>
                 <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
 
                     </ul>
@@ -340,11 +341,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
-                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Easing</a></li>
 
                     </ul>
                 </li>
-                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/layers">Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/layers/weighted">Weighted Mask Layers</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -439,6 +447,7 @@
                 <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
                 <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
                 <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/strings">Strings</a></li>
                 <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
 
                     </ul>
@@ -578,6 +587,7 @@
 <li>The script playing <em>Shoot</em> doesn't need to know that the library is present, the modifier is applied automatically.</li>
 </ul>
 </li>
+<li>The <a href="../../../manual/transitions/libraries">Transition Libraries</a> page explains explains how to create and edit them.</li>
 </ul>
 <h1 id="overview">Overview</h1>
 <p>The code structure is similar to the <a href="../../basics/character">Basic Character</a> sample, except that the inline <a href="../../../manual/transitions">Transitions</a> are replaced by <a href="../../../manual/transitions/assets">Transition Assets</a> and the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> references a <a href="../../../manual/transitions/libraries">Transition Library</a> to modify them.</p>
@@ -696,10 +706,6 @@ The assets contain the actual transition data.
 </tr>
 </tbody>
 </table>
-<p><a href="../../../manual/transitions/assets">Transition Assets</a> can be created using the <code>Create Transition</code> button in the <a href="../../../manual/transitions/libraries">Transition Library</a> window, which automatically adds them to the library and saves them as sub-assets inside the library itself.</p>
-<p><img src="sample-assets.png" class="img-responsive"></p>
-<p>They can also be created separately using the <code>Assets/Create/Animancer/Transition Asset</code> menu function and then dragged into the library window to add them to it. Doing so won't turn them into sub-assets, it will just give the library a reference to them just like anything else.</p>
-<p>Unity doesn't have an inbuilt way to turn assets into sub-assets or vice versa without scripting, but <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> has a <a href="/inspector-gadgets/docs/asset-drag-and-drop#drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature which lets you do exactly that.</p>
 <h1 id="events">Events</h1>
 <p><code><a href="/animancer/api/Animancer.Samples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> fromn the <a href="../character">Basic Character</a> sample used inline <a href="../../../manual/transitions">Transitions</a> which meant that even if there were multiple different characters or multiple instances of the same character using the same script, they would all have their own copy of the transition data.</p>
 <p>But the <a href="../../../manual/transitions/assets">Transition Assets</a> referenced by <code><a href="/animancer/api/Animancer.Samples.Basics/LibraryCharacterAnimations">LibraryCharacterAnimations</a></code> could potentially be referenced by multiple characters so having them each assign their own events to the transition would cause them to conflict with each other.</p>
@@ -796,7 +802,6 @@ private void UpdateAction()
 <li>You may have noticed that the script uses generic names for its fields (<code>_Idle</code>, <code>_Move</code>, and <code>_Action</code>) because it doesn't have any logic specific to a particular action. It could be used on a snake with a <em>Slither</em> animation for <code>_Move</code> and <em>Hiss</em> for its <code>_Action</code>.</li>
 <li>However, the <a href="../../../manual/transitions/assets">Transition Assets</a> have specific names matching their animations (<em>Humanoid-Idle</em>, <em>Humanoid-WalkForwards</em>, and <em>Humanoid-PistolShoot</em>) because they aren't generic, they will play those specific animations.</li>
 </ul>
-<p>The <a href="../../fine-control/named">Named Character</a> sample demonstrates how animations in a library can be given custom <a href="../../../manual/transitions/libraries#aliases">Aliases</a> to further separate the logic from the art.</p>
 <h1 id="what-next">What Next?</h1>
 <p>That's the last of the <a href="../">Basics</a> samples. Hopefully, by now you have some idea of how you could start using Animancer in your own projects, but the <a href="../../../help">Help</a> page lists various options for contacting the developer if you have any questions or suggestions. There are also <a href="../../">many more samples</a> covering the more advanced features of Animancer and ways you can use it.</p>
 <p>In particular, the <a href="../../fsm/characters">Characters</a> sample again re-implements the same logic, this time using Animancer's <a href="../../../manual/fsm">Finite State Machine</a> system. Relatively simple behaviours can be easily implemented in a single script like in this sample. But in more complex situations, spending some extra time early on to properly structure your code will often save a lot of time later on when you need to expand it, change it, and debug issues.</p>
@@ -826,8 +831,8 @@ private void UpdateAction()
 <div>
 <p>Download</p>
 <p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>
 
 <div style="width:10%"></div>

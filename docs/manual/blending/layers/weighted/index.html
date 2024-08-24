@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Layers</title>
+        <title>Animancer - Weighted Mask Layers</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -81,9 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#samples">Samples</a></p>
-<p><a href="#details">Details</a></p>
-<p><a href="#blending">Blending</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#how-to-use">How to Use</a></p>
+<p><a href="#known-limitations">Known Limitations</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -323,6 +322,7 @@
                         
                 <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
                 <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/libraries">Transition Libraries</a></li>
                 <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
 
                     </ul>
@@ -336,11 +336,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
-                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Easing</a></li>
 
                     </ul>
                 </li>
-                <li class="selected"><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview active">
+                    <a href="/animancer/docs/manual/blending/layers">Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li class="selected"><a href="/animancer/docs/manual/blending/layers/weighted">Weighted Mask Layers</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -435,6 +442,7 @@
                 <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
                 <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
                 <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/strings">Strings</a></li>
                 <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
 
                     </ul>
@@ -545,52 +553,38 @@
 
 
 		<section class="content-header">
-			<h1>Layers</h1>
+			<h1>Weighted Mask Layers</h1>
 		</section>
 	<section class="content">
 		<div class="pro-only-feature-trial"><a href="/animancer/docs/introduction/features#pro-only"><div><strong>Pro-Only Feature</strong><br></div></a></div>
-<p>When you play an animation, it stops all others (or <a href="fading">Fades them out</a>). More specifically, it stops all other animations <em>on the same layer</em> without affecting animations on other layers. This allows you to play multiple separate animations at the same time, using the layers to determine how they combine to form the final output.</p>
-<h1 id="samples">Samples</h1>
-<h2 id="basic-layers">Basic Layers</h2>
-<p>The <a href="../../samples/layers/basic">Basic Layers</a> sample demonstrates how <em>Idle</em>, <em>Walk</em>, and <em>Shoot</em> animations can be used with layers to allow a character to shoot while walking without needing a specific <em>ShootWhileWalking</em> animation:</p>
-<p><a href="../../samples/layers/basic"><img src="../../samples/layers/basic/basic.png" class="pngif img-responsive"></a></p>
-<h2 id="dynamic-layers">Dynamic Layers</h2>
-<p>The <a href="../../samples/layers/dynamic">Dynamic Layers</a> sample demonstrates similar behaviour, but allows the <em>Shoot</em> animation to control the whole body if the character would have been <em>Idle</em> so they place their feet more appropriately:</p>
-<p><a href="../../samples/layers/dynamic"><img src="../../samples/layers/dynamic/dynamic.png" class="pngif img-responsive"></a></p>
-<h2 id="quick-example">Quick Example</h2>
-<p>Most operations involving layers are accessed via the <code><a href="/animancer/api/Animancer/AnimancerComponent/5A1697AB">AnimancerComponent.Layers</a></code> property:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> animancer;
-AnimationClip clip;
-
-// Create a state on the default layer 0 and play it.
-// If a state for that animation already existed, leave it on its current layer.
-animancer.Play(clip);
-
-// Create a state on layer 1 and play it.
-// If a state for that animation already existed, move it to layer 1.
-// If layer 1 did not already exist, accessing "Layers[1]" creates it.
-animancer.Layers[1].Play(clip);
-</code></pre>
-<h1 id="details">Details</h1>
+<p>Unity's inbuilt <code>AvatarMask</code> system allows you to control which bones each layer affects as demonstrated in the <a href="../../../../samples/layers">Layers</a> samples, however it's limited to entirely enabling or disabling bones. Animancer's <code><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></code> component instead allows you to control the <code>Weight</code> of each individual bone, including fading them over time.</p>
+<h1 id="how-to-use">How to Use</h1>
+<ol>
+<li>Add a <code><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></code> Component:</li>
+</ol>
+<p><img src="weighted-mask-layers-inspector.png" class="pngif img-responsive"></p>
+<ol start="2">
+<li>Click its <code>Edit</code> button in the Inspector to open a window where you can configure it.</li>
+</ol>
+<p><img src="weighted-mask-layers-window.png" class="pngif img-responsive"></p>
+<ol start="3">
+<li>Use the <code>?</code> column to enable the bones you want to include in the mask.</li>
+<li>Use the <code>Add Group</code> button down the bottom to add as many groups as you want.</li>
+<li>For each bone and group, enter the <code>Weight</code> you want the bone to have when that group is active.</li>
+</ol>
 <ul>
-<li><strong>New Layers</strong>: if you specify a layer that does not exist, it will automatically be created (along with every layer before it).</li>
-<li><strong>Changing Layers</strong>: if an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> already exists for the animation and you specify a different layer, the state will be moved to that layer. This change can't be blended directly, but the <a href="../../samples/layers/dynamic">Dynamic Layers</a> sample demonstrates how you can achieve a similar result.</li>
-<li><strong>Names</strong>: you can call <code>SetDebugName</code> on a layer to give it a name that will be displayed in the Inspector, however these names do not exist at runtime so any calls to that method will be automatically compiled out of runtime builds.</li>
-<li><strong>Keys</strong>: if you want to play the same animation on multiple layers at once, you will need to create multiple states for it and register them with different <a href="../playing/keys">Keys</a> (or not register them at all and simply keep references to them yourself).</li>
+<li>1 is the same as including that bone in an <code>AvatarMask</code>, i.e. Layer 1 will fully control the bone.</li>
+<li>0 is the same as excluding that bone from an <code>AvatarMask</code>, i.e. Layer 0 will fully control the bone.</li>
+<li>Values in between will interpolate between both layers.</li>
 </ul>
-<h1 id="blending">Blending</h1>
-<p>There are several different factors which determine how the output of each layer is combined to form the final result:</p>
+<ol start="6">
+<li>In code if you want to change the current <code>Weight</code> group you can get a reference to the <code><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></code> component and call <code>SetWeights(groupIndex)</code> or <code>FadeWeights(groupIndex, fadeDuration)</code>.</li>
+</ol>
+<h1 id="known-limitations">Known Limitations</h1>
 <ul>
-<li><strong>Weight</strong>: each layer has a <code>Weight</code> just like an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> and you can use their <code>StartFade</code> method to <a href="fading">Fade</a> them in and out over time.
-<ul>
-<li><code>StartFade</code> only affects the layer you call it on and there is no <code>CrossFade</code> for layers because it's not common to swap them like that, however you can simply fade one in and the rest out if you need to.</li>
-<li>Layers start at <code>Weight = 0</code> by default. However, calling <code>AnimancerComponent.Play</code> targeting a layer at 0 weight will automatically set its <code>Weight = 1</code>.</li>
-<li>Similarly, <a href="../playing#cross-fade">Cross Fading</a> will actually <code>Play</code> the animation at <code>Weight = 1</code> immediately and fade the layer in instead of fading the animation.</li>
-<li>If you want a layer to stop affecting the final output, you can simply fade its weight to 0 (or set its <code>Weight = 0</code> to do it instantly).</li>
-</ul>
-</li>
-<li><strong>Masks</strong>: each layer can be given an <code>AvatarMask</code> to determine which bones it affects. You can create a mask using the <em>Assets/Create/Avatar Mask</em> menu function and then assign it to a layer using <code>AnimancerComponent.Layers.SetMask</code> so that animations on that layer will only affect the parts of the model included in the mask.</li>
-<li><strong>Additive Blending</strong>: by default, each layer will override the previous layer, entirely replacing its output. You can instead have a layer add its animations on top of the previous layer using <code>AnimancerComponent.Layers.IsAdditive</code>.</li>
+<li>It only supports 2 layers (Base + 1).</li>
+<li>It only supports override blending (not additive).</li>
+<li>These limitations could be removed with further development if enough users request it.</li>
 </ul>
 
 	</section>
@@ -618,8 +612,8 @@ animancer.Layers[1].Play(clip);
 <div>
 <p>Download</p>
 <p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>
 
 <div style="width:10%"></div>

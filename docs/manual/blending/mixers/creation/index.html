@@ -324,6 +324,7 @@
                         
                 <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
                 <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/libraries">Transition Libraries</a></li>
                 <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
 
                     </ul>
@@ -337,11 +338,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
-                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Easing</a></li>
 
                     </ul>
                 </li>
-                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/layers">Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/layers/weighted">Weighted Mask Layers</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview active">
                     <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -436,6 +444,7 @@
                 <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
                 <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
                 <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/strings">Strings</a></li>
                 <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
 
                     </ul>
@@ -634,7 +643,7 @@ protected virtual void Awake()
 <li>Optionally call <code>SetDebugName</code> on the mixer to give it a more descriptive display name to show in the Inspector.</li>
 <li>Store a reference to the mixer so you can set its <code>Parameter</code> later on to control its blending.</li>
 </ol>
-<p></p><details><summary>The following example script uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Walk</em>, and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
+<p></p><details><summary>Click here to see an example script which uses a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> to blend between <em>Idle</em> and <em>Walk</em>, and <em>Run</em> animations based on a <code>Movement Speed</code> slider in the Inspector:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
@@ -683,7 +692,6 @@ public class LinearMixerExample : MonoBehaviour
 <p>For example, if you have Mixers for movement in any direction for both regular movement and for moving while injured, you could put both of those in another mixer to allow you to blend the injury level as well. Both of the following approaches have an example of how to do this.</p>
 <h2 id="transition-nesting">Transition Nesting</h2>
 <p>If the parent mixer is defined using a <a href="../../../transitions">Transition</a> then you can assign <a href="../../../transitions/assets">Transition Assets</a> as its child animations.</p>
-<p>To set the parameters of the child mixers you will need to call <code>parentMixer.GetChild(x)</code> and <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/types/casting-and-type-conversions">Type Cast</a> the returned state to the appropriate mixer type.</p>
 <p></p><details><summary>Here's an example of mixer transition nesting:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
@@ -702,8 +710,8 @@ public class TransitionNestedMixerExample : MonoBehaviour
     [SerializeField, Range(-1, 1)]
     private float _MovementY;
 
-    private MixerState&lt;Vector2&gt; _RegularMovement;
-    private MixerState&lt;Vector2&gt; _InjuredMovement;
+    private <a href="/animancer/api/Animancer/Vector2MixerState">Vector2MixerState</a> _RegularMovement;
+    private <a href="/animancer/api/Animancer/Vector2MixerState">Vector2MixerState</a> _InjuredMovement;
 
     protected virtual void Awake()
     {
@@ -712,8 +720,8 @@ public class TransitionNestedMixerExample : MonoBehaviour
         // Or just create the state if you don't want to Play it yet.
         // _Animancer.States.GetOrCreate(_MovementMixer);
 
-        _RegularMovement = (MixerState&lt;Vector2&gt;)_MovementMixer.State.GetChild(0);
-        _InjuredMovement = (MixerState&lt;Vector2&gt;)_MovementMixer.State.GetChild(1);
+        _RegularMovement = (Vector2MixerState)_MovementMixer.State.GetChild(0);
+        _InjuredMovement = (Vector2MixerState)_MovementMixer.State.GetChild(1);
     }
 
     protected virtual void Update()
@@ -817,8 +825,8 @@ public class ManualNestedMixerExample : MonoBehaviour
 <div>
 <p>Download</p>
 <p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>
 
 <div style="width:10%"></div>

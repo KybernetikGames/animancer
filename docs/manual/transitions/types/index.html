@@ -82,9 +82,9 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#serialized-references">Serialized References</a></p>
-<p><a href="#basic-transitions">Basic Transitions</a></p>
+<p><a href="#clip-transitions">Clip Transitions</a></p>
 <p><a href="#mixer-transitions">Mixer Transitions</a></p>
-<p><a href="#controller-transitions">Controller Transitions</a></p>
+<p><a href="#other-transitions">Other Transitions</a></p>
 <p><a href="#custom-transitions">Custom Transitions</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -325,6 +325,7 @@
                         
                 <li class="selected"><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
                 <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/libraries">Transition Libraries</a></li>
                 <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
 
                     </ul>
@@ -338,11 +339,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
-                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Easing</a></li>
 
                     </ul>
                 </li>
-                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/layers">Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/layers/weighted">Weighted Mask Layers</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -437,6 +445,7 @@
                 <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
                 <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
                 <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/strings">Strings</a></li>
                 <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
 
                     </ul>
@@ -551,12 +560,6 @@
 		</section>
 	<section class="content">
 		<p>Each of the <a href="../../playing/states">State</a> types that are included in Animancer has its own <a href="../">Transition</a> type which contains various details relevant to it so that when passed into <code><a href="/animancer/api/Animancer/AnimancerComponent/1709F62A">AnimancerComponent.Play(ITransition)</a></code> it will create that type of state. For example, a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> will create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to play a single <code>AnimationClip</code>.</p>
-<p>There are several major categories of transitions:</p>
-<ul>
-<li><a href="#basic-transitions">Basic Transitions</a> for playing individual <code>AnimationClip</code>s and <a href="../../timeline">Timelines</a>.</li>
-<li><a href="#mixer-transitions">Mixer Transitions</a> for blending multiple animations using <a href="../../blending/mixers">Mixers</a>.</li>
-<li><a href="#controller-transitions">Controller Transitions</a> for playing <a href="../../animator-controllers">Animator Controllers</a>.</li>
-</ul>
 <h1 id="serialized-references">Serialized References</h1>
 <p>Unity's serialization system <a href="https://docs.unity3d.com/ScriptReference/SerializeField.html">doesn't normally support inheritance</a>, however the <a href="https://docs.unity3d.com/ScriptReference/SerializeReference.html"><code>[SerializeReference]</code></a> attribute allows it to do so. Placing that attribute on a transition field allows you to choose which type of transition you actually want to use with a dropdown menu in the Inspector without your code needing to know the specific type.</p>
 <table class="table">
@@ -577,16 +580,16 @@ private&nbsp;<a href="/animancer/api/Animancer/ITransition">ITransition</a>&nbsp
     </tr>
     <tr>
       <td>This allows you to select <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> or anything that inherits from it such as a <code><a href="/animancer/api/Animancer/ClipTransitionSequence">ClipTransitionSequence</a></code>.</td>
-      <td>This allows you to select any transition type which is usually a bad idea because code that expects to control a <a href="../../blending/mixers">Mixer State</a> won't work with a <a href="../../animator-controllers">Controller State</a> or a simple <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>.</td>
+      <td>This allows you to select any transition type and is used by <a href="../assets">Transition Assets</a>.</td>
     </tr>
     <tr>
-      <td><p><img src="clip-transition-reference.png" class="pngif img-responsive"></p>Every type of <a href="../../playing/states">State</a> also has its own nested <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code> interface for transitions that specifically create that type of state (e.g. <code>ClipState.ITransition</code>). This includes the <a href="../assets#unshared"><code>UnShared</code></a> type for that state so your code doesn't even need to know whether it is using a regular transition or a <a href="../assets">Transition Asset</a>.</td>
+      <td><img src="clip-transition-reference.png" class="pngif img-responsive"></td>
       <td><img src="i-transition-reference.png" class="img-responsive"></td>
     </tr>
   </tbody>
 </table>
 <p>The <a href="../../other/polymorphic">Polymorphic Drawer</a> system also allows you to use this feature on other unrelated types.</p>
-<h1 id="basic-transitions">Basic Transitions</h1>
+<h1 id="clip-transitions">Clip Transitions</h1>
 <table class="table">
 <thead>
 <tr>
@@ -596,25 +599,17 @@ private&nbsp;<a href="/animancer/api/Animancer/ITransition">ITransition</a>&nbsp
 </thead>
 <tbody>
 <tr>
-<td><code>AnimancerTransition&lt;TState&gt;</code></td>
-<td><code>abstract</code> base class for all other transitions. Only has a <code>FadeDuration</code> field.</td>
-</tr>
-<tr>
 <td><code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code></td>
-<td><p>Inherits from <code>AnimancerTransition&lt;<a href="/animancer/api/Animancer/ClipState">ClipState</a>&gt;</code> and will create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code>. The details of each field are explained on the <a href="../">Transitions</a> page.</p><img src="clip.png" class="img-responsive" style="float:right"></td>
+<td><p>Creates a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> when played. The details of each field are explained on the <a href="../">Transitions</a> page.</p><img src="clip.png" class="img-responsive" style="float:right"></td>
 </tr>
 <tr>
 <td><code><a href="/animancer/api/Animancer/ClipTransitionSequence">ClipTransitionSequence</a></code></td>
-<td><p>Inherits from <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> and simply adds an array of other <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s which will be played in order after the first (using each of their <a href="../../events/end">End Events</a> to play the next one).</p><img src="clip-sequence.png" class="img-responsive" style="float:right"></td>
-</tr>
-<tr>
-<td><code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code></td>
-<td><p>Inherits from <code>AnimancerTransition&lt;<a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a>&gt;</code> and will create a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code>. Has similar fields to a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> with the addition of a <code>Bindings</code> array explained on the <a href="../../timeline">Timeline</a> page.</p><img src="playable-asset.png" class="img-responsive" style="float:right"></td>
+<td><p>Inherits from <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> and adds an array of other <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s which will be played in order after the first (using each of their <a href="../../events/end">End Events</a> to play the next one).</p><img src="clip-sequence.png" class="img-responsive" style="float:right"></td>
 </tr>
 </tbody>
 </table>
 <h1 id="mixer-transitions">Mixer Transitions</h1>
-<p>These transitions create various types of <a href="../../blending/mixers">Mixer States</a>. They all use reorderable lists to configure their states. You can <em>Right Click</em> on any of the transition fields to open a context menu with several useful functions.</p>
+<p>These transitions create various types of <a href="../../blending/mixers">Mixer States</a>. You can <em>Right Click</em> on any of the transition fields to open a context menu with several useful functions.</p>
 <table class="table">
 <thead>
 <tr>
@@ -624,29 +619,20 @@ private&nbsp;<a href="/animancer/api/Animancer/ITransition">ITransition</a>&nbsp
 </thead>
 <tbody>
 <tr>
-<td><code><a href="/animancer/api/Animancer/ManualMixerTransition_1">ManualMixerTransition&lt;TMixer&gt;</a></code></td>
-<td><code>abstract</code> base class for transitions that create states derived from <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>.</td>
-</tr>
-<tr>
 <td><code><a href="/animancer/api/Animancer/ManualMixerTransition">ManualMixerTransition</a></code></td>
-<td><p>Inherits from <code>ManualMixerTransition&lt;<a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a>&gt;</code> and will create a base <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code>.</p><img src="manual-mixer.png" class="img-responsive" style="float:right"></td>
-</tr>
-<tr>
-<td><code><a href="/animancer/api/Animancer/MixerTransition_2">MixerTransition&lt;TMixer, TParameter&gt;</a></code></td>
-<td><code>abstract</code> base class for transitions that create states derived from <code>MixerState</code>. Has a <code>Thresholds</code> array and <code>DefaultParameter</code> field.</td>
+<td><p>Creates a <code><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></code> when played.</p><img src="manual-mixer.png" class="img-responsive" style="float:right"></td>
 </tr>
 <tr>
 <td><code><a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a></code></td>
-<td><p>Inherits from <code>MixerTransition&lt;LinearMixerState,float&gt;</code> and will create a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code>.</p><img src="linear-mixer.png" class="img-responsive" style="float:right"></td>
+<td><p>Creates a <code><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></code> when played.</p><img src="linear-mixer.png" class="img-responsive" style="float:right"></td>
 </tr>
 <tr>
 <td><code><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></code></td>
-<td><p>Inherits from <code>MixerTransition&lt;MixerState&lt;Vector2&gt;,Vector2&gt;</code> and will create either a <code><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></code> or <code><a href="/animancer/api/Animancer/DirectionalMixerState">DirectionalMixerState</a></code> depending on the selected <code>Type</code>.</p><img src="mixer-2d.png" class="img-responsive" style="float:right"></td>
+<td><p>Creates either a <code><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></code> or <code><a href="/animancer/api/Animancer/DirectionalMixerState">DirectionalMixerState</a></code> when played depending on the selected <code>Type</code>.</p><img src="mixer-2d.png" class="img-responsive" style="float:right"></td>
 </tr>
 </tbody>
 </table>
-<h1 id="controller-transitions">Controller Transitions</h1>
-<p>These transitions create various types of <a href="../../animator-controllers#states">Controller States</a>.</p>
+<h1 id="other-transitions">Other Transitions</h1>
 <table class="table">
 <thead>
 <tr>
@@ -656,21 +642,17 @@ private&nbsp;<a href="/animancer/api/Animancer/ITransition">ITransition</a>&nbsp
 </thead>
 <tbody>
 <tr>
-<td><code><a href="/animancer/api/Animancer/ControllerTransition_1">ControllerTransition&lt;TState&gt;</a></code></td>
-<td><code>abstract</code> base class for transitions that create states derived from <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>.</td>
-</tr>
-<tr>
 <td><code><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></code></td>
-<td><p>Inherits from <code>ControllerTransition&lt;<a href="/animancer/api/Animancer/ControllerState">ControllerState</a>&gt;</code> and will create a base <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code>.</p><img src="controller.png" class="img-responsive" style="float:right"></td>
+<td><p>Creates a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> when played.</p><img src="controller.png" class="img-responsive" style="float:right"></td>
 </tr>
 <tr>
-<td><code>Float1ControllerTransition</code><br><br><code>Float2ControllerTransition</code><br><br><code>Float3ControllerTransition</code></td>
-<td><p>Inherits from <code>ControllerTransition&lt;Float1ControllerState&gt;</code> and adds a <code>ParameterName</code> field and will create a <code>Float1ControllerState</code> which wraps that particular parameter. Once an Animator Controller is assigned, the <code>Parameter Name</code> field allows you to select the name of any <code>Float</code> parameter.</p><img src="float-1-controller.png" class="img-responsive" style="float:right"></td>
+<td><code><a href="/animancer/api/Animancer/PlayableAssetTransition">PlayableAssetTransition</a></code></td>
+<td><p>Creates a <code><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></code> when played. Has similar fields to a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> with the addition of a <code>Bindings</code> array explained on the <a href="../../timeline">Timeline</a> page.</p><img src="playable-asset.png" class="img-responsive" style="float:right"></td>
 </tr>
 </tbody>
 </table>
 <h1 id="custom-transitions">Custom Transitions</h1>
-<p>You can create your own transitions by implementing <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code> from scratch or inheriting from <code>AnimancerTransition</code> or any of its derived types. When doing so, you may also want to alter the way it is drawn in the Inspector by creating another class that inherits from the <code>Drawer</code> class inside the <code>Transition</code> you are inheriting from or implementing your own <code>PropertyDrawer</code>.</p>
+<p>You can create your own transitions by implementing <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code> from scratch or inheriting from <code>Transition</code> or any of its derived types. When doing so, you may also want to alter the way it is drawn in the Inspector by creating another class that inherits from the <code>Drawer</code> class inside the <code>Transition</code> you are inheriting from or implementing your own <code>PropertyDrawer</code>.</p>
 <p>The <a href="../../../samples/layers/face#custom-transition-type">Facial Expressions</a> sample implements a class that inherits from <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> to add a <code>Name</code> field to give each transition a user-friendly display name.</p>
 
 	</section>
@@ -698,8 +680,8 @@ private&nbsp;<a href="/animancer/api/Animancer/ITransition">ITransition</a>&nbsp
 <div>
 <p>Download</p>
 <p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>
 
 <div style="width:10%"></div>

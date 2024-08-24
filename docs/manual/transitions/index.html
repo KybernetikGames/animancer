@@ -324,6 +324,7 @@
                         
                 <li><a href="/animancer/docs/manual/transitions/types">Transition Types</a></li>
                 <li><a href="/animancer/docs/manual/transitions/assets">Transition Assets</a></li>
+                <li><a href="/animancer/docs/manual/transitions/libraries">Transition Libraries</a></li>
                 <li><a href="/animancer/docs/manual/transitions/previews">Transition Previews</a></li>
 
                     </ul>
@@ -337,11 +338,18 @@
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/blending/fading/modes">Fade Modes</a></li>
-                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Fading</a></li>
+                <li><a href="/animancer/docs/manual/blending/fading/custom">Custom Easing</a></li>
 
                     </ul>
                 </li>
-                <li><a href="/animancer/docs/manual/blending/layers">Layers</a></li>
+                <li class="treeview">
+                    <a href="/animancer/docs/manual/blending/layers">Layers</a> <a href="#" class="expand"></a>
+                    <ul class="treeview-menu">
+                        
+                <li><a href="/animancer/docs/manual/blending/layers/weighted">Weighted Mask Layers</a></li>
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="/animancer/docs/manual/blending/mixers">Mixers</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
@@ -436,6 +444,7 @@
                 <li><a href="/animancer/docs/manual/other/polymorphic">Polymorphic Drawer</a></li>
                 <li><a href="/animancer/docs/manual/other/root-motion">Root Motion</a></li>
                 <li><a href="/animancer/docs/manual/other/sprite-renderer-texture-swap">Sprite Renderer Texture Swap</a></li>
+                <li><a href="/animancer/docs/manual/other/strings">Strings</a></li>
                 <li><a href="/animancer/docs/manual/other/units">Units Attributes</a></li>
 
                     </ul>
@@ -549,8 +558,8 @@
 			<h1>Transitions</h1>
 		</section>
 	<section class="content">
-		<p>Being able to directly control your fade durations, start and end times, speeds, and events in scripts can be very useful, but it is often better to set those details in the Inspector by using transitions which allow you to <a href="previews">Preview</a> what they will look like in Edit Mode and can be easily modified by non-programmers without needing to edit and recompile any scripts.</p>
-<p>Each of the <a href="../playing/states">State</a> types that are included in Animancer has its own <a href="types">Transition Type</a> which contains various details relevant to it so that when it is passed into <code><a href="/animancer/api/Animancer/AnimancerComponent/1709F62A">AnimancerComponent.Play(ITransition)</a></code> it will create that type of state. For example, a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> will create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to play a single <code>AnimationClip</code>:</p>
+		<p>Being able to directly control your <a href="../blending/fading">fade durations</a>, start and end times, speeds, and events in scripts can be very useful, but it's often better to set those details in the Inspector by using transitions which allow you to <a href="previews">Preview</a> what they will look like in Edit Mode and can be easily modified by non-programmers without needing to edit and recompile any scripts.</p>
+<p>Each of the <a href="../playing/states">State</a> types that are included in Animancer has its own <a href="types">Transition Type</a> which contains various details relevant to it so that when it's passed into <code><a href="/animancer/api/Animancer/AnimancerComponent/1709F62A">AnimancerComponent.Play(ITransition)</a></code> it will create that type of state. For example, a <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code> will create a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> to play a single <code>AnimationClip</code>:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Example Script</th>
@@ -577,7 +586,7 @@ public class TransitionExample : MonoBehaviour
 }
 </code></pre>
 </td>
-      <td><p><img src="transition-example.png" class="pngif img-responsive"></p>Each of these <a href="#fields">Fields</a> is explained below.</td>
+      <td><p><img src="transition-example.png" class="pngif img-responsive"></p><p>This is an <em>inline</em> transition, meaning it's stored directly inside the script where it's defined. The alternative is <a href="assets">Transition Assets</a> which store the transition in an asset where it can be referenced by multiple scripts.</p>Each of these <a href="#fields">Fields</a> is explained below.</td>
     </tr>
   </tbody>
 </table>
@@ -608,7 +617,7 @@ public class TransitionExample : MonoBehaviour
     <td><img src="fade-duration.png" class="img-responsive"></td>
   </tr>
   <tr><td colspan="3">
-    <p>The amount of time that the transition will take to <a href="../blending/fading">Cross Fade</a> from the previous animation to the new one. This value can not be negative and setting it to 0 will cause the animation to <a href="../playing#play-immediately">Play Instantly</a>.</p>
+    <p>The amount of time that the transition will take to <a href="../blending/fading">Cross Fade</a> from the previous animation to the new one. This value can't be negative and setting it to 0 will cause the animation to <a href="../playing#play-immediately">Play Instantly</a>.</p>
     This <a href="#time-fields">Time Field</a> is always serialized as seconds, regardless of which field you use to enter the value.
   </td></tr>
   <tr>
@@ -656,7 +665,7 @@ public class TransitionExample : MonoBehaviour
 </table>
 <img src="time-field.png" class="pngif img-responsive img-right">
 <h1 id="time-fields">Time Fields</h1>
-<p>Several of the above fields use <a href="../other/units">Units Attributes</a> to display a single time value using several fields to represent different units of measurement:</p>
+<p>Several of the above fields use <a href="../other/units">Units Attributes</a> to display a single time value using several fields to represent different units of measurement.</p>
 <table class="table">
 <thead>
 <tr>
@@ -690,7 +699,7 @@ public class TransitionExample : MonoBehaviour
 <li>The <code><a href="/animancer/api/Animancer.Editor/AnimancerSettings">AnimancerSettings</a></code> asset has options to disable any of the fields you don't want. For example, measuring values in "Frames" can be very useful for <code>Sprite</code> based animations, but is often less useful for bone based animations.</li>
 </ul>
 <h1 id="approximations">Approximations</h1>
-<p>Since the <a href="#time-fields">Time Fields</a> only have limited screen space to work with, they often end up being unable to fit the entire value which can lead to confusion. To fix this, these fields will automatically abbreviate their values to fit in the available area and use a <code>~</code> symbol to indicate when the displayed value is only an approximation of the actual value. For example, all of the following values would normally look identical to <code>1.234568</code> if there wasn't enough room to see the rest of the text:</p>
+<p>Since the <a href="#time-fields">Time Fields</a> only have limited screen space to work with, they often end up being unable to fit the entire value which can lead to confusion. To fix this, these fields will automatically abbreviate their values to fit in the available area and use a <code>~</code> symbol to indicate when the displayed value is only an approximation of the actual value. For example, all of the following values would normally look identical to <code>1.234568</code> if there wasn't enough room to see the rest of the text.</p>
 <table class="table">
 <thead>
 <tr>
@@ -723,7 +732,7 @@ public class TransitionExample : MonoBehaviour
 </table>
 <p>This feature can be disabled in the <code><a href="/animancer/api/Animancer.Editor/AnimancerSettings">AnimancerSettings</a></code>.</p>
 <h1 id="default-values">Default Values</h1>
-<p>Middle Clicking on any of the <a href="#time-fields">Time Fields</a> will set it to its default value. Or if it was already at that value, doing so will set it to its secondary default value:</p>
+<p>Middle Clicking on any of the <a href="#time-fields">Time Fields</a> will set it to its default value. Or if it was already at that value, doing so will set it to its secondary default value.</p>
 <table class="table">
 <thead>
 <tr>
@@ -782,8 +791,8 @@ public class TransitionExample : MonoBehaviour
 <div>
 <p>Download</p>
 <p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>
 
 <div style="width:10%"></div>
