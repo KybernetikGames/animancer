@@ -650,10 +650,10 @@ public class <a href="/animancer/api/Animancer.Samples.InverseKinematics/Obstacl
     {
         for (int i = 0; i &lt; _SpawnCount; i++)
         {
-            var obj = GameObject.CreatePrimitive(PrimitiveType.Capsule).transform;
-            obj.GetComponent&lt;Renderer&gt;().sharedMaterial = _ObstacleMaterial;
-            obj.parent = transform;
-            Obstacles.Add(obj);
+            Transform capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule).transform;
+            capsule.GetComponent&lt;Renderer&gt;().sharedMaterial = _ObstacleMaterial;
+            capsule.parent = transform;
+            Obstacles.Add(capsule);
         }
 </code></pre>
 <p>It also moves and rotates each of them randomly so the terrain is different every time:</p>
@@ -664,7 +664,7 @@ public class <a href="/animancer/api/Animancer.Samples.InverseKinematics/Obstacl
     {
         for (int i = 0; i &lt; Obstacles.Count; i++)
         {
-            var obj = Obstacles[i];
+            Transform obj = Obstacles[i];
             obstacle.SetLocalPositionAndRotation(
                 new Vector3(
                     Random.Range(0, _Length),
@@ -683,7 +683,7 @@ public class <a href="/animancer/api/Animancer.Samples.InverseKinematics/Obstacl
 <p>Every <code>FixedUpdate</code>, it checks if the <code>_Target</code> (the character) has moved too far and if so, it randomizes the obstacles again and teleports them back:</p>
 <pre><code class="language-cs">    protected virtual void FixedUpdate()
     {
-        var position = _Target.position;
+        Vector3 position = _Target.position;
         if (position.x &lt; transform.position.x)
         {
             ScrambleObjects();
@@ -692,7 +692,7 @@ public class <a href="/animancer/api/Animancer.Samples.InverseKinematics/Obstacl
 
             // Adjust the height to make sure it's above the ground.
             position.y += 5;
-            if (Physics.Raycast(position, Vector3.down, out var raycastHit, 10))
+            if (Physics.Raycast(position, Vector3.down, out RaycastHit raycastHit, 10))
                 position = raycastHit.point;
 
             _Target.position = position;
@@ -775,7 +775,7 @@ private void UpdateFootIK(
     float weight,
     float footBottomHeight)
 {
-    var animator = _Animancer.Animator;
+    Animator animator = _Animancer.Animator;
     animator.SetIKPositionWeight(goal, weight);
     animator.SetIKRotationWeight(goal, weight);
 
@@ -793,31 +793,31 @@ private void UpdateFootIK(
     float weight,
     float footBottomHeight)
 {
-    var animator = _Animancer.Animator;
+    Animator animator = _Animancer.Animator;
     animator.SetIKPositionWeight(goal, weight);
     animator.SetIKRotationWeight(goal, weight);
 
     if (weight == 0)
         return;
 
-    var rotation = _Animancer.Animator.GetIKRotation(goal);
-    var localUp = rotation * Vector3.up;
+    Quaternion rotation = _Animancer.Animator.GetIKRotation(goal);
+    Vector3 localUp = rotation * Vector3.up;
 
-    var position = footTransform.position;
+    Vector3 position = footTransform.position;
     position += localUp * _RaycastOriginY;
 
-    var distance = _RaycastOriginY - _RaycastEndY;
+    float distance = _RaycastOriginY - _RaycastEndY;
 </code></pre>
 <p>Then we do a raycast downwards from that point. If it hits something, we use the <code>RaycastHit.point</code> and the <code>footBottomHeight</code> (the distance from the transform to the bottom of the foot model calculated by Unity) to determine the desired position for that foot and the <code>RaycastHit.normal</code> to determine the desired rotation:</p>
-<pre><code class="language-cs">if (Physics.Raycast(position, Vector3.down, out var hit, distance))
+<pre><code class="language-cs">if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, distance))
 {
     position = hit.point;
     position += localUp * footBottomHeight;
     _Animancer.Animator.SetIKPosition(goal, position);
 
-    var rotAxis = Vector3.Cross(localUp, hit.normal);
-    var angle = Vector3.Angle(localUp, hit.normal);
-    rotation = Quaternion.AngleAxis(angle, rotAxis) * rotation;
+    Vector3 rotationAxis = Vector3.Cross(localUp, hit.normal);
+    Vector3 angle = Vector3.Angle(localUp, hit.normal);
+    rotation = Quaternion.AngleAxis(angle, rotationAxis) * rotation;
 
     _Animancer.Animator.SetIKRotation(goal, rotation);
 }

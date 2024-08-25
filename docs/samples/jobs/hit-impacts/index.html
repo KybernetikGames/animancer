@@ -609,7 +609,7 @@
         Vector3 axis,
         NativeArray&lt;TransformStreamHandle&gt; leanBones)
     {
-        var animator = animancer.Component.Animator;
+        Animator animator = animancer.Component.Animator;
 
         _Job = new Job
         {
@@ -730,18 +730,18 @@
         {
 </code></pre>
 <p>We start by calculating the <code>angle</code> that each bone will be rotated by dividing the specified total <a href="#angle">Angle</a> by the number of bones. For this sample we're controlling the character's <em>Chest</em> and <em>Spine</em> bones, so each will receive half of the total angle.</p>
-<pre><code class="language-cs">            var angle = this.angle[0] / bones.Length;
+<pre><code class="language-cs">            float angle = this.angle[0] / bones.Length;
 </code></pre>
 <p>Since the <a href="#axis">Axis</a> is easier for other scripts to specify in local space, so we want to rotate that <code>axis</code> according to the character's <code>root</code>.</p>
-<pre><code class="language-cs">            var worldAxis = root.GetRotation(stream) * axis;
+<pre><code class="language-cs">            Vector3 worldAxis = root.GetRotation(stream) * axis;
 </code></pre>
 <p>Then we can use that <code>angle</code> and <code>worldAxis</code> to calculate the rotation <code>Quaternion</code> we want to add to each bone.</p>
-<pre><code class="language-cs">            var offset = Quaternion.AngleAxis(angle, worldAxis);
+<pre><code class="language-cs">            Quaternion offset = Quaternion.AngleAxis(angle, worldAxis);
 </code></pre>
 <p>And finally, we just add that <code>offset</code> to each of the <code>bones</code>.</p>
 <pre><code class="language-cs">            for (int i = bones.Length - 1; i &gt;= 0; i--)
             {
-                var bone = bones[i];
+                TransformStreamHandle bone = bones[i];
                 bone.SetRotation(stream, offset * bone.GetRotation(stream));
             }
         }

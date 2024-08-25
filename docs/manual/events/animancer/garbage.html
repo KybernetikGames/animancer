@@ -603,14 +603,14 @@ protected virtual void Awake()
     _Events.Add(0.4f, OnHitStart);
     _Events.Add(0.6f, OnHitEnd);
 
-    // The End Event is not included in the capacity.
+    // The End Event isn't included in the capacity.
     _Events.OnEnd = EnterIdleState;
 }
 
 public void Attack()
 {
-    var state = _Animation.Play(_Animation);
-    state.Events = _Events;
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animation.Play(_Animation);
+    state.OwnedEvents = _Events;
 }
 </code></pre>
 <p>Your event sequence will be removed from the state when a different animation is played, but it will not be cleared so you can simply re-assign it next time.</p>

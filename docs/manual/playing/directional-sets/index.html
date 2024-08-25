@@ -583,11 +583,11 @@ public class DirectionalAnimationSetExample : MonoBehaviour
     
     protected virtual void Update()
     {
-        var direction = new Vector2(
+        Vector2 direction = new Vector2(
             Input.GetAxisRaw("Horizontal"),
             Input.GetAxisRaw("Vertical"));
 
-        var clip = _Idles.GetClip(direction);
+        AnimationClip clip = _Idles.GetClip(direction);
         _Animancer.Play(clip);
     }
 }
@@ -640,13 +640,13 @@ public class DirectionalAnimationSetExample : MonoBehaviour
 <li>Determine the direction you want from the set:</li>
 </ol>
 <pre><code class="language-cs">// Input Vector:
-var direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 // Or Enum (4 Directions):
-var direction = DirectionalAnimationSet.Direction.Right;
+<a href="/animancer/api/Animancer/Direction">DirectionalAnimationSet.Direction</a> direction = DirectionalAnimationSet.Direction.Right;
 
 // Or Enum (8 Directions):
-var direction = DirectionalAnimationSet8.Direction.UpRight;
+DirectionalAnimationSet8.Direction direction = DirectionalAnimationSet8.Direction.UpRight;
 </code></pre>
 <ol start="3">
 <li>Get the set's <code>AnimationClip</code> corresponding to that direction and <code>Play</code> it normally:</li>
@@ -654,7 +654,7 @@ var direction = DirectionalAnimationSet8.Direction.UpRight;
 <pre><code class="language-cs">// Assuming you also have a reference to an <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> somewhere:
 // [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
-var clip = _Idles.GetClip(direction);
+AnimationClip clip = _Idles.GetClip(direction);
 _Animancer.Play(clip);
 </code></pre>
 <p>The <a href="../../../samples/sprites">Directional Sprites</a> samples demonstrate how to use them in more detail.</p>

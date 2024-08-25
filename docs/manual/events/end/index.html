@@ -586,7 +586,7 @@
 </table>
 <p>Despite the name, End Events don't inherently do anything to end the animation. You can do anything you want using the callback, but if Animancer isn't able to detect that you have done something to end the animation (usually by playing something else) then it will log <code>OptionalWarning.EndEventInterrupt</code> to help identify a potential issue in your setup. If you intend to use the event for something else then you can simply disable that warning as it explains.</p>
 <h1 id="end-events-in-transitions">End Events in Transitions</h1>
-<p>If your script contains a <a href="../../transitions">Transition</a> which it owns exclusively (not a <a href="../../transitions/assets">Transition Asset</a> which could be shared by multiple characters) then its <code>OnEnd</code> callback should be assigned on startup:</p>
+<p>If your script contains a <a href="../../transitions">Transition</a> which it owns exclusively (not a <a href="../../transitions/assets">Transition Asset</a> which could be shared by multiple characters) then its <code>OnEnd</code> callback should be assigned on startup.</p>
 <pre><code class="language-cs">public class TransitionEndEventExample : MonoBehaviour
 {
     [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
@@ -611,55 +611,96 @@
 <p><a href="../../transitions">Transitions</a> also allow you to set their callback in the Inspector if you want to, but that's generally not ideal. End callbacks contain important logic and its usually safest to keep as much logic in your scripts as possible while using the Inspector to configure raw data such as the fade duration and end time.</p>
 <p><img src="end-event-inspector.png" class="img-responsive"></p>
 <h1 id="end-events-in-states">End Events in States</h1>
-<p>If your script doesn't own a <a href="../../transitions">Transition</a> as described above then an animation's <code>OnEnd</code> callback should be assigned after playing it. There are several different ways to do this safely and efficiently depending on the situation:</p>
-<ul>
-<li>Safety relates to the possibility of multiple scripts playing the same state and ensuring that the script which just played it is the only one with its End Event assigned.</li>
-<li>Efficiency relates to avoiding unnecessary memory allocations for the callback delegate because <a href="../animancer/garbage">Garbage Collection</a> can negatively impact performance.</li>
-</ul>
-<h2 id="onendfor">OnEndFor</h2>
-<p>The simplest method to start with is usually <code>OnEndFor</code> which ensures that the state doesn't already have an End Event assigned by a different script.</p>
-<pre><code class="language-cs">void OnEndForExample(AnimancerComponent animancer, AnimationClip clip)
+<p>If your script doesn't own a <a href="../../transitions">Transition</a> as described above then an animation's <code>OnEnd</code> callback can be assigned after playing it.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimationClip _Animation;
+
+private void OnEndExample()
 {
-    var state = animancer.Play(clip);
-    state.EventsFor(this).OnEnd ??= OnAnimationEnded;
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    state.Events(this).OnEnd ??= OnAnimationEnd;
 }
 
-void OnAnimationEnd()
+private void OnAnimationEnd()
 {
     Debug.Log(AnimancerEvent.Current.State + " Ended");
 }
 </code></pre>
-<ul>
-<li><code>OnEndFor(this)</code> will log an error if the state already had an End Event for a different object other than <code>this</code>.
-<ul>
-<li>The error explains that you should change your code to use <code>OnEnd</code> as described below.</li>
-<li>In this case, the usage of <code>OnAnimationEnded</code> is shorthand for <code>this.OnAnimationEnded</code> so <code>this</code> is given as the <code>OnEndFor</code> parameter. If the method you assign is on a different object, then you need to pass that object into <code>OnEndFor</code> instead of <code>this</code>.</li>
-</ul>
-</li>
-<li><code>??=</code> is a "Compound Assignment" which means it will only assign the callback if the existing value was <code>null</code> (so it otherwise avoids allocating another delegate for it).</li>
-</ul>
-<h2 id="onend">OnEnd</h2>
-<p>Directly assigning the <code>OnEnd</code> property safely avoids the possibility of having another script's End Event still assigned but requires a little more code to avoid allocating a new callback delegate every time.</p>
-<pre><code class="language-cs">Action _OnAnimationEnd;
+<table class="table">
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Effect</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>??=</code></td>
+<td>This is a "Compound Assignment" which means it will only assign the callback if the existing value was <code>null</code>.</td>
+<td>Just using <code>=</code> would waste some performance allocating another delegate for it and causing additional <a href="../animancer/garbage">Garbage Collection</a> each time this method runs.</td>
+</tr>
+<tr>
+<td><code>Events(this)</code></td>
+<td>Logs an error if any other script already accessed this <code>state</code>'s events.</td>
+<td>If something else had already assigned the <code>OnEnd</code> callback then the <code>??=</code> would mean this script never assigns its own.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="shared-states">Shared States</h2>
+<p>If <code>Events(this)</code> logs the error described above, that means you have multiple scripts trying to use the same <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>. That may indicate in a bug in your code, but if it's intentional then you probably want to ensure that whichever script plays the state last assigns its own <code>OnEnd</code> callback.</p>
+<pre><code class="language-cs">public static readonly object SharedOwner = new();// Put this somewhere all scripts can access it.
 
-void OnEndExample(AnimancerComponent animancer, AnimationClip clip)
+[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimationClip _Animation;
+
+private Action _OnAnimationEnd;
+
+private void OnEndExampleShared()
 {
-    var state = animancer.Play(clip);
-    state.Events.OnEnd = _OnAnimationEnded ??= OnAnimationEnded;
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    state.Events(SharedOwner).OnEnd = _OnAnimationEnd ??= OnAnimationEnd;
 }
 
-void OnAnimationEnd()
+private void OnAnimationEnd()
 {
     Debug.Log(AnimancerEvent.Current.State + " Ended");
 }
 </code></pre>
-<p>Having multiple assignment operators on the same line resolves them from right to left:</p>
-<ul>
-<li>The <code>_OnAnimationEnded ??= OnAnimationEnded</code> creates a delegate and stores it in the <code>_OnAnimationEnded</code> field, but only if it was <code>null</code> (meaning the delegate is only created once).</li>
-<li>Then <code>state.Events.OnEnd = _OnAnimationEnded</code> will assign the delegate to the state's events.</li>
-</ul>
+<table class="table">
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Effect</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public static readonly object SharedOwner = new();</code></td>
+<td>Put this somewhere all scripts can access it so they can use <code>state.Events(SharedOwner)</code> instead of <code>state.Events(this)</code>.</td>
+<td>So each script acknowledges that the state is shared.</td>
+</tr>
+<tr>
+<td><code>private Action _OnAnimationEnd;</code></td>
+<td>A field to store this script's <code>OnEnd</code> callback in.</td>
+<td>To avoid wasting performance on allocating a new delegate and requiring additional <a href="../animancer/garbage">Garbage Collection</a> each time that method is called.</td>
+</tr>
+<tr>
+<td><code>_OnAnimationEnd ??= OnAnimationEnd</code></td>
+<td>Use a compound assignment like above to create the delegate the first time it's used.</td>
+<td>Same as above.</td>
+</tr>
+<tr>
+<td><code>...OnEnd = _OnAnimationEnd</code></td>
+<td>Use a regular <code>=</code> instead of <code>??=</code> this time to always assign the field as the callback.</td>
+<td>This is on the same line as the previous step because C# resolves assignment operators from right to left. You can put them on separate lines if you find that syntax confusing.</td>
+</tr>
+</tbody>
+</table>
+<p>You could also use <code>state.OwnedEvents</code> to skip the state ownership check, but that can lead to issues if some scripts are properly claiming ownership but others are ignoring it.</p>
 <h1 id="end-event-time">End Event Time</h1>
-<p>End Events are triggered every frame after the specified time has passed. This ensures that even if the animation has already passed the end when you register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</p>
+<p>End Events are <strong>triggered every frame</strong> after the specified time has passed. This ensures that even if the animation has already passed the end when you register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</p>
 <p>By default, the End Event time is based on the state's speed: positive speed plays forwards and ends at the end of the animation (normalized time 1) while negative speed plays backwards and ends at the start of the animation (normalized time 0). In code, this is represented by the <code>NormalizedEndTime</code> being set to <code>float.NaN</code> but you can always assign a specific value.</p>
 
 	</section>

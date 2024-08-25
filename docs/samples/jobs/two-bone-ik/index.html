@@ -576,7 +576,7 @@
 <p>This sample demonstrates how the <code><a href="/animancer/api/Animancer.Samples.Jobs/TwoBoneIKJob">TwoBoneIKJob</a></code> from the <a href="https://github.com/Unity-Technologies/animation-jobs-samples">Animation Jobs Samples</a> can be used with Animancer. This achieves a similar result to the <a href="../../ik/puppet">Puppet</a> sample, but unlike Unity's inbuilt <a href="../../../manual/ik">Inverse Kinematics</a> system which only works for Humanoid Rigs, this allows you to apply IK to a Generic Rig as well.</p>
 <ol>
 <li>Define a job by making a <code>struct</code> that implements <code>IAnimationJob</code>.</li>
-<li>On startup, make an instance of your job and configure its fields as necessary: <code>var job = new MyJobStruct();</code>.</li>
+<li>On startup, make an instance of your job and configure its fields as necessary: <code>MyJobStruct job = new MyJobStruct();</code>.</li>
 <li>Add the job to Animancer using <code>animancer.Graph.InsertOutputJob(job);</code>.</li>
 </ol>
 <p>The job in this sample could be used in a real project, however Unity's <a href="../../integration/animation-rigging">Animation Rigging</a> package contains a much more powerful system which also uses Animation Jobs and can be used alongside Animancer.</p>
@@ -734,11 +734,11 @@ private Transform _Target;
 <p>The first thing we need to do is get the bones we want to apply the IK to, simply using the parent of the <code>_EndBone</code> we assigned in the Inspector (<code>midBone</code>) and the parent of that bone (<code>topBone</code>):</p>
 <pre><code class="language-cs">protected virtual void Awake()
 {
-    var midBone = _EndBone.parent;
-    var topBone = midBone.parent;
+    Transform midBone = _EndBone.parent;
+    Transform topBone = midBone.parent;
 </code></pre>
 <p>Then we create the <code><a href="/animancer/api/Animancer.Samples.Jobs/TwoBoneIKJob">TwoBoneIKJob</a></code> and call its <code>Setup</code> method to specify the <code>Animator</code>, bones, and target object:</p>
-<pre><code class="language-cs">    var twoBoneIKJob = new TwoBoneIKJob();
+<pre><code class="language-cs">    <a href="/animancer/api/Animancer.Samples.Jobs/TwoBoneIKJob">TwoBoneIKJob</a> twoBoneIKJob = new TwoBoneIKJob();
     twoBoneIKJob.Setup(_Animancer.Animator, topBone, midBone, _EndBone, _Target);
 </code></pre>
 <p>And finally, we call <code>AnimancerGraph.InsertOutputJob</code> to insert it in Animancer's <code>PlayableGraph</code> between the finaly output and whatever playable was previously connected to the output:</p>

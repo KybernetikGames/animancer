@@ -869,20 +869,20 @@ public class CharacterParameters
 <p>Firstly, it needs to make sure it actually has a <code>MovementDirection</code>, because it wouldn't know which way to turn if it somehow ended up in this state without the brain setting the direction:</p>
 <pre><code class="language-cs">    private void UpdateTurning()
     {
-        var movement = Character.Parameters.MovementDirection;
+        Vector3 movement = Character.Parameters.MovementDirection;
         if (movement == Vector3.zero)
             return;
 </code></pre>
 <p>Then it determines the angle it wants to turn towards:</p>
-<pre><code class="language-cs">        var targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
+<pre><code class="language-cs">        float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
 </code></pre>
 <p>Without going into the maths behind it, <code>Mathf.Atan2</code> gives the angle of a vector in radians. So the state just feeds in the <code>x</code> and <code>z</code> values to get the angle around the <code>y</code> axis, then converts the result to degrees because <code>Transform.eulerAngles</code> uses degrees.</p>
 <p>Then it calculate how far to rotate this frame:</p>
-<pre><code class="language-cs">        var turnDelta = _TurnSpeed * Time.deltaTime;
+<pre><code class="language-cs">        float turnDelta = _TurnSpeed * Time.deltaTime;
 </code></pre>
 <p>Then it gets the <code>Transform.eulerAngles</code>, moves the <code>y</code> value towards the target angle, and applies those angles back to the <code>Transform</code>:</p>
-<pre><code class="language-cs">        var transform = Character.Animancer.transform;
-        var eulerAngles = transform.eulerAngles;
+<pre><code class="language-cs">        Transform transform = Character.Animancer.transform;
+        Vector3 eulerAngles = transform.eulerAngles;
         eulerAngles.y = Mathf.MoveTowardsAngle(eulerAngles.y, targetAngle, turnDelta);
         transform.eulerAngles = eulerAngles;
     }

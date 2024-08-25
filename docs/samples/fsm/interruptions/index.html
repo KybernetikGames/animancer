@@ -710,9 +710,9 @@
         get
         {
             // There are several different ways of accessing the state change details:
-            //var nextState = StateChange&lt;CharacterState&gt;.NextState;
-            //var nextState = _Character.StateMachine.NextState;
-            var nextState = this.GetNextState();
+            //CharacterState nextState = StateChange&lt;CharacterState&gt;.NextState;
+            //CharacterState nextState = _Character.StateMachine.NextState;
+            CharacterState nextState = this.GetNextState();
             return nextState.Priority &gt;= Priority;
         }
     }
@@ -769,7 +769,7 @@ public override bool CanExitState
     {
 </code></pre>
 <p>If the next state is actually <code>this</code> state, use the value of <code>CanInterruptSelf</code>:</p>
-<pre><code class="language-cs">        var nextState = _Character.StateMachine.NextState;
+<pre><code class="language-cs">        CharacterState nextState = _Character.StateMachine.NextState;
         if (nextState == this)
             return CanInterruptSelf;
 </code></pre>

@@ -558,11 +558,11 @@
 		<p>When you play an <code>AnimationClip</code>, Animancer creates and returns an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> which you can use to control it and keep track of its progress. Then if you play the same animation again later, it will reuse that same state. For example:</p>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
-    var state = animancer.Play(clip);
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancer.Play(clip);
     state.Time = ...
     state.NormalizedTime = ...
     state.Speed = ...
-    state.Events.OnEnd = ...
+    state.Events(this).OnEnd = ...
 }
 </code></pre>
 <p>There are various other ways of accessing and creating states and the <a href="#performance">Performance</a> section explains their general efficiency implications:</p>
@@ -592,8 +592,8 @@ var&nbsp;state&nbsp;=&nbsp;animancer.States[key];
     </tr>
     <tr>
       <td>
-<pre><code class="language-cs">animancer.States.TryGet(clip, out var state);
-animancer.States.TryGet(key, out var state);
+<pre><code class="language-cs">animancer.States.TryGet(clip, out <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state);
+animancer.States.TryGet(key, out <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state);
 </code></pre></td>
       <td>If a state is already registered with the given <a href="keys">Key</a>, this method assigns it to the <code>state</code> <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out-parameter-modifier">out Parameter</a> and returns <code>true</code>. Otherwise the <code>state</code> will be null and the method returns <code>false</code>.</td>
     </tr>
