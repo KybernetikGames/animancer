@@ -81,7 +81,8 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#enum-keys">Enum Keys</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#custom-keys">Custom Keys</a></p>
+<p><a href="#enum-keys">Enum Keys</a></p>
 <p><a href="#object-keys">Object Keys</a></p>
 <p><a href="#component-keys">Component Keys</a></p>
 <hr class="infobar-hidden">
@@ -557,11 +558,24 @@
 			<h1>Keys</h1>
 		</section>
 	<section class="content">
-		<p>When <code>AnimancerComponent.Play</code> creates a state, it registers it in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using a particular key so that it can later be retrieved using that key and reused.</p>
-<ul>
-<li>By default, the <code>AnimationClip</code> the state is playing will be used as its key, but the system allows you to use any <code>object</code> as a key (every variable in C# is an <code>object</code>).</li>
-<li>The <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>. The <a href="../../samples/fine-control/named">Named Character</a> sample explains how <code>string</code> names and other keys (such as enums) can be used in more detail.</li>
-</ul>
+		<p>The first time you play an <code>AnimationClip</code> or <a href="../transitions">Transition</a> on each character, Animancer creates an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> for it and registers it in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using the object you used to play it as its <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> so that it can reuse that same state later on if you play the same thing again.</p>
+<pre><code class="language-cs">void KeysExample(AnimancerComponent animancer, AnimationClip clip)
+{
+    // Play something.
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> firstState = animancer.Play(clip);
+
+    // Play the same thing again later.
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> secondState = animancer.Play(clip);
+
+    // The same state is used both times.
+    Debug.Log(firstState == secondState);// True.
+
+    // The state's Key is the AnimationClip or Transition that created it.
+    Debug.Log(firstState.Key == clip);// True.
+}
+</code></pre>
+<h1 id="custom-keys">Custom Keys</h1>
+<p>You can assign any <code>object</code> as a state's <code>Key</code> when creating it or by simply setting its <code>Key</code> property and then use <code>AnimancerComponent.TryPlay</code> to play it with the <code>Key</code> to potentially keep the system that creates the state separate from the system that plays it.</p>
 <pre><code class="language-cs">void KeysExample(AnimancerComponent animancer, AnimationClip clip)
 {
     // Trying to play an animation before registering it does nothing (and returns null).
@@ -577,26 +591,27 @@
     animancer.TryPlay("Attack");// This won't work because the state isn't connected to anything yet.
     animancer.Layers[0].AddChild(state);// Now the state is connected and registered with its Key.
     animancer.TryPlay("Attack");
+
 }
 </code></pre>
 <ul>
 <li>You don't need to set the <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> if you don't want to. You can simply create a <code>new <a href="/animancer/api/Animancer/ClipState">ClipState</a></code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
-<li>If you want to have multiple states playing the same clip (such as if you need to play it on multiple <a href="../blending/layers">Layers</a>) you will need to register them all with different keys (or not register them at all).
+<li>The <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>.</li>
+<li>If you want to have multiple states playing the same clip you will need to register them all with different keys (or no keys).
 <ul>
 <li><code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>
 </ul>
 </li>
 </ul>
 <h1 id="enum-keys">Enum Keys</h1>
-<p>Unfortunately, since <code>object</code> is a <a href="/cs-unity/docs/introduction/organization#values-and-references">Reference Type</a>, using a <a href="/cs-unity/docs/introduction/organization#values-and-references">Value Type</a> like an <code>enum</code> in those methods implicitly creates a <code>new object</code> to hold the value. This is called <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing">Boxing</a> and has a notable impact on performance, particularly since the <code>new object</code> is immediately discarded after the call and needs to be <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a>. This does not mean enums should not be used, just that you should be aware of the inefficiency.</p>
+<p>Unfortunately, since <code>object</code> is a <a href="/cs-unity/docs/introduction/organization#values-and-references">Reference Type</a>, using a <a href="/cs-unity/docs/introduction/organization#values-and-references">Value Type</a> like an <code>enum</code> in those methods implicitly creates a <code>new object</code> to hold the value. This is called <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/boxing-and-unboxing">Boxing</a> and has a notable impact on performance, particularly since the <code>new object</code> is immediately discarded after the call and needs to be <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collected</a>. This doesn't mean enums shouldn't be used, just that you should be aware of the inefficiency.</p>
 <h1 id="object-keys">Object Keys</h1>
 <p>Another approach is to use actual <code>object</code>s as keys. Rather than an <code>enum</code> you could make a <code>class</code> like this:</p>
 <pre><code class="language-cs">public static class CharacterAction
 {
-    public static readonly object Idle = new object();
-    public static readonly object Walk = new object();
-    public static readonly object Run = new object();
-    // Etc.
+    public static readonly object Idle = new();
+    public static readonly object Walk = new();
+    public static readonly object Run = new();
 }
 </code></pre>
 <p>Those <code>object</code>s will not actually do anything on their own but can be used as keys in a similar fashion to an enum: <code>animancer.States.Create(CharacterAction.Walk, _Walk);</code>.</p>
@@ -627,7 +642,7 @@
 
 <div>
 <p>Download</p>
-<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io</a></p>
 <p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
 <p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>

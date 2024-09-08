@@ -176,7 +176,7 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Pro-Only]
-    Assigns the `function` as the <code class="cs">Animancer.FadeGroup.Easing</code>.
+    Assigns the `function` as the <code class="cs">Animancer.FadeGroup.Easing</code> if the `fade` isn't <code class="cs">null</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -201,9 +201,22 @@
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
-    This method allows you to avoid null-checking the `fade`.
-    <p></p>
     <em>Animancer Lite ignores this feature in runtime builds.</em>
+    <p></p>
+    <strong>Example:</strong><pre><code class="cs">void EasingExample(AnimancerComponent animancer, AnimationClip clip)
+{
+    // Start fading the animation normally.
+    AnimancerState state = animancer.Play(clip, 0.25f);
+    
+    // Then a custom Easing delegate to modify it.
+    state.FadeGroup.SetEasing(t =&gt; t * t);// Square the 0-1 value to start slow and end fast.
+    
+    // The Easing class has lots of standard mathematical curve functions.
+    state.FadeGroup.SetEasing(Easing.Sine.InOut);
+    
+    // Or you can use the Easing.Function enum.
+    state.FadeGroup.SetEasing(Easing.Function.SineInOut);
+}</code></pre>
     </div>
 
 
@@ -277,9 +290,9 @@
 
 <div>
 <p>Download</p>
-<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io (Recommended)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-116514?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
-<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-116516?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
 </div>
 
 <div style="width:10%"></div>
