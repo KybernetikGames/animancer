@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - 07 Sprites</title>
+        <title>Animancer - Parameters</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -81,7 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"></div>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#custom-parameter-types">Custom Parameter Types</a></p>
+<hr class="infobar-hidden">
+</div>
 
                 </section>
                 <section class="sidebar">    
@@ -134,7 +136,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
+                <li class="treeview">
                     <a href="/animancer/docs/samples">Samples</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -205,7 +207,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview active selected">
+                <li class="treeview">
                     <a href="/animancer/docs/samples/sprites">07 Sprites</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -286,7 +288,7 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual">User Manual</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
@@ -357,18 +359,18 @@
 
                     </ul>
                 </li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual/events">Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/events/animation">Animation Events</a></li>
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="/animancer/docs/manual/events/animancer">Animancer Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
                 <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer/parameters">Parameters</a></li>
+                <li class="selected"><a href="/animancer/docs/manual/events/animancer/parameters">Parameters</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
 
                     </ul>
@@ -550,56 +552,71 @@
 
 
 		<section class="content-header">
-			<h1>07 Sprites</h1>
+			<h1>Parameters</h1>
 		</section>
 	<section class="content">
-		
-<blockquote class="blockquote">
-<p><i class="emw fa fa-folder"></i> <a href="../"><strong>Location</strong>: Samples/07 Sprites</a></p>
-</blockquote>
+		<p>Event callbacks are parameterless by default, but it can sometimes be useful to give them a parameter by setting one of the <code>AnimancerEvent.Parameter...</code> options as their <code>Callback</code>. This allows events to do things like specify which foot a <em>footstep</em> is referring to without needing to have a separate event name for each one as demonstrated in the <a href="../../../../samples/events/footsteps">Footstep Events</a> sample.</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Inspector</th>
+    <th style="width:50%">Context Menu</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><img src="basic-character-animations.png" class="img-responsive"></td>
+      <td><p><img src="callback-types.png" class="img-responsive"></p>Animancer supports common parameter types by default and you can easily <a href="custom-parameter-types">create your own custom parameter types</a>.</td>
+    </tr>
+  </tbody>
+</table>
+<p>When registering a callback to receive a parameter, you must specify the parameter type as a generic argument with slightly different syntax depending on <a href="../usage">how you're setting up the events</a>:</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
 
-<p>These samples demonstrate how you can group animations into sets of up/right/down/left (with or without diagonals) using <a href="../../manual/playing/directional-sets">Directional Animation Sets</a> to implement characters who can face any direction while performing various actions.</p>
+protected virtual void Awake()
+{
+    // Central Events.
+    _Animancer.Events.AddTo&lt;AudioSource&gt;(_EventName, PlaySound);
 
-<p>This concept can be extended to any situation where you want to define a reusable structure for a set of animations (whether 2D like these samples or not). For example, you could make a <code>CharacterAnimationSet</code> containing all the standard animations of a character (<em>Idle</em>, <em>Walk</em>, <em>Run</em>, <em>Attack</em>, etc.) or a <code><a href="/animancer/api/Animancer.Samples.StateMachines/Weapon">Weapon</a></code> could hold all the animations that characters need to use when it is equipped like in the <a href="../fsm/weapons">Wepons</a> sample. That way you can reuse the same structure throughout your project.</p>
+    // Transition Events.
+    _Animation.Events.AddCallback&lt;AudioSource&gt;(_EventName, PlaySound);
 
-<p>These samples focus on using animations in Animancer. For actually creating <code>Sprite</code> based animations, several of the <a href="../../manual/tools">Animancer Tools</a> can help with that and some of the <a href="https://learn.unity.com/tutorials">official Unity tutorials</a> explain other ways of doing it:</p>
+    // <a href="/animancer/api/Animancer.FSM/State">State</a> Events.
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
+    {
+        events.AddCallback&lt;AudioSource&gt;(_EventName, PlaySound);
+    }
+}
 
+private void PlaySound(AudioSource source) { }
+</code></pre>
+<h1 id="custom-parameter-types">Custom Parameter Types</h1>
+<p>Serialized event callbacks are stored as classes that implement <code><a href="/animancer/api/Animancer/IInvokable">IInvokable</a></code>:</p>
 <ul>
-  <li><a href="https://learn.unity.com/tutorial/introduction-to-sprite-animations">Introduction to Sprite Animations</a></li>
-  <li><a href="https://learn.unity.com/tutorial/introduction-to-sprite-editor-and-sheets">Introduction to Sprite Editor and Sheets</a></li>
-  <li><a href="https://learn.unity.com/tutorial/animating-a-sprite-with-the-2d-animation-package">Animating a Sprite with the 2D Animation Package</a></li>
-  <li><a href="https://learn.unity.com/tutorial/animating-a-sprite-with-anima2d">Animating a Sprite with Anima2D</a></li>
+<li><code>Animancer.UnityEvent</code> inherits from <code>UnityEngine.Events.UnityEvent</code> to allow <a href="https://docs.unity3d.com/Manual/UnityEvents.html">UnityEvents</a> to be used as event callbacks.</li>
+<li><code>Animancer.UltEvent</code> inherits from <code>UltEvents.UltEvent</code> to allow <a href="/ultevents">UltEvents</a> to be used as event callbacks.</li>
+<li><code>AnimancerEvent.Parameter</code> is the base class for objects which make a parameter value available to other callbacks registered for the same event.
+<ul>
+<li><code>AnimancerEvent.ParameterBoxed</code> does the same thing for value type parameters (<code>struct</code>s and <code>enum</code>s).</li>
 </ul>
-
-			<div class="box">
-				<div class="box-body no-padding">
-					<table class="table table-striped table-hover two-cols-alt table-responsive">
-						
-						<tbody>
-								<tr>
-									<td><strong><a href="/animancer/docs/samples/sprites/basics">07-01 Directional Basics</a></strong></td>
-									<td>
-Use DirectionalAnimationSets to organise animations in groups of up/right/down/left, using the exact same structure for both Idle and Walk animations across various different characters.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/docs/samples/sprites/character">07-02 Directional Character</a></strong></td>
-									<td>
-Use DirectionalAnimationSets in a slightly more complex character and then change to a character that uses DirectionalAnimationSet8s to support diagonal movement as well, without changing the controller script at all.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/docs/samples/sprites/character-3d">07-03 Directional Character 3D</a></strong></td>
-									<td>
-Use directional Sprite animations for 2D characters within a 3D environment.									</td>
-								</tr>
-								<tr>
-									<td><strong><a href="/animancer/docs/samples/sprites/platformer">Platformer Game Kit</a></strong></td>
-									<td>
-The Platformer Game Kit is a much more extensive example of how to use Animancer in a complex game.									</td>
-								</tr>
-						</tbody>				
-					</table>
-				</div>
-			</div> 
+</li>
+</ul>
+<p>So if you want to add another parameter type you can simply make a serializable class that inherits from the appropriate base parameter, for example:</p>
+<pre><code class="language-cs">[System.Serializable]
+public class ParameterVector3 : Animancer.AnimancerEvent.ParameterBoxed&lt;UnityEngine.Vector3&gt; { }
+</code></pre>
+<p>Simply having that class in your project will allow you to select it when assigning event callbacks.</p>
+<p>You could also implement <code><a href="/animancer/api/Animancer/IInvokable">IInvokable</a></code> to directly make your own custom callback:</p>
+<pre><code class="language-cs">[System.Serializable]
+public class Invokable : Animancer.IInvokable
+{
+    public virtual void Invoke()
+    {
+        // Do stuff.
+    }
+}
+</code></pre>
 
 	</section>
                 

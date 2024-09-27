@@ -370,7 +370,7 @@
                         
                 <li><a href="/animancer/docs/manual/events/animancer/usage">Usage</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/behaviour">Behaviour</a></li>
-                <li><a href="/animancer/docs/manual/events/animancer/garbage">Garbage Collection</a></li>
+                <li><a href="/animancer/docs/manual/events/animancer/parameters">Parameters</a></li>
                 <li><a href="/animancer/docs/manual/events/animancer/utilities">Event Utilities</a></li>
 
                     </ul>
@@ -568,9 +568,6 @@
 </details>
 <h1 id="limitations">Limitations</h1>
 <h2 id="resetting-properties">Resetting Properties</h2>
-<blockquote class="blockquote">
-<p>The <a href="../../../changes/animancer-v8-0/upgrade-guide#how-to-upgrade">Animancer v8.0 Test Package</a> has a new solution to this problem which is explained on the <code><a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a></code> API page. The rest of this section should no longer be necessary when using that system and will be rewritten once Animancer v8.0 is released.</p>
-</blockquote>
 <img src="ik-weight.png" class="img-responsive img-right">
 <p>The way the Animation Rigging system reads properties like the <code>Weight</code> of its constraint components causes them to be treated like animated properties, meaning that calling <code>Animator.Rebind</code> will reset those properties to their starting values.</p>
 <p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code><a href="/animancer/api/Animancer/AnimancerGraph/FD81B96B">AnimancerGraph.KeepChildrenConnected</a></code> property:</p>
@@ -596,21 +593,31 @@
 </tbody>
 </table>
 <p>This isn't a problem for Animator Controllers because they simply don't allow their structure to be changed at runtime.</p>
-<p>There are two general workarounds for this issue, but unfortunately neither of them is particularly convenient:</p>
-<p><strong>Fully configure the playable graph on startup</strong>:</p>
-<ol>
-<li>Set <code>animancerComponent.Playable.KeepChildrenConnected = true</code>.</li>
-<li>Call <code>animancerComponent.Layers[x].GetOrCreateState</code> for every animation the character might want to play.</li>
-<li>Don't create or destroy any states after that.</li>
-</ol>
-<p><strong>Manually store and restore the values that would reset</strong>:</p>
-<ol>
-<li>Find everywhere your code does something that might connect or disconnect a <code>Playable</code> such as playing a new animation.</li>
-<li>Before that code, store the values of all constraints that you want.</li>
-<li>After that code, call <code>animancerComponent.Animator.Rebind();</code> to force the required reset immediately.</li>
-<li>Then apply the stored values back to the constraint components.</li>
-</ol>
-<p>Generally, the first approach is much simpler to implement because you don't need to add additional code every time you play anything. In some cases that might not be feasible such as if you want to have different animations for each weapon like in the <a href="../../fsm/weapons">Weapons</a> sample so you might want to use a combination of both approaches: when equipping a new weapon you store the rigging values, configure its new animations, and reset the values so that you won't need to repeat the store and reset every time you play something.</p>
+<p>This issue can be avoided by using a <code><a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a></code>:</p>
+<pre><code class="language-cs">public class PlayableOutputRefresherExample : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private Rig _Rig;
+
+    // A field to store it in.
+    private <a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a> _OutputRefresher;
+
+    protected virtual void OnEnable()
+    {
+        // Initialize on startup.
+        _OutputRefresher = new(_Animancer);
+    }
+
+    public void SetWeight(float weight)
+    {
+        // Change something that would be reset.
+        _Rig.weight = weight;
+        
+        // Then call this afterwards.
+        _OutputRefresher.Refresh();
+    }
+}
+</code></pre>
 <h2 id="ik-targets">IK Targets</h2>
 <p>The position and rotation of Target and Hint objects used by the Inverse Kinematics system from the Animation Rigging package are affected by the same resetting effect explained above, but fortunately it can be avoided by ensuring those objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
 <p><img src="ik-configuration.png" class="img-responsive"></p>
