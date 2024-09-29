@@ -81,7 +81,11 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#adding-components">Adding Components</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#animancer-component">Animancer Component</a></p>
+<p><a href="#named-animancer-component">Named Animancer Component</a></p>
+<p><a href="#hybrid-animancer-component">Hybrid Animancer Component</a></p>
+<p><a href="#solo-animation">Solo Animation</a></p>
+<p><a href="#adding-components">Adding Components</a></p>
 <p><a href="#source-code">Source Code</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -557,39 +561,38 @@
 		</section>
 	<section class="content">
 		<p>The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> is the main entry point for controlling animations with Animancer. It also has several sub-classes with additional functionality:</p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>: the base class with all the core functionality.</summary><p>
 <img src="animancer.png" class="img-responsive img-right">
-</p><p>Sample: <a href="../../../samples/basics/quick-play">Quick Play</a> (and most others)</p>
+<h1 id="animancer-component">Animancer Component</h1>
+<p><code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> is the base class with all the core functionality.</p>
+<p>Sample: <a href="../../../samples/basics/quick-play">Quick Play</a> (and most others)</p>
 <p>The base component which wraps the core functionality of Animancer.</p>
 <p>The <code>Animator</code> field references the <code>Animator</code> component that Animancer will control.</p>
 <p>The <code>Action On Disable</code> field determines which <code>DisableAction</code> will be used when the object is disabled.</p>
-<p></p></details><p></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>: registers animations by name so that you can use <code>TryPlay("Animation Name")</code>.</summary><p>
 <img src="named.png" class="img-responsive img-right">
-</p><p>Sample: <a href="../../../samples/fine-control/named">Named Character</a></p>
+<h1 id="named-animancer-component">Named Animancer Component</h1>
+<p><code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> registers animations by name so that you can use <code>TryPlay("Animation Name")</code>.</p>
+<p>Sample: <a href="../../../samples/fine-control/named">Named Character</a></p>
 <p><a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
 <p><a href="/cs-unity/docs/introduction/inheritance#keywords">Overrides</a> the <code>GetKey</code> method to use the animation name so that you can use <code>TryPlay("Animation Name")</code>. See the <a href="../keys">Keys</a> section for more information.</p>
 <p>The <code>Animations</code> array allows you to pre-register <code>AnimationClip</code>s (so you can <code>TryPlay</code> them by name like in Unity's Legacy <code>Animation</code> component).</p>
 <p>The <code>Play Automatically</code> toggle determines if you want it to play the first animation in the list on startup.</p>
-<p></p></details><p></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>: allows for a <a href="../../animator-controllers#hybrid">Hybrid combination of an Animator Controller and Animancer</a>.</summary><p>
 <img src="hybrid.png" class="img-responsive img-right">
-</p><p>Sample: <a href="../../../samples/animator-controllers/character">Hybrid Character</a></p>
+<h1 id="hybrid-animancer-component">Hybrid Animancer Component</h1>
+<p><code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> allows you to implement a Hybrid combination of an <a href="../../animator-controllers">Animator Controller</a> and Animancer where each system works alongside the other.</p>
+<p>Sample: <a href="../../../samples/animator-controllers/character">Hybrid Character</a></p>
 <p><a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code>.</p>
-<p>The <code>Controller</code> field allows for a <a href="../../animator-controllers#hybrid">Hybrid combination of an Animator Controller and Animancer</a>.</p>
 <p><em><a href="/animancer/redirect/pro"><strong>Pro-Only</strong></a>: Animancer Lite allows you to try out this feature in the Unity Editor, but it will not be available in runtime builds unless you purchase Animancer Pro. See the <a href="../../../introduction/features">Feature Comparison</a> for more information.</em></p>
-<p></p></details><p></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></code>: plays one animation.</summary><p>
 <img src="solo.png" class="img-responsive img-right">
-</p><p>Sample: <a href="../../../samples/fine-control/doors">Doors</a></p>
+<h1 id="solo-animation">Solo Animation</h1>
+<p><code><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></code> plays one animation.</p>
+<p>Sample: <a href="../../../samples/fine-control/doors">Doors</a></p>
 <p>Plays one animation which can be assigned in the Inspector without the performance overhead of the rest of Animancer.</p>
-<p>That's all it does. <strong>It doesn't support</strong> <a href="../../blending/fading">Fading</a> or <a href="../../blending/layers">Layers</a> or <a href="../../events/animancer">Animancer Events</a> or any of the other features of Animancer. It is not even really part of Animancer, it is just a self-contained script designed to play that one animation and nothing else. If you want to do anything more than that you are likely better off using a proper <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
-<p></p></details><p></p>
+<p>That's all it does. <strong>It doesn't support</strong> <a href="../../blending/fading">Fading</a> or <a href="../../blending/layers">Layers</a> or <a href="../../events/animancer">Animancer Events</a> or any of the other features of Animancer. It is not even really part of Animancer, it is just a self-contained script designed to play that one animation and nothing else. If you want to do anything more than that you're likely better off using a proper <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
 <img src="add-component.png" class="img-responsive img-right">
 <h1 id="adding-components">Adding Components</h1>
 <p>When using the <code>Add Component</code> menu in the Unity Editor, all of Animancer's components are located in the <code>Animancer</code> sub-menu.</p>
 <h1 id="source-code">Source Code</h1>
-<p>The scripts containing these components are located in the <code>Assets/Plugins/Animancer</code> folder and they are even included in Animancer Lite, so you can modify or <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from them to implement your own variations. For example, you could:</p>
+<p>The scripts containing these components are located in the <code>Packages\Animancer\Runtime</code> folder and they are even included in Animancer Lite, so you can modify or <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from them to implement your own variations. For example, you could:</p>
 <ul>
 <li>Inherit from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and add a <code>SpriteRenderer</code> or <code>SkinnedMeshRenderer</code> field so you can reference it alongside the animations.</li>
 <li>Make a <code>CharacterAnimationSet</code> class which inherits from <code>ScriptableObject</code> to define a set of animations for each character and then make a <code>CharacterAnimancer</code> class which inherits from <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to allow a character to reference one of those animation sets in the same place as the rest of the animation functionality.</li>
