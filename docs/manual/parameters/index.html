@@ -84,6 +84,7 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#cached-example">Cached Example</a></p>
 <p><a href="#lazy-example">Lazy Example</a></p>
 <p><a href="#smoothing">Smoothing</a></p>
+<p><a href="#debugging">Debugging</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -656,6 +657,34 @@
 }
 </code></pre>
 <p>Using <code><a href="/animancer/api/Animancer/SmoothedVector2Parameter">SmoothedVector2Parameter</a></code> is the same as all that, except it takes two parameter names in the constructor and the value is a <code>Vector2</code>.</p>
+<h1 id="debugging">Debugging</h1>
+<p>Since this system is designed to be accessed from anywhere, it's unfortunately easy to end up in situations where parameters are given unexpected values. That's why there's an inbuilt logging system which can be turned on for a particular parameter to log any time something gets or sets its value as well as any <code>OnValueChanged</code> listeners that are added or removed.</p>
+<h2 id="how-to-enable-parameter-logging">How to enable parameter logging</h2>
+<p>Logging can be enabled via the Inspector or via code.</p>
+<p>In the <a href="../playing/inspector">Live Inspector</a> you can Right Click on a parameter and select the <code>Log Interactions</code> function from the Context Menu.</p>
+<p><img src="context-menu.png" class="img-responsive"></p>
+<p>In code, you can set the parameter's <code>LogContext</code> like this:</p>
+<pre><code class="language-cs">public class DebuggingParameterExample : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterName;
+
+    private Parameter&lt;float&gt; _Parameter;
+
+    protected virtual void Awake()
+    {
+        _Parameter = _Animancer.Parameters.GetOrCreate&lt;float&gt;(_ParameterName);
+        _Parameter.LogContext = this;
+    }
+}
+</code></pre>
+<p>You can assign any type of object as the context such as a component or <code>string</code> and it will be used as a prefix for that parameter's log messages in case you need to debug multiple parameters at the same time.</p>
+<h2 id="when-is-this-logging-available">When is this logging available</h2>
+<p>By default, this logging is available in the Unity Editor and in Development Builds, but not regular Release Builds.</p>
+<p>If you need to use it in a Release Build you can define <code>ANIMANCER_DEBUG_PARAMETERS</code> as a <a href="https://docs.unity3d.com/Manual/custom-scripting-symbols.html">Custom Scripting Symbol</a> in your project. Unfortunately, this requires Animancer Pro as the scripts need to be recompiled with that symbol active which can't happen with the pre-compiled DLLs in Animancer Lite.</p>
+<h2 id="inspector-control-only">Inspector Control Only</h2>
+<p>It can also sometimes be useful to prevent all scripts from setting a parameter so that you can control it manually in the Inspector and observe the effects.</p>
+<p>This can be done by enabling <code>Inspector Control Only</code> via the same context menu as explained above or in code by setting the <code>_Parameter.InspectorControlOnly = true;</code>.</p>
 
 	</section>
                 
