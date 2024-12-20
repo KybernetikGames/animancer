@@ -81,7 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#end-events-in-transitions">End Events in Transitions</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#event-types">Event Types</a></p>
+<p><a href="#when-to-use-end-events">When to use End Events</a></p>
+<p><a href="#end-events-in-transitions">End Events in Transitions</a></p>
 <p><a href="#end-events-in-states">End Events in States</a></p>
 <p><a href="#end-event-time">End Event Time</a></p>
 <hr class="infobar-hidden">
@@ -381,7 +383,7 @@
                     <a href="/animancer/docs/manual/events/end">End Events</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/manual/events/end/alternatives">End Event Alternatives</a></li>
+                <li><a href="/animancer/docs/manual/events/end/alternatives">Alternatives to End Events</a></li>
 
                     </ul>
                 </li>
@@ -563,10 +565,12 @@
 <li>A looping animation will wrap back to the start to play through repeatedly.</li>
 <li>A non-looping animation will freeze in place on the last frame.</li>
 </ul>
-<p>In both cases, the animation is still playing and its time is still increasing. <strong>Animancer won't automatically stop the animation or play something else unless you tell it to, which is what End Events are for</strong>. The following table summarises the differences between them and the other event types in Animancer.</p>
+<p>In both cases, the animation is still playing and its time is still increasing. <strong>Animancer won't automatically stop the animation or play something else unless you tell it to, which is what End Events are for</strong>.</p>
+<h1 id="event-types">Event Types</h1>
+<p>The following table summarises the differences between End Events and the other event types in Animancer.</p>
 <table class="table">
   <thead>
-    <tr><th>System</th>
+    <tr><th>Event Type</th>
     <th>Summary</th>
   </tr></thead>
   <tbody>
@@ -576,7 +580,7 @@
     </tr>
     <tr>
       <td>End&nbsp;Events</td>
-      <td>Each state has a single End Event triggered when an animation's <strong>time</strong> passes a specific point and <strong>every frame after that</strong> for as long as the animation continues playing.</td>
+      <td>Each state has a single End Event triggered when the animation's <strong>time</strong> passes a specific point and <strong>every frame after that</strong> for as long as the animation continues playing. They're intended to let you play something else so the event will usually only trigger once anyway (End Events and <a href="../animancer">Animancer&nbsp;Events</a> don't trigger on states that are fading out unless <code><a href="/animancer/api/Animancer/AnimancerState/09615D75">AnimancerState.RaiseEventsDuringFadeOut</a></code> is enabled).</td>
     </tr>
     <tr>
       <td><code><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></code>s</td>
@@ -584,7 +588,38 @@
     </tr>
   </tbody>
 </table>
-<p>Despite the name, End Events don't inherently do anything to end the animation. You can do anything you want using the callback, but if Animancer isn't able to detect that you have done something to end the animation (usually by playing something else) then it will log <code>OptionalWarning.EndEventInterrupt</code> to help identify a potential issue in your setup. If you intend to use the event for something else then you can simply disable that warning as it explains.</p>
+<h1 id="when-to-use-end-events">When to use End Events</h1>
+<p>End Events are <strong>triggered every frame</strong> after the specified time has passed in order to ensure they can't be missed if the animation has already passed its end when you play the animation or register the event. But any event can stop an animation or play something else so if you don't want the special characteristics of an End Event then you can simply use a regular <a href="../animancer">Animancer Event</a> or <a href="../animation">Animation Event</a>. For example:</p>
+<pre><code class="language-cs">public class DontUseEndEventExample : MonoBehaviour
+{
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+
+    public bool IsPlayingAnimation { get; private set; }
+    
+    private void OnAnimationEnd()
+    {
+        IsPlayingAnimation = false;
+    }
+</code></pre>
+<p>The above method isn't actually telling Animancer to do something that would end the animation. Something else will probably check <code>IsPlayingAnimation</code> to determine when to end it, but Animancer has no way of knowing that so using it as an End Event would log <code>OptionalWarning.EndEventInterrupt</code> to indicate that you may have made a mistake in your logic. So you can either disable the warning or use a regular event:</p>
+<pre><code class="language-cs">    protected virtual void Awake()
+    {
+        // Disable the Optional Warning:
+        OptionalWarning.EndEventInterrupt.Disable();
+        _Animation.Events.OnEnd = OnAnimationEnd;
+        
+         // Or just use a regular Animancer Event:
+        _Animation.Events.Add(1, OnAnimationEnd);
+    }
+    
+    public void PlayAnimation()
+    {
+        IsPlayingAnimation = true;
+        _Animancer.Play(_Animation);
+    }
+}
+</code></pre>
 <h1 id="end-events-in-transitions">End Events in Transitions</h1>
 <p>If your script contains a <a href="../../transitions">Transition</a> which it owns exclusively (not a <a href="../../transitions/assets">Transition Asset</a> which could be shared by multiple characters) then its <code>OnEnd</code> callback should be assigned on startup.</p>
 <pre><code class="language-cs">public class TransitionEndEventExample : MonoBehaviour
@@ -700,7 +735,7 @@ private void OnAnimationEnd()
 </table>
 <p>You could also use <code>state.OwnedEvents</code> to skip the state ownership check, but that can lead to issues if some scripts are properly claiming ownership but others are ignoring it.</p>
 <h1 id="end-event-time">End Event Time</h1>
-<p>End Events are <strong>triggered every frame</strong> after the specified time has passed. This ensures that even if the animation has already passed the end when you register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</p>
+<p>End Events are <strong>triggered every frame</strong> after the specified time has passed. This ensures that even if the animation has already passed the end when you play the animation or register the event, it will simply trigger next frame instead of not triggering at all and probably leaving the character stuck in that state.</p>
 <p>By default, the End Event time is based on the state's speed: positive speed plays forwards and ends at the end of the animation (normalized time 1) while negative speed plays backwards and ends at the start of the animation (normalized time 0). In code, this is represented by the <code>NormalizedEndTime</code> being set to <code>float.NaN</code> but you can always assign a specific value.</p>
 
 	</section>
