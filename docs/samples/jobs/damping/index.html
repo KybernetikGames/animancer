@@ -823,7 +823,7 @@ job.localPositions = ...;
 <pre><code class="language-cs">    job.rootHandle = animator.BindStreamTransform(bone);
 </code></pre>
 <p>And now that the job has everything it needs, we can give it to Animancer:</p>
-<pre><code class="language-cs">    _Animancer.Playable.InsertOutputJob(job);
+<pre><code class="language-cs">    _Animancer.Graph.InsertOutputJob(job);
 </code></pre>
 <h1 id="disposal">Disposal</h1>
 <p>As mentioned earlier, using <code>Allocator.Persistent</code> for the <code>NativeArray</code>s means we need to <code>Dispose</code> them when we are done with them to free up the memory that was allocated for them so we don't leak memory (and Unity will give you a warning if you fail to do so). The original sample used an <code>OnDisable</code> method to <code>Dispose</code> its arrays, but with Animancer you can simply add them to the <code><a href="/animancer/api/Animancer/AnimancerGraph/263BB4F2">AnimancerGraph.Disposables</a></code> list and it will <code>Dispose</code> them for you.</p>
