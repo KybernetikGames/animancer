@@ -83,6 +83,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#ReturnValue">Return Value</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -199,6 +200,32 @@
 	<pre><code>void OnTimelineBackgroundGUI()</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    <strong>Example:</strong><pre><code class="cs">// For the AttackTransition example from ITransitionGUI.
+// Draw the hit time as a highlighted area.
+public void OnTimelineBackgroundGUI()
+{
+    if (Event.current.type != EventType.Repaint)
+        return;
+
+    Color previousColor = GUI.color;
+    TimelineGUI timelineGUI = TimelineGUI.Current;
+
+    float start = timelineGUI.SecondsToPixels(_HitStartTime);
+    float end = timelineGUI.SecondsToPixels(_HitEndTime);
+    Rect area = new Rect(
+        start,
+        0,
+        end - start,
+        timelineGUI.Area.height - timelineGUI.TickHeight);
+
+    Color color = new Color(0.9f, 0.4f, 0.25f, 0.5f);
+
+    EditorGUI.DrawRect(area, color);
+
+    GUI.color = previousColor;
+}</code></pre></div>
 
 
 

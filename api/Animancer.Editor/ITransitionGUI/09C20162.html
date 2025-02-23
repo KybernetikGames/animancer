@@ -83,6 +83,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Parameters">Parameters</a></p>
 <p><a href="#ReturnValue">Return Value</a></p>
 <hr class="infobar-hidden">
@@ -197,6 +198,23 @@
 	<pre><code>void OnPreviewSceneGUI(TransitionPreviewDetails details)</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    <strong>Example:</strong><pre><code class="cs">// For the AttackTransition example from ITransitionGUI.
+// Draw the hit box as a wireframe cube.
+public void OnPreviewSceneGUI(TransitionPreviewDetails details)
+{
+    Color color = Handles.color;
+    Handles.color = new(0.5f, 1, 0.5f);
+    
+    Transform transform = details.Transform;
+    
+    Handles.DrawWireCube(
+        transform.TransformPoint(_HitBox.center),
+        _HitBox.size);
+    
+    Handles.color = color;
+}</code></pre></div>
 
 
 

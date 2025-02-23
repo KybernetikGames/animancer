@@ -83,6 +83,7 @@
                     	
 	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
 <p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Remarks">Remarks</a></p>
 <p><a href="#Methods">Methods</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -189,12 +190,15 @@
 				<li><a href="/animancer/api/Animancer.Editor/CustomGUIFactory">CustomGUIFactory</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/DefaultValues">DefaultValues</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/DelegateGUI">DelegateGUI</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/DirectionalAnimationSet4Editor">Directional<wbr>Animation<wbr>Set4<wbr>Editor</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/DirectionalAnimationSet8Editor">Directional<wbr>Animation<wbr>Set8<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/DirectionalAnimationSetEditor">Directional<wbr>Animation<wbr>Set<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/DirectionalClipTransitionDrawer">Directional<wbr>Clip<wbr>Transition<wbr>Drawer</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/EditableFieldDrawer">EditableFieldDrawer</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/EventSequenceDrawer">EventSequenceDrawer</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/FadeGroupDrawer">FadeGroupDrawer</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/FloatGUI">FloatGUI</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/HybridAnimancerComponentEditor">Hybrid<wbr>Animancer<wbr>Component<wbr>Editor</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/InternalSerializableTypeAttribute">Internal<wbr>Serializable<wbr>Type<wbr>Attribute</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/IntGUI">IntGUI</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/LabelGUI">LabelGUI</a></li>
@@ -317,6 +321,38 @@ class Type type-node
 	<pre><code>public interface ITransitionGUI</code></pre>
 
 
+	<h1 id="Remarks">Remarks</h1>
+	<div>
+    Implement this in a custom transition type to give it custom GUI elements.
+    <p></p>
+    <strong>Example:</strong><pre><code class="cs">using Animancer;
+using UnityEngine;
+
+// AttackTransition.cs contains your custom transition type.
+public partial class AttackTransition : ClipTransition
+{
+    [SerializeField] private Bounds _HitBox;
+    [SerializeField] private float _HitStartTime;
+    [SerializeField] private float _HitEndTime;
+
+    // Damage, Knockback, etc.
+}
+
+// AttackTransition.Drawer.cs contains the custom GUI for it.
+#if UNITY_EDITOR
+    
+using Animancer.Editor;
+using UnityEditor;
+using UnityEngine;
+
+public partial class AttackTransition : ITransitionGUI
+{
+    // See each method for an example.
+    public void OnPreviewSceneGUI(TransitionPreviewDetails details) { }
+    public void OnTimelineBackgroundGUI() { }
+    public void OnTimelineForegroundGUI() { }
+}
+#endif</code></pre></div>
 
 
 
