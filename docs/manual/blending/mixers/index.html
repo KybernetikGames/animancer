@@ -685,10 +685,15 @@
 
 <h1 id="2d-mixer-dead-zones">2D Mixer Dead Zones</h1>
 
-<p>When selecting a 2D mixer, Directional generally offers better interpolation than Cartesian for animations that represent direction such as move forward/back/left/right.</p>
+<ul>
+<li>When selecting a 2D mixer, Directional generally offers better interpolation than Cartesian for animations that represent direction such as moving forward/back/left/right.</li>
+<li>In areas with 180 degrees or more between states the interpolation is ill-defined and will likely have undesirable results. For example, if you have clips for <em>forward</em>, <em>back</em>, and <em>left</em>, but no <em>right</em>, then you will get odd results if you set the parameter to the right.</li>
+<li>Including a central idle animation is usually a good idea so that the mixer can give good results at low parameter values. Otherwise trying to stand still would look like this:</li>
+</ul>
 
-<p>In areas with 180 degrees or more between states the interpolation is ill-defined and will likely have undesirable results. For example, if you have clips for <em>forward</em>, <em>back</em>, and <em>left</em>, but no <em>right</em>, then you will get odd results if you set the parameter to the right.</p>
+<p><img src="without-idle.png" class="pngif img-responsive"></p>
 
+<p>Note that the <code>0.3</code> shown for the <code>Weight</code> of each of the animations is actually <code>0.25</code> rounded to one decimal place so they add up to a total of <code>1</code>.</p>
 
 
 
