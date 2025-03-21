@@ -87,6 +87,7 @@
 <p><a href="#central-events">Central Events</a></p>
 <p><a href="#transition-events">Transition Events</a></p>
 <p><a href="#state-events">State Events</a></p>
+<p><a href="#shared-state-events">Shared State Events</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -749,7 +750,34 @@ private void Play()
 
 private void EventCallback() { }
 </code></pre>
-<p>That's a bit more code than the other approaches so this option isn't generally preferred if the others can be used.</p>
+<p>That's a bit more code than the above approaches so this option isn't generally preferred if the others can be used.</p>
+<h1 id="shared-state-events">Shared State Events</h1>
+<p>If you have a state which is reused by multiple scripts with different events, you can have them each use the <code>Events</code> method which takes a <code>ref <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> parameter.</p>
+<pre><code class="language-cs">public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> EventName = "Event Name";
+
+private <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> _Events;// Don't new() this.
+
+protected virtual void Awake()
+{
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancerComponent.Play(animation);
+
+    // The first time this is called it will assign a new event sequence
+    // to the _Events and return true so you can initialize it.
+
+    // After that, it will just re-assign the _Events to the state
+    // and return false so you don't need to re-initialize the events.
+
+    if (state.Events(ref _Events))
+    {
+        _Events.SetCallback(EventName, EventCallback);
+        _Events.OnEnd = EndEventCallback;
+    }
+}
+
+private void EventCallback() { }
+private void EndEventCallback() { }
+</code></pre>
+<p>Needing to store the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> in a field like this is a bit more cumbersome than the other approaches, but it allows each script to ensure the state has the correct events when played by that script and avoids wasting performance re-initializing the events every time the animation is played.</p>
 
 	</section>
                 
