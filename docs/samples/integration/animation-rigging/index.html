@@ -81,7 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#limitations">Limitations</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#resetting-properties">Resetting Properties</a></p>
+<p><a href="#ik-targets">IK Targets</a></p>
+<p><a href="#paused-graph">Paused Graph</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -557,7 +559,7 @@
 		</section>
 	<section class="content">
 		<p>Unity's <a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@latest/index"><strong>Animation Rigging</strong></a> package allows you to set up rigs that dynamically modify your animations with things like <em>Multi-Parent Constraints</em> and <em>Inverse Kinematics</em> (which works on both Generic and Humanoid Rigs where Unity's inbuilt IK system only works on Humanoids).</p>
-<p>The official <a href="https://learn.unity.com/tutorial/working-with-animation-rigging">Working with Animation Rigging</a> tutorial explains how to use it. Using it with Animancer is no different from using it with Animator Controllers.</p>
+<p>The official <a href="https://learn.unity.com/tutorial/working-with-animation-rigging">Working with Animation Rigging</a> tutorial explains how to use it. Using it with Animancer is no different from using it with Animator Controllers though it does have some issues with workarounds explained below.</p>
 <details><summary>Click here to see some of its features.</summary>
 <h2 id="damped-transform">Damped Transform</h2>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/DampedTransform.html"><img src="damped-transform.png" class="pngif img-responsive"></a></p>
@@ -567,8 +569,7 @@
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/TwoBoneIKConstraint.html"><img src="two-bone-ik.png" class="pngif img-responsive"></a></p>
 <p><a href="https://docs.unity3d.com/Packages/com.unity.animation.rigging@1.0/manual/constraints/ChainIKConstraint.html"><img src="chain-ik.png" class="pngif img-responsive"></a></p>
 </details>
-<h1 id="limitations">Limitations</h1>
-<h2 id="resetting-properties">Resetting Properties</h2>
+<h1 id="resetting-properties">Resetting Properties</h1>
 <img src="ik-weight.png" class="img-responsive img-right">
 <p>The way the Animation Rigging system reads properties like the <code>Weight</code> of its constraint components causes them to be treated like animated properties, meaning that calling <code>Animator.Rebind</code> will reset those properties to their starting values.</p>
 <p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code><a href="/animancer/api/Animancer/AnimancerGraph/FD81B96B">AnimancerGraph.KeepChildrenConnected</a></code> property:</p>
@@ -619,11 +620,11 @@
     }
 }
 </code></pre>
-<h2 id="ik-targets">IK Targets</h2>
+<h1 id="ik-targets">IK Targets</h1>
 <p>The position and rotation of Target and Hint objects used by the Inverse Kinematics system from the Animation Rigging package are affected by the same resetting effect explained above, but fortunately it can be avoided by ensuring those objects are not children of the character's <code>Animator</code> component. The Hierarchy should look something like this (the object names list their components):</p>
 <p><img src="ik-configuration.png" class="img-responsive"></p>
-<h2 id="paused-graph">Paused Graph</h2>
-<p>Normally, Animancer creates a <code>PlayableGraph</code> and the Animation Rigging system creates another one which reads its inputs from the previous one. This allows it to avoid interfering with the main animation system so it can work the same regardless of whether the primary graph is managed by an Animator Controller or Animancer or any other system that uses the Playables API.</p>
+<h1 id="paused-graph">Paused Graph</h1>
+<p>Normally, Animancer creates a <code>PlayableGraph</code> and the Animation Rigging system creates a second <code>PlayableGraph</code> which reads its inputs from the first. This allows it to avoid interfering with the main animation system so it can work the same regardless of whether the primary graph is managed by an Animator Controller or Animancer or any other system that uses the Playables API.</p>
 <p>Unfortunately, manually calling <code>PlayableGraph.Evaluate</code> (like in the <a href="../../fine-control/update-rate">Update Rate</a> sample) only evaluates that graph on its own and there doesn't seem to be any way to make them both update in sequence as they would during a regular animation update. This causes the Animation Rigging system to completely fail if you try to manually evaluate the graph.</p>
 <p>This can be solved by initializing Animancer to use the same <code>PlayableGraph</code> as the Animation Rigging system with a script like this:</p>
 <pre><code class="language-cs">using Animancer;
