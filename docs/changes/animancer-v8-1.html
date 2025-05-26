@@ -81,7 +81,9 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#features">Features</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#animancer-v8.1.1">Animancer v8.1.1</a></p>
+<p><a href="#animancer-v8.1.0">Animancer v8.1.0</a></p>
+<p><a href="#features">Features</a></p>
 <p><a href="#improvements">Improvements</a></p>
 <p><a href="#changes">Changes</a></p>
 <p><a href="#documentation">Documentation</a></p>
@@ -560,11 +562,41 @@
 			<h1>Animancer v8.1</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
+		<p><a href="../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
+<p>See the <a href="animancer-v8-0/upgrade-guide">Animancer v8.0 Upgrade Guide</a> if you're upgrading from a version older than that.</p>
+<h1 id="animancer-v8.1.1">Animancer v8.1.1</h1>
+<blockquote class="blockquote">
+<p>Released 2025-05-26</p>
+</blockquote>
+<ul>
+<li>Added <code>AnimationJobState</code> for easily running custom animation jobs as states. <a href="https://github.com/KybernetikGames/animancer/issues/362">#362</a> and <a href="https://github.com/KybernetikGames/animancer/issues/375">#375</a></li>
+<li>Added <code>Normalize</code> threshold function for 2D Mixers.</li>
+<li>Added <code>Transition Assets From Selection</code> function to the <code>Assets/Create/Animancer</code> menu.</li>
+<li>Added visual separators and selection highlights to the Inspector GUI for <code><a href="/animancer/api/Animancer/Serializable">AnimancerEvent.Sequence.Serializable</a></code>. <a href="https://github.com/KybernetikGames/animancer/issues/412">#412</a></li>
+<li>Improved the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> system:
+<ul>
+<li>Added a constructor which allows a custom <code>Transform</code> to be used as the root bone instead of the <code>Animator</code>.</li>
+<li>Added <code>Connect</code> and <code>Disconnect</code> methods.</li>
+</ul>
+</li>
+<li>Changed <code>AnimancerLayer.Play</code> to only fade the layer in if its <code>TargetWeight</code> is 0 so it doesn't interfere with caller initiated fades.</li>
+<li>Changed <code>OptionalWarning.NativeControllerHybrid</code> to <code>NativeControllerState</code> and it's now triggered from within any <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> rather than only from a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</li>
+<li>Exposed some more options for accessing sprite data using <code><a href="/animancer/api/Animancer.Editor.Tools/SpriteDataEditor">SpriteDataEditor</a></code>.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimancerGraphControls">AnimancerGraphControls</a></code> to not pause the <code>PlayableGraph</code> for the selected object when the Unity Editor is paused. <a href="https://github.com/KybernetikGames/animancer/issues/411">#411</a></li>
+<li>Fixed <code><a href="/animancer/api/Animancer/WeightedMaskLayersDefinition/549506C0">WeightedMaskLayersDefinition.IsValid</a></code> to work properly if there's only one weight group. <a href="https://github.com/KybernetikGames/animancer/issues/400">#400</a></li>
+<li>Fixed an issue with setting up <a href="../manual/events/animancer">Animancer Events</a> in the inspector where adding a new callback could affect the callbacks of previous events.</li>
+<li>Fixed <code>AnimancerState.CopyEvents</code> to always clone its events in order to avoid conflicts between states or double registering callbacks.</li>
+<li>Fixed pressing <code>Delete</code> with an <a href="../manual/events/end">End Event</a> selected to not cause an exception if there are no other events.</li>
+<li>Fixed <code>LinearMixerState.CopyFrom</code> to properly apply parameter name bindings.</li>
+<li>Fixed the <code>Initialize 8 <a href="/animancer/api/Animancer/Directions">Directions</a></code> threshold function for 2D Mixers to use normalized values for its diagonals.</li>
+<li>Fixed compile error in <code><a href="/animancer/api/Animancer.Editor.Tools/SpriteDataEditor">SpriteDataEditor</a></code> when the 2D Sprite package is missing.</li>
+<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerGraph/96F673C6">AnimancerGraph.SkipFirstFade</a></code> to not lower the input count on the base layer's <code>Playable</code> in Lite Runtime Builds. <a href="https://github.com/KybernetikGames/animancer/issues/413">#413</a></li>
+<li>Fixed <code>AnimancerEvent.AppendDetails</code> to properly list all callbacks for each event if there is more than one.</li>
+</ul>
+<h1 id="animancer-v8.1.0">Animancer v8.1.0</h1>
+<blockquote class="blockquote">
 <p>Released 2025-02-26</p>
 </blockquote>
-<p><a href="../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
-<p>See the <a href="animancer-v8-0/upgrade-guide">Animancer v8.0 Upgrade Guide</a> if you're upgrading from a version older than that.</p>
 <h1 id="features">Features</h1>
 <ul>
 <li>Added <code>bool AnimancerState.Events(ref AnimancerEvent.Sequence)</code> which allows multiple callers to take turns reusing the same state while each maintaining ownership of their own set of events.</li>
