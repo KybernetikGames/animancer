@@ -767,6 +767,11 @@ protected virtual void Awake()
     // After that, it will just re-assign the _Events to the state
     // and return false so you don't need to re-initialize the events.
 
+    // If another script reuses this state, it can also call this method
+    // to initialize its own events the first time and re-assign the same
+    // ones whenever it plays the state again. That way the state will always
+    // have the correct events for whichever script most recently played it.
+
     if (state.Events(ref _Events))
     {
         _Events.SetCallback(EventName, EventCallback);
