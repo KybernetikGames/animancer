@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.1</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -165,7 +165,7 @@
 				<li><a href="/animancer/api/Animancer/OptionalWarning/DBA8C491">MixerMinChildren</a></li>
 				<li><a href="/animancer/api/Animancer/OptionalWarning/ED0E7064">Mixer<wbr>Synchronize<wbr>Zero<wbr>Length</a></li>
 				<li><a href="/animancer/api/Animancer/OptionalWarning/664FB506">Native<wbr>Controller<wbr>Humanoid</a></li>
-				<li><a href="/animancer/api/Animancer/OptionalWarning/B5E01872">Native<wbr>Controller<wbr>Hybrid</a></li>
+				<li><a href="/animancer/api/Animancer/OptionalWarning/3E6B1DA8">Native<wbr>Controller<wbr>State</a></li>
 				<li><a href="/animancer/api/Animancer/OptionalWarning/DC383CA6">None</a></li>
 				<li><a href="/animancer/api/Animancer/OptionalWarning/92ECE2ED">Playable<wbr>Asset<wbr>Animator<wbr>Binding</a></li>
 				<li><a href="/animancer/api/Animancer/OptionalWarning/B94EBC9B">ProOnly</a></li>
@@ -196,8 +196,9 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">
-    An <code class="cs">Animancer.AnimancerEvent</code> that does nothing was invoked.
-    Most likely it was not configured correctly.
+    An <code class="cs">Animancer.AnimancerEvent</code> called <code class="cs">Animancer.AnimancerEvent.InvokeBoundCallback</code>
+    but there was no callback bound to its name. This may mean the event is useless and therefore
+    should be removed to avoid wasting performance checking and invoking it.
     </div>
 
 		<div class="panel panel-default">
@@ -221,7 +222,10 @@
 
 	<h1 id="Remarks">Remarks</h1>
 	<div>
-    Unused events should be removed to avoid wasting performance checking and invoking them.
+    Events in Transitions automatically call <code class="cs">Animancer.AnimancerEvent.InvokeBoundCallback</code>
+    by default so this warning is triggered if you don't bind a callback to the event's name
+    in the <code class="cs">Animancer.AnimancerComponent.Events</code>
+    or use <code class="cs">Animancer.AnimancerEvent.Sequence.SetCallback(System.Int32,System.Action)</code> on the Transition's events.
     </div>
 
 

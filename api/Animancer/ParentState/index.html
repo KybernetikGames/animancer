@@ -1,0 +1,1669 @@
+﻿<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="description">
+        <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
+        <title>Animancer - API - ParentState Class</title>
+        <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
+        <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
+        <link href="/animancer/assets/css/theme/theme.css" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:400,400i,700,700i" rel="stylesheet">
+        <link href="/animancer/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/animancer/assets/css/override.css" rel="stylesheet">
+        <script src="/animancer/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/animancer/assets/js/bootstrap.min.js"></script>        
+        <script src="/animancer/assets/js/app.min.js"></script>         
+        <script src="/animancer/assets/js/highlight.pack.js"></script>   
+        <script src="/animancer/assets/js/jquery.slimscroll.min.js"></script>
+        <script src="/animancer/assets/js/jquery.sticky-kit.min.js"></script>
+        <script src="/animancer/assets/js/mermaid.min.js"></script>
+        <script src="/animancer/assets/js/svg-pan-zoom.min.js"></script>
+        <!--[if lt IE 9]>
+        <script src="/animancer/assets/js/html5shiv.min.js"></script>
+        <script src="/animancer/assets/js/respond.min.js"></script>
+        <![endif]-->  
+
+        
+    </head>
+    <body class="hold-transition wyam layout-boxed  ">    
+        <div class="top-banner"></div>
+        <div class="wrapper with-container">
+            <!-- Header -->
+            <header class="main-header">   
+                     
+                <a href="/animancer/" class="logo">
+                            <span>Animancer</span>
+                </a>   
+                         
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                        <a href="#" class="sidebar-toggle visible-xs-block" data-toggle="offcanvas" role="button">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </a>
+                                        
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle side menu</span>
+                            <i class="fa fa-chevron-circle-down"></i>
+                        </button>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                        <ul class="nav navbar-nav">                            
+                                    <li><a href="/animancer/docs/introduction/features"><img src="/animancer/images/icons/features.png" height="20px" width="20px" style="left:-7px"> Features</a></li>
+        <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
+        <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
+        <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
+
+<li style="width:100%">
+<form class="search-form" name="search" action="/animancer/search">
+<span><input class="search-input" id="search" name="q" type="text" placeholder="Search..."></span>
+<div class="search-button"><button type="submit"><i class="fa fa-search"></i></button></div>
+</form>
+</li> 
+                        </ul>       
+                    </div>
+                    <!-- /.navbar-collapse -->
+                
+                    <!-- Navbar Right Menu -->
+                </nav>
+            </header>
+            
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar ">
+                <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
+                    	
+	<div id="infobar-headings"><h6>On This Page</h6><p><a href="#Summary">Summary</a></p>
+<p><a href="#Syntax">Syntax</a></p>
+<p><a href="#Properties">Properties</a></p>
+<p><a href="#Methods">Methods</a></p>
+<p><a href="#ExtensionMethods">Extension Methods</a></p>
+<hr class="infobar-hidden">
+</div>
+
+                </section>
+                <section class="sidebar">    
+                                     
+                    	
+	    <script src="/animancer/assets/js/lunr.min.js"></script>
+    <script src="/animancer/assets/js/searchIndex.js"></script>
+    <div class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search Types...">
+            <span class="input-group-btn">
+                <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
+    </div>
+    <div id="search-results">
+    </div>
+    <script>
+        function runSearch(query){
+            $("#search-results").empty();			
+            if( query.length < 2 ){
+                return;
+            }			
+            var results = searchModule.search("*" + query + "*");
+            var listHtml = "<ul class='sidebar-menu'>";	
+            listHtml += "<li class='header'>Type Results</li>";	
+            if(results.length == 0 ){
+                listHtml += "<li>No results found</li>";
+            } else {					
+                for(var i = 0; i < results.length; ++i){
+                    var res = results[i];
+                    listHtml += "<li><a href='" + res.url + "'>" + htmlEscape(res.title) + "</a></li>";
+                }				
+            }
+            listHtml += "</ul>";				
+            $("#search-results").append(listHtml);
+        }
+
+        $(document).ready(function(){
+            $("#search").on('input propertychange paste', function() {
+                runSearch($("#search").val());
+            });
+        });
+
+        function htmlEscape(html) {
+            return document.createElement('div')
+                .appendChild(document.createTextNode(html))
+                .parentNode
+                .innerHTML;
+        }
+    </script>
+	
+    <hr>
+
+                    <ul class="sidebar-menu">
+                        
+			<li class="header">Assembly</li>
+		<li><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></li>
+		<li class="header">Namespace</li>
+		<li><a href="/animancer/api/Animancer">Animancer</a></li>
+		<li role="separator" class="divider"></li>
+			<li class="header">Class Types</li>
+				<li><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerHelpUrlAttribute">Animancer<wbr>Help<wbr>Url<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerJob_1">AnimancerJob<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayerList">AnimancerLayerList</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerLayerMixerList">Animancer<wbr>Layer<wbr>Mixer<wbr>List</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerReflection">AnimancerReflection</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerStateDictionary">Animancer<wbr>State<wbr>Dictionary</a></li>
+				<li><a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedBool">AnimatedBool</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedInt">AnimatedInt</a></li>
+				<li><a href="/animancer/api/Animancer/AnimatedProperty_2">AnimatedProperty<wbr>&lt;TJob, <wbr>TValue&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/AnimationJobState_1">AnimationJobState<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/CartesianMixerState">CartesianMixerState</a></li>
+				<li><a href="/animancer/api/Animancer/ClipState">ClipState</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></li>
+				<li><a href="/animancer/api/Animancer/ClipTransitionSequence">Clip<wbr>Transition<wbr>Sequence</a></li>
+				<li><a href="/animancer/api/Animancer/CloneableExtensions">CloneableExtensions</a></li>
+				<li><a href="/animancer/api/Animancer/CloneContext">CloneContext</a></li>
+				<li><a href="/animancer/api/Animancer/CollectionPool_2">CollectionPool<wbr>&lt;TItem, <wbr>TCollection&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></li>
+				<li><a href="/animancer/api/Animancer/ControllerTransition_1">ControllerTransition<wbr>&lt;TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></li>
+				<li><a href="/animancer/api/Animancer/ConvertableUtilities">ConvertableUtilities</a></li>
+				<li><a href="/animancer/api/Animancer/CopyableExtensions">CopyableExtensions</a></li>
+				<li><a href="/animancer/api/Animancer/DefaultFadeValueAttribute">Default<wbr>Fade<wbr>Value<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/DefaultValueAttribute">Default<wbr>Value<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/DictionaryPool">DictionaryPool</a></li>
+				<li><a href="/animancer/api/Animancer/DictionaryPool_2">DictionaryPool<wbr>&lt;TKey, <wbr>TValue&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimations3D">Directional<wbr>Animations3<wbr>D</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimations3D_1">Directional<wbr>Animations3<wbr>D<wbr>&lt;TGroup&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet2">Directional<wbr>Animation<wbr>Set2</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet4">Directional<wbr>Animation<wbr>Set4</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalAnimationSet8">Directional<wbr>Animation<wbr>Set8</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalClipTransition">Directional<wbr>Clip<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalMixerState">Directional<wbr>Mixer<wbr>State</a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalSet_1">DirectionalSet<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalSet2_1">DirectionalSet2<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalSet4_1">DirectionalSet4<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/DirectionalSet8_1">DirectionalSet8<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Directions">Directions</a></li>
+				<li><a href="/animancer/api/Animancer/DontAllowFade">DontAllowFade</a></li>
+				<li><a href="/animancer/api/Animancer/DrawAfterEventsAttribute">Draw<wbr>After<wbr>Events<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/Easing">Easing</a></li>
+				<li><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></li>
+				<li><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></li>
+				<li><a href="/animancer/api/Animancer/ExposedPropertyTable">ExposedPropertyTable</a></li>
+				<li><a href="/animancer/api/Animancer/FadeGroup">FadeGroup</a></li>
+				<li><a href="/animancer/api/Animancer/FadeGroupExtensions">FadeGroupExtensions</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponent">Hybrid<wbr>Animancer<wbr>Component</a></li>
+				<li><a href="/animancer/api/Animancer/HybridAnimancerComponentExtensions">Hybrid<wbr>Animancer<wbr>Component<wbr>Extensions</a></li>
+				<li><a href="/animancer/api/Animancer/IndexedList_2">IndexedList<wbr>&lt;TItem, <wbr>TIndexer&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/LinearMixerState">LinearMixerState</a></li>
+				<li><a href="/animancer/api/Animancer/LinearMixerTransition">Linear<wbr>Mixer<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/ListPool">ListPool</a></li>
+				<li><a href="/animancer/api/Animancer/ListPool_1">ListPool<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>
+				<li><a href="/animancer/api/Animancer/ManualMixerTransition">Manual<wbr>Mixer<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/ManualMixerTransition_1">Manual<wbr>Mixer<wbr>Transition<wbr>&lt;TMixer&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerChildFade">MixerChildFade</a></li>
+				<li><a href="/animancer/api/Animancer/MixerState_1">MixerState<wbr>&lt;TParameter&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerTransition_2">MixerTransition<wbr>&lt;TMixer, <wbr>TParameter&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a></li>
+				<li><a href="/animancer/api/Animancer/NameCache">NameCache</a></li>
+				<li><a href="/animancer/api/Animancer/NamedAnimancerComponent">Named<wbr>Animancer<wbr>Component</a></li>
+				<li><a href="/animancer/api/Animancer/NamedEventDictionary">NamedEventDictionary</a></li>
+				<li><a href="/animancer/api/Animancer/ObjectPool_1">ObjectPool<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Parameter_1">Parameter<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ParameterDictionary">ParameterDictionary</a></li>
+				<li class="selected"><a href="/animancer/api/Animancer/ParentState">ParentState</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetState">PlayableAssetState</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableAssetTransition">Playable<wbr>Asset<wbr>Transition</a></li>
+				<li><a href="/animancer/api/Animancer/PolymorphicAttribute">PolymorphicAttribute</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotion">RedirectRootMotion</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotion_1">RedirectRootMotion<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotionToCharacterController">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Character<wbr>Controller</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotionToRigidbody">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Rigidbody</a></li>
+				<li><a href="/animancer/api/Animancer/RedirectRootMotionToTransform">Redirect<wbr>Root<wbr>Motion<wbr>To<wbr>Transform</a></li>
+				<li><a href="/animancer/api/Animancer/SequenceState">SequenceState</a></li>
+				<li><a href="/animancer/api/Animancer/SetPool">SetPool</a></li>
+				<li><a href="/animancer/api/Animancer/SetPool_1">SetPool<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/SmoothedFloatParameter">Smoothed<wbr>Float<wbr>Parameter</a></li>
+				<li><a href="/animancer/api/Animancer/SmoothedVector2Parameter">Smoothed<wbr>Vector2<wbr>Parameter</a></li>
+				<li><a href="/animancer/api/Animancer/SoloAnimation">SoloAnimation</a></li>
+				<li><a href="/animancer/api/Animancer/SpriteRendererTextureSwap">Sprite<wbr>Renderer<wbr>Texture<wbr>Swap</a></li>
+				<li><a href="/animancer/api/Animancer/Static_1">Static<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></li>
+				<li><a href="/animancer/api/Animancer/StringBuilderPool">StringBuilderPool</a></li>
+				<li><a href="/animancer/api/Animancer/StringReference">StringReference</a></li>
+				<li><a href="/animancer/api/Animancer/StringReferenceExtensions">String<wbr>Reference<wbr>Extensions</a></li>
+				<li><a href="/animancer/api/Animancer/Strings">Strings</a></li>
+				<li><a href="/animancer/api/Animancer/ThresholdLabelAttribute">Threshold<wbr>Label<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/TimeSynchronizer_1">TimeSynchronizer<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/Transition_1">Transition<wbr>&lt;TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAsset_1">TransitionAsset<wbr>&lt;TTransition&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a></li>
+				<li><a href="/animancer/api/Animancer/TransitionAssetReference">Transition<wbr>Asset<wbr>Reference</a></li>
+				<li><a href="/animancer/api/Animancer/TransitionSequence">TransitionSequence</a></li>
+				<li><a href="/animancer/api/Animancer/TryCreateTransitionAttribute">Try<wbr>Create<wbr>Transition<wbr>Attribute</a></li>
+				<li><a href="/animancer/api/Animancer/UltEvent">UltEvent</a></li>
+				<li><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></li>
+				<li><a href="/animancer/api/Animancer/Updatable">Updatable</a></li>
+				<li><a href="/animancer/api/Animancer/UpdatableListPlayable">Updatable<wbr>List<wbr>Playable</a></li>
+				<li><a href="/animancer/api/Animancer/Validate">Validate</a></li>
+				<li><a href="/animancer/api/Animancer/Vector2MixerState">Vector2MixerState</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskLayerList">Weighted<wbr>Mask<wbr>Layer<wbr>List</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskLayers">WeightedMaskLayers</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskLayersDefinition">Weighted<wbr>Mask<wbr>Layers<wbr>Definition</a></li>
+			<li class="header">Struct Types</li>
+				<li><a href="/animancer/api/Animancer/AnimancerEvent">AnimancerEvent</a></li>
+				<li><a href="/animancer/api/Animancer/FastEnumerator_1">FastEnumerator<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/NodeParameter_1">NodeParameter<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/NodeWeight">NodeWeight</a></li>
+				<li><a href="/animancer/api/Animancer/PlayableOutputRefresher">Playable<wbr>Output<wbr>Refresher</a></li>
+				<li><a href="/animancer/api/Animancer/SimpleTimer">SimpleTimer</a></li>
+				<li><a href="/animancer/api/Animancer/StateParameterDetails">State<wbr>Parameter<wbr>Details</a></li>
+				<li><a href="/animancer/api/Animancer/WeightedMaskMixerJob">WeightedMaskMixerJob</a></li>
+			<li class="header">Interface Types</li>
+				<li><a href="/animancer/api/Animancer/IAnimancerComponent">IAnimancerComponent</a></li>
+				<li><a href="/animancer/api/Animancer/IAnimancerStateJob">IAnimancerStateJob</a></li>
+				<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>
+				<li><a href="/animancer/api/Animancer/ICharacterRoot">ICharacterRoot</a></li>
+				<li><a href="/animancer/api/Animancer/ICloneable_1">ICloneable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IConvertable_1">IConvertable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IHasDescription">IHasDescription</a></li>
+				<li><a href="/animancer/api/Animancer/IHasEvents">IHasEvents</a></li>
+				<li><a href="/animancer/api/Animancer/IHasKey">IHasKey</a></li>
+				<li><a href="/animancer/api/Animancer/IIndexer_1">IIndexer<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IInitializable_1">IInitializable<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IInvokable">IInvokable</a></li>
+				<li><a href="/animancer/api/Animancer/IMotion">IMotion</a></li>
+				<li><a href="/animancer/api/Animancer/IParameter">IParameter</a></li>
+				<li><a href="/animancer/api/Animancer/IParametizedState">IParametizedState</a></li>
+				<li><a href="/animancer/api/Animancer/IPolymorphic">IPolymorphic</a></li>
+				<li><a href="/animancer/api/Animancer/IPolymorphicReset">IPolymorphicReset</a></li>
+				<li><a href="/animancer/api/Animancer/IReadOnlyIndexedList_1">IReadOnlyIndexedList<wbr>&lt;T&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/ITransition">ITransition</a></li>
+				<li><a href="/animancer/api/Animancer/ITransition_1">ITransition<wbr>&lt;TState&gt;<wbr></a></li>
+				<li><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></li>
+				<li><a href="/animancer/api/Animancer/IWrapper">IWrapper</a></li>
+			<li class="header">Enum Types</li>
+				<li><a href="/animancer/api/Animancer/Direction2">Direction2</a></li>
+				<li><a href="/animancer/api/Animancer/Direction4">Direction4</a></li>
+				<li><a href="/animancer/api/Animancer/Direction8">Direction8</a></li>
+				<li><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></li>
+				<li><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></li>
+
+
+                    </ul>
+                            
+                </section>                
+            </aside>
+            
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                
+
+
+
+<section class="content-header">
+	<h1>ParentState <small>Class</small></h1>
+</section>
+<section class="content">
+	
+	
+		<h1 id="Summary">Summary</h1>
+	<div class="lead">[Pro-Only]
+    An <code class="cs">Animancer.AnimancerState</code> which contains other states.
+    </div>
+
+		<div class="panel panel-default">
+  			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<dl class="dl-horizontal">		
+								<dt>Assembly</dt>
+								<dd><a href="/animancer/api/Animancer.dll">Animancer<wbr>.dll</a></dd>
+
+								<dt>Namespace</dt>
+								<dd><a href="/animancer/api/Animancer">Animancer</a></dd>
+											
+								<dt>Interfaces</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a>&gt;<wbr></li>								
+											<li>IEnumerable<wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
+											<li>IEnumerator</li>								
+											<li><a href="/animancer/api/Animancer/IHasDescription">IHasDescription</a></li>								
+											<li><a href="/animancer/api/Animancer/IAnimationClipCollection">I<wbr>Animation<wbr>Clip<wbr>Collection</a></li>								
+											<li><a href="/animancer/api/Animancer/ICloneable_1">ICloneable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></li>								
+											<li><a href="/animancer/api/Animancer/ICopyable_1">ICopyable</a><wbr>&lt;<a href="/animancer/api/Animancer/ParentState">ParentState</a>&gt;<wbr></li>								
+									</ul>
+								</dd>
+							
+								<dt>Base Types</dt>
+								<dd>
+									<ul class="list-unstyled">										
+											<li>Object</li>								
+											<li><a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></li>								
+											<li><a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></li>								
+											<li><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></li>								
+									</ul>
+								</dd>				
+							
+								<dt>Derived Types</dt>
+								<dd>
+									<ul class="list-unstyled">
+											<li><a href="/animancer/api/Animancer/ManualMixerState">ManualMixerState</a></li>								
+											<li><a href="/animancer/api/Animancer/SequenceState">SequenceState</a></li>								
+									</ul>
+								</dd>			
+							
+						</dl>
+					</div>		
+					<div class="col-md-6">
+						<div class="mermaid">
+							graph BT
+	Type--&gt;Base0["AnimancerState"]
+	click Base0 "/animancer/api/Animancer/AnimancerState"
+	Base0--&gt;Base1["AnimancerNode"]
+	click Base1 "/animancer/api/Animancer/AnimancerNode"
+	Base1--&gt;Base2["AnimancerNodeBase"]
+	click Base2 "/animancer/api/Animancer/AnimancerNodeBase"
+	Base2--&gt;Base3["Object"]
+	Type-.-&gt;Interface0["ICopyable&lt;AnimancerNode&gt;"]
+	Type-.-&gt;Interface1["IEnumerable&lt;AnimancerState&gt;"]
+	Type-.-&gt;Interface2["IEnumerator"]
+	Type-.-&gt;Interface3["IHasDescription"]
+	click Interface3 "/animancer/api/Animancer/IHasDescription"
+	Type-.-&gt;Interface4["IAnimationClipCollection"]
+	click Interface4 "/animancer/api/Animancer/IAnimationClipCollection"
+	Type-.-&gt;Interface5["ICloneable&lt;AnimancerState&gt;"]
+	Type-.-&gt;Interface6["ICopyable&lt;AnimancerState&gt;"]
+	Type-.-&gt;Interface7["ICopyable&lt;ParentState&gt;"]
+	Type["ParentState"]
+class Type type-node
+	Derived0["ManualMixerState"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer/ManualMixerState"
+	Derived1["SequenceState"]--&gt;Type
+	click Derived1 "/animancer/api/Animancer/SequenceState"
+
+						</div>
+					</div>
+				</div>
+  			</div>
+		</div>
+
+	<h1 id="Syntax">Syntax</h1>
+	<pre><code>public abstract class ParentState : AnimancerState, ICopyable&lt;AnimancerNode&gt;, 
+    IEnumerable&lt;AnimancerState&gt;, IEnumerator, IHasDescription, IAnimationClipCollection, 
+    ICloneable&lt;AnimancerState&gt;, ICopyable&lt;AnimancerState&gt;, ICopyable&lt;ParentState&gt;</code></pre>
+
+
+
+
+
+
+
+
+
+
+			<h1 id="Properties">Properties</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/ParentState/353E1B3B">ApplyAnimatorIK</a></td>
+								<td>bool</td>
+								<td>
+									<div></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/0D8C1A60">ApplyFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/0151926F">Apply<wbr>Parent<wbr>Animator<wbr>I<wbr>K</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNodeBase.Parent</code>
+    also set this node's <code class="cs">Animancer.AnimancerNode.ApplyAnimatorIK</code> to match it?
+    Default is true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/67BADAA5">ApplyParentFootIK</a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Should setting the <code class="cs">Animancer.AnimancerNodeBase.Parent</code>
+    also set this node's <code class="cs">Animancer.AnimancerNode.ApplyFootIK</code> to match it?
+    Default is true.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/B346A95B">AverageVelocity</a></td>
+								<td>Vector3</td>
+								<td>
+									<div>The average velocity of the Root Motion caused by this state.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/B9C79626">ChildCapacity</a></td>
+								<td>int</td>
+								<td>
+									<div>The size of the internal array of <code class="cs">Animancer.ParentState.ChildStates</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/FFBC2D5B">ChildCount</a></td>
+								<td>int</td>
+								<td>
+									<div>The number of nodes using this as their <code class="cs">Animancer.AnimancerNodeBase.Parent</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/4C6CA2BF">ChildStates</a></td>
+								<td>AnimancerState[]</td>
+								<td>
+									<div>The children contained within this state.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/A6878A73">Clip</a></td>
+								<td>AnimationClip</td>
+								<td>
+									<div>The <code class="cs">UnityEngine.AnimationClip</code> which this state plays (if any).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/659DB369">DebugName</a></td>
+								<td>Object</td>
+								<td>
+									<div>[Assert-Only] The Inspector display name of this node.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/B90431AE">DefaultChildCapacity</a></td>
+								<td>int</td>
+								<td>
+									<div><code class="cs">Animancer.ParentState.ChildCapacity</code> starts at 0 then expands to this value when the first child is added.</div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/BAA47882">Duration</a></td>
+								<td>float</td>
+								<td>
+									<div>
+     The number of seconds the animation will take to play fully at its current
+     <code class="cs">Animancer.AnimancerNodeBase.EffectiveSpeed</code>.
+     </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/B4958BEE">EffectiveSpeed</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.AnimancerNodeBase.Speed</code> of this node multiplied by the <code class="cs">Animancer.AnimancerNodeBase.Speed</code> of each of its parents to
+    determine the actual speed it's playing at.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/ABAB3565">EffectiveWeight</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.AnimancerNode.Weight</code> of this state multiplied by the <code class="cs">Animancer.AnimancerNode.Weight</code> of each of its parents down
+    the hierarchy to determine how much this state affects the final output.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/1DB56D3D">FadeGroup</a></td>
+								<td><a href="/animancer/api/Animancer/FadeGroup">FadeGroup</a></td>
+								<td>
+									<div>The current fade being applied to this node (if any).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">FadeSpeed</a></td>
+								<td>float</td>
+								<td>
+									<div>The speed at which this node is fading towards the <code class="cs">Animancer.AnimancerNode.TargetWeight</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/DD38D589">Graph</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></td>
+								<td>
+									<div>The <code class="cs">Animancer.AnimancerGraph</code> containing this node.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/58114E95">HasEvents</a></td>
+								<td>bool</td>
+								<td>
+									<div>Have the <code class="cs">Animancer.AnimancerState.SharedEvents</code> or <code class="cs">Animancer.AnimancerState.OwnedEvents</code> been initialized?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/373C058D">HasOwnedEvents</a></td>
+								<td>bool</td>
+								<td>
+									<div>Have the <code class="cs">Animancer.AnimancerState.OwnedEvents</code> been initialized?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/DB78AEB6">Index</a></td>
+								<td>int</td>
+								<td>
+									<div>The index of the port this node is connected to on the parent's <code class="cs">UnityEngine.Playables.Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/A2D2518E">IsActive</a></td>
+								<td>bool</td>
+								<td>
+									<div>Is this state currently updating or affecting the animation output?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/CDD8E00A">IsCurrent</a></td>
+								<td>bool</td>
+								<td>
+									<div>Is this state playing and not fading out?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/DBAA38E1">IsLooping</a></td>
+								<td>bool</td>
+								<td>
+									<div>Will this state loop back to the start when it reaches the end?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/24DFEA05">IsPlaying</a></td>
+								<td>bool</td>
+								<td>
+									<div>Is the <code class="cs">Animancer.AnimancerState.Time</code> automatically advancing?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/2AA4B570">IsStopped</a></td>
+								<td>bool</td>
+								<td>
+									<div>Is this state not playing and at 0 <code class="cs">Animancer.AnimancerNode.Weight</code>?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/BC7E787F">Keep<wbr>Children<wbr>Connected</a></td>
+								<td>bool</td>
+								<td>
+									<div>Should child playables stay connected to the graph at all times?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">Key</a></td>
+								<td>Object</td>
+								<td>
+									<div>
+    The object used to identify this state in the graph <code class="cs">Animancer.AnimancerGraph.States</code> dictionary.
+    Can be null.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/1B1C4B64">Layer</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a></td>
+								<td>
+									<div>The root <code class="cs">Animancer.AnimancerLayer</code> which this node is connected to (if any).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/CE927121">LayerIndex</a></td>
+								<td>int</td>
+								<td>
+									<div>
+    The index of the <code class="cs">Animancer.AnimancerLayer</code> this state is connected to
+    (determined by the <code class="cs">Animancer.AnimancerNodeBase.Parent</code>).
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/E9649ABA">Length</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The total time this state would take to play in seconds when <code class="cs">Animancer.AnimancerNodeBase.Speed</code> = 1.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/8A80B66F">MainObject</a></td>
+								<td>Object</td>
+								<td>
+									<div>The main object to show in the Inspector for this state (if any).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/3FC0AF20">MainObjectType</a></td>
+								<td>Type</td>
+								<td>
+									<div>[Editor-Only] The base type which can be assigned to the <code class="cs">Animancer.AnimancerState.MainObject</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/3EB84580">NormalizedEndTime</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The <code class="cs">Animancer.AnimancerState.NormalizedTime</code> after which the
+    <code class="cs">Animancer.AnimancerEvent.Sequence.OnEnd</code> callback will be invoked every frame.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/617EFC91">NormalizedTime</a></td>
+								<td>float</td>
+								<td>
+									<div>
+     The <code class="cs">Animancer.AnimancerState.Time</code> of this state as a portion of the animation's <code class="cs">Animancer.AnimancerState.Length</code>, meaning the
+     value goes from 0 to 1 as it plays from start to end, regardless of how long that actually takes.
+     </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/B4C79799">NormalizedTimeD</a></td>
+								<td>double</td>
+								<td>
+									<div>The underlying <code class="cs"><a href="/animancer">double</a></code> value of <code class="cs">Animancer.AnimancerState.NormalizedTime</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/7C9B0027">OwnedEvents</a></td>
+								<td><a href="/animancer/api/Animancer/Sequence">AnimancerEvent<wbr>.Sequence</a></td>
+								<td>
+									<div>
+    Events which will be triggered while this state plays
+    based on its <code class="cs">Animancer.AnimancerState.NormalizedTime</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/C9BEDD23">Owner</a></td>
+								<td>Object</td>
+								<td>
+									<div>[Assert-Only] An optional reference to the object that owns this state.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/E4C0094A">Parent</a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></td>
+								<td>
+									<div>The object which receives the output of the <code class="cs">Animancer.AnimancerNodeBase.Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/30B97215">Playable</a></td>
+								<td>Playable</td>
+								<td>
+									<div>The internal object this node manages in the <code class="cs">UnityEngine.Playables.PlayableGraph</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/09615D75">Raise<wbr>Events<wbr>During<wbr>Fade<wbr>Out</a></td>
+								<td>bool</td>
+								<td>
+									<div>Should events be raised on a state which is currently fading out?</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/BD79217C">RawTime</a></td>
+								<td>double</td>
+								<td>
+									<div>
+    The internal implementation of <code class="cs">Animancer.AnimancerState.Time</code> which directly gets and sets the underlying value.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/87E41C92">RemainingDuration</a></td>
+								<td>float</td>
+								<td>
+									<div>
+     The number of seconds this state will take to go from its current <code class="cs">Animancer.AnimancerState.NormalizedTime</code> to the
+     <code class="cs">Animancer.AnimancerState.NormalizedEndTime</code> at its current <code class="cs">Animancer.AnimancerNodeBase.EffectiveSpeed</code>.
+     </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/458B13C6">SharedEvents</a></td>
+								<td><a href="/animancer/api/Animancer/Sequence">AnimancerEvent<wbr>.Sequence</a></td>
+								<td>
+									<div>
+    Events which will be triggered while this state plays
+    based on its <code class="cs">Animancer.AnimancerState.NormalizedTime</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/F7C3B68F">Speed</a></td>
+								<td>float</td>
+								<td>
+									<div>[Pro-Only] How fast the <code class="cs">Animancer.AnimancerState.Time</code> is advancing every frame (default 1).</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">TargetWeight</a></td>
+								<td>float</td>
+								<td>
+									<div>
+    The desired <code class="cs">Animancer.AnimancerNode.Weight</code> which this node is fading towards according to the
+    <code class="cs">Animancer.AnimancerNode.FadeSpeed</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">Time</a></td>
+								<td>float</td>
+								<td>
+									<div>The number of seconds that have passed since the start of this animation.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/3613D749">TimeD</a></td>
+								<td>double</td>
+								<td>
+									<div>The underlying <code class="cs"><a href="/animancer">double</a></code> value of <code class="cs">Animancer.AnimancerState.Time</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/EDAE5156">TraceConstructor</a></td>
+								<td>bool</td>
+								<td>
+									<div>[Assert-Only]
+    Should a <code class="cs">System.Diagnostics.StackTrace</code> be captured in the constructor of all new nodes so
+    <code class="cs">Animancer.OptionalWarning.UnusedNode</code> can include it in the warning if that node ends up being unused?
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">Weight</a></td>
+								<td>float</td>
+								<td>
+									<div>The current blend weight of this node which determines how much it affects the final output.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+			<h1 id="Methods">Methods</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/9060A2FC">~AnimancerNode<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Only] Checks <code class="cs">Animancer.OptionalWarning.UnusedNode</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/6A605ADB">Add<wbr>(AnimancerState)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Assigns the `state` as a child of this mixer.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/91C00778">Add<wbr>(AnimationClip)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/ClipState">ClipState</a></td>
+								<td>
+									<div>Creates and returns a new <code class="cs">Animancer.ClipState</code> to play the `clip` as a child of this mixer.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/66F72EAB">Add<wbr>(ITransition)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerUtilities.CreateStateAndApply(Animancer.ITransition,Animancer.AnimancerGraph)</code> then <code class="cs">Animancer.ParentState.Add(Animancer.AnimancerState)</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/327C069F">Add<wbr>(Object)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>Calls one of the other <code class="cs">Animancer.ParentState.Add(System.Object)</code> overloads as appropriate for the `child`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/2D0B3110">AddContextMenuIK<wbr>(GenericMenu, <wbr>AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Editor-Only]
+    Adds functions to show and set <code class="cs">Animancer.AnimancerNodeBase.ApplyAnimatorIK</code> and
+    <code class="cs">Animancer.AnimancerNodeBase.ApplyFootIK</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/786D1ED5">AddRange<wbr>(AnimationClip[])<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.ParentState.Add(UnityEngine.AnimationClip)</code> for each of the `clips`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/129AB9F5">AddRange<wbr>(IList<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.ParentState.Add(UnityEngine.AnimationClip)</code> for each of the `clips`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/BE7D260F">AddRange<wbr>(IList<wbr>&lt;ITransition&gt;<wbr>)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.ParentState.Add(Animancer.ITransition)</code> for each of the `transitions`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/6D55BE93">AddRange<wbr>(IList<wbr>&lt;Object&gt;<wbr>)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.ParentState.Add(System.Object)</code> for each of the `children`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/DA21EF53">AddRange<wbr>(ITransition[])<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.ParentState.Add(Animancer.ITransition)</code> for each of the `transitions`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/7EDC52CF">AddRange<wbr>(Object[])<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.ParentState.Add(System.Object)</code> for each of the `children`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/441F1F40">AppendDescription<wbr>(StringBuilder, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Appends a detailed descrption of the current details of this object.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/7CDABA25">AppendDetails<wbr>(StringBuilder, <wbr>string)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Called by <code class="cs">Animancer.AnimancerNode.AppendDescription(System.Text.StringBuilder,System.String)</code> to append the details of this node.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/73A4B604">AppendIKDetails<wbr>(StringBuilder, <wbr>string, <wbr>AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Appends the details of <code class="cs">Animancer.AnimancerNodeBase.ApplyAnimatorIK</code> and
+    <code class="cs">Animancer.AnimancerNodeBase.ApplyFootIK</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/7ED8BEDE">Assert<wbr>Connection<wbr>Status<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Only]
+    Calls <code class="cs">Animancer.AnimancerNode.GetConnectionStatusError</code> and logs the result if it isn't <code class="cs">null</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/120C07D4">Assert<wbr>Connection<wbr>Status<wbr>Recursive<wbr>(AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Only] Calls <code class="cs">Animancer.AnimancerNode.AssertConnectionStatus</code> for the `node` and all of its children.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/8836B75C">AssertOwnership<wbr>(Object)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Conditional]
+    Sets the <code class="cs">Animancer.AnimancerState.Owner</code> and asserts that it wasn't already set to a different object.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/637716D9">CancelFade<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Removes this node from the <code class="cs">Animancer.AnimancerNode.FadeGroup</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/6DBD5E9B">ChangeMainObject<wbr>&lt;T&gt;<wbr><wbr>(T, <wbr>T)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Sets the `currentObject` and calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code>.
+    If the `currentObject` was being used as the <code class="cs">Animancer.AnimancerState.Key</code> then it is changed as well.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/DD9C1905">Clone<wbr>(CloneContext)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>Creates a new object with the same type and values this.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/F87F9197">CopyFrom<wbr>(AnimancerNode, <wbr>CloneContext)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Copies the details of `copyFrom` into this node, replacing its previous contents.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/6F1C7636">CopyFrom<wbr>(AnimancerState, <wbr>CloneContext)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Copies the contents of `copyFrom` into this object, replacing its previous contents.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/A36C9D70">CopyFrom<wbr>(ParentState, <wbr>CloneContext)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Copies the contents of `copyFrom` into this object, replacing its previous contents.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/67406999">CopyIKFlags<wbr>(AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Copies the IK settings from `copyFrom` into this node:
+    <ul>
+    <li>If <see cref="P:Animancer.AnimancerNode.ApplyParentAnimatorIK"> is true, copy <see cref="P:Animancer.AnimancerNode.ApplyAnimatorIK">.</see></see></li>
+    <li>If <see cref="P:Animancer.AnimancerNode.ApplyParentFootIK"> is true, copy <see cref="P:Animancer.AnimancerNode.ApplyFootIK">.</see></see></li>
+    </ul>
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/DAFE670C">CreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Creates and assigns the <code class="cs">UnityEngine.Playables.Playable</code> managed by this state.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/8BAF4FFF">CreatePlayable<wbr>(Playable)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Creates and assigns the <code class="cs">UnityEngine.Animations.AnimationMixerPlayable</code> managed by this state.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/17A0DCA1">Destroy<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code> and cleans up this state.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/C2528F41">DestroyChildren<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Destroys all <code class="cs">Animancer.ParentState.ChildStates</code> connected to this mixer.
+    This operation cannot be undone.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/D707FF1B">DestroyPlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Destroys the <code class="cs">UnityEngine.Playables.Playable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/46ACFDC2">DisconnectChildSafe<wbr>(int)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Disconnects the <code class="cs">UnityEngine.Playables.Playable</code> of the child at the specified `index` from this node.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/8EACCD11">Ensure<wbr>Remaining<wbr>Child<wbr>Capacity<wbr>(int)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Ensures that the remaining unused <code class="cs">Animancer.ParentState.ChildCapacity</code>
+    is greater than or equal to the specified `minimumCapacity`.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/76DE7416">Events<wbr>(AnimancerEvent<wbr>.Sequence)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    If the `events` are <code class="cs">null</code>, this method assigns a <code class="cs">new</code> <code class="cs">Animancer.AnimancerEvent.Sequence</code>
+    and returns <code class="cs">true</code> to indicate that the caller should now initialize their event callbacks.
+    Otherwise, this method simply assigns the provided `events` to this state and returns <code class="cs">false</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/38A2BA22">Events<wbr>(Object)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/Sequence">AnimancerEvent<wbr>.Sequence</a></td>
+								<td>
+									<div>
+    If the <code class="cs">Animancer.AnimancerState.OwnedEvents</code> haven't been initialized yet,
+    this method gets them and returns <code class="cs">true</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/B3211C85">Events<wbr>(Object, <wbr>AnimancerEvent<wbr>.Sequence)<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    If the <code class="cs">Animancer.AnimancerState.OwnedEvents</code> haven't been initialized yet,
+    this method gets them and returns <code class="cs">true</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/587D7592">GatherAnimationClips<wbr>(ICollection<wbr>&lt;<wbr>Animation<wbr>Clip&gt;<wbr>)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[<code class="cs">Animancer.IAnimationClipCollection</code>] Gathers all the animations in this state.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/80E1C734">GetChild<wbr>(int)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>Returns the state connected to the specified `index` as a child of this node.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/BF02679E">Get<wbr>Connection<wbr>Status<wbr>Error<wbr>()<wbr></a></td>
+								<td>string</td>
+								<td>
+									<div>
+    Returns <code class="cs">null</code> if this node is properly connected to its parent.
+    Otherwise, returns an error message to be logged.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/BDEC00E9">Get<wbr>Constructor<wbr>Stack<wbr>Trace<wbr>(AnimancerNode)<wbr></a></td>
+								<td>StackTrace</td>
+								<td>
+									<div>[Assert-Only]
+    Returns the stack trace of the constructor (or null if <code class="cs">Animancer.AnimancerNode.TraceConstructor</code> was false).
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/A493F71B">GetEnumerator<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/FastEnumerator_1">FastEnumerator</a><wbr>&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt;<wbr></td>
+								<td>
+									<div>Gets an enumerator for all of this node's child states.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/9B72D260">GetEventDispatchInfo<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/DispatchInfo">AnimancerEvent<wbr>.DispatchInfo</a></td>
+								<td>
+									<div>Gets the details used to trigger <code class="cs">Animancer.AnimancerEvent</code>s on this state.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/37C9FDA3">GetPath<wbr>()<wbr></a></td>
+								<td>string</td>
+								<td>
+									<div>Returns the hierarchy path of this node through its <code class="cs">Animancer.AnimancerNodeBase.Parent</code>s.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/0EBB44C7">IndexOf<wbr>(AnimancerState)<wbr></a></td>
+								<td>int</td>
+								<td>
+									<div>Returns the index of the specified `child` state.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/E610CFD2">Is<wbr>Playing<wbr>And<wbr>Not<wbr>Ending<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>
+    Returns true if the animation is playing and has not yet passed the
+    <code class="cs">Animancer.AnimancerEvent.Sequence.EndEvent</code>.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/742D45B0">MarkAsUsed<wbr>(AnimancerNodeBase)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Conditional] Prevents the `node` from causing <code class="cs">Animancer.OptionalWarning.UnusedNode</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/473E24FF">MoveTime<wbr>(double, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Sets the <code class="cs">Animancer.AnimancerState.Time</code> or <code class="cs">Animancer.AnimancerState.NormalizedTime</code>, but unlike those properties
+    this method doesn't skip Events or Root Motion between the old and new time.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/67F20929">MoveTime<wbr>(float, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Sets the <code class="cs">Animancer.AnimancerState.Time</code> or <code class="cs">Animancer.AnimancerState.NormalizedTime</code>, but unlike those properties
+    this method doesn't skip Events or Root Motion between the old and new time.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/80B0AAE6">On<wbr>Child<wbr>Capacity<wbr>Changed<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Called when the <code class="cs">Animancer.ParentState.ChildCapacity</code> is changed.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNodeBase/4A9A173D">On<wbr>Child<wbr>Is<wbr>Looping<wbr>Changed<wbr>(bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Called when a child's <code class="cs">Animancer.AnimancerState.IsLooping</code> value changes.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNodeBase">AnimancerNodeBase</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/3617D396">OnSetIsPlaying<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Called when the value of <code class="cs">Animancer.AnimancerState.IsPlaying</code> is changed.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/76CD1A2C">Play<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Plays this state immediately, without any blending and without affecting any other states.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/531570FA">RecreatePlayable<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerNode.DestroyPlayable</code> and <code class="cs">Animancer.AnimancerNode.CreatePlayable</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/F6B6D11D">Recreate<wbr>Playable<wbr>Recursive<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Calls <code class="cs">Animancer.AnimancerNode.RecreatePlayable</code> on this node and all its children recursively.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/4EA21AAA">Remove<wbr>(AnimancerState, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Removes the specified `child`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/15E95C03">Remove<wbr>(int, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Removes the child at the specified `index`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/27A4F529">Set<wbr>(int, <wbr>AnimancerState, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Replaces the `child` at the specified `index`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/38DE7E0B">Set<wbr>(int, <wbr>AnimationClip, <wbr>bool)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/ClipState">ClipState</a></td>
+								<td>
+									<div>Replaces the child at the specified `index` with a new <code class="cs">Animancer.ClipState</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/2E22E307">Set<wbr>(int, <wbr>ITransition, <wbr>bool)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>Replaces the child at the specified `index` with a <code class="cs">Animancer.ITransition.CreateState</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/AB920BD4">Set<wbr>(int, <wbr>Object, <wbr>bool)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></td>
+								<td>
+									<div>Calls one of the other <code class="cs">Animancer.ParentState.Set(System.Int32,System.Object,System.Boolean)</code> overloads as appropriate for the `child`.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/AC593743">SetDebugName<wbr>(Object)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Assert-Conditional] Sets the <code class="cs">Animancer.AnimancerNode.DebugName</code> to display in the Inspector.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/0F9F3B4A">SetExpectFade<wbr>(AnimancerState, <wbr>float)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>[Internal] Sets a flag for <code class="cs">Animancer.OptionalWarning.ExpectFade</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/CA021219">SetGraph<wbr>(AnimancerGraph)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Sets the <code class="cs">Animancer.AnimancerNodeBase.Graph</code>.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/725C6705">SetParent<wbr>(AnimancerNode)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Connects this state to the `parent` at its next available child index.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/F0F38683">SetWeight<wbr>(float)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Sets the current blend weight of this node which determines how much it affects the final output.
+    0 has no effect while 1 applies the full effect of this node.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/EC9AB439">StartFade<wbr>(float)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerNode.OnStartFade</code> and starts fading the <code class="cs">Animancer.AnimancerNode.Weight</code> over the course
+    of the <code class="cs">Animancer.AnimancerGraph.DefaultFadeDuration</code> (in seconds).
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/5B696066">StartFade<wbr>(float, <wbr>float)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Calls <code class="cs">Animancer.AnimancerNode.OnStartFade</code> and starts fading the <code class="cs">Animancer.AnimancerNode.Weight</code>
+    over the course of the `fadeDuration` (in seconds).
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerNode/37777AE2">Stop<wbr>()<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>Stops the animation and makes it inactive immediately so it no longer affects the output.</div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerNode">AnimancerNode</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/ParentState/66D1CF5C">ToString<wbr>()<wbr></a></td>
+								<td>string</td>
+								<td>
+									<div>
+    Returns a string describing the type of this mixer and the name of states connected to it.
+    </div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/B169F9D6">Update<wbr>Events<wbr>Recursive<wbr>(AnimancerState)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Checks if any events should be invoked on the `parent` and its children recursively.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerState/55C55161">Update<wbr>Events<wbr>Recursive<wbr>(AnimancerState, <wbr>bool)<wbr></a></td>
+								<td>void</td>
+								<td>
+									<div>
+    Checks if any events should be invoked on the `parent` and its children recursively.
+    </div>
+											<div><small><em>Inherited from <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></em></small></div>
+											<div><small><em>static</em></small></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+
+			<h1 id="ExtensionMethods">Extension Methods</h1>
+			<div class="box">
+				<div class="box-body no-padding table-responsive">
+					<table class="table table-striped table-hover three-cols">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Value</th>
+								<th>Summary</th>
+							</tr>
+						</thead>
+							<tbody><tr>
+								<td><a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities/8DF45E56">Calculate<wbr>Editor<wbr>Fade<wbr>Duration<wbr>(float)<wbr></a></td>
+								<td>float</td>
+								<td>
+									<div>[Animancer Extension] [Editor-Only]
+    Returns the duration of the `node`s current fade (if any), otherwise returns the `defaultDuration`.
+    </div>
+										<div><small><em>From <a href="/animancer/api/Animancer.Editor/AnimancerEditorUtilities">Animancer<wbr>Editor<wbr>Utilities</a></em></small></div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer/AnimancerUtilities/0618A072">IsValid<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>[Animancer Extension]
+    Is the `node` is not null and its <code class="cs">Animancer.AnimancerNodeBase.Playable</code> valid?
+    </div>
+										<div><small><em>From <a href="/animancer/api/Animancer/AnimancerUtilities">AnimancerUtilities</a></em></small></div>
+								</td>
+							</tr>
+					</tbody></table>
+				</div>
+			</div>
+		
+
+	
+</section>
+                
+            </div>           
+            
+            <!-- Footer -->
+            <footer class="main-footer">
+            </footer>
+            
+        </div>
+        <div class="wrapper bottom-wrapper">
+            <footer class="bottom-footer">
+                <strong><div style="text-align:left; display:flex">
+
+<div>
+<p>Documentation</p>
+<p><a href="/animancer/docs/samples">Samples</a></p>
+<p><a href="/animancer/docs/manual">User Manual</a></p>
+<p><a href="/animancer/docs/changes">Change Log</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Download</p>
+<p><a href="https://kybernetik.itch.io/animancer-pro">Itch.io</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-pro-293522?aid=1100l8ah5">Asset Store (Animancer Pro)</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/animation/animancer-lite-293524?aid=1100l8ah5">Asset Store (Animancer Lite)</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Contact</p>
+<p><a href="https://github.com/KybernetikGames/animancer/issues">Github Issues</a></p>
+<p><a href="/animancer/redirect/discussions">Unity Discussions</a></p>
+<p><a href="mailto:animancer@kybernetik.com.au?subject=Animancer">Email</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>Other Assets</p>
+<p><a href="/flexi-motion">FlexiMotion</a></p>
+<p><a href="/inspector-gadgets">Inspector Gadgets</a></p>
+<p><a href="/weaver">Weaver</a></p>
+</div>
+
+<div style="width:10%"></div>
+
+<div>
+<p>&nbsp;</p>
+<p><a href="https://assetstore.unity.com/packages/vfx/shaders/simple-sun-shader-72042?aid=1100l8ah5">Simple Sun Shader</a></p>
+<p><a href="https://assetstore.unity.com/packages/tools/version-control/link-sync-229569?aid=1100l8ah5">Link &amp; Sync</a></p>
+<p><a href="/ultevents">UltEvents</a></p>
+</div>
+
+</div></strong>
+<script src="/animancer/assets/js/pngif.js"></script>
+            </footer>
+        </div>
+        <a href="javascript:" id="return-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <script>           
+            // Close the sidebar if we select an anchor link
+            $(".main-sidebar a[href^='#']:not('.expand')").click(function(){
+                $(document.body).removeClass('sidebar-open');
+            });
+            
+            $(document).ready(function() {
+                mermaid.initialize(
+                {
+                    flowchart:
+                    {
+                        useMaxWidth: false
+                    },
+					startOnLoad: false,
+					cloneCssStyles: false
+                });     
+                mermaid.init(undefined, ".mermaid");
+
+                // Remove the max-width setting that Mermaid sets
+                var mermaidSvg = $('.mermaid svg');
+                mermaidSvg.addClass('img-responsive');
+                mermaidSvg.css('max-width', '');
+
+                // Make it scrollable
+				var target = document.querySelector(".mermaid svg");
+				if(target !== null)
+				{
+					var panZoom = window.panZoom = svgPanZoom(target, {
+						zoomEnabled: true,
+						controlIconsEnabled: true,
+						fit: true,
+						center: true,
+                        maxZoom: 20,
+                        zoomScaleSensitivity: 0.6
+					});			                          
+
+                    // Do the reset once right away to fit the diagram
+                    panZoom.resize();
+                    panZoom.fit();
+                    panZoom.center();
+                    
+                    $(window).resize(function(){
+                        panZoom.resize();
+                        panZoom.fit();
+                        panZoom.center();
+                    });
+				}
+                
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });  
+            });
+
+            hljs.initHighlightingOnLoad();
+
+            // Back to top
+            $(window).scroll(function() {
+                if ($(this).scrollTop() >= 200) {        // If page is scrolled more than 50px
+                    $('#return-to-top').fadeIn(1000);    // Fade in the arrow
+                } else {
+                    $('#return-to-top').fadeOut(1000);   // Else fade out the arrow
+                }
+            });
+            $('#return-to-top').click(function() {      // When arrow is clicked
+                $('body,html').animate({
+                    scrollTop : 0                       // Scroll to top of body
+                }, 500);
+            });
+        </script>
+    
+</body></html>
