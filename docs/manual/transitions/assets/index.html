@@ -267,6 +267,7 @@
                 <li><a href="/animancer/docs/samples/jobs/two-bone-ik">10-01 Two Bone IK</a></li>
                 <li><a href="/animancer/docs/samples/jobs/damping">10-02 Damping</a></li>
                 <li><a href="/animancer/docs/samples/jobs/hit-impacts">10-03 Hit Impacts</a></li>
+                <li><a href="/animancer/docs/samples/jobs/job-states">10-04 Job States</a></li>
 
                     </ul>
                 </li>
@@ -592,43 +593,44 @@ using UnityEngine;
 
 public class AssetExample : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Animation;
 }
 </code></pre>
 </td>
 </tr>
 <tr>
-<td>The field is configured directly in the Inspector of the script that will use it.</td>
-<td>An asset must be created separately, then you can give the script a reference to it in the Inspector.</td>
-</tr>
-<tr>
-<td>Multiple instances of a character will each have their own copy of the transition details which is usually a waste of memory.</td>
-<td>Multiple instances of a character will all reference the same asset so any modifications will apply to everything that uses it.</td>
-</tr>
-<tr>
-  <td><img src="regular-transition.png" class="pngif img-responsive"></td>
-  <td><img src="transition-asset.png" class="pngif img-responsive"></td>
-</tr>
-<tr>
-<td></td>
-<td>Normally when referencing another object like this you need to select that object to view or edit its values, but if you have <a href="https://kybernetik.com.au/inspector-gadgets">Inspector Gadgets Pro</a> it shows a <a href="https://kybernetik.com.au/inspector-gadgets/docs/script-inspector/object-reference-fields#nested-inspector">foldout arrow on the Object Field</a> to show the referenced object's Inspector without changing your selection.</td>
+<td><p>The field is configured directly in the Inspector of the script that will use it.</p>
+<p><img src="inline-transition.png" class="pngif img-responsive"></p>
+<p>If you know you want a specific <a href="../types">Transition Type</a>, you can use that type directly so you don't need to pick the type from the dropdown menu in the Inspector each time you use the script.</p>
+<pre><code class="language-cs">using Animancer;
+using UnityEngine;
+
+public class InlineExample : MonoBehaviour
+{
+    [SerializeField] 
+    private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+}
+</code></pre>
+</td>
+<td><p>An asset must be created separately.</p>
+<p><img src="transition-asset-create.png" class="pngif img-responsive"></p>
+<p>Then you can give the script a reference to it in the Inspector.</p>
+<img src="transition-asset-assign.png" class="pngif img-responsive"></td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>Transition Assets can also be created in code using <code>ScriptableObject.CreateInstance&lt;<a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a>&gt;()</code>.</li>
-</ul>
 <h1 id="when-should-transition-assets-be-used">When should Transition Assets be used?</h1>
-<p>In most cases it's up to the user to decide whether to use Transition Assets or Inline Transitions based on how you prefer to handle a given situation.</p>
+<p>In most cases it's up you to decide whether you want each Transition to be Inline or in an Asset based on how you prefer to handle a given situation.</p>
 <ul>
 <li><a href="../libraries">Transition Libraries</a> require you to use Transition Assets.</li>
 <li>Transition Assets are good if you want to define the details of an animation in one place for multiple characters to use. This also allows for efficient memory usage because each character can simply reference the same data instead of everyone having their own identical copy of that data.</li>
 <li>Inline Transitions can often be easier to set up and maintain because you can see the transitions for a specific script directly in its Inspector and edit them without worrying about affecting any other characters.</li>
 </ul>
-<img src="create-transition-asset-from-clip.png" class="img-responsive img-right">
+<img src="create-transition-asset-from-clip.png" class="img-responsive img-right" style="max-width:50%">
 <h1 id="creating-transition-assets">Creating Transition Assets</h1>
-<p>If you want to quickly create Transition Assets for a group of Animation Clips, Animator Controllers, or Timeline Assets, you can select them all and use the <code>Create Transition Asset</code> function from the context menu in the top right of the Inspector.</p>
+<p>If you want to quickly create Transition Assets for a group of Animation Clips, Animator Controllers, or Timeline Assets, you can select them all in the Project window and use either the <code>Create Transition Asset</code> function from the context menu in the top right of the Inspector or <code>Assets/Create/Animancer/Transition Assets From Selection</code>.</p>
+<p>Transition Assets can also be created in code using <code>ScriptableObject.CreateInstance&lt;<a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a>&gt;()</code>.</p>
 
 	</section>
                 
