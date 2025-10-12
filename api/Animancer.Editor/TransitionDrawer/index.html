@@ -246,6 +246,7 @@
 				<li><a href="/animancer/api/Animancer.Editor/TransformTreeView">TransformTreeView</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/TransformTreeWindow_2">TransformTreeWindow<wbr>&lt;TObject, <wbr>TData&gt;<wbr></a></li>
 				<li><a href="/animancer/api/Animancer.Editor/TransitionAssetGenerator">Transition<wbr>Asset<wbr>Generator</a></li>
+				<li><a href="/animancer/api/Animancer.Editor/TransitionAssetReferenceDrawer">Transition<wbr>Asset<wbr>Reference<wbr>Drawer</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.Editor/TransitionDrawer">TransitionDrawer</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/TypeSelectionMenu">TypeSelectionMenu</a></li>
 				<li><a href="/animancer/api/Animancer.Editor/UltEventDrawer">UltEventDrawer</a></li>
@@ -321,11 +322,12 @@
 								<dt>Derived Types</dt>
 								<dd>
 									<ul class="list-unstyled">
-											<li><a href="/animancer/api/Animancer.Editor/PlayableAssetTransitionDrawer">Playable<wbr>Asset<wbr>Transition<wbr>Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer.Editor/ControllerTransitionDrawer">Controller<wbr>Transition<wbr>Drawer</a></li>								
 											<li><a href="/animancer/api/Animancer.Editor/DirectionalClipTransitionDrawer">Directional<wbr>Clip<wbr>Transition<wbr>Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer.Editor/PlayableAssetTransitionDrawer">Playable<wbr>Asset<wbr>Transition<wbr>Drawer</a></li>								
 											<li><a href="/animancer/api/Animancer.Editor/ManualMixerTransitionDrawer">Manual<wbr>Mixer<wbr>Transition<wbr>Drawer</a></li>								
 											<li><a href="/animancer/api/Animancer.Editor/ClipTransitionDrawer">ClipTransitionDrawer</a></li>								
-											<li><a href="/animancer/api/Animancer.Editor/ControllerTransitionDrawer">Controller<wbr>Transition<wbr>Drawer</a></li>								
+											<li><a href="/animancer/api/Animancer.Editor/TransitionAssetReferenceDrawer">Transition<wbr>Asset<wbr>Reference<wbr>Drawer</a></li>								
 									</ul>
 								</dd>			
 							
@@ -339,16 +341,18 @@
 	click Interface0 "/animancer/api/Animancer/IPolymorphic"
 	Type["TransitionDrawer"]
 class Type type-node
-	Derived0["PlayableAssetTransitionDrawer"]--&gt;Type
-	click Derived0 "/animancer/api/Animancer.Editor/PlayableAssetTransitionDrawer"
+	Derived0["ControllerTransitionDrawer"]--&gt;Type
+	click Derived0 "/animancer/api/Animancer.Editor/ControllerTransitionDrawer"
 	Derived1["DirectionalClipTransitionDrawer"]--&gt;Type
 	click Derived1 "/animancer/api/Animancer.Editor/DirectionalClipTransitionDrawer"
-	Derived2["ManualMixerTransitionDrawer"]--&gt;Type
-	click Derived2 "/animancer/api/Animancer.Editor/ManualMixerTransitionDrawer"
-	Derived3["ClipTransitionDrawer"]--&gt;Type
-	click Derived3 "/animancer/api/Animancer.Editor/ClipTransitionDrawer"
-	Derived4["ControllerTransitionDrawer"]--&gt;Type
-	click Derived4 "/animancer/api/Animancer.Editor/ControllerTransitionDrawer"
+	Derived2["PlayableAssetTransitionDrawer"]--&gt;Type
+	click Derived2 "/animancer/api/Animancer.Editor/PlayableAssetTransitionDrawer"
+	Derived3["ManualMixerTransitionDrawer"]--&gt;Type
+	click Derived3 "/animancer/api/Animancer.Editor/ManualMixerTransitionDrawer"
+	Derived4["ClipTransitionDrawer"]--&gt;Type
+	click Derived4 "/animancer/api/Animancer.Editor/ClipTransitionDrawer"
+	Derived5["TransitionAssetReferenceDrawer"]--&gt;Type
+	click Derived5 "/animancer/api/Animancer.Editor/TransitionAssetReferenceDrawer"
 
 						</div>
 					</div>
@@ -358,6 +362,7 @@ class Type type-node
 
 	<h1 id="Syntax">Syntax</h1>
 	<pre><code>[CustomPropertyDrawer(typeof(ITransition), true)]
+[CustomPropertyDrawer(typeof(TransitionAssetBase), true)]
 public class TransitionDrawer : PropertyDrawer, IPolymorphic</code></pre>
 
 
@@ -373,6 +378,10 @@ public class TransitionDrawer : PropertyDrawer, IPolymorphic</code></pre>
 					</tr>
 				</thead>
 					<tbody><tr>
+						<td>CustomPropertyDrawer</td>
+						<td></td>
+					</tr>
+					<tr>
 						<td>CustomPropertyDrawer</td>
 						<td></td>
 					</tr>
@@ -423,8 +432,8 @@ public class TransitionDrawer : PropertyDrawer, IPolymorphic</code></pre>
 								<td></td>
 								<td>
 									<div>
-    If set, the field with this name will be drawn on the header line with the foldout arrow instead of in its
-    regular place.
+    If set, the field with this name will be drawn on the header line
+    with the foldout arrow instead of in its regular place.
     </div>
 								</td>
 							</tr>
