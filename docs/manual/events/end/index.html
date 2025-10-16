@@ -584,7 +584,7 @@
     </tr>
     <tr>
       <td>End&nbsp;Events</td>
-      <td>Each state has a single End Event triggered when the animation's <strong>time</strong> passes a specific point and <strong>every frame after that</strong> for as long as the animation continues playing. They're intended to let you play something else so the event will usually only trigger once anyway (End Events and <a href="../animancer">Animancer&nbsp;Events</a> don't trigger on states that are fading out unless <code><a href="/animancer/api/Animancer/AnimancerState/09615D75">AnimancerState.RaiseEventsDuringFadeOut</a></code> is enabled).</td>
+      <td>Each state has a single End Event triggered when the animation's <strong>time</strong> passes a specific point and <strong>every frame after that</strong> for as long as the animation continues playing (and isn't fading out). They're intended to let you play something else so the event will usually only trigger once anyway (End Events and <a href="../animancer">Animancer&nbsp;Events</a> don't trigger on states that are fading out unless <code><a href="/animancer/api/Animancer/AnimancerState/09615D75">AnimancerState.RaiseEventsDuringFadeOut</a></code> is enabled).</td>
     </tr>
     <tr>
       <td><code><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></code>s</td>
@@ -593,7 +593,7 @@
   </tbody>
 </table>
 <h1 id="when-to-use-end-events">When to use End Events</h1>
-<p>End Events are <strong>triggered every frame</strong> after the specified time has passed in order to ensure they can't be missed if the animation has already passed its end when you play the animation or register the event. But any event can stop an animation or play something else so if you don't want the special characteristics of an End Event then you can simply use a regular <a href="../animancer">Animancer Event</a> or <a href="../animation">Animation Event</a>. For example:</p>
+<p>If you don't use the End Event to play something else (or otherwise stop the animation), that event will keep getting <strong>triggered every frame</strong> after the specified time has passed. This ensures that they can't be accidentally missed if the animation has already passed its end when you play the animation or register the event. But any event can stop an animation or play something else so if you don't want the special characteristics of an End Event then you can simply use a regular <a href="../animancer">Animancer Event</a> or <a href="../animation">Animation Event</a>. For example:</p>
 <pre><code class="language-cs">public class DontUseEndEventExample : MonoBehaviour
 {
     [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
