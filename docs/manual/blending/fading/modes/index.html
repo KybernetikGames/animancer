@@ -82,6 +82,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#from-start">From Start</a></p>
+<p><a href="#transitions">Transitions</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -580,7 +581,6 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 </tbody>
 </table>
 <ul>
-<li>If you play a <a href="../../../transitions">Transition</a> with its <code>Start Time</code> toggle enabled, it will use <code>FadeMode.FromStart</code> automatically.</li>
 <li>Cloning any type of state other than a <code><a href="/animancer/api/Animancer/ClipState">ClipState</a></code> will log <code>OptionalWarning.CloneComplexState</code>. It's there to ensure that you are aware of the potential performance and behaviour risks but if you are doing so intentionally, feel free to disable the warning like it says.</li>
 <li>A clone is created if the existing state's <code>Weight</code> is above the <code><a href="/animancer/api/Animancer/AnimancerLayer/D76C201A">AnimancerLayer.WeightlessThreshold</a></code> (default <code>0.1</code>).
 <ul>
@@ -590,6 +590,31 @@ animancer.Play(clip, 0.25f, FadeMode.FixedSpeed)
 </li>
 </ul>
 <p><img src="rapid-fire-inspector.png" class="pngif img-responsive"></p>
+<h1 id="transitions">Transitions</h1>
+<p>The default <code><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></code> of a <a href="../../../transitions">Transition</a> is determined by its <code>Start Time</code> toggle:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Start Time Enabled</th>
+<th>Start Time Disabled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FadeMode.FromStart</code></td>
+<td><code>FadeMode.FixedSpeed</code></td>
+</tr>
+<tr>
+<td>Always start from the specified time.</td>
+<td>Continue playing from the current time.</td>
+</tr>
+<tr>
+<td><img src="start-time-enabled.png" class="img-responsive"></td>
+<td><img src="start-time-disabled.png" class="img-responsive"></td>
+</tr>
+</tbody>
+</table>
+<p>This default can be overridden by specifying a different <code><a href="/animancer/api/Animancer/FadeMode">FadeMode</a></code> when calling the <code>Play</code> method.</p>
 
 	</section>
                 
