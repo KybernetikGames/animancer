@@ -669,7 +669,7 @@ protected virtual void Update()
 private void Play(DirectionalAnimationSet animations)
 {
     _CurrentAnimationSet = animations;
-    _Animancer.Play(animations.GetClip(_Facing));
+    _Animancer.Play(animations.Get(_Facing));
 }
 </code></pre>
 <p>Unlike the <a href="../basics">Directional Basics</a> sample, this time we have several different possible animations to use when moving so the decision of which one to use is handled by a separate method:</p>
@@ -758,7 +758,7 @@ private void UpdateMovementState()
 <li>Play the new animation as you normally would:</li>
 </ol>
 <pre><code class="language-cs">    _CurrentAnimationSet = animations;
-    _Animancer.Play(animations.GetClip(_Facing));
+    _Animancer.Play(animations.Get(_Facing));
 </code></pre>
 <ol start="3">
 <li>Call one of the <code>SyncTime</code> methods after playing the animation:</li>
@@ -826,7 +826,7 @@ _Movement = _CurrentAnimationSet.Snap(_Movement);
 protected virtual void OnValidate()
 {
     if (_Idle != null)
-        _Idle.GetClip(_Facing).EditModePlay(_Animancer);
+        _Idle.Get(_Facing).EditModePlay(_Animancer);
 }
 #endif
 </code></pre>
@@ -895,7 +895,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
         TimeSynchronizer.StoreTime(_Animancer);
 
         _CurrentAnimationSet = animations;
-        _Animancer.Play(animations.GetClip(_Facing));
+        _Animancer.Play(animations.Get(_Facing));
 
         TimeSynchronizer.SyncTime(_Animancer, group);
     }
@@ -927,7 +927,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
     protected virtual void OnValidate()
     {
         if (_Idle != null)
-            _Idle.GetClip(_Facing).EditModePlay(_Animancer);
+            _Idle.Get(_Facing).EditModePlay(_Animancer);
     }
 #endif}
 }

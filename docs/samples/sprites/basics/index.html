@@ -628,7 +628,7 @@ private Vector2 _Facing = Vector2.down;
 <p>Since we know which direction we are <code>_Facing</code>, we can have a method that takes any <code>DirectionalAnimationSet</code>, gets the animation for that direction from the set, and plays it like any other animation:</p>
 <pre><code class="language-cs">private void Play(DirectionalAnimationSet animations)
 {
-    AnimationClip clip = animations.GetClip(_Facing);
+    AnimationClip clip = animations.Get(_Facing);
     _Animancer.Play(clip);
 }
 </code></pre>
@@ -665,10 +665,10 @@ private Vector2 _Facing = Vector2.down;
 <pre><code class="language-cs">#if UNITY_EDITOR
 private void OnValidate()
 {
-    // We need to null-check the _Idles to prevent GetClip from throwing an exception if it's not assigned yet.
+    // We need to null-check the _Idles to prevent Get from throwing an exception if it's not assigned yet.
     // But EditModeSampleAnimation will take care of null-checking the AnimationClip and _Animancer.
     if (_Idles != null)
-        _Idles.GetClip(_Facing).EditModeSampleAnimation(_Animancer);
+        _Idles.Get(_Facing).EditModeSampleAnimation(_Animancer);
 }
 #endif
 </code></pre>
@@ -706,7 +706,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalBasics
 
     private void Play(DirectionalAnimationSet animations)
     {
-        AnimationClip clip = animations.GetClip(_Facing);
+        AnimationClip clip = animations.Get(_Facing);
         _Animancer.Play(clip);
     }
 
@@ -714,7 +714,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalBasics
     private void OnValidate()
     {
         if (_Idles != null)
-            _Idles.GetClip(_Facing).EditModeSampleAnimation(_Animancer);
+            _Idles.Get(_Facing).EditModeSampleAnimation(_Animancer);
     }
 #endif
 }
