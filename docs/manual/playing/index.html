@@ -84,6 +84,7 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#sample">Sample</a></p>
 <p><a href="#play-methods">Play Methods</a></p>
 <p><a href="#pausing">Pausing</a></p>
+<p><a href="#update-modes">Update Modes</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -565,10 +566,10 @@
 <p>After you <a href="../../download">Download Animancer</a>, you can add an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to your model and control it with a script:</p>
 
 <ol>
-  <li>Don't create an Animator Controller like you normally would. Animancer doesn't need them.</li>
-  <li>Add a reference to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (let’s call it <code>animancer</code>).</li>
-  <li>Add a reference to the <code>AnimationClip</code> asset you want to play (let’s call it <code>clip</code>).</li>
-  <li>Then you simply call <code>animancer.Play(clip)</code>.</li>
+    <li>Don't create an Animator Controller like you normally would. Animancer doesn't need them.</li>
+    <li>Add a reference to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (let’s call it <code>animancer</code>).</li>
+    <li>Add a reference to the <code>AnimationClip</code> asset you want to play (let’s call it <code>clip</code>).</li>
+    <li>Then you simply call <code>animancer.Play(clip)</code>.</li>
 </ol>
 
 <p><code>AnimancerComponent.Play</code> returns an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> that can be used to access and control the animation details such as <code>Speed</code> and <code>Time</code>.</p>
@@ -608,8 +609,8 @@ public class PlayAnimation : MonoBehaviour
 <p>Simply attach that script to an object and assign its references in the Inspector:</p>
 
 <div style="display:flex">
-<img src="add-animancer-component.png" class="pngif img-responsive">
-<img src="idle.png" class="pngif img-responsive" style="margin-left:1em">
+    <img src="add-animancer-component.png" class="pngif img-responsive">
+    <img src="idle.png" class="pngif img-responsive" style="margin-left:1em">
 </div>
 
 
@@ -744,6 +745,20 @@ public class PausingExample : MonoBehaviour
         state.Play();
     }
 }</code></pre>
+
+
+
+
+
+<img src="update-modes.png" class="img-responsive img-right" style="max-width:50%">
+
+<h1 id="update-modes">Update Modes</h1>
+
+<ul>
+    <li>The <code>Update Mode</code> field on the <code>Animator</code> component determines which mode Animancer will use when it initializes.</li>
+    <li>Once Animancer is initialized, its mode does not synchronize with the <code>Animator</code> so if you need to change the mode afterwards you must use the <code><a href="/animancer/api/Animancer/AnimancerComponent/EAC3EFBE">AnimancerComponent.UpdateMode</a></code> property rather than <code>Animator.updateMode</code>.</li>
+    <li>Due to a limitation in the Playables API, changing the update mode to or from <code>AnimatorUpdateMode.AnimatePhysics</code> after initialization has no effect, it will simply remain in its previous mode. This means you can only change between <code>AnimatorUpdateMode.Normal</code> and <code>AnimatorUpdateMode.UnscaledTime</code> after Animancer is initialized.</li>
+</ul>
 
 
 
