@@ -84,6 +84,7 @@
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#integration">Integration</a></p>
 <p><a href="#native">Native</a></p>
 <p><a href="#hybrid">Hybrid</a></p>
+<p><a href="#layer-blending-bug">Layer Blending Bug</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -704,6 +705,9 @@ void HybridControllerExample()
 </code></pre>
 <p>Unfortunately, not all features are supported so if you need to use something that's missing, it probably isn't supported.</p>
 <p>The <a href="../../samples/animator-controllers/character">Hybrid Character Sample</a> demonstrates this approach in more detail.</p>
+<h1 id="layer-blending-bug">Layer Blending Bug</h1>
+<p>Due to a known bug in Unity (<a href="https://issuetracker-mig.prd.it.unity3d.com/issues/humanoid-is-tilted-backward-when-animatorcontrollerplayable-and-animationclipplayable-are-connected-in-layermixerplayable">Issue #1248583</a>), the animation output will not blend the layers correctly when you have a Humanoid rig and are using an Animator Controller (via the <a href="#hybrid">Hybrid</a> approach or a <a href="controller-states">Controller State</a>) as Animancer's Base Layer with other animations on Animancer's other layers.</p>
+<p>The workaround as mentioned in that issue ticket is to simply add a second empty layer inside the Animator Controller.</p>
 
 	</section>
                 
