@@ -603,10 +603,10 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
 
     [Header("Animations")]
     [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a> _Animancer;
-    [SerializeField] private DirectionalAnimationSet _Idle;
-    [SerializeField] private DirectionalAnimationSet _Walk;
-    [SerializeField] private DirectionalAnimationSet _Run;
-    [SerializeField] private DirectionalAnimationSet _Push;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idle;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walk;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Run;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Push;
 
     private Vector3 _Movement;
     private bool _IsPushing;
@@ -642,10 +642,10 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
         }
     }
 
-    private void Play(DirectionalAnimationSet animations, AnimationGroup group)
+    private void Play(DirectionalSet&lt;AnimationClip&gt; animations, AnimationGroup group)
         =&gt; _Animancer.SetAnimations(animations, (int)group);
 
-    private DirectionalAnimationSet GetMovementAnimations()
+    private DirectionalSet&lt;AnimationClip&gt; GetMovementAnimations()
     {
         if (_IsPushing)
             return _Push;
@@ -705,10 +705,10 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
 
 [Header("Animations")]
 [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a> _Animancer;// Changed from AnimancerComponent.
-[SerializeField] private DirectionalAnimationSet _Idle;
-[SerializeField] private DirectionalAnimationSet _Walk;
-[SerializeField] private DirectionalAnimationSet _Run;
-[SerializeField] private DirectionalAnimationSet _Push;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idle;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walk;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Run;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Push;
 
 private Vector3 _Movement;// Changed from Vector2.
 private bool _IsPushing;// New.
@@ -724,7 +724,7 @@ public enum AnimationGroup
 <li>To set the facing direction we now use <code>_Animancer.Forward = _Movement;</code>.</li>
 <li>And to play something we now use:</li>
 </ul>
-<pre><code class="language-cs">private void Play(DirectionalAnimationSet animations, AnimationGroup group)
+<pre><code class="language-cs">private void Play(DirectionalSet&lt;AnimationClip&gt; animations, AnimationGroup group)
     =&gt; _Animancer.SetAnimations(animations, (int)group);
 </code></pre>
 <p>That automatically takes care of the <a href="../character#synchronization">Synchronization</a> and getting the appropriate animation for the current direction.</p>
@@ -809,7 +809,7 @@ private void OnCollision(Collision collision)
     ...
 }
 
-private DirectionalAnimationSet GetMovementAnimations()
+private DirectionalSet&lt;AnimationClip&gt; GetMovementAnimations()
 {
     if (_IsPushing)
         return _Push;

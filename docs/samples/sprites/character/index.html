@@ -580,6 +580,10 @@
 </blockquote>
 <h1 id="summary">Summary</h1>
 <p>This sample demonstrates how you can use <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> in a more complex character than the <a href="../basics">Directional Basics</a> sample and then use the same script for a character that includes diagonal movement.</p>
+<ul>
+<li>Using the <code>Snap</code> method to clamp your input vector to the nearest direction included in the set allows you to support whatever number of directions your set is using without hard coding things to a specific number of directions.</li>
+<li><code>TimeSynchronizer</code>s allow you to easily synchronize the <code>NormalizedTime</code> of related animations when you switch between them.</li>
+</ul>
 <p></p><figure>
   <img src="character.png" class="pngif img-responsive">
   <figcaption>
@@ -588,10 +592,6 @@
     <a href="https://creativecommons.org/publicdomain/zero/1.0">CC0 Licence</a>
   </figcaption>
 </figure><p></p>
-<ul>
-<li>Using the <code>AnimationSet.Snap</code> method to clamp your input vector to the nearest direction included in the set allows you to support 4 or 8 directions without hard coding things to a specific number of directions.</li>
-<li><code>TimeSynchronizer</code>s allow you to easily synchronize the <code>NormalizedTime</code> of related animations when you switch between them.</li>
-</ul>
 <h1 id="overview">Overview</h1>
 <p>The general code structure is basically just a more complex version of the <a href="../basics#architecture">Directional Basics</a> sample:</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
@@ -610,15 +610,15 @@
 
 [Header("Animations")]
 [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private DirectionalAnimationSet _Idle;
-[SerializeField] private DirectionalAnimationSet _Walk;
-[SerializeField] private DirectionalAnimationSet _Run;
-[SerializeField] private DirectionalAnimationSet _Push;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idle;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walk;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Run;
+[SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Push;
 [SerializeField] private Vector2 _Facing = Vector2.down;
 </code></pre>
 <ul>
 <li>We have quite a few <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a>, so the <code>[Header]</code> attribute allows us to group them under an appropriate headding in the Inspector.</li>
-<li><code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> <a href="/cs-unity/docs/introduction/inheritance">Inherits</a> from the base <code>DirectionalAnimationSet</code> so either type of asset can be assigned to the <code>DirectionalAnimationSet</code> fields. This allows the same script to be used for both the Medical Examiner (4 directions) and Pirate (8 directions).</li>
+<li><code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code> and <code><a href="/animancer/api/Animancer/DirectionalAnimationSet4">DirectionalAnimationSet4</a></code> both <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from the base <code>DirectionalSet&lt;AnimationClip&gt;</code> so either type of asset can be assigned to those fields. This allows the same script to be used for both the Medical Examiner (4 directions) and Pirate (8 directions).</li>
 </ul>
 <table class="table">
   <thead>
@@ -641,7 +641,7 @@
 <h2 id="idle">Idle</h2>
 <p><em>Idle</em> will be used when the player isn't trying to move. This is similar to the <a href="../basics">Directional Basics</a> sample, except that this time we're storing the input vector and animation set so that we can determine how to apply the <a href="#movement">Movement</a>.</p>
 <pre><code class="language-cs">private Vector2 _Movement;
-private DirectionalAnimationSet _CurrentAnimationSet;
+private DirectionalSet&lt;AnimationClip&gt; _CurrentAnimationSet;
 
 protected virtual void Awake()
 {
@@ -666,7 +666,7 @@ protected virtual void Update()
     }
 }
 
-private void Play(DirectionalAnimationSet animations)
+private void Play(DirectionalSet&lt;AnimationClip&gt; animations)
 {
     _CurrentAnimationSet = animations;
     _Animancer.Play(animations.Get(_Facing));
@@ -709,7 +709,7 @@ private void UpdateMovementState()
 <p>You might also consider checking whether the colloding object has a <code>Rigidbody2D</code> that you can actually push (or some other component to mark it as "pushable"), but in this sample we don't mind playing the <em>Push</em> animation when moving against a wall.</p>
 <h2 id="walk-and-run">Walk and Run</h2>
 <p>If the character isn't trying to <em>Push</em> anything, we choose between <em>Walk</em> and <em>Run</em> based on whether or not the player is holding Left Shift using a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator">Conditional Operator</a>:</p>
-<pre><code class="language-cs">    DirectionalAnimationSet animations = <a href="/animancer/api/Animancer.Samples/SampleInput/C2AB61A3">SampleInput.LeftShiftHold</a> ? _Run : _Walk;
+<pre><code class="language-cs">    DirectionalSet&lt;AnimationClip&gt; animations = <a href="/animancer/api/Animancer.Samples/SampleInput/C2AB61A3">SampleInput.LeftShiftHold</a> ? _Run : _Walk;
     Play(animations);
 }
 </code></pre>
@@ -745,7 +745,7 @@ private void UpdateMovementState()
     TimeSynchronizer = new();
 </code></pre>
 <p>Every time we play an animation, we will now need to specify the group as well:</p>
-<pre><code class="language-cs">private void Play(DirectionalAnimationSet animations, AnimationGroup group)
+<pre><code class="language-cs">private void Play(DirectionalSet&lt;AnimationClip&gt; animations, AnimationGroup group)
 {
 </code></pre>
 <p>Actually using the synchronizer is easy:</p>
@@ -771,7 +771,7 @@ private void UpdateMovementState()
 
 Play(_Push, AnimationGroup.Movement);
 
-DirectionalAnimationSet animations = <a href="/animancer/api/Animancer.Samples/SampleInput/C2AB61A3">SampleInput.LeftShiftHold</a> ? _Run : _Walk;
+DirectionalSet&lt;AnimationClip&gt; animations = <a href="/animancer/api/Animancer.Samples/SampleInput/C2AB61A3">SampleInput.LeftShiftHold</a> ? _Run : _Walk;
 Play(animations, AnimationGroup.Movement);
 </code></pre>
 <h1 id="movement">Movement</h1>
@@ -780,12 +780,12 @@ Play(animations, AnimationGroup.Movement);
 <li>The <em>Medical Examiner</em> only has 4 directions so we don't want them to move diagonally.</li>
 <li>The <em>Pirate</em> has 8 directions which is all a keyboard can really do, but if the player were to use a controller joystick we could receive input from any angle so we still want to limit them to the available animations.</li>
 </ul>
-<p>This script doesn't actually know how many directions the character supports, but it can simply ask the <code>DirectionalAnimationSet</code> to <code>Snap</code> the movement vector to the closest supported direction:</p>
+<p>This script doesn't actually know how many directions the character supports, but it can simply ask the animation set to <code>Snap</code> the movement vector to the closest supported direction:</p>
 <pre><code class="language-cs">// in Update when moving:
 // Note that Snap returns the modified vector, it doesn't modify the input directly.
 _Movement = _CurrentAnimationSet.Snap(_Movement);
 </code></pre>
-<p>Using the <code>_CurrentAnimationSet</code> to snap the direction has the added benefit of allowing individual actions to have differing numbers of supported directions. For example, your character might have 8 directions for most actions but only 4 for interacting with a specific object. Or you could even make a <code>DirectionalAnimationSet1</code> if you only have a single animation for an object that always has the same orientation such as pushing open a large boss door which will always be facing straight at the screen.</p>
+<p>Using the <code>_CurrentAnimationSet</code> to snap the direction has the added benefit of allowing individual actions to have differing numbers of supported directions. For example, your character might have 8 directions for most actions but only 4 for interacting with a specific object. Or you could make a <code>DirectionalAnimationSet16</code> if you have more directions or even a <code>DirectionalAnimationSet1</code> if you only have a single animation for an object that always has the same orientation such as pushing open a large boss door which will always be facing straight at the screen.</p>
 <p>Holding multiple directions on a keyboard to move diagonally gives you a longer input vector than only holding a single direction.</p>
 <ul>
 <li><code>(1, 0)</code> has a <a href="/cs-unity/docs/introduction/vectors#magnitude">Magnitude</a> of <code>1</code>.</li>
@@ -832,7 +832,7 @@ protected virtual void OnValidate()
 </code></pre>
 <img src="sub-assets.png" class="pngif img-responsive img-right">
 <h1 id="sub-assets">Sub-Assets</h1>
-<p>Since the there are lots of animations in this sample and they are each only used by a single <code>DirectionalAnimationSet</code>, the <a href="/inspector-gadgets/docs/asset-drag-and-drop#drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature of <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> was used to turn the animations into sub-assets of the set in order to organise them a bit better.</p>
+<p>Since the there are lots of animations in this sample and they are each only used by a single <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a>, the <a href="/inspector-gadgets/docs/asset-drag-and-drop#drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature of <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> was used to turn the animations into sub-assets of the set in order to organise them a bit better.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p></p><details><summary>Click here to see the full <code><a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharacter">DirectionalCharacter</a></code> script.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
@@ -849,14 +849,14 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
 
     [Header("Animations")]
     [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private DirectionalAnimationSet _Idle;
-    [SerializeField] private DirectionalAnimationSet _Walk;
-    [SerializeField] private DirectionalAnimationSet _Run;
-    [SerializeField] private DirectionalAnimationSet _Push;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idle;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walk;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Run;
+    [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Push;
     [SerializeField] private Vector2 _Facing = Vector2.down;
 
     private Vector2 _Movement;
-    private DirectionalAnimationSet _CurrentAnimationSet;
+    private DirectionalSet&lt;AnimationClip&gt; _CurrentAnimationSet;
 
     private static readonly TimeSynchronizer&lt;AnimationGroup&gt;
         TimeSynchronizer = new();
@@ -890,7 +890,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
         }
     }
 
-    private void Play(DirectionalAnimationSet animations, AnimationGroup group)
+    private void Play(DirectionalSet&lt;AnimationClip&gt; animations, AnimationGroup group)
     {
         TimeSynchronizer.StoreTime(_Animancer);
 
@@ -914,7 +914,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
             }
         }
 
-        DirectionalAnimationSet animations = <a href="/animancer/api/Animancer.Samples/SampleInput/C2AB61A3">SampleInput.LeftShiftHold</a> ? _Run : _Walk;
+        DirectionalSet&lt;AnimationClip&gt; animations = <a href="/animancer/api/Animancer.Samples/SampleInput/C2AB61A3">SampleInput.LeftShiftHold</a> ? _Run : _Walk;
         Play(animations, AnimationGroup.Movement);
     }
 
