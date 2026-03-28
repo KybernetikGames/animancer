@@ -603,14 +603,14 @@
 <li>A UI <code>Toggle</code> controls whether IK is currently being applied or not.</li>
 <li>A UI <code>Slider</code> controls the slope of the ground.</li>
 </ul>
-<p>As with the <a href="../puppet">Puppet</a> sample, playing animations isn't the focus here so it just uses <code>PlayAnimationOnEnable</code> from the <a href="../../basics/quick-play">Quick Play</a> sample.</p>
+<p>As with the <a href="../puppet">Puppet</a> sample, playing animations isn't the focus here so it just uses <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> from the <a href="../../basics/quick-play">Quick Play</a> sample.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <h1 id="obstacle-treadmill">Obstacle Treadmill</h1>
-<p>The <code>ObstacleTreadmill</code> script creates a random series of objects and rearranges them each time the character moves far enough.</p>
+<p>The <code><a href="/animancer/api/Animancer.Samples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a></code> script creates a random series of objects and rearranges them each time the character moves far enough.</p>
 <pre><code class="language-cs">using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleTreadmill : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.InverseKinematics/ObstacleTreadmill">ObstacleTreadmill</a> : MonoBehaviour
 {
 </code></pre>
 <p>Its fields use various <a href="../../../manual/other/units">Units Attributes</a> to make the Inspector show what kind of units they're measured in:</p>
@@ -720,8 +720,8 @@ public class ObstacleTreadmill : MonoBehaviour
 <p>Rather than going fully to 0 weight, the curves used in this sample only go down to <code>0.2</code> so that the height the foot reaches when fully lifted up is still slightly influenced (<code>20%</code>) by the IK rather than being fully driven by the animation. The exact dimensions and shape of the curve would need to be adjusted to suit each animation and character in a real game.</p>
 <p><img src="ik-curve.png" class="pngif img-responsive"></p>
 <h1 id="startup">Startup</h1>
-<p>The custom <code>AnimationCurve</code>s can be accessed using Animancer's <code>AnimatedFloat</code> class which we initialize on startup:</p>
-<pre><code class="language-cs">private AnimatedFloat _FootWeights;
+<p>The custom <code>AnimationCurve</code>s can be accessed using Animancer's <code><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> class which we initialize on startup:</p>
+<pre><code class="language-cs">private <a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a> _FootWeights;
 
 protected virtual void Awake()
 {
@@ -759,7 +759,7 @@ protected virtual void Awake()
 }
 </code></pre>
 <h1 id="on-animator-ik">On Animator IK</h1>
-<p>In <code>OnAnimatorIK</code> it simply uses the <code>AnimatedFloat</code> to read the target curves at the current animation time (via <code>_FootWeights[x]</code>):</p>
+<p>In <code>OnAnimatorIK</code> it simply uses the <code><a href="/animancer/api/Animancer/AnimatedFloat">AnimatedFloat</a></code> to read the target curves at the current animation time (via <code>_FootWeights[x]</code>):</p>
 <pre><code class="language-cs">protected virtual void OnAnimatorIK(int layerIndex)
 {
     UpdateFootIK(

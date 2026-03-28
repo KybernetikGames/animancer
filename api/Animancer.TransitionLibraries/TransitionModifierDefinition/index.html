@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -154,6 +154,7 @@
 		<li role="separator" class="divider"></li>
 			<li class="header">Struct Types</li>
 				<li><a href="/animancer/api/Animancer.TransitionLibraries/NamedIndex">NamedIndex</a></li>
+				<li><a href="/animancer/api/Animancer.TransitionLibraries/TransitionDetails">TransitionDetails</a></li>
 				<li class="selected"><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition">Transition<wbr>Modifier<wbr>Definition</a></li>
 			<li class="header">Class Types</li>
 				<li><a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a></li>
@@ -272,7 +273,7 @@ public struct TransitionModifierDefinition : ValueType, IEquatable&lt;Transition
 							</tr>
 						</thead>
 							<tbody><tr>
-								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/35383FC5">Transition<wbr>Modifier<wbr>Definition<wbr>(int, <wbr>int, <wbr>float)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/88578A8D">Transition<wbr>Modifier<wbr>Definition<wbr>(int, <wbr>int, <wbr>float, <wbr>float)<wbr></a></td>
 									<td>Creates a new <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition</code>.</td>
 							</tr>
 					</tbody></table>
@@ -297,7 +298,7 @@ public struct TransitionModifierDefinition : ValueType, IEquatable&lt;Transition
 								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/CC84CEC2">FadeDuration</a></td>
 								<td>float</td>
 								<td>
-									<div>The fade duration for this override to use.</div>
+									<div>The fade duration for this modifier to use instead of the transition's default value.</div>
 								</td>
 							</tr>
 							<tr>
@@ -305,6 +306,13 @@ public struct TransitionModifierDefinition : ValueType, IEquatable&lt;Transition
 								<td>int</td>
 								<td>
 									<div>The index of the source transition in the <code class="cs">Animancer.TransitionLibraries.TransitionLibraryDefinition</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/916AEA21">NormalizedStartTime</a></td>
+								<td>float</td>
+								<td>
+									<div>The normalized start time for this modifier to use instead of the transition's default value.</div>
 								</td>
 							</tr>
 							<tr>
@@ -355,21 +363,49 @@ public struct TransitionModifierDefinition : ValueType, IEquatable&lt;Transition
 								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/A1814354">ToString<wbr>()<wbr></a></td>
 								<td>string</td>
 								<td>
-									<div>Creates a new string describing this override.</div>
+									<div>Creates a new string describing this modifier.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/19344E38">ToTransitionDetails<wbr>()<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionDetails">TransitionDetails</a></td>
+								<td>
+									<div>Creates a new <code class="cs">Animancer.TransitionLibraries.TransitionDetails</code> from this modifier.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/C6D9470E">Validate<wbr>()<wbr></a></td>
+								<td>bool</td>
+								<td>
+									<div>Does this modifier contain valid values?</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/F17B29EC">WithDetails<wbr>(float, <wbr>float)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition">Transition<wbr>Modifier<wbr>Definition</a></td>
+								<td>
+									<div>Creates a copy of this modifier with the specified <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.FadeDuration</code> and <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.NormalizedStartTime</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/5FAB0C5C">WithFadeDuration<wbr>(float)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition">Transition<wbr>Modifier<wbr>Definition</a></td>
 								<td>
-									<div>Creates a copy of this override with the specified <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.FadeDuration</code>.</div>
+									<div>Creates a copy of this modifier with the specified <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.FadeDuration</code>.</div>
 								</td>
 							</tr>
 							<tr>
 								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/AC0789A9">WithIndices<wbr>(int, <wbr>int)<wbr></a></td>
 								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition">Transition<wbr>Modifier<wbr>Definition</a></td>
 								<td>
-									<div>Creates a copy of this override with the specified <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.FromIndex</code> and <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.ToIndex</code>.</div>
+									<div>Creates a copy of this modifier with the specified <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.FromIndex</code> and <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.ToIndex</code>.</div>
+								</td>
+							</tr>
+							<tr>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition/209D3DEA">With<wbr>Normalized<wbr>Start<wbr>Time<wbr>(float)<wbr></a></td>
+								<td><a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierDefinition">Transition<wbr>Modifier<wbr>Definition</a></td>
+								<td>
+									<div>Creates a copy of this modifier with the specified <code class="cs">Animancer.TransitionLibraries.TransitionModifierDefinition.NormalizedStartTime</code>.</div>
 								</td>
 							</tr>
 					</tbody></table>

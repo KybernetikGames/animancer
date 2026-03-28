@@ -566,26 +566,26 @@
 <li>Inefficient - Checking if two <code>string</code>s are equal requires comparing every individual character in both, which is slow and gets even slower as the length increases.</li>
 <li>Unsafe - Raw <code>string</code>s aren't directly linked to anything, so if you make a typo or rename something you might not realise anything is wrong without spending time on extensive testing.</li>
 </ul>
-<p>When Animancer needs to use <code>string</code>s, it uses <code>StringReference</code>s to improve the efficiency and <code>StringAsset</code>s to improve the safety.</p>
+<p>When Animancer needs to use <code>string</code>s, it uses <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s to improve the efficiency and <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s to improve the safety.</p>
 <h1 id="string-references">String References</h1>
-<p>A <code>StringReference</code> is a <code>class</code> containing a <code>string</code>. You can get one using the implicit conversion from <code>string</code> or by calling <code>StringReference.Get</code>.</p>
-<pre><code class="language-cs">public static readonly StringReference MyString = "MyString";
-public static readonly StringReference MyString = StringReference.Get("MyString");
+<p>A <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> is a <code>class</code> containing a <code>string</code>. You can get one using the implicit conversion from <code>string</code> or by calling <code>StringReference.Get</code>.</p>
+<pre><code class="language-cs">public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> MyString = "MyString";
+public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> MyString = StringReference.Get("MyString");
 </code></pre>
-<p>Internally, it keeps all the <code>StringReference</code>s in a dictionary keyed by their <code>string</code>. If no reference is registered for a particular <code>string</code>, a new one is created. Or if one already existed, then that same reference is returned. This means everything getting a reference for a particular <code>string</code> is given the exact same reference so checking if two are equal only requires a single reference equality check without going through the actual contents of the <code>string</code>s every time.</p>
-<p>The <a href="../../../samples/events/golf">Golf Events</a> sample uses a <code>StringReference</code> in its script for the name of the <a href="../../events/animancer">Animancer Event</a> it uses to hit the golf ball. That same name is used for a <code>StringAsset</code> assigned to the event in the Inspector.</p>
+<p>Internally, it keeps all the <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s in a dictionary keyed by their <code>string</code>. If no reference is registered for a particular <code>string</code>, a new one is created. Or if one already existed, then that same reference is returned. This means everything getting a reference for a particular <code>string</code> is given the exact same reference so checking if two are equal only requires a single reference equality check without going through the actual contents of the <code>string</code>s every time.</p>
+<p>The <a href="../../../samples/events/golf">Golf Events</a> sample uses a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> in its script for the name of the <a href="../../events/animancer">Animancer Event</a> it uses to hit the golf ball. That same name is used for a <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> assigned to the event in the Inspector.</p>
 <h1 id="string-assets">String Assets</h1>
-<p><code>StringAsset</code> is a <code>ScriptableObject</code> asset containing a <code>StringReference</code> which it initializes from the asset's <code>name</code>. You can create one using the <em>Assets/Create/Animancer/String Asset</em> menu function then reference it using a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a>.</p>
-<pre><code class="language-cs">[SerializeField] private StringAsset _MyString;
+<p><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> is a <code>ScriptableObject</code> asset containing a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> which it initializes from the asset's <code>name</code>. You can create one using the <em>Assets/Create/Animancer/String Asset</em> menu function then reference it using a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a>.</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _MyString;
 </code></pre>
-<p>That means the asset can be renamed to change the name without breaking either system and you can clearly see what each thing is using in the Inspector, which makes it more flexible and safer to use than hard coding a <code>StringReference</code> in the script.</p>
-<p><code>StringAsset</code> also has an implicit conversion to its <code>StringReference</code> so you can use an asset anywhere that accepts a reference.</p>
-<p>Several samples use <code>StringAsset</code>s for different things:</p>
+<p>That means the asset can be renamed to change the name without breaking either system and you can clearly see what each thing is using in the Inspector, which makes it more flexible and safer to use than hard coding a <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> in the script.</p>
+<p><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> also has an implicit conversion to its <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code> so you can use an asset anywhere that accepts a reference.</p>
+<p>Several samples use <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s for different things:</p>
 <table class="table">
 <thead>
 <tr>
 <th>Sample</th>
-<th>Uses a <code>StringAsset</code> for</th>
+<th>Uses a <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code> for</th>
 </tr>
 </thead>
 <tbody>

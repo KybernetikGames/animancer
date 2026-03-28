@@ -588,7 +588,7 @@
 <li>Choosing the character's animation based on the direction they're <em>Facing</em> rather than the direction they're <em>Moving</em> allows them to continue facing in the last direction they moved while standing <em>Idle</em>.</li>
 <li><a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> make it easy to manage groups of up/right/down/left animations.</li>
 <li><a href="#edit-mode">Playing animations in Edit Mode is easy.</a></li>
-<li>The <a href="../character">Directional Character</a> sample extends this concept into a more complex character and shows an alternate character that uses <code>DirectionalAnimationSet8</code>s to allow diagonal movement.</li>
+<li>The <a href="../character">Directional Character</a> sample extends this concept into a more complex character and shows an alternate character that uses <code><a href="/animancer/api/Animancer/DirectionalAnimationSet8">DirectionalAnimationSet8</a></code>s to allow diagonal movement.</li>
 </ul>
 <h1 id="overview">Overview</h1>
 <p>The general code structure is very similar to previous samples, but it uses <a href="../../../manual/playing/directional-sets">Directional Animation Sets</a> instead of directly referencing individual <code>AnimationClip</code>s:</p>
@@ -598,14 +598,14 @@
 <p>We also need to store the direction the character is facing when they move so that when they stop they can still play the correct <em>Idle</em> animation to continue facing in that direction. Having this as a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> allows us to determine which direction the character will be facing on startup as well as in <a href="#edit-mode">Edit Mode</a>.</p>
 <table class="table">
   <thead>
-    <tr><th style="width:50%"><code>DirectionalBasics</code> Script</th>
-    <th style="width:50%"><code>DirectionalAnimationSet4</code> Asset</th>
+    <tr><th style="width:50%"><code><a href="/animancer/api/Animancer.Samples.Sprites/DirectionalBasics">DirectionalBasics</a></code> Script</th>
+    <th style="width:50%"><code><a href="/animancer/api/Animancer/DirectionalAnimationSet4">DirectionalAnimationSet4</a></code> Asset</th>
   </tr></thead>
   <tbody>
     <tr>
       <td>
 <pre><code class="language-cs">[SerializeField]
-private AnimancerComponent _Animancer;
+private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
 [SerializeField]
 private DirectionalSet&lt;AnimationClip&gt; _Idles;
@@ -647,7 +647,7 @@ private Vector2 _Facing = Vector2.down;
 <p>Then we can simply play the appropriate <em>Walk</em> animation for that direction:</p>
 <pre><code class="language-cs">        Play(_Walks);
 </code></pre>
-<p>This sample doesn't have any different animations for running, but we can easily allow the character to run by increasing the animation speed when the player holds Left Shift. We could have had our <code>Play</code> method return the <code>AnimancerState</code> it gets from <code>_Animancer.Play</code>, but we can also access it using <code>_Animancer.States.Current</code>:</p>
+<p>This sample doesn't have any different animations for running, but we can easily allow the character to run by increasing the animation speed when the player holds Left Shift. We could have had our <code>Play</code> method return the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> it gets from <code>_Animancer.Play</code>, but we can also access it using <code>_Animancer.States.Current</code>:</p>
 <pre><code class="language-cs">        bool isRunning = SampleInput.LeftShiftHold;
         _Animancer.States.Current.Speed = isRunning ? 2 : 1;
     }
@@ -675,14 +675,14 @@ private void OnValidate()
 </code></pre>
 <p>The <code>#if UNITY_EDITOR</code> isn't actually necessary because Unity won't call <code>OnValidate</code> at runtime anyway, but this allows us to be clearer about what the code is doing.</p>
 <h1 id="conclusion">Conclusion</h1>
-<p></p><details><summary>Click here to see the full <code>DirectionalBasics</code> script.</summary><p>
+<p></p><details><summary>Click here to see the full <code><a href="/animancer/api/Animancer.Samples.Sprites/DirectionalBasics">DirectionalBasics</a></code> script.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
-public class DirectionalBasics : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalBasics">DirectionalBasics</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idles;
     [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walks;
     [SerializeField] private Vector2 _Facing = Vector2.down;

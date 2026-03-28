@@ -563,14 +563,14 @@
 			<h1>Keys</h1>
 		</section>
 	<section class="content">
-		<p>The first time you play an <code>AnimationClip</code> or <a href="../transitions">Transition</a> on each character, Animancer creates an <code>AnimancerState</code> for it and registers it in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using the object you used to play it as its <code>AnimancerState.Key</code> so that it can reuse that same state later on if you play the same thing again.</p>
+		<p>The first time you play an <code>AnimationClip</code> or <a href="../transitions">Transition</a> on each character, Animancer creates an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> for it and registers it in an internal <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a> using the object you used to play it as its <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> so that it can reuse that same state later on if you play the same thing again.</p>
 <pre><code class="language-cs">void KeysExample(AnimancerComponent animancer, AnimationClip clip)
 {
     // Play something.
-    AnimancerState firstState = animancer.Play(clip);
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> firstState = animancer.Play(clip);
 
     // Play the same thing again later.
-    AnimancerState secondState = animancer.Play(clip);
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> secondState = animancer.Play(clip);
 
     // The same state is used both times.
     Debug.Log(firstState == secondState);// True.
@@ -591,7 +591,7 @@
     animancer.TryPlay("Attack");
 
     // Or you can create the state and set its key manually:
-    ClipState state = new ClipState(clip);
+    <a href="/animancer/api/Animancer/ClipState">ClipState</a> state = new ClipState(clip);
     state.Key = "Attack";
     animancer.TryPlay("Attack");// This won't work because the state isn't connected to anything yet.
     animancer.Layers[0].AddChild(state);// Now the state is connected and registered with its Key.
@@ -600,8 +600,8 @@
 }
 </code></pre>
 <ul>
-<li>You don't need to set the <code>AnimancerState.Key</code> if you don't want to. You can simply create a <code>new ClipState</code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
-<li>The <code>NamedAnimancerComponent</code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>.</li>
+<li>You don't need to set the <code><a href="/animancer/api/Animancer/AnimancerState/44AF9D9B">AnimancerState.Key</a></code> if you don't want to. You can simply create a <code>new <a href="/animancer/api/Animancer/ClipState">ClipState</a></code> (or whatever type of state you want) and keep a reference to it for when you want to use it.</li>
+<li>The <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> overrides its <code>GetKey</code> method to use the clip's <code>name</code> instead of the <code>AnimationClip</code> itself. So calling <code>animancer.Play(clip)</code> uses the <code>name</code> to lookup the state, but you can also pre-register the clip on startup by adding it to the <code>Animations</code> array in the Inspector or calling <code>animancer.States.GetOrCreate(clip)</code> so that later on you can call <code>animancer.Play("Animation Name")</code> in any script without a direct reference to the <code>AnimationClip</code>.</li>
 <li>If you want to have multiple states playing the same clip you will need to register them all with different keys (or no keys).
 <ul>
 <li><code>FadeMode.FromStart</code> uses this to fade a clip out while fading another copy of it in at the same time.</li>

@@ -576,7 +576,7 @@
 <h1 id="resetting-properties">Resetting Properties</h1>
 <img src="ik-weight.png" class="img-responsive img-right">
 <p>The way the Animation Rigging system reads properties like the <code>Weight</code> of its constraint components causes them to be treated like animated properties, meaning that calling <code>Animator.Rebind</code> will reset those properties to their starting values.</p>
-<p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code>AnimancerGraph.KeepChildrenConnected</code> property:</p>
+<p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code><a href="/animancer/api/Animancer/AnimancerGraph/FD81B96B">AnimancerGraph.KeepChildrenConnected</a></code> property:</p>
 <table class="table">
 <thead>
 <tr>
@@ -599,14 +599,14 @@
 </tbody>
 </table>
 <p>This isn't a problem for Animator Controllers because they simply don't allow their structure to be changed at runtime.</p>
-<p>This issue can be avoided by using a <code>PlayableOutputRefresher</code>:</p>
+<p>This issue can be avoided by using a <code><a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a></code>:</p>
 <pre><code class="language-cs">public class PlayableOutputRefresherExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private Rig _Rig;
 
     // A field to store it in.
-    private PlayableOutputRefresher _OutputRefresher;
+    private <a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a> _OutputRefresher;
 
     protected virtual void OnEnable()
     {
@@ -638,7 +638,7 @@ using UnityEngine.Animations.Rigging;
 [DefaultExecutionOrder(1000)]// Awake after the RigBuilder creates its PlayableGraph.
 public class AnimancerUseRiggingGraph : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private RigBuilder _RigBuilder;
 
     protected virtual void Awake()

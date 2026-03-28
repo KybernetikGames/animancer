@@ -635,7 +635,7 @@ using UnityEngine;
 
 public class IdleState : CharacterState
 {
-    [SerializeField] private ClipTransition _MainAnimation;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _MainAnimation;
     [SerializeField, Seconds] private float _RandomizeDelay = 5;
     [SerializeField, Seconds] private float _MinRandomizeInterval = 0;
     [SerializeField, Seconds] private float _MaxRandomizeInterval = 20;
@@ -674,7 +674,7 @@ public class IdleState : CharacterState
 
         Character.Movement.UpdateSpeedControl();
 
-        AnimancerState state = Character.Animancer.States.Current;
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = Character.Animancer.States.Current;
         if (state == _MainAnimation.State &amp;&amp;
             state.Time &gt;= _RandomizeTime)
         {
@@ -685,8 +685,8 @@ public class IdleState : CharacterState
     private void PlayRandomAnimation()
     {
         int index = UnityEngine.Random.Range(0, _RandomAnimations.Length);
-        ClipTransition animation = _RandomAnimations[index];
-        AnimancerState state = Character.Animancer.Play(animation);
+        <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> animation = _RandomAnimations[index];
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = Character.Animancer.Play(animation);
         state.FadeGroup.SetEasing(Easing.Sine.InOut);
     }
 }
@@ -694,7 +694,7 @@ public class IdleState : CharacterState
 <p></p></details><p></p>
 <p><img src="animancer-idle.png" class="img-responsive"></p>
 <p>We start with some serialized fields to show in the Inspector (with appropriate <a href="../../../../manual/other/units">Units Attributes</a>):</p>
-<pre><code class="language-cs">[SerializeField] private ClipTransition _MainAnimation;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _MainAnimation;
 [SerializeField, Seconds] private float _FirstRandomizeDelay = 5;
 [SerializeField, Seconds] private float _MinRandomizeInterval = 0;
 [SerializeField, Seconds] private float _MaxRandomizeInterval = 20;
@@ -757,7 +757,7 @@ public bool CheckMotionState()
 </code></pre>
 <p>In an Animator Controller you need to manually set up the same transitions all over the place. For example, many states have exit transitions to the <em>Airborne</em> state based on the <code>Grounded</code> parameter so every time a new state is added you also need to make those same transitions. Adding a new movement state such as <em>Swimming</em> or <em>Flying</em> would mean that you need to basically go through every state with a transition to <em>Airborne</em> and add a transition to the new state. However, doing it in code with a standard <code>CheckMotionState</code> method means that any newly added state can clearly have the same standard transitions and any modifications to that method will automatically affect everything which calls that method.</p>
 <h1 id="update-speed-control">Update Speed Control</h1>
-<p>At this point we know we're still <em>Idle</em> this frame so we just want to decelerate the <code>CharacterMovement.ForwardSpeed</code>. We might as well share the same logic that other states will use for movement, so we put that function in the <code>CharacterMovement</code> class:</p>
+<p>At this point we know we're still <em>Idle</em> this frame so we just want to decelerate the <code>CharacterMovement.ForwardSpeed</code>. We might as well share the same logic that other states will use for movement, so we put that function in the <code><a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameKit/CharacterMovement">CharacterMovement</a></code> class:</p>
 <pre><code class="language-cs">// IdleState.cs:
 protected virtual void FixedUpdate()
 {
@@ -782,7 +782,7 @@ public void UpdateSpeedControl()
 <pre><code class="language-cs">protected virtual void FixedUpdate()
 {
     ...
-    AnimancerState state = Character.Animancer.States.Current;
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = Character.Animancer.States.Current;
     if (state == _MainAnimation.State &amp;&amp;
         state.Time &gt;= _RandomizeTime)
     {
@@ -793,7 +793,7 @@ public void UpdateSpeedControl()
 private void PlayRandomAnimation()
 {
     int index = UnityEngine.Random.Range(0, _RandomAnimations.Length);
-    ClipTransition animation = _RandomAnimations[index];
+    <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> animation = _RandomAnimations[index];
     Character.Animancer.Play(animation);
 }
 </code></pre>
@@ -802,7 +802,7 @@ private void PlayRandomAnimation()
 <pre><code class="language-cs">private void PlayRandomAnimation()
 {
     ...
-    AnimancerState state = Character.Animancer.Play(animation);
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = Character.Animancer.Play(animation);
     state.FadeGroup.SetEasing(Easing.Sine.InOut);
 }
 </code></pre>

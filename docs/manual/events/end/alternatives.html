@@ -563,8 +563,8 @@
 	<section class="content">
 		<p>End Events are usually the simplest and most performant way to detect and handle the end of an animation, but this page lists several alternative ways to achieve similar behaviour if you can't or don't want to use them.</p>
 <h1 id="coroutines">Coroutines</h1>
-<p>In coroutines you can <code>yield return</code> any <code>AnimancerState</code> to wait until it finishes. Specifically, it will wait until the state either stops playing or passes its end time (set using code or <a href="../../transitions">Transitions</a> as described above).</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+<p>In coroutines you can <code>yield return</code> any <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> to wait until it finishes. Specifically, it will wait until the state either stops playing or passes its end time (set using code or <a href="../../transitions">Transitions</a> as described above).</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 void Awake()
@@ -582,14 +582,14 @@ IEnumerator CoroutinePlayAnimation()
     Debug.Log("Animation ended");
 }
 </code></pre>
-<p>You can also yield an entire <a href="../../blending/layers">Layer</a> or <code>AnimancerComponent</code> to wait for all their states to finish.</p>
+<p>You can also yield an entire <a href="../../blending/layers">Layer</a> or <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to wait for all their states to finish.</p>
 <p>Note that yielding a state does not create <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage</a>, but starting a coroutine does.</p>
 <h1 id="manual-polling">Manual Polling</h1>
-<p>You can keep a reference to the <code>AnimancerState</code> returned by any of the <code>AnimancerComponent.Play</code> methods and check its <code>AnimancerState.NormalizedTime</code> every update (once the value reaches 1 the animation is finished):</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+<p>You can keep a reference to the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> returned by any of the <code>AnimancerComponent.Play</code> methods and check its <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> every update (once the value reaches 1 the animation is finished):</p>
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
-private AnimancerState _State;
+private <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> _State;
 
 void Awake()
 {
@@ -603,7 +603,7 @@ void Update()
 }
 </code></pre>
 <p>Since states are kept in an internal dictionary, you can also get them quite efficiently when needed:</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 void Awake()

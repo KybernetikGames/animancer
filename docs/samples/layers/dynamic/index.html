@@ -585,21 +585,21 @@
 <li><em>Idle</em> + <em>Action</em> = Whole body <em>Action</em> because the lower body of <em>Idle</em> wouldn't put the character into the right shooting stance.</li>
 </ul>
 <p><img src="dynamic.png" class="pngif img-responsive"></p>
-<p>As the Inspector shows in the above video, this behaviour is achieved by creating a second <code>AnimancerState</code> for the <em>Action</em> animation so that can play one on each layer when it needs to control the whole body.</p>
+<p>As the Inspector shows in the above video, this behaviour is achieved by creating a second <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> for the <em>Action</em> animation so that can play one on each layer when it needs to control the whole body.</p>
 <h1 id="overview">Overview</h1>
-<p>The general code structure is very similar to the <a href="../basic">Basic Layers</a>, except that the <code>LayeredCharacterAnimations</code> has been split in two since the logic we need to manage the layers is a bit more complex.</p>
+<p>The general code structure is very similar to the <a href="../basic">Basic Layers</a>, except that the <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code> has been split in two since the logic we need to manage the layers is a bit more complex.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary><code>DynamicLayeredCharacterAnimations</code> is fairly similar to <code>SimpleCharacterAnimations</code>, but it tells the <code>LayeredAnimationManager</code> what animations to play instead of interacting directly with the <code>AnimancerComponent</code>:</summary><p>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a></code> is fairly similar to <code>SimpleCharacterAnimations</code>, but it tells the <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> what animations to play instead of interacting directly with the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
-public class DynamicLayeredCharacterAnimations : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a> : MonoBehaviour
 {
-    [SerializeField] private LayeredAnimationManager _AnimationManager;
-    [SerializeField] private ClipTransition _Idle;
-    [SerializeField] private ClipTransition _Move;
-    [SerializeField] private ClipTransition _Action;
+    [SerializeField] private <a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a> _AnimationManager;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
 
     protected virtual void Awake()
     {
@@ -635,19 +635,19 @@ public class DynamicLayeredCharacterAnimations : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary><code>LayeredAnimationManager</code> takes the commands it's given and decides how to actually interact with the <code>AnimancerComponent</code>:</summary><p>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> takes the commands it's given and decides how to actually interact with the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 
-public class LayeredAnimationManager : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
     [SerializeField] private AvatarMask _ActionMask;
     [SerializeField, Seconds] private float _ActionFadeDuration = AnimancerGraph.DefaultFadeDuration;
 
-    private AnimancerLayer _BaseLayer;
-    private AnimancerLayer _ActionLayer;
+    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _BaseLayer;
+    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _ActionLayer;
     private bool _CanPlayActionFullBody;
 
     protected virtual void Awake()
@@ -683,8 +683,8 @@ public class LayeredAnimationManager : MonoBehaviour
 
     private void PlayActionFullBody(float fadeDuration)
     {
-        AnimancerState actionState = _ActionLayer.CurrentState;
-        AnimancerState baseState = _BaseLayer.Play(actionState, fadeDuration);
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> actionState = _ActionLayer.CurrentState;
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> baseState = _BaseLayer.Play(actionState, fadeDuration);
         baseState.Time = actionState.Time;
     }
 
@@ -696,7 +696,7 @@ public class LayeredAnimationManager : MonoBehaviour
 </code></pre>
 <p></p></details><p></p>
 <h1 id="character-animations">Character Animations</h1>
-<p><code>DynamicLayeredCharacterAnimations</code> is basically just a simplified version of <code>LayeredCharacterAnimations</code> <a href="../basic">Basic Layers</a> sample, so here's a quick summary of the differences:</p>
+<p><code><a href="/animancer/api/Animancer.Samples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a></code> is basically just a simplified version of <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code> <a href="../basic">Basic Layers</a> sample, so here's a quick summary of the differences:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Basic Layers</th>
@@ -704,23 +704,23 @@ public class LayeredAnimationManager : MonoBehaviour
   </tr></thead>
 <tbody>
 <tr>
-<td><code>LayeredCharacterAnimations</code></td>
-<td><code>DynamicLayeredCharacterAnimations</code></td>
+<td><code><a href="/animancer/api/Animancer.Samples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code></td>
+<td><code><a href="/animancer/api/Animancer.Samples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a></code></td>
 </tr>
 <tr>
 <td>
 <pre><code class="language-cs">[SerializeField]
-private AnimancerComponent
+private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a>
     _Animancer;
 
 [SerializeField]
-private ClipTransition _Idle;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
 
 [SerializeField]
-private ClipTransition _Move;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
 
 [SerializeField]
-private ClipTransition _Action;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
 
 [SerializeField]
 private AvatarMask _ActionMask;
@@ -732,25 +732,25 @@ private float _ActionFadeOutDuration
 </td>
 <td>
 <pre><code class="language-cs">[SerializeField]
-private LayeredAnimationManager
+private <a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a>
     _AnimationManager;
 
 [SerializeField]
-private ClipTransition _Idle;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
 
 [SerializeField]
-private ClipTransition _Move;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
 
 [SerializeField]
-private ClipTransition _Action;
+private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
 </code></pre>
-<p>This script interacts with the <code>LayeredAnimationManager</code> instead of the <code>AnimancerComponent</code> and the <code>_ActionMask</code> and <code>_ActionFadeOutDuration</code> fields have been moved into that script as well.</p>
+<p>This script interacts with the <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> instead of the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> and the <code>_ActionMask</code> and <code>_ActionFadeOutDuration</code> fields have been moved into that script as well.</p>
 </td>
 </tr>
 <tr>
 <td>
-<pre><code class="language-cs">private AnimancerLayer _BaseLayer;
-private AnimancerLayer _ActionLayer;
+<pre><code class="language-cs">private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _BaseLayer;
+private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _ActionLayer;
 
 protected virtual void Awake()
 {
@@ -787,7 +787,7 @@ protected virtual void Awake()
         = _AnimationManager.FadeOutAction;
 }
 </code></pre>
-<p>The layer initialization logic and <code>OnActionEnd</code> has also been moved into <code>LayeredAnimationManager</code>.</p>
+<p>The layer initialization logic and <code>OnActionEnd</code> has also been moved into <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code>.</p>
 </td>
 </tr>
 <tr>
@@ -862,20 +862,20 @@ private void UpdateAction()
 </tbody>
 </table>
 <h1 id="layer-setup">Layer Setup</h1>
-<p>As noted above, the layer initialization logic from <code>LayeredCharacterAnimations</code> has been moved into <code>LayeredAnimationManager</code>:</p>
+<p>As noted above, the layer initialization logic from <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredCharacterAnimations">LayeredCharacterAnimations</a></code> has been moved into <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code>:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class LayeredAnimationManager : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a> : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
     [SerializeField]
     private AvatarMask _ActionMask;
 
-    private AnimancerLayer _BaseLayer;
-    private AnimancerLayer _ActionLayer;
+    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _BaseLayer;
+    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _ActionLayer;
 
     protected virtual void Awake()
     {
@@ -934,8 +934,8 @@ public class LayeredAnimationManager : MonoBehaviour
 <p>Instead, the desired result can be achieved much more easily by playing the <em>Action</em> either on the <code>_ActionLayer</code> or on both layers at the same time. To do that we simply get the <code>_ActionLayer.CurrentState</code> and tell the <code>_BaseLayer</code> to play it:</p>
 <pre><code class="language-cs">    private void PlayActionFullBody(float fadeDuration)
     {
-        AnimancerState actionState = _ActionLayer.CurrentState;
-        AnimancerState baseState = _BaseLayer.Play(actionState, fadeDuration);
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> actionState = _ActionLayer.CurrentState;
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> baseState = _BaseLayer.Play(actionState, fadeDuration);
         baseState.Time = actionState.Time;
     }
 </code></pre>
@@ -955,11 +955,11 @@ public class LayeredAnimationManager : MonoBehaviour
 <li>Inside <code>PlayBase</code> where the <em>Action</em> is already playing, there would be no point in using the same fade duration since it wasn't started at the same time so instead it uses the <code>_ActionFadeDuration</code> field which is also used by <code>FadeOutAction</code>.</li>
 </ul>
 <h1 id="fade-out-action">Fade Out Action</h1>
-<p>The last thing in <code>LayeredAnimationManager</code> is the method to fade out the <code>_ActionLayer</code> for the <a href="../../../manual/events/end">End Event</a> of the <em>Action</em> animation.</p>
+<p>The last thing in <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> is the method to fade out the <code>_ActionLayer</code> for the <a href="../../../manual/events/end">End Event</a> of the <em>Action</em> animation.</p>
 <blockquote class="blockquote">
 <p><strong>Warning:</strong> be sure to fade out the layer, not the state. Otherwise it won't blend correctly.</p>
 </blockquote>
-<pre><code class="language-cs">class DynamicLayeredCharacterAnimations
+<pre><code class="language-cs">class <a href="/animancer/api/Animancer.Samples.Layers/DynamicLayeredCharacterAnimations">DynamicLayeredCharacterAnimations</a>
 {
     protected virtual void Awake()
     {
@@ -967,7 +967,7 @@ public class LayeredAnimationManager : MonoBehaviour
     }
 }
 
-class LayeredAnimationManager
+class <a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a>
 {
     public void FadeOutAction()
     {
@@ -978,7 +978,7 @@ class LayeredAnimationManager
 <h1 id="conclusion">Conclusion</h1>
 <p>Now we have a character who plays the <em>Action</em> animation normally if they were <em>Idle</em> or plays it on the upper body only if they were <em>Moving</em>:</p>
 <p><img src="dynamic.png" class="pngif img-responsive"></p>
-<p>Expanding upon this approach should make it easy to manage layers in more complex situations where you have many other scripts wanting to play animations. Instead of having all your scripts interact directly with Animancer, they can interact with the <code>LayeredAnimationManager</code> so that it can take care of the layers while your scripts focus on their own responsibilities. Note that you may need to create your own manager if you need to expose other features which aren't used in this sample.</p>
+<p>Expanding upon this approach should make it easy to manage layers in more complex situations where you have many other scripts wanting to play animations. Instead of having all your scripts interact directly with Animancer, they can interact with the <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code> so that it can take care of the layers while your scripts focus on their own responsibilities. Note that you may need to create your own manager if you need to expose other features which aren't used in this sample.</p>
 
 	</section>
                 

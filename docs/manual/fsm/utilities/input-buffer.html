@@ -566,13 +566,13 @@
 <p>Rather than simply attempting a state change and giving up if it isn't allowed, it is often desirable to keep trying for a short time. For example, if the player is attacking and they press the attack button again, you probably want the current animation to finish first and then start the next attack in a combo as long as the input didn't occur too long ago.</p>
 <p>Note that "input" in this case does not only mean "button presses from the player", it can be used for any sort of events that might try to control a state machine (such as AI).</p>
 <h1 id="how-to-use">How to Use</h1>
-<p>The <code>StateMachine&lt;TState&gt;.InputBuffer&lt;TStateMachine&gt;</code> class allows you to easily implement this sort of buffering:</p>
+<p>The <code><a href="/animancer/api/Animancer.FSM/InputBuffer_1">StateMachine&lt;TState&gt;.InputBuffer&lt;TStateMachine&gt;</a></code> class allows you to easily implement this sort of buffering:</p>
 <ol>
-<li>Construct a <code>new StateMachine&lt;TState&gt;.InputBuffer</code> by passing in the target state machine.</li>
+<li>Construct a <code>new <a href="/animancer/api/Animancer.FSM/InputBuffer">StateMachine&lt;TState&gt;.InputBuffer</a></code> by passing in the target state machine.</li>
 <li>Whenever you would normally call <code>TryResetState(state)</code> on the state machine, you can instead call <code>Buffer(state, timeOut)</code> on the input buffer which will make it call <code>TryResetState</code> and if it fails, then it will store the <code>state</code> to try again later.</li>
 <li>Call <code>Update</code> on the buffer every frame to have it try to enter the buffered state again (if there is one).</li>
 </ol>
-<p>The <code>StateMachine&lt;TState&gt;.InputBuffer&lt;TStateMachine&gt;</code> page has a quick code example and the <a href="../../../samples/fsm/weapons#attack-input">Weapons Sample</a> demonstrates them in more detail.</p>
+<p>The <code><a href="/animancer/api/Animancer.FSM/InputBuffer_1">StateMachine&lt;TState&gt;.InputBuffer&lt;TStateMachine&gt;</a></code> page has a quick code example and the <a href="../../../samples/fsm/weapons#attack-input">Weapons Sample</a> demonstrates them in more detail.</p>
 <h1 id="limitations">Limitations</h1>
 <p>This system only buffers a single state at a time (by design). If the player presses the attack button while they are already attacking then presses the block button before the first attack ends, it will only execute the block rather than performing the entire second attack before blocking. This assumes the latest command is the only one that matters, which is often good for things like player input, but might not be best for all situations. If you want to ensure that all commands are executed in order, you could make a similar class (perhaps called <code>InputSequenceBuffer</code>) which manages a list of states instead of only a single <code>BufferedState</code>.</p>
 

@@ -592,25 +592,25 @@
 <li><a href="https://github.com/KybernetikGames/animancer/issues/48#issuecomment-632336377">This sample is based on a dynamic lean script by ted-hou on GitHub.</a></li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p>This sample reuses <code>PlayAnimationOnEnable</code> from the <a href="../../basics/quick-play">Quick Play</a> sample and has three new scripts:</p>
+<p>This sample reuses <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> from the <a href="../../basics/quick-play">Quick Play</a> sample and has three new scripts:</p>
 <ul>
-<li><code>SimpleLean</code> inherits from <code>AnimancerJob</code> as a wrapper around the job to provide a clean API for other scripts to access the job.
+<li><code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> inherits from <code>AnimancerJob</code> as a wrapper around the job to provide a clean API for other scripts to access the job.
 <ul>
-<li>The <code>Job</code> struct is nested inside the <code>SimpleLean</code> class and contains the actual <code>IAnimationJob</code> implementation.</li>
+<li>The <code>Job</code> struct is nested inside the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> class and contains the actual <code>IAnimationJob</code> implementation.</li>
 </ul>
 </li>
-<li><code>HitReceiver</code> initializes and controls the <code>SimpleLean</code>.</li>
-<li><code>ClickToHit</code> calls <code>HitReceiver.Hit</code> when the user clicks the mouse.</li>
+<li><code><a href="/animancer/api/Animancer.Samples.Jobs/HitReceiver">HitReceiver</a></code> initializes and controls the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code>.</li>
+<li><code><a href="/animancer/api/Animancer.Samples.Jobs/ClickToHit">ClickToHit</a></code> calls <code>HitReceiver.Hit</code> when the user clicks the mouse.</li>
 </ul>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <h1 id="initialization">Initialization</h1>
-<p><code>SimpleLean</code> inherits from <code>AnimancerJob</code> which is a simple base class that makes it a bit easier to manage Animation Jobs in Animancer.</p>
-<pre><code class="language-cs">public class SimpleLean : AnimancerJob&lt;SimpleLean.Job&gt;, IDisposable
+<p><code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> inherits from <code>AnimancerJob</code> which is a simple base class that makes it a bit easier to manage Animation Jobs in Animancer.</p>
+<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a> : AnimancerJob&lt;<a href="/animancer/api/Animancer.Samples.Jobs/Job">SimpleLean.Job</a>&gt;, IDisposable
 {
 </code></pre>
 <p>The constructor initializes the <a href="#job">Job</a> and passes it the required details as we have seen in the previous <a href="../">Animation Jobs</a> samples.</p>
 <pre><code class="language-cs">    public SimpleLean(
-        AnimancerGraph animancer,
+        <a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a> animancer,
         Vector3 axis,
         NativeArray&lt;TransformStreamHandle&gt; leanBones)
     {
@@ -624,7 +624,7 @@
             angle = AnimancerUtilities.CreateNativeReference&lt;float&gt;(),// See the Angle section.
         };
 </code></pre>
-<p>The <code>CreatePlayable</code> method is inherited from <code>AnimancerJob</code>. It calls <code>AnimancerGraph.InsertOutputJob</code> like in the earlier samples, but it also stores the returned <code>AnimationScriptPlayable</code> for the <a href="#cleanup">Cleanup</a> process which also requires this object to be registered in the <code>AnimancerGraph.Disposables</code> list.</p>
+<p>The <code>CreatePlayable</code> method is inherited from <code>AnimancerJob</code>. It calls <code>AnimancerGraph.InsertOutputJob</code> like in the earlier samples, but it also stores the returned <code>AnimationScriptPlayable</code> for the <a href="#cleanup">Cleanup</a> process which also requires this object to be registered in the <code><a href="/animancer/api/Animancer/AnimancerGraph/263BB4F2">AnimancerGraph.Disposables</a></code> list.</p>
 <pre><code class="language-cs">        CreatePlayable(animancer);
 
         animancer.Disposables.Add(this);
@@ -649,7 +649,7 @@
 </code></pre>
 <h1 id="angle">Angle</h1>
 <p>Unlike the <a href="#axis">Axis</a>, the <code>Angle</code> of the lean will be changed very frequently so we want this property to be as efficient as possible. Even though jobs are not allowed to use reference types, we can exploit the fact that <code>NativeArray</code>s actually behave like reference types. By allocating a <code>NativeArray</code> with a size of <code>1</code> we will be able to efficiently access its value both inside and outside the job.</p>
-<p>Inside the <code>SimpleLean.Job</code> struct, we declare the <code>angle</code> field as a <code>NativeArray</code>.</p>
+<p>Inside the <code><a href="/animancer/api/Animancer.Samples.Jobs/Job">SimpleLean.Job</a></code> struct, we declare the <code>angle</code> field as a <code>NativeArray</code>.</p>
 <pre><code class="language-cs">    public struct Job : IAnimationJob
     {
         ...
@@ -657,9 +657,9 @@
         ...
     }
 </code></pre>
-<p>Then when we initialize the <code>Job</code> in the <code>SimpleLean</code> constructor, we use <code>AnimancerUtilities.CreateNativeReference</code> to allocate a single element array for it.</p>
+<p>Then when we initialize the <code>Job</code> in the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> constructor, we use <code>AnimancerUtilities.CreateNativeReference</code> to allocate a single element array for it.</p>
 <pre><code class="language-cs">    public SimpleLean(
-        AnimancerGraph animancer,
+        <a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a> animancer,
         Vector3 axis,
         NativeArray&lt;TransformStreamHandle&gt; leanBones)
     {
@@ -680,9 +680,9 @@
     }
 </code></pre>
 <h1 id="cleanup">Cleanup</h1>
-<p>As explained in the <a href="../damping#disposal">Damping</a> sample, when you're done with a <code>NativeArray</code> you must call <code>Dispose</code> on it to avoid leaking its memory. We could add the arrays directly to the <code>AnimancerGraph.Disposables</code> list, but it might be useful to be able to remove the <code>SimpleLean</code> system separately from the destruction of the rest of the character and we don't want to let it cause an error if it tries to <code>Dispose</code> an array we already disposed.</p>
+<p>As explained in the <a href="../damping#disposal">Damping</a> sample, when you're done with a <code>NativeArray</code> you must call <code>Dispose</code> on it to avoid leaking its memory. We could add the arrays directly to the <code><a href="/animancer/api/Animancer/AnimancerGraph/263BB4F2">AnimancerGraph.Disposables</a></code> list, but it might be useful to be able to remove the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> system separately from the destruction of the rest of the character and we don't want to let it cause an error if it tries to <code>Dispose</code> an array we already disposed.</p>
 <p>We start by implementing the <code>IDisposable</code> interface with our own <code>Dispose</code> method.</p>
-<pre><code class="language-cs">public class SimpleLean : AnimancerJob&lt;SimpleLean.Job&gt;, IDisposable
+<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a> : AnimancerJob&lt;<a href="/animancer/api/Animancer.Samples.Jobs/Job">SimpleLean.Job</a>&gt;, IDisposable
 {
     public SimpleLean(...)
     {
@@ -718,9 +718,9 @@
         base.Destroy();
     }
 </code></pre>
-<p>So now the <code>AnimancerGraph</code> will call our <code>Dispose</code> method when the whole graph is being destroyed and other scripts can call that <code>Destroy</code> method which will both <code>Dispose</code> the job and remove it from the graph.</p>
+<p>So now the <code><a href="/animancer/api/Animancer/AnimancerGraph">AnimancerGraph</a></code> will call our <code>Dispose</code> method when the whole graph is being destroyed and other scripts can call that <code>Destroy</code> method which will both <code>Dispose</code> the job and remove it from the graph.</p>
 <h1 id="job">Job</h1>
-<p>The actual <code>Job</code> implementation is fairly simple. We already <a href="#initialization">initialized</a> the fields in the <code>SimpleLean</code> constructor.</p>
+<p>The actual <code>Job</code> implementation is fairly simple. We already <a href="#initialization">initialized</a> the fields in the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> constructor.</p>
 <pre><code class="language-cs">    public struct Job : IAnimationJob
     {
         public TransformStreamHandle root;
@@ -764,10 +764,10 @@
   <tbody>
     <tr>
       <td>
-<pre><code class="language-cs">public class HitReceiver : MonoBehaviour
+<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Jobs/HitReceiver">HitReceiver</a> : MonoBehaviour
 {
     [SerializeField]
-    private AnimancerComponent _Animancer;
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
     [SerializeField]
     private Transform[] _Bones;
@@ -778,15 +778,15 @@
     [SerializeField, Seconds]
     private float _SmoothingTime = 0.25f;
 
-    private SimpleLean _Lean;
+    private <a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a> _Lean;
     private float _Speed;
 </code></pre>
 </td>
-      <td><p><img src="inspector.png" class="img-responsive"></p><code>HitReceiver</code> is responsible for initializing and managing the <code>SimpleLean</code> to control the <em>Spine</em> and <em>Chest</em> bones.</td>
+      <td><p><img src="inspector.png" class="img-responsive"></p><code><a href="/animancer/api/Animancer.Samples.Jobs/HitReceiver">HitReceiver</a></code> is responsible for initializing and managing the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> to control the <em>Spine</em> and <em>Chest</em> bones.</td>
     </tr>
   </tbody>
 </table>
-<p>On startup, it asserts that at least one bone has been assigned, converts the <code>Transform[]</code> into a <code>NativeArray&lt;TransformStreamHandle&gt;</code> for the job to use, and creates the <code>SimpleLean</code> with it.</p>
+<p>On startup, it asserts that at least one bone has been assigned, converts the <code>Transform[]</code> into a <code>NativeArray&lt;TransformStreamHandle&gt;</code> for the job to use, and creates the <code><a href="/animancer/api/Animancer.Samples.Jobs/SimpleLean">SimpleLean</a></code> with it.</p>
 <pre><code class="language-cs">    protected virtual void Awake()
     {
         Debug.Assert(_Bones.Length &gt; 0, "No bones are assigned.", this);
@@ -819,13 +819,13 @@
 }
 </code></pre>
 <h1 id="click-to-hit">Click To Hit</h1>
-<p>Since we don't have a proper system for hitting the character from a particular direction, <code>ClickToHit</code> simply lets the user click on a point on the ground to simulate a hit to the character from that direction with a different amount of force for Left or Right Click.</p>
+<p>Since we don't have a proper system for hitting the character from a particular direction, <code><a href="/animancer/api/Animancer.Samples.Jobs/ClickToHit">ClickToHit</a></code> simply lets the user click on a point on the ground to simulate a hit to the character from that direction with a different amount of force for Left or Right Click.</p>
 <pre><code class="language-cs">using Animancer.Samples;
 using UnityEngine;
 
-public class ClickToHit : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Jobs/ClickToHit">ClickToHit</a> : MonoBehaviour
 {
-    [SerializeField] private HitReceiver _HitReceiver;
+    [SerializeField] private <a href="/animancer/api/Animancer.Samples.Jobs/HitReceiver">HitReceiver</a> _HitReceiver;
     [SerializeField] private float _LeftClickForce = 500;
     [SerializeField] private float _RightClickForce = 300;
 

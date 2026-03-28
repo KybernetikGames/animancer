@@ -594,14 +594,14 @@
 </ul>
 <p>The <a href="../../../manual/blending/mixers">Mixer</a> is assigned by default, but you can easily assign the other one in the Inspector.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary><code>PlayTransitionAssetOnEnable</code> is just as simple as <code>PlayAnimationOnEnable</code> from the <a href="../../basics/quick-play">Quick Play</a> sample, but this time it's playing a <a href="../../../manual/transitions/assets">Transition Asset</a>:</summary><p>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> is just as simple as <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> from the <a href="../../basics/quick-play">Quick Play</a> sample, but this time it's playing a <a href="../../../manual/transitions/assets">Transition Asset</a>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class PlayTransitionAssetOnEnable : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private TransitionAssetBase _Transition;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> _Transition;
 
     protected virtual void OnEnable()
     {
@@ -610,15 +610,15 @@ public class PlayTransitionAssetOnEnable : MonoBehaviour
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary><code>FloatParameterSlider</code> <a href="#float-parameter-slider">binds an Animancer Parameter to a UI slider</a>:</summary><p>
+<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code> <a href="#float-parameter-slider">binds an Animancer Parameter to a UI slider</a>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class FloatParameterSlider : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a> : MonoBehaviour
 {
     [SerializeField] private Slider _Slider;
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private StringAsset _ParameterName;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterName;
 
     private Parameter&lt;float&gt; _Parameter;
 
@@ -649,8 +649,8 @@ protected virtual void Update()
 }
 </code></pre>
 <p>In Animancer, you could play that same <a href="https://docs.unity3d.com/Manual/class-AnimatorController.html">Animator Controller</a> using a <a href="../../../manual/animator-controllers/controller-states">Controller Transition</a> like this:</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
-[SerializeField] private ControllerTransition _Controller;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a> _Controller;
 
 [SerializeField, Range(0, 1)]
 private float _MovementSpeed;
@@ -677,8 +677,8 @@ protected virtual void Update()
 <p>A <em>1D Blend Tree</em> is equivalent to a <em>Linear Mixer</em>.</p>
 <p><img src="mixer-transition.png" class="img-responsive"></p>
 <p>Playing a <a href="../../../manual/transitions/types#mixer-transitions">Mixer Transition</a> is similar to playing a <a href="../../../manual/animator-controllers/controller-states">Controller Transition</a>:</p>
-<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
-[SerializeField] private LinearMixerTransition _Mixer;
+<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private <a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a> _Mixer;
 
 [SerializeField, Range(0, 1.5f)]
 private float _MovementSpeed;
@@ -696,7 +696,7 @@ protected virtual void Update()
     _Mixer.State.Parameter = _MovementSpeed;
 }
 </code></pre>
-<p>The main difference in this code is the way the parameter is controlled. A <code>LinearMixerTransition</code> knows that the <code>State</code> it creates will only have one <code>float</code> value for its <code>Parameter</code> so we can simply set it directly instead of needing to call <code>SetFloat</code> with a parameter name like we did for the <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a>.</p>
+<p>The main difference in this code is the way the parameter is controlled. A <code><a href="/animancer/api/Animancer/LinearMixerTransition">LinearMixerTransition</a></code> knows that the <code><a href="/animancer/api/Animancer.FSM/State">State</a></code> it creates will only have one <code>float</code> value for its <code>Parameter</code> so we can simply set it directly instead of needing to call <code>SetFloat</code> with a parameter name like we did for the <a href="https://docs.unity3d.com/Manual/class-BlendTree.html">Blend Tree</a>.</p>
 <p><a href="#optional-synchronization">Another major difference is the way they synchronize their animations which will be explained later.</a></p>
 <h1 id="decoupling">Decoupling</h1>
 <p>The above examples are nice and self-contained, which is great for simple situations where it's reasonable for one script to be responsible for defining a transition, playing it, and also controlling its parameter. But in more complex situations it can be really inconvenient to get your script a strongly typed reference to a specific state just to control its parameter.</p>
@@ -706,10 +706,10 @@ protected virtual void Update()
 <li>We want to reuse the <a href="#mixer">Mixer</a> in later samples without needing to set up the exact same thing again.</li>
 </ul>
 <p><a href="../../../manual/transitions/assets">Transition Assets</a> can be created using the <em>Assets/Create/Animancer/Transition Asset</em> menu function then referenced and played just like anything else:</p>
-<pre><code class="language-cs">public class PlayTransitionAssetOnEnable : MonoBehaviour
+<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a> : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private TransitionAssetBase _Transition;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> _Transition;
 
     protected virtual void OnEnable()
     {
@@ -722,7 +722,7 @@ protected virtual void Update()
 <h1 id="animancer-parameters">Animancer Parameters</h1>
 <p>The above <a href="#decoupling">Decoupling</a> raises a new question: if the script doesn't know what it's playing, how are we supposed to control the blending parameter?</p>
 <p>And the answer is <a href="../../../manual/parameters">Animancer Parameters</a>. They work much like Unity's <a href="https://docs.unity3d.com/Manual/AnimationParameters.html">Animator Controller Parameters</a> where a bunch of parameters are held in a central location for other systems to get and set their values as necessary.</p>
-<p>For this sample, we have a parameter called <em>MovementSpeed</em> which is defined as a <a href="../../../manual/other/strings#string-assets">String Asset</a>. Note that the asset is just a name which could be used for anything, it doesn't know if it's being used as a parameter or what type of parameter so we use its <code>Editor Comment</code> field to explain its purpose.</p>
+<p>For this sample, we have a parameter called <em>MovementSpeed</em> which is defined as a <a href="../../../manual/other/strings#string-assets">String Asset</a>. Note that the asset is just a name which could be used for anything, it doesn't know if it's being used as a parameter or what type of parameter so we use its <code><a href="/animancer/api/global/Editor">Editor</a> Comment</code> field to explain its purpose.</p>
 <p><img src="movement-speed-parameter.png" class="img-responsive"></p>
 <p>The <a href="#mixer">Mixer Transition</a> has that asset assigned as its <code>Parameter Name</code>:</p>
 <p><img src="mixer-transition.png" class="img-responsive"></p>
@@ -745,17 +745,17 @@ protected virtual void Update()
 <p>It doesn't happen over time and has nothing to do with the <code>Fade Duration</code> defined in the <a href="../../../manual/transitions">Transition</a>.</p>
 <p>The <a href="../../../manual/parameters#smoothing">Parameter Smoothing</a> section in the User Manual explains how you can apply smoothing if you want it.</p>
 <h1 id="float-parameter-slider">Float Parameter Slider</h1>
-<p>This sample uses the <code>FloatParameterSlider</code> script to demonstrate how to control a <a href="../../../manual/parameters">Parameter</a> using a <a href="https://docs.unity3d.com/Packages/com.unity.ugui@3.0/manual/script-Slider.html">UI Slider</a>.</p>
+<p>This sample uses the <code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code> script to demonstrate how to control a <a href="../../../manual/parameters">Parameter</a> using a <a href="https://docs.unity3d.com/Packages/com.unity.ugui@3.0/manual/script-Slider.html">UI Slider</a>.</p>
 <p><img src="scene-slider.png" class="img-responsive"></p>
-<p>This script doesn't need to know what animations are playing and doesn't even care whether the parameter value is being used by anything. It's simply responsible for connecting the UI <code>Slider</code> to the specified parameter in the <code>AnimancerComponent</code>.</p>
+<p>This script doesn't need to know what animations are playing and doesn't even care whether the parameter value is being used by anything. It's simply responsible for connecting the UI <code>Slider</code> to the specified parameter in the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class FloatParameterSlider : MonoBehaviour
+public class <a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a> : MonoBehaviour
 {
     [SerializeField] private Slider _Slider;
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private StringAsset _ParameterName;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterName;
 </code></pre>
 <p>The first step is to make a field to store the parameter in and <code>GetOrCreate</code> it on startup. In this case we're using a <code>float</code> parameter because that's what the <a href="#blend-tree">Blend Tree</a> and <a href="#mixer">Mixer</a> need, but any type could potentially be used as a parameter.</p>
 <pre><code class="language-cs">    private Parameter&lt;float&gt; _Parameter;
@@ -774,7 +774,7 @@ public class FloatParameterSlider : MonoBehaviour
 </code></pre>
 <p>And that's everything we need to get this sample going:</p>
 <p><img src="linear.png" class="pngif img-responsive"></p>
-<p>That's just the <a href="#mixer">Mixer</a> playing, so if you want to see the <a href="#blend-tree">Blend Tree</a> you can either assign it to the <code>PlayTransitionAssetOnEnable</code> component before entering Play Mode or drag it into the <a href="../../../manual/playing/inspector">Live Inspector</a> in Play Mode and use Ctrl + Click to swap between them as demonstrated in the <a href="../../fine-control/live-inspector">Live Inspector</a> sample.</p>
+<p>That's just the <a href="#mixer">Mixer</a> playing, so if you want to see the <a href="#blend-tree">Blend Tree</a> you can either assign it to the <code><a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> component before entering Play Mode or drag it into the <a href="../../../manual/playing/inspector">Live Inspector</a> in Play Mode and use Ctrl + Click to swap between them as demonstrated in the <a href="../../fine-control/live-inspector">Live Inspector</a> sample.</p>
 <p>But wait, there's more! Let's take a closer look at the blending characteristics of the different segments of the slider.</p>
 <p><img src="scene-slider.png" class="img-responsive"></p>
 <h1 id="time-synchronization">Time Synchronization</h1>

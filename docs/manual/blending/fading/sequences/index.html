@@ -560,19 +560,19 @@
 			<h1>Sequences</h1>
 		</section>
 	<section class="content">
-		<p>If you need to play a series of animations one after the other, you could do it manually by giving them each an <a href="../../../events/end">End Event</a> which plays the next animation. But that makes it hard to do things like initialise their events or calculate the time remaining in the sequence so <code>TransitionSequence</code>s and <code>SequenceState</code>s allow you to define a sequence of <a href="../../../transitions">Transitions</a> or <a href="../../../playing/states">States</a> and work with them as a group.</p>
+		<p>If you need to play a series of animations one after the other, you could do it manually by giving them each an <a href="../../../events/end">End Event</a> which plays the next animation. But that makes it hard to do things like initialise their events or calculate the time remaining in the sequence so <code><a href="/animancer/api/Animancer/TransitionSequence">TransitionSequence</a></code>s and <code><a href="/animancer/api/Animancer/SequenceState">SequenceState</a></code>s allow you to define a sequence of <a href="../../../transitions">Transitions</a> or <a href="../../../playing/states">States</a> and work with them as a group.</p>
 <p>A similar result can be achieved using <a href="../../../timeline">Timeline</a> which is generally more powerful, but also more complex to use.</p>
 <h1 id="transition-sequences">Transition Sequences</h1>
-<p><code>TransitionSequence</code>s can be used just like any other <a href="../../../transitions">Transition</a> by creating a serialized field, configuring their details in the Inspector, and then playing them which creates a <code>SequenceState</code> at runtime.</p>
+<p><code><a href="/animancer/api/Animancer/TransitionSequence">TransitionSequence</a></code>s can be used just like any other <a href="../../../transitions">Transition</a> by creating a serialized field, configuring their details in the Inspector, and then playing them which creates a <code><a href="/animancer/api/Animancer/SequenceState">SequenceState</a></code> at runtime.</p>
 <pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
 public class TransitionSequenceExample : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _Animancer;
-    [SerializeField] private ClipTransition _Idle;
-    [SerializeField] private TransitionSequence _ActionSequence;
+    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+    [SerializeField] private <a href="/animancer/api/Animancer/TransitionSequence">TransitionSequence</a> _ActionSequence;
 
     protected virtual void OnEnable()
     {
@@ -583,7 +583,7 @@ public class TransitionSequenceExample : MonoBehaviour
     {
         if (SampleInput.LeftMouseDown)
         {
-            AnimancerState state = _Animancer.Play(_ActionSequence);
+            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_ActionSequence);
             state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(_Idle);
         }
     }
@@ -591,7 +591,7 @@ public class TransitionSequenceExample : MonoBehaviour
 </code></pre>
 <img src="transition-sequence.png" class="img-responsive img-right" style="max-width:40%">
 <ul>
-<li>The sequence simply contains an array of child <a href="../../../transitions">Transitions</a> which will usually be <code>ClipTransition</code>s but could potentially contain any other <a href="../../../transitions/types">Transition Type</a> in unusual use cases.</li>
+<li>The sequence simply contains an array of child <a href="../../../transitions">Transitions</a> which will usually be <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s but could potentially contain any other <a href="../../../transitions/types">Transition Type</a> in unusual use cases.</li>
 <li>Most properties of the child <a href="../../../transitions">Transitions</a> work normally with a few exceptions:
 <ul>
 <li>The <code>Fade Duration</code> of the first child is ignored because the sequence has its own <code>Fade Duration</code>.</li>

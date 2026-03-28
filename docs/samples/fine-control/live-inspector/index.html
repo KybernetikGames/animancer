@@ -581,7 +581,7 @@
 </blockquote>
 <img src="live-inspector.png" class="pngif img-responsive img-right">
 <h1 id="summary">Summary</h1>
-<p>This sample is a tutorial which gives step by step instructions on how to do a few things manually using the <code>AnimancerComponent</code>'s <a href="../../../manual/playing/inspector">Live Inspector</a> instead of using scripts.</p>
+<p>This sample is a tutorial which gives step by step instructions on how to do a few things manually using the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>'s <a href="../../../manual/playing/inspector">Live Inspector</a> instead of using scripts.</p>
 <p>You can't manually set up runtime behaviour like this, but viewing and fiddling with the animation details can be very useful for debugging issues in the Unity Editor.</p>
 <h1 id="overview">Overview</h1>
 <p>The code used in this sample isn't important, it's only there to display instructions and wait for the user to follow them before moving onto the next step.</p>
@@ -591,7 +591,7 @@
 <h1 id="select-animancer-component">1. Select Animancer Component</h1>
 <p>To start, enter Play Mode and select the <em>AnimancerHumanoid</em> in the Hierarchy window to show it in the Inspector.</p>
 <h1 id="initialize-animancer-graph">2. Initialize Animancer Graph</h1>
-<p>Right Click on the header of the <code>AnimancerComponent</code> in the Inspector and select the <code>Initialize Graph</code> function from the context menu.</p>
+<p>Right Click on the header of the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> in the Inspector and select the <code>Initialize Graph</code> function from the context menu.</p>
 <p><img src="initialize-graph.png" class="pngif img-responsive"></p>
 <p>This can be done in code by calling <code>animancerComponent.InitializeGraph();</code>, but that's generally not necessary because anything attempting to use the graph will automatically initialize it.</p>
 <p>Note how the character is now in a hunched over pose with their legs under the ground. That's the default pose for a Humanoid Rig when it has no animations so let's add some.</p>
@@ -619,12 +619,12 @@
 <p>This is basically the same as calling:</p>
 <pre><code class="language-cs">animancerComponent.Play(animation, AnimancerGraph.DefaultFadeDuration);
 </code></pre>
-<p>Note that <code>AnimancerGraph.DefaultFadeDuration</code> defaults to <code>0.25</code> but can be set to whatever you want.</p>
+<p>Note that <code><a href="/animancer/api/Animancer/AnimancerGraph/0A0B6AB4">AnimancerGraph.DefaultFadeDuration</a></code> defaults to <code>0.25</code> but can be set to whatever you want.</p>
 <h1 id="play-walk-animation-as-well">7. Play Walk Animation As Well</h1>
 <p>With the <code>Humanoid-Idle</code> animation still playing, Left Click on the <code>Humanoid-WalkForwards</code> animation to expand its details then click the Play button in that state's details.</p>
 <p><img src="play-walk.png" class="pngif img-responsive"></p>
 <p>Doing that in code would look like this:</p>
-<pre><code class="language-cs">AnimancerState state = animancerComponent.States.GetOrCreate(walkAnimation);
+<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancerComponent.States.GetOrCreate(walkAnimation);
 state.IsPlaying = true;
 </code></pre>
 <p>Note how the Inspector now shows both animations playing, but you can still only see the <code>Humanoid-Idle</code> pose in the Game window. That's because interacting directly with the details of a state only affects those specific details and the <code>Weight</code> of <code>Humanoid-WalkForwards</code> is still 0.</p>
@@ -639,7 +639,7 @@ state.IsPlaying = true;
 <h2 id="auto-normalize-weights">Auto Normalize Weights</h2>
 <p>Note how setting the <code>Weight</code> of <code>Humanoid-WalkForwards</code> to <code>0.4</code> automatically changed the <code>Weight</code> of <code>Humanoid-Idle</code> to <code>0.6</code> so that they add up to a total of <code>1</code>. That's a feature of the Inspector which can be disabled via <code>Display Options/Auto Normalize Weights</code> if you don't want it.</p>
 <p>If you had set its <code>Weight</code> in code like this:</p>
-<pre><code class="language-cs">AnimancerState state = animancerComponent.States.GetOrCreate(walkAnimation);
+<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancerComponent.States.GetOrCreate(walkAnimation);
 state.Weight = 0.4f;
 </code></pre>
 <p>Then it would only affect that state so everything can have whatever values you want.</p>
