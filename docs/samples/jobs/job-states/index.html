@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -484,6 +484,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -579,7 +580,7 @@
 <p>This sample demonstrates how you can use an Animation Job State to implement a simple procedural animation which waves the character's limbs around.</p>
 <p>In a real application, you could do things like loading animation data from a file imported at runtime or implement fully scripted animations without needing <code>AnimationClip</code>s, but those ideas are well beyond the scope of this sample.</p>
 <h1 id="overview">Overview</h1>
-<p>The structure of this sample is very simple: the <code><a href="/animancer/api/Animancer.Samples.Jobs/PlayWavyBones">PlayWavyBones</a></code> component creates a <code><a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a></code>, wraps it in an <code>AnimationJobState</code>, and plays it on the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
+<p>The structure of this sample is very simple: the <code>PlayWavyBones</code> component creates a <code>WavyBonesAnimationJob</code>, wraps it in an <code>AnimationJobState</code>, and plays it on the <code>AnimancerComponent</code>.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <h1 id="fields">Fields</h1>
 <table class="table">
@@ -590,26 +591,26 @@
   <tbody>
     <tr>
 <td>
-<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Jobs/PlayWavyBones">PlayWavyBones</a> : MonoBehaviour
+<pre><code class="language-cs">public class PlayWavyBones : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
 
     [SerializeField]
     private Transform[] _Bones;
 
     [SerializeField]
-    private <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">WavyBonesSettings</a> _Settings;
+    private WavyBonesSettings _Settings;
 </code></pre>
 <pre><code class="language-cs">[Serializable]
-public struct <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">WavyBonesSettings</a>
+public struct WavyBonesSettings
 {
     public Vector3 rootPosition;
     public Vector3 magnitudes;
     public Vector3 speeds;
 }
 </code></pre>
-<p>The script has a <code>Transform[]</code> to assign all the bones that will be controlled by the job and a <code><a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">WavyBonesSettings</a></code> to hold other details for the job to use.</p>
+<p>The script has a <code>Transform[]</code> to assign all the bones that will be controlled by the job and a <code>WavyBonesSettings</code> to hold other details for the job to use.</p>
 <p>The bones are separate from the settings because the job can't use <code>Transform</code>s directly, it needs to get <code>TransformStreamHandle</code>s for them.</p>
 </td>
       <td><img src="inspector.png" class="img-responsive"></td>
@@ -617,24 +618,24 @@ public struct <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">
   </tbody>
 </table>
 <h1 id="initialization">Initialization</h1>
-<p>The core of this system is the <code><a href="/animancer/api/Animancer/AnimationJobState_1">AnimationJobState&lt;T&gt;</a></code> which is a type of <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> where <code>T</code> is an <code><a href="/animancer/api/Animancer/IAnimancerStateJob">IAnimancerStateJob</a></code> (not a regular Unity <code>IAnimationJob</code>).</p>
+<p>The core of this system is the <code>AnimationJobState&lt;T&gt;</code> which is a type of <code>AnimancerState</code> where <code>T</code> is an <code>IAnimancerStateJob</code> (not a regular Unity <code>IAnimationJob</code>).</p>
 <p>We want to be able to <a href="#updating-settings">update the settings</a> while the job is running, so we need a field to hold the state once we create it.</p>
-<pre><code class="language-cs">private AnimationJobState&lt;<a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a>&gt; _JobState;
+<pre><code class="language-cs">private AnimationJobState&lt;WavyBonesAnimationJob&gt; _JobState;
 </code></pre>
-<p>On startup, we create the <a href="#job-struct">Job Struct</a> (<code><a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a></code>) then give it to the constructor of the <code>AnimationJobState</code>.</p>
+<p>On startup, we create the <a href="#job-struct">Job Struct</a> (<code>WavyBonesAnimationJob</code>) then give it to the constructor of the <code>AnimationJobState</code>.</p>
 <pre><code class="language-cs">protected virtual void OnEnable()
 {
     if (_JobState == null)
     {
-        <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a> job = new WavyBonesAnimationJob(
+        WavyBonesAnimationJob job = new WavyBonesAnimationJob(
             _Animancer.Animator, 
             _Bones,
             _Settings);
 
-        _JobState = new AnimationJobState&lt;<a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a>&gt;(job);
+        _JobState = new AnimationJobState&lt;WavyBonesAnimationJob&gt;(job);
     }
 </code></pre>
-<p>Then we can play the state like any other <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>.</p>
+<p>Then we can play the state like any other <code>AnimancerState</code>.</p>
 <pre><code class="language-cs">    _Animancer.Play(_JobState);
 }
 </code></pre>
@@ -646,24 +647,24 @@ public struct <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">
     if (!_JobState.IsValid())
         return;
 
-    <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a> job = _JobState.Job;
+    WavyBonesAnimationJob job = _JobState.Job;
     job.settings = _Settings;
     _JobState.Job = job;
 }
 </code></pre>
 <p>If you need to modify the job like that frequently, the <a href="../hit-impacts#angle">Angle section in the Hit Impacts sample</a> explains how that can be done more efficiently.</p>
 <h1 id="job-struct">Job Struct</h1>
-<p>This job implements <code><a href="/animancer/api/Animancer/IAnimancerStateJob">IAnimancerStateJob</a></code> rather than the regular Unity <code>IAnimationJob</code> so that it can be used in an <code>AnimationJobState</code>.</p>
-<pre><code class="language-cs">public struct <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesAnimationJob">WavyBonesAnimationJob</a> :
-    <a href="/animancer/api/Animancer/IAnimancerStateJob">IAnimancerStateJob</a>
+<p>This job implements <code>IAnimancerStateJob</code> rather than the regular Unity <code>IAnimationJob</code> so that it can be used in an <code>AnimationJobState</code>.</p>
+<pre><code class="language-cs">public struct WavyBonesAnimationJob :
+    IAnimancerStateJob
 {
 </code></pre>
-<p>It holds a <code>TransformStreamHandle</code> for each of the bones it will be controlling (and the root which will be explained below) as well as the <code><a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">WavyBonesSettings</a></code> which we set up in the Inspector.</p>
+<p>It holds a <code>TransformStreamHandle</code> for each of the bones it will be controlling (and the root which will be explained below) as well as the <code>WavyBonesSettings</code> which we set up in the Inspector.</p>
 <pre><code class="language-cs">    public TransformStreamHandle rootTransform;
     public NativeArray&lt;TransformStreamHandle&gt; transforms;
-    public <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">WavyBonesSettings</a> settings;
+    public WavyBonesSettings settings;
 </code></pre>
-<p><code><a href="/animancer/api/Animancer/IAnimancerStateJob">IAnimancerStateJob</a></code> requires <code>Length</code> and <code>IsLooping</code> properties which don't matter much in this sample because the procedural animation isn't trying to match any specific loop timing, so we just say it has a <code>1</code> second <code>Length</code> and is looping for the Inspector to display something reasonable if the character is selected.</p>
+<p><code>IAnimancerStateJob</code> requires <code>Length</code> and <code>IsLooping</code> properties which don't matter much in this sample because the procedural animation isn't trying to match any specific loop timing, so we just say it has a <code>1</code> second <code>Length</code> and is looping for the Inspector to display something reasonable if the character is selected.</p>
 <pre><code class="language-cs">    public readonly float Length
         =&gt; 1;
 
@@ -674,7 +675,7 @@ public struct <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">
 <pre><code class="language-cs">    public WavyBonesAnimationJob(
         Animator animator,
         Transform[] transforms,
-        <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">WavyBonesSettings</a> settings)
+        WavyBonesSettings settings)
     {
         this.settings = settings;
 
@@ -691,7 +692,7 @@ public struct <a href="/animancer/api/Animancer.Samples.Jobs/WavyBonesSettings">
         rootTransform = animator.BindStreamTransform(animator.transform.GetChild(0));
     }
 </code></pre>
-<p><code><a href="/animancer/api/Animancer/IAnimancerStateJob">IAnimancerStateJob</a></code> also inherits from <code>IDisposable</code> and calls <code>Dispose</code> when the state is destroyed, so we need to use that to dispose of the <code>NativeArray</code>.</p>
+<p><code>IAnimancerStateJob</code> also inherits from <code>IDisposable</code> and calls <code>Dispose</code> when the state is destroyed, so we need to use that to dispose of the <code>NativeArray</code>.</p>
 <pre><code class="language-cs">    readonly void IDisposable.Dispose()
     {
         transforms.Dispose();

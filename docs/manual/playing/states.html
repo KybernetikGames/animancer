@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -478,6 +478,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -559,10 +560,10 @@
 			<h1>States</h1>
 		</section>
 	<section class="content">
-		<p>When you play an <code>AnimationClip</code>, Animancer creates and returns an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> which you can use to control it and keep track of its progress. Then if you play the same animation again later, it will reuse that same state. For example:</p>
+		<p>When you play an <code>AnimationClip</code>, Animancer creates and returns an <code>AnimancerState</code> which you can use to control it and keep track of its progress. Then if you play the same animation again later, it will reuse that same state. For example:</p>
 <pre><code class="language-cs">void PlayAnimation(AnimancerComponent animancer, AnimationClip clip)
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancer.Play(clip);
+    AnimancerState state = animancer.Play(clip);
     state.Time = ...
     state.NormalizedTime = ...
     state.Speed = ...
@@ -596,8 +597,8 @@ var&nbsp;state&nbsp;=&nbsp;animancer.States[key];
     </tr>
     <tr>
       <td>
-<pre><code class="language-cs">animancer.States.TryGet(clip, out <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state);
-animancer.States.TryGet(key, out <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state);
+<pre><code class="language-cs">animancer.States.TryGet(clip, out AnimancerState state);
+animancer.States.TryGet(key, out AnimancerState state);
 </code></pre></td>
       <td>If a state is already registered with the given <a href="keys">Key</a>, this method assigns it to the <code>state</code> <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/out-parameter-modifier">out Parameter</a> and returns <code>true</code>. Otherwise the <code>state</code> will be null and the method returns <code>false</code>.</td>
     </tr>
@@ -641,7 +642,7 @@ var&nbsp;state&nbsp;=&nbsp;transition.CreateStateAndApply();
 <p>There are two main ways of initializing states upfront:</p>
 <ul>
 <li>Call <code>animancer.States.GetOrCreate</code> (or <code>Create</code>) in your startup code (such as an <code>Awake</code> or <code>Start</code> method).</li>
-<li>Use a <code><a href="/animancer/api/Animancer/NamedAnimancerComponent">NamedAnimancerComponent</a></code> and assign the clips in question to its <code>Animations</code> array in the Inspector (or using a script). This simply calls <code>GetOrCreate</code> for each one in its <code>Awake</code> method.</li>
+<li>Use a <code>NamedAnimancerComponent</code> and assign the clips in question to its <code>Animations</code> array in the Inspector (or using a script). This simply calls <code>GetOrCreate</code> for each one in its <code>Awake</code> method.</li>
 </ul>
 <p>If you no longer need a state, you can call <code>AnimancerState.Destroy</code> to remove it. Both the destroying and subsequent <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage Collection</a> also have a performance cost that may need to be managed.</p>
 <p>The <a href="../../introduction/mecanim-vs-animancer/performance">Performance Benchmarks</a> section goes into further detail about the performance of Animancer.</p>

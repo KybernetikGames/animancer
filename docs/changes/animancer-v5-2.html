@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -482,6 +482,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -572,8 +573,8 @@
 <p><a href="https://github.com/KybernetikGames/animancer/issues/73">A potential change to the FSM system</a> is currently being considered for the next major version (v6.0).</p>
 <h1 id="features">Features</h1>
 <ul>
-<li>Added <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> which lets you specify a set of allowed <a href="../manual/events/animancer#event-names">Event Names</a> for <a href="../manual/events/animancer">Animancer Events</a> to display in a dropdown menu instead of using a text field. <a href="https://github.com/KybernetikGames/animancer/issues/56">#56</a></li>
-<li>Added the ability to reset the <code><a href="/animancer/api/Animancer.Editor.Previews/TransitionPreviewWindow">TransitionPreviewWindow</a></code> camera by pressing <code>F</code>.</li>
+<li>Added <code>EventNamesAttribute</code> which lets you specify a set of allowed <a href="../manual/events/animancer#event-names">Event Names</a> for <a href="../manual/events/animancer">Animancer Events</a> to display in a dropdown menu instead of using a text field. <a href="https://github.com/KybernetikGames/animancer/issues/56">#56</a></li>
+<li>Added the ability to reset the <code>TransitionPreviewWindow</code> camera by pressing <code>F</code>.</li>
 <li>Added <a href="../samples/fine-control/update-rate">Update Rate</a> example.</li>
 <li>Added <code>TimeSynchronizationGroup</code> and used it in the <a href="../samples/sprites/character">Directional Character</a> example. <a href="https://github.com/KybernetikGames/animancer/issues/74"><strong>Feedback wanted</strong></a>.</li>
 </ul>
@@ -582,9 +583,9 @@
 <li>States with 0 length will now trigger all their <a href="../manual/events/animancer">Animancer Events</a> once per frame (instead of only triggering the <a href="../manual/events/end">End Event</a>). <a href="https://github.com/KybernetikGames/animancer/issues/71">#71</a></li>
 <li>Setting the <code>Weight</code> of a state in the Inspector will automatically re-normalize its siblings. This can be disabled in the Context Menu via <em>Display Options/Auto Normalize Weights</em>.</li>
 <li>Mixers with synchronised children now calculate their <code>RawTime</code> and <code>Length</code> based on only those children if at least one of them has any <code>Weight</code>. This means that Animancer Events on an <em>Idle/Walk/Run</em> mixer where the <em>Idle</em> is not synced will trigger based only on the <em>Walk</em> and <em>Run</em> time so the events can line up with the walk-cycle (except when the parameter is at 0 so only the <em>Idle</em> is playing).</li>
-<li>Renamed <code>WarningType</code> to <code><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></code> and added documentation comments for all of them.</li>
+<li>Renamed <code>WarningType</code> to <code>OptionalWarning</code> and added documentation comments for all of them.</li>
 <li>Renamed <code>AnimancerState.Name</code> to <code>EditorName</code> and <code>SetName</code> to <code>SetEditorName</code> to make it clearer that they are Editor-Only.</li>
-<li>Replaced the <code>Interpolation</code> class with <code><a href="/animancer/api/Animancer/Easing">Easing</a></code> (used by the <a href="../manual/blending/fading/custom">Custom Fade</a> system):
+<li>Replaced the <code>Interpolation</code> class with <code>Easing</code> (used by the <a href="../manual/blending/fading/custom">Custom Fade</a> system):
 <ul>
 <li>It has most of the same functions, but they are grouped into nested classes. For example, <code>Interpolation.QuadraticIn</code> is now <code>Easing.Quadratic.In</code>.</li>
 <li>Removed the <code>Spring</code> functions because the derivative was wrong and it didn't have in/out variants.</li>
@@ -603,7 +604,7 @@
 <li>Added <code>ObjectPool.Disposable</code> to allow pooled objects to be acquired and released within <code>using</code> statements instead of needing to manually release everything. It has a bit of overhead though, so it is currently only used in Editor-Only code.</li>
 <li>All methods in the base <code>AnimancerTransition</code> class are now <code>virtual</code>. <a href="https://github.com/KybernetikGames/animancer/issues/70">#70</a></li>
 <li>The <a href="/inspector-gadgets/docs/asset-drag-and-drop#drag-and-drop-sub-assets">Drag and Drop Sub-Assets</a> feature of <a href="/inspector-gadgets/docs/features">Inspector Gadgets Pro</a> was used to turn various animations into sub-assets organise them a bit better (<a href="../samples/sprites/basics#sub-assets">Directional Basics</a> and <a href="../samples/sprites/character#sub-assets">Directional Character</a>).</li>
-<li>Improved <code><a href="/animancer/api/Animancer.Editor/AnimationBindings">AnimationBindings</a></code> system:
+<li>Improved <code>AnimationBindings</code> system:
 <ul>
 <li>It is now limited to only gather the bindings of one animation per frame to avoid freezing for too long when an object with lots of animations is selected.</li>
 <li>The warnings now indicate if the <code>Animator.avatar</code> is missing.</li>
@@ -614,7 +615,7 @@
 </li>
 <li>Improved comments:
 <ul>
-<li>Improved the <code>Validate.Log</code> message explanation and added a link to the <code><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></code> documentation.</li>
+<li>Improved the <code>Validate.Log</code> message explanation and added a link to the <code>OptionalWarning</code> documentation.</li>
 <li>Added documentation link to the copyright comment at the top of every script.</li>
 <li>Added User Manual, Example, and API documentation links to the comments of all public types.</li>
 <li>Added a detailed example to the <a href="../../api/Animancer.FSM/StateExtensions">StateExtensions documentation</a> to explain how you can still use them when your field type inherits the <code>IOwnedState</code> implementation by manually specifying the generic arguments to prevent it from inferring the wrong type.</li>
@@ -624,14 +625,14 @@
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
-<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> to always apply the set value even if it was already at that value (because setting the time of a <code>Playable</code> causes it to stay at that value after the next animation update, so skipping it would change the behaviour rather than just being an optimization).</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> to properly pause its <code>Playable</code> by default.</li>
+<li>Fixed <code>AnimancerState.Time</code> to always apply the set value even if it was already at that value (because setting the time of a <code>Playable</code> causes it to stay at that value after the next animation update, so skipping it would change the behaviour rather than just being an optimization).</li>
+<li>Fixed <code>AnimancerState</code> to properly pause its <code>Playable</code> by default.</li>
 <li>Fixed <code>MixerState.RawTime</code> to use its own time instead of 0 if no children have any weight.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer/LinearMixerState/96AB80DE">LinearMixerState.ExtrapolateSpeed</a></code> to set the correct speed when enabling it with the <code>Parameter</code> below the highest threshold. <a href="https://github.com/KybernetikGames/animancer/issues/64">#64</a></li>
+<li>Fixed <code>LinearMixerState.ExtrapolateSpeed</code> to set the correct speed when enabling it with the <code>Parameter</code> below the highest threshold. <a href="https://github.com/KybernetikGames/animancer/issues/64">#64</a></li>
 <li>Fixed Mixer Synchronization to not cause extremely large time values if the total weight of all synchronised states is very small.</li>
 <li>Fixed potential NaN error in <code>TransitionPreviewWindow.Scene.CameraPosition</code>.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimationBindings">AnimationBindings</a></code> to not execute while entering Play Mode because it might waste time doing things both before and after the domain reload.</li>
-<li>Fixed <code><a href="/animancer/api/Animancer.Editor/AnimationGatherer">AnimationGatherer</a></code> to work properly for collections.</li>
+<li>Fixed <code>AnimationBindings</code> to not execute while entering Play Mode because it might waste time doing things both before and after the domain reload.</li>
+<li>Fixed <code>AnimationGatherer</code> to work properly for collections.</li>
 <li>Fixed exiting error message in <code>PlayableBehaviour</code>. <a href="https://github.com/KybernetikGames/animancer/issues/69">#69</a></li>
 <li>Fixed Mixers to clear their automatically generated name if any children are added or removed.</li>
 <li>Fixed <code>AnimancerPlayable.StateDictionary.DestroyAll(IAnimationClipSource)</code> to actually work.</li>

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -483,6 +483,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -577,9 +578,9 @@
 <p>The <a href="../../">Samples</a> page explains how to import the sample assets into your project if you haven't already.</p>
 <p>This sample demonstrates how to make a character perform an <em>Action</em> then return to <em>Idle</em> after it finishes.</p>
 <ul>
-<li>Animancer's <code>Play</code> methods return an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> which you can use to control the animation.</li>
+<li>Animancer's <code>Play</code> methods return an <code>AnimancerState</code> which you can use to control the animation.</li>
 </ul>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+<pre><code class="language-cs">AnimancerState state = _Animancer.Play(_Action);
 </code></pre>
 <ul>
 <li>You can restart an animation by setting its <code>Time</code> to <code>0</code>.</li>
@@ -613,9 +614,9 @@
 using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a> : MonoBehaviour
+public class PlayAnimationOnClick : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
     
@@ -641,8 +642,8 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnCli
 <p>Remember to exit Play Mode once you're done looking.</p>
 <h1 id="end-event">End Event</h1>
 <p>As you can see above, the animation plays correctly but afterwards the character freezes in place which is usually not what you want to happen. In this case when the <code>_Action</code> animation ends we want the character to go back to the <code>_Idle</code> animation, which is really easy to do in Animancer.</p>
-<p>First, we grab the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> returned by the <code>Play</code> method:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+<p>First, we grab the <code>AnimancerState</code> returned by the <code>Play</code> method:</p>
+<pre><code class="language-cs">AnimancerState state = _Animancer.Play(_Action);
 </code></pre>
 <p>That state allows you to get and set all the playback details of the animation such as its <code>Speed</code>, <code>Time</code>, and in this case its <a href="../../../manual/events/end">End Event</a>:</p>
 <pre><code class="language-cs">state.Events(this).OnEnd ??= OnEnable;
@@ -654,9 +655,9 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnCli
 using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a> : MonoBehaviour
+public class PlayAnimationOnClick : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -669,7 +670,7 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnCli
     {
         if (SampleInput.LeftMouseUp)
         {
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+            AnimancerState state = _Animancer.Play(_Action);
             state.Events(this).OnEnd ??= OnEnable;
         }
     }
@@ -681,7 +682,7 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnCli
 <p>Remember to exit Play Mode once you're done looking.</p>
 <h1 id="rapid-fire">Rapid Fire</h1>
 <p>So far the character has had to wait for the <em>Action</em> animation to finish before they can act again because Animancer doesn't automatically restart the animation when you call <code>Play</code>. This behaviour was useful in the <a href="../movement">Basic Movement</a> sample, but there are many cases where you might want to force the animation back to the beginning which can be done by simply setting its <code>Time</code> to <code>0</code>.</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+<pre><code class="language-cs">AnimancerState state = _Animancer.Play(_Action);
 state.Time = 0;
 state.Events(this).OnEnd ??= OnEnable;
 </code></pre>
@@ -690,9 +691,9 @@ state.Events(this).OnEnd ??= OnEnable;
 using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnClick">PlayAnimationOnClick</a> : MonoBehaviour
+public class PlayAnimationOnClick : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Idle;
     [SerializeField] private AnimationClip _Action;
 
@@ -705,7 +706,7 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnCli
     {
         if (SampleInput.LeftMouseUp)
         {
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+            AnimancerState state = _Animancer.Play(_Action);
             state.Time = 0;
             state.Events(this).OnEnd ??= OnEnable;
         }

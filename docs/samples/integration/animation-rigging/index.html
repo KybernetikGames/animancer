@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -480,6 +480,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -575,7 +576,7 @@
 <h1 id="resetting-properties">Resetting Properties</h1>
 <img src="ik-weight.png" class="img-responsive img-right">
 <p>The way the Animation Rigging system reads properties like the <code>Weight</code> of its constraint components causes them to be treated like animated properties, meaning that calling <code>Animator.Rebind</code> will reset those properties to their starting values.</p>
-<p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code><a href="/animancer/api/Animancer/AnimancerGraph/FD81B96B">AnimancerGraph.KeepChildrenConnected</a></code> property:</p>
+<p>Unfortunately, <code>Animator.Rebind</code> gets called every time a <code>Playable</code> is connected or disconnected which happens frequently in Animancer depending on the <code>AnimancerGraph.KeepChildrenConnected</code> property:</p>
 <table class="table">
 <thead>
 <tr>
@@ -598,14 +599,14 @@
 </tbody>
 </table>
 <p>This isn't a problem for Animator Controllers because they simply don't allow their structure to be changed at runtime.</p>
-<p>This issue can be avoided by using a <code><a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a></code>:</p>
+<p>This issue can be avoided by using a <code>PlayableOutputRefresher</code>:</p>
 <pre><code class="language-cs">public class PlayableOutputRefresherExample : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private Rig _Rig;
 
     // A field to store it in.
-    private <a href="/animancer/api/Animancer/PlayableOutputRefresher">PlayableOutputRefresher</a> _OutputRefresher;
+    private PlayableOutputRefresher _OutputRefresher;
 
     protected virtual void OnEnable()
     {
@@ -637,7 +638,7 @@ using UnityEngine.Animations.Rigging;
 [DefaultExecutionOrder(1000)]// Awake after the RigBuilder creates its PlayableGraph.
 public class AnimancerUseRiggingGraph : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private RigBuilder _RigBuilder;
 
     protected virtual void Awake()

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -489,6 +489,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -615,16 +616,16 @@
 <td>Takes the root motion from animations which would normally be applied to the character model and applies it to the <code>Rigidbody</code> instead.</td>
 </tr>
 <tr>
-<td><code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code></td>
+<td><code>MoveState</code></td>
 <td>Replaces the second <code>IdleState</code> from earlier samples. It contains logic for walking, running, and turning based on the <code>CharacterParameters</code>.</td>
 </tr>
 <tr>
-<td><code><a href="/animancer/api/Animancer.Samples.StateMachines/MovingCharacterBrain">MovingCharacterBrain</a></code></td>
+<td><code>MovingCharacterBrain</code></td>
 <td>Replaces the <code>SimpleCharacterBrain</code> from earlier samples as the script that controls the character's actions based on user input.</td>
 </tr>
 </tbody>
 </table>
-<p>The additions from the <a href="../interruptions">Interruptions</a> sample aren't included in this sample because they aren't relevant to the topics discussed here and would only add unnecessary complexity to the scene. But those components would still work if you wanted to add them (a <code><a href="/animancer/api/Animancer.Samples.StateMachines/HealthPool">HealthPool</a></code> and <code>FlinchState</code> for the character, and <code><a href="/animancer/api/Animancer.Samples.FineControl/ClickToInteract">ClickToInteract</a></code> somewhere else in the scene).</p>
+<p>The additions from the <a href="../interruptions">Interruptions</a> sample aren't included in this sample because they aren't relevant to the topics discussed here and would only add unnecessary complexity to the scene. But those components would still work if you wanted to add them (a <code>HealthPool</code> and <code>FlinchState</code> for the character, and <code>ClickToInteract</code> somewhere else in the scene).</p>
 <h1 id="why-brains">Why Brains?</h1>
 <p>Consider the steps that are involved in getting a character to perform an action:</p>
 <ol>
@@ -636,7 +637,7 @@
 <p>This <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">Separation of Concerns</a> means that each type of state only needs to be implemented once and will then be usable by any kind of character, whether it be the player, or an NPC. This also makes it easy to change the way a character is controlled without affecting the way any of their actions actually work, either by modifying the brain or by assigning a different brain.</p>
 <p>The term "Brain" was chosen because it accurately describes its purpose, which is to control the behaviour of a <code>Character</code>. But feel free to use other terminology that suits you such as "Character Input".</p>
 <h1 id="parameters">Parameters</h1>
-<p>Earlier samples had the <code>SimpleCharacterBrain</code> telling the <code>StateMachine</code> when to enter a particular state, but in this sample the <code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code> also needs to know which direction the brain wants to move and whether it wants to run or not. You could put those parameters in the brain or in the <code>Character</code>, but this sample uses a dedicated <code>CharacterParameters</code> class.</p>
+<p>Earlier samples had the <code>SimpleCharacterBrain</code> telling the <code>StateMachine</code> when to enter a particular state, but in this sample the <code>MoveState</code> also needs to know which direction the brain wants to move and whether it wants to run or not. You could put those parameters in the brain or in the <code>Character</code>, but this sample uses a dedicated <code>CharacterParameters</code> class.</p>
 <p><img src="inspector-parameter.png" class="pngif img-responsive"></p>
 <p>This class doesn't really need to be serializable since it's only set at runtime, but making it serializable means it can easily show the current parameter values in the Inspector which can be very helpful for debugging.</p>
 <pre><code class="language-cs">[Serializable]
@@ -675,7 +676,7 @@ public class CharacterParameters
 <pre><code class="language-cs">using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingCharacterBrain">MovingCharacterBrain</a> : MonoBehaviour
+public class MovingCharacterBrain : MonoBehaviour
 {
     [SerializeField] private Character _Character;
     [SerializeField] private CharacterState _Move;
@@ -699,13 +700,13 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
     }
 }
 </code></pre>
-<p></p><details><summary><code>SimpleCharacterBrain</code> and <code><a href="/animancer/api/Animancer.Samples.StateMachines/MovingCharacterBrain">MovingCharacterBrain</a></code> were implemented as completely separate scripts to keep each of these samples a bit more self-contained, but with a few changes they could utilise <a href="/cs-unity/docs/introduction/inheritance">Inheritance</a> to avoid needing to repeat so much of the same code.</summary>
+<p></p><details><summary><code>SimpleCharacterBrain</code> and <code>MovingCharacterBrain</code> were implemented as completely separate scripts to keep each of these samples a bit more self-contained, but with a few changes they could utilise <a href="/cs-unity/docs/introduction/inheritance">Inheritance</a> to avoid needing to repeat so much of the same code.</summary>
 <ol>
 <li>Remove the <code>sealed</code> keyword from <code>SimpleCharacterBrain</code> so it can be inherited.</li>
 <li>Change the <code>UpdateMovement</code> method in <code>SimpleCharacterBrain</code> from <code>private</code> to <code>protected virtual</code> so it can be overridden.</li>
 <li>Change the <code>_Move</code> method in <code>SimpleCharacterBrain</code> from <code>private</code> to <code>protected</code> so it can be accessed in an inheriting class.</li>
-<li>Change the <code>UpdateMovement</code> method in <code><a href="/animancer/api/Animancer.Samples.StateMachines/MovingCharacterBrain">MovingCharacterBrain</a></code> from <code>private</code> to <code>protected override</code> so it replaces the method in the base class (<code>SimpleCharacterBrain</code>).</li>
-<li>Remove everything else from <code><a href="/animancer/api/Animancer.Samples.StateMachines/MovingCharacterBrain">MovingCharacterBrain</a></code> because it's all inherited from the base class now.</li>
+<li>Change the <code>UpdateMovement</code> method in <code>MovingCharacterBrain</code> from <code>private</code> to <code>protected override</code> so it replaces the method in the base class (<code>SimpleCharacterBrain</code>).</li>
+<li>Remove everything else from <code>MovingCharacterBrain</code> because it's all inherited from the base class now.</li>
 </ol>
 </details><p></p>
 <p>Where the <code>SimpleCharacterBrain.UpdateMovement</code> method only had to try to enter the <em>Move</em> or <em>Idle</em> state, this one also needs to set the <code>MovementDirection</code> and <code>WantsToRun</code> parameters.</p>
@@ -716,7 +717,7 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
     if (input != Vector2.zero)
     {
 </code></pre>
-<p>It needs to take the user's 2D screen-space <code>WASD</code> input and convert that into a 3D world-space vector to set the <code>MovementDirection</code>. It's important to do this conversion here in the brain because this is where code that's specific to player input is supposed to go. It wouldn't make sense to do it in <code>CharacterParameters</code> or <code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code> because those classes are supposed to be usable by any character and this conversion is only relevant to the player.</p>
+<p>It needs to take the user's 2D screen-space <code>WASD</code> input and convert that into a 3D world-space vector to set the <code>MovementDirection</code>. It's important to do this conversion here in the brain because this is where code that's specific to player input is supposed to go. It wouldn't make sense to do it in <code>CharacterParameters</code> or <code>MoveState</code> because those classes are supposed to be usable by any character and this conversion is only relevant to the player.</p>
 <p>First, convert the 2D input directly into 3D on the XZ plane:</p>
 <pre><code class="language-cs">        Vector3 movementDirection = new Vector3(input.x, 0, input.y);
 </code></pre>
@@ -740,29 +741,29 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
 <pre><code class="language-cs">    _Character.Parameters.WantsToRun = SampleInput.LeftShiftHold;
 }
 </code></pre>
-<p></p><details><summary>Why is the <code>_Move</code> field a base <code>CharacterState</code> instead of the more specific <code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code>?</summary>
+<p></p><details><summary>Why is the <code>_Move</code> field a base <code>CharacterState</code> instead of the more specific <code>MoveState</code>?</summary>
 <p>You might be wondering why the brain uses:</p>
 <pre><code class="language-cs">[SerializeField] private CharacterState _Move;
 </code></pre>
 <p>Instead of:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a> _Move;
+<pre><code class="language-cs">[SerializeField] private MoveState _Move;
 </code></pre>
 <p>It's because nothing in the brain actually cares what specific type of state it is, as long as it inherits from <code>CharacterState</code> to be usable in the <code>Character</code>'s <code>StateMachine</code>.</p>
-<p>In the <a href="../weapons">Weapons</a> sample, the brain needs to set the <code>NextWeapon</code> before entering the <code><a href="/animancer/api/Animancer.Samples.StateMachines/EquipState">EquipState</a></code> so that brain has an actual <code><a href="/animancer/api/Animancer.Samples.StateMachines/EquipState">EquipState</a></code> field.</p>
+<p>In the <a href="../weapons">Weapons</a> sample, the brain needs to set the <code>NextWeapon</code> before entering the <code>EquipState</code> so that brain has an actual <code>EquipState</code> field.</p>
 <p>But this sample isn't doing that so the field might as well be as unrestrictive as possible which means you could potentially use the same control logic on a different type of state without needing to modify this brain.</p>
 </details><p></p>
 <h1 id="move-state">Move State</h1>
-<p></p><details><summary>Where the earlier samples simply used an <code>IdleState</code> with a movement animation assigned, this time we have a proper <code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code> which is responsible for <a href="#walking-and-running">Walking and Running</a> as well as <a href="#turning">Turning</a>:</summary>
-<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a> : CharacterState
+<p></p><details><summary>Where the earlier samples simply used an <code>IdleState</code> with a movement animation assigned, this time we have a proper <code>MoveState</code> which is responsible for <a href="#walking-and-running">Walking and Running</a> as well as <a href="#turning">Turning</a>:</summary>
+<pre><code class="language-cs">public class MoveState : CharacterState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Animation;
-    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _SpeedParameter;
+    [SerializeField] private TransitionAsset _Animation;
+    [SerializeField] private StringAsset _SpeedParameter;
     [SerializeField] private float _WalkParameterValue = 0.5f;
     [SerializeField] private float _RunParameterValue = 1;
     [SerializeField, Seconds] private float _ParameterSmoothTime = 0.15f;
     [SerializeField, DegreesPerSecond] private float _TurnSpeed = 360;
 
-    private <a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a> _Speed;
+    private SmoothedFloatParameter _Speed;
 
     protected virtual void Awake()
     {
@@ -810,7 +811,7 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
 </details><p></p>
 <p><img src="inspector-move.png" class="img-responsive"></p>
 <h1 id="walking-and-running">Walking and Running</h1>
-<p><code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code> is responsible for both walking and running. Two animation states managed by one logical state because they both use the same logic. This could be implemented by simply giving it two <code><a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a></code> fields, but then whenever it changes between them it would need to synchronize their times to avoid going from one part of the walk animation to a completely different part of the run animation. That problem is explained further in the <a href="../../../manual/blending/mixers/synchronization">Mixer Synchronization</a> section and that's also the solution, because mixers already have inbuilt synchronization so this state can just reuse <em>Idle-Walk-Run</em> mixer from the <a href="../../mixers/linear">Linear Mixer</a> sample.</p>
+<p><code>MoveState</code> is responsible for both walking and running. Two animation states managed by one logical state because they both use the same logic. This could be implemented by simply giving it two <code>TransitionAsset</code> fields, but then whenever it changes between them it would need to synchronize their times to avoid going from one part of the walk animation to a completely different part of the run animation. That problem is explained further in the <a href="../../../manual/blending/mixers/synchronization">Mixer Synchronization</a> section and that's also the solution, because mixers already have inbuilt synchronization so this state can just reuse <em>Idle-Walk-Run</em> mixer from the <a href="../../mixers/linear">Linear Mixer</a> sample.</p>
 <p>That means we need a bunch of additional details:</p>
 <table class="table">
 <thead>
@@ -821,11 +822,11 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
 </thead>
 <tbody>
 <tr>
-<td><code><a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Animation;</code></td>
+<td><code>TransitionAsset _Animation;</code></td>
 <td>The mixer from the <a href="../../mixers/linear">Linear Mixer</a> sample.</td>
 </tr>
 <tr>
-<td><code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _SpeedParameter;</code></td>
+<td><code>StringAsset _SpeedParameter;</code></td>
 <td>The name of the mixer's <a href="../../../manual/parameters">Parameter</a>.</td>
 </tr>
 <tr>
@@ -838,8 +839,8 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
 </tr>
 </tbody>
 </table>
-<p>We could apply smoothing by manually using functions like <code>Mathf.MoveTowards</code> or <code>Mathf.SmoothDamp</code>, but using a <code><a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a></code> handles that for us (using <code>Mathf.SmoothDamp</code> internally).</p>
-<pre><code class="language-cs">    private <a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a> _Speed;
+<p>We could apply smoothing by manually using functions like <code>Mathf.MoveTowards</code> or <code>Mathf.SmoothDamp</code>, but using a <code>SmoothedFloatParameter</code> handles that for us (using <code>Mathf.SmoothDamp</code> internally).</p>
+<pre><code class="language-cs">    private SmoothedFloatParameter _Speed;
         
     protected virtual void Awake()
     {
@@ -866,11 +867,11 @@ public class <a href="/animancer/api/Animancer.Samples.StateMachines/MovingChara
 <p>With the target set, the smoother will automatically move the actual parameter value towards that value over time.</p>
 <h1 id="root-motion">Root Motion</h1>
 <p>This sample moves the character around using <a href="#root-motion">Root Motion</a> so this state doesn't do any actual moving. If you don't want to use <a href="#root-motion">Root Motion</a>, you could give the <code>Character</code> a reference to their <code>Rigidbody</code> (or whatever character controller system you are using) and control it in this state as well.</p>
-<p>Since the model (with the <code>Animator</code> and <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>) is a child of the character's root (with the <code>CapsuleCollider</code>, <code>Rigidbody</code>, and <code>Character</code>) the root motion would normally be applied only to the model to move it independently of the character's physics. That's obviously undesirable so we <a href="../../../manual/other/root-motion">Redirect the Root Motion</a> to the parent <code>Rigidbody</code> instead.</p>
+<p>Since the model (with the <code>Animator</code> and <code>AnimancerComponent</code>) is a child of the character's root (with the <code>CapsuleCollider</code>, <code>Rigidbody</code>, and <code>Character</code>) the root motion would normally be applied only to the model to move it independently of the character's physics. That's obviously undesirable so we <a href="../../../manual/other/root-motion">Redirect the Root Motion</a> to the parent <code>Rigidbody</code> instead.</p>
 <p><img src="inspector-model.png" class="img-responsive"></p>
 <h1 id="turning">Turning</h1>
 <p>Some games use additional animations to make the turning look more natural (such as leaning over if you turn while running) or the <a href="../../animator-controllers/3d-game-kit/locomotion/turning">Quick Turn</a> animations used in the <a href="../../animator-controllers/3d-game-kit">3D Game Kit</a> sample, but for this sample we're just going to rotate the model around the Y axis.</p>
-<p>So the <code><a href="/animancer/api/Animancer.Samples.StateMachines/MoveState">MoveState</a></code> script has a field to determine how fast it can turn (<a href="../../../manual/other/units">measured in degrees per second</a>):</p>
+<p>So the <code>MoveState</code> script has a field to determine how fast it can turn (<a href="../../../manual/other/units">measured in degrees per second</a>):</p>
 <pre><code class="language-cs">    [SerializeField, DegreesPerSecond] private float _TurnSpeed = 360;
 </code></pre>
 <p>Firstly, it needs to make sure it actually has a <code>MovementDirection</code>, because it wouldn't know which way to turn if it somehow ended up in this state without the brain setting the direction:</p>

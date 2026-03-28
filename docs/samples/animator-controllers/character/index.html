@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -486,6 +486,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -574,37 +575,37 @@
 <p><i class="emw fa fa-folder"></i> <a href="../../"><strong>Location</strong>: Samples/08 Animator Controllers/01 Hybrid Character</a></p>
 <p><i class="emw fa fa-code-fork"></i> <strong>Recommended After</strong>: <a href="../../basics/character">Basic Character</a></p>
 <p><i class="emw fa fa-puzzle-piece"></i> <strong>Learning Outcomes</strong>: <span class="mini">in this sample you will learn:</span></p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to use a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to use a <code>HybridAnimancerComponent</code>.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to play an Animator Controller alongside Animancer.</p>
 <p><i class="emw fa fa-lightbulb-o"></i> How to play an Animator Controller inside Animancer.</p>
-<p><i class="emw fa fa-lightbulb-o"></i> How to disable <code><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></code>s when you understand the risks they're warning about.</p>
+<p><i class="emw fa fa-lightbulb-o"></i> How to disable <code>OptionalWarning</code>s when you understand the risks they're warning about.</p>
 </blockquote>
 <h1 id="summary">Summary</h1>
 <p>This sample demonstrates the same behaviour as the <a href="../../basics/character">Basic Character</a> sample except that it plays the <em>Idle</em> and <em>Walk</em> animations inside an Animator Controller instead of playing them directly.</p>
 <p><img src="hybrid.png" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
-<p>The general code structure is similar to the <a href="../../basics/character">Basic Character</a> sample, except that it uses a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> to play an Animator Controller containing the <em>Idle</em> and <em>Walk</em> animations instead of referencing those animations directly in the script.</p>
+<p>The general code structure is similar to the <a href="../../basics/character">Basic Character</a> sample, except that it uses a <code>HybridAnimancerComponent</code> to play an Animator Controller containing the <em>Idle</em> and <em>Walk</em> animations instead of referencing those animations directly in the script.</p>
 <ul>
-<li>It's using the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> setup by default, where a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> references the Animator Controller instead of having a regular <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</li>
+<li>It's using the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> setup by default, where a <code>HybridAnimancerComponent</code> references the Animator Controller instead of having a regular <code>AnimancerComponent</code>.</li>
 <li>You can easily change it to use the <a href="../../../manual/animator-controllers#native">Native</a> setup by giving the Animator Controller to the <code>Animator</code> component instead.</li>
 </ul>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.AnimatorControllers/HybridCharacterAnimations">HybridCharacterAnimations</a></code> only references the <em>Action</em> animation since the others are inside the Animator Controller.</summary>
+<p></p><details><summary><code>HybridCharacterAnimations</code> only references the <em>Action</em> animation since the others are inside the Animator Controller.</summary>
 <pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
 [DefaultExecutionOrder(AnimancerComponent.DefaultExecutionOrder - 1000)]
-public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers/HybridCharacterAnimations">HybridCharacterAnimations</a> : MonoBehaviour
+public class HybridCharacterAnimations : MonoBehaviour
 {
     public static readonly int IsMovingParameter = Animator.StringToHash("IsMoving");
 
-    [SerializeField] private <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+    [SerializeField] private HybridAnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Action;
 
-    private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
+    private State _CurrentState;
 
-    private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
+    private enum State
     {
         NotActing,
         Acting,
@@ -642,7 +643,7 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers/Hybri
 
         if (_Animancer.Animator.runtimeAnimatorController != null)
         {
-            <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> layer = _Animancer.Layers[0];
+            AnimancerLayer layer = _Animancer.Layers[0];
             if (layer.TargetWeight &gt; 0)
                 layer.StartFade(0, 0.25f);
 
@@ -687,15 +688,15 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers/Hybri
       <td><code>Animator</code> left empty.</td>
     </tr>
     <tr>
-      <td><code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> not used (you would use a regular <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>).</td>
-      <td>Animator Controller assigned to the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code></td>
+      <td><code>HybridAnimancerComponent</code> not used (you would use a regular <code>AnimancerComponent</code>).</td>
+      <td>Animator Controller assigned to the <code>HybridAnimancerComponent</code></td>
     </tr>
   </tbody>
 </table>
 <h1 id="optional-warnings">Optional Warnings</h1>
-<p>In order to demonstrate the difference between the <a href="../../../manual/animator-controllers#native">Native</a> and <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approaches to using Animator Controllers, this sample does a few things that would cause <code><a href="/animancer/api/Animancer/OptionalWarning">OptionalWarning</a></code>s so the script simply disables them to prevent new users from thinking the sample is broken.</p>
+<p>In order to demonstrate the difference between the <a href="../../../manual/animator-controllers#native">Native</a> and <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approaches to using Animator Controllers, this sample does a few things that would cause <code>OptionalWarning</code>s so the script simply disables them to prevent new users from thinking the sample is broken.</p>
 <pre><code class="language-cs">[DefaultExecutionOrder(AnimancerComponent.DefaultExecutionOrder - 1000)]
-public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers/HybridCharacterAnimations">HybridCharacterAnimations</a> : MonoBehaviour
+public class HybridCharacterAnimations : MonoBehaviour
 {
     protected virtual void Awake()
     {
@@ -708,7 +709,7 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers/Hybri
 <ul>
 <li>The <code>[DefaultExecutionOrder]</code> attribute causes the script to initialize before Animancer so that it can disable those warnings before they would be triggered.</li>
 <li><code>OptionalWarning.NativeControllerHumanoid</code> would be triggered for using a <a href="../../../manual/animator-controllers#native">Native</a> with a Humanoid Rig because Unity doesn't allow it to blend properly when fading to and from Animancer.</li>
-<li><code>OptionalWarning.NativeControllerHybrid</code> would be triggered for having the Animator Controller assigned to the <code>Animator</code> while a <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> is present (because using the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> component implies that you intend to give the Animator Controller to it instead).</li>
+<li><code>OptionalWarning.NativeControllerHybrid</code> would be triggered for having the Animator Controller assigned to the <code>Animator</code> while a <code>HybridAnimancerComponent</code> is present (because using the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> component implies that you intend to give the Animator Controller to it instead).</li>
 </ul>
 <h1 id="parameter-hashes">Parameter Hashes</h1>
 <p>Parameters and states in an Animator Controller are internally identified by hashes. They can be referred to using <code>string</code>s, but that's inefficient because it needs to recalculate the hash every time. So it's more efficient to store the necesary hashes in <code>static</code> fields like this:</p>
@@ -717,16 +718,16 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers/Hybri
 <p>That also has the benefit of keeping all the magic strings in one place instead of scattered throughout the script.</p>
 <p>Manually writing and maintaining those hashes can be tedious and offers many opportunities for spelling mistakes, so <a href="/weaver">Weaver</a> has a system for <a href="/weaver/docs/project-constants/animations">procedurally generating them</a> which also creates a <code>HashToString</code> method for converting a hash value back to the <code>string</code> it came from. That system is <strong>included in <a href="/weaver/lite">Weaver Lite</a> for FREE</strong>.</p>
 <h1 id="fields">Fields</h1>
-<p>To use the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approach we need a reference to the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>, but if we were using the <a href="../../../manual/animator-controllers#native">Native</a> approach we would only need a regular <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+<p>To use the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approach we need a reference to the <code>HybridAnimancerComponent</code>, but if we were using the <a href="../../../manual/animator-controllers#native">Native</a> approach we would only need a regular <code>AnimancerComponent</code>.</p>
+<pre><code class="language-cs">[SerializeField] private HybridAnimancerComponent _Animancer;
+[SerializeField] private ClipTransition _Action;
 </code></pre>
 <p>As noted earlier, the <em>Idle</em> and <em>Walk</em> animations are inside the Animator Controller so the script doesn't know about them except for the <code>IsMovingParameter</code>.</p>
 <h1 id="script">Script</h1>
-<p>The rest of the script is identical to <code><a href="/animancer/api/Animancer.Samples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> from the <a href="../../basics/character">Basic Character</a> sample except for the <code>UpdateMovement</code> method:</p>
-<pre><code class="language-cs">private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
+<p>The rest of the script is identical to <code>BasicCharacterAnimations</code> from the <a href="../../basics/character">Basic Character</a> sample except for the <code>UpdateMovement</code> method:</p>
+<pre><code class="language-cs">private State _CurrentState;
 
-private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
+private enum State
 {
     NotActing,
     Acting,
@@ -794,10 +795,10 @@ private void UpdateAction()
     </tr>
     <tr>
       <td>To return to the Animator Controller after playing something else, we fade out Animancer's layers.</td>
-      <td>To return to the Animator Controller after playing something else, we play the <code><a href="/animancer/api/Animancer/ControllerTransition">ControllerTransition</a></code>.</td>
+      <td>To return to the Animator Controller after playing something else, we play the <code>ControllerTransition</code>.</td>
     </tr>
 <tr><td>
-<pre><code class="language-cs">    <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> layer = 
+<pre><code class="language-cs">    AnimancerLayer layer = 
         _Animancer.Layers[0];
 
     if (layer.TargetWeight &gt; 0)
@@ -811,7 +812,7 @@ private void UpdateAction()
     </tr>
     <tr>
       <td>We control the Animator Controller through the <code>Animator</code> component as we normally would without Animancer.</td>
-      <td>We control the Animator Controller through the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code>.</td>
+      <td>We control the Animator Controller through the <code>HybridAnimancerComponent</code>.</td>
     </tr>
 <tr><td>
 <pre><code class="language-cs">    _Animancer.Animator.SetBool(
@@ -844,7 +845,7 @@ causes the <a href="../../../manual/playing/inspector">Live Inspector</a> to sho
 <h1 id="hybrid">Hybrid</h1>
 <p>Using the <a href="../../../manual/animator-controllers#hybrid">Hybrid</a> approach plays the Animator Controller inside Animancer like any other state.</p>
 <p><img src="hybrid.png" class="pngif img-responsive"></p>
-<p>As noted above, this approach has all the same methods for setting parameters and controlling the Animator Controller in code, but they need to be called on the <code><a href="/animancer/api/Animancer/HybridAnimancerComponent">HybridAnimancerComponent</a></code> so a system not designed for Animancer will need some modifications to be used in this way.</p>
+<p>As noted above, this approach has all the same methods for setting parameters and controlling the Animator Controller in code, but they need to be called on the <code>HybridAnimancerComponent</code> so a system not designed for Animancer will need some modifications to be used in this way.</p>
 <h1 id="what-next">What Next?</h1>
 <table class="table">
 <thead>

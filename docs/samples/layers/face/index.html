@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -484,6 +484,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -580,21 +581,21 @@
 <p>This sample uses <a href="https://docs.unity3d.com/Manual/BlendShapes.html">Blend Shapes</a> and another <a href="../../../manual/blending/layers">Layer</a> to add facial expressions on top of the same character and behaviour from the <a href="../dynamic">Dynamic Layers</a> sample.</p>
 <p><img src="face.png" class="pngif img-responsive"></p>
 <h1 id="overview">Overview</h1>
-<p>The scene is a full copy of <a href="../dynamic">Dynamic Layers</a>, with the addition of a <code><a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionManager">FacialExpressionManager</a></code> to create some <a href="../../basics/scene-setup#buttons">Sample Buttons</a> which play the expression animations.</p>
+<p>The scene is a full copy of <a href="../dynamic">Dynamic Layers</a>, with the addition of a <code>FacialExpressionManager</code> to create some <a href="../../basics/scene-setup#buttons">Sample Buttons</a> which play the expression animations.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionManager">FacialExpressionManager</a></code> initializes a <em>Facial Expressions</em> layer on top of the <em>Base Layer</em> and <em>Action Layer</em> created by the <code><a href="/animancer/api/Animancer.Samples.Layers/LayeredAnimationManager">LayeredAnimationManager</a></code>:</summary><p>
+<p></p><details><summary><code>FacialExpressionManager</code> initializes a <em>Facial Expressions</em> layer on top of the <em>Base Layer</em> and <em>Action Layer</em> created by the <code>LayeredAnimationManager</code>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
 [DefaultExecutionOrder(1000)]
-public class <a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionManager">FacialExpressionManager</a> : MonoBehaviour
+public class FacialExpressionManager : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer.Samples/SampleButton">SampleButton</a> _Button;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private SampleButton _Button;
     [SerializeField] private NamedClipTransition[] _Expressions;
 
-    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _Layer;
+    private AnimancerLayer _Layer;
 
     protected virtual void Awake()
     {
@@ -605,7 +606,7 @@ public class <a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionMa
 
         for (int i = 0; i &lt; _Expressions.Length; i++)
         {
-            <a href="/animancer/api/Animancer.Samples.Layers/NamedClipTransition">NamedClipTransition</a> expression = _Expressions[i];
+            NamedClipTransition expression = _Expressions[i];
 
             _Button.AddButton(
                 i,
@@ -617,13 +618,13 @@ public class <a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionMa
 </code></pre>
 <p></p></details><p></p>
 <p>It uses <a href="../../basics/scene-setup#buttons">Sample Buttons</a> to create a list of buttons which play each of the animations.</p>
-<p></p><details><summary>Those buttons are defined by an array of <code><a href="/animancer/api/Animancer.Samples.Layers/NamedClipTransition">NamedClipTransition</a></code>s, which are just <code><a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a></code>s with an additional <code>Name</code> field to use for the text on each button:</summary><p>
+<p></p><details><summary>Those buttons are defined by an array of <code>NamedClipTransition</code>s, which are just <code>ClipTransition</code>s with an additional <code>Name</code> field to use for the text on each button:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 using System;
 
 [Serializable]
-public class <a href="/animancer/api/Animancer.Samples.Layers/NamedClipTransition">NamedClipTransition</a> : <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a>
+public class NamedClipTransition : ClipTransition
 {
     [SerializeField]
     private string _Name;
@@ -643,16 +644,16 @@ public class <a href="/animancer/api/Animancer.Samples.Layers/NamedClipTransitio
 <p><img src="animation-window.png" class="img-responsive"></p>
 <p>The <a href="../../../manual/transitions">Transitions</a> used to play those animations each have the default <a href="../../../manual/blending/fading">Fade Duration</a> of 0.25 seconds so when Animancer plays them, the fade creates a smooth blend between the expressions.</p>
 <h1 id="initialization">Initialization</h1>
-<p><code><a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionManager">FacialExpressionManager</a></code> is designed to be usable on top of any other system without interfering with the other animations.</p>
+<p><code>FacialExpressionManager</code> is designed to be usable on top of any other system without interfering with the other animations.</p>
 <p>It does this by using a <code>[DefaultExecutionOrder]</code> attribute set to <code>1000</code> so that its <code>Awake</code> will run after the other scripts which are at the default time <code>0</code>.</p>
 <pre><code class="language-cs">[DefaultExecutionOrder(1000)]
-public class <a href="/animancer/api/Animancer.Samples.Layers/FacialExpressionManager">FacialExpressionManager</a> : MonoBehaviour
+public class FacialExpressionManager : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer.Samples/SampleButton">SampleButton</a> _Button;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private SampleButton _Button;
     [SerializeField] private NamedClipTransition[] _Expressions;
 
-    private <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> _Layer;
+    private AnimancerLayer _Layer;
 </code></pre>
 <p>Then it simply calls <code>Layers.Add</code> instead of getting a specific layer number:</p>
 <pre><code class="language-cs">    protected virtual void Awake()
@@ -672,11 +673,11 @@ using System;
 
 [Serializable]
 </code></pre>
-<p>Then you can simply <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from one of the existing <a href="../../../manual/transitions/types">Transition Types</a> or if you don't want all their features you can implement <code><a href="/animancer/api/Animancer/ITransition">ITransition</a></code> directly:</p>
-<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Layers/NamedClipTransition">NamedClipTransition</a> : <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a>
+<p>Then you can simply <a href="/cs-unity/docs/introduction/inheritance">Inherit</a> from one of the existing <a href="../../../manual/transitions/types">Transition Types</a> or if you don't want all their features you can implement <code>ITransition</code> directly:</p>
+<pre><code class="language-cs">public class NamedClipTransition : ClipTransition
 </code></pre>
 <p>And that's it, now you can put whatever you want in it.</p>
-<p>In this case, we want a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> for the name which we expose publicly by overriding the <code>Name</code> property <a href="/cs-unity/docs/introduction/inheritance">Inherited</a> from the base <code><a href="/animancer/api/Animancer/Transition_1">Transition&lt;TState&gt;</a></code> class:</p>
+<p>In this case, we want a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> for the name which we expose publicly by overriding the <code>Name</code> property <a href="/cs-unity/docs/introduction/inheritance">Inherited</a> from the base <code>Transition&lt;TState&gt;</code> class:</p>
 <pre><code class="language-cs">{
     [SerializeField]
     private string _Name;
@@ -702,7 +703,7 @@ using System;
 
     for (int i = 0; i &lt; _Expressions.Length; i++)
     {
-        <a href="/animancer/api/Animancer.Samples.Layers/NamedClipTransition">NamedClipTransition</a> expression = _Expressions[i];
+        NamedClipTransition expression = _Expressions[i];
 
         _Button.AddButton(
             i,
@@ -715,15 +716,15 @@ using System;
 <p>The animations used in this sample are all simply poses with <code>0</code> length which set the values of <a href="https://docs.unity3d.com/Manual/BlendShapes.html">Blend Shapes</a> on the character's face renderer and they are able to smoothly blend together by simply <a href="../../../manual/blending/fading">Fading</a> like any other animation. In this case, playing them each as individual animations is quite convenient.</p>
 <p>In an Animator Controller, facial expressions are often managed inside a <a href="https://docs.unity3d.com/Manual/BlendTree-DirectBlending.html">Direct Blend Tree</a> which allows you to control parameters which correspond to the weight of each animation.</p>
 <p>Animancer allows you to directly control the <code>Weight</code> of a state whenever you want without any extra setup or grouping:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Layer.Play(expression);
+<pre><code class="language-cs">AnimancerState state = _Layer.Play(expression);
 state.Weight = 0.5f;
 </code></pre>
 <p>But it also has <a href="../../../manual/blending/mixers#mixer-types">Manual Mixers</a> which allow you to group multiple manually controlled states into one <a href="https://docs.unity3d.com/Manual/BlendTree-DirectBlending.html">Direct Blend Trees</a>.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/ManualMixerTransition">ManualMixerTransition</a> _Expressions;
+<pre><code class="language-cs">[SerializeField] private ManualMixerTransition _Expressions;
 
 ...
 
-<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Layer.Play(_Expressions);
+AnimancerState state = _Layer.Play(_Expressions);
 state.GetChild(x).Weight = 0.5f;
 </code></pre>
 <p>That wouldn't simplify this particular use case, but they can be useful in certain situations.</p>

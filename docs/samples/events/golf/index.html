@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -488,6 +488,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -591,12 +592,12 @@
 <h1 id="overview">Overview</h1>
 <p>The general code structure is similar to the <a href="../../basics/transitions">Transitions</a> sample with some extra components on the <em>Ball</em>:</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a></code> script is responsible for applying force to the ball's <code>Rigidbody</code> and returning to its starting location after being hit away. It won't be explained further because its implementation has nothing to do with Animancer.</summary><p>
+<p></p><details><summary>The <code>GolfBall</code> script is responsible for applying force to the ball's <code>Rigidbody</code> and returning to its starting location after being hit away. It won't be explained further because its implementation has nothing to do with Animancer.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a> : MonoBehaviour
+public class GolfBall : MonoBehaviour
 {
     [SerializeField] private Rigidbody _Rigidbody;
     [SerializeField] private Vector3 _HitVelocity = new(0, 10, 10);
@@ -635,19 +636,19 @@ public class <a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary>The <code><a href="/animancer/api/Animancer.Samples.Events/GolfCharacter">GolfCharacter</a></code> script controls the character's animations and assigns the <code>Hit</code> method from the <code><a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a></code> as the callback for the event named <em>Hit</em>:</summary><p>
+<p></p><details><summary>The <code>GolfCharacter</code> script controls the character's animations and assigns the <code>Hit</code> method from the <code>GolfBall</code> as the callback for the event named <em>Hit</em>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Events/GolfCharacter">GolfCharacter</a> : MonoBehaviour
+public class GolfCharacter : MonoBehaviour
 {
-    private static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> HitEventName = "Hit";
+    private static readonly StringReference HitEventName = "Hit";
 
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ready;
-    [SerializeField, EventNames] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
-    [SerializeField] private <a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a> _Ball;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Ready;
+    [SerializeField, EventNames] private ClipTransition _Swing;
+    [SerializeField] private GolfBall _Ball;
 
     protected virtual void Awake()
     {
@@ -680,18 +681,18 @@ public class <a href="/animancer/api/Animancer.Samples.Events/GolfCharacter">Gol
     <tr>
 <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Ready;
+private ClipTransition _Ready;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+private ClipTransition _Swing;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a> _Ball;
+private GolfBall _Ball;
 </code></pre>
-<p>The fields are simple <a href="../../../manual/transitions">Transitions</a> and a reference to the <code><a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a></code>.</p>
+<p>The fields are simple <a href="../../../manual/transitions">Transitions</a> and a reference to the <code>GolfBall</code>.</p>
 </td>
       <td><img src="golf-character.png" class="img-responsive"></td>
     </tr>
@@ -706,13 +707,13 @@ private <a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a> 
 </ul>
 <img src="unity-event-callback.png" class="img-responsive img-right">
 <h1 id="event-callback">Event Callback</h1>
-<p>We could set the <code>Callback</code> in the Inspector by selecting <code><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></code> from the dropdown (<a href="/ultevents">UltEvents</a> are also supported).</p>
+<p>We could set the <code>Callback</code> in the Inspector by selecting <code>UnityEvent</code> from the dropdown (<a href="/ultevents">UltEvents</a> are also supported).</p>
 <p>This is generally not recommended though, because it has several drawbacks:</p>
 <ul>
 <li>If the event is inside a <a href="../../../manual/transitions/assets">Transition Asset</a> it won't be able to reference anything in the scene because Unity doesn't allow assets to store serialized references to scene objects.</li>
 <li>It takes some logic out of your scripts and defines it in the scene/prefab/asset instead. This can make it harder to understand the behaviour of your systems and debug issues that arise because the flow of logic goes in and out of your scripts and other assets instead of being entirely defined within the scripts.</li>
 </ul>
-<p>So instead of configuring the <code>Callback</code> in the Inspector, this sample demonstrates how to assign it in code. The <code><a href="/animancer/api/Animancer.Samples.Events/GolfCharacter">GolfCharacter</a></code> script doesn't care when the event occurs, but it knows that there needs to be an event to call <code>GolfBall.Hit</code> at some point.</p>
+<p>So instead of configuring the <code>Callback</code> in the Inspector, this sample demonstrates how to assign it in code. The <code>GolfCharacter</code> script doesn't care when the event occurs, but it knows that there needs to be an event to call <code>GolfBall.Hit</code> at some point.</p>
 <h1 id="event-name">Event Name</h1>
 <p>Since we "know" there's only one event (excluding the <a href="../../../manual/events/end">End Event</a>), the script could just set its callback using index <code>0</code>:</p>
 <pre><code class="language-cs">_Swing.Events.SetCallback(0, _Ball.Hit);
@@ -726,7 +727,7 @@ private <a href="/animancer/api/Animancer.Samples.Events/GolfBall">GolfBall</a> 
 <h1 id="event-names-attribute">Event Names Attribute</h1>
 <p>Using a <a href="../../../introduction/mecanim-vs-animancer/why/safety">Magic String</a> in code for the event name isn't great because there is no indication in the Inspector of which event name the script is expecting.</p>
 <p>That could be solved by giving the script another field to reference the same <a href="../../../manual/other/strings#string-assets">String Asset</a> assigned to the event. That's often the ideal approach if you want to maximise flexibility, but it will then take a bit more effort to manage in the Inspector because you have to assign the same <a href="../../../manual/other/strings#string-assets">String Asset</a> in both places.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _HitEventName;
+<pre><code class="language-cs">[SerializeField] private StringAsset _HitEventName;
 
 ...
 
@@ -736,7 +737,7 @@ _Swing.Events.SetCallback(_HitEventName, _Ball.Hit);
 <ol>
 <li>Make a <code>static</code> <a href="../../../manual/other/strings#string-references">String Reference</a> field containing the name:</li>
 </ol>
-<pre><code class="language-cs">private static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> HitEventName = "Hit";
+<pre><code class="language-cs">private static readonly StringReference HitEventName = "Hit";
 </code></pre>
 <ol start="2">
 <li>Set the callback using that name:</li>
@@ -746,10 +747,10 @@ _Swing.Events.SetCallback(_HitEventName, _Ball.Hit);
 <ol start="3">
 <li>Put an <code>[EventNames]</code> attribute on the transition field:</li>
 </ol>
-<pre><code class="language-cs">[SerializeField, EventNames] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Swing;
+<pre><code class="language-cs">[SerializeField, EventNames] private ClipTransition _Swing;
 </code></pre>
 <ul>
-<li>That tells it to use any <code>static</code> fields containing <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s or <code>string</code>s inside this class so it sees the <code>HitEventName</code> automatically. There are several other ways to use the attribute which are explained on the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> API page.</li>
+<li>That tells it to use any <code>static</code> fields containing <code>StringReference</code>s or <code>string</code>s inside this class so it sees the <code>HitEventName</code> automatically. There are several other ways to use the attribute which are explained on the <code>EventNamesAttribute</code> API page.</li>
 </ul>
 <table class="table">
   <thead>

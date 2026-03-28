@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -485,6 +485,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -586,24 +587,24 @@
 <p>In order to keep the character's logic separate from their visuals, it's often a good idea to keep the model (<em>AnimancerHumanoid</em>) as a child of the root object (<em>Character</em>) where the main logical and physics components are located. This sample is still simple enough that there's no real need for that here, but it does anyway for the sake of demonstrating good practices.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <ul>
-<li>Since the <code>Animator</code> needs to be on the model, the <code><a href="/animancer/api/Animancer/RedirectRootMotionToTransform">RedirectRootMotionToTransform</a></code> component is used to <a href="../../../manual/other/root-motion#redirecting-root-motion">redirect the Root Motion</a> to the root object.</li>
-<li><code><a href="/animancer/api/Animancer.Samples.Mixers/PlayTransitionAssetOnEnable">PlayTransitionAssetOnEnable</a></code> is reused from the <a href="../linear">Linear Mixer</a> sample to keep the animations separate from the parameter control logic.</li>
+<li>Since the <code>Animator</code> needs to be on the model, the <code>RedirectRootMotionToTransform</code> component is used to <a href="../../../manual/other/root-motion#redirecting-root-motion">redirect the Root Motion</a> to the root object.</li>
+<li><code>PlayTransitionAssetOnEnable</code> is reused from the <a href="../linear">Linear Mixer</a> sample to keep the animations separate from the parameter control logic.</li>
 </ul>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/FollowMousePosition">FollowMousePosition</a></code> controls the movement <a href="../../../manual/parameters">Parameters</a> to make the character follow the mouse cursor around the scene:</summary><p>
+<p></p><details><summary><code>FollowMousePosition</code> controls the movement <a href="../../../manual/parameters">Parameters</a> to make the character follow the mouse cursor around the scene:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using Animancer.Units;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Mixers/FollowMousePosition">FollowMousePosition</a> : MonoBehaviour
+public class FollowMousePosition : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterX;
-    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterY;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private StringAsset _ParameterX;
+    [SerializeField] private StringAsset _ParameterY;
     [SerializeField, Seconds] private float _ParameterSmoothTime = 0.15f;
     [SerializeField, Meters] private float _StopProximity = 0.1f;
 
-    private <a href="/animancer/api/Animancer/SmoothedVector2Parameter">SmoothedVector2Parameter</a> _SmoothedParameter;
+    private SmoothedVector2Parameter _SmoothedParameter;
 
     protected virtual void Awake()
     {
@@ -664,16 +665,16 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/FollowMousePositio
   <tbody>
     <tr>
       <td>
-<pre><code class="language-cs">class <a href="/animancer/api/Animancer.Samples.Mixers/FollowMousePosition">FollowMousePosition</a> : MonoBehaviour
+<pre><code class="language-cs">class FollowMousePosition : MonoBehaviour
 {
     [SerializeField]
-    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    private AnimancerComponent _Animancer;
 
     [SerializeField]
-    private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterX;
+    private StringAsset _ParameterX;
 
     [SerializeField]
-    private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _ParameterY;
+    private StringAsset _ParameterY;
 
     [SerializeField, Seconds]
     private float _ParameterSmoothTime = 0.15f;
@@ -682,14 +683,14 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/FollowMousePositio
     private float _StopProximity = 0.1f;
 </code></pre>
 </td>
-      <td><p><img src="follow-mouse-position-inspector.png" class="img-responsive"></p>The fields are fairly straightforward: just an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>, some <code><a href="/animancer/api/Animancer/StringAsset">StringAsset</a></code>s for the parameter names and <code>float</code>s to control various details (with appropriate <a href="../../../manual/other/units">Units Attributes</a> to indicate their units of measurement in the Inspector).</td>
+      <td><p><img src="follow-mouse-position-inspector.png" class="img-responsive"></p>The fields are fairly straightforward: just an <code>AnimancerComponent</code>, some <code>StringAsset</code>s for the parameter names and <code>float</code>s to control various details (with appropriate <a href="../../../manual/other/units">Units Attributes</a> to indicate their units of measurement in the Inspector).</td>
     </tr>
   </tbody>
 </table>
 <h1 id="parameter-initialization">Parameter Initialization</h1>
-<p>Unlike <code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code> from the <a href="../linear#float-parameter-slider">Linear Mixers</a> sample, this time we want to smooth any parameter changes to prevent the character's pose from changing too rapidly.</p>
-<p>For a <a href="../../../manual/blending/mixers">2D Mixer</a>, we can smooth its parameters using a <code><a href="/animancer/api/Animancer/SmoothedVector2Parameter">SmoothedVector2Parameter</a></code> like this:</p>
-<pre><code class="language-cs">private <a href="/animancer/api/Animancer/SmoothedVector2Parameter">SmoothedVector2Parameter</a> _SmoothedParameter;
+<p>Unlike <code>FloatParameterSlider</code> from the <a href="../linear#float-parameter-slider">Linear Mixers</a> sample, this time we want to smooth any parameter changes to prevent the character's pose from changing too rapidly.</p>
+<p>For a <a href="../../../manual/blending/mixers">2D Mixer</a>, we can smooth its parameters using a <code>SmoothedVector2Parameter</code> like this:</p>
+<pre><code class="language-cs">private SmoothedVector2Parameter _SmoothedParameter;
 
 protected virtual void Awake()
 {
@@ -700,7 +701,7 @@ protected virtual void Awake()
         _ParameterSmoothTime);
 }
 </code></pre>
-<p>For a <a href="../../../manual/blending/mixers">1D Mixer</a> we would have used a <code><a href="/animancer/api/Animancer/SmoothedFloatParameter">SmoothedFloatParameter</a></code>.</p>
+<p>For a <a href="../../../manual/blending/mixers">1D Mixer</a> we would have used a <code>SmoothedFloatParameter</code>.</p>
 <p>It's not necessary for this sample, but if this component could be destroyed before the rest of the character then we need to <code>Dispose</code> the smoother to remove it from the target parameters.</p>
 <pre><code class="language-cs">protected virtual void OnDestroy()
 {
@@ -720,7 +721,7 @@ protected virtual void Awake()
 private Vector3 GetMovementDirection()
 {
 </code></pre>
-<p>We could use <code><a href="/animancer/api/Animancer.Samples/SampleInput/C78D4B8B">SampleInput.WASD</a></code>, but that would be limited to only 8 directions unless we use a controller instead of a keyboard. So instead, this sample will move the character towards the mouse position to properly demonstrate blending in any direction using some <a href="/cs-unity/docs/introduction/vectors">Vector Math</a> and <a href="/cs-unity/docs/introduction/vectors#raycasting">Raycasting</a>.</p>
+<p>We could use <code>SampleInput.WASD</code>, but that would be limited to only 8 directions unless we use a controller instead of a keyboard. So instead, this sample will move the character towards the mouse position to properly demonstrate blending in any direction using some <a href="/cs-unity/docs/introduction/vectors">Vector Math</a> and <a href="/cs-unity/docs/introduction/vectors#raycasting">Raycasting</a>.</p>
 <p>To calculate the world position the mouse is pointing at, we need a <code>Ray</code> from the <code>Camera</code> based on the screen position of the mouse:</p>
 <pre><code class="language-cs">    Ray ray = Camera.main.ScreenPointToRay(SampleInput.MousePosition);
 </code></pre>

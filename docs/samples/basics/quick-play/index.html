@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -485,6 +485,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -585,9 +586,9 @@
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a> : MonoBehaviour
+public class PlayAnimationOnEnable : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Animation;
 
     protected virtual void OnEnable()
@@ -625,20 +626,20 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEna
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <p>These diagrams show the relationships between scripts and other objects:</p>
 <ul>
-<li><code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> is the script written for this sample.
+<li><code>PlayAnimationOnEnable</code> is the script written for this sample.
 <ul>
-<li>It references an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> which it will control and the <em>Humanoid-WalkForwards</em> animation which it will play.</li>
+<li>It references an <code>AnimancerComponent</code> which it will control and the <em>Humanoid-WalkForwards</em> animation which it will play.</li>
 </ul>
 </li>
-<li>The <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> references an <code>Animator</code> component which is required for playing animations.</li>
+<li>The <code>AnimancerComponent</code> references an <code>Animator</code> component which is required for playing animations.</li>
 <li>The <code>Animator</code> component doesn't have an Animator Controller asset, that's what Animancer is replacing.</li>
 </ul>
-<p>The following sections explain how to write each part of the <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> script from scratch and how to set it up in Unity, but if you have trouble understanding the concepts introduced here then you might want to start with some tutorials on the <a href="https://learn.unity.com">Unity Learn</a> website to learn the basics of programming and using Unity before learning to use Animancer.</p>
+<p>The following sections explain how to write each part of the <code>PlayAnimationOnEnable</code> script from scratch and how to set it up in Unity, but if you have trouble understanding the concepts introduced here then you might want to start with some tutorials on the <a href="https://learn.unity.com">Unity Learn</a> website to learn the basics of programming and using Unity before learning to use Animancer.</p>
 <h1 id="new-script">New Script</h1>
-<p>Start by <a href="/cs-unity/docs/introduction/overview#new-scripts">creating a new script</a> called <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> and open it in your <a href="/cs-unity/docs/introduction/overview#script-editors">Script Editor</a> (such as Visual Studio). Edit the script so that it looks like this:</p>
+<p>Start by <a href="/cs-unity/docs/introduction/overview#new-scripts">creating a new script</a> called <code>PlayAnimationOnEnable</code> and open it in your <a href="/cs-unity/docs/introduction/overview#script-editors">Script Editor</a> (such as Visual Studio). Edit the script so that it looks like this:</p>
 <pre><code class="language-cs">using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a> : MonoBehaviour
+public class PlayAnimationOnEnable : MonoBehaviour
 {
 }
 </code></pre>
@@ -646,16 +647,16 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEna
 <h1 id="fields">Fields</h1>
 <p>In order to play an animation, the script will need two things:</p>
 <ol>
-<li>A reference to the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> of the object that will play the animation.</li>
+<li>A reference to the <code>AnimancerComponent</code> of the object that will play the animation.</li>
 <li>A reference to the <code>AnimationClip</code> asset for it to play.</li>
 </ol>
 <p>So we declare a <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Field</a> for each of them inside the <code>class</code> like this:</p>
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a> : MonoBehaviour
+public class PlayAnimationOnEnable : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Animation;
 }
 </code></pre>
@@ -668,17 +669,17 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEna
 <p></p><details><summary>2. Select your character (the root object with the <code>Animator</code> component).</summary>
 <p>The <code>Controller</code> field should be showing <code>None (Runtime Animator Controller)</code> by default. Otherwise you can clear it by clicking on it and pressing the <code>Delete</code> key.</p>
 <p><img src="../scene-setup/scene-setup.png" class="img-responsive"></p></details><p></p>
-<p></p><details><summary>3. Add an <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> if you didn't do so already as part of the <a href="../scene-setup">Basic Scene Setup</a>.</summary>
+<p></p><details><summary>3. Add an <code>AnimancerComponent</code> if you didn't do so already as part of the <a href="../scene-setup">Basic Scene Setup</a>.</summary>
 <p><img src="add-animancer.png" class="pngif img-responsive"></p></details><p></p>
-<p></p><details><summary>4. Add the <code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code> script you just created.</summary>
+<p></p><details><summary>4. Add the <code>PlayAnimationOnEnable</code> script you just created.</summary>
 <p>If you're unable to add the script:</p>
 <ul>
 <li>Make sure you have saved the script.</li>
-<li>Make sure the script file name exactly matches the name of the class in the script (<code><a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a></code>).</li>
+<li>Make sure the script file name exactly matches the name of the class in the script (<code>PlayAnimationOnEnable</code>).</li>
 <li>Make sure the Console window isn't showing any errors.</li>
 </ul>
 <p><img src="add-example.png" class="pngif img-responsive"></p></details><p></p>
-<p></p><details><summary>5. Drag and drop the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> into the <code>Animancer</code> field.</summary>
+<p></p><details><summary>5. Drag and drop the <code>AnimancerComponent</code> into the <code>Animancer</code> field.</summary>
 <p><img src="assign-animancer.png" class="pngif img-responsive"></p></details><p></p>
 <p></p><details><summary>6. Use the icon next to the <code>Animation</code> field to open the Object Picker and find the animation you want to use.</summary>
 <p><img src="assign-animation.png" class="pngif img-responsive"></p></details><p></p>
@@ -695,7 +696,7 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEna
     }
 </code></pre>
 <p><code>OnEnable</code> is one of <a href="/cs-unity/docs/introduction/methods/messages">Unity's MonoBehaviour Messages</a> so giving it that name will make Unity automatically call it for us on startup. That page also explains why it's <code>protected virtual</code>.</p>
-<p>All that method needs to do is tell the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> (the reference stored in the <code>_Animancer</code> field) to play the <code>AnimationClip</code> (the reference stored in the <code>_Animation</code> field).</p>
+<p>All that method needs to do is tell the <code>AnimancerComponent</code> (the reference stored in the <code>_Animancer</code> field) to play the <code>AnimationClip</code> (the reference stored in the <code>_Animation</code> field).</p>
 <pre><code class="language-cs">    protected virtual void OnEnable()
     {
         _Animancer.Play(_Animation);
@@ -706,9 +707,9 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEna
 <pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/PlayAnimationOnEnable">PlayAnimationOnEnable</a> : MonoBehaviour
+public class PlayAnimationOnEnable : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private AnimancerComponent _Animancer;
     [SerializeField] private AnimationClip _Animation;
     
     protected virtual void OnEnable()

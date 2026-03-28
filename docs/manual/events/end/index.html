@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -482,6 +482,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -584,11 +585,11 @@
     </tr>
     <tr>
       <td>End&nbsp;Events</td>
-      <td>Each state has a single End Event triggered when the animation's <strong>time</strong> passes a specific point and <strong>every frame after that</strong> for as long as the animation continues playing (and isn't fading out). They're intended to let you play something else so the event will usually only trigger once anyway (End Events and <a href="../animancer">Animancer&nbsp;Events</a> don't trigger on states that are fading out unless <code><a href="/animancer/api/Animancer/AnimancerState/09615D75">AnimancerState.RaiseEventsDuringFadeOut</a></code> is enabled).</td>
+      <td>Each state has a single End Event triggered when the animation's <strong>time</strong> passes a specific point and <strong>every frame after that</strong> for as long as the animation continues playing (and isn't fading out). They're intended to let you play something else so the event will usually only trigger once anyway (End Events and <a href="../animancer">Animancer&nbsp;Events</a> don't trigger on states that are fading out unless <code>AnimancerState.RaiseEventsDuringFadeOut</code> is enabled).</td>
     </tr>
     <tr>
-      <td><code><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></code>s</td>
-      <td>A separate system for registering a callback to be triggered when an animation is <strong>interrupted</strong>. Using them is generally not recommended because most logic management systems such as <a href="../../fsm">Animancer's Finite State Machine</a> already have better ways of <a href="../../fsm/changing-states">controlling which states can interrupt each other and responding to interruptions</a>. The <code><a href="/animancer/api/Animancer/ExitEvent">ExitEvent</a></code> API page explains how to use them.</td>
+      <td><code>ExitEvent</code>s</td>
+      <td>A separate system for registering a callback to be triggered when an animation is <strong>interrupted</strong>. Using them is generally not recommended because most logic management systems such as <a href="../../fsm">Animancer's Finite State Machine</a> already have better ways of <a href="../../fsm/changing-states">controlling which states can interrupt each other and responding to interruptions</a>. The <code>ExitEvent</code> API page explains how to use them.</td>
     </tr>
   </tbody>
 </table>
@@ -596,8 +597,8 @@
 <p>If you don't use the End Event to play something else (or otherwise stop the animation), that event will keep getting <strong>triggered every frame</strong> after the specified time has passed. This ensures that they can't be accidentally missed if the animation has already passed its end when you play the animation or register the event. But any event can stop an animation or play something else so if you don't want the special characteristics of an End Event then you can simply use a regular <a href="../animancer">Animancer Event</a> or <a href="../animation">Animation Event</a>. For example:</p>
 <pre><code class="language-cs">public class DontUseEndEventExample : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Animation;
 
     public bool IsPlayingAnimation { get; private set; }
     
@@ -628,8 +629,8 @@
 <p>If your script contains a <a href="../../transitions">Transition</a> which it owns exclusively (not a <a href="../../transitions/assets">Transition Asset</a> which could be shared by multiple characters) then its <code>OnEnd</code> callback should be assigned on startup.</p>
 <pre><code class="language-cs">public class TransitionEndEventExample : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Animation;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private ClipTransition _Animation;
     
     protected virtual void Awake()
     {
@@ -651,12 +652,12 @@
 <p><img src="end-event-inspector.png" class="img-responsive"></p>
 <h1 id="end-events-in-states">End Events in States</h1>
 <p>If your script doesn't own a <a href="../../transitions">Transition</a> as described above then an animation's <code>OnEnd</code> callback can be assigned after playing it.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 private void OnEndExample()
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    AnimancerState state = _Animancer.Play(_Animation);
     state.Events(this).OnEnd ??= OnAnimationEnd;
 }
 
@@ -687,17 +688,17 @@ private void OnAnimationEnd()
 </tbody>
 </table>
 <h2 id="shared-states">Shared States</h2>
-<p>If <code>Events(this)</code> logs the error described above, that means you have multiple scripts trying to use the same <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>. That may indicate in a bug in your code, but if it's intentional then you probably want to ensure that whichever script plays the state last assigns its own <code>OnEnd</code> callback.</p>
+<p>If <code>Events(this)</code> logs the error described above, that means you have multiple scripts trying to use the same <code>AnimancerState</code>. That may indicate in a bug in your code, but if it's intentional then you probably want to ensure that whichever script plays the state last assigns its own <code>OnEnd</code> callback.</p>
 <pre><code class="language-cs">public static readonly object SharedOwner = new();// Put this somewhere all scripts can access it.
 
-[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 private Action _OnAnimationEnd;
 
 private void OnEndExampleShared()
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    AnimancerState state = _Animancer.Play(_Animation);
     state.Events(SharedOwner).OnEnd = _OnAnimationEnd ??= OnAnimationEnd;
 }
 

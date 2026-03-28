@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -478,6 +478,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -560,21 +561,21 @@
 		</section>
 	<section class="content">
 		<div class="pro-only-feature-trial"><a href="/animancer/docs/introduction/features#pro-only"><div><strong>Pro-Only Feature</strong><br></div></a></div>
-<p>Cross-fading is linear by default, meaning it moves the <code><a href="/animancer/api/Animancer/AnimancerNode/94B3FD61">AnimancerNode.Weight</a></code> towards the <code><a href="/animancer/api/Animancer/AnimancerNode/37D7E46F">AnimancerNode.TargetWeight</a></code> at a constant <code><a href="/animancer/api/Animancer/AnimancerNode/2E0F8B5F">AnimancerNode.FadeSpeed</a></code> calculated when starting the fade. But that doesn't always give the smoothest transitions so Animancer allows you to modify a fade progress using a standard <code><a href="/animancer/api/Animancer/Function">Easing.Function</a></code> or any custom delegate.</p>
+<p>Cross-fading is linear by default, meaning it moves the <code>AnimancerNode.Weight</code> towards the <code>AnimancerNode.TargetWeight</code> at a constant <code>AnimancerNode.FadeSpeed</code> calculated when starting the fade. But that doesn't always give the smoothest transitions so Animancer allows you to modify a fade progress using a standard <code>Easing.Function</code> or any custom delegate.</p>
 <p>The <a href="../../../../samples/animator-controllers/3d-game-kit">3D Game Kit</a> sample demonstrates the use of this feature to smooth out the transitions between its <a href="../../../../samples/animator-controllers/3d-game-kit/idle#custom-fade">Idle</a> animations.</p>
 <p>To use the system, simply play something to <a href="../#durations">start a fade like you normally would</a>.</p>
 <pre><code class="language-cs">void EasingExample(AnimancerComponent animancer, AnimationClip clip)
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancer.Play(clip, 0.25f);
+    AnimancerState state = animancer.Play(clip, 0.25f);
 </code></pre>
 <p>Then call any of the <code>FadeGroupExtensions.SetEasing</code> methods.</p>
 <pre><code class="language-cs">    // Assign any function that takes a float and returns a float.
     state.FadeGroup.SetEasing(t =&gt; t * t);// Square the 0-1 value to start slow and end fast.
     
-    // The <a href="/animancer/api/Animancer/Easing">Easing</a> class has lots of standard mathematical curve functions.
+    // The Easing class has lots of standard mathematical curve functions.
     state.FadeGroup.SetEasing(Easing.Sine.InOut);
     
-    // Or you can use the <a href="/animancer/api/Animancer/Function">Easing.Function</a> enum.
+    // Or you can use the Easing.Function enum.
     state.FadeGroup.SetEasing(Easing.Function.SineInOut);
 }
 </code></pre>
@@ -584,12 +585,12 @@
 
 void EasingExample(AnimancerComponent animancer, AnimationClip clip)
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancer.Play(clip, 0.25f);
+    AnimancerState state = animancer.Play(clip, 0.25f);
 
     state.FadeGroup.SetEasing(_FadeCurve.Evaluate);
 }
 </code></pre>
-<p>If you want a library of standard curves to choose from, you can <strong><a href="animancer-curve-presets.unitypackage">download the Animancer Curve Presets from here</a></strong> and use them as a starting point for your own curves. Note that these curves were configured by hand with the minimum number of keyframes for efficiency. They don't cover the <em>exact</em> same set of functions as the <code><a href="/animancer/api/Animancer/Easing">Easing</a></code> class and any that have the same name will have slight differences in their exact values.</p>
+<p>If you want a library of standard curves to choose from, you can <strong><a href="animancer-curve-presets.unitypackage">download the Animancer Curve Presets from here</a></strong> and use them as a starting point for your own curves. Note that these curves were configured by hand with the minimum number of keyframes for efficiency. They don't cover the <em>exact</em> same set of functions as the <code>Easing</code> class and any that have the same name will have slight differences in their exact values.</p>
 <img src="curve-presets.png" class="pngif img-responsive">
 
 	</section>

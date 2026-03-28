@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Animancer v7.3</title>
+        <title>Animancer - Animancer v8.3</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -82,9 +82,7 @@
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
     <div id="infobar-headings"><h6>On This Page</h6><p><a href="#features">Features</a></p>
-<p><a href="#examples">Examples</a></p>
 <p><a href="#improvements">Improvements</a></p>
-<p><a href="#changes">Changes</a></p>
 <p><a href="#fixes">Fixes</a></p>
 <hr class="infobar-hidden">
 </div>
@@ -482,7 +480,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
-                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
+                <li class="selected"><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -494,7 +492,7 @@
                     </ul>
                 </li>
                 <li><a href="/animancer/docs/changes/animancer-v7-4">Animancer v7.4</a></li>
-                <li class="selected"><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
+                <li><a href="/animancer/docs/changes/animancer-v7-3">Animancer v7.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-2">Animancer v7.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-1">Animancer v7.1</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v7-0">Animancer v7.0</a></li>
@@ -561,231 +559,46 @@
 
 
 		<section class="content-header">
-			<h1>Animancer v7.3</h1>
+			<h1>Animancer v8.3</h1>
 		</section>
 	<section class="content">
-		<blockquote class="blockquote">
-<p>Released 2022-07-03</p>
+		<p><a href="../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
+<p>See the <a href="animancer-v8-0/upgrade-guide">Animancer v8.0 Upgrade Guide</a> if you're upgrading from a version older than that.</p>
+<blockquote class="blockquote">
+<p>Released 2026-03-28</p>
 </blockquote>
-<p><a href="../../download">When upgrading to a newer version of Animancer, you must <strong>delete any previous version</strong> from your project first</a>.</p>
-<p>See the <a href="../animancer-v7-0#upgrade-guide">Animancer v7.0 Upgrade Guide</a> if you're upgrading from a version older than that.</p>
 <h1 id="features">Features</h1>
 <ul>
-<li>Made <code>StateMachine&lt;TState&gt;</code> and its children <code>[Serializable]</code>.
+<li><a href="../manual/transitions/libraries">Transition Libraries</a>:
 <ul>
-<li>The <a href="../../manual/fsm/initialization#serialized-field">Serialized Fields</a> pattern is now the recommended way of setting up a state machine in most situations.</li>
+<li>Added the ability to modify the Normalized Start Time of a Transition combination alongside the Fade Duration.</li>
+<li>Added the ability to group transitions.</li>
+<li>Added an <code>Edit</code> button to the Inspector for <code>TransitionLibraryAsset</code> fields.</li>
 </ul>
 </li>
-<li>Added <code>ICopyable&lt;T&gt;</code> to standardize types with a <code>CopyFrom</code> method.
-<ul>
-<li>Added <code>AnimancerUtilities.Clone</code> as an extension method.</li>
-<li>Implemented that interface in all <a href="../../manual/transitions/types">Transition Types</a>. <a href="https://github.com/KybernetikGames/animancer/issues/195">#195</a></li>
-</ul>
-</li>
-<li>Added <code>AnimancerTransitionAssetBase.UnShared</code> which is an <a href="../../manual/transitions/assets#unshared">UnShared</a> class that can have any type of <a href="../../manual/transitions/assets">Transition Asset</a> assigned to it (instead of only a specific type).</li>
-<li>Improved the <a href="../../manual/tools/pack-textures">Pack Textures</a> window:
-<ul>
-<li>It will now re-pack <code>Sprites</code> that were already packed into textures so that wasted space in the original textures doesn't affect the new packing.</li>
-<li>Fixed several bugs with specific input asset configurations.</li>
-</ul>
-</li>
-<li>Added the ability to specify an environment prefab in the <a href="../../manual/transitions/previews">Transition Preview Window</a> via its Settings tab. <a href="https://github.com/KybernetikGames/animancer/issues/199">#199</a></li>
-</ul>
-<h1 id="examples">Examples</h1>
-<h2 id="all-examples">All Examples</h2>
-<ul>
-<li>Improved the information blocks at the start of each example:
-<ul>
-<li>Removed <strong>Difficulty</strong> because calling them "Beginner" or "Intermediate" wasn't a very useful distinction.</li>
-<li>Removed <strong>Namespace</strong> because that isn't important information and the example scripts don't have detailed comments so linking to the namespace's API page wasn't useful either.</li>
-<li><strong>Recommended After</strong> is now a key point (previously is was included on the same line as <strong>Difficulty</strong>).</li>
-<li>Added <strong>Learning Outcomes</strong> to outline what you are expected to learn from that example so that if you feel you haven't learned something by the end you can re-read it or ask for <a href="../../help">Help</a>.</li>
-</ul>
-</li>
-</ul>
-<table class="table">
-  <thead>
-    <tr><th style="width:50%">Old</th>
-    <th style="width:50%">New</th>
-  </tr></thead>
-  <tbody>
-    <tr>
-      <td><img src="old-example-details.png" class="img-responsive"></td>
-      <td><img src="new-example-details.png" class="img-responsive"></td>
-    </tr>
-  </tbody>
-</table>
-<ul>
-<li>Added code architecture diagrams to all examples.</li>
-<li><a href="../../samples/basics/input">Added support for the new Input System Package in the examples (as well as the legacy Input Manager).</a></li>
-<li>Added a <em>Humanoid-PistolShoot</em> animation and a <em>Pistol</em> model for various examples.</li>
-<li>Cleaned up the <em>Humanoid-Walk</em>, <em>Humanoid-Run</em>, and <em>Spider Bot</em> animations a bit.</li>
-<li>Removed the <em>GolfPutt</em> and <em>Tennis</em> animations and models.</li>
-<li>Cleaned up all example UI canvases.</li>
-<li>All example objects now have materials so they can get properly updated by SRP (because apparently the default material can't).</li>
-<li>Fixed example scene lighting to use a Spot Light instead of Directional because it's attached to the camera and having a continually moving Directional Light was causing warnings in Unity 2022.</li>
-</ul>
-<h2 id="specific-examples">Specific Examples</h2>
-<ul>
-<li><a href="../../samples/basics">Basics</a> completely remade everything:
-<ul>
-<li><a href="../../samples/basics/quick-play">Quick Play</a> now only covers the scene setup and plays a single animation on startup.</li>
-<li><a href="../../samples/basics/movement">Basic Movement</a> swaps between <em>Idle</em> and <em>Move</em> animations based on whether a key is being held.</li>
-<li><a href="../../samples/basics/action">Basic Action</a> performs an <em>Action</em> when the user clicks the mouse and then returns to <em>Idle</em>.</li>
-<li><a href="../../samples/basics/transitions">Transitions</a> implements the same logic as <a href="../../samples/basics/action">Basic Action</a> but with Fading between animations.</li>
-<li><a href="../../samples/basics/character">Basic Character</a> combines <a href="../../samples/basics/movement">Basic Movement</a> and <a href="../../samples/basics/transitions">Transitions</a> to explain some of the issues that arise when you start implementing more complex behaviours.</li>
-<li><del>Playing and Fading</del> has been removed since its important points are now covered by <a href="../../samples/basics/transitions">Transitions</a>.</li>
-<li>Moved <del>Named Animations</del> to the <a href="../../samples/fine-control">Fine Control</a> group since it isn't necessary to understand how to use Animancer and isn't a recommended workflow.</li>
-</ul>
-</li>
-<li><a href="../../samples/fine-control">Fine Control</a>:
-<ul>
-<li>Renamed <del>Spider Bot</del> to <del>Speed and Time</del>.
-<ul>
-<li>It no longer involves inheritance since it was confusing for beginners.</li>
-<li>Instead, it uses a <code>[SerializeReference]</code> for its <em>Move</em> animation so that the <a href="../../manual/other/polymorphic">Polymorphic Drawer</a> system can allow the <a href="../../samples/mixers/directional">Directional Mixers</a> to reuse the same script with a 2D Mixer.</li>
-</ul>
-</li>
-<li>Greatly simplified the <code>OnValidate</code> method in <a href="../../samples/fine-control/doors">Doors</a>.</li>
-</ul>
-</li>
-<li><a href="../../samples/sprites">Directional Sprites</a>:
-<ul>
-<li>Renamed <del>Basic Movement</del> to <a href="../../samples/sprites/basics">Directional Basics</a>.</li>
-<li>Renamed <del>Character Controller</del> to <a href="../../samples/sprites/character">Directional Character</a>.</li>
-</ul>
-</li>
-<li><a href="../../samples/events">Events</a>:
-<ul>
-<li>Changed <code>FootstepEvents</code> to be <code>sealed</code> and have <code>FootstepEventsAnimation</code> reference it with a field instead of inheriting because it was confusing to beginners.</li>
-<li>Simplified <a href="../../samples/events/golf">Golf Events</a> to only contain one character demonstrating hybrid <a href="../../manual/events/animancer">Animancer Events</a> instead of also re-explaining the regular ways of using each system that were already explained in <a href="../../samples/events/footsteps">Footstep Events</a>.</li>
-</ul>
-</li>
-<li><a href="../../samples/fsm">State Machines</a> completely remade everything:
-<ul>
-<li>Removed <del>Game Manager</del>. It was supposed to be a short introduction to demonstrate how Animancer's FSM could be used for a non-animation situation, but it ended up being way too long by explaining all the other irrelevant details like enums, switches, camera movement, text formatting, etc. so now <a href="../../samples/fsm/characters">Characters</a> does the job much better anyway.</li>
-<li>Removed <del>Brain Transplants</del> because it spent far too long explaining things that weren't directly relevant to Animancer or even how to use the FSM system.</li>
-<li>Renamed <del>Interrupt Management</del> to <a href="../../samples/fsm/interruptions">Interruptions</a>.</li>
-<li>Completely replaced <a href="../../samples/fsm/characters">Characters</a> to re-implement the same behaviour as <a href="../../samples/basics/character">Basic Character</a> using <a href="../../manual/fsm">Animancer's Finite State Machine</a>.</li>
-<li>Changed <a href="../../samples/fsm/brains">Brains</a>, <a href="../../samples/fsm/interruptions">Interruptions</a>, and <a href="../../samples/fsm/weapons">Weapons</a> to directly reuse the same scripts from <a href="../../samples/fsm/characters">Characters</a> instead of having their own slightly different copies. This just means the <a href="../../samples/fsm/characters">Characters</a> scripts have some parts which aren't explained until later example.</li>
-<li>Included an example scene for <a href="../../samples/fsm/weapons">Weapons</a>. It isn't very good since the example animations are limited, but it works as a proof of concept while the documentation shows what it could look like with a proper character and animations.</li>
-</ul>
-</li>
-<li><a href="../../samples/layers">Layers</a> completely remade everything:
-<ul>
-<li>Split the old example into two which are based on the behaviour of <a href="../../samples/basics/character">Basic Character</a> instead of using UI buttons.</li>
-<li><a href="../../samples/layers/basic">Basic Layers</a> for playing and masking.</li>
-<li><a href="../../samples/layers/dynamic">Dynamic Layers</a> for playing the <em>Action</em> on the whole body if the character would be <em>Idle</em> or just the upper body while they <em>Walk</em>.</li>
-</ul>
-</li>
-<li><a href="../../samples/animator-controllers">Animator Controllers</a>:
-<ul>
-<li>Replaced <del>Hybrid Mini Game</del> with <a href="../../samples/animator-controllers/character">Hybrid Character</a> which re-implements the character from <a href="../../samples/fsm/brains">Brains</a> to include an Animator Controller avoids wasting so much time explaining irrelevant behaviour.</li>
-<li>Cleaned up <a href="../../samples/animator-controllers/3d-game-kit">3D Game Kit</a> and changed it to use a <a href="../../manual/fsm/initialization#serialized-field">Serialized State Machine</a>.</li>
-</ul>
-</li>
+<li>Added the ability to control the weight of Root Motion coming from each layer in the <a href="../manual/blending/layers/weighted">Weighted Mask Layers</a> system. <a href="https://github.com/KybernetikGames/animancer/issues/453">#453</a></li>
+<li>Added optional names for the clips referenced by a <code>NamedAnimancerComponent</code> so you can use <code>StringAsset</code>s to define their names/keys if you don't want to use the <code>AnimationClip.name</code>.</li>
 </ul>
 <h1 id="improvements">Improvements</h1>
 <ul>
-<li>The <a href="../../manual/blending/layers">Layer</a> header is no longer shown in the <code>AnimancerComponent</code> Inspector when there's only one and has all default values. This can be disabled as a <a href="../../manual/playing/inspector#display-options">Display Option</a>.</li>
-<li>Added <code>OptionalWarning.LockedEvents</code>.
+<li>Added <code>AnimancerStateDictionary.TryGetAlias</code> to support looking up states by Transition Library alias.
 <ul>
-<li>Added <code>AnimancerEvent.Sequence.ShouldNotModifyReason</code> and  <code>SetShouldNotModifyReason</code>.</li>
-<li>When a Transition is played it calls <code>SetShouldNotModifyReason</code> to explain that modifying the events on a state played from a Transition is a common source of bugs.</li>
-<li>When an <code>AnimancerEvent.Sequence</code> is modified, if its <code>ShouldNotModifyReason</code> has been set, it logs <code>OptionalWarning.LockedEvents</code> (with the reason included in the warning message).</li>
-<li>The <code>AnimancerEvent.Sequence.endEvent</code> field is no longer <code>public</code>, but now has an <code>EndEvent</code> property.</li>
-<li>Changed the other properties relating to <a href="../../manual/events/end">End Events</a> to not use <code>ref</code> returns because they now need to properly detect when their value is set (for <code>OptionalWarning.LockedEvents</code>).</li>
+<li>Changed <code>AnimancerGraph.IsPlaying</code> to use <code>TryGetAlias</code>.</li>
 </ul>
 </li>
-<li>Added <code>AnimancerComponent</code> Inspector warnings if there are multiple animation systems trying to control the same object:
-<ul>
-<li>Multiple <code>AnimancerComponent</code>s on the same object targeting the same <code>Animator</code>.</li>
-<li>A Legacy <code>Animation</code> component on the same object as the target <code>Animator</code>.</li>
-</ul>
-</li>
-<li>Added an <code>AnimancerComponent</code> Inspector warning when a state is playing at <code>Weight == 0</code> with <code>AnimancerPlayable.KeepPlayablesConnected</code> set to <code>false</code>.</li>
-<li>Added <code>AnimancerLayer.WeightlessThreshold</code> as a small leeway value for <code>GetOrCreateWeightlessState</code>.</li>
-<li>Added <code>PlayableAssetState.AppendDetails</code> to describe its <code>Bindings</code>.</li>
-<li>Added <code>ClipTransition.Length</code>.</li>
-<li>Added <code>ClipTransitionSequence.AddEvent</code> for adding events relative to the entire sequence. <a href="https://github.com/KybernetikGames/animancer/issues/183">#183</a></li>
-<li>Added <code>AnimancerEvent.Sequence.AddAllEvents</code> for turning <a href="../../manual/events/animation">Animation Events</a> from an <code>AnimationClip</code> into <a href="../../manual/events/animancer">Animancer Events</a>. <a href="https://github.com/KybernetikGames/animancer/issues/198">#198</a></li>
-<li>Added <code>AnimancerTransitionAssetBase.UnShared.ClearCachedEvents</code>.</li>
-<li>Added support for <code>NO_RUNTIME_PLAYER_PREFS</code> Conditional Compilation Symbol to remove all usage of <code>PlayerPrefs</code> from Runtime Builds because it is not allowed on some platforms.</li>
-<li>Added assertions to ensure that <code>MixerState</code> and <code>ControllerState</code> parameters are not <code>NaN</code> or <code>Infinity</code>.</li>
-<li>Added <code>AnimancerUtilities.GetUnsupportedMessage</code> and <code>CreateUnsupportedArgumentException</code>.</li>
-<li>Added <code>AnimancerTransitionAssetBase</code> as the base class of <code>AnimancerTransitionAsset&lt;T&gt;</code>.</li>
-<li>Added assertions to <a href="../../manual/transitions/assets">Transition Assets</a> to give more useful errors if you try to use them when their transition isn't assigned.</li>
-<li>Added an <code>Open Animancer Tools</code> button to the <code>AnimationClip</code> Inspector.</li>
-<li>Added overloads of <code>EndEventReceiver.GetFadeOutDuration</code> which take an <code>AnimancerState</code>.</li>
-<li>Added <code>AnimancerState.DelayedPause</code>. <a href="https://github.com/KybernetikGames/animancer/issues/207">#207</a></li>
-<li>Added non-generic <code>IStateMachine</code> interface.</li>
-<li>Added keyed <code>StateMachine&lt;TKey, TState&gt;.WithDefault</code>.</li>
-</ul>
-<h1 id="changes">Changes</h1>
-<ul>
-<li>Un-<code>sealed</code> lots of classes.</li>
-<li>Replaced <code>ControllerState.KeepStateOnStop</code> with <code>ActionsOnStop</code> to give individual control over each layer.
-<ul>
-<li><code>ActionOnStop.Continue</code> can be used for sync layers so it doesn't try to control them (because Unity gives a warning for that but doesn't give Animancer any way to detect which layers are synced at runtime).</li>
-<li>Removed <code>ControllerState.NormalizedStartTime</code> since it overlaps with the new <code>ActionsOnStop</code> and only worked on Layer 0 anyway.</li>
-</ul>
-</li>
-<li>Replaced the exception for reaching the maximum state depth in <code>AnimancerLayer.GetOrCreateWeightlessState</code> with <code>OptionalWarning.MaxStateDepth</code> since it is only a recommendation anyway.</li>
-<li>Changed the default <code>NormalizedStartTime</code> of <code>ClipTransition</code> and <code>PlayableAssetTransition</code> to <code>NaN</code> instead of <code>0</code> so they won't use <code>FadeMode.FromStart</code> by default and will share the same default behaviour as playing an <code>AnimationClip</code>.</li>
-<li>Changed the default value of <code>SoloAnimation.ApplyInEditMode</code> to <code>false</code> to avoid modifying scene objects unexpectedly.</li>
-<li>Changed <code>AnimancerPlayable.StateDictionary.Create</code> and <code>GetOrCreate</code> to not connect the states to layer 0. If you want to do that, you can use <code>animancerComponent.Layers[0].CreateState</code> instead.</li>
-<li>Changed <code>AnimancerPlayable.StateDictionary.ReferenceKeysOnly</code> into an <code>EqualityComparer</code> so you could potentially assign a custom comparer rather than only the two included in Animancer.</li>
-<li>Removed the code that disables object selection in the <a href="../../manual/transitions/previews">Transition Preview Window</a>.</li>
-<li>Cleaned up <code>PlayableAssetState.InitializeBindings</code>.</li>
-<li>Refactored <code>AnimancerToolsWinow</code>:
-<ul>
-<li>Moved it into the <code>Animancer.Editor.Tools</code> namespace.</li>
-<li>Moved the panels out of it so they are no longer nested classes.</li>
-<li>It now uses reflection to gather the tools rather than hard coding them as individual fields so new tools can be added without modifying the window.</li>
-</ul>
-</li>
-<li>Removed the exception for adding a new layer beyond the <code>AnimancerPlayable.LayerList.Capacity</code>. It now just doubles the capacity like a regular list.</li>
-<li>Removed the standard <a href="../../manual/events/animation">Animation Event</a> names systems (<code>SimpleEventReceiver</code> and <code>EndEventReceiver</code>).
-<ul>
-<li><code>SimpleEventReceiver</code> was inefficient due to requiring an <code>AnimationEvent</code> parameter (which allocates garbage every time an event is triggered) to backtrack and try to figure out which animation the event actually came from to avoid triggering the callback in response to an event from the wrong state.</li>
-<li><code>EndEventReceiver</code> was unreliable because it relied on registering your callback as an End Event but didn't actually prevent Animancer from checking and triggering that End Event like it normally would, meaning you might as well just use an End Event.</li>
-<li>Those scripts were originally created before Animancer Events were implemented and have been removed because they don't facilitate an effective workflow for any common use case.</li>
-<li>If you still want to use those scripts, they're available on request (simply use any of the contact methods listed on the <a href="../../help">Help</a> page).</li>
-<li><code>ExitEvent</code> is still included because it serves a notably different purpose (though its use is generally not encouraged).</li>
-</ul>
-</li>
+<li>Added several <code>AnimancerEvent.Sequence.IndexOf</code> methods which find an event with a specific time.</li>
+<li>Improved the way Fade Durations and Start Times are displayed in the <code>TransitionLibraryWindow</code> to match the way they're displayed in Transitions.</li>
+<li>Improved the <code>Remove Transition</code> button in the <code>TransitionLibraryWindow</code> to support removing a selected modifier or group.</li>
+<li>Fixed <code>WeightedMaskLayers.SetWeights</code> to correctly calculate the <code>layerIndexOffset</code>.</li>
+<li>Updated usage of instance IDs to the new entity IDs introduced in Unity 6.3.</li>
 </ul>
 <h1 id="fixes">Fixes</h1>
 <ul>
-<li>Fixed <code>AnimancerPlayable</code> to not give compile warnings in Unity 2022.1. <a href="https://github.com/KybernetikGames/animancer/issues/208">#208</a></li>
-<li>Fixed <code>InvalidCastException</code> in <code>ControllerState.ValidateHasParameter</code>, <code>AnimancerPlayableDrawer.DoNativeAnimatorControllerGUI</code>, and <code>ControllerTransition.Drawer.DoChildPropertyGUI</code> when using an Animator Controller loaded from an Asset Bundle.</li>
-<li>Fixed potential <code>InvalidCastException</code> in <code>SpriteEditor</code>.</li>
-<li>Fixed <code>AnimancerPlayable.TryGetOutput</code> to actually work.</li>
-<li>Fixed Animancer Events on looping animations to be triggered properly when calling <code>AnimancerComponent.Play</code> repeatedly.</li>
-<li>Fixed potential <code>NullReferenceException</code> in <code>AnimationGatherer</code>.</li>
-<li>Fixed the <code>TransitionPreviewWindow</code> to not disable scripts with <code>runInEditMode</code>, <code>ExecuteAlways</code>, or <code>ExecuteInEditMode</code>.
-<ul>
-<li>This prevents it from breaking <code>SpriteSkin</code> components from the 2D Animation package.</li>
-</ul>
-</li>
-<li>Fixed <code>TransitionPreviewWindow.OpenOrClose</code> to not give warnings about camera rotation in 2D Mode in Unity 2021.2.</li>
-<li>Fixed incorrect <em>Binding Type Mismatch</em> error in <code>PlayableAssetState</code>. <a href="https://github.com/KybernetikGames/animancer/issues/171">#171</a></li>
-<li>Fixed <code>PlayableAssetState</code> to properly bind an <code>INotificationReceiver</code> to a <code>SignalTrack</code>.</li>
-<li>Fixed "PlayableGraph was not destroyed" warning in <code>AnimationClipEditor</code> if you exit Play Mode with an <code>AnimationClip</code> asset showing in the Inspector.</li>
-<li>Fixed <code>AnimancerState.EventDispatcher.GetLoopDelta</code> to work correctly when the <code>nextTime</code> is exactly on the <code>eventTime</code>. <a href="https://github.com/KybernetikGames/animancer/issues/205">#205</a></li>
-<li>Fixed <code>AnimancerState.HasEvents</code> to not get a sequence from the <code>ObjectPool</code> if it has an <code>EventDispatcher</code> without a sequence when accessing the <code>AnimancerState.Events</code>.</li>
-<li>Fixed <code>ControllerState.RawTime</code> to allow the time to be set while it is paused. <a href="https://github.com/KybernetikGames/animancer/issues/207">#207</a></li>
-<li>Fixed <code>AnimationBindings</code> to not clear its cache every time the hierarchy is changed.</li>
-<li>Fixed <code>EndEventReceiver.TryInvokeOnEndEvent</code> to not complain about a missing receiver if it found one that has no events.</li>
-<li>Fixed possible <code>ArgumentException</code> in <code>AnimancerEvent.Sequence.Insert</code>.</li>
-<li>Fixed the "playing at 0 weight" Inspector warning to not appear when the state is fading.</li>
-<li>Fixed <code>SerializableEventSequenceDrawer</code> height to only take up one line when showing the "Multi-object editing message".</li>
-<li>Fixed mixer transitions to not allow their Animations to be edited when multiple objects are selected with different values. Previously, one of the objects would immediately overwrite the others.</li>
-<li>Fixed <code>ClipTransitionSequence.IsLooping</code> to not cause infinite recursion when there is only one clip.</li>
-<li>Fixed the base <code>UnShared.Asset</code> property setter to clear the cached <code>State</code> and <code>Events</code>.</li>
-<li>Fixed "Identifier uniqueness violation" issues in the Modify Sprites and Rename Sprites tools by adding support for the 2D Sprite package.</li>
-<li>Fixed the fade duration to be calculated correctly for a layer if its state is already mid-fade.</li>
-<li>Fixed several incorrect values in <code>[DefaultValue]</code> attributes (<code>0</code> instead of <code>0f</code>).</li>
+<li>Fixed Transition Library sorting to work properly while the library window is open and not cause continuous asset refreshes while selected.</li>
+<li>Fixed an exception when initializing a Transition Library with a missing Transition and <code>Alias All Transitions</code> enabled.</li>
+<li>Fixed several <code>AnimancerGUI</code> methods which checked the wrong event type for controls that come after one which uses the event.</li>
+<li>Fixed various issues with cloning and copying transitions.</li>
+<li>Fixed animation gathering for the Animation window to not check the same object multiple times.</li>
 </ul>
 
 	</section>

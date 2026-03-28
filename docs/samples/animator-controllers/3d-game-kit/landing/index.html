@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -482,6 +482,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -595,19 +596,19 @@
 <li><code>OnAnimatorMove</code> makes sure the character is not on the ground before telling the Animator Controller the new vertical speed so it can blend correctly based on the impact speed. Otherwise the actual vertical speed while grounded is always a constant value which the Blend Tree does not need to know about.</li>
 </ul>
 <h1 id="animancer">Animancer</h1>
-<p></p><details><summary>With Animancer, all the above logic is defined by the <code><a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameKit/LandingState">LandingState</a></code> script. As usual, this means less configuration in the Unity Editor in exchange for more code and it is significantly easier to understand the logic:</summary><p>
+<p></p><details><summary>With Animancer, all the above logic is defined by the <code>LandingState</code> script. As usual, this means less configuration in the Unity Editor in exchange for more code and it is significantly easier to understand the logic:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Units;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameKit/LandingState">LandingState</a> : CharacterState
+public class LandingState : CharacterState
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _SoftLanding;
-    [SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _HardLanding;
+    [SerializeField] private MixerTransition2D _SoftLanding;
+    [SerializeField] private ClipTransition _HardLanding;
     [SerializeField, MetersPerSecond] private float _HardLandingForwardSpeed = 5;
     [SerializeField, MetersPerSecond] private float _HardLandingVerticalSpeed = -10;
-    [SerializeField] private <a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a> _PlayAudio;
+    [SerializeField] private UnityEvent _PlayAudio;
 
     private bool _IsSoftLanding;
 
@@ -657,7 +658,7 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameK
             _SoftLanding.State.Parameter = parameter;
         }
 
-        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = Character.Animancer.States.Current;
+        AnimancerState state = Character.Animancer.States.Current;
         if (state.NormalizedTime &gt;= state.Events.NormalizedEndTime)
             Character.CheckMotionState();
     }
@@ -667,15 +668,15 @@ public class <a href="/animancer/api/Animancer.Samples.AnimatorControllers.GameK
 <p><img src="animancer-landing.png" class="img-responsive"></p>
 <h1 id="fields">Fields</h1>
 <p>We start with some <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a> to show in the Inspector (with appropriate <a href="../../../../manual/other/units">Units Attributes</a>):</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/MixerTransition2D">MixerTransition2D</a> _SoftLanding;
-[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _HardLanding;
+<pre><code class="language-cs">[SerializeField] private MixerTransition2D _SoftLanding;
+[SerializeField] private ClipTransition _HardLanding;
 [SerializeField, MetersPerSecond] private float _HardLandingForwardSpeed = 5;
 [SerializeField, MetersPerSecond] private float _HardLandingVerticalSpeed = -10;
-[SerializeField] private <a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a> _PlayAudio;// See the Read Me.
+[SerializeField] private UnityEvent _PlayAudio;// See the Read Me.
 
 private bool _IsSoftLanding;
 </code></pre>
-<p>Where the <a href="../locomotion">Locomotion</a> state used a <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> to play an Animator Controller containing the same Blend Tree the Mecanim character used, this time we are using a <a href="../../../../manual/blending/mixers">Mixer</a> so that we can set it up in the Inspector instead of needing to create another Animator Controller asset just for that Blend Tree.</p>
+<p>Where the <a href="../locomotion">Locomotion</a> state used a <code>ControllerState</code> to play an Animator Controller containing the same Blend Tree the Mecanim character used, this time we are using a <a href="../../../../manual/blending/mixers">Mixer</a> so that we can set it up in the Inspector instead of needing to create another Animator Controller asset just for that Blend Tree.</p>
 <p>When either of the animations ends we want to return to check the regular transitions to <em>Idle</em> or <em>Locomotion</em> as explained on the <a href="../idle#check-motion-state">Idle</a> page so on startup we register that method as the <a href="../../../../manual/events/end">End Event</a> for both transitions:</p>
 <pre><code class="language-cs">protected virtual void Awake()
 {
@@ -710,7 +711,7 @@ private bool _IsSoftLanding;
 <pre><code class="language-cs">        _SoftLanding.State.Parameter = new Vector2(Character.Parameters.ForwardSpeed, Character.Parameters.VerticalSpeed);
     }
 </code></pre>
-<p>And finally, we play a sound (using a <code><a href="/animancer/api/Animancer/UnityEvent">UnityEvent</a></code> due to the <a href="../problems#script-referencing">Script Referencing</a> issue):</p>
+<p>And finally, we play a sound (using a <code>UnityEvent</code> due to the <a href="../problems#script-referencing">Script Referencing</a> issue):</p>
 <pre><code class="language-cs">    _PlayAudio.Invoke();
 }
 </code></pre>

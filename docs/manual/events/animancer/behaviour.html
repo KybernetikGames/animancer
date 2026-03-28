@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -479,6 +479,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -577,7 +578,7 @@
       <td><strong>Looping</strong></td>
       <td><p><strong>Every loop</strong> on the frame when the animation passes the specified time.</p>
         <ul>
-          <li>If the animation is playing fast enough that multiple loops pass in a single frame, the event will be triggered the appropriate number of times. If you want to ensure that your callback only gets triggered once per frame, you can store the <code><a href="/animancer/api/Animancer/AnimancerGraph/4142CDDF">AnimancerGraph.FrameID</a></code> and check if it has changed each time your method is called.</li>
+          <li>If the animation is playing fast enough that multiple loops pass in a single frame, the event will be triggered the appropriate number of times. If you want to ensure that your callback only gets triggered once per frame, you can store the <code>AnimancerGraph.FrameID</code> and check if it has changed each time your method is called.</li>
           <li>Looping Events must be within the range of <code>0 &lt;= normalizedTime &lt; 1</code> in order to function correctly. Events outside that range will cause an <code>ArgumentOutOfRangeException</code> during the next update.</li>
           <li><code>AnimancerEvent.AlmostOne</code> is a constant containing the largest possible <code>float</code> value less than 1 in case you want to set an event to occur right at the end of the loop.</li>
         </ul>
@@ -592,11 +593,11 @@
 <h1 id="other-details">Other Details</h1>
 <p>This system has several other details worth mentioning:</p>
 <ul>
-<li>Changing the <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code> (or <code>NormalizedTime</code>) prevents that state from triggering any more events during that frame. If you want events between the old and new time to be triggered, you can use <code>AnimancerState.MoveTime</code> instead.</li>
+<li>Changing the <code>AnimancerState.Time</code> (or <code>NormalizedTime</code>) prevents that state from triggering any more events during that frame. If you want events between the old and new time to be triggered, you can use <code>AnimancerState.MoveTime</code> instead.</li>
 <li>The <code>AnimancerState.Events</code> sequence can not be modified by its own events (i.e. you can't use an event to add another event to the state that triggered it).</li>
 <li>Animancer Events can be placed on <a href="../../blending/mixers">Mixers</a> or on their children depending on whether you want them to be triggered according to the weighted average <code>NormalizedTime</code> of the children or the <code>NormalizedTime</code> of a specific child. The <a href="../../blending/mixers#events">Events</a> section on that page gives more details.</li>
-<li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code><a href="/animancer/api/Animancer/ControllerState">ControllerState</a></code> and do not check what the Animator Controller is doing internally so attempting to use them might not give the intended result.</li>
-<li>If you want to run custom code as part of the animation update, you can implement <code><a href="/animancer/api/Animancer/IUpdatable">IUpdatable</a></code> in your own scripts.</li>
+<li>They also technically work with <a href="../../animator-controllers">Controller States</a>, though they are tied to the overall <code>ControllerState</code> and do not check what the Animator Controller is doing internally so attempting to use them might not give the intended result.</li>
+<li>If you want to run custom code as part of the animation update, you can implement <code>IUpdatable</code> in your own scripts.</li>
 </ul>
 
 	</section>

@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -488,6 +488,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -587,31 +588,31 @@
 <p>The code structure has a lot going on:</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
 <ul>
-<li>The <code><a href="/animancer/api/Animancer.Samples.Mixers/FloatParameterSlider">FloatParameterSlider</a></code>, <a href="../../../manual/blending/mixers">Mixer</a>, and <a href="../../../manual/other/strings#string-assets">String Asset</a> are reused from the <a href="../linear">Linear Mixer</a> sample.</li>
+<li>The <code>FloatParameterSlider</code>, <a href="../../../manual/blending/mixers">Mixer</a>, and <a href="../../../manual/other/strings#string-assets">String Asset</a> are reused from the <a href="../linear">Linear Mixer</a> sample.</li>
 <li>The <a href="../../../manual/transitions/libraries">Transition Library</a> uses the <a href="../../../manual/blending/mixers">Mixer</a> and a few more animations.</li>
 </ul>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a></code> creates a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play each of the animations in the <a href="../../../manual/transitions/libraries">Transition Library</a>:</summary><p>
+<p></p><details><summary><code>PlayAnimationButtons</code> creates a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play each of the animations in the <a href="../../../manual/transitions/libraries">Transition Library</a>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a> : MonoBehaviour
+public class PlayAnimationButtons : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer.Samples/SampleButton">SampleButton</a> _Button;
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private SampleButton _Button;
+    [SerializeField] private AnimancerComponent _Animancer;
 
     protected virtual void Awake()
     {
-        <a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryDefinition">TransitionLibraryDefinition</a> library = _Animancer.Transitions.Definition;
+        TransitionLibraryDefinition library = _Animancer.Transitions.Definition;
 
-        <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> idle = library.Transitions[0];
+        TransitionAssetBase idle = library.Transitions[0];
 
         _Animancer.Play(idle);
 
         for (int i = 0; i &lt; library.Transitions.Length; i++)
         {
-            <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> transition = library.Transitions[i];
+            TransitionAssetBase transition = library.Transitions[i];
 
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.States.GetOrCreate(transition);
+            AnimancerState state = _Animancer.States.GetOrCreate(transition);
             if (!state.IsLooping)
                 state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
 
@@ -624,21 +625,21 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButto
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">SaveLoadButtons</a></code> connects some UI <code>Button</code>s to save and load the <code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> using Unity's <a href="https://docs.unity3d.com/ScriptReference/JsonUtility.html"><code>JsonUtility</code></a>:</summary><p>
+<p></p><details><summary><code>SaveLoadButtons</code> connects some UI <code>Button</code>s to save and load the <code>SerializablePose</code> using Unity's <a href="https://docs.unity3d.com/ScriptReference/JsonUtility.html"><code>JsonUtility</code></a>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class <a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">SaveLoadButtons</a> : MonoBehaviour
+public class SaveLoadButtons : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _SpeedParameter;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private StringAsset _SpeedParameter;
     [SerializeField] private Button _SaveButton;
     [SerializeField] private Button _LoadButton;
     [SerializeField] private string _FilePath = "Temp/AnimancerSerializedPose.json";
 
-    private readonly <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> = new();
+    private readonly SerializablePose SerializablePose = new();
 
     protected virtual void Awake()
     {
@@ -666,7 +667,7 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">S
 }
 </code></pre>
 <p></p></details><p></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> is the main pourpose of this sample where the relevant details are gathered from Animancer to save and applied back to Animancer after loading:</summary><p>
+<p></p><details><summary><code>SerializablePose</code> is the main pourpose of this sample where the relevant details are gathered from Animancer to save and applied back to Animancer after loading:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.TransitionLibraries;
 using System;
@@ -674,7 +675,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a>
+public class SerializablePose
 {
     [SerializeField] private float _RemainingFadeDuration;
     [SerializeField] private float _SpeedParameter;
@@ -688,18 +689,18 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
         public float weight;
     }
 
-    public void GatherFrom(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+    public void GatherFrom(AnimancerComponent animancer, StringReference speedParameter)
     {
         _States.Clear();
         _RemainingFadeDuration = 0;
         _SpeedParameter = animancer.Parameters.GetFloat(speedParameter);
 
-        <a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibrary">TransitionLibrary</a> library = animancer.Graph.Transitions;
+        TransitionLibrary library = animancer.Graph.Transitions;
 
-        IReadOnlyIndexedList&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt; activeStates = animancer.Layers[0].ActiveStates;
+        IReadOnlyIndexedList&lt;AnimancerState&gt; activeStates = animancer.Layers[0].ActiveStates;
         for (int i = 0; i &lt; activeStates.Count; i++)
         {
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = activeStates[i];
+            AnimancerState state = activeStates[i];
 
             _States.Add(new StateData()
             {
@@ -724,20 +725,20 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
         }
     }
 
-    public void ApplyTo(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+    public void ApplyTo(AnimancerComponent animancer, StringReference speedParameter)
     {
-        <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> layer = animancer.Layers[0];
+        AnimancerLayer layer = animancer.Layers[0];
         layer.Stop();
         layer.Weight = 1;
 
-        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> firstState = null;
+        AnimancerState firstState = null;
 
         for (int i = _States.Count - 1; i &gt;= 0; i--)
         {
             StateData stateData = _States[i];
             if (!animancer.Graph.Transitions.TryGetTransition(
                 stateData.index,
-                out <a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierGroup">TransitionModifierGroup</a> transition))
+                out TransitionModifierGroup transition))
             {
                 Debug.LogError(
                     $"Transition Library '{animancer.Transitions}'" +
@@ -746,7 +747,7 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
                 continue;
             }
 
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = layer.GetOrCreateState(transition.Transition);
+            AnimancerState state = layer.GetOrCreateState(transition.Transition);
             state.IsPlaying = true;
             state.Time = stateData.time;
             state.SetWeight(stateData.weight);
@@ -773,29 +774,29 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
 <p>The full saving and loading process will be explained later.</p>
 <h1 id="play-buttons">Play Buttons</h1>
 <p><img src="playing.png" class="pngif img-responsive"></p>
-<p>In order for this sample to have something easily observable to show, the <code><a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a></code> script creates a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play each of the animations in the <a href="../../../manual/transitions/libraries">Transition Library</a>.</p>
-<pre><code class="language-cs">public class <a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a> : MonoBehaviour
+<p>In order for this sample to have something easily observable to show, the <code>PlayAnimationButtons</code> script creates a <a href="../../basics/scene-setup#buttons">Sample Button</a> to play each of the animations in the <a href="../../../manual/transitions/libraries">Transition Library</a>.</p>
+<pre><code class="language-cs">public class PlayAnimationButtons : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer.Samples/SampleButton">SampleButton</a> _Button;
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+    [SerializeField] private SampleButton _Button;
+    [SerializeField] private AnimancerComponent _Animancer;
 
     protected virtual void Awake()
     {
 </code></pre>
 <p>Assume the first animation in the library is <em>Idle</em> and play it by default:</p>
-<pre><code class="language-cs">        <a href="/animancer/api/Animancer.TransitionLibraries/TransitionLibraryDefinition">TransitionLibraryDefinition</a> library = _Animancer.Transitions.Definition;
+<pre><code class="language-cs">        TransitionLibraryDefinition library = _Animancer.Transitions.Definition;
 
-        <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> idle = library.Transitions[0];
+        TransitionAssetBase idle = library.Transitions[0];
 
         _Animancer.Play(idle);
 </code></pre>
 <p>Then go through them all:</p>
 <pre><code class="language-cs">        for (int i = 0; i &lt; library.Transitions.Length; i++)
         {
-            <a href="/animancer/api/Animancer/TransitionAssetBase">TransitionAssetBase</a> transition = library.Transitions[i];
+            TransitionAssetBase transition = library.Transitions[i];
 </code></pre>
 <p><a href="#end-events">Set up their End Events which will be explained below:</a></p>
-<pre><code class="language-cs">            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.States.GetOrCreate(transition);
+<pre><code class="language-cs">            AnimancerState state = _Animancer.States.GetOrCreate(transition);
             if (!state.IsLooping)
                 state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
 </code></pre>
@@ -811,7 +812,7 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
 <p>Note how the buttons call <code>_Animancer.Play(transition)</code>. It may be tempting to have them call <code>_Animancer.Play(state)</code> since we already have the <code>state</code>, but that would cause it to play immediately without the <code>Fade Duration</code> because that detail is only stored in the <code>transition</code>.</p>
 <h2 id="end-events">End Events</h2>
 <p>It also needs to give the non-looping states <a href="../../../manual/events/end">End Events</a> to return to the <em>Idle</em> animation, however this presents a problem. Normally, we would initialize the events the first time a particular <code>transition</code> is played like this:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(transition);
+<pre><code class="language-cs">AnimancerState state = _Animancer.Play(transition);
 if (!state.IsLooping)
     state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
 </code></pre>
@@ -824,20 +825,20 @@ if (!state.IsLooping)
 <li>Exit Play Mode.</li>
 <li>Enter Play Mode again.</li>
 <li>Load the file.</li>
-<li>The <em>Shoot</em> animation plays, but since it wasn't played by <code><a href="/animancer/api/Animancer.Samples.Mixers/PlayAnimationButtons">PlayAnimationButtons</a></code> its <a href="../../../manual/events/end">End Event</a> hasn't been set.</li>
+<li>The <em>Shoot</em> animation plays, but since it wasn't played by <code>PlayAnimationButtons</code> its <a href="../../../manual/events/end">End Event</a> hasn't been set.</li>
 </ol>
 <p>To avoid that, we unfortunately need to create all the animation states on startup to assign their <a href="../../../manual/events/end">End Events</a> before they're played. That's why the script does this:</p>
-<pre><code class="language-cs"><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.States.GetOrCreate(transition);
+<pre><code class="language-cs">AnimancerState state = _Animancer.States.GetOrCreate(transition);
 if (!state.IsLooping)
     state.Events(this).OnEnd ??= () =&gt; _Animancer.Play(idle);
 </code></pre>
 <h1 id="serialization-process">Serialization Process</h1>
-<p>The saving and loading process in <code><a href="/animancer/api/Animancer.Samples.Mixers/SaveLoadButtons">SaveLoadButtons</a></code> is fairly simple.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _SpeedParameter;
+<p>The saving and loading process in <code>SaveLoadButtons</code> is fairly simple.</p>
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private StringAsset _SpeedParameter;
 [SerializeField] private string _FilePath = "Temp/AnimancerSerializedPose.json";
 
-private readonly <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a> = new();
+private readonly SerializablePose SerializablePose = new();
 </code></pre>
 <ol>
 <li>Gather the data we want into a serializable format.</li>
@@ -897,15 +898,15 @@ Animancer, each with different things that should be prioritised in their implem
 </li>
 <li>Limiting what the data can represent.
 <ul>
-<li>You <em>could</em> write a script to create 7 different <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>s on the same layer, set some of their weights to <code>0.1</code>, others to <code>0.2</code>, have some states fading to other weights with all different durations, some paused, some with different speeds, and so on. If you did that, then your serialized data would need to include all of those values.</li>
+<li>You <em>could</em> write a script to create 7 different <code>AnimancerState</code>s on the same layer, set some of their weights to <code>0.1</code>, others to <code>0.2</code>, have some states fading to other weights with all different durations, some paused, some with different speeds, and so on. If you did that, then your serialized data would need to include all of those values.</li>
 <li>But you probably won't. Most applications just call <code>animancerComponent.Play(transition)</code> which could never get them into such a complex combination of states.</li>
 </ul>
 </li>
 </ul>
 <h1 id="what-are-we-serializing">What are we serializing?</h1>
 <p>Networking is a much more common use case for animation serialization so that's what this sample focusses on. However, the process for setting up actual networking stuff differs greatly depending on the system being used and is far beyond the scope of Animancer. So the data structure demonstrated here focuses on gathering the minimum required information for efficiency as if it would be used for networking but then it simply uses Unity's <a href="https://docs.unity3d.com/ScriptReference/JsonUtility.html"><code>JsonUtility</code></a> to serialize it as a <code>string</code> and save it to a file.</p>
-<p>The <code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> script is specifically designed to serialize the details used in this sample, so if you want to do something similar you will likely need to make your own similar script rather than using this one directly.</p>
-<p><code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code> contains the following fields:</p>
+<p>The <code>SerializablePose</code> script is specifically designed to serialize the details used in this sample, so if you want to do something similar you will likely need to make your own similar script rather than using this one directly.</p>
+<p><code>SerializablePose</code> contains the following fields:</p>
 <table class="table">
 <thead>
 <tr>
@@ -943,7 +944,7 @@ Animancer, each with different things that should be prioritised in their implem
 </tr>
 <tr>
 <td><code>float time</code></td>
-<td>The <code><a href="/animancer/api/Animancer/AnimancerState/840B3EB1">AnimancerState.Time</a></code>.</td>
+<td>The <code>AnimancerState.Time</code>.</td>
 </tr>
 <tr>
 <td><code>float weight</code></td>
@@ -953,7 +954,7 @@ Animancer, each with different things that should be prioritised in their implem
 </table>
 <p>All those fields together look like this:</p>
 <pre><code class="language-cs">[Serializable]
-public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a>
+public class SerializablePose
 {
     [SerializeField] private float _RemainingFadeDuration;
     [SerializeField] private float _SpeedParameter;
@@ -995,8 +996,8 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
 </tbody>
 </table>
 <h1 id="gathering-the-serializable-pose">Gathering the Serializable Pose</h1>
-<p>Now that we know what data we need for the <code><a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">SerializablePose</a></code>, we can go about gathering it.</p>
-<pre><code class="language-cs">public void GatherFrom(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+<p>Now that we know what data we need for the <code>SerializablePose</code>, we can go about gathering it.</p>
+<pre><code class="language-cs">public void GatherFrom(AnimancerComponent animancer, StringReference speedParameter)
 {
 </code></pre>
 <p>First, we clear out any previous details and get the current value of the speed parameter.</p>
@@ -1004,11 +1005,11 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
     _RemainingFadeDuration = 0;
     _SpeedParameter = animancer.Parameters.GetFloat(speedParameter);
 </code></pre>
-<p>Then we use <code><a href="/animancer/api/Animancer/AnimancerLayer/420AF48C">AnimancerLayer.ActiveStates</a></code> to go through all of the states that are currently playing.</p>
-<pre><code class="language-cs">    IReadOnlyIndexedList&lt;<a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a>&gt; activeStates = animancer.Layers[0].ActiveStates;
+<p>Then we use <code>AnimancerLayer.ActiveStates</code> to go through all of the states that are currently playing.</p>
+<pre><code class="language-cs">    IReadOnlyIndexedList&lt;AnimancerState&gt; activeStates = animancer.Layers[0].ActiveStates;
     for (int i = 0; i &lt; activeStates.Count; i++)
     {
-        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = activeStates[i];
+        AnimancerState state = activeStates[i];
 </code></pre>
 <p>Then we capture the necessary <code>StateData</code> for each state, using the <a href="../../../manual/transitions/libraries">Transition Library</a> to determine the <code>index</code> based on the <code>state.Key</code>.</p>
 <pre><code class="language-cs">        _States.Add(new StateData()
@@ -1033,16 +1034,16 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
 </code></pre>
 <h1 id="applying-the-deserialized-pose">Applying the Deserialized Pose</h1>
 <p>Applying a pose after it has been deserialized is basically the reverse of gathering it.</p>
-<pre><code class="language-cs">public void ApplyTo(AnimancerComponent animancer, <a href="/animancer/api/Animancer/StringReference">StringReference</a> speedParameter)
+<pre><code class="language-cs">public void ApplyTo(AnimancerComponent animancer, StringReference speedParameter)
 {
 </code></pre>
 <p>First, <code>Stop</code> whatever the <a href="../../../manual/blending/layers">Layer</a> was doing. Unfortunately, that also sets its <code>Weight</code> to <code>0</code> so we set it back to <code>1</code>.</p>
-<pre><code class="language-cs">    <a href="/animancer/api/Animancer/AnimancerLayer">AnimancerLayer</a> layer = animancer.Layers[0];
+<pre><code class="language-cs">    AnimancerLayer layer = animancer.Layers[0];
     layer.Stop();
     layer.Weight = 1;
 </code></pre>
 <p>After applying the individual details of each state, we will need the first one to fade it in.</p>
-<pre><code class="language-cs">    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> firstState = null;
+<pre><code class="language-cs">    AnimancerState firstState = null;
 </code></pre>
 <p>Now we can go through each state data in the pose.</p>
 <pre><code class="language-cs">    for (int i = _States.Count - 1; i &gt;= 0; i--)
@@ -1052,7 +1053,7 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
 <p>Use <code>TransitionLibrary.TryGetTransition</code> with the data's <code>index</code> to find the right <code>transition</code>.</p>
 <pre><code class="language-cs">        if (!animancer.Graph.Transitions.TryGetTransition(
             stateData.index,
-            out <a href="/animancer/api/Animancer.TransitionLibraries/TransitionModifierGroup">TransitionModifierGroup</a> transition))
+            out TransitionModifierGroup transition))
         {
             Debug.LogError(
                 $"Transition Library '{animancer.Transitions}'" +
@@ -1063,7 +1064,7 @@ public class <a href="/animancer/api/Animancer.Samples.Mixers/SerializablePose">
 </code></pre>
 <p>If it fails and returns <code>false</code>, we log an error and <code>continue</code> on to the next state.</p>
 <p>Now that we have the <code>transition</code>, we can't just <code>Play</code> it because that would start its regular fade and also make it fade out any previous states, so instead we use <code>AnimancerLayer.GetOrCreateState</code> to get its state and manually apply the other details from the data.</p>
-<pre><code class="language-cs">        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = layer.GetOrCreateState(transition.Transition);
+<pre><code class="language-cs">        AnimancerState state = layer.GetOrCreateState(transition.Transition);
         state.IsPlaying = true;
         state.Time = stateData.time;
         state.SetWeight(stateData.weight);

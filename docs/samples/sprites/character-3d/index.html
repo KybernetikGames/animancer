@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -483,6 +483,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -585,15 +586,15 @@
 </ul>
 <p><img src="inspector-character.png" class="img-responsive"></p>
 <ul>
-<li><code><a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharacter3D">DirectionalCharacter3D</a></code> references a <code><a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a></code> component instead of directly referencing the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>.</li>
+<li><code>DirectionalCharacter3D</code> references a <code>DirectionalAnimations3D</code> component instead of directly referencing the <code>AnimancerComponent</code>.</li>
 </ul>
 <p><img src="inspector-sprite.png" class="img-responsive"></p>
-<p></p><details><summary>Other than that, <code><a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharacter3D">DirectionalCharacter3D</a></code> looks very similar to <code><a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharacter">DirectionalCharacter</a></code>.</summary><p>
+<p></p><details><summary>Other than that, <code>DirectionalCharacter3D</code> looks very similar to <code>DirectionalCharacter</code>.</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharacter3D">DirectionalCharacter3D</a> : MonoBehaviour
+public class DirectionalCharacter3D : MonoBehaviour
 {
     [Header("Physics")]
     [SerializeField] private CapsuleCollider _Collider;
@@ -602,7 +603,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
     [SerializeField, MetersPerSecond] private float _RunSpeed = 2;
 
     [Header("Animations")]
-    [SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a> _Animancer;
+    [SerializeField] private DirectionalAnimations3D _Animancer;
     [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idle;
     [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walk;
     [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Run;
@@ -704,7 +705,7 @@ public class <a href="/animancer/api/Animancer.Samples.Sprites/DirectionalCharac
 [SerializeField, MetersPerSecond] private float _RunSpeed = 2;
 
 [Header("Animations")]
-[SerializeField] private <a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a> _Animancer;// Changed from AnimancerComponent.
+[SerializeField] private DirectionalAnimations3D _Animancer;// Changed from AnimancerComponent.
 [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Idle;
 [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Walk;
 [SerializeField] private DirectionalSet&lt;AnimationClip&gt; _Run;
@@ -719,7 +720,7 @@ public enum AnimationGroup
     Movement,
 }
 </code></pre>
-<p>The <code>_Facing</code>, <code>_CurrentAnimationSet</code>, and <code>TimeSynchronizer</code> are no longer needed because they're all managed by the <code><a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a></code>.</p>
+<p>The <code>_Facing</code>, <code>_CurrentAnimationSet</code>, and <code>TimeSynchronizer</code> are no longer needed because they're all managed by the <code>DirectionalAnimations3D</code>.</p>
 <ul>
 <li>To set the facing direction we now use <code>_Animancer.Forward = _Movement;</code>.</li>
 <li>And to play something we now use:</li>
@@ -820,7 +821,7 @@ private DirectionalSet&lt;AnimationClip&gt; GetMovementAnimations()
 }
 </code></pre>
 <h1 id="edit-mode">Edit Mode</h1>
-<p><code><a href="/animancer/api/Animancer/DirectionalAnimations3D">DirectionalAnimations3D</a></code> already takes care of showing the appropriate sprite for its assigned animations in Edit Move <a href="../character#edit-mode">just like in the Directional Character sample</a>, so all we need to do this time is make sure it has the right <code>_Idle</code> animations:</p>
+<p><code>DirectionalAnimations3D</code> already takes care of showing the appropriate sprite for its assigned animations in Edit Move <a href="../character#edit-mode">just like in the Directional Character sample</a>, so all we need to do this time is make sure it has the right <code>_Idle</code> animations:</p>
 <pre><code class="language-cs">#if UNITY_EDITOR
 protected virtual void OnValidate()
 {

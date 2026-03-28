@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -484,6 +484,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -595,23 +596,23 @@
 <li>The <a href="../../../manual/transitions/libraries">Transition Libraries</a> page explains explains how to create and edit them.</li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p>The code structure is similar to the <a href="../../basics/character">Basic Character</a> sample, except that the inline <a href="../../../manual/transitions">Transitions</a> are replaced by <a href="../../../manual/transitions/assets">Transition Assets</a> and the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> references a <a href="../../../manual/transitions/libraries">Transition Library</a> to modify them.</p>
+<p>The code structure is similar to the <a href="../../basics/character">Basic Character</a> sample, except that the inline <a href="../../../manual/transitions">Transitions</a> are replaced by <a href="../../../manual/transitions/assets">Transition Assets</a> and the <code>AnimancerComponent</code> references a <a href="../../../manual/transitions/libraries">Transition Library</a> to modify them.</p>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Basics/LibraryCharacterAnimations">LibraryCharacterAnimations</a></code> is mostly the same as <code><a href="/animancer/api/Animancer.Samples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> from the <a href="../../basics/character">Basic Character</a> sample except that it uses the <a href="../../../manual/transitions/assets">Transition Assets</a>:</summary><p>
+<p></p><details><summary><code>LibraryCharacterAnimations</code> is mostly the same as <code>BasicCharacterAnimations</code> from the <a href="../../basics/character">Basic Character</a> sample except that it uses the <a href="../../../manual/transitions/assets">Transition Assets</a>:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using Animancer.Samples;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Basics/LibraryCharacterAnimations">LibraryCharacterAnimations</a> : MonoBehaviour
+public class LibraryCharacterAnimations : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Idle;
-    [SerializeField] private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Move;
-    [SerializeField] private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Action;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private TransitionAsset _Idle;
+    [SerializeField] private TransitionAsset _Move;
+    [SerializeField] private TransitionAsset _Action;
 
-    private <a href="/animancer/api/Animancer.FSM/State">State</a> _CurrentState;
+    private State _CurrentState;
 
-    private enum <a href="/animancer/api/Animancer.FSM/State">State</a>
+    private enum State
     {
         NotActing,
         Acting,
@@ -653,14 +654,14 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/LibraryCharacterAn
         {
             _CurrentState = State.Acting;
 
-            <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Action);
+            AnimancerState state = _Animancer.Play(_Action);
             state.Events(this).OnEnd ??= UpdateMovement;
         }
     }
 }
 </code></pre>
 <p></p></details><p></p>
-<p>Note how that script doesn't reference the <a href="../../../manual/transitions/libraries">Transition Library</a>, it's only referenced by the <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code>. The script has "Library" in its name because it's part of this sample, but it simply references the <a href="../../../manual/transitions/assets">Transition Assets</a> and plays them without knowing that a library is modifying them. The library is an art asset for modifying the appearance of the transitions without affecting the code logic.</p>
+<p>Note how that script doesn't reference the <a href="../../../manual/transitions/libraries">Transition Library</a>, it's only referenced by the <code>AnimancerComponent</code>. The script has "Library" in its name because it's part of this sample, but it simply references the <a href="../../../manual/transitions/assets">Transition Assets</a> and plays them without knowing that a library is modifying them. The library is an art asset for modifying the appearance of the transitions without affecting the code logic.</p>
 <h1 id="serialized-fields">Serialized Fields</h1>
 <p>The <a href="/cs-unity/docs/introduction/variables#serialized-fields">Serialized Fields</a> now use <a href="../../../manual/transitions/assets">Transition Assets</a> instead of inline <a href="../../../manual/transitions">Transitions</a>.</p>
 <table class="table">
@@ -672,30 +673,30 @@ public class <a href="/animancer/api/Animancer.Samples.Basics/LibraryCharacterAn
 <tr>
 <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Idle;
+private ClipTransition _Idle;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Move;
+private ClipTransition _Move;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Action;
+private ClipTransition _Action;
 </code></pre>
 </td>
 <td>
 <pre><code class="language-cs">[SerializeField]
-private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+private AnimancerComponent _Animancer;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Idle;
+private TransitionAsset _Idle;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Move;
+private TransitionAsset _Move;
 
 [SerializeField]
-private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Action;
+private TransitionAsset _Action;
 </code></pre>
 </td>
 </tr>
@@ -713,9 +714,9 @@ The assets contain the actual transition data.
 </tbody>
 </table>
 <h1 id="events">Events</h1>
-<p><code><a href="/animancer/api/Animancer.Samples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> fromn the <a href="../character">Basic Character</a> sample used inline <a href="../../../manual/transitions">Transitions</a> which meant that even if there were multiple different characters or multiple instances of the same character using the same script, they would all have their own copy of the transition data.</p>
-<p>But the <a href="../../../manual/transitions/assets">Transition Assets</a> referenced by <code><a href="/animancer/api/Animancer.Samples.Basics/LibraryCharacterAnimations">LibraryCharacterAnimations</a></code> could potentially be referenced by multiple characters so having them each assign their own events to the transition would cause them to conflict with each other.</p>
-<p>Instead, we now assign the <a href="../../../manual/events/end">End Event</a> to the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> after playing the transition so that each character's state will only contain events for that character:</p>
+<p><code>BasicCharacterAnimations</code> fromn the <a href="../character">Basic Character</a> sample used inline <a href="../../../manual/transitions">Transitions</a> which meant that even if there were multiple different characters or multiple instances of the same character using the same script, they would all have their own copy of the transition data.</p>
+<p>But the <a href="../../../manual/transitions/assets">Transition Assets</a> referenced by <code>LibraryCharacterAnimations</code> could potentially be referenced by multiple characters so having them each assign their own events to the transition would cause them to conflict with each other.</p>
+<p>Instead, we now assign the <a href="../../../manual/events/end">End Event</a> to the <code>AnimancerState</code> after playing the transition so that each character's state will only contain events for that character:</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">BasicCharacterAnimations</th>
@@ -755,7 +756,7 @@ private void UpdateAction()
     {
         _CurrentState = State.Acting;
 
-        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state =
+        AnimancerState state =
             _Animancer.Play(_Action);
         state.Events(this).OnEnd ??=
             UpdateMovement;

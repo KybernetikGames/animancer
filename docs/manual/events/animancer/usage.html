@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -484,6 +484,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -617,15 +618,15 @@
 <p>Animancer Events can also be configured using code like this:</p>
 <pre><code class="language-cs">// A Melee Attack script:
 
-[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 void Attack()
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    AnimancerState state = _Animancer.Play(_Animation);
 
     // If the state didn't have a event sequence yet, give it one so we can initialize it.
-    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
+    if (state.Events(this, out AnimancerEvent.Sequence events))
     {
         // Call OnHitStart to activate the hit box when the animation passes 40% of its length.
         events.Add(0.4f, OnHitStart);
@@ -645,16 +646,16 @@ private void EnterIdleState() { }
 </code></pre>
 <p>See <a href="../end">End Events</a> for details about how the <code>OnEnd</code> event is different from others.</p>
 <p></p><details><summary>You can use <a href="/cs-unity/docs/introduction/methods/delegates#inline-delegates">Lambda Expressions and Anonymous Methods</a> to define the code you want an event to run without needing to create another separate method:</summary><p>
-</p><pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
+</p><pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
 [SerializeField] private AnimationClip _Animation;
 
 private GameObject _HitBox;
 
 private void AttackWithLambdas()
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+    AnimancerState state = _Animancer.Play(_Animation);
 
-    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
+    if (state.Events(this, out AnimancerEvent.Sequence events))
     {
         // Multi-Line Lambda expression:
         events.Add(0.4f, () =&gt;
@@ -668,7 +669,7 @@ private void AttackWithLambdas()
 }
 </code></pre>
 <p></p></details><p></p>
-<p>During an event, <code><a href="/animancer/api/Animancer/AnimancerEvent/8488C6E3">AnimancerEvent.Current</a></code> allows you to access its details as explained on the <a href="utilities">Event Utilities</a> page.</p>
+<p>During an event, <code>AnimancerEvent.Current</code> allows you to access its details as explained on the <a href="utilities">Event Utilities</a> page.</p>
 <img src="named-event.png" class="img-responsive img-right">
 <h1 id="hybrid">Hybrid</h1>
 <p>Setting up <a href="#transitions">Events in Transitions</a> is usually the best way to configure their timing since you can <a href="../../transitions/previews">preview the animation</a> while doing so, but setting up <a href="#code">Events in Code</a> is often better for creating reliable scripts and avoiding bugs. Fortunately, you can have the best of both approaches by using a <a href="#transitions">Transition</a> to configure the <code>Time</code> but simply leaving its <code>Callback</code> blank and giving it a <code>Name</code> so that you can assign the callback in code using a <a href="../../other/strings">String Asset or Reference</a> to refer to that name.</p>
@@ -680,8 +681,8 @@ private void AttackWithLambdas()
 </ul>
 <h1 id="central-events">Central Events</h1>
 <p>If you want to register a callback for any event in any animation with a particular name, you can use the central event dictionary.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private StringAsset _EventName;
 
 protected virtual void Awake()
 {
@@ -690,12 +691,12 @@ protected virtual void Awake()
 
 private void EventCallback() { }
 </code></pre>
-<p>The <a href="../../../samples/events/footsteps">Footstep Events</a> sample uses this approach to keep the <code><a href="/animancer/api/Animancer.Samples.Events/FootstepEvents">FootstepEvents</a></code> script separate from the script that plays the <em>Walk</em> animation. The character could be given a <em>Run</em> animation with the same name for its events and they would automatically trigger the same callback without the event handling script having any contact with the animation playing script.</p>
+<p>The <a href="../../../samples/events/footsteps">Footstep Events</a> sample uses this approach to keep the <code>FootstepEvents</code> script separate from the script that plays the <em>Walk</em> animation. The character could be given a <em>Run</em> animation with the same name for its events and they would automatically trigger the same callback without the event handling script having any contact with the animation playing script.</p>
 <h1 id="transition-events">Transition Events</h1>
 <p>If you have a <a href="../../transitions">Transition</a>, you can add callbacks to it which it will give to the states it creates.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
-[SerializeField] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Transition;
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private StringAsset _EventName;
+[SerializeField] private ClipTransition _Transition;
 
 protected virtual void Awake()
 {
@@ -706,10 +707,10 @@ private void EventCallback() { }
 </code></pre>
 <p>The <a href="../../../samples/events/golf">Golf Events</a> sample uses this approach.</p>
 <p>If you want to use a <a href="../../other/strings#string-references">String Reference</a> for the event name, you can also use the <code>[EventNames]</code> attribute to have the Inspector suggest which names the script is expecting.</p>
-<pre><code class="language-cs">private static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> MyEvent = "MyEvent";
+<pre><code class="language-cs">private static readonly StringReference MyEvent = "MyEvent";
 
-[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField, EventNames] private <a href="/animancer/api/Animancer/ClipTransition">ClipTransition</a> _Transition;
+[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField, EventNames] private ClipTransition _Transition;
 
 protected virtual void Awake()
 {
@@ -718,7 +719,7 @@ protected virtual void Awake()
 
 private void EventCallback() { }
 </code></pre>
-<p>That tells it to use any <code>static</code> fields containing <code><a href="/animancer/api/Animancer/StringReference">StringReference</a></code>s inside this class so it sees the <code>MyEvent</code> automatically. There are several other ways to use the attribute which are explained on the <code><a href="/animancer/api/Animancer/EventNamesAttribute">EventNamesAttribute</a></code> API page.</p>
+<p>That tells it to use any <code>static</code> fields containing <code>StringReference</code>s inside this class so it sees the <code>MyEvent</code> automatically. There are several other ways to use the attribute which are explained on the <code>EventNamesAttribute</code> API page.</p>
 <table class="table">
   <thead>
     <tr><th style="width:50%">Expected Name</th>
@@ -736,16 +737,16 @@ private void EventCallback() { }
   </tbody>
 </table>
 <h1 id="state-events">State Events</h1>
-<p>If you're using a <a href="../../transitions/assets">Transition Asset</a> or directly playing an <code>AnimationClip</code>, you can add events to its <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
-[SerializeField] private <a href="/animancer/api/Animancer/TransitionAsset">TransitionAsset</a> _Transition;
+<p>If you're using a <a href="../../transitions/assets">Transition Asset</a> or directly playing an <code>AnimationClip</code>, you can add events to its <code>AnimancerState</code>.</p>
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private StringAsset _EventName;
+[SerializeField] private TransitionAsset _Transition;
 
 private void Play()
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Transition);
+    AnimancerState state = _Animancer.Play(_Transition);
 
-    if (state.Events(this, out <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> events))
+    if (state.Events(this, out AnimancerEvent.Sequence events))
     {
         events.SetCallback(_EventName, EventCallback);
     }
@@ -755,14 +756,14 @@ private void EventCallback() { }
 </code></pre>
 <p>That's a bit more code than the above approaches so this option isn't generally preferred if the others can be used.</p>
 <h1 id="shared-state-events">Shared State Events</h1>
-<p>If you have a state which is reused by multiple scripts with different events, you can have them each use the <code>Events</code> method which takes a <code>ref <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> parameter.</p>
-<pre><code class="language-cs">public static readonly <a href="/animancer/api/Animancer/StringReference">StringReference</a> EventName = "Event Name";
+<p>If you have a state which is reused by multiple scripts with different events, you can have them each use the <code>Events</code> method which takes a <code>ref AnimancerEvent.Sequence</code> parameter.</p>
+<pre><code class="language-cs">public static readonly StringReference EventName = "Event Name";
 
-private <a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a> _Events;// Don't new() this.
+private AnimancerEvent.Sequence _Events;// Don't new() this.
 
 protected virtual void Awake()
 {
-    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = animancerComponent.Play(animation);
+    AnimancerState state = animancerComponent.Play(animation);
 
     // The first time this is called it will assign a new event sequence
     // to the _Events and return true so you can initialize it.
@@ -785,7 +786,7 @@ protected virtual void Awake()
 private void EventCallback() { }
 private void EndEventCallback() { }
 </code></pre>
-<p>Needing to store the <code><a href="/animancer/api/Animancer/Sequence">AnimancerEvent.Sequence</a></code> in a field like this is a bit more cumbersome than the other approaches, but it allows each script to ensure the state has the correct events when played by that script and avoids wasting performance re-initializing the events every time the animation is played.</p>
+<p>Needing to store the <code>AnimancerEvent.Sequence</code> in a field like this is a bit more cumbersome than the other approaches, but it allows each script to ensure the state has the correct events when played by that script and avoids wasting performance re-initializing the events every time the animation is played.</p>
 
 	</section>
                 

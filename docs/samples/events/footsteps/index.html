@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li class="active"><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.2</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -484,6 +484,7 @@
                     <a href="/animancer/docs/changes">Change Log</a> <a href="#" class="expand"></a>
                     <ul class="treeview-menu">
                         
+                <li><a href="/animancer/docs/changes/animancer-v8-3">Animancer v8.3</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-2">Animancer v8.2</a></li>
                 <li><a href="/animancer/docs/changes/animancer-v8-1">Animancer v8.1</a></li>
                 <li class="treeview">
@@ -588,20 +589,20 @@
 <li>Instead of assigning the actual callback to the events on a specific <a href="../../../manual/transitions">Transition</a> or state, this sample binds it to the event name so that any event with that name from any state will trigger the same callback.</li>
 </ul>
 <h1 id="overview">Overview</h1>
-<p>The general code structure is similar to the <a href="../../basics/character">Basic Character</a> sample in the top right since it reuses the same <code><a href="/animancer/api/Animancer.Samples.Basics/BasicCharacterAnimations">BasicCharacterAnimations</a></code> script with the same animations, except the <em>Move</em> transition has also been given events:</p>
+<p>The general code structure is similar to the <a href="../../basics/character">Basic Character</a> sample in the top right since it reuses the same <code>BasicCharacterAnimations</code> script with the same animations, except the <em>Move</em> transition has also been given events:</p>
 <ul>
 <li>The <code>Name</code>s reference the <em>Footstep</em> <a href="../../../manual/other/strings#string-assets">String Asset</a> for both feet.</li>
-<li>The <code>Callback</code>s are set as <code><a href="/animancer/api/Animancer/ParameterObject">AnimancerEvent.ParameterObject</a></code>s which reference an <code>AudioSource</code> attached to each foot.</li>
+<li>The <code>Callback</code>s are set as <code>AnimancerEvent.ParameterObject</code>s which reference an <code>AudioSource</code> attached to each foot.</li>
 </ul>
 <p><a href="architecture.png"><img src="architecture.png" class="img-responsive" id="architecture"></a></p>
-<p></p><details><summary><code><a href="/animancer/api/Animancer.Samples.Events/FootstepEvents">FootstepEvents</a></code> is independent of any specific animation, it simply registers its callback for any event with the name <em>Footstep</em> regardless of where the event came from:</summary><p>
+<p></p><details><summary><code>FootstepEvents</code> is independent of any specific animation, it simply registers its callback for any event with the name <em>Footstep</em> regardless of where the event came from:</summary><p>
 </p><pre><code class="language-cs">using Animancer;
 using UnityEngine;
 
-public class <a href="/animancer/api/Animancer.Samples.Events/FootstepEvents">FootstepEvents</a> : MonoBehaviour
+public class FootstepEvents : MonoBehaviour
 {
-    [SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-    [SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
+    [SerializeField] private AnimancerComponent _Animancer;
+    [SerializeField] private StringAsset _EventName;
     [SerializeField, Range(0, 1)] private float _PitchRandomization = 0.2f;
     [SerializeField] private AudioClip[] _Sounds;
 
@@ -633,12 +634,12 @@ public class <a href="/animancer/api/Animancer.Samples.Events/FootstepEvents">Fo
 <p>But the <code>Callback</code> field is still useful because it allows parameters to be assigned by selecting the <code>AnimancerEvent.Parameter...</code> options.</p>
 <p><img src="../../../manual/events/animancer/parameters/callback-types.png" class="img-responsive"></p>
 <img src="basic-character-animations.png" class="img-responsive img-right">
-<p>This sample uses an <code><a href="/animancer/api/Animancer/ParameterObject">AnimancerEvent.ParameterObject</a></code> for each event to reference the character's feet. The Inspector doesn't know what type of object we want, so we just assign the <code>GameObject</code>s and when the callback asks for an <code>AudioSource</code> it will get that component from the assigned object.</p>
+<p>This sample uses an <code>AnimancerEvent.ParameterObject</code> for each event to reference the character's feet. The Inspector doesn't know what type of object we want, so we just assign the <code>GameObject</code>s and when the callback asks for an <code>AudioSource</code> it will get that component from the assigned object.</p>
 <h1 id="binding-the-callback">Binding the Callback</h1>
-<p><code><a href="/animancer/api/Animancer.Samples.Events/FootstepEvents">FootstepEvents</a></code> is responsible for playing sounds in response to events. It doesn't play animations or decide when the events occur, it only does that one thing in accordance with the <a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">Single Responsibility Principle</a>.</p>
-<p>Since it doesn't have a direct connection to any specific <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code>, it simply binds its callback in the central <code><a href="/animancer/api/Animancer/AnimancerComponent/40AC981E">AnimancerComponent.Events</a></code> so it will apply to any event from any state as long as it has the specified name.</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private <a href="/animancer/api/Animancer/StringAsset">StringAsset</a> _EventName;
+<p><code>FootstepEvents</code> is responsible for playing sounds in response to events. It doesn't play animations or decide when the events occur, it only does that one thing in accordance with the <a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">Single Responsibility Principle</a>.</p>
+<p>Since it doesn't have a direct connection to any specific <code>AnimancerState</code>, it simply binds its callback in the central <code>AnimancerComponent.Events</code> so it will apply to any event from any state as long as it has the specified name.</p>
+<pre><code class="language-cs">[SerializeField] private AnimancerComponent _Animancer;
+[SerializeField] private StringAsset _EventName;
 
 protected virtual void Awake()
 {
