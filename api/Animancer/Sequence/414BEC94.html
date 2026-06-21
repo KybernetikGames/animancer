@@ -60,7 +60,7 @@
         <li><a href="/animancer/docs/download"><img src="/animancer/images/icons/download.png" height="20px" width="20px" style="left:-7px"> Download</a></li>
         <li><a href="/animancer/docs"><img src="/animancer/images/icons/docs.png" height="20px" width="7.5px" style="left:-5px"> Documentation</a></li>
         <li><a href="/animancer/docs/help"><img src="/animancer/images/icons/help.png" height="20px" width="10.625px" style="left:-4px"> Help</a></li>
-        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.3</a></li>
+        <li><a href="/animancer/api/Animancer/AnimancerComponent"><img src="/animancer/images/icons/api.png" height="20px" width="18.125px" style="left:-3px"> API v8.4</a></li>
         <li><a href="https://kybernetik.com.au"><img src="/animancer/images/icons/kybernetik.png" height="20px" width="20px" style="left:-2px"> Other Assets</a></li>
 
 <li style="width:100%">
@@ -241,9 +241,10 @@
 	
 		<h1 id="Summary">Summary</h1>
 	<div class="lead">[Pro-Only]
-    Adds the specified `callback` to every event with the specified `name`
-    and returns the number of events that were found.
-    <code class="cs">Animancer.AnimancerEvent.GetCurrentParameter``1</code> will be used to get the callback's parameter.
+    Adds the specified `callback` to every event with the specified `name`.
+    <code class="cs">Animancer.AnimancerEvent.GetCurrentParameter``1</code> will be used to get the callback's parameter
+    and the parametized callback will be returned in case it needs to be removed later.
+    If no events are found, this method returns <code class="cs">null</code>.
     </div>
 
 		<div class="panel panel-default">
@@ -263,7 +264,7 @@
 		</div>
 
 	<h1 id="Syntax">Syntax</h1>
-	<pre><code>public int AddCallbacks&lt;T&gt;(StringReference name, Action&lt;T&gt; callback)</code></pre>
+	<pre><code>public Action AddCallbacks&lt;T&gt;(StringReference name, Action&lt;T&gt; callback)</code></pre>
 
 
 
@@ -322,7 +323,7 @@
 					</tr>
 				</thead>
 				<tbody><tr>
-					<td>int</td>
+					<td>Action</td>
 					<td></td>
 				</tr>
 			</tbody></table>
