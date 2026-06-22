@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/animancer/assets/img/favicon.ico" type="image/x-icon">
-        <title>Animancer - Alternatives to End Events</title>
+        <title>Animancer - Async and Coroutines</title>
         <link href="/animancer/assets/css/highlight.css" rel="stylesheet">
         <link href="/animancer/assets/css/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="/animancer/assets/css/adminlte/AdminLTE.css" rel="stylesheet">
@@ -81,8 +81,10 @@
             <aside class="main-sidebar ">
                 <section class="infobar" data-spy="affix" data-offset-top="60" data-offset-bottom="200"> 
                     	
-    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#coroutines">Coroutines</a></p>
-<p><a href="#manual-polling">Manual Polling</a></p>
+    <div id="infobar-headings"><h6>On This Page</h6><p><a href="#waiting-for-the-end-of-an-animation">Waiting for the End of an Animation</a></p>
+<p><a href="#waiting-for-time-or-an-animancer-event">Waiting for Time or an Animancer Event</a></p>
+<p><a href="#when-does-it-stop-waiting">When does it stop waiting?</a></p>
+<p><a href="#awaiting-a-result">Awaiting a result</a></p>
 <hr class="infobar-hidden">
 </div>
 
@@ -378,14 +380,9 @@
 
                     </ul>
                 </li>
-                <li class="treeview active">
-                    <a href="/animancer/docs/manual/events/end">End Events</a> <a href="#" class="expand"></a>
-                    <ul class="treeview-menu">
-                        
-                <li class="selected"><a href="/animancer/docs/manual/events/end/alternatives">Alternatives to End Events</a></li>
-
-                    </ul>
-                </li>
+                <li><a href="/animancer/docs/manual/events/end">End Events</a></li>
+                <li class="selected"><a href="/animancer/docs/manual/events/async-and-coroutines">Async and Coroutines</a></li>
+                <li><a href="/animancer/docs/manual/events/manual-polling">Manual Polling</a></li>
 
                     </ul>
                 </li>
@@ -559,67 +556,167 @@
 
 
 		<section class="content-header">
-			<h1>Alternatives to End Events</h1>
+			<h1>Async and Coroutines</h1>
 		</section>
 	<section class="content">
-		<p>End Events are usually the simplest and most performant way to detect and handle the end of an animation, but this page lists several alternative ways to achieve similar behaviour if you can't or don't want to use them.</p>
-<h1 id="coroutines">Coroutines</h1>
-<p>In coroutines you can <code>yield return</code> any <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> to wait until it finishes. Specifically, it will wait until the state either stops playing or passes its end time (set using code or <a href="../../transitions">Transitions</a> as described above).</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private AnimationClip _Animation;
-
-void Awake()
+		<p><a href="animancer">Animancer Events</a> and <a href="end">End Events</a> normally use callback delegates to run your code when the event occurs, but you can also use <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/async">Async Methods</a> or <a href="https://docs.unity3d.com/6000.4/Documentation/Manual/Coroutines.html">Coroutines</a> to wait for an event before doing something.</p>
+<h1 id="waiting-for-the-end-of-an-animation">Waiting for the End of an Animation</h1>
+<p>To wait for an <a href="end">End Event</a> you can <code>await</code> or <code>yield return</code> an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> directly. For example:</p>
+<table class="table">
+  <thead>
+    <tr><th style="width:50%">Async Method</th>
+    <th style="width:50%">Coroutine</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+<td>
+<pre><code class="language-cs">public class AsyncExample : MonoBehaviour
 {
-    StartCoroutine(CoroutinePlayAnimation());
-}
+    [SerializeField]
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
-IEnumerator CoroutinePlayAnimation()
-{
-    Debug.Log("Starting animation");
+    [SerializeField]
+    private AnimationClip _Animation;
+    
+    protected virtual void Awake()
+    {
+        PlayThenLog();
+    }
 
-    var state = _Animancer.Play(_Animation);
-    yield return state;
+    public async void PlayThenLog()
+    {
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state =
+            _Animancer.Play(_Animation);
 
-    Debug.Log("Animation ended");
-}
-</code></pre>
-<p>You can also yield an entire <a href="../../blending/layers">Layer</a> or <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to wait for all their states to finish.</p>
-<p>Note that yielding a state does not create <a href="/cs-unity/docs/introduction/other/memory-management#garbage-collection">Garbage</a>, but starting a coroutine does.</p>
-<h1 id="manual-polling">Manual Polling</h1>
-<p>You can keep a reference to the <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> returned by any of the <code>AnimancerComponent.Play</code> methods and check its <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> every update (once the value reaches 1 the animation is finished):</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private AnimationClip _Animation;
-
-private <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> _State;
-
-void Awake()
-{
-    _State = _Animancer.Play(_Animation);
-}
-
-void Update()
-{
-    if (_State.NormalizedTime &gt;= 1)
-        Debug.Log("Animation ended");
+        await state;
+        
+        Debug.Log("Finished " + state);
+    }
 }
 </code></pre>
-<p>Since states are kept in an internal dictionary, you can also get them quite efficiently when needed:</p>
-<pre><code class="language-cs">[SerializeField] private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
-[SerializeField] private AnimationClip _Animation;
-
-void Awake()
+</td>
+<td>
+<pre><code class="language-cs">public class CoroutineExample : MonoBehaviour
 {
-    _Animancer.Play(_Animation);
-}
+    [SerializeField]
+    private <a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a> _Animancer;
 
-void Update()
-{
-    var state = _Animancer.States[_Animation];
-    if (state.NormalizedTime &gt;= 1)
-        Debug.Log("Animation ended");
+    [SerializeField]
+    private AnimationClip _Animation;
+    
+    protected virtual void Awake()
+    {
+        StartCoroutine(PlayThenLog());
+    }
+
+    public IEnumerator PlayThenLog()
+    {
+        <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state =
+            _Animancer.Play(_Animation);
+
+        yield return state;
+        
+        Debug.Log("Finished " + state);
+    }
 }
 </code></pre>
-<p>Note that if a state has not already been created for the animation (because it has not yet been played) then <code>_Animancer.States[_Animation]</code> will throw an exception so you may wish to use <code>_Animancer.States.TryGet(_Animation, out var state)</code> or <code>_Animancer.States.GetOrCreate(_Animation)</code> instead.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<p>Both of the above scripts achieve the same thing:</p>
+<ol>
+<li>On startup, they call the <code>PlayThenLog</code> method (or start it as a coroutine).</li>
+<li>That method immediately plays the <code>_Animation</code> which creates an <code><a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a></code> for it.</li>
+<li>Then it waits for the animation to end or be interrupted. See <a href="#when-does-it-stop-waiting">When does it stop waiting</a> for details.</li>
+<li>Then it logs a message saying it finished.</li>
+</ol>
+<p>You can also <code>await</code> or <code>yield</code> an entire <a href="../../blending/layers">Layer</a> or <code><a href="/animancer/api/Animancer/AnimancerComponent">AnimancerComponent</a></code> to wait for all their states to finish.</p>
+<h1 id="waiting-for-time-or-an-animancer-event">Waiting for Time or an Animancer Event</h1>
+<p>To wait for a specific time or an <a href="animancer">Animancer Event</a> you can call <code>AnimancerState.Await</code> and <code>await</code> or <code>yield return</code> the <code>Awaiter</code> it returns.</p>
+<p><code>AnimancerState.Await</code> can be given an <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code>. For example:</p>
+<pre><code class="language-cs">public async void PlayUntilTime(float normalizedTime)
+{
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+
+    await state.Await(normalizedTime);
+
+    Debug.Log("Passed normalized time " + normalizedTime);
+
+    await state;
+
+    Debug.Log("Finished " + state);
+}
+</code></pre>
+<p>Or it can be given an <a href="animancer/usage#hybrid">event name like when using Animancer Events with the Hybrid approach</a>. For example:</p>
+<pre><code class="language-cs">public async void PlayUntilEvent(StringReference eventName)
+{
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+
+    await state.Await(eventName);
+
+    Debug.Log("Passed event " + eventName);
+
+    await state;
+
+    Debug.Log("Finished " + state);
+}
+</code></pre>
+<p>The event name can be a regular <code>string</code> or <a href="../other/strings">any of the options explained on the Strings page</a>.</p>
+<h1 id="when-does-it-stop-waiting">When does it stop waiting?</h1>
+<p>The above <code>await</code> and <code>yield</code> statements will wait for one of the following conditions:</p>
+<ol>
+<li>The state successfully passes the target time.</li>
+</ol>
+<ul>
+<li>It doesn't matter if the state is looping or not, time increases linearly as explained on the <code><a href="/animancer/api/Animancer/AnimancerState/617EFC91">AnimancerState.NormalizedTime</a></code> page.</li>
+</ul>
+<ol start="2">
+<li>The state is interrupted by:</li>
+</ol>
+<ul>
+<li>The <code>state.TargetWeight</code> becoming <code>0</code>, such as if it starts fading out or is stopped by playing something else.</li>
+<li>The state is destroyed.</li>
+</ul>
+<p>If you want to wait forever until the state is interrupted, you can use <code>state.Await(float.PositiveInfinity)</code>.</p>
+<h1 id="awaiting-a-result">Awaiting a result</h1>
+<p>In many situations, you only want to continue executing logic for a state if that state is still playing. For example, if you play an <em>Attack</em> animation and wait for its <em>Hit</em> event to apply damage to another character, then you might not want to apply damage if the animation was interrupted before reaching that event.</p>
+<p>The above <code>await</code> statements can also optionally return a result to indicate whether the state successfully reached the target time. For example:</p>
+<pre><code class="language-cs">public async void PlayWithResult()
+{
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+
+    bool success = await state;
+
+    if (success)
+    {
+        Debug.Log("Finished " + state);
+    }
+    else
+    {
+        Debug.Log("Interrupted " + state);
+    }
+}
+</code></pre>
+<p>The same can be done in a coroutine, but it takes a bit more effort since you need to get the <code>Awaiter</code> before the <code>yield</code> so that you can check if it <code>WasSuccessful</code> afterwards:</p>
+<pre><code class="language-cs">public IEnumerator PlayWithResult()
+{
+    <a href="/animancer/api/Animancer/AnimancerState">AnimancerState</a> state = _Animancer.Play(_Animation);
+
+    <a href="/animancer/api/Animancer/Awaiter">AnimancerState.Awaiter</a> awaiter = state.Await();
+
+    yield return awaiter;
+
+    if (awaiter.WasSuccessful)
+    {
+        Debug.Log("Finished " + state);
+    }
+    else
+    {
+        Debug.Log("Interrupted " + state);
+    }
+}
+</code></pre>
 
 	</section>
                 
